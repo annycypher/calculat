@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Политика конфиденциальности — CalcDocs</title>
+  <meta name="description" content="CalcDocs не хранит ваши личные данные. Все расчёты и документы обрабатываются на вашем устройстве и не передаются на сервер." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://calc-doc.ru/privacy.html" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <span class="brand-logo" aria-hidden="true">🧮</span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#docs">Документы</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / Политика конфиденциальности</nav>
+      <h1>Политика конфиденциальности</h1>
+      <p class="tool-meta">Коротко: мы не собираем и не храним ваши личные данные.</p>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Что делает CalcDocs</h2>
+        <p>CalcDocs — набор онлайн-калькуляторов и генераторов документов. Все расчёты и создание документов выполняются <strong>непосредственно в вашем браузере</strong> (клиентский JavaScript) и <strong>не передаются на сервер</strong>.</p>
+        <div class="note">🔒 <strong>Мы не храним ваши личные данные.</strong> Введённые вами значения, имена, суммы, паспортные и контактные данные обрабатываются только на вашем устройстве и не отправляются на наши серверы и не сохраняются в базах данных.</div>
+        <h2>Что мы НЕ делаем</h2>
+        <ul>
+          <li>Не запрашиваем регистрацию и аккаунты.</li>
+          <li>Не собираем и не храним персональные данные на сервере.</li>
+          <li>Не передаём введённые данные третьим лицам.</li>
+          <li>Не используем формы входа и подписки.</li>
+        </ul>
+        <h2>Что хранится на вашем устройстве</h2>
+        <p>В браузере локально (<code>localStorage</code>) сохраняется только ваша настройка темы (светлая/тёмная). Эти данные остаются на вашем устройстве и могут быть удалены очисткой кэша браузера.</p>
+        <h2>Реклама и аналитика</h2>
+        <p>В перспективе на сайте могут размещаться рекламные блоки (например, Google AdSense) и партнёрские ссылки. Их сторонние сервисы <strong>могут</strong> использовать файлы cookie и собирать обезличенную статистику для показа релевантной рекламы. Более подробная информация обрабатывается в соответствии с политикой соответствующего рекламного сервиса.</p>
+        <h2>Контакты</h2>
+        <p>По вопросам конфиденциальности вы можете обратиться через <a href="/#about">страницу «О проекте»</a>.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#docs">Документы</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+</body>
+</html>

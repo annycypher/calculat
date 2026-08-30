@@ -199,3 +199,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .print-area .contacts { color: #333; font-size: 14px; margin-bottom: 16px; }
 .print-area h2 { font-size: 15px; margin: 16px 0 6px; text-transform: uppercase; letter-spacing: .04em; border-bottom: 1px solid #ddd; padding-bottom: 4px; }
 .print-area p, .print-area li { font-size: 14px; line-height: 1.6; white-space: pre-line; }
+
+/* ═══════════ Заметка (приватность и пр.) ═══════════ */
+.note {
+  margin-top: 20px; padding: 16px 18px; border-radius: var(--radius-sm);
+  background: var(--primary-soft); border: 1px solid color-mix(in srgb, var(--primary) 25%, var(--border));
+  font-size: 15px; line-height: 1.6;
+}
