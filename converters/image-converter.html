@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Конвертер изображений онлайн — PNG, JPG, WEBP, сжатие — CalcDocs</title>
+  <meta name="description" content="Бесплатный онлайн-конвертер изображений: PNG, JPG, WEBP, сжатие и изменение размера. Всё прямо в браузере, без загрузки на сервер." />
+  <meta name="keywords" content="конвертер изображений, png в jpg, jpg в webp, сжать изображение, изменить размер картинки, онлайн конвертер картинок" />
+  <link rel="canonical" href="https://calc-doc.ru/converters/image-converter.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Конвертер изображений онлайн — CalcDocs" />
+  <meta property="og:description" content="PNG / JPG / WEBP, сжатие и ресайз прямо в браузере." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Конвертер изображений",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <span class="brand-logo" aria-hidden="true">🧮</span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#docs">Документы</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#converters">Конвертеры</a> / Изображения</nav>
+      <h1>Конвертер изображений</h1>
+      <p class="tool-meta">Конвертируйте PNG / JPG / WEBP, сжимайте и меняйте размер. Файл не покидает ваше устройство.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="form-card">
+        <form id="imgForm">
+          <div class="field">
+            <label for="file">Изображение</label>
+            <input type="file" id="file" name="file" accept="image/*" required />
+            <span class="hint">Поддерживаются PNG, JPG/JPEG, WEBP, GIF, BMP.</span>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="format">Формат на выходе</label>
+              <select id="format" name="format">
+                <option value="jpeg">JPG</option>
+                <option value="png">PNG</option>
+                <option value="webp">WEBP</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="quality">Качество: <span id="qualityVal">85%</span></label>
+              <input type="range" id="quality" name="quality" min="10" max="100" step="1" value="85" />
+              <span class="hint">Для JPG и WEBP; на PNG не влияет.</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="maxWidth">Макс. ширина, px (0 = не менять)</label>
+            <input type="number" id="maxWidth" name="maxWidth" min="0" step="1" placeholder="например 1200" value="0" />
+          </div>
+          <button class="btn btn-primary" type="submit" style="width:100%">Конвертировать</button>
+        </form>
+      </div>
+      <div class="form-card" style="margin-top:20px">
+        <h3>Результат</h3>
+        <div id="output" class="result-box" style="margin-top:0">
+          <p style="margin:0;color:var(--text-muted)">Загрузите изображение и нажмите «Конвертировать».</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Как конвертировать изображение</h2>
+        <p>Просто выберите файл, укажите нужный формат (JPG, PNG или WEBP), при желании — качество и максимальную ширину, и нажмите «Конвертировать». Результат откроется для предпросмотра и его можно скачать.</p>
+        <h3>Важно</h3>
+        <ul>
+          <li>Обработка идёт <strong>в вашем браузере</strong>: файл не загружается на сервер и не хранится.</li>
+          <li>JPG и WEBP — сжатые (качество настраивается), PNG — без потерь.</li>
+          <li>WEBP поддерживается последними версиями Chrome, Edge, Opera, Safari.</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#docs">Документы</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/convert-image.js"></script>
+</body>
+</html>
+

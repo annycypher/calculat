@@ -1,5 +1,5 @@
 // svc — простой service worker для офлайн-работы CalcDocs (PWA).
-const VERSION = 'v1.1.2';
+const VERSION = 'v1.2.0';
 const CACHE = `calcdocs-${VERSION}`;
 const SHELL = [
   '/',
@@ -15,6 +15,7 @@ const SHELL = [
   '/js/gen-power-of-attorney.js',
   '/js/gen-contract.js',
   '/js/gen-leave-request.js',
+  '/js/convert-image.js',
   '/calculators/tax-freelancer.html',
   '/calculators/vacation-pay.html',
   '/calculators/mortgage.html',
@@ -22,6 +23,7 @@ const SHELL = [
   '/generators/power-of-attorney.html',
   '/generators/contract.html',
   '/generators/leave-request.html',
+  '/converters/image-converter.html',
   '/privacy.html',
   '/robots.txt',
   '/sitemap.xml'
