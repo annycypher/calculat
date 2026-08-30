@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://room507.ru/sitemap.xml
+Sitemap: https://calc-doc.ru/sitemap.xml
