@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ипотечный калькулятор онлайн — расчёт платежа и переплаты — CalcDocs</title>
+  <meta name="description" content="Ипотечный калькулятор: рассчитайте ежемесячный аннуитетный платёж, переплату по процентам и общую сумму кредита. Бесплатно, без регистрации." />
+  <meta name="keywords" content="ипотечный калькулятор, расчет ипотеки, ежемесячный платеж, переплата по кредиту, ипотека онлайн" />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/mortgage.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Ипотечный калькулятор онлайн — CalcDocs" />
+  <meta property="og:description" content="Рассчитайте платёж по ипотеке и переплату за секунды." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Ипотечный калькулятор",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <span class="brand-logo" aria-hidden="true">🧮</span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#docs">Документы</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#tools">Калькуляторы</a> / Ипотека</nav>
+      <h1>Ипотечный калькулятор</h1>
+      <p class="tool-meta">Рассчитайте аннуитетный ежемесячный платёж, переплату по процентам и общую сумму кредита. Данные не отправляются на сервер.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="mortgageForm">
+            <div class="field">
+              <label for="price">Стоимость недвижимости (₽)</label>
+              <input type="number" id="price" inputmode="decimal" min="0" step="any" placeholder="например 5000000" required value="5000000" />
+            </div>
+            <div class="field">
+              <label for="down">Первоначальный взнос (₽)</label>
+              <input type="number" id="down" inputmode="decimal" min="0" step="any" placeholder="например 1000000" required value="1000000" />
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="years">Срок кредита (лет)</label>
+                <input type="number" id="years" inputmode="numeric" min="1" max="50" step="1" required value="20" />
+              </div>
+              <div class="field">
+                <label for="rate">Ставка (% годовых)</label>
+                <input type="number" id="rate" inputmode="decimal" min="0" step="any" required value="16" />
+              </div>
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Как рассчитывается ипотека</h2>
+        <p>Калькулятор считает <strong>аннуитетный платёж</strong> — равную ежемесячную сумму, которая складывается из погашения тела кредита и процентов. Формула: платёж = <strong>сумма кредита × (месячная ставка / (1 − (1 + месячная ставка)⁻ⁿ))</strong>, где n — число месяцев.</p>
+        <p>Чем больше первоначальный взнос, тем меньше сумма кредита и переплата. Чем выше ставка и дольше срок — тем больше общая переплата.</p>
+        <h3>На что обратить внимание</h3>
+        <ul>
+          <li>Расчёт ориентировочный — банки добавляют комиссии, страховки и могут использовать разные схемы.</li>
+          <li>Аннуитет равномерен по сумме, но доля процентов в начале выше.</li>
+          <li>Досрочное погашение сокращает переплату.</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#docs">Документы</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/calc-mortgage.js"></script>
+</body>
+</html>
+

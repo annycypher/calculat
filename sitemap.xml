@@ -16,6 +16,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://calc-doc.ru/calculators/mortgage.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://calc-doc.ru/generators/resume.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
