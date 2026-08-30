@@ -251,7 +251,7 @@ function renderPreview() {
 
 function downloadPDF() {
   if (!(window.jspdf && window.jspdf.jsPDF)) { setStatus('Ошибка: библиотека PDF не загрузилась.', true); return; }
-  const { jsPDF } = window.jspdf;
+  const jsPDF = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
   const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
   const pw = 210, ph = 297;
   const imgW = pw, imgH = (pw * H) / W;
