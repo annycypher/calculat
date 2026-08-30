@@ -215,6 +215,12 @@ button, input, select, textarea { font: inherit; color: inherit; }
   font-size: 15px; line-height: 1.6;
 }
 
+/* ═══════════ Таблица (вклад, сравнение) ═══════════ */
+.dep-table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 12px 0; }
+.dep-table th, .dep-table td { padding: 8px 10px; text-align: right; border-bottom: 1px solid var(--border); }
+.dep-table th:first-child, .dep-table td:first-child { text-align: left; }
+.dep-table thead th { color: var(--text-muted); font-weight: 600; background: var(--bg-soft); }
+
 /* ═══════════ «Другие инструменты» (чипы) ═══════════ */
 .chips { display: flex; flex-wrap: wrap; gap: 10px; }
 .chip {

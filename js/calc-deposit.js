@@ -80,6 +80,7 @@ if (form) {
     const monthlyRate = rate / 100 / 12;
     let balance = initial, totalInterest = 0;
     const data = [balance];
+    const rows = [];
 
     for (let m = 1; m <= months; m++) {
       balance += topup; // пополнение в начале месяца
@@ -91,6 +92,7 @@ if (form) {
       if (cap === 'none') totalInterest += inc;
       else { balance += inc; totalInterest += inc; }
       data.push(balance);
+      rows.push({ m, inc, balance });
     }
 
     const invested = initial + topup * months;
@@ -114,7 +116,22 @@ if (form) {
     lastData = months <= 120 ? data : data.filter((_, i) => i % Math.ceil(months / 120) === 0).concat(data[data.length - 1]);
     drawChart(lastData);
     document.getElementById('chartBlock').style.display = 'block';
+    renderTable(rows);
   });
+}
+
+function renderTable(rows) {
+  const block = document.getElementById('tableBlock');
+  const wrap = document.getElementById('tableWrap');
+  if (!block || !wrap) return;
+  const show = rows.slice(0, 60);
+  let html = `<table class="dep-table"><thead><tr><th>Месяц</th><th>Начислено</th><th>Остаток</th></tr></thead><tbody>`;
+  for (const r of show) html += `<tr><td>${r.m}</td><td>${fmt(r.inc)} ₽</td><td>${fmt(r.balance)} ₽</td></tr>`;
+  html += `</tbody></table>`;
+  wrap.innerHTML = html;
+  block.style.display = 'block';
+  const more = document.getElementById('tableMore');
+  if (more) more.style.display = rows.length > 60 ? 'block' : 'none';
 }
 
 window.addEventListener('resize', () => { if (lastData) drawChart(lastData); });

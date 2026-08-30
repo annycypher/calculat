@@ -110,6 +110,11 @@
           <div id="chartBlock" style="display:none;margin-top:20px">
             <canvas id="chart" style="width:100%;height:300px;display:block"></canvas>
           </div>
+          <details id="tableBlock" style="display:none;margin-top:20px">
+            <summary style="cursor:pointer;font-weight:600">Помесячная разбивка</summary>
+            <div id="tableWrap" style="overflow-x:auto;margin-top:10px"></div>
+            <p class="hint" id="tableMore" style="display:none">Показаны первые 60 месяцев.</p>
+          </details>
           <p class="hint" id="tip" style="margin-top:14px;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
         </div>
       </div>
@@ -126,6 +131,17 @@
           <li><strong>Пополнение</strong> увеличивает базу для начисления процентов.</li>
           <li><strong>НДФЛ 13%</strong> удерживается с дохода, превышающего установленный порог (проверьте актуальные правила).</li>
         </ul>
+        <h3>Примерные ставки по вкладам (справочно)</h3>
+        <table class="dep-table">
+          <thead><tr><th>Банк</th><th>Продукт</th><th>Ставка</th></tr></thead>
+          <tbody>
+            <tr><td>МТС Банк</td><td>МТС Счёт (накопительный)</td><td>до 15,5%</td></tr>
+            <tr><td>Яндекс Банк</td><td>Сейв (накопительный)</td><td>до 15%</td></tr>
+            <tr><td>Банк ДОМ.РФ</td><td>Вклад</td><td>14,5% (от 1,5 млн ₽)</td></tr>
+            <tr><td>Банк ПСБ</td><td>Вклад «В Победу»</td><td>14,3%</td></tr>
+          </tbody>
+        </table>
+        <p class="hint">Данные справочные, на 30.08.2026, по данным агрегаторов (Сравни.ру). Ставки зависят от суммы, срока и меняются — уточняйте условия в банке. Это примеры, а не полный список банков.</p>
       </div>
     </div>
   </main>
