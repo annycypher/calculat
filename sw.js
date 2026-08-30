@@ -1,7 +1,29 @@
 // svc — простой service worker для офлайн-работы CalcDocs (PWA).
-const VERSION = 'v1.0.0';
+const VERSION = 'v1.1.0';
 const CACHE = `calcdocs-${VERSION}`;
-const SHELL = ['/', '/styles.css', '/manifest.webmanifest', '/icons/icon.svg', '/js/ui.js'];
+const SHELL = [
+  '/',
+  '/styles.css',
+  '/manifest.webmanifest',
+  '/icons/icon.svg',
+  '/js/ui.js',
+  '/js/calc-tax-freelancer.js',
+  '/js/calc-vacation-pay.js',
+  '/js/calc-mortgage.js',
+  '/js/gen-resume.js',
+  '/js/gen-power-of-attorney.js',
+  '/js/gen-contract.js',
+  '/js/gen-leave-request.js',
+  '/calculators/tax-freelancer.html',
+  '/calculators/vacation-pay.html',
+  '/calculators/mortgage.html',
+  '/generators/resume.html',
+  '/generators/power-of-attorney.html',
+  '/generators/contract.html',
+  '/generators/leave-request.html',
+  '/robots.txt',
+  '/sitemap.xml'
+];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
