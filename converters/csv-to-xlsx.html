@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Конвертер CSV в Excel (XLSX) онлайн — CalcDocs</title>
+  <meta name="description" content="Бесплатный онлайн-конвертер CSV в Excel (XLSX): загрузите CSV, получите готовый файл .xlsx. Всё в браузере, без отправки на сервер." />
+  <meta name="keywords" content="csv в xlsx, csv в excel, конвертер csv, csv to xlsx, перевести csv в excel онлайн" />
+  <link rel="canonical" href="https://calc-doc.ru/converters/csv-to-xlsx.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Конвертер CSV в Excel (XLSX) — CalcDocs" />
+  <meta property="og:description" content="Загрузите CSV и скачайте готовый файл .xlsx." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Конвертер CSV в Excel",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <span class="brand-logo" aria-hidden="true">🧮</span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#docs">Документы</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#converters">Конвертеры</a> / CSV → Excel</nav>
+      <h1>Конвертер CSV в Excel</h1>
+      <p class="tool-meta">Загрузите CSV-файл и скачайте готовый .xlsx. Файл не покидает ваше устройство.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="form-card">
+        <form id="csvForm">
+          <div class="field">
+            <label for="file">CSV-файл</label>
+            <input type="file" id="file" name="file" accept=".csv,text/csv" required />
+            <span class="hint">Таблица с разделителями (запятая, точка с запятой, табуляция).</span>
+          </div>
+          <button class="btn btn-primary" type="submit" style="width:100%">Конвертировать в Excel</button>
+        </form>
+      </div>
+      <div class="form-card" style="margin-top:20px">
+        <h3>Результат</h3>
+        <div id="output" class="result-box" style="margin-top:0">
+          <p style="margin:0;color:var(--text-muted)">Выберите CSV-файл и нажмите «Конвертировать».</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Как перевести CSV в Excel</h2>
+        <p>Выберите CSV-файл и нажмите «Конвертировать в Excel» — браузер прочитает таблицу и скачает готовый файл <strong>.xlsx</strong>. Обработка идёт локально, файл не отправляется на сервер.</p>
+        <h3>Что учесть</h3>
+        <ul>
+          <li>CSV должен быть в кодировке <strong>UTF-8</strong> (иначе кириллица может отобразиться некорректно).</li>
+          <li>Поддерживаются разделители: запятая, точка с запятой, табуляция.</li>
+          <li>Большие файлы обрабатываются в браузере — на очень больших может потребоваться время.</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#docs">Документы</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="/libs/xlsx.full.min.js"></script>
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/convert-csv-xlsx.js"></script>
+</body>
+</html>
+
