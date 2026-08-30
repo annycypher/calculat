@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Генератор доверенности онлайн — скачать доверенность в PDF — CalcDocs</title>
+  <meta name="description" content="Онлайн-генератор доверенности: заполните поля и скачайте готовый документ в PDF. Бесплатно, без регистрации, данные не отправляются на сервер." />
+  <meta name="keywords" content="генератор доверенности, доверенность онлайн, создать доверенность, скачать доверенность, доверенность на авто" />
+  <link rel="canonical" href="https://calc-doc.ru/generators/power-of-attorney.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Генератор доверенности онлайн — CalcDocs" />
+  <meta property="og:description" content="Соберите и скачайте доверенность в PDF за минуту." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Генератор доверенности",
+    "applicationCategory": "LegalApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <span class="brand-logo" aria-hidden="true">🧮</span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#docs">Документы</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#docs">Документы</a> / Доверенность</nav>
+      <h1>Генератор доверенности</h1>
+      <p class="tool-meta">Заполните поля — и получите готовую доверенность, которую можно скачать в PDF через «Печать».</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="poaForm">
+            <div class="row2">
+              <div class="field">
+                <label for="city">Город</label>
+                <input type="text" id="city" name="city" placeholder="Москва" required value="Москва" />
+              </div>
+              <div class="field">
+                <label for="date">Дата</label>
+                <input type="text" id="date" name="date" placeholder="15 августа 2026 г." required value="15 августа 2026 г." />
+              </div>
+            </div>
+            <div class="field">
+              <label for="grantor">ФИО доверителя</label>
+              <input type="text" id="grantor" name="grantor" placeholder="Иванов Иван Иванович" required />
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="grantorSeries">Серия паспорта</label>
+                <input type="text" id="grantorSeries" name="grantorSeries" placeholder="4512" />
+              </div>
+              <div class="field">
+                <label for="grantorNum">Номер паспорта</label>
+                <input type="text" id="grantorNum" name="grantorNum" placeholder="345678" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="grantorAddr">Адрес доверителя</label>
+              <input type="text" id="grantorAddr" name="grantorAddr" placeholder="г. Москва, ул. Ленина, д. 1, кв. 2" />
+            </div>
+            <div class="field">
+              <label for="attorney">ФИО поверенного</label>
+              <input type="text" id="attorney" name="attorney" placeholder="Петров Пётр Петрович" required />
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="attorneySeries">Серия паспорта</label>
+                <input type="text" id="attorneySeries" name="attorneySeries" placeholder="4512" />
+              </div>
+              <div class="field">
+                <label for="attorneyNum">Номер паспорта</label>
+                <input type="text" id="attorneyNum" name="attorneyNum" placeholder="987654" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="attorneyAddr">Адрес поверенного</label>
+              <input type="text" id="attorneyAddr" name="attorneyAddr" placeholder="г. Москва, ул. Садовая, д. 3, кв. 5" />
+            </div>
+            <div class="field">
+              <label for="powers">Уполномочен совершать действия</label>
+              <textarea id="powers" name="powers" rows="3" placeholder="представлять интересы в гос. органах, получать документы, управлять ТС…" required></textarea>
+            </div>
+            <div class="field">
+              <label for="term">Срок действия</label>
+              <input type="text" id="term" name="term" placeholder="1 год" required value="1 год" />
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Создать доверенность</button>
+          </form>
+        </div>
+
+        <div>
+          <div class="form-card" id="previewCard">
+            <div class="print-area" id="printArea">
+              <p style="color:#888;margin:0">Здесь появится текст доверенности.</p>
+            </div>
+          </div>
+          <button class="btn btn-primary no-print" id="printBtn" disabled style="width:100%;margin-top:16px">🖨️ Скачать в PDF</button>
+          <p class="hint no-print" id="printHint" hidden>В окне печати выберите «Сохранить как PDF».</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Как скачать доверенность в PDF</h2>
+        <p>Заполните форму и нажмите «Создать доверенность» — готовый текст появится справа. Затем нажмите «Скачать в PDF» и в окне печати выберите принтер <strong>«Сохранить как PDF»</strong>.</p>
+        <h3>Что учесть в доверенности</h3>
+        <ul>
+          <li>Укажите точные паспортные данные доверителя и поверенного.</li>
+          <li>Опишите перечень полномочий максимально конкретно.</li>
+          <li>Доверенность подписывается доверителем; срок указывается по желанию.</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#docs">Документы</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/gen-power-of-attorney.js"></script>
+</body>
+</html>
+
