@@ -141,6 +141,14 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 .ad-label { position: absolute; top: 6px; left: 10px; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; opacity: .7; }
 
+/* ═══════════ Собственный баннер ═══════════ */
+.hero-banner {
+  display: block; margin: 8px auto 0; max-width: var(--maxw);
+  border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
+  border: 1px solid var(--border); line-height: 0;
+}
+.hero-banner img { width: 100%; height: auto; display: block; object-fit: cover; }
+
 /* ═══════════ Текстовый блок ═══════════ */
 .prose { max-width: 760px; }
 .prose p, .prose li { color: var(--text-muted); }
