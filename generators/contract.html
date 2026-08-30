@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Генератор договора онлайн — шаблон договора оказания услуг в PDF — CalcDocs</title>
+  <meta name="description" content="Онлайн-генератор договора оказания услуг: заполните поля и скачайте готовый договор в PDF. Бесплатно, без регистрации, данные не отправляются на сервер." />
+  <meta name="keywords" content="генератор договора, договор оказания услуг, договор онлайн, скачать договор, шаблон договора" />
+  <link rel="canonical" href="https://calc-doc.ru/generators/contract.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Генератор договора онлайн — CalcDocs" />
+  <meta property="og:description" content="Соберите и скачайте договор оказания услуг в PDF за минуту." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Генератор договора",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <span class="brand-logo" aria-hidden="true">🧮</span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#docs">Документы</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#docs">Документы</a> / Договор</nav>
+      <h1>Генератор договора</h1>
+      <p class="tool-meta">Заполните поля — и получите готовый договор оказания услуг, который можно скачать в PDF.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="contractForm">
+            <div class="row2">
+              <div class="field">
+                <label for="city">Город</label>
+                <input type="text" id="city" name="city" placeholder="Москва" required value="Москва" />
+              </div>
+              <div class="field">
+                <label for="date">Дата</label>
+                <input type="text" id="date" name="date" placeholder="15 августа 2026 г." required value="15 августа 2026 г." />
+              </div>
+            </div>
+            <div class="field">
+              <label for="execName">Исполнитель (ФИО / организация)</label>
+              <input type="text" id="execName" name="execName" placeholder="ИП Иванов Иван Иванович" required />
+            </div>
+            <div class="field">
+              <label for="execDetails">Реквизиты / паспорт исполнителя</label>
+              <input type="text" id="execDetails" name="execDetails" placeholder="ИНН 7701234567, р/с …, паспорт…" />
+            </div>
+            <div class="field">
+              <label for="clientName">Заказчик (ФИО / организация)</label>
+              <input type="text" id="clientName" name="clientName" placeholder="ООО «Ромашка» / Петров Пётр" required />
+            </div>
+            <div class="field">
+              <label for="clientDetails">Реквизиты / паспорт заказчика</label>
+              <input type="text" id="clientDetails" name="clientDetails" placeholder="ИНН …, адрес…" />
+            </div>
+            <div class="field">
+              <label for="subject">Предмет договора (какие услуги)</label>
+              <textarea id="subject" name="subject" rows="3" placeholder="разработка сайта, консультации, дизайн…" required></textarea>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="price">Стоимость услуг (₽)</label>
+                <input type="number" id="price" name="price" inputmode="decimal" min="0" step="any" placeholder="50000" required value="50000" />
+              </div>
+              <div class="field">
+                <label for="term">Срок оказания</label>
+                <input type="text" id="term" name="term" placeholder="30 дней" required value="30 дней" />
+              </div>
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Создать договор</button>
+          </form>
+        </div>
+
+        <div>
+          <div class="form-card" id="previewCard">
+            <div class="print-area" id="printArea">
+              <p style="color:#888;margin:0">Здесь появится текст договора.</p>
+            </div>
+          </div>
+          <button class="btn btn-primary no-print" id="printBtn" disabled style="width:100%;margin-top:16px">🖨️ Скачать в PDF</button>
+          <p class="hint no-print" id="printHint" hidden>В окне печати выберите «Сохранить как PDF».</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Как скачать договор в PDF</h2>
+        <p>Заполните форму и нажмите «Создать договор» — готовый текст появится справа. Затем нажмите «Скачать в PDF» и в окне печати выберите принтер <strong>«Сохранить как PDF»</strong>.</p>
+        <h3>Что учесть в договоре</h3>
+        <ul>
+          <li>Точно опишите предмет и срок оказания услуг.</li>
+          <li>Укажите стоимость и реквизиты сторон.</li>
+          <li>Договор подписывается обеими сторонами.</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#docs">Документы</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/gen-contract.js"></script>
+</body>
+</html>
+
