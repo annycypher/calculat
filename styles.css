@@ -58,11 +58,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
   border-bottom: 1px solid var(--border);
 }
 .header-inner { display: flex; align-items: center; gap: 24px; height: 64px; }
-.brand-group { display: flex; align-items: center; gap: 10px; }
-.brand { display: flex; align-items: center; font-weight: 800; font-size: 20px; }
-.brand-logo { display: inline-flex; border-radius: 9px; transition: transform .12s ease, opacity .12s ease; }
-.brand-logo:hover { transform: translateY(-1px); opacity: .9; }
-.brand-logo img { width: 34px; height: 34px; display: block; border-radius: 9px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; }
+.brand-logo { font-size: 24px; }
 .brand-name { letter-spacing: -.02em; }
 .main-nav { display: flex; gap: 4px; margin-left: auto; }
 .main-nav a { padding: 8px 14px; border-radius: 999px; font-weight: 500; color: var(--text-muted); }
