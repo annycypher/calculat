@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Конструктор инфографики товара онлайн — карточки 900×1200 в PDF — CalcDocs</title>
+  <meta name="description" content="Бесплатный онлайн-конструктор инфографики: загрузите фото товара и прозрачный PNG-слой, вставьте характеристики — получите карточки 900×1200 и скачайте всё одним PDF. Всё в браузере, без загрузки на сервер." />
+  <meta name="keywords" content="инфографика, карточка товара, конструктор инфографики, 900x1200, фото товара, характеристики, pdf, маркетплейс, wildberries, ozon, kazanexpress" />
+  <link rel="canonical" href="https://calc-doc.ru/converters/infographic.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Конструктор инфографики товара — CalcDocs" />
+  <meta property="og:description" content="Фото + PNG-слой + характеристики → карточки 900×1200 одним PDF. Всё в браузере." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Конструктор инфографики товара",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <span class="brand-logo" aria-hidden="true">🧮</span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#converters">Конвертеры</a> / Инфографика</nav>
+      <h1>Конструктор инфографики товара</h1>
+      <p class="tool-meta">Фото товара + прозрачный PNG-слой + характеристики → набор карточек 900×1200. Скачайте всё одним PDF. Файл не покидает ваше устройство.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="form-card">
+        <form id="infForm">
+          <div class="field">
+            <label for="name">Название товара</label>
+            <input type="text" id="name" name="name" placeholder="Например: Фен Dyson Supersonic" />
+            <span class="hint">Только текст — появится на главной карточке.</span>
+          </div>
+          <div class="row3">
+            <div class="field">
+              <label for="photo">Фото товара</label>
+              <input type="file" id="photo" name="photo" accept="image/*" />
+              <span class="hint">Фото на белом фоне, .jpg / .png.</span>
+            </div>
+            <div class="field">
+              <label for="graph">Графика</label>
+              <input type="file" id="graph" name="graph" accept="image/png,.png" />
+              <span class="hint">Прозрачный PNG-слой поверх фото.</span>
+            </div>
+            <div class="field">
+              <label for="text">Текст</label>
+              <textarea id="text" name="text" rows="5" placeholder="Мощность: 1600 Вт&#10;Размер: 24×8 см&#10;Батарея: 5000 мАч&#10;Цена: 34 990 ₽"></textarea>
+              <span class="hint">По строке на характеристику: «Название: значение». Иконки подставятся сами.</span>
+            </div>
+          </div>
+          <button class="btn btn-primary" type="submit" style="width:100%">Собрать карточки</button>
+        </form>
+      </div>
+
+      <div class="form-card" style="margin-top:20px">
+        <h3>Результат</h3>
+        <div id="status" class="hint" style="margin:0 0 12px">Заполните окна и нажмите «Собрать карточки».</div>
+        <div id="output" class="result-box" style="margin-top:0"></div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Как собрать инфографику товара</h2>
+        <p>Нажмите «Добавить» в окне <strong>Фото товара</strong> и выберите изображение на белом фоне. В окне <strong>Графика</strong> загрузите прозрачный PNG-слой (бейджи, цены, стрелки). В окно <strong>Текст</strong> вставьте характеристики — каждая с новой строки, в формате <em>«Название: значение»</em>. Укажите <strong>название товара</strong> сверху и нажмите «Собрать карточки».</p>
+        <p>Инструмент соберёт <strong>главную карточку</strong> с названием и ценой, а затем по одной карточке на каждую характеристику. Итог — <strong>до 7 карточек на товар</strong>, каждая 900×1200 px. Всё можно скачать <strong>одним PDF</strong> или по отдельности в PNG.</p>
+        <h3>Как это работает</h3>
+        <ul>
+          <li>Фото и PNG-слой накладываются друг на друга в браузере, поэтому слой должен быть <strong>прозрачным</strong> и покрывать ту же область, что и фото.</li>
+          <li>Иконки рядом с характеристиками подбираются <strong>автоматически</strong> по названию: мощность → ⚡, размер → 📏, батарея → 🔋, вес → ⚖️, цена → 💰 и так далее.</li>
+          <li>Если характеристик больше шести — на карточки попадут первые <strong>шесть</strong>.</li>
+          <li>Обработка идёт <strong>на вашем устройстве</strong>: файлы не загружаются на сервер и не хранятся.</li>
+        </ul>
+        <div class="note">🖼️ <strong>Совет:</strong> выгружайте фото на чистом белом фоне, а слой — в формате PNG с прозрачностью, чтобы картинка и графика легли ровно друг на друга.</div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="/libs/jspdf.umd.min.js"></script>
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/convert-infographic.js"></script>
+</body>
+</html>
+

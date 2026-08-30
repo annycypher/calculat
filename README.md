@@ -49,7 +49,7 @@ python -m http.server 8000
 1. Создайте страницу `calculators/<slug>.html` (или `generators/<slug>.html`) — скопируйте шаблон из любой существующей,
    замените заголовки, `meta description`, `canonical` и `application/ld+json`.
 2. Подключите при необходимости новый JS-файл в `<script type="module" src="/js/<slug>.js">`.
-3. Добавьте карточку на главную (`index.html`, секции `#tools` или `#docs`).
+3. Добавьте карточку на главную (`index.html`, секции `#tools` или `#files`).
 4. Добавьте URL в `sitemap.xml`.
 
 ## Монетизация

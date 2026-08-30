@@ -65,7 +65,8 @@ const TOOLS = [
   ['🗓️', 'Заявление на отпуск', '/generators/leave-request.html'],
   ['🖼️', 'Конвертер изображений', '/converters/image-converter.html'],
   ['📑', 'CSV → Excel', '/converters/csv-to-xlsx.html'],
-  ['📄', 'PDF → Word', '/converters/pdf-to-word.html']
+  ['📄', 'PDF → Word', '/converters/pdf-to-word.html'],
+  ['🖌️', 'Графика', '/converters/infographic.html']
 ];
 function buildRelated() {
   const footer = document.querySelector('.site-footer');
@@ -78,3 +79,31 @@ function buildRelated() {
   footer.insertAdjacentHTML('beforebegin', `<section class="container section" aria-label="Другие инструменты"><h2 class="section-title">Другие инструменты</h2><div class="chips">${chips}</div></section>`);
 }
 buildRelated();
+
+// ─── Уведомление о cookie (согласие) ───
+const SHOW_CONSENT_BANNER = true; // поставьте false, пока на сайте нет трекеров/рекламы
+if (SHOW_CONSENT_BANNER) {
+  const onPrivacy = (location.pathname || '').includes('/privacy.html');
+  let consented = false;
+  try { consented = !!localStorage.getItem('calcdocs-consent'); } catch (e) {}
+  if (!onPrivacy && !consented && !document.getElementById('cookieBanner')) {
+    const b = document.createElement('div');
+    b.className = 'cookie-banner';
+    b.id = 'cookieBanner';
+    b.setAttribute('role', 'dialog');
+    b.setAttribute('aria-label', 'Уведомление о файлах cookie');
+    b.innerHTML =
+      '<div class="container">' +
+        '<p>Мы используем cookie и обезличенные технологии для работы сайта (тема, настройки) и, при включении, для аналитики и рекламы. Продолжая пользоваться сайтом, вы соглашаетесь с <a href="/privacy.html" target="_blank" rel="noopener">политикой конфиденциальности</a>.</p>' +
+        '<div class="cookie-actions">' +
+          '<button type="button" class="btn btn-primary" id="cookieAccept">Принять</button>' +
+          '<a class="btn btn-ghost" href="/privacy.html">Подробнее</a>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(b);
+    b.querySelector('#cookieAccept').addEventListener('click', () => {
+      try { localStorage.setItem('calcdocs-consent', '1'); } catch (e) {}
+      b.remove();
+    });
+  }
+}
