@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CalcDocs — онлайн-калькуляторы и генераторы документов</title>
+  <meta name="description" content="Бесплатные онлайн-калькуляторы (налоги фрилансера, отпускные, ипотека) и генераторы готовых документов (резюме, договор, доверенность). Работают в браузере, без регистрации." />
+  <meta name="keywords" content="калькулятор онлайн, налоговый калькулятор фрилансера, генератор резюме, договор, доверенность, расчет отпускных, ипотечный калькулятор" />
+  <link rel="canonical" href="https://calcdocs.example/" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="CalcDocs — онлайн-калькуляторы и генераторы документов" />
+  <meta property="og:description" content="Бесплатные инструменты: налоги фрилансера, отпускные, ипотека + готовые документы. Всё в браузере." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "CalcDocs",
+    "url": "https://calcdocs.example/",
+    "description": "Бесплатные онлайн-калькуляторы и генераторы документов."
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <span class="brand-logo" aria-hidden="true">🧮</span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#docs">Документы</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <p class="eyebrow">Бесплатно · без регистрации · работает офлайн</p>
+        <h1>Онлайн-калькуляторы<br />и генераторы документов</h1>
+        <p class="lead">Считайте налоги, отпускные и ипотеку. Создавайте резюме, договоры и доверенности за минуту — весь продукт работает прямо в браузере.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#tools">К инструментам</a>
+          <a class="btn btn-ghost" href="#docs">Документы</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Блок рекламы (верх) -->
+    <section class="container" aria-label="Реклама">
+      <div class="ad-slot" id="adTop">
+        <span class="ad-label">Реклама</span>
+        <!-- Сюда вставьте AdSense-код или партнёрскую ссылку -->
+      </div>
+    </section>
+
+    <!-- Сетка калькуляторов -->
+    <section class="container section" id="tools">
+      <h2 class="section-title">Категория: <span class="accent">калькуляторы</span></h2>
+      <div class="grid">
+        <a class="card" href="/calculators/tax-freelancer.html">
+          <span class="card-icon" aria-hidden="true">💼</span>
+          <h3>Налог фрилансера</h3>
+          <p>Рассчитайте налог по НПД/самозанятости за месяц или год.</p>
+        </a>
+        <a class="card" href="#">
+          <span class="card-icon" aria-hidden="true">🏖️</span>
+          <h3>Отпускные</h3>
+          <p>Сколько вы получите за отпуск — расчёт по среднему заработку.</p>
+          <span class="card-badge">скоро</span>
+        </a>
+        <a class="card" href="#">
+          <span class="card-icon" aria-hidden="true">🏠</span>
+          <h3>Ипотечный калькулятор</h3>
+          <p>Ежемесячный платёж, переплата и график по кредиту.</p>
+          <span class="card-badge">скоро</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Сетка генераторов -->
+    <section class="container section" id="docs">
+      <h2 class="section-title">Категория: <span class="accent">документы</span></h2>
+      <div class="grid">
+        <a class="card" href="/generators/resume.html">
+          <span class="card-icon" aria-hidden="true">📄</span>
+          <h3>Резюме</h3>
+          <p>Готовое резюме из шаблона — сохраните в PDF одним кликом.</p>
+        </a>
+        <a class="card" href="#">
+          <span class="card-icon" aria-hidden="true">✍️</span>
+          <h3>Доверенность</h3>
+          <p>Доверенность на авто или на действия — по шаблону.</p>
+          <span class="card-badge">скоро</span>
+        </a>
+        <a class="card" href="#">
+          <span class="card-icon" aria-hidden="true">📋</span>
+          <h3>Договор</h3>
+          <p>Типовые договоры: оказание услуг, аренда, купля-продажа.</p>
+          <span class="card-badge">скоро</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- О проекте / SEO-текст -->
+    <section class="container section" id="about">
+      <div class="prose">
+        <h2 class="section-title">Что такое CalcDocs</h2>
+        <p>CalcDocs — набор бесплатных онлайн-инструментов: калькуляторы финансовых и производственных показателей, а также генераторы готовых документов. Все расчёты выполняются мгновенно на вашем устройстве: данные не отправляются на сервер, поэтому можно работать даже без интернета после загрузки страницы.</p>
+        <p>Каждый инструмент можно открыть как отдельное приложение — нажмите «Скачать на рабочий стол» в шапке, чтобы установить его как PWA.</p>
+        <h3>Почему это удобно</h3>
+        <ul>
+          <li>Без регистрации и без оплаты.</li>
+          <li>Конфиденциальность: данные не покидают ваше устройство.</li>
+          <li>Адаптивный интерфейс — удобно и с телефона, и с компьютера.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#docs">Документы</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+</body>
+</html>

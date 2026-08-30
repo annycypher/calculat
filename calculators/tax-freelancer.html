@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор налога фрилансера (НПД/самозанятость) — CalcDocs</title>
+  <meta name="description" content="Онлайн-калькулятор налога на профессиональный доход: 4% с физлиц, 6% с юрлиц и ИП. Быстрый расчёт налога для самозанятых и фрилансеров в 2026 году. Лимит 2,4 млн ₽." />
+  <meta name="keywords" content="налог фрилансера, калькулятор НПД, самозанятый, налог на профессиональный доход, 4% 6% налог" />
+  <link rel="canonical" href="https://calcdocs.example/calculators/tax-freelancer.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Калькулятор налога фрилансера (НПД) — CalcDocs" />
+  <meta property="og:description" content="Рассчитайте налог самозанятого за месяц или год за пару секунд." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Калькулятор налога фрилансера",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <span class="brand-logo" aria-hidden="true">🧮</span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#docs">Документы</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#tools">Калькуляторы</a> / Налог фрилансера</nav>
+      <h1>Калькулятор налога фрилансера</h1>
+      <p class="tool-meta">Рассчитайте налог на профессиональный доход (НПД): 4% — от физлиц, 6% — от юрлиц и ИП. Данные не отправляются на сервер.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="taxForm">
+            <div class="field">
+              <label for="income">Доход за месяц (₽)</label>
+              <input type="number" id="income" inputmode="decimal" min="0" step="any" placeholder="например 150000" required value="150000" />
+              <span class="hint">Ваш доход за один месяц.</span>
+            </div>
+            <div class="field">
+              <label for="rate">От кого доход</label>
+              <select id="rate">
+                <option value="0.04">От физических лиц — 4%</option>
+                <option value="0.06">От юрлиц / ИП — 6%</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="period">Период</label>
+              <select id="period">
+                <option value="month">Месяц</option>
+                <option value="year">Год (12 месяцев)</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Как рассчитывается налог самозанятого</h2>
+        <p>Налог на профессиональный доход (НПД) для самозанятых и фрилансеров в 2026 году составляет <strong>4% с доходов, полученных от физических лиц</strong>, и <strong>6% с доходов от юридических лиц и ИП</strong>. Он платится только с тех доходов, которые вы получаете как самозанятый.</p>
+        <p>Важно: НПД применяется, пока доход не превысит <strong>2 400 000 ₽ за год</strong>. После превышения лимита режим НПД перестаёт действовать. Калькулятор показывает предупреждение, если годовой доход выше этого порога.</p>
+        <h3>Кому подходит</h3>
+        <ul>
+          <li>Фрилансерам и самозанятым без наёмных работников.</li>
+          <li>Тем, кто хочет работать легально без регистрации ИП и сложной отчётности.</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#docs">Документы</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/calc-tax-freelancer.js"></script>
+</body>
+</html>
+

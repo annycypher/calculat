@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Генератор резюме онлайн — создать резюме в PDF — CalcDocs</title>
+  <meta name="description" content="Онлайн-генератор резюме из шаблона: заполните поля и скачайте готовое резюме в PDF. Бесплатно, без регистрации, данные не отправляются на сервер." />
+  <meta name="keywords" content="генератор резюме, резюме онлайн, создать резюме, шаблон резюме, резюме скачать" />
+  <link rel="canonical" href="https://calcdocs.example/generators/resume.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Генератор резюме онлайн — CalcDocs" />
+  <meta property="og:description" content="Соберите и скачайте резюме в PDF за минуту." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Генератор резюме",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <span class="brand-logo" aria-hidden="true">🧮</span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#docs">Документы</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#docs">Документы</a> / Резюме</nav>
+      <h1>Генератор резюме</h1>
+      <p class="tool-meta">Заполните поля — и получите готовое резюме, которое можно скачать в PDF через «Печать».</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="resumeForm">
+            <div class="row2">
+              <div class="field">
+                <label for="name">ФИО</label>
+                <input type="text" id="name" name="name" placeholder="Иван Иванов" required />
+              </div>
+              <div class="field">
+                <label for="position">Желаемая должность</label>
+                <input type="text" id="position" name="position" placeholder="Frontend-разработчик" />
+              </div>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="phone">Телефон</label>
+                <input type="tel" id="phone" name="phone" placeholder="+7 900 000-00-00" />
+              </div>
+              <div class="field">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" placeholder="mail@example.com" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="city">Город</label>
+              <input type="text" id="city" name="city" placeholder="Москва" />
+            </div>
+            <div class="field">
+              <label for="about">О себе</label>
+              <textarea id="about" name="about" rows="3" placeholder="Кратко о вашем опыте и сильных сторонах"></textarea>
+            </div>
+            <div class="field">
+              <label for="experience">Опыт работы</label>
+              <textarea id="experience" name="experience" rows="4" placeholder="Компания · должность · период · чем занимались"></textarea>
+            </div>
+            <div class="field">
+              <label for="skills">Навыки</label>
+              <textarea id="skills" name="skills" rows="3" placeholder="JavaScript, React, Figma, английский…"></textarea>
+            </div>
+            <div class="field">
+              <label for="education">Образование</label>
+              <textarea id="education" name="education" rows="2" placeholder="ВУЗ, факультет, год окончания"></textarea>
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Создать резюме</button>
+          </form>
+        </div>
+
+        <div>
+          <div class="form-card" id="previewCard">
+            <div class="print-area" id="printArea">
+              <p style="color:#888;margin:0">Здесь появится ваше резюме.</p>
+            </div>
+          </div>
+          <button class="btn btn-primary no-print" id="printBtn" disabled style="width:100%;margin-top:16px">🖨️ Скачать в PDF</button>
+          <p class="hint no-print" id="printHint" hidden>В открывшемся окне печати выберите «Сохранить как PDF».</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Как скачать резюме в PDF</h2>
+        <p>Заполните форму и нажмите «Создать резюме» — готовый вариант появится справа. Затем нажмите «Скачать в PDF». В окне печати выберите принтер: <strong>«Сохранить как PDF»</strong> (Microsoft Print to PDF) и сохраните файл.</p>
+        <h3>Что учесть в резюме</h3>
+        <ul>
+          <li>Контакты и желаемую должность — в самом верху.</li>
+          <li>Опыт работы с конкретными цифрами результатов.</li>
+          <li>Навыки, релевантные вакансии.</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#docs">Документы</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/gen-resume.js"></script>
+</body>
+</html>
+

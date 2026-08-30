@@ -1,0 +1,19 @@
+# Node / сборка (на случай перехода на сборщик)
+node_modules/
+dist/
+.vite/
+
+# Локальные секреты
+.env
+.env.*
+!.env.example
+
+# Логи и временные файлы
+*.log
+.DS_Store
+Thumbs.db
+
+# среды Python (если понадобится бэкенд)
+.venv/
+__pycache__/
+*.pyc
