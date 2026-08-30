@@ -58,6 +58,7 @@ const TOOLS = [
   ['💼', 'Налог фрилансера', '/calculators/tax-freelancer.html'],
   ['🏖️', 'Отпускные', '/calculators/vacation-pay.html'],
   ['🏠', 'Ипотека', '/calculators/mortgage.html'],
+  ['💰', 'Калькулятор вкладов', '/calculators/deposit.html'],
   ['📄', 'Резюме', '/generators/resume.html'],
   ['✍️', 'Доверенность', '/generators/power-of-attorney.html'],
   ['📋', 'Договор', '/generators/contract.html'],

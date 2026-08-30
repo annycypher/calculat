@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор вкладов онлайн — сложный процент и капитализация — CalcDocs</title>
+  <meta name="description" content="Бесплатный калькулятор вкладов: рассчитайте доход по вкладу со сложным процентом, капитализацией, пополнением и сроком. Наглядный график роста." />
+  <meta name="keywords" content="калькулятор вкладов, сложный процент, капитализация, доходность вклада, вклад с пополнением, калькулятор депозита" />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/deposit.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Калькулятор вкладов со сложным процентом — CalcDocs" />
+  <meta property="og:description" content="Ставка, срок, капитализация и пополнение — с наглядным графиком роста." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Калькулятор вкладов",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <span class="brand-logo" aria-hidden="true">🧮</span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#docs">Документы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#tools">Калькуляторы</a> / Вклады</nav>
+      <h1>Калькулятор вкладов</h1>
+      <p class="tool-meta">Рассчитайте доход по вкладу со сложным процентом (капитализацией), сроком и пополнением. Данные не отправляются на сервер.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="depositForm">
+            <div class="field">
+              <label for="initial">Сумма вклада (₽)</label>
+              <input type="number" id="initial" inputmode="decimal" min="0" step="any" required value="100000" />
+            </div>
+            <div class="field">
+              <label for="rate">Ставка (% годовых)</label>
+              <input type="number" id="rate" inputmode="decimal" min="0" step="any" required value="16" />
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="unit">Единица срока</label>
+                <select id="unit">
+                  <option value="months">Месяцы</option>
+                  <option value="years">Годы</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="months">Срок</label>
+                <input type="number" id="months" inputmode="numeric" min="1" max="600" step="1" required value="12" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="topup">Пополнение в месяц (₽)</label>
+              <input type="number" id="topup" inputmode="decimal" min="0" step="any" value="0" />
+            </div>
+            <div class="field">
+              <label for="cap">Капитализация</label>
+              <select id="cap">
+                <option value="monthly">Ежемесячно</option>
+                <option value="quarterly">Ежеквартально</option>
+                <option value="yearly">Ежегодно</option>
+                <option value="none">Без капитализации</option>
+              </select>
+            </div>
+            <div class="field" style="display:flex;align-items:flex-start;gap:10px">
+              <input type="checkbox" id="tax" style="width:auto;margin-top:4px" />
+              <label for="tax" style="margin:0">Учесть НДФЛ 13% с дохода</label>
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-list">
+            <div class="item"><span>Вложено</span><span class="val" id="resInvested">—</span></div>
+            <div class="item"><span>Доход (проценты)</span><span class="val" id="resInterest">—</span></div>
+            <div class="item" id="taxRow" style="display:none"><span>НДФЛ 13%</span><span class="val" id="resTax">—</span></div>
+            <div class="item total"><span>Итого на счету</span><span class="val" id="resTotal">—</span></div>
+          </div>
+          <div id="chartBlock" style="display:none;margin-top:20px">
+            <canvas id="chart" style="width:100%;height:300px;display:block"></canvas>
+          </div>
+          <p class="hint" id="tip" style="margin-top:14px;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Как считается доход по вкладу</h2>
+        <p>Банки используют <strong>сложный процент</strong>: начисленные проценты прибавляются к телу вклада и в следующий период тоже приносят доход (капитализация). Чем чаще капитализация, тем больше итоговая сумма.</p>
+        <p>Формула сложного процента: <strong>Итог = Сумма × (1 + ставка/периодов)^(периодов × лет)</strong>. С пополнением расчёт ведётся помесячно — как это делает банк.</p>
+        <h3>На что обратить внимание</h3>
+        <ul>
+          <li><strong>Капитализация</strong>: ежемесячная выгоднее ежеквартальной и ежегодной при равной ставке.</li>
+          <li><strong>Пополнение</strong> увеличивает базу для начисления процентов.</li>
+          <li><strong>НДФЛ 13%</strong> удерживается с дохода, превышающего установленный порог (проверьте актуальные правила).</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#docs">Документы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/calc-deposit.js"></script>
+</body>
+</html>
+
