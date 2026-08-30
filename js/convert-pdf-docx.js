@@ -1,7 +1,15 @@
 // PDF → Word (текстовый вариант): pdf.js извлекает текст, docx собирает .docx.
-import { Document, Paragraph, TextRun, Packer } from '/libs/docx.mjs';
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = '/libs/pdf.worker.min.js';
+// Ленивая загрузка библиотек (грузится только при конвертации)
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = src;
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error('Не удалось загрузить ' + src));
+    document.head.appendChild(s);
+  });
+}
 
 const form = document.getElementById('pdfForm');
 const fileEl = document.getElementById('file');
@@ -17,6 +25,9 @@ if (form) {
 
     setOut(`<p class="hint" style="margin:0">Обработка PDF… Это может занять время.</p>`);
     try {
+      if (typeof pdfjsLib === 'undefined') await loadScript('/libs/pdf.min.js');
+      pdfjsLib.GlobalWorkerOptions.workerSrc = '/libs/pdf.worker.min.js';
+      const { Document, Paragraph, TextRun, Packer } = await import('/libs/docx.mjs');
       const buf = await file.arrayBuffer();
       const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
       const mkP = (text) => new Paragraph({ children: [new TextRun({ text })] });

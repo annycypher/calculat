@@ -249,7 +249,23 @@ function renderPreview() {
   if (pdfBtn) pdfBtn.addEventListener('click', downloadPDF);
 }
 
-function downloadPDF() {
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = src;
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error('Не удалось загрузить ' + src));
+    document.head.appendChild(s);
+  });
+}
+
+async function downloadPDF() {
+  try {
+    if (!(window.jspdf && window.jspdf.jsPDF)) await loadScript('/libs/jspdf.umd.min.js');
+  } catch (err) {
+    setStatus('Ошибка: библиотека PDF не загрузилась.', true);
+    return;
+  }
   if (!(window.jspdf && window.jspdf.jsPDF)) { setStatus('Ошибка: библиотека PDF не загрузилась.', true); return; }
   const jsPDF = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
   const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
