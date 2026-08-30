@@ -1,5 +1,5 @@
 // ui.js — общие UI-функции для всех страниц CalcDocs
-// Тема, кнопка «Установить» (PWA), год в подвале, регистрация service worker.
+// Тема, кнопка «Установить» (PWA), год в подвале.
 
 const themeToggle = document.getElementById('themeToggle');
 const installBtn = document.getElementById('installBtn');
@@ -46,10 +46,12 @@ if (installBtn) {
 }
 window.addEventListener('appinstalled', () => { if (installBtn) installBtn.hidden = true; });
 
-// ─── Service worker (только для https и localhost) ───
-if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+// ─── Офлайн-кэш (service worker) отключён — удаляем старые регистрации ───
+if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(() => { /* игнорируем */ });
+    navigator.serviceWorker.getRegistrations()
+      .then((rs) => rs.forEach((r) => r.unregister()))
+      .catch(() => { /* игнорируем */ });
   });
 }
 

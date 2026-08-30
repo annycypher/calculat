@@ -28,10 +28,14 @@
 <body>
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="/">
-        <span class="brand-logo" aria-hidden="true">🧮</span>
-        <span class="brand-name">Calc<span class="accent">Docs</span></span>
-      </a>
+      <div class="brand-group">
+        <a class="brand-logo" href="/icons/logo.svg" download="calc-docs-logo.svg" title="Скачать логотип CalcDocs" aria-label="Скачать логотип CalcDocs">
+          <img src="/icons/logo.svg" alt="" width="34" height="34" />
+        </a>
+        <a class="brand" href="/">
+          <span class="brand-name">Calc<span class="accent">Docs</span></span>
+        </a>
+      </div>
       <nav class="main-nav" aria-label="Главное меню">
         <a href="/#tools">Калькуляторы</a>
         <a href="/#files">Файлы</a>
@@ -49,7 +53,7 @@
   <main>
     <section class="hero">
       <div class="container">
-        <p class="eyebrow">Бесплатно · без регистрации · работает офлайн</p>
+        <p class="eyebrow">Бесплатно · без регистрации · онлайн</p>
         <h1>Онлайн-калькуляторы<br />и генераторы документов</h1>
         <p class="lead">Считайте налоги, отпускные и ипотеку. Создавайте резюме, договоры и доверенности за минуту — весь продукт работает прямо в браузере.</p>
         <div class="hero-cta">
@@ -150,9 +154,135 @@
 
     <!-- Собственный баннер (широкий, перед "Что такое CalcDocs") -->
     <section class="container" aria-label="Баннер">
-      <a class="hero-banner" href="#" aria-label="Ссылка на рекламный баннер">
-        <img src="/img/banner-2.jpg" alt="Баннер" width="1024" height="572" loading="lazy" />
-      </a>
+      <div class="hero-banner" role="img" aria-label="Иллюстрация: офис и команда CalcDocs">
+        <svg class="hero-banner-svg" viewBox="0 0 1024 572" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <defs>            <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b1b63"/><stop offset="1" stop-color="#140a30"/></linearGradient>
+            <linearGradient id="deskGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5c3b25"/><stop offset="1" stop-color="#3a2416"/></linearGradient></defs>
+                    <rect width="1024" height="572" fill="url(#bgGrad)"/>
+          <rect x="88" y="34" width="848" height="318" rx="18" fill="#0e0730" stroke="#4a34a0" stroke-width="5"/>
+          <g fill="#3a2b86">
+            <rect x="120" y="252" width="72" height="102" rx="4"/>
+            <rect x="232" y="222" width="58" height="132" rx="4"/>
+            <rect x="360" y="272" width="80" height="82" rx="4"/>
+            <rect x="520" y="236" width="66" height="118" rx="4"/>
+            <rect x="640" y="256" width="70" height="98" rx="4"/>
+            <rect x="760" y="226" width="60" height="128" rx="4"/>
+          </g>
+          <g fill="#ffd977" opacity=".9">
+            <rect x="132" y="266" width="10" height="10" rx="2"/><rect x="158" y="266" width="10" height="10" rx="2"/>
+            <rect x="244" y="236" width="10" height="10" rx="2"/><rect x="270" y="260" width="10" height="10" rx="2"/>
+            <rect x="372" y="286" width="10" height="10" rx="2"/>
+            <rect x="532" y="250" width="10" height="10" rx="2"/><rect x="558" y="274" width="10" height="10" rx="2"/>
+            <rect x="772" y="240" width="10" height="10" rx="2"/>
+          </g>
+          <g stroke="#241457" stroke-width="4">
+            <line x1="512" y1="36" x2="512" y2="352"/>
+            <line x1="94" y1="196" x2="930" y2="196"/>
+          </g>
+          <g stroke="#5ad6ff" stroke-width="3" opacity=".45" fill="none">
+            <path d="M180 96 L248 134 L180 172"/>
+            <path d="M248 134 L316 172 L248 210"/>
+          </g>
+          <g>
+            <rect x="330" y="78" width="364" height="62" rx="16" fill="#5ad6ff" opacity=".10"/>
+            <text x="512" y="124" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="800" font-size="42" letter-spacing="3" fill="#bfeeff" opacity=".4">CALC-DOC</text>
+            <text x="512" y="122" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="800" font-size="42" letter-spacing="3" fill="none" stroke="#7df0ff" stroke-width="3">CALC-DOC</text>
+          </g>
+          <g>
+            <rect x="756" y="58" width="224" height="54" rx="12" fill="#d89bff" opacity=".10"/>
+            <text x="868" y="94" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="800" font-size="34" letter-spacing="3" fill="#eed4ff" opacity=".4">OFFICE</text>
+            <text x="868" y="92" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="800" font-size="34" letter-spacing="3" fill="none" stroke="#d89bff" stroke-width="3">OFFICE</text>
+          </g>
+          <rect x="0" y="408" width="1024" height="164" fill="url(#deskGrad)"/>
+          <rect x="0" y="408" width="1024" height="6" fill="#6d4630"/>
+                    <g>
+            <path d="M212 404 L212 300 Q212 248 252 240 L348 240 Q388 248 388 300 L388 404 Z" fill="#6ab6f4"/>
+            <path d="M212 300 Q202 258 226 242 L246 234 L248 292 Z" fill="#58a3e4"/>
+            <path d="M388 300 Q398 258 374 242 L354 234 L352 292 Z" fill="#58a3e4"/>
+            <path d="M252 240 Q300 272 348 240 L338 216 L262 216 Z" fill="#58a3e4"/>
+            <circle cx="300" cy="194" r="60" fill="#6ab6f4"/>
+            <circle cx="260" cy="138" r="17" fill="#6ab6f4"/><circle cx="260" cy="138" r="8" fill="#4f8fc7"/>
+            <circle cx="340" cy="138" r="17" fill="#6ab6f4"/><circle cx="340" cy="138" r="8" fill="#4f8fc7"/>
+            <ellipse cx="300" cy="222" rx="30" ry="22" fill="#dceafe"/>
+            <circle cx="300" cy="205" r="10" fill="#26324d"/>
+            <path d="M300 212 Q300 230 289 236" stroke="#26324d" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <path d="M300 212 Q300 230 311 236" stroke="#26324d" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <circle cx="278" cy="186" r="6" fill="#26324d"/>
+            <circle cx="322" cy="186" r="6" fill="#26324d"/>
+            <text x="300" y="352" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="800" font-size="34" letter-spacing="2" fill="#ffffff">CALC</text>
+            <rect x="230" y="382" width="70" height="32" rx="4" fill="#4caf6d"/>
+            <rect x="230" y="382" width="70" height="32" rx="4" fill="none" stroke="#2e8b4f" stroke-width="3"/>
+            <rect x="238" y="388" width="54" height="8" rx="2" fill="#7ed09a"/>
+            <circle cx="238" cy="384" r="14" fill="#58a3e4"/>
+          </g>
+          <g>
+            <path d="M632 404 L632 300 Q632 250 672 246 L768 246 Q808 250 808 300 L808 404 Z" fill="#f0863a"/>
+            <path d="M632 300 Q622 260 646 246 L668 238 L668 294 Z" fill="#dc7328"/>
+            <path d="M808 300 Q818 260 794 246 L772 238 L772 294 Z" fill="#dc7328"/>
+            <path d="M682 152 L666 108 L706 132 Z" fill="#f0863a"/>
+            <path d="M758 152 L774 108 L734 132 Z" fill="#f0863a"/>
+            <path d="M685 143 L674 118 L701 133 Z" fill="#e0762f"/>
+            <path d="M755 143 L766 118 L739 133 Z" fill="#e0762f"/>
+            <circle cx="720" cy="198" r="58" fill="#f0863a"/>
+            <ellipse cx="720" cy="228" rx="28" ry="20" fill="#ffe9d6"/>
+            <ellipse cx="720" cy="213" rx="9" ry="7" fill="#3a2a1f"/>
+            <path d="M720 219 Q734 236 746 229" stroke="#3a2a1f" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <circle cx="699" cy="189" r="6" fill="#3a2a1f"/>
+            <circle cx="741" cy="189" r="6" fill="#3a2a1f"/>
+            <text x="720" y="352" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="800" font-size="34" letter-spacing="2" fill="#ffffff">DOC</text>
+            <circle cx="700" cy="386" r="14" fill="#dc7328"/>
+            <g>
+              <circle cx="784" cy="306" r="26" fill="#f0c9a0"/>
+              <circle cx="784" cy="306" r="10" fill="#f0863a"/>
+              <path d="M762 300 Q784 282 806 300 Q808 318 784 320 Q760 318 762 300 Z" fill="#ff7fb0"/>
+              <g stroke="#fff" stroke-width="2"><line x1="774" y1="292" x2="776" y2="296"/><line x1="794" y1="292" x2="796" y2="296"/><line x1="784" y1="286" x2="785" y2="290"/></g>
+            </g>
+            <circle cx="790" cy="388" r="14" fill="#dc7328"/>
+          </g>
+                    <g>
+            <path d="M40 472 L124 472 L112 544 L52 544 Z" fill="#8a5a36"/>
+            <rect x="34" y="458" width="92" height="14" rx="6" fill="#9a6a42"/>
+            <g fill="#2f9e63">
+              <ellipse cx="82" cy="404" rx="15" ry="42" transform="rotate(-28 82 404)"/>
+              <ellipse cx="82" cy="404" rx="15" ry="42" transform="rotate(28 82 404)"/>
+              <ellipse cx="82" cy="396" rx="13" ry="44"/>
+            </g>
+          </g>
+          <g>
+            <path d="M936 472 L884 472 L896 544 L956 544 Z" fill="#8a5a36"/>
+            <rect x="878" y="458" width="92" height="14" rx="6" fill="#9a6a42"/>
+            <g fill="#2f9e63">
+              <ellipse cx="942" cy="404" rx="15" ry="42" transform="rotate(28 942 404)"/>
+              <ellipse cx="942" cy="404" rx="15" ry="42" transform="rotate(-28 942 404)"/>
+              <ellipse cx="942" cy="396" rx="13" ry="44"/>
+            </g>
+          </g>
+          <g>
+            <path d="M790 434 L846 412 L944 412 L972 434 Z" fill="#2b2b3d"/>
+            <path d="M806 430 L866 314 L956 314 L932 430 Z" fill="#20202f"/>
+            <path d="M818 426 L874 332 L947 332 L928 426 Z" fill="#63ccff" opacity=".8"/>
+          </g>
+          <g>
+            <rect x="150" y="502" width="122" height="14" rx="3" fill="#eef1f7"/>
+            <rect x="156" y="490" width="122" height="14" rx="3" fill="#dde3f0"/>
+            <rect x="150" y="478" width="122" height="14" rx="3" fill="#f4f6fb"/>
+            <rect x="150" y="478" width="122" height="14" rx="3" fill="none" stroke="#c9d2e4" stroke-width="2"/>
+          </g>
+          <g>
+            <rect x="320" y="474" width="92" height="40" rx="5" fill="#4caf6d"/>
+            <rect x="320" y="474" width="92" height="40" rx="5" fill="none" stroke="#2e8b4f" stroke-width="3"/>
+            <rect x="326" y="479" width="80" height="11" rx="2" fill="#7ed09a"/>
+            <rect x="348" y="490" width="40" height="3" fill="#2e8b4f"/>
+            <rect x="318" y="516" width="70" height="34" rx="5" fill="#3f9a5b"/>
+            <rect x="318" y="516" width="70" height="34" rx="5" fill="none" stroke="#2e8b4f" stroke-width="3"/>
+            <rect x="324" y="521" width="58" height="9" rx="2" fill="#6dc58b"/>
+          </g>
+          <g fill="#e6c46a">
+            <circle cx="442" cy="542" r="8"/><circle cx="460" cy="552" r="8"/><circle cx="424" cy="552" r="8"/>
+            <circle cx="466" cy="536" r="7"/><circle cx="480" cy="554" r="7"/>
+          </g>
+        </svg>
+      </div>
     </section>
 
     <!-- О проекте / SEO-текст -->
