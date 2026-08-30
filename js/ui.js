@@ -52,3 +52,28 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
     navigator.serviceWorker.register('/sw.js').catch(() => { /* игнорируем */ });
   });
 }
+
+// ─── «Другие инструменты» — быстрые ссылки на всех страницах ───
+const TOOLS = [
+  ['💼', 'Налог фрилансера', '/calculators/tax-freelancer.html'],
+  ['🏖️', 'Отпускные', '/calculators/vacation-pay.html'],
+  ['🏠', 'Ипотека', '/calculators/mortgage.html'],
+  ['📄', 'Резюме', '/generators/resume.html'],
+  ['✍️', 'Доверенность', '/generators/power-of-attorney.html'],
+  ['📋', 'Договор', '/generators/contract.html'],
+  ['🗓️', 'Заявление на отпуск', '/generators/leave-request.html'],
+  ['🖼️', 'Конвертер изображений', '/converters/image-converter.html'],
+  ['📑', 'CSV → Excel', '/converters/csv-to-xlsx.html'],
+  ['📄', 'PDF → Word', '/converters/pdf-to-word.html']
+];
+function buildRelated() {
+  const footer = document.querySelector('.site-footer');
+  if (!footer) return;
+  const current = (location.pathname || '/').replace(/\/$/, '') || '/';
+  const chips = TOOLS
+    .filter(([, , href]) => href !== current)
+    .map(([icon, label, href]) => `<a class="chip" href="${href}"><span>${icon}</span>${label}</a>`)
+    .join('');
+  footer.insertAdjacentHTML('beforebegin', `<section class="container section" aria-label="Другие инструменты"><h2 class="section-title">Другие инструменты</h2><div class="chips">${chips}</div></section>`);
+}
+buildRelated();

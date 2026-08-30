@@ -36,6 +36,7 @@
       <nav class="main-nav" aria-label="Главное меню">
         <a href="/#tools">Калькуляторы</a>
         <a href="/#docs">Документы</a>
+        <a href="/#converters">Конвертеры</a>
         <a href="/#about">О проекте</a>
       </nav>
       <div class="header-actions">
@@ -59,7 +60,14 @@
             <div class="field">
               <label for="salary">Средняя зарплата за месяц (₽)</label>
               <input type="number" id="salary" inputmode="decimal" min="0" step="any" placeholder="например 60000" required value="60000" />
-              <span class="hint">Ваш оклад/средний доход за месяц (до вычета налогов).</span>
+            </div>
+            <div class="field">
+              <label for="salaryBasis">Сумма указана</label>
+              <select id="salaryBasis">
+                <option value="gross">До вычета НДФЛ (начисленная)</option>
+                <option value="net">После вычета НДФЛ (на руки)</option>
+              </select>
+              <span class="hint">Отпускные считаются от начисленной («грязной») зарплаты — она в расчётном листке до вычета налога.</span>
             </div>
             <div class="field">
               <label for="days">Количество дней отпуска</label>
@@ -99,6 +107,7 @@
         <a href="/#about">О проекте</a>
         <a href="/#tools">Калькуляторы</a>
         <a href="/#docs">Документы</a>
+        <a href="/#converters">Конвертеры</a>
         <a href="/privacy.html">Конфиденциальность</a>
       </nav>
     </div>
