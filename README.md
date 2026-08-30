@@ -64,8 +64,7 @@ python -m http.server 8000
 - Каждый инструмент — отдельный статический HTML с `title`, `description`, `canonical`, `robots`, Open Graph
   и `JSON-LD` (`SoftwareApplication`). Поисковик видит весь контент без JS.
 - `sitemap.xml` + `robots.txt`.
-- Замените домен-плейсхолдер `https://calcdocs.example/` на реальный домен в `canonical`, `sitemap.xml`, `robots.txt`
-  и мета-тегах.
+- Домен: `https://room507.ru/` (указан в `canonical`, `sitemap.xml`, `robots.txt` и мета-тегах).
 
 ## Деплой (бесплатно)
 
