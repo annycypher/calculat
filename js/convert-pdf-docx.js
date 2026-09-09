@@ -30,8 +30,8 @@ async function createOcrWorker() {
   return await window.Tesseract.createWorker('rus+eng', 1, {
     workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/worker.min.js',
     corePath: 'https://cdn.jsdelivr.net/npm/tesseract.js-core@5/tesseract-core-simd.wasm.js',
-    // Быстрая модель (~в 5 раз меньше) → быстрее скачивание и распознавание.
-    langPath: 'https://tessdata.projectnaptha.com/4.0.0_fast'
+    // Максимальное качество (точность важнее скорости). Модель крупная, но кэшируется браузером.
+    langPath: 'https://tessdata.projectnaptha.com/4.0.0_best'
   });
 }
 
@@ -39,7 +39,7 @@ async function createOcrWorker() {
 // OCR быстрее работает с меньшим числом пикселей, а серый уменьшает объём данных.
 function prepForOcr(canvas) {
   const long = Math.max(canvas.width, canvas.height);
-  const TARGET = 1600;
+  const TARGET = 2000;
   const scale = long > TARGET ? TARGET / long : 1;
   const w = Math.max(1, Math.round(canvas.width * scale));
   const h = Math.max(1, Math.round(canvas.height * scale));
