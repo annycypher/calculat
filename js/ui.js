@@ -1,4 +1,4 @@
-import { SEARCH, POPULAR } from '/js/search-index.js?v=1';
+let SEARCH = [], POPULAR = [];
 
 // ui.js — общие UI-функции для всех страниц CalcDocs
 // Тема, кнопка «Установить» (PWA), год в подвале.
@@ -194,5 +194,14 @@ function initPopular() {
     '<section class="container section" style="padding:8px 0 0"><div class="popular-bar"><span class="popular-label">Популярное:</span><div class="chips">' + chips + '</div></div></section>');
 }
 
-initSearch();
-initPopular();
+async function bootSearch() {
+  try {
+    const m = await import('/js/search-index.js?v=1');
+    SEARCH = m.SEARCH; POPULAR = m.POPULAR;
+    initSearch();
+    initPopular();
+  } catch (e) {
+    /* если индекс не загрузился — поиск просто не показывается, остальное работает */
+  }
+}
+bootSearch();
