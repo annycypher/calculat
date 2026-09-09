@@ -13,6 +13,7 @@ function setOut(html) { if (output) output.innerHTML = html; }
 function esc(s) { return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
 let tesseractWorker = null;
+let TextRun = null;
 
 async function ensureTesseract() {
   if (window.Tesseract) return;
@@ -60,7 +61,9 @@ if (form) {
       setOut('Загрузка воркера pdf.js…');
       pdfjsLib.GlobalWorkerOptions.workerSrc = await cdnBlobUrl('https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js');
       setOut('Загрузка docx…');
-      const { Document, Paragraph, TextRun, ImageRun, Packer } = await importCdn('https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.mjs');
+      const docx = await importCdn('https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.mjs');
+      const { Document, Paragraph, ImageRun, Packer } = docx;
+      TextRun = docx.TextRun;
 
       let buf;
       if (file) {
