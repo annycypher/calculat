@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Больничный онлайн — расчёт пособия по временной нетрудоспособности — CalcDocs</title>
+  <meta name="description" content="Онлайн-расчёт пособия по больничному в 2025 году: средний дневной заработок, процент по стажу и сумма выплаты за дни нетрудоспособности." />
+  <meta name="keywords" content="больничный калькулятор, расчет больничного, пособие по временной нетрудоспособности, стаж для больничного" />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/finance/sick-leave.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Калькулятор больничного — CalcDocs" />
+  <meta property="og:description" content="Рассчитайте пособие по больничному листу." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"SoftwareApplication", "name":"Калькулятор больничного", "applicationCategory":"FinanceApplication", "operatingSystem":"Web", "offers":{ "@type":"Offer","price":"0","priceCurrency":"RUB" } }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Калькуляторы","item":"https://calc-doc.ru/#tools" }, { "@type":"ListItem","position":3,"name":"Финансы и налоги","item":"https://calc-doc.ru/calculators/finance/" }, { "@type":"ListItem","position":4,"name":"Больничный","item":"https://calc-doc.ru/calculators/finance/sick-leave.html" } ] }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"FAQPage", "mainEntity":[ { "@type":"Question","name":"Как рассчитывается больничный?","acceptedAnswer":{ "@type":"Answer","text":"Средний дневной заработок за два года делится на 730 и умножается на число дней больничного и процент по стажу (100%, 80% или 60%)." } } ] }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/"><span class="brand-logo" aria-hidden="true">🧮</span><span class="brand-name">Calc<span class="accent">Docs</span></span></a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#tools">Калькуляторы</a> / <a href="/calculators/finance/">Финансы и налоги</a> / Больничный</nav>
+      <h1>Калькулятор больничного</h1>
+      <p class="tool-meta">Пособие по временной нетрудоспособности по доходу за два года, стажу и числу дней. Данные не отправляются на сервер.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="sickLeaveForm">
+            <div class="field">
+              <label for="income">Доход за 2 года (₽)</label>
+              <input type="number" id="income" inputmode="decimal" min="0" step="any" placeholder="например 840000" required value="840000" />
+              <span class="hint">Зарплата за два календарных года до болезни.</span>
+            </div>
+            <div class="field">
+              <label for="days">Дней больничного</label>
+              <input type="number" id="days" inputmode="numeric" min="1" step="1" placeholder="10" required value="10" />
+            </div>
+            <div class="field">
+              <label for="tenure">Стаж</label>
+              <select id="tenure">
+                <option value="100">8 лет и более — 100%</option>
+                <option value="80">5–8 лет — 80%</option>
+                <option value="60">до 5 лет — 60%</option>
+              </select>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="mrot">МРОТ (₽)</label>
+                <input type="number" id="mrot" inputmode="decimal" min="0" step="any" placeholder="22440" required value="22440" />
+              </div>
+              <div class="field">
+                <label for="maxDaily">Макс. дневной (₽)</label>
+                <input type="number" id="maxDaily" inputmode="decimal" min="0" step="any" placeholder="5674.77" required value="5674.77" />
+              </div>
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Как считается больничный</h2>
+        <p>Средний дневной заработок = доход за два года / 730. Он ограничен снизу (исходя из МРОТ) и сверху (максимальной базой). Затем умножается на число дней и процент по стажу.</p>
+        <h3>Процент по стажу</h3>
+        <ul>
+          <li>8 лет и более — <strong>100%</strong>.</li>
+          <li>5–8 лет — <strong>80%</strong>.</li>
+          <li>до 5 лет — <strong>60%</strong>.</li>
+        </ul>
+        <p>Значения МРОТ и максимального дневного заработка зависят от года — обновите их при необходимости.</p>
+        <h2>Частые вопросы</h2>
+        <div class="faq">
+          <h3>Как рассчитывается больничный?</h3>
+          <p>Средний дневной заработок за два года делится на 730 и умножается на число дней больничного и процент по стажу (100%, 80% или 60%).</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/calc-sick-leave.js"></script>
+</body>
+</html>

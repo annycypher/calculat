@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Компенсация за задержку зарплаты онлайн — ст. 236 ТК РФ — CalcDocs</title>
+  <meta name="description" content="Онлайн-расчёт компенсации за задержку зарплаты по ст. 236 ТК РФ: сумма долга × 1/150 ключевой ставки × дни просрочки. Работает в браузере." />
+  <meta name="keywords" content="компенсация за задержку зарплаты, ст. 236 ТК РФ, расчет компенсации, просрочка зарплаты" />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/finance/salary-delay.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Компенсация за задержку зарплаты — CalcDocs" />
+  <meta property="og:description" content="Рассчитайте компенсацию за просрочку зарплаты по ст. 236 ТК РФ." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"SoftwareApplication", "name":"Компенсация за задержку зарплаты", "applicationCategory":"FinanceApplication", "operatingSystem":"Web", "offers":{ "@type":"Offer","price":"0","priceCurrency":"RUB" } }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Калькуляторы","item":"https://calc-doc.ru/#tools" }, { "@type":"ListItem","position":3,"name":"Финансы и налоги","item":"https://calc-doc.ru/calculators/finance/" }, { "@type":"ListItem","position":4,"name":"Задержка зарплаты","item":"https://calc-doc.ru/calculators/finance/salary-delay.html" } ] }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"FAQPage", "mainEntity":[ { "@type":"Question","name":"Как считается компенсация по ст. 236 ТК РФ?","acceptedAnswer":{ "@type":"Answer","text":"Компенсация = сумма долга × (ключевая ставка / 150) × число дней просрочки (за каждый день)." } } ] }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/"><span class="brand-logo" aria-hidden="true">🧮</span><span class="brand-name">Calc<span class="accent">Docs</span></span></a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#tools">Калькуляторы</a> / <a href="/calculators/finance/">Финансы и налоги</a> / Задержка зарплаты</nav>
+      <h1>Компенсация за задержку зарплаты</h1>
+      <p class="tool-meta">Расчёт по ст. 236 ТК РФ: сумма долга × ключевая ставка ÷ 150 × дни просрочки. Данные не отправляются на сервер.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="delayForm">
+            <div class="field">
+              <label for="sum">Сумма долга (₽)</label>
+              <input type="number" id="sum" inputmode="decimal" min="0" step="any" placeholder="например 50000" required value="50000" />
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="rate">Ключевая ставка (%)</label>
+                <input type="number" id="rate" inputmode="decimal" min="0" step="any" placeholder="21" required value="21" />
+              </div>
+              <div class="field">
+                <label for="days">Дней просрочки</label>
+                <input type="number" id="days" inputmode="numeric" min="1" step="1" placeholder="30" required value="30" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="div">Коэффициент</label>
+              <select id="div">
+                <option value="150">1/150 ставки (ст. 236 ТК РФ)</option>
+                <option value="300">1/300 ставки</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Как считается компенсация</h2>
+        <p>По ст. 236 ТК РФ работодатель должен выплатить компенсацию за каждый день просрочки: <strong>сумма долга × (ключевая ставка / 150)</strong> за каждый день. С 2024 года минимум — 1/150, но может быть закреплён больший размер в договоре.</p>
+        <h3>Важно</h3>
+        <ul>
+          <li>Просрочка считается с дня, следующего за сроком выплаты.</li>
+          <li>В расчёт берётся ключевая ставка ЦБ на соответствующий период.</li>
+        </ul>
+        <h2>Частые вопросы</h2>
+        <div class="faq">
+          <h3>Как считается компенсация по ст. 236 ТК РФ?</h3>
+          <p>Компенсация = сумма долга × (ключевая ставка / 150) × число дней просрочки (за каждый день).</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/calc-salary-delay.js"></script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Кредитный калькулятор онлайн — аннуитет и дифференцированный платёж — CalcDocs</title>
+  <meta name="description" content="Онлайн-расчёт кредита: аннуитетный и дифференцированный платёж, сумма выплат и переплата по сумме, ставке и сроку. Работает в браузере." />
+  <meta name="keywords" content="кредитный калькулятор, аннуитетный платеж, дифференцированный платеж, расчет кредита, переплата по кредиту" />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/finance/credit.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Кредитный калькулятор — CalcDocs" />
+  <meta property="og:description" content="Рассчитайте платёж и переплату по кредиту." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"SoftwareApplication", "name":"Кредитный калькулятор", "applicationCategory":"FinanceApplication", "operatingSystem":"Web", "offers":{ "@type":"Offer","price":"0","priceCurrency":"RUB" } }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Калькуляторы","item":"https://calc-doc.ru/#tools" }, { "@type":"ListItem","position":3,"name":"Финансы и налоги","item":"https://calc-doc.ru/calculators/finance/" }, { "@type":"ListItem","position":4,"name":"Кредит","item":"https://calc-doc.ru/calculators/finance/credit.html" } ] }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"FAQPage", "mainEntity":[ { "@type":"Question","name":"Чем аннуитетный платёж отличается от дифференцированного?","acceptedAnswer":{ "@type":"Answer","text":"Аннуитетный — платёж одинаковый каждый месяц, переплата выше. Дифференцированный — платёж уменьшается, первые месяцы больше, переплата ниже." } } ] }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/"><span class="brand-logo" aria-hidden="true">🧮</span><span class="brand-name">Calc<span class="accent">Docs</span></span></a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#tools">Калькуляторы</a> / <a href="/calculators/finance/">Финансы и налоги</a> / Кредит</nav>
+      <h1>Кредитный калькулятор</h1>
+      <p class="tool-meta">Рассчитайте ежемесячный платёж и переплату по кредиту. Данные не отправляются на сервер.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="creditForm">
+            <div class="field">
+              <label for="sum">Сумма кредита (₽)</label>
+              <input type="number" id="sum" inputmode="decimal" min="0" step="any" placeholder="например 1000000" required value="1000000" />
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="rate">Ставка (% годовых)</label>
+                <input type="number" id="rate" inputmode="decimal" min="0" step="any" placeholder="21" required value="21" />
+              </div>
+              <div class="field">
+                <label for="term">Срок (мес)</label>
+                <input type="number" id="term" inputmode="numeric" min="1" step="1" placeholder="60" required value="60" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="type">Тип платежа</label>
+              <select id="type">
+                <option value="annuity">Аннуитетный</option>
+                <option value="diff">Дифференцированный</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Как считаются платежи по кредиту</h2>
+        <p><strong>Аннуитетный:</strong> платёж одинаковый каждый месяц. Формула: <em>P = S × r / (1 − (1 + r)<sup>−n</sup>)</em>, где r — месячная ставка, n — число месяцев.</p>
+        <p><strong>Дифференцированный:</strong> основной долг делится на срок поровну, а проценты начисляются на остаток — платёж постепенно уменьшается, переплата ниже.</p>
+        <h3>Советы</h3>
+        <ul>
+          <li>При равной ставке дифференцированный платёж выгоднее по переплате.</li>
+          <li>Аннуитет удобнее планировать: платёж не меняется.</li>
+          <li>Досрочное погашение снижает переплату, особенно при аннуитете.</li>
+        </ul>
+        <h2>Частые вопросы</h2>
+        <div class="faq">
+          <h3>Чем аннуитетный платёж отличается от дифференцированного?</h3>
+          <p>Аннуитетный — платёж одинаковый каждый месяц, переплата выше. Дифференцированный — платёж уменьшается, первые месяцы больше, переплата ниже.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/calc-credit.js"></script>
+</body>
+</html>

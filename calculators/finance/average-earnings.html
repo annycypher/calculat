@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Средний заработок и стаж онлайн — CalcDocs</title>
+  <meta name="description" content="Онлайн-расчёт среднего дневного и месячного заработка по доходу и числу дней, а также процент по стажу для пособий. Работает в браузере." />
+  <meta name="keywords" content="средний заработок, средний дневной заработок, расчет среднего заработка, стаж, средний месячный заработок" />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/finance/average-earnings.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Средний заработок и стаж — CalcDocs" />
+  <meta property="og:description" content="Рассчитайте средний заработок и процент по стажу." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"SoftwareApplication", "name":"Средний заработок", "applicationCategory":"FinanceApplication", "operatingSystem":"Web", "offers":{ "@type":"Offer","price":"0","priceCurrency":"RUB" } }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Калькуляторы","item":"https://calc-doc.ru/#tools" }, { "@type":"ListItem","position":3,"name":"Финансы и налоги","item":"https://calc-doc.ru/calculators/finance/" }, { "@type":"ListItem","position":4,"name":"Средний заработок","item":"https://calc-doc.ru/calculators/finance/average-earnings.html" } ] }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"FAQPage", "mainEntity":[ { "@type":"Question","name":"Как считается средний дневной заработок?","acceptedAnswer":{ "@type":"Answer","text":"Доход за расчётный период делится на число календарных дней в нём (для больничного — на 730)." } } ] }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/"><span class="brand-logo" aria-hidden="true">🧮</span><span class="brand-name">Calc<span class="accent">Docs</span></span></a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#tools">Калькуляторы</a> / <a href="/calculators/finance/">Финансы и налоги</a> / Средний заработок</nav>
+      <h1>Средний заработок и стаж</h1>
+      <p class="tool-meta">Средний дневной и месячный заработок, а также пособие с учётом стажа. Данные не отправляются на сервер.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="avgForm">
+            <div class="field">
+              <label for="income">Доход за период (₽)</label>
+              <input type="number" id="income" inputmode="decimal" min="0" step="any" placeholder="например 720000" required value="720000" />
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="days">Календарных дней</label>
+                <input type="number" id="days" inputmode="numeric" min="1" step="1" placeholder="730" required value="730" />
+                <span class="hint">Для больничного обычно 730.</span>
+              </div>
+              <div class="field">
+                <label for="tenure">Стаж</label>
+                <select id="tenure">
+                  <option value="100">8 лет и более — 100%</option>
+                  <option value="80">5–8 лет — 80%</option>
+                  <option value="60">до 5 лет — 60%</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="sickDays">Дней больничного (0 — не считать)</label>
+              <input type="number" id="sickDays" inputmode="numeric" min="0" step="1" placeholder="0" value="0" />
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Как считается средний заработок</h2>
+        <p><strong>Средний дневной заработок</strong> = доход за расчётный период ÷ отработанные (календарные) дни. <strong>Средний месячный</strong> = средний дневной × 30,4. Для пособий средний дневной умножается на дни и процент по стажу.</p>
+        <h3>Процент по стажу</h3>
+        <ul>
+          <li>8 лет и более — <strong>100%</strong>.</li>
+          <li>5–8 лет — <strong>80%</strong>.</li>
+          <li>до 5 лет — <strong>60%</strong>.</li>
+        </ul>
+        <h2>Частые вопросы</h2>
+        <div class="faq">
+          <h3>Как считается средний дневной заработок?</h3>
+          <p>Доход за расчётный период делится на число календарных дней в нём (для больничного — на 730).</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/calc-average-earnings.js"></script>
+</body>
+</html>

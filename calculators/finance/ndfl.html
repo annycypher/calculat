@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>НДФЛ и вычеты онлайн — имущественный, инвестиционный — CalcDocs</title>
+  <meta name="description" content="Онлайн-расчёт НДФЛ и налоговых вычетов: имущественный вычет при покупке жилья и инвестиционный вычет по ИИС. Сколько вернуть из бюджета." />
+  <meta name="keywords" content="НДФЛ калькулятор, налоговый вычет, имущественный вычет, инвестиционный вычет, ИИС, возврат налога" />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/finance/ndfl.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="НДФЛ и вычеты — CalcDocs" />
+  <meta property="og:description" content="Рассчитайте НДФЛ и возврат по вычетам." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"SoftwareApplication", "name":"Калькулятор НДФЛ и вычетов", "applicationCategory":"FinanceApplication", "operatingSystem":"Web", "offers":{ "@type":"Offer","price":"0","priceCurrency":"RUB" } }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Калькуляторы","item":"https://calc-doc.ru/#tools" }, { "@type":"ListItem","position":3,"name":"Финансы и налоги","item":"https://calc-doc.ru/calculators/finance/" }, { "@type":"ListItem","position":4,"name":"НДФЛ и вычеты","item":"https://calc-doc.ru/calculators/finance/ndfl.html" } ] }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"FAQPage", "mainEntity":[ { "@type":"Question","name":"Какой максимальный возврат по имущественному вычету?","acceptedAnswer":{ "@type":"Answer","text":"По расходам на жильё до 2 млн ₽ возвращается 13%, то есть максимум 260 000 ₽ (за один объект)." } }, { "@type":"Question","name":"Какой максимальный возврат по ИИС?","acceptedAnswer":{ "@type":"Answer","text":"По взносу на ИИС типа А до 400 000 ₽ в год возвращается 13%, максимум 52 000 ₽ в год." } } ] }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/"><span class="brand-logo" aria-hidden="true">🧮</span><span class="brand-name">Calc<span class="accent">Docs</span></span></a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#tools">Калькуляторы</a> / <a href="/calculators/finance/">Финансы и налоги</a> / НДФЛ и вычеты</nav>
+      <h1>Калькулятор НДФЛ и вычетов</h1>
+      <p class="tool-meta">Сколько налога удержано и сколько можно вернуть по имущественному и инвестиционному вычету. Данные не отправляются на сервер.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="ndflForm">
+            <div class="field">
+              <label for="income">Доход за год (₽)</label>
+              <input type="number" id="income" inputmode="decimal" min="0" step="any" placeholder="например 1200000" required value="1200000" />
+            </div>
+            <div class="field">
+              <label for="housing">Расходы на жильё (₽)</label>
+              <input type="number" id="housing" inputmode="decimal" min="0" step="any" placeholder="0" value="0" />
+              <span class="hint">Имущественный вычет: до 2 000 000 ₽.</span>
+            </div>
+            <div class="field">
+              <label for="iis">Взнос на ИИС (₽)</label>
+              <input type="number" id="iis" inputmode="decimal" min="0" step="any" placeholder="0" value="0" />
+              <span class="hint">Инвестиционный вычет: до 400 000 ₽ в год.</span>
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Как считаются вычеты</h2>
+        <p>НДФЛ = доход × 13%. Возврат по имущественному вычету = 13% от расходов на жильё (но не более 260 000 ₽ с лимита 2 млн ₽). По ИИС типа А — 13% от взноса (но не более 52 000 ₽ с лимита 400 000 ₽).</p>
+        <p>Суммарный возврат не может превышать уплаченный за год НДФЛ.</p>
+        <h3>Лимиты вычетов</h3>
+        <ul>
+          <li>Имущественный — до <strong>260 000 ₽</strong> возврата.</li>
+          <li>Инвестиционный (ИИС) — до <strong>52 000 ₽</strong> в год.</li>
+        </ul>
+        <h2>Частые вопросы</h2>
+        <div class="faq">
+          <h3>Какой максимальный возврат по имущественному вычету?</h3>
+          <p>По расходам на жильё до 2 млн ₽ возвращается 13%, то есть максимум 260 000 ₽ (за один объект).</p>
+          <h3>Какой максимальный возврат по ИИС?</h3>
+          <p>По взносу на ИИС типа А до 400 000 ₽ в год возвращается 13%, максимум 52 000 ₽ в год.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/calc-ndfl.js"></script>
+</body>
+</html>

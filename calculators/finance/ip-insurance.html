@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Взносы ИП за себя онлайн — фиксированные и 1% свыше лимита — CalcDocs</title>
+  <meta name="description" content="Онлайн-расчёт страховых взносов ИП за себя: фиксированные платежи и дополнительный 1% с дохода свыше 300 000 ₽. Работает в браузере." />
+  <meta name="keywords" content="взносы ИП, страховые взносы за себя, фиксированные взносы, 1% свыше 300000, калькулятор взносов ИП" />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/finance/ip-insurance.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Взносы ИП за себя — CalcDocs" />
+  <meta property="og:description" content="Рассчитайте страховые взносы ИП за себя." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"SoftwareApplication", "name":"Калькулятор взносов ИП", "applicationCategory":"FinanceApplication", "operatingSystem":"Web", "offers":{ "@type":"Offer","price":"0","priceCurrency":"RUB" } }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Калькуляторы","item":"https://calc-doc.ru/#tools" }, { "@type":"ListItem","position":3,"name":"Финансы и налоги","item":"https://calc-doc.ru/calculators/finance/" }, { "@type":"ListItem","position":4,"name":"Взносы ИП","item":"https://calc-doc.ru/calculators/finance/ip-insurance.html" } ] }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"FAQPage", "mainEntity":[ { "@type":"Question","name":"Что входит в взносы ИП за себя?","acceptedAnswer":{ "@type":"Answer","text":"Фиксированная сумма (пенсионные и медицинские) плюс 1% с дохода, превысившего 300 000 ₽ за год. Максимум по пенсионным взносам ограничен." } } ] }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/"><span class="brand-logo" aria-hidden="true">🧮</span><span class="brand-name">Calc<span class="accent">Docs</span></span></a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#tools">Калькуляторы</a> / <a href="/calculators/finance/">Финансы и налоги</a> / Взносы ИП</nav>
+      <h1>Калькулятор взносов ИП</h1>
+      <p class="tool-meta">Страховые взносы за себя: фиксированные платежи и 1% с дохода сверх лимита. Данные не отправляются на сервер.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="ipForm">
+            <div class="field">
+              <label for="income">Доход за год (₽)</label>
+              <input type="number" id="income" inputmode="decimal" min="0" step="any" placeholder="например 800000" required value="800000" />
+            </div>
+            <div class="field">
+              <label for="fixed">Фиксированные взносы за год (₽)</label>
+              <input type="number" id="fixed" inputmode="decimal" min="0" step="any" placeholder="53658" required value="53658" />
+              <span class="hint">Пенсионные + медицинские. Значение зависит от года.</span>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="limit">Лимит дохода (₽)</label>
+                <input type="number" id="limit" inputmode="decimal" min="0" step="any" placeholder="300000" required value="300000" />
+              </div>
+              <div class="field">
+                <label for="rate">Доп. ставка (%)</label>
+                <input type="number" id="rate" inputmode="decimal" min="0" step="any" placeholder="1" required value="1" />
+              </div>
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Как считаются взносы ИП за себя</h2>
+        <p>ИП платит фиксированную сумму (пенсионные и медицинские) плюс <strong>1% с дохода, превысившего 300 000 ₽</strong>, если доход больше лимита.</p>
+        <h3>Особенности</h3>
+        <ul>
+          <li>Фиксированная сумма зависит от года и МРОТ, а также повышается при доходе свыше 300 000 ₽.</li>
+          <li>Для пенсионных взносов действует максимальный предел.</li>
+          <li>Значения обновите под актуальный год.</li>
+        </ul>
+        <h2>Частые вопросы</h2>
+        <div class="faq">
+          <h3>Что входит в взносы ИП за себя?</h3>
+          <p>Фиксированная сумма (пенсионные и медицинские) плюс 1% с дохода, превысившего 300 000 ₽ за год. Максимум по пенсионным взносам ограничен.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/calc-ip-insurance.js"></script>
+</body>
+</html>

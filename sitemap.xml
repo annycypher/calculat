@@ -131,6 +131,51 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://calc-doc.ru/calculators/finance/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calc-doc.ru/calculators/finance/credit.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calc-doc.ru/calculators/finance/sick-leave.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calc-doc.ru/calculators/finance/maternity.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calc-doc.ru/calculators/finance/ndfl.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calc-doc.ru/calculators/finance/ip-insurance.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calc-doc.ru/calculators/finance/salary-delay.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calc-doc.ru/calculators/finance/compound-interest.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calc-doc.ru/calculators/finance/average-earnings.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://calc-doc.ru/privacy.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
