@@ -12,8 +12,8 @@ const output = document.getElementById('output');
 function setOut(html) { if (output) output.innerHTML = html; }
 function esc(s) { return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
-let tesseractWorker = null;
 let TextRun = null;
+let ocrPool = [];
 
 async function ensureTesseract() {
   if (window.Tesseract) return;
@@ -26,17 +26,59 @@ async function ensureTesseract() {
   });
 }
 
-async function ocrCanvas(canvas) {
-  await ensureTesseract();
-  if (!tesseractWorker) {
-    tesseractWorker = await window.Tesseract.createWorker('rus+eng', 1, {
-      workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/worker.min.js',
-      corePath: 'https://cdn.jsdelivr.net/npm/tesseract.js-core@5/tesseract-core-simd.wasm.js',
-      langPath: 'https://tessdata.projectnaptha.com/4.0.0'
-    });
+async function createOcrWorker() {
+  return await window.Tesseract.createWorker('rus+eng', 1, {
+    workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/worker.min.js',
+    corePath: 'https://cdn.jsdelivr.net/npm/tesseract.js-core@5/tesseract-core-simd.wasm.js',
+    // Быстрая модель (~в 5 раз меньше) → быстрее скачивание и распознавание.
+    langPath: 'https://tessdata.projectnaptha.com/4.0.0_fast'
+  });
+}
+
+// Уменьшаем картинку до ~1600px по длинной стороне и переводим в оттенки серого:
+// OCR быстрее работает с меньшим числом пикселей, а серый уменьшает объём данных.
+function prepForOcr(canvas) {
+  const long = Math.max(canvas.width, canvas.height);
+  const TARGET = 1600;
+  const scale = long > TARGET ? TARGET / long : 1;
+  const w = Math.max(1, Math.round(canvas.width * scale));
+  const h = Math.max(1, Math.round(canvas.height * scale));
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  const ctx = c.getContext('2d');
+  ctx.drawImage(canvas, 0, 0, w, h);
+  const img = ctx.getImageData(0, 0, w, h);
+  const d = img.data;
+  for (let i = 0; i < d.length; i += 4) {
+    const g = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+    d[i] = d[i + 1] = d[i + 2] = g;
   }
-  const ret = await tesseractWorker.recognize(canvas);
-  return ((ret && ret.data && ret.data.text) || '').trim();
+  ctx.putImageData(img, 0, 0);
+  return c;
+}
+
+// Параллельное распознавание нескольких картинок через пул воркеров.
+// Модель кэшируется браузером, поэтому первые воркеры грузят её один раз.
+async function ocrMany(canvases, onProgress) {
+  if (!canvases.length) return [];
+  await ensureTesseract();
+  const poolSize = Math.min(canvases.length, 4, (navigator.hardwareConcurrency || 2));
+  while (ocrPool.length < poolSize) ocrPool.push(await createOcrWorker());
+  const results = new Array(canvases.length);
+  let cursor = 0, done = 0;
+  const total = canvases.length;
+  const workerLoop = async (worker) => {
+    while (true) {
+      const i = cursor++;
+      if (i >= total) break;
+      const ret = await worker.recognize(prepForOcr(canvases[i]));
+      results[i] = ((ret && ret.data && ret.data.text) || '').trim();
+      done++;
+      if (onProgress) onProgress(done, total);
+    }
+  };
+  await Promise.all(ocrPool.slice(0, poolSize).map(workerLoop));
+  return results;
 }
 
 if (form) {
@@ -77,6 +119,7 @@ if (form) {
       const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
       const numPages = pdf.numPages;
       const blocks = [];
+      const ocrJobs = [];
       let hasOcr = false;
 
       for (let i = 1; i <= numPages; i++) {
@@ -90,36 +133,45 @@ if (form) {
         if (text.length >= 30) {
           // Есть текстовый слой → переносим текст (редактируемый) с форматированием.
           for (const runs of contentToParagraphs(content)) blocks.push({ runs });
-          // Авто-OCR встроенных картинок на этой странице.
+          // Встроенные картинки → в пул на распознавание (OCR).
           const imgs = await pageEmbeddedImages(page);
           for (const img of imgs) {
-            setOut(`<p class="hint" style="margin:0">Распознавание (OCR) картинки на странице ${i} из ${numPages}…</p>`);
-            try {
-              const cvs = imageToCanvas(img);
-              const ocrText = await ocrCanvas(cvs).catch(() => '');
-              if (ocrText) { hasOcr = true; blocks.push({ runs: [new TextRun({ text: ocrText })] }); }
-            } catch (e) { /* картинку пропускаем */ }
+            let cvs = null;
+            try { cvs = imageToCanvas(img); } catch (e) { cvs = null; }
+            if (cvs) { ocrJobs.push(cvs); blocks.push({ ocrIndex: ocrJobs.length - 1, fallback: null }); }
           }
         } else {
-          // Страница-скан (нет текстового слоя) → авто-OCR всей страницы.
-          setOut(`<p class="hint" style="margin:0">Распознавание (OCR) страницы ${i} из ${numPages}…</p>`);
+          // Страница-скан (нет текстового слоя) → в пул на распознавание (OCR).
           const img = await renderPage(page);
-          const ocrText = await ocrCanvas(img.canvas).catch(() => '');
-          if (ocrText) {
-            hasOcr = true;
-            blocks.push({ runs: [new TextRun({ text: ocrText })] });
-          } else {
-            // OCR не сработал — оставляем скан картинкой, чтобы не потерять содержимое.
-            blocks.push({ image: img });
-          }
+          ocrJobs.push(img.canvas);
+          blocks.push({ ocrIndex: ocrJobs.length - 1, fallback: img });
         }
       }
 
-      const children = blocks.map((b) => {
-        if (b.runs && b.runs.length) return new Paragraph({ children: b.runs });
-        if (b.image) return new Paragraph({ children: [new ImageRun({ data: b.image.data, transformation: { width: b.image.width, height: b.image.height } })] });
-        return new Paragraph({ children: [] });
-      });
+      // Распознаём все собранные картинки параллельно (пул воркеров).
+      const ocrResults = [];
+      if (ocrJobs.length) {
+        setOut(`<p class="hint" style="margin:0">Распознавание (OCR)… (может занять время)</p>`);
+        const results = await ocrMany(ocrJobs, (done, total) => {
+          setOut(`<p class="hint" style="margin:0">Распознавание (OCR) ${done} из ${total}…</p>`);
+        });
+        for (let k = 0; k < results.length; k++) ocrResults[k] = results[k];
+      }
+
+      const children = [];
+      for (const b of blocks) {
+        if (b.runs) {
+          children.push(new Paragraph({ children: b.runs }));
+        } else if (typeof b.ocrIndex === 'number') {
+          const txt = ocrResults[b.ocrIndex];
+          if (txt) {
+            hasOcr = true;
+            children.push(new Paragraph({ children: [new TextRun({ text: txt })] }));
+          } else if (b.fallback) {
+            children.push(new Paragraph({ children: [new ImageRun({ data: b.fallback.data, transformation: { width: b.fallback.width, height: b.fallback.height } })] }));
+          }
+        }
+      }
 
       const doc = new Document({ sections: [{ properties: { page: { size: { width: 11906, height: 16838 }, margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 } } }, children }] });
       const blob = await Packer.toBlob(doc);
