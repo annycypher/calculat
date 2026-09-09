@@ -1,7 +1,7 @@
 // PDF → Word: pdf.js извлекает текст и рендерит страницы, docx собирает .docx.
 // Сканы (страницы без текстового слоя) сохраняются как изображения страниц.
 // Библиотеки большие, Cloudflare режет длинные ответы → грузим по частям (Range).
-import { loadChunkedScript, importChunked, chunkedBlobUrl } from '/js/chunkload.js';
+import { loadChunkedScript, importChunked, chunkedBlobUrl } from '/js/chunkload.js?v=2';
 
 const form = document.getElementById('pdfForm');
 const fileEl = document.getElementById('file');
