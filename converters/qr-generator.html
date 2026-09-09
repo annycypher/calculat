@@ -44,88 +44,70 @@
   </header>
 
   <main>
-    <div class="container tool-hero">
-      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#converters">Конвертеры</a> / QR-код</nav>
-      <h1>Генератор QR-кода</h1>
-      <p class="tool-meta">Создайте QR-код из текста или ссылки и скачайте в PNG, JPG или SVG. Данные не отправляются на сервер.</p>
+    <div class="container qr-hero">
+      <nav class="breadcrumbs" style="text-align:center"><a href="/">Главная</a> / <a href="/#converters">Конвертеры</a> / QR-код</nav>
+      <h1 style="text-align:center">Генератор QR-кода</h1>
+      <p class="tool-meta" style="max-width:640px;margin:0 auto 22px;text-align:center">Вставьте ссылку или текст и получите QR-код — скачайте в PNG, JPG или SVG. Данные не отправляются на сервер.</p>
     </div>
 
-    <div class="container section no-print">
-      <div class="tool-layout">
-        <div class="form-card">
-          <form id="qrForm" novalidate>
-            <div class="field">
-              <label for="text">Текст или ссылка</label>
-              <textarea id="text" rows="3" placeholder="https://calc-doc.ru/" required>https://calc-doc.ru/</textarea>
-            </div>
-            <div class="field">
-              <label for="ecc">Уровень коррекции</label>
-              <select id="ecc">
-                <option value="L">L — до 7% повреждений</option>
-                <option value="M" selected>M — до 15%</option>
-                <option value="Q">Q — до 25%</option>
-                <option value="H">H — до 30%</option>
-              </select>
-            </div>
-            <div class="row2">
-              <div class="field">
-                <label for="size">Размер (px)</label>
-                <input type="number" id="size" inputmode="numeric" min="100" max="2000" step="10" value="300" />
-              </div>
-              <div class="field">
-                <label for="margin">Поля (модулей)</label>
-                <input type="number" id="margin" inputmode="numeric" min="0" max="16" step="1" value="4" />
-                <span class="hint">«Тихая зона» по краям.</span>
-              </div>
-            </div>
-            <div class="row2">
-              <div class="field">
-                <label for="fg">Цвет модулей</label>
-                <input type="color" id="fg" value="#000000" />
-              </div>
-              <div class="field">
-                <label for="bg">Цвет фона</label>
-                <input type="color" id="bg" value="#ffffff" />
-              </div>
-            </div>
-            <button class="btn btn-primary" type="submit" style="width:100%">Обновить QR-код</button>
-          </form>
-        </div>
-        <div class="form-card">
-          <h3>Результат</h3>
-          <div class="result-box" id="preview" style="margin-top:0;text-align:center">
-            <p style="margin:0;color:var(--text-muted)">Введите текст и нажмите «Обновить QR-код».</p>
+    <div class="container qr-app">
+      <div class="qr-input-row">
+        <input type="text" id="text" class="qr-input" value="https://calc-doc.ru/" placeholder="https://…" autocomplete="off" />
+        <button class="btn btn-primary qr-make" id="make" type="button">Создать QR</button>
+      </div>
+
+      <div class="qr-card" id="qrResult" hidden>
+        <div class="qr-left">
+          <div class="qr-url">
+            <span class="qr-link" aria-hidden="true">🔗</span>
+            <span class="qr-url-text" id="qrUrl">https://calc-doc.ru/</span>
+          </div>
+          <div class="qr-actions">
+            <button class="btn btn-ghost" id="actCopy">Копировать</button>
+            <button class="icon-btn act-ic" id="dlPng" title="Скачать PNG" aria-label="Скачать PNG"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></button>
+            <button class="icon-btn act-ic" id="dlJpg" title="Скачать JPG" aria-label="Скачать JPG"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+            <button class="icon-btn act-ic" id="dlSvg" title="Скачать SVG" aria-label="Скачать SVG"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></button>
+            <button class="icon-btn act-ic" id="actShare" title="Поделиться" aria-label="Поделиться"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
           </div>
         </div>
+        <div class="qr-right" id="preview"><p style="margin:0;color:var(--text-muted)">Вставьте текст и нажмите «Создать QR».</p></div>
       </div>
-    </div>
 
-    <div class="container section no-print" id="qrDownload" style="display:none;padding-top:0">
-      <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap">
-        <button class="btn btn-primary" id="dlPng">Скачать PNG</button>
-        <button class="btn btn-ghost" id="dlJpg">Скачать JPG</button>
-        <button class="btn btn-ghost" id="dlSvg">Скачать SVG</button>
-        <button class="btn btn-ghost" id="copySvg">Скопировать SVG</button>
-      </div>
+      <details class="qr-opts">
+        <summary>Настройки</summary>
+        <div class="qr-opts-grid">
+          <label class="qr-opt"><span>Коррекция</span>
+            <select id="ecc">
+              <option value="L">L — 7%</option>
+              <option value="M" selected>M — 15%</option>
+              <option value="Q">Q — 25%</option>
+              <option value="H">H — 30%</option>
+            </select>
+          </label>
+          <label class="qr-opt"><span>Размер (px)</span><input type="number" id="size" min="100" max="2000" step="10" value="300" /></label>
+          <label class="qr-opt"><span>Поля</span><input type="number" id="margin" min="0" max="16" step="1" value="4" /></label>
+          <label class="qr-opt"><span>Цвет</span><input type="color" id="fg" value="#000000" /></label>
+          <label class="qr-opt"><span>Фон</span><input type="color" id="bg" value="#ffffff" /></label>
+        </div>
+      </details>
     </div>
 
     <div class="container section">
       <div class="prose">
         <h2>Как пользоваться</h2>
-        <p>Вставьте текст или ссылку, при необходимости измените уровень коррекции, размер, поля и цвета — QR-код перерисуется. Нажмите нужную кнопку, чтобы скачать файл.</p>
+        <p>Вставьте ссылку или текст, нажмите «Создать QR». В карточке справа появится код — его можно скачать кнопками PNG, JPG или SVG. В «Настройках» меняются уровень коррекции, размер, поля и цвета.</p>
         <h3>Форматы</h3>
         <ul>
-          <li><strong>PNG</strong> — растровый, прозрачный фон не поддерживается, но подходит для большинства задач.</li>
+          <li><strong>PNG</strong> — растровый, для большинства задач.</li>
           <li><strong>JPG</strong> — лёгкий растровый, удобен для документов и соцсетей.</li>
-          <li><strong>SVG</strong> — векторный, масштабируется без потери качества, идеален для печати и дизайна.</li>
+          <li><strong>SVG</strong> — векторный, масштабируется без потери качества.</li>
         </ul>
-        <p>Высокий уровень коррекции (H) делает код устойчивее к повреждениям, но добавляет плотность — при короткой ссылке это не проблема.</p>
         <h2>Частые вопросы</h2>
         <div class="faq">
           <h3>Как скачать QR-код?</h3>
-          <p>Введите текст или ссылку, настройте размер и цвета и нажмите «PNG», «JPG» или «SVG». Файл скачается на устройство.</p>
+          <p>Введите текст или ссылку, нажмите «Создать QR», затем выберите PNG, JPG или SVG.</p>
           <h3>Что выбрать: PNG, JPG или SVG?</h3>
-          <p>PNG и JPG — растровые, для печати и вставки. SVG — векторный, масштабируется без потери качества, удобен для дизайна и печати.</p>
+          <p>PNG и JPG — растровые, для печати и вставки. SVG — векторный, удобен для дизайна и печати.</p>
         </div>
       </div>
     </div>
@@ -146,6 +128,6 @@
   </footer>
 
   <script type="module" src="/js/ui.js?v=4"></script>
-  <script type="module" src="/js/convert-qr.js?v=1"></script>
+  <script type="module" src="/js/convert-qr.js?v=2"></script>
 </body>
 </html>

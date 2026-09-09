@@ -341,3 +341,30 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .tile-2048[data-v="1024"] { background: #edc53f; color: #fff; }
 .tile-2048[data-v="2048"] { background: #edc22e; color: #fff; }
 .tile-2048[data-v="4096"] { background: #3c3a32; color: #fff; }
+
+/* ═══════════ Компактный генератор QR ═══════════ */
+.qr-hero { padding: 28px 0 8px; }
+.qr-app { max-width: 840px; margin: 0 auto; }
+.qr-input-row { display: flex; gap: 14px; align-items: center; }
+.qr-input { flex: 1; min-width: 0; padding: 14px 18px; font-size: 16px; border: 1px solid var(--border); border-radius: 999px; background: var(--bg); color: var(--text); }
+.qr-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(109, 93, 252, .2); }
+.qr-make { flex: 0 0 auto; border-radius: 999px; padding: 14px 24px; }
+.qr-card { margin-top: 18px; display: flex; gap: 26px; align-items: center; justify-content: space-between; padding: 22px 26px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; box-shadow: var(--shadow); }
+.qr-left { min-width: 0; flex: 1; }
+.qr-url { display: flex; gap: 10px; align-items: center; font-size: 18px; font-weight: 700; }
+.qr-url .qr-link { font-size: 20px; }
+.qr-url-text { overflow-wrap: anywhere; }
+.qr-actions { display: flex; gap: 10px; align-items: center; margin-top: 16px; flex-wrap: wrap; }
+.qr-actions .btn { padding: 10px 16px; font-size: 14px; border-radius: 12px; }
+.qr-actions .act-ic { width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text); display: grid; place-items: center; cursor: pointer; }
+.qr-actions .act-ic:hover { border-color: var(--primary); color: var(--primary); }
+.qr-actions .act-ic svg { width: 20px; height: 20px; }
+.qr-right { flex: 0 0 auto; width: 180px; }
+.qr-right svg { width: 100%; height: auto; display: block; }
+.qr-opts { margin-top: 16px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 2px 18px; }
+.qr-opts summary { cursor: pointer; padding: 12px 0; font-weight: 600; color: var(--text-muted); }
+.qr-opts-grid { display: flex; flex-wrap: wrap; gap: 14px; padding: 0 0 16px; }
+.qr-opt { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--text-muted); }
+.qr-opt select, .qr-opt input { padding: 8px 10px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--text); font-size: 14px; max-width: 160px; }
+.qr-opt input[type=color] { padding: 2px; width: 64px; height: 38px; max-width: none; }
+@media (max-width: 640px) { .qr-card { flex-direction: column-reverse; align-items: stretch; } .qr-right { width: 100%; max-width: 200px; margin: 0 auto; } }
