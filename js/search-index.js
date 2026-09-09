@@ -1,0 +1,64 @@
+// js/search-index.js
+// Индекс страниц для поиска по сайту. Поля: t — заголовок, d — описание,
+// u — ссылка, k — ключи. Значения редактируются — сюда удобно переносить
+// реальные запросы из Поисковой консоли (Search Console).
+export const SEARCH = [
+  { t: 'Ипотечный калькулятор', u: '/calculators/mortgage.html', k: 'ипотека кредит платеж переплата график', d: 'Ежемесячный платёж, переплата и график по кредиту.' },
+  { t: 'Калькулятор вкладов', u: '/calculators/deposit.html', k: 'вклад процент капитализация пополнение', d: 'Сложный процент, капитализация и пополнение — с графиком.' },
+  { t: 'Налог фрилансера', u: '/calculators/tax-freelancer.html', k: 'налог самозанятый НПД фриланс', d: 'Рассчитайте налог по НПД/самозанятости за месяц или год.' },
+  { t: 'Отпускные', u: '/calculators/vacation-pay.html', k: 'отпуск отпускные средний заработок', d: 'Сколько вы получите за отпуск — расчёт по среднему заработку.' },
+  { t: 'Пеня и неустойка', u: '/calculators/penalty.html', k: 'пеня неустойка ставка ЦБ 395', d: 'Расчёт пени по ставке ЦБ: ст. 395, 1/300, 1/150.' },
+  { t: 'НДС', u: '/calculators/vat.html', k: 'НДС 20 10 0 начислить выделить', d: 'Начислить или выделить НДС: 20%, 10%, 0%.' },
+  { t: 'Неустойка по алиментам', u: '/calculators/alimony.html', k: 'алименты неустойка 115 СК', d: '0,1% в день по ст. 115 СК РФ.' },
+  { t: 'Кирпич на дом', u: '/calculators/brick.html', k: 'кирпич кладка стены', d: 'Сколько кирпича нужно на кладку стен.' },
+  { t: 'Обои', u: '/calculators/wallpaper.html', k: 'обои рулон комната подгонка', d: 'Сколько рулонов на комнату, с подгонкой и запасом.' },
+  { t: 'Стройка и ремонт', u: '/calculators/construction/', k: 'стройка ремонт материалы', d: 'Плитка, ламинат, штукатурка, краска и другие.' },
+  { t: 'Плитка', u: '/calculators/construction/tile.html', k: 'плитка кафель пол стены упаковка', d: 'Сколько плитки на пол или стены, с запасом.' },
+  { t: 'Ламинат и линолеум', u: '/calculators/construction/laminate.html', k: 'ламинат линолеум упаковка', d: 'Упаковки ламината или погонные метры линолеума.' },
+  { t: 'Штукатурка и стяжка', u: '/calculators/construction/plaster.html', k: 'штукатурка стяжка смесь мешки', d: 'Расход сухой смеси и количество мешков.' },
+  { t: 'Краска и грунтовка', u: '/calculators/construction/paint.html', k: 'краска грунтовка расход банки', d: 'Расход краски и сколько банок.' },
+  { t: 'Финансы и налоги', u: '/calculators/finance/', k: 'финансы налоги кредит', d: 'Кредит, больничный, НДФЛ, взносы ИП и другие.' },
+  { t: 'Кредитный калькулятор', u: '/calculators/finance/credit.html', k: 'кредит платеж аннуитет дифференцированный', d: 'Аннуитетный и дифференцированный платёж и переплата.' },
+  { t: 'Больничный', u: '/calculators/finance/sick-leave.html', k: 'больничный пособие нетрудоспособность стаж', d: 'Пособие по временной нетрудоспособности по стажу.' },
+  { t: 'Декретные', u: '/calculators/finance/maternity.html', k: 'декретные беременность пособие уход', d: 'Пособие по беременности и родам и по уходу до 1,5 лет.' },
+  { t: 'НДФЛ и вычеты', u: '/calculators/finance/ndfl.html', k: 'НДФЛ вычет имущественный инвестиционный ИИС', d: 'Имущественный и инвестиционный вычет — сколько вернуть.' },
+  { t: 'Взносы ИП', u: '/calculators/finance/ip-insurance.html', k: 'взносы ИП страховые за себя', d: 'Фиксированные + 1% с дохода свыше 300 000 ₽.' },
+  { t: 'Компенсация за задержку зарплаты', u: '/calculators/finance/salary-delay.html', k: 'задержка зарплаты компенсация 236 ТК', d: 'Компенсация по ст. 236 ТК РФ.' },
+  { t: 'Сложный процент', u: '/calculators/finance/compound-interest.html', k: 'сложный процент доходность вклад', d: 'Доходность вклада с пополнением и капитализацией.' },
+  { t: 'Средний заработок', u: '/calculators/finance/average-earnings.html', k: 'средний заработок стаж больничный', d: 'Средний дневной и месячный заработок, стаж.' },
+  { t: 'Конвертер изображений', u: '/converters/image-converter.html', k: 'изображение PNG JPG WEBP сжатие', d: 'PNG, JPG, WEBP и сжатие прямо в браузере.' },
+  { t: 'CSV → Excel', u: '/converters/csv-to-xlsx.html', k: 'csv excel таблица xlsx', d: 'Превратите CSV-файл в готовый .xlsx.' },
+  { t: 'PDF → Word', u: '/converters/pdf-to-word.html', k: 'pdf word docx текст конвертер', d: 'Извлеките текст из PDF в редактируемый DOCX.' },
+  { t: 'Генератор QR-кода', u: '/converters/qr-generator.html', k: 'qr код генератор png svg jpg', d: 'QR-код из текста или ссылки — PNG, JPG, SVG.' },
+  { t: 'DaData-конструктор', u: '/converters/dadata.html', k: 'DaData suggest API адрес организация', d: 'Соберите запрос к DaData Suggest API.' },
+  { t: 'Резюме', u: '/generators/resume.html', k: 'резюме шаблон', d: 'Готовое резюме из шаблона — в PDF.' },
+  { t: 'Доверенность', u: '/generators/power-of-attorney.html', k: 'доверенность', d: 'Доверенность на авто или действия — по шаблону.' },
+  { t: 'Договор', u: '/generators/contract.html', k: 'договор услуги аренда', d: 'Типовые договоры: услуги, аренда, купля-продажа.' },
+  { t: 'Заявление на отпуск', u: '/generators/leave-request.html', k: 'заявление отпуск отгул', d: 'Заявление на отпуск или отгул — готовый шаблон.' },
+  { t: 'Счёт на оплату', u: '/generators/invoice.html', k: 'счёт оплата реквизиты', d: 'Счёт с реквизитами и QR-кодом — в PDF.' },
+  { t: 'PDF-отчёт', u: '/generators/report.html', k: 'отчёт таблица PDF', d: 'Отчёт с таблицей показателей и выводами — в PDF.' },
+  { t: 'Мини-игры', u: '/games/', k: 'игры разминка', d: 'Лёгкие игры-разминки прямо в браузере.' }
+];
+
+// Популярные запросы (маленькие кнопки). Замените на реальные топ-запросы из
+// Поисковой консоли, если нужно: [название, ссылка].
+export const POPULAR = [
+  ['Ипотека', '/calculators/mortgage.html'],
+  ['Налог фрилансера', '/calculators/tax-freelancer.html'],
+  ['Отпускные', '/calculators/vacation-pay.html'],
+  ['Кредит', '/calculators/finance/credit.html'],
+  ['Больничный', '/calculators/finance/sick-leave.html'],
+  ['НДФЛ', '/calculators/finance/ndfl.html'],
+  ['Взносы ИП', '/calculators/finance/ip-insurance.html'],
+  ['Декретные', '/calculators/finance/maternity.html'],
+  ['Кирпич', '/calculators/brick.html'],
+  ['Обои', '/calculators/wallpaper.html'],
+  ['Плитка', '/calculators/construction/tile.html'],
+  ['Ламинат', '/calculators/construction/laminate.html'],
+  ['НДС', '/calculators/vat.html'],
+  ['Пеня', '/calculators/penalty.html'],
+  ['QR-код', '/converters/qr-generator.html'],
+  ['PDF → Word', '/converters/pdf-to-word.html'],
+  ['Счёт на оплату', '/generators/invoice.html'],
+  ['Договор', '/generators/contract.html']
+];

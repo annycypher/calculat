@@ -1,3 +1,5 @@
+import { SEARCH, POPULAR } from '/js/search-index.js?v=1';
+
 // ui.js — общие UI-функции для всех страниц CalcDocs
 // Тема, кнопка «Установить» (PWA), год в подвале.
 
@@ -132,3 +134,65 @@ if (SHOW_CONSENT_BANNER) {
     });
   }
 }
+
+// ─── Поиск по сайту (клиентский, по индексу) ───
+function norm(s) { return (s || '').toLowerCase().replace(/ё/g, 'е'); }
+function escHtml(s) { return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+
+function searchMatches(q) {
+  const qn = norm(q).trim();
+  if (!qn) return [];
+  const words = qn.split(/\s+/);
+  const scored = [];
+  for (const e of SEARCH) {
+    const t = norm(e.t), d = norm(e.d), k = norm(e.k);
+    let score = 0;
+    if (t === qn) score += 100;
+    else if (t.startsWith(qn)) score += 60;
+    for (const w of words) {
+      if (t.includes(w)) score += 20;
+      if (k.includes(w)) score += 10;
+      if (d.includes(w)) score += 5;
+    }
+    if (score > 0) scored.push({ e, score });
+  }
+  scored.sort((a, b) => b.score - a.score);
+  return scored.map((x) => x.e);
+}
+
+function initSearch() {
+  const actions = document.querySelector('.header-actions');
+  if (!actions) return;
+  actions.insertAdjacentHTML('beforebegin',
+    '<div class="search-wrap"><input type="search" id="siteSearch" class="search-input" placeholder="Поиск по сайту…" autocomplete="off" aria-label="Поиск по сайту"><div class="search-dropdown" id="searchDrop" hidden></div></div>');
+  const input = document.getElementById('siteSearch');
+  const drop = document.getElementById('searchDrop');
+  if (!input || !drop) return;
+  function close() { drop.hidden = true; drop.innerHTML = ''; }
+  input.addEventListener('input', () => {
+    const q = input.value.trim();
+    if (!q) { close(); return; }
+    const res = searchMatches(q).slice(0, 8);
+    drop.innerHTML = res.length
+      ? res.map((e) => `<a href="${e.u}">${escHtml(e.t)}</a>`).join('')
+      : '<div class="search-none">Ничего не найдено</div>';
+    drop.hidden = false;
+  });
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); location.href = '/search.html?q=' + encodeURIComponent(input.value.trim()); }
+    if (e.key === 'Escape') close();
+  });
+  document.addEventListener('click', (e) => { if (!e.target.closest('.search-wrap')) close(); });
+}
+
+// ─── «Популярное» на главной: маленькие кнопки без эмодзи ───
+function initPopular() {
+  const hero = document.querySelector('.hero'); // только главная
+  if (!hero) return;
+  const chips = POPULAR.map(([label, url]) => `<a class="chip" href="${url}">${escHtml(label)}</a>`).join('');
+  hero.insertAdjacentHTML('afterend',
+    '<section class="container section" style="padding:8px 0 0"><div class="popular-bar"><span class="popular-label">Популярное:</span><div class="chips">' + chips + '</div></div></section>');
+}
+
+initSearch();
+initPopular();
