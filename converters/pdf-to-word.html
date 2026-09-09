@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Конвертер PDF в Word (DOCX) онлайн — CalcDocs</title>
-  <meta name="description" content="Бесплатный онлайн-конвертер PDF в Word (DOCX): извлекает текст из PDF и упаковывает его в редактируемый .docx. Всё в браузере, без загрузки на сервер." />
+  <meta name="description" content="Бесплатный онлайн-конвертер PDF в Word (DOCX): извлекает текст из PDF, а сканы сохраняет как изображения страниц. Всё в браузере, без загрузки на сервер." />
   <meta name="keywords" content="pdf в word, pdf в docx, конвертер pdf в word, перевести pdf в word онлайн, pdf to docx" />
   <link rel="canonical" href="https://calc-doc.ru/converters/pdf-to-word.html" />
   <meta name="robots" content="index, follow" />
@@ -62,7 +62,7 @@
     <div class="container tool-hero">
       <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#converters">Конвертеры</a> / PDF → Word</nav>
       <h1>Конвертер PDF в Word</h1>
-      <p class="tool-meta">Извлеките текст из PDF в редактируемый .docx. Файл не покидает ваше устройство.</p>
+      <p class="tool-meta">Текст из PDF → редактируемый .docx; сканы → изображения страниц. Файл не покидает ваше устройство.</p>
     </div>
 
     <div class="container section no-print">
@@ -70,8 +70,13 @@
         <form id="pdfForm">
           <div class="field">
             <label for="file">PDF-файл</label>
-            <input type="file" id="file" name="file" accept="application/pdf,.pdf" required />
-            <span class="hint">Работает с текстовыми PDF; сканы без текстового слоя не распознаются.</span>
+            <input type="file" id="file" name="file" accept="application/pdf,.pdf" />
+            <span class="hint">Текстовые PDF → редактируемый текст. Сканы (без текстового слоя) сохраняются как изображения страниц.</span>
+          </div>
+          <div class="field">
+            <label for="fileUrl">…или ссылка на PDF (URL)</label>
+            <input type="url" id="fileUrl" name="fileUrl" placeholder="https://example.com/doc.pdf" />
+            <span class="hint">Нужен прямой CORS-доступный файл. Также учитывается параметр <code>?file=</code> в адресе страницы.</span>
           </div>
           <button class="btn btn-primary" type="submit" style="width:100%">Конвертировать в Word</button>
         </form>
@@ -87,12 +92,13 @@
     <div class="container section">
       <div class="prose">
         <h2>Как перевести PDF в Word</h2>
-        <p>Выберите PDF-файл и нажмите «Конвертировать в Word» — браузер извлечёт текст со всех страниц и упакует его в редактируемый <strong>.docx</strong>. Обработка идёт локально, файл не отправляется на сервер.</p>
+        <p>Выберите PDF-файл или вставьте ссылку и нажмите «Конвертировать в Word» — браузер извлечёт текст со всех страниц, а страницы-сканы сохранит как изображения в <strong>.docx</strong>. Обработка идёт локально, файл не отправляется на сервер.</p>
         <h3>Что учесть</h3>
         <ul>
-          <li>Конвертируется <strong>текст</strong>. Сложная вёрстка (таблицы, колонки, графика) не сохраняется.</li>
-          <li><strong>Сканы</strong> (PDF без текстового слоя) не распознаются.</li>
-          <li>Крупные файлы обрабатываются в браузере — на больших может потребоваться время.</li>
+          <li>Текстовые страницы → редактируемый <strong>текст</strong>; сканы → <strong>изображения</strong> страниц.</li>
+          <li>Сложная вёрстка (таблицы, колонки, графика) в текст не переносится.</li>
+          <li>Крупные и многостраничные файлы обрабатываются в браузере — на больших требуется время (показывается прогресс постранично).</li>
+          <li>Облачные ссылки работают только при CORS-доступе к файлу.</li>
         </ul>
       </div>
     </div>
