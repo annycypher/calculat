@@ -1,7 +1,7 @@
 // PDF → Word: pdf.js извлекает текст и рендерит страницы, docx собирает .docx.
 // Сканы (страницы без текстового слоя) сохраняются как изображения страниц.
 // Библиотеки большие, Cloudflare режет длинные ответы → грузим по частям (Range).
-import { loadChunkedScript, importChunked, chunkedBlobUrl } from '/js/chunkload.js?v=2';
+import { loadChunkedScript, importChunked, chunkedBlobUrl } from '/js/chunkload.js?v=3';
 
 const form = document.getElementById('pdfForm');
 const fileEl = document.getElementById('file');
@@ -42,7 +42,7 @@ if (form) {
   // Автозаполнение из ?file=
   if (fileUrlEl) {
     const f = new URLSearchParams(location.search).get('file');
-    if (f) fileUrlEl.value = f;
+    if (f && /^https?:\/\//i.test(f)) fileUrlEl.value = f;
   }
 
   form.addEventListener('submit', async (e) => {
@@ -52,7 +52,7 @@ if (form) {
     const ocrOn = ocrEl ? ocrEl.checked : false;
 
     if (!file && !url) {
-      setOut(`<p class="hint" style="margin:0;color:#c0392b">Выберите PDF-файл или вставьте ссылку (URL).</p>`);
+      setOut(`<p class="hint" style="margin:0;color:#c0392b">Выберите PDF-файл кнопкой «Выбор файла» или вставьте полную ссылку (https://…).</p>`);
       return;
     }
 
@@ -66,7 +66,7 @@ if (form) {
       if (file) {
         buf = await file.arrayBuffer();
       } else {
-        if (!/^https?:\/\//i.test(url)) throw new Error('Укажите полный адрес PDF (https://…).');
+        if (!/^https?:\/\//i.test(url)) throw new Error('Это не полный адрес: вставьте ссылку https://… или просто выберите файл кнопкой «Выбор файла».');
         buf = await loadUrlPdf(url);
       }
 

@@ -67,7 +67,7 @@
 
     <div class="container section no-print">
       <div class="form-card">
-        <form id="pdfForm">
+        <form id="pdfForm" novalidate>
           <div class="field">
             <label for="file">PDF-файл</label>
             <input type="file" id="file" name="file" accept="application/pdf,.pdf" />
@@ -75,8 +75,8 @@
           </div>
           <div class="field">
             <label for="fileUrl">…или ссылка на PDF (URL)</label>
-            <input type="url" id="fileUrl" name="fileUrl" placeholder="https://example.com/doc.pdf" />
-            <span class="hint">Нужен прямой CORS-доступный файл. Также учитывается параметр <code>?file=</code> в адресе страницы.</span>
+            <input type="text" id="fileUrl" name="fileUrl" placeholder="https://example.com/doc.pdf" inputmode="url" />
+            <span class="hint">Необязательно: вставьте полный адрес (https://…). Если файл выбран выше, ссылка не нужна.</span>
           </div>
           <div class="field">
             <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="ocr" /> <span>Распознать текст на сканах (OCR)</span></label>
@@ -124,7 +124,7 @@
   </footer>
 
   <script type="module" src="/js/ui.js?v=2"></script>
-  <script type="module" src="/js/convert-pdf-docx.js?v=2"></script>
+  <script type="module" src="/js/convert-pdf-docx.js?v=3"></script>
 </body>
 </html>
 
