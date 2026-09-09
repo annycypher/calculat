@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2048 онлайн — игра-головоломка — CalcDocs</title>
+  <meta name="description" content="Игра 2048: соединяйте плитки с одинаковыми числами и соберите 2048. Управление стрелками и свайпом. Работает в браузере." />
+  <meta name="keywords" content="2048, игра 2048 онлайн, головоломка, соединить числа" />
+  <link rel="canonical" href="https://calc-doc.ru/games/2048.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="2048 — игра — CalcDocs" />
+  <meta property="og:description" content="Соединяйте плитки и соберите 2048." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"SoftwareApplication", "name":"2048", "applicationCategory":"GameApplication", "operatingSystem":"Web", "offers":{ "@type":"Offer","price":"0","priceCurrency":"RUB" } }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Мини-игры","item":"https://calc-doc.ru/games/" }, { "@type":"ListItem","position":3,"name":"2048","item":"https://calc-doc.ru/games/2048.html" } ] }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/"><span class="brand-logo" aria-hidden="true">🧮</span><span class="brand-name">Calc<span class="accent">Docs</span></span></a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/games/">Игры</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/games/">Мини-игры</a> / 2048</nav>
+      <h1>2048</h1>
+      <p class="tool-meta">Соединяйте плитки с одинаковыми числами и соберите 2048. Управление — стрелками или свайпом.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="game-wrap">
+        <div class="game-stats">
+          <div class="game-stat"><div class="k">Счёт</div><div class="v" id="g2048Score">0</div></div>
+          <div class="game-stat"><div class="k">Рекорд</div><div class="v" id="g2048Best">0</div></div>
+        </div>
+        <div class="board-2048" id="g2048Board"></div>
+        <div class="game-message" id="g2048Msg"></div>
+        <div style="text-align:center;margin-top:16px">
+          <button class="btn btn-ghost" id="g2048New">Новая игра</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Как играть</h2>
+        <p>Стрелки (или свайп) двигают все плитки в выбранную сторону. Одинаковые соседние числа сливаются в одно с суммой. Цель — получить плитку <strong>2048</strong>. После каждого хода появляется новая плитка 2 или 4.</p>
+        <h3>Советы</h3>
+        <ul>
+          <li>Держите крупные числа в углу и уводите их от края по одной схеме.</li>
+          <li>Не делайте хаотичных движений — старайтесь двигать в две стороны.</li>
+          <li>Если ходов не осталось — игра окончена, начните новую.</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/games/">Игры</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=4"></script>
+  <script type="module" src="/js/game-2048.js?v=1"></script>
+</body>
+</html>

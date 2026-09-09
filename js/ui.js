@@ -205,3 +205,66 @@ async function bootSearch() {
   }
 }
 bootSearch();
+
+// ─── Кнопки действий: поделиться, копировать, наверх, «на рабочий стол» ───
+const ICON_SHARE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg>';
+const ICON_COPY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+const ICON_TOP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>';
+const ICON_INSTALL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
+
+let toastTimer = null;
+function toast(msg) {
+  let t = document.querySelector('.toast');
+  if (!t) { t = document.createElement('div'); t.className = 'toast'; document.body.appendChild(t); }
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+function copyLink() {
+  const url = location.href;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(() => toast('Ссылка скопирована')).catch(() => { prompt('Скопируйте ссылку:', url); });
+  } else {
+    prompt('Скопируйте ссылку:', url);
+  }
+}
+function sharePage() {
+  const url = location.href, title = document.title;
+  if (navigator.share) {
+    navigator.share({ url, title }).then(() => {}).catch(() => {});
+  } else {
+    copyLink();
+  }
+}
+
+function initActions() {
+  if (document.querySelector('.action-bar')) return;
+  const bar = document.createElement('div');
+  bar.className = 'action-bar';
+  bar.setAttribute('aria-label', 'Действия');
+  bar.innerHTML =
+    '<button class="act-btn" id="actShare" title="Поделиться" aria-label="Поделиться">' + ICON_SHARE + '</button>' +
+    '<button class="act-btn" id="actCopy" title="Скопировать ссылку" aria-label="Скопировать ссылку">' + ICON_COPY + '</button>' +
+    '<button class="act-btn" id="actTop" title="Наверх" aria-label="Наверх">' + ICON_TOP + '</button>' +
+    '<button class="act-btn" id="actInstall" title="Скачать на рабочий стол" aria-label="Скачать на рабочий стол" hidden>' + ICON_INSTALL + '</button>';
+  document.body.appendChild(bar);
+
+  const shareB = bar.querySelector('#actShare'); if (shareB) shareB.addEventListener('click', sharePage);
+  const copyB = bar.querySelector('#actCopy'); if (copyB) copyB.addEventListener('click', copyLink);
+  const topB = bar.querySelector('#actTop'); if (topB) topB.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  const actInstall = bar.querySelector('#actInstall');
+  if (actInstall && deferredPrompt !== undefined) {
+    window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; actInstall.hidden = false; });
+    actInstall.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      actInstall.hidden = true;
+    });
+  }
+}
+initActions();

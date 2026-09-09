@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Быстрый счёт — игра на скорость счёта — CalcDocs</title>
+  <meta name="description" content="Игра «Быстрый счёт»: решайте примеры на время, набирайте очки и ставьте рекорд. Лёгкий, средний и сложный уровень. Работает в браузере." />
+  <meta name="keywords" content="быстрый счёт, игра математика, устный счёт, примеры на время, игры разминка" />
+  <link rel="canonical" href="https://calc-doc.ru/games/quick-math.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Быстрый счёт — игра — CalcDocs" />
+  <meta property="og:description" content="Скорость устного счёта на время." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"SoftwareApplication", "name":"Быстрый счёт", "applicationCategory":"GameApplication", "operatingSystem":"Web", "offers":{ "@type":"Offer","price":"0","priceCurrency":"RUB" } }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Мини-игры","item":"https://calc-doc.ru/games/" }, { "@type":"ListItem","position":3,"name":"Быстрый счёт","item":"https://calc-doc.ru/games/quick-math.html" } ] }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/"><span class="brand-logo" aria-hidden="true">🧮</span><span class="brand-name">Calc<span class="accent">Docs</span></span></a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/games/">Игры</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/games/">Мини-игры</a> / Быстрый счёт</nav>
+      <h1>Быстрый счёт</h1>
+      <p class="tool-meta">Решайте примеры на время и набирайте очки. Данные не отправляются на сервер.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="game-wrap" id="gameWrap">
+        <div id="gameIntro" style="text-align:center">
+          <p class="tool-meta" style="margin-bottom:18px">Выберите уровень и нажмите «Старт». Будет 60 секунд: верный ответ — +1 очко.</p>
+          <div class="row3" style="margin-bottom:16px">
+            <button class="btn" data-level="easy">Лёгкий</button>
+            <button class="btn btn-primary" data-level="medium">Средний</button>
+            <button class="btn" data-level="hard">Сложный</button>
+          </div>
+          <button class="btn btn-ghost" id="quickStart" style="margin-top:6px">Start</button>
+        </div>
+
+        <div id="gamePlay" style="display:none">
+          <div class="game-stats">
+            <div class="game-stat"><div class="k">Очки</div><div class="v" id="qScore">0</div></div>
+            <div class="game-stat"><div class="k">Время</div><div class="v" id="qTime">60</div></div>
+          </div>
+          <div class="game-question" id="qQuestion">—</div>
+          <div class="answer-grid" id="qAnswers"></div>
+          <div class="game-message" id="qMsg"></div>
+        </div>
+
+        <div id="gameOver" style="display:none;text-align:center">
+          <h2 style="margin:0 0 6px">Время!</h2>
+          <p class="tool-meta" style="margin:0 0 16px">Ваш результат: <strong id="qFinal" style="font-size:28px">0</strong> очков.<br /><span id="qBest">Лучший результат: 0</span></p>
+          <button class="btn btn-ghost" id="qAgain">Играть ещё</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Как играть</h2>
+        <p>За 60 секунд решите как можно больше примеров. Выберите один из четырёх вариантов ответа. За каждый верный ответ — очко. Ошибка не отнимает очки, но тратит время.</p>
+        <h3>Уровни</h3>
+        <ul>
+          <li><strong>Лёгкий</strong> — сложение и вычитание небольших чисел.</li>
+          <li><strong>Средний</strong> — умножение до 12 и сложение.</li>
+          <li><strong>Сложный</strong> — умножение до 20, деление и составные примеры.</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/games/">Игры</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=4"></script>
+  <script type="module" src="/js/game-quick-math.js?v=1"></script>
+</body>
+</html>
