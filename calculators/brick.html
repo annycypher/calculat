@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор кирпича на дом онлайн — сколько кирпича на кладку — CalcDocs</title>
+  <meta name="description" content="Онлайн-расчёт количества кирпича для кладки стен по площади и толщине (в полкирпича, 1, 1,5 и 2 кирпича) с запасом. Работает в браузере." />
+  <meta name="keywords" content="калькулятор кирпича, сколько кирпича на дом, расчет кирпича на кладку, кирпич в 1 м2, кладка в полкирпича" />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/brick.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Калькулятор кирпича онлайн — CalcDocs" />
+  <meta property="og:description" content="Рассчитайте количество кирпича для кладки стен за секунды." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Калькулятор кирпича",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Калькуляторы", "item": "https://calc-doc.ru/#tools" },
+      { "@type": "ListItem", "position": 3, "name": "Кирпич", "item": "https://calc-doc.ru/calculators/brick.html" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Сколько кирпича в 1 м² кладки?", "acceptedAnswer": { "@type": "Answer", "text": "Примерно 51 шт в полкирпича, 102 шт в один кирпич, 153 шт в полтора кирпича и 204 шт в два кирпича — с учётом растворных швов." } },
+      { "@type": "Question", "name": "Зачем нужен запас кирпича?", "acceptedAnswer": { "@type": "Answer", "text": "Запас (обычно 5–10%) компенсирует бой, подрезку и небольшие ошибки в расчёте. Для сложной кладки или фигурных элементов запас увеличивают." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <span class="brand-logo" aria-hidden="true">🧮</span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#tools">Калькуляторы</a> / Кирпич</nav>
+      <h1>Калькулятор кирпича</h1>
+      <p class="tool-meta">Рассчитайте количество кирпича для кладки стен по площади и толщине. Данные не отправляются на сервер.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="brickForm">
+            <div class="field">
+              <label for="length">Длина стены (м)</label>
+              <input type="number" id="length" inputmode="decimal" min="0" step="any" placeholder="например 10" required value="10" />
+            </div>
+            <div class="field">
+              <label for="height">Высота стены (м)</label>
+              <input type="number" id="height" inputmode="decimal" min="0" step="any" placeholder="например 3" required value="3" />
+            </div>
+            <div class="field">
+              <label for="thickness">Толщина кладки</label>
+              <select id="thickness">
+                <option value="0.5">В полкирпича</option>
+                <option value="1">В один кирпич</option>
+                <option value="1.5">В полтора кирпича</option>
+                <option value="2">В два кирпича</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="reserve">Запас (%)</label>
+              <input type="number" id="reserve" inputmode="decimal" min="0" max="50" step="any" placeholder="например 10" required value="10" />
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container section">
+      <div class="prose">
+        <h2>Как рассчитать количество кирпича</h2>
+        <p>Сначала находится площадь кладки: <strong>длина × высота</strong>. Затем площадь умножается на количество кирпичей на 1 м² для выбранной толщины кладки, и прибавляется запас на бой и подрезку.</p>
+        <h3>Кирпичей на 1 м²</h3>
+        <ul>
+          <li>В полкирпича — около <strong>51 шт</strong>.</li>
+          <li>В один кирпич — около <strong>102 шт</strong>.</li>
+          <li>В полтора кирпича — около <strong>153 шт</strong>.</li>
+          <li>В два кирпича — около <strong>204 шт</strong>.</li>
+        </ul>
+        <p>Значения ориентировочные и учитывают растворные швы. Проёмы (окна, двери) вычитайте из площади заранее.</p>
+        <h2>Частые вопросы</h2>
+        <div class="faq">
+          <h3>Сколько кирпича в 1 м² кладки?</h3>
+          <p>Примерно 51 шт в полкирпича, 102 шт в один кирпич, 153 шт в полтора кирпича и 204 шт в два кирпича — с учётом растворных швов.</p>
+          <h3>Зачем нужен запас кирпича?</h3>
+          <p>Запас (обычно 5–10%) компенсирует бой, подрезку и небольшие ошибки в расчёте. Для сложной кладки или фигурных элементов запас увеличивают.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/calc-brick.js"></script>
+</body>
+</body>
+</html>

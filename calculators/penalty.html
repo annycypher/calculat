@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор пени и неустойки по ставке ЦБ онлайн — CalcDocs</title>
+  <meta name="description" content="Онлайн-расчёт пени за просрочку по ключевой ставке ЦБ РФ: по ст. 395 ГК РФ, 1/300, 1/150. Бесплатно, с учётом 2026 года." />
+  <meta name="keywords" content="калькулятор пени, неустойка, пеня по ставке рефинансирования, расчет пени, ст 395 ГК РФ, 1/300, 1/150" />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/penalty.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Калькулятор пени онлайн — CalcDocs" />
+  <meta property="og:description" content="Рассчитайте пеню по ключевой ставке ЦБ за секунды." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Калькулятор пени",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Калькуляторы", "item": "https://calc-doc.ru/#tools" },
+      { "@type": "ListItem", "position": 3, "name": "Пеня", "item": "https://calc-doc.ru/calculators/penalty.html" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Как рассчитывается пеня по ставке ЦБ?", "acceptedAnswer": { "@type": "Answer", "text": "Пеня равна сумме долга, умноженной на ключевую ставку в процентах годовых, делённую на 365, и на количество дней просрочки. Если применяется доля 1/300 или 1/150, результат умножается на соответствующий коэффициент." } },
+      { "@type": "Question", "name": "Что означает коэффициент 1/300 и 1/150?", "acceptedAnswer": { "@type": "Answer", "text": "В договорах и коммунальных платежах часто используют 1/300 или 1/150 ставки рефинансирования за каждый день просрочки. Норма 1/150 — это удвоенная ставка 1/300." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <span class="brand-logo" aria-hidden="true">🧮</span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#tools">Калькуляторы</a> / Пеня</nav>
+      <h1>Калькулятор пени</h1>
+      <p class="tool-meta">Рассчитайте пеню за просрочку по ключевой ставке ЦБ РФ. Данные не отправляются на сервер.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="penaltyForm">
+            <div class="field">
+              <label for="debt">Сумма долга (₽)</label>
+              <input type="number" id="debt" inputmode="decimal" min="0" step="any" placeholder="например 100000" required value="100000" />
+            </div>
+            <div class="field">
+              <label for="rate">Ключевая ставка (% годовых)</label>
+              <input type="number" id="rate" inputmode="decimal" min="0" step="any" placeholder="например 21" required value="21" />
+            </div>
+            <div class="field">
+              <label for="days">Количество дней просрочки</label>
+              <input type="number" id="days" inputmode="numeric" min="1" step="1" placeholder="например 30" required value="30" />
+            </div>
+            <div class="field">
+              <label for="coeff">Режим расчёта</label>
+              <select id="coeff">
+                <option value="395">По ст. 395 ГК РФ</option>
+                <option value="300">1/300 ставки (договор)</option>
+                <option value="150">1/150 ставки (договор)</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container section">
+      <div class="prose">
+        <h2>Как считается пеня</h2>
+        <p>По ст. 395 ГК РФ пеня за пользование чужими денежными средствами считается по формуле: <strong>сумма долга × ключевая ставка (%) / 365 × число дней просрочки</strong>.</p>
+        <p>В договорах, ЖКХ и долевом строительстве часто применяют долю ставки <strong>1/300</strong> или <strong>1/150</strong> за каждый день просрочки. Наш калькулятор учитывает оба режима.</p>
+        <h3>Как пользоваться</h3>
+        <ul>
+          <li>Укажите сумму долга, ключевую ставку (сейчас в примере 21%) и количество дней просрочки.</li>
+          <li>Выберите режим: по ст. 395 ГК РФ, 1/300 или 1/150 ставки.</li>
+        </ul>
+        <h2>Частые вопросы</h2>
+        <div class="faq">
+          <h3>Как рассчитывается пеня по ставке ЦБ?</h3>
+          <p>Пеня равна сумме долга, умноженной на ключевую ставку в процентах годовых, делённую на 365, и на количество дней просрочки. Если применяется доля 1/300 или 1/150, результат умножается на соответствующий коэффициент.</p>
+          <h3>Что означает коэффициент 1/300 и 1/150?</h3>
+          <p>В договорах и коммунальных платежах часто используют 1/300 или 1/150 ставки рефинансирования за каждый день просрочки. Норма 1/150 — это удвоенная ставка 1/300.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/calc-penalty.js"></script>
+</body>
+</body>
+</html>

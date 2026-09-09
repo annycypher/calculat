@@ -66,6 +66,21 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://calc-doc.ru/calculators/penalty.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calc-doc.ru/calculators/vat.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calc-doc.ru/calculators/brick.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://calc-doc.ru/privacy.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>

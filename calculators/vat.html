@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор НДС онлайн — начислить и выделить НДС 20% — CalcDocs</title>
+  <meta name="description" content="Бесплатный онлайн-калькулятор НДС: начислить НДС на сумму или выделить НДС из суммы. Ставки 20% (основная), 10% и 0%. Работает в браузере." />
+  <meta name="keywords" content="калькулятор НДС, начислить НДС, выделить НДС, НДС 20%, НДС 10%, расчет НДС онлайн" />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/vat.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Калькулятор НДС онлайн — CalcDocs" />
+  <meta property="og:description" content="Начислите или выделите НДС за секунды." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Калькулятор НДС",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Калькуляторы", "item": "https://calc-doc.ru/#tools" },
+      { "@type": "ListItem", "position": 3, "name": "НДС", "item": "https://calc-doc.ru/calculators/vat.html" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Как начислить НДС на сумму?", "acceptedAnswer": { "@type": "Answer", "text": "НДС = сумма × ставка ÷ 100. Например, на 100 000 ₽ при ставке 20% НДС составит 20 000 ₽, итоговая сумма — 120 000 ₽." } },
+      { "@type": "Question", "name": "Как выделить НДС из суммы?", "acceptedAnswer": { "@type": "Answer", "text": "НДС = сумма × ставка ÷ (100 + ставка). Например, из 120 000 ₽ при ставке 20% НДС составит 20 000 ₽, а база без НДС — 100 000 ₽." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <span class="brand-logo" aria-hidden="true">🧮</span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#tools">Калькуляторы</a> / НДС</nav>
+      <h1>Калькулятор НДС</h1>
+      <p class="tool-meta">Начислите НДС на сумму или выделите НДС из суммы. Данные не отправляются на сервер.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="vatForm">
+            <div class="field">
+              <label for="amount">Сумма (₽)</label>
+              <input type="number" id="amount" inputmode="decimal" min="0" step="any" placeholder="например 100000" required value="100000" />
+            </div>
+            <div class="field">
+              <label for="target">Действие</label>
+              <select id="target">
+                <option value="add">Начислить НДС (цена + НДС)</option>
+                <option value="extract">Выделить НДС (сумма уже с НДС)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="rate">Ставка</label>
+              <select id="rate">
+                <option value="20">20% — основная</option>
+                <option value="10">10% — льготная</option>
+                <option value="0">0%</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container section">
+      <div class="prose">
+        <h2>Как начислить и выделить НДС</h2>
+        <p><strong>Начислить:</strong> НДС = Сумма × Ставка / 100. Итоговая сумма с НДС = Сумма + НДС.</p>
+        <p><strong>Выделить:</strong> если сумма уже включает НДС, то НДС = Сумма × Ставка / (100 + Ставка), а база без НДС = Сумма − НДС.</p>
+        <h3>Ставки НДС</h3>
+        <ul>
+          <li><strong>20%</strong> — основная ставка для большинства товаров и услуг.</li>
+          <li><strong>10%</strong> — льготная для продуктов питания, детских товаров, книг и ряда медтоваров.</li>
+          <li><strong>0%</strong> — экспорт, международные перевозки и отдельные операции.</li>
+        </ul>
+        <h2>Частые вопросы</h2>
+        <div class="faq">
+          <h3>Как начислить НДС на сумму?</h3>
+          <p>НДС = сумма × ставка ÷ 100. Например, на 100 000 ₽ при ставке 20% НДС составит 20 000 ₽, итоговая сумма — 120 000 ₽.</p>
+          <h3>Как выделить НДС из суммы?</h3>
+          <p>НДС = сумма × ставка ÷ (100 + ставка). Например, из 120 000 ₽ при ставке 20% НДС составит 20 000 ₽, а база без НДС — 100 000 ₽.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/calc-vat.js"></script>
+</body>
+</body>
+</html>

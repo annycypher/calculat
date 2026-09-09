@@ -68,7 +68,10 @@ const TOOLS = [
   ['🖼️', 'Конвертер изображений', '/converters/image-converter.html'],
   ['📑', 'CSV → Excel', '/converters/csv-to-xlsx.html'],
   ['📄', 'PDF → Word', '/converters/pdf-to-word.html'],
-  ['🖌️', 'Графика', '/converters/infographic.html']
+  ['🖌️', 'Графика', '/converters/infographic.html'],
+  ['💳', 'Пеня', '/calculators/penalty.html'],
+  ['🧾', 'НДС', '/calculators/vat.html'],
+  ['🧱', 'Кирпич', '/calculators/brick.html']
 ];
 function buildRelated() {
   const footer = document.querySelector('.site-footer');
