@@ -5,7 +5,7 @@ const fileEl = document.getElementById('file');
 const output = document.getElementById('output');
 
 // Ленивая загрузка библиотеки: большой файл грузим кусками (Cloudflare режет длинные ответы)
-import { loadChunkedScript } from '/js/chunkload.js?v=2';
+import { loadChunkedScript } from '/js/chunkload.js?v=4';
 
 if (form) {
   form.addEventListener('submit', async (e) => {

@@ -18,36 +18,44 @@ async function fetchWithTimeout(url, opts) {
 
 async function fetchBytes(url) {
   if (cache.has(url)) return cache.get(url);
-  const head = await fetchWithTimeout(url, { method: 'HEAD', cache: 'no-store' });
-  const total = parseInt(head.headers.get('content-length') || '0', 10);
-  if (!total || total < CHUNK) {
-    // Маленький файл — грузим целиком.
-    const r = await fetchWithTimeout(url, { cache: 'no-store' });
-    const b = new Uint8Array(await r.arrayBuffer());
-    cache.set(url, b);
-    return b;
-  }
-  const count = Math.ceil(total / CHUNK);
-  const parts = new Array(count);
-  let next = 0;
-  async function run() {
-    while (next < count) {
-      const i = next++;
+  try {
+    const head = await fetchWithTimeout(url, { method: 'HEAD', cache: 'no-store' });
+    const total = parseInt(head.headers.get('content-length') || '0', 10);
+    if (!total || total < CHUNK) {
+      // Маленький файл — грузим целиком.
+      const r = await fetchWithTimeout(url, { cache: 'no-store' });
+      const b = new Uint8Array(await r.arrayBuffer());
+      cache.set(url, b);
+      return b;
+    }
+    const count = Math.ceil(total / CHUNK);
+    const parts = new Array(count);
+    // Последовательно (меньше шансов среза защиты Cloudflare) + 3 попытки на часть.
+    for (let i = 0; i < count; i++) {
       const start = i * CHUNK;
       const end = Math.min(start + CHUNK - 1, total - 1);
-      const r = await fetchWithTimeout(url, { headers: { Range: `bytes=${start}-${end}` }, cache: 'no-store' });
-      if (r.status !== 206) throw new Error('Ошибка загрузки части (' + r.status + ')');
-      parts[i] = new Uint8Array(await r.arrayBuffer());
+      let part = null;
+      for (let attempt = 0; attempt < 3 && !part; attempt++) {
+        try {
+          const r = await fetchWithTimeout(url, { headers: { Range: `bytes=${start}-${end}` }, cache: 'no-store' });
+          if (r.status !== 206) throw new Error('HTTP ' + r.status);
+          const buf = await r.arrayBuffer();
+          if (buf.byteLength !== (end - start + 1)) throw new Error('неполная часть (' + buf.byteLength + '/' + (end - start + 1) + ')');
+          part = new Uint8Array(buf);
+        } catch (e) {
+          if (attempt === 2) throw new Error(e.message);
+        }
+      }
+      parts[i] = part;
     }
+    const full = new Uint8Array(total);
+    let off = 0;
+    for (const p of parts) { full.set(p, off); off += p.length; }
+    cache.set(url, full);
+    return full;
+  } catch (e) {
+    throw new Error('Загрузка ' + url + ': ' + e.message);
   }
-  const pool = [];
-  for (let k = 0; k < CONCURRENCY; k++) pool.push(run());
-  await Promise.all(pool);
-  const full = new Uint8Array(total);
-  let off = 0;
-  for (const p of parts) { full.set(p, off); off += p.length; }
-  cache.set(url, full);
-  return full;
 }
 
 // Классический UMD-скрипт (xlsx, jspdf, pdf.min): собираем и исполняем из blob: URL.
