@@ -25,6 +25,27 @@
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Калькуляторы", "item": "https://calc-doc.ru/#tools" },
+      { "@type": "ListItem", "position": 3, "name": "Отпускные", "item": "https://calc-doc.ru/calculators/vacation-pay.html" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Как считаются отпускные?", "acceptedAnswer": { "@type": "Answer", "text": "Отпускные равны среднему дневному заработку, умноженному на количество дней отпуска. Средний дневной заработок — это доход за 12 месяцев, делённый на 12 и на 29,3." } },
+      { "@type": "Question", "name": "Удерживается ли НДФЛ с отпускных?", "acceptedAnswer": { "@type": "Answer", "text": "Да, с начисленных отпускных удерживается НДФЛ 13%, поэтому на руки вы получаете сумму за вычетом налога." } }
+    ]
+  }
+  </script>
 </head>
 <body>
   <header class="site-header">
@@ -97,6 +118,13 @@
           <li>Если в течение года были больничные или отпуска — средний дневной заработок считается точнее по фактически отработанным календарным дням.</li>
           <li>Ставка НДФЛ 13% — базовая для резидентов РФ.</li>
         </ul>
+        <h2>Частые вопросы</h2>
+        <div class="faq">
+          <h3>Как считаются отпускные?</h3>
+          <p>Отпускные равны среднему дневному заработку, умноженному на количество дней отпуска. Средний дневной заработок — это доход за 12 месяцев, делённый на 12 и на 29,3.</p>
+          <h3>Удерживается ли НДФЛ с отпускных?</h3>
+          <p>Да, с начисленных отпускных удерживается НДФЛ 13%, поэтому на руки вы получаете сумму за вычетом налога.</p>
+        </div>
       </div>
     </div>
   </main>
