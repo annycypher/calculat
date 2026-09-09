@@ -114,6 +114,13 @@ button, input, select, textarea { font: inherit; color: inherit; }
   padding: 3px 10px; border-radius: 999px; background: var(--bg-soft); color: var(--text-muted);
 }
 
+/* Заголовок смысловой группы калькуляторов */
+.cat-title {
+  font-size: 20px; font-weight: 800; margin: 36px 0 18px; letter-spacing: -.01em;
+  display: flex; align-items: center; gap: 10px;
+}
+.cat-title::before { content: ''; width: 12px; height: 12px; border-radius: 4px; background: var(--primary); flex: 0 0 auto; }
+
 /* ═══════════ Формы ═══════════ */
 .form-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; }
 .field { margin-bottom: 18px; }
