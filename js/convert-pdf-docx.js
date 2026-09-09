@@ -6,8 +6,6 @@ import { loadCdnScript, importCdn, cdnBlobUrl } from '/js/chunkload.js?v=7';
 const form = document.getElementById('pdfForm');
 const fileEl = document.getElementById('file');
 const fileUrlEl = document.getElementById('fileUrl');
-const ocrEl = document.getElementById('ocr');
-const modeEl = document.getElementById('mode');
 const output = document.getElementById('output');
 
 function setOut(html) { if (output) output.innerHTML = html; }
@@ -50,9 +48,6 @@ if (form) {
     e.preventDefault();
     const file = fileEl.files && fileEl.files[0];
     const url = (fileUrlEl && fileUrlEl.value.trim()) || '';
-    const ocrOn = ocrEl ? ocrEl.checked : false;
-    const mode = (modeEl && modeEl.value) || 'image';
-
     if (!file && !url) {
       setOut(`<p class="hint" style="margin:0;color:#c0392b">Выберите PDF-файл кнопкой «Выбор файла» или вставьте полную ссылку (https://…).</p>`);
       return;
@@ -81,35 +76,18 @@ if (form) {
       let hasOcr = false;
 
       for (let i = 1; i <= numPages; i++) {
-        setOut(`<p class="hint" style="margin:0">Страница ${i} из ${numPages}…${ocrOn ? ' (OCR)' : ''}</p>`);
+        setOut(`<p class="hint" style="margin:0">Отрисовка страницы ${i} из ${numPages}…</p>`);
         const page = await pdf.getPage(i);
-        if (mode === 'image') {
-          setOut(`<p class="hint" style="margin:0">Отрисовка страницы ${i} из ${numPages}…</p>`);
-          blocks.push({ image: await renderPage(page) });
-          continue;
-        }
+        const img = await renderPage(page);
+        blocks.push({ image: img });
+        // Автоматически распознаём сканы (страницы без текстового слоя).
         const content = await page.getTextContent();
         let text = '';
         for (const it of content.items) { if ('str' in it) text += it.str; }
-        text = text.trim();
-
-        if (text.length >= 30) {
-          blocks.push({ text });
-          continue;
-        }
-
-        // Скан / картинка.
-        const img = await renderPage(page);
-        let ocrText = '';
-        if (ocrOn) {
+        if (text.trim().length < 30) {
           setOut(`<p class="hint" style="margin:0">Распознавание (OCR) страницы ${i} из ${numPages}…</p>`);
-          ocrText = await ocrCanvas(img.canvas).catch(() => '');
-        }
-        if (ocrText) {
-          hasOcr = true;
-          blocks.push({ text: ocrText });
-        } else {
-          blocks.push({ image: img });
+          const ocrText = await ocrCanvas(img.canvas).catch(() => '');
+          if (ocrText) { hasOcr = true; blocks.push({ text: ocrText }); }
         }
       }
 
@@ -125,11 +103,9 @@ if (form) {
       const doc = new Document({ sections: [{ properties: {}, children }] });
       const blob = await Packer.toBlob(doc);
       const dl = URL.createObjectURL(blob);
-      const note = mode === 'image'
-        ? '<p class="hint">Страницы сохранены как изображения — вёрстка точная, текст не редактируется.</p>'
-        : (hasOcr
-          ? '<p class="hint">Часть страниц распознана через OCR (текст может содержать ошибки).</p>'
-          : (ocrOn ? '<p class="hint">OCR не сработал (офлайн/нет доступа к CDN) — сканы сохранены как изображения.</p>' : ''));
+      const note = hasOcr
+        ? '<p class="hint">Вёрстка сохранена как изображения; сканы дополнительно распознаны (OCR).</p>'
+        : '<p class="hint">Вёрстка сохранена как изображения страниц (точная, текст не редактируется).</p>';
       setOut(`<p style="margin:0 0 12px">✅ Готово! Страниц: ${numPages}.</p>${note}<a class="btn btn-primary" download="converted.docx" href="${dl}">Скачать .docx</a>`);
     } catch (err) {
       setOut(`<p class="hint" style="color:#c0392b;margin:0">Ошибка: ${esc(err.message)}</p>`);

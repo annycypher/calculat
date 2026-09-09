@@ -69,14 +69,6 @@
       <div class="form-card">
         <form id="pdfForm" novalidate>
           <div class="field">
-            <label for="mode">Режим</label>
-            <select id="mode">
-              <option value="image">Как в PDF (изображения страниц) — точная вёрстка</option>
-              <option value="text">Текст (редактируемый) — вёрстка не сохраняется</option>
-            </select>
-            <span class="hint">«Как в PDF» сохраняет оформление страницы как есть, но текст не редактируется.</span>
-          </div>
-          <div class="field">
             <label for="file">PDF-файл</label>
             <input type="file" id="file" name="file" accept="application/pdf,.pdf" />
             <span class="hint">Текстовые PDF → редактируемый текст. Сканы (без текстового слоя) сохраняются как изображения страниц.</span>
@@ -84,10 +76,6 @@
           <div class="field">
             <label for="fileUrl">Или добавьте ссылку</label>
             <input type="text" id="fileUrl" name="fileUrl" placeholder="https://example.com/doc.pdf" inputmode="url" />
-          </div>
-          <div class="field">
-            <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="ocr" /> <span>Распознать текст на сканах (OCR)</span></label>
-            <span class="hint">Требует интернет (движок Tesseract.js + ~20 МБ моделей). Работает медленнее; при ошибке сканы остаются картинками.</span>
           </div>
           <button class="btn btn-primary" type="submit" style="width:100%">Конвертировать в Word</button>
         </form>
@@ -131,7 +119,7 @@
   </footer>
 
   <script type="module" src="/js/ui.js?v=2"></script>
-  <script type="module" src="/js/convert-pdf-docx.js?v=8"></script>
+  <script type="module" src="/js/convert-pdf-docx.js?v=9"></script>
 </body>
 </html>
 
