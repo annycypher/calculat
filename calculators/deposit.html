@@ -25,6 +25,27 @@
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Калькуляторы", "item": "https://calc-doc.ru/#tools" },
+      { "@type": "ListItem", "position": 3, "name": "Вклады", "item": "https://calc-doc.ru/calculators/deposit.html" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Что такое капитализация процентов по вкладу?", "acceptedAnswer": { "@type": "Answer", "text": "Капитализация — это начисление процентов на уже начисленные проценты, что увеличивает итоговый доход по вкладу (эффект сложного процента)." } },
+      { "@type": "Question", "name": "От чего зависит доход по вкладу?", "acceptedAnswer": { "@type": "Answer", "text": "Доход зависит от суммы, ставки, срока и схемы капитализации: при капитализации проценты добавляются к вкладу и в дальнейшем тоже приносят доход." } }
+    ]
+  }
+  </script>
 </head>
 <body>
   <header class="site-header">
@@ -143,6 +164,17 @@
           </tbody>
         </table>
         <p class="hint">Данные справочные, на 30.08.2026, по данным агрегаторов (Сравни.ру). Ставки зависят от суммы, срока и меняются — уточняйте условия в банке. Это примеры, а не полный список банков.</p>
+      </div>
+    </div>
+    <div class="container section">
+      <div class="prose">
+        <h2>Частые вопросы</h2>
+        <div class="faq">
+          <h3>Что такое капитализация процентов по вкладу?</h3>
+          <p>Капитализация — это начисление процентов на уже начисленные проценты, что увеличивает итоговый доход по вкладу (эффект сложного процента).</p>
+          <h3>От чего зависит доход по вкладу?</h3>
+          <p>Доход зависит от суммы, ставки, срока и схемы капитализации: при капитализации проценты добавляются к вкладу и в дальнейшем тоже приносят доход.</p>
+        </div>
       </div>
     </div>
   </main>

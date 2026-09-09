@@ -25,6 +25,27 @@
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Калькуляторы", "item": "https://calc-doc.ru/#tools" },
+      { "@type": "ListItem", "position": 3, "name": "Ипотека", "item": "https://calc-doc.ru/calculators/mortgage.html" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Что такое аннуитетный платёж по ипотеке?", "acceptedAnswer": { "@type": "Answer", "text": "Аннуитетный платёж — это равный ежемесячный платёж на весь срок кредита: в начале большая часть суммы уходит на проценты, а к концу — на основной долг." } },
+      { "@type": "Question", "name": "Что показывает переплата по ипотеке?", "acceptedAnswer": { "@type": "Answer", "text": "Переплата — это разница между общей суммой всех платежей по кредиту и суммой кредита. Она состоит из процентов, начисленных за весь срок." } }
+    ]
+  }
+  </script>
 </head>
 <body>
   <header class="site-header">
@@ -99,6 +120,17 @@
           <li>Аннуитет равномерен по сумме, но доля процентов в начале выше.</li>
           <li>Досрочное погашение сокращает переплату.</li>
         </ul>
+      </div>
+    </div>
+    <div class="container section">
+      <div class="prose">
+        <h2>Частые вопросы</h2>
+        <div class="faq">
+          <h3>Что такое аннуитетный платёж по ипотеке?</h3>
+          <p>Аннуитетный платёж — это равный ежемесячный платёж на весь срок кредита: в начале большая часть суммы уходит на проценты, а к концу — на основной долг.</p>
+          <h3>Что показывает переплата по ипотеке?</h3>
+          <p>Переплата — это разница между общей суммой всех платежей по кредиту и суммой кредита. Она состоит из процентов, начисленных за весь срок.</p>
+        </div>
       </div>
     </div>
   </main>
