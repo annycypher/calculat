@@ -69,6 +69,14 @@
       <div class="form-card">
         <form id="pdfForm" novalidate>
           <div class="field">
+            <label for="mode">Режим</label>
+            <select id="mode">
+              <option value="image">Как в PDF (изображения страниц) — точная вёрстка</option>
+              <option value="text">Текст (редактируемый) — вёрстка не сохраняется</option>
+            </select>
+            <span class="hint">«Как в PDF» сохраняет оформление страницы как есть, но текст не редактируется.</span>
+          </div>
+          <div class="field">
             <label for="file">PDF-файл</label>
             <input type="file" id="file" name="file" accept="application/pdf,.pdf" />
             <span class="hint">Текстовые PDF → редактируемый текст. Сканы (без текстового слоя) сохраняются как изображения страниц.</span>
@@ -123,7 +131,7 @@
   </footer>
 
   <script type="module" src="/js/ui.js?v=2"></script>
-  <script type="module" src="/js/convert-pdf-docx.js?v=7"></script>
+  <script type="module" src="/js/convert-pdf-docx.js?v=8"></script>
 </body>
 </html>
 
