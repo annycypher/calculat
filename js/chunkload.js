@@ -19,47 +19,44 @@ async function fetchWithTimeout(url, opts) {
 async function fetchBytes(url) {
   if (cache.has(url)) return cache.get(url);
   try {
-    // Размер берём из content-range ПЕРВОГО range-запроса.
-    // HEAD с Accept-Encoding: br может отдавать Content-Encoding без content-length,
-    // из-за чего код считал файл «маленьким» и делал обычный GET (который обрывается на ~24 КБ).
+    // Размер берём из content-range ПЕРВОГО range-запроса (HEAD при br без content-length ломал загрузку).
     const first = await fetchWithTimeout(url, { headers: { Range: `bytes=0-${CHUNK - 1}` }, cache: 'no-store' });
     const cr = first.headers.get('content-range') || '';
     const m = cr.match(/\/(\d+)\s*$/);
     let total = m ? parseInt(m[1], 10) : parseInt(first.headers.get('content-length') || '0', 10);
     const firstBuf = new Uint8Array(await first.arrayBuffer());
-
-    if (first.status === 200) {
-      // Сервер отдал весь файл одним ответом.
-      cache.set(url, firstBuf);
-      return firstBuf;
-    }
-    if (!total || total <= firstBuf.length) {
-      // Маленький файл / размер совпал — это и есть весь файл.
-      cache.set(url, firstBuf);
-      return firstBuf;
-    }
+    if (first.status === 200) { cache.set(url, firstBuf); return firstBuf; }
+    if (!total || total <= firstBuf.length) { cache.set(url, firstBuf); return firstBuf; }
 
     const count = Math.ceil(total / CHUNK);
     const parts = new Array(count);
     parts[0] = firstBuf;
-    // Последовательно (меньше шансов среза защиты Cloudflare) + 3 попытки на часть.
-    for (let i = 1; i < count; i++) {
-      const start = i * CHUNK;
-      const end = Math.min(start + CHUNK - 1, total - 1);
-      let part = null;
-      for (let attempt = 0; attempt < 3 && !part; attempt++) {
-        try {
-          const r = await fetchWithTimeout(url, { headers: { Range: `bytes=${start}-${end}` }, cache: 'no-store' });
-          if (r.status !== 206) throw new Error('HTTP ' + r.status);
-          const buf = await r.arrayBuffer();
-          if (buf.byteLength !== (end - start + 1)) throw new Error('неполная часть (' + buf.byteLength + '/' + (end - start + 1) + ')');
-          part = new Uint8Array(buf);
-        } catch (e) {
-          if (attempt === 2) throw new Error(e.message);
+    let next = 1;
+    // Небольшой параллельный пул (быстрее и надёжнее, чем строго последовательно).
+    async function work() {
+      while (next < count) {
+        const i = next++;
+        const start = i * CHUNK;
+        const end = Math.min(start + CHUNK - 1, total - 1);
+        let part = null;
+        for (let attempt = 0; attempt < 3 && !part; attempt++) {
+          try {
+            const r = await fetchWithTimeout(url, { headers: { Range: `bytes=${start}-${end}` }, cache: 'no-store' });
+            if (r.status !== 206) throw new Error('HTTP ' + r.status);
+            const buf = await r.arrayBuffer();
+            if (buf.byteLength !== (end - start + 1)) throw new Error('неполная часть (' + buf.byteLength + '/' + (end - start + 1) + ')');
+            part = new Uint8Array(buf);
+          } catch (e) {
+            if (attempt === 2) throw new Error(e.message);
+          }
         }
+        parts[i] = part;
       }
-      parts[i] = part;
     }
+    const CONC = 4;
+    const pool = [];
+    for (let k = 0; k < CONC; k++) pool.push(work());
+    await Promise.all(pool);
     const full = new Uint8Array(total);
     let off = 0;
     for (const p of parts) { full.set(p, off); off += p.length; }

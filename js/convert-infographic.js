@@ -249,7 +249,7 @@ function renderPreview() {
   if (pdfBtn) pdfBtn.addEventListener('click', downloadPDF);
 }
 
-import { loadChunkedScript } from '/js/chunkload.js?v=5';
+import { loadChunkedScript } from '/js/chunkload.js?v=6';
 
 async function downloadPDF() {
   try {
