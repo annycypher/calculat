@@ -71,7 +71,9 @@ const TOOLS = [
   ['🖌️', 'Графика', '/converters/infographic.html'],
   ['💳', 'Пеня', '/calculators/penalty.html'],
   ['🧾', 'НДС', '/calculators/vat.html'],
-  ['🧱', 'Кирпич', '/calculators/brick.html']
+  ['🧱', 'Кирпич', '/calculators/brick.html'],
+  ['👪', 'Алименты', '/calculators/alimony.html'],
+  ['🧻', 'Обои', '/calculators/wallpaper.html']
 ];
 function buildRelated() {
   const footer = document.querySelector('.site-footer');

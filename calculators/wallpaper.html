@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор обоев онлайн — сколько рулонов на комнату — CalcDocs</title>
+  <meta name="description" content="Онлайн-расчёт количества рулонов обоев по периметру, высоте потолка и параметрам рулона (0,53 × 10 м), с учётом подгонки и запаса." />
+  <meta name="keywords" content="калькулятор обоев, сколько рулонов обоев, расчет обоев, обои на комнату, подгонка рисунка" />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/wallpaper.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Калькулятор обоев онлайн — CalcDocs" />
+  <meta property="og:description" content="Рассчитайте количество рулонов обоев для комнаты." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Калькулятор обоев",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Калькуляторы", "item": "https://calc-doc.ru/#tools" },
+      { "@type": "ListItem", "position": 3, "name": "Обои", "item": "https://calc-doc.ru/calculators/wallpaper.html" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Как рассчитать количество рулонов обоев?", "acceptedAnswer": { "@type": "Answer", "text": "Площадь стен (периметр × высота) делится на полезную площадь одного рулона (длина × ширина). На подгонку рисунка и запас закладывается дополнительный расход." } },
+      { "@type": "Question", "name": "Сколько метров в рулоне обоев?", "acceptedAnswer": { "@type": "Answer", "text": "Стандартный рулон — 10 м × 0,53 м (примерно 5,3 м²). Евро-рулоны бывают 0,7 × 10 м и длиннее." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <span class="brand-logo" aria-hidden="true">🧮</span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#tools">Калькуляторы</a> / Обои</nav>
+      <h1>Калькулятор обоев</h1>
+      <p class="tool-meta">Рассчитайте количество рулонов обоев для комнаты. Данные не отправляются на сервер.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="wallpaperForm">
+            <div class="field">
+              <label for="perimeter">Периметр комнаты (м)</label>
+              <input type="number" id="perimeter" inputmode="decimal" min="0" step="any" placeholder="например 14" required value="14" />
+              <span class="hint">Сумма длин всех стен.</span>
+            </div>
+            <div class="field">
+              <label for="height">Высота потолка (м)</label>
+              <input type="number" id="height" inputmode="decimal" min="0" step="any" placeholder="например 2.7" required value="2.7" />
+            </div>
+            <div class="field">
+              <label for="rollW">Ширина рулона (м)</label>
+              <input type="number" id="rollW" inputmode="decimal" min="0" step="any" placeholder="0.53" required value="0.53" />
+            </div>
+            <div class="field">
+              <label for="rollL">Длина рулона (м)</label>
+              <input type="number" id="rollL" inputmode="decimal" min="0" step="any" placeholder="10" required value="10" />
+            </div>
+            <div class="field">
+              <label for="pattern">Подгонка рисунка</label>
+              <select id="pattern">
+                <option value="no">Без подгонки</option>
+                <option value="yes">С подгонкой (раппорт)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="reserve">Запас (%)</label>
+              <input type="number" id="reserve" inputmode="decimal" min="0" max="50" step="any" placeholder="10" required value="10" />
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container section">
+      <div class="prose">
+        <h2>Как рассчитать количество обоев</h2>
+        <p>Считается площадь стен: <strong>периметр × высота</strong>. Затем она делится на полезную площадь одного рулона (длина × ширина). Для обоев с подгонкой рисунка добавляется запас, а также заложен резерв на подрезку.</p>
+        <h3>Стандартный рулон</h3>
+        <ul>
+          <li>10 м × 0,53 м = примерно <strong>5,3 м²</strong>.</li>
+          <li>При подгонке рисунка (раппорте) полезная площадь уменьшается — расход растёт.</li>
+        </ul>
+        <p>Окна и двери вычитайте из периметра заранее, чтобы не завысить результат.</p>
+        <h2>Частые вопросы</h2>
+        <div class="faq">
+          <h3>Как рассчитать количество рулонов обоев?</h3>
+          <p>Площадь стен (периметр × высота) делится на полезную площадь одного рулона (длина × ширина). На подгонку рисунка и запас закладывается дополнительный расход.</p>
+          <h3>Сколько метров в рулоне обоев?</h3>
+          <p>Стандартный рулон — 10 м × 0,53 м (примерно 5,3 м²). Евро-рулоны бывают 0,7 × 10 м и длиннее.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/calc-wallpaper.js"></script>
+</body>
+</body>
+</html>

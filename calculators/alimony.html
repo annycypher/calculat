@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор неустойки по алиментам (ст. 115 СК РФ) онлайн — CalcDocs</title>
+  <meta name="description" content="Онлайн-расчёт неустойки по алиментам: 0,1% за каждый день просрочки (ст. 115 СК РФ), 0,5% по старому закону. Работает в браузере." />
+  <meta name="keywords" content="неустойка по алиментам, калькулятор неустойки алименты, ст 115 СК РФ, задолженность по алиментам, 0.1% в день" />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/alimony.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Калькулятор неустойки по алиментам — CalcDocs" />
+  <meta property="og:description" content="Рассчитайте неустойку по задолженности по алиментам за секунды." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Калькулятор неустойки по алиментам",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Калькуляторы", "item": "https://calc-doc.ru/#tools" },
+      { "@type": "ListItem", "position": 3, "name": "Неустойка по алиментам", "item": "https://calc-doc.ru/calculators/alimony.html" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Как считается неустойка по алиментам?", "acceptedAnswer": { "@type": "Answer", "text": "Неустойка = задолженность × 0,1% × количество дней просрочки (ст. 115 СК РФ). Для задолженности, образовавшейся до 30 июня 2024 года, применялась ставка 0,5% в день." } },
+      { "@type": "Question", "name": "Что делать при невыплате алиментов?", "acceptedAnswer": { "@type": "Answer", "text": "Взыскать неустойку можно через суд. Расчёт прилагается к исковому заявлению, а сам долг подтверждается постановлением судебного пристава." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <span class="brand-logo" aria-hidden="true">🧮</span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#tools">Калькуляторы</a> / Неустойка по алиментам</nav>
+      <h1>Калькулятор неустойки по алиментам</h1>
+      <p class="tool-meta">Рассчитайте неустойку по задолженности по алиментам (ст. 115 СК РФ). Данные не отправляются на сервер.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="alimonyForm">
+            <div class="field">
+              <label for="debt">Сумма задолженности (₽)</label>
+              <input type="number" id="debt" inputmode="decimal" min="0" step="any" placeholder="например 50000" required value="50000" />
+            </div>
+            <div class="field">
+              <label for="days">Количество дней просрочки</label>
+              <input type="number" id="days" inputmode="numeric" min="1" step="1" placeholder="например 90" required value="90" />
+            </div>
+            <div class="field">
+              <label for="rate">Ставка</label>
+              <select id="rate">
+                <option value="0.1">0,1% в день (ст. 115 СК РФ)</option>
+                <option value="0.5">0,5% в день (до 30.06.2024)</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container section">
+      <div class="prose">
+        <h2>Как считается неустойка</h2>
+        <p>По ст. 115 СК РФ неустойка по алиментам составляет <strong>0,1% от суммы задолженности за каждый день просрочки</strong>: Неустойка = Задолженность × 0,1% × Дни.</p>
+        <p>До 30 июня 2024 года применялась ставка <strong>0,5% в день</strong>. Для задолженности, накопленной в тот период, расчёт может вестись по старой ставке.</p>
+        <h3>Как пользоваться</h3>
+        <ul>
+          <li>Введите сумму задолженности по алиментам и количество дней просрочки.</li>
+          <li>Выберите ставку: 0,1% (текущая) или 0,5% (до 30.06.2024).</li>
+        </ul>
+        <h2>Частые вопросы</h2>
+        <div class="faq">
+          <h3>Как считается неустойка по алиментам?</h3>
+          <p>Неустойка = задолженность × 0,1% × количество дней просрочки (ст. 115 СК РФ). Для задолженности, образовавшейся до 30 июня 2024 года, применялась ставка 0,5% в день.</p>
+          <h3>Что делать при невыплате алиментов?</h3>
+          <p>Взыскать неустойку можно через суд. Расчёт прилагается к исковому заявлению, а сам долг подтверждается постановлением судебного пристава.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/calc-alimony.js"></script>
+</body>
+</body>
+</html>
