@@ -249,11 +249,11 @@ function renderPreview() {
   if (pdfBtn) pdfBtn.addEventListener('click', downloadPDF);
 }
 
-import { loadChunkedScript } from '/js/chunkload.js?v=6';
+import { loadCdnScript } from '/js/chunkload.js?v=7';
 
 async function downloadPDF() {
   try {
-    if (!(window.jspdf && window.jspdf.jsPDF)) await loadChunkedScript('/libs/jspdf.umd.min.js');
+    if (!(window.jspdf && window.jspdf.jsPDF)) await loadCdnScript('https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js');
   } catch (err) {
     setStatus('Ошибка: библиотека PDF не загрузилась.', true);
     return;

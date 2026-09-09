@@ -1,7 +1,7 @@
 // PDF → Word: pdf.js извлекает текст и рендерит страницы, docx собирает .docx.
 // Сканы (страницы без текстового слоя) сохраняются как изображения страниц.
 // Библиотеки большие, Cloudflare режет длинные ответы → грузим по частям (Range).
-import { loadChunkedScript, importChunked, chunkedBlobUrl } from '/js/chunkload.js?v=6';
+import { loadCdnScript, importCdn, cdnBlobUrl } from '/js/chunkload.js?v=7';
 
 const form = document.getElementById('pdfForm');
 const fileEl = document.getElementById('file');
@@ -58,11 +58,11 @@ if (form) {
 
     setOut(`<p class="hint" style="margin:0">Загрузка библиотек… (первый раз дольше)</p>`);
     try {
-      if (typeof pdfjsLib === 'undefined') { setOut(`<p class="hint" style="margin:0">Загрузка библиотеки pdf.js…</p>`); await loadChunkedScript('/libs/pdf.min.js'); }
-      setOut(`<p class="hint" style="margin:0">Загрузка воркера pdf.js…</p>`);
-      pdfjsLib.GlobalWorkerOptions.workerSrc = await chunkedBlobUrl('/libs/pdf.worker.min.js');
-      setOut(`<p class="hint" style="margin:0">Загрузка модуля docx…</p>`);
-      const { Document, Paragraph, TextRun, ImageRun, Packer } = await importChunked('/libs/docx.mjs');
+      if (typeof pdfjsLib === 'undefined') { setOut('Загрузка pdf.js…'); await loadCdnScript('https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js'); }
+      setOut('Загрузка воркера pdf.js…');
+      pdfjsLib.GlobalWorkerOptions.workerSrc = await cdnBlobUrl('https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js');
+      setOut('Загрузка docx…');
+      const { Document, Paragraph, TextRun, ImageRun, Packer } = await importCdn('https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.mjs');
 
       let buf;
       if (file) {

@@ -5,7 +5,7 @@ const fileEl = document.getElementById('file');
 const output = document.getElementById('output');
 
 // Ленивая загрузка библиотеки: большой файл грузим кусками (Cloudflare режет длинные ответы)
-import { loadChunkedScript } from '/js/chunkload.js?v=6';
+import { loadCdnScript } from '/js/chunkload.js?v=7';
 
 if (form) {
   form.addEventListener('submit', async (e) => {
@@ -14,7 +14,7 @@ if (form) {
     if (!file) { output.innerHTML = `<p class="hint">Сначала выберите CSV-файл.</p>`; return; }
 
     try {
-      if (typeof XLSX === 'undefined') await loadChunkedScript('/libs/xlsx.full.min.js');
+      if (typeof XLSX === 'undefined') await loadCdnScript('https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js');
     } catch (err) {
       output.innerHTML = `<p class="hint" style="color:#c0392b">Библиотека SheetJS не загрузилась. Проверьте интернет.</p>`;
       return;

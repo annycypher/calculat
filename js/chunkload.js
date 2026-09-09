@@ -97,4 +97,29 @@ async function importChunked(url) {
   }
 }
 
-export { fetchBytes, loadChunkedScript, chunkedBlobUrl, importChunked };
+async function fetchFull(url) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error('HTTP ' + r.status);
+  return new Uint8Array(await r.arrayBuffer());
+}
+function loadCdnScript(url) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = url;
+    s.onload = () => resolve(s);
+    s.onerror = () => reject(new Error('Не удалось загрузить ' + url));
+    document.head.appendChild(s);
+  });
+}
+async function importCdn(url) {
+  const bytes = await fetchFull(url);
+  const u = URL.createObjectURL(new Blob([bytes], { type: 'text/javascript' }));
+  try { return await import(u); }
+  finally { setTimeout(() => URL.revokeObjectURL(u), 60000); }
+}
+async function cdnBlobUrl(url) {
+  const bytes = await fetchFull(url);
+  return URL.createObjectURL(new Blob([bytes], { type: 'text/javascript' }));
+}
+
+export { fetchBytes, loadChunkedScript, chunkedBlobUrl, importChunked, fetchFull, loadCdnScript, importCdn, cdnBlobUrl };
