@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Конвертер PDF в Word (DOCX) онлайн — CalcDocs</title>
-  <meta name="description" content="Бесплатный онлайн-конвертер PDF в Word (DOCX): извлекает текст из PDF, а сканы сохраняет как изображения страниц. Всё в браузере, без загрузки на сервер." />
+  <meta name="description" content="Бесплатный онлайн-конвертер PDF в Word (DOCX): извлекает текст из PDF, а сканы сохраняет как изображения или распознаёт через OCR. Всё в браузере, без загрузки на сервер." />
   <meta name="keywords" content="pdf в word, pdf в docx, конвертер pdf в word, перевести pdf в word онлайн, pdf to docx" />
   <link rel="canonical" href="https://calc-doc.ru/converters/pdf-to-word.html" />
   <meta name="robots" content="index, follow" />
@@ -78,6 +78,10 @@
             <input type="url" id="fileUrl" name="fileUrl" placeholder="https://example.com/doc.pdf" />
             <span class="hint">Нужен прямой CORS-доступный файл. Также учитывается параметр <code>?file=</code> в адресе страницы.</span>
           </div>
+          <div class="field">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="ocr" /> <span>Распознать текст на сканах (OCR)</span></label>
+            <span class="hint">Требует интернет (движок Tesseract.js + ~20 МБ моделей). Работает медленнее; при ошибке сканы остаются картинками.</span>
+          </div>
           <button class="btn btn-primary" type="submit" style="width:100%">Конвертировать в Word</button>
         </form>
       </div>
@@ -96,6 +100,7 @@
         <h3>Что учесть</h3>
         <ul>
           <li>Текстовые страницы → редактируемый <strong>текст</strong>; сканы → <strong>изображения</strong> страниц.</li>
+          <li>Отметьте «Распознать текст на сканах (OCR)», чтобы сканы превращались в <strong>текст</strong> (нужен интернет).</li>
           <li>Сложная вёрстка (таблицы, колонки, графика) в текст не переносится.</li>
           <li>Крупные и многостраничные файлы обрабатываются в браузере — на больших требуется время (показывается прогресс постранично).</li>
           <li>Облачные ссылки работают только при CORS-доступе к файлу.</li>
