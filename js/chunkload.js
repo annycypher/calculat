@@ -19,19 +19,31 @@ async function fetchWithTimeout(url, opts) {
 async function fetchBytes(url) {
   if (cache.has(url)) return cache.get(url);
   try {
-    const head = await fetchWithTimeout(url, { method: 'HEAD', cache: 'no-store' });
-    const total = parseInt(head.headers.get('content-length') || '0', 10);
-    if (!total || total < CHUNK) {
-      // Маленький файл — грузим целиком.
-      const r = await fetchWithTimeout(url, { cache: 'no-store' });
-      const b = new Uint8Array(await r.arrayBuffer());
-      cache.set(url, b);
-      return b;
+    // Размер берём из content-range ПЕРВОГО range-запроса.
+    // HEAD с Accept-Encoding: br может отдавать Content-Encoding без content-length,
+    // из-за чего код считал файл «маленьким» и делал обычный GET (который обрывается на ~24 КБ).
+    const first = await fetchWithTimeout(url, { headers: { Range: `bytes=0-${CHUNK - 1}` }, cache: 'no-store' });
+    const cr = first.headers.get('content-range') || '';
+    const m = cr.match(/\/(\d+)\s*$/);
+    let total = m ? parseInt(m[1], 10) : parseInt(first.headers.get('content-length') || '0', 10);
+    const firstBuf = new Uint8Array(await first.arrayBuffer());
+
+    if (first.status === 200) {
+      // Сервер отдал весь файл одним ответом.
+      cache.set(url, firstBuf);
+      return firstBuf;
     }
+    if (!total || total <= firstBuf.length) {
+      // Маленький файл / размер совпал — это и есть весь файл.
+      cache.set(url, firstBuf);
+      return firstBuf;
+    }
+
     const count = Math.ceil(total / CHUNK);
     const parts = new Array(count);
+    parts[0] = firstBuf;
     // Последовательно (меньше шансов среза защиты Cloudflare) + 3 попытки на часть.
-    for (let i = 0; i < count; i++) {
+    for (let i = 1; i < count; i++) {
       const start = i * CHUNK;
       const end = Math.min(start + CHUNK - 1, total - 1);
       let part = null;
