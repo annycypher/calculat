@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор ламината и линолеума онлайн — сколько упаковок — CalcDocs</title>
+  <meta name="description" content="Онлайн-расчёт ламината (количество досок и упаковок) и линолеума (погонные метры по ширине рулона) для комнаты, с запасом. Работает в браузере." />
+  <meta name="keywords" content="калькулятор ламината, сколько упаковок ламината, расчет ламината, линолеум расчет, ламинат на комнату" />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/construction/laminate.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Калькулятор ламината и линолеума — CalcDocs" />
+  <meta property="og:description" content="Рассчитайте упаковки ламината или погонные метры линолеума для комнаты." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Калькулятор ламината и линолеума",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Калькуляторы", "item": "https://calc-doc.ru/#tools" },
+      { "@type": "ListItem", "position": 3, "name": "Стройка и ремонт", "item": "https://calc-doc.ru/calculators/construction/" },
+      { "@type": "ListItem", "position": 4, "name": "Ламинат и линолеум", "item": "https://calc-doc.ru/calculators/construction/laminate.html" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Сколько упаковок ламината нужно на комнату?", "acceptedAnswer": { "@type": "Answer", "text": "Площадь комнаты делится на площадь одной доски, а результат — на количество досок в упаковке, с добавлением запаса 5–10%." } },
+      { "@type": "Question", "name": "Как рассчитать линолеум?", "acceptedAnswer": { "@type": "Answer", "text": "Ширина комнаты делится на ширину рулона — получается число полос, которое умножается на длину комнаты в погонных метрах." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <span class="brand-logo" aria-hidden="true">🧮</span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#tools">Калькуляторы</a> / <a href="/calculators/construction/">Стройка и ремонт</a> / Ламинат и линолеум</nav>
+      <h1>Калькулятор ламината и линолеума</h1>
+      <p class="tool-meta">Сколько упаковок ламината или погонных метров линолеума нужно на комнату. Данные не отправляются на сервер.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="laminateForm">
+            <div class="row2">
+              <div class="field">
+                <label for="length">Длина комнаты (м)</label>
+                <input type="number" id="length" inputmode="decimal" min="0" step="any" placeholder="например 5" required value="5" />
+              </div>
+              <div class="field">
+                <label for="width">Ширина комнаты (м)</label>
+                <input type="number" id="width" inputmode="decimal" min="0" step="any" placeholder="например 4" required value="4" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="material">Материал</label>
+              <select id="material">
+                <option value="laminate">Ламинат</option>
+                <option value="linoleum">Линолеум</option>
+              </select>
+            </div>
+            <div id="lamFields" class="field-group">
+              <div class="row3">
+                <div class="field">
+                  <label for="boardL">Длина доски (мм)</label>
+                  <input type="number" id="boardL" inputmode="decimal" min="0" step="any" placeholder="1285" required value="1285" />
+                </div>
+                <div class="field">
+                  <label for="boardW">Ширина доски (мм)</label>
+                  <input type="number" id="boardW" inputmode="decimal" min="0" step="any" placeholder="192" required value="192" />
+                </div>
+                <div class="field">
+                  <label for="perPack">Досок в упаковке</label>
+                  <input type="number" id="perPack" inputmode="numeric" min="1" step="1" placeholder="8" required value="8" />
+                </div>
+              </div>
+            </div>
+            <div id="linoFields" class="field-group" style="display:none">
+              <div class="field">
+                <label for="rollW">Ширина рулона (м)</label>
+                <input type="number" id="rollW" inputmode="decimal" min="0" step="any" placeholder="2" required value="2" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="reserve">Запас (%)</label>
+              <input type="number" id="reserve" inputmode="decimal" min="0" max="30" step="any" placeholder="5" required value="5" />
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Как рассчитать ламинат и линолеум</h2>
+        <p><strong>Ламинат:</strong> площадь комнаты (длина × ширина) делится на площадь одной доски, затем результат — на количество досок в упаковке. Добавляется запас на подрезку.</p>
+        <p><strong>Линолеум:</strong> ширина комнаты делится на ширину рулона — получается число полос. Полосы умножаются на длину комнаты: это нужный метраж в погонных метрах.</p>
+        <h3>Советы</h3>
+        <ul>
+          <li>Для ламината берите запас 5–10%, при диагональной укладке — до 15%.</li>
+          <li>Для линолеума учитывайте стыки и припуск на подрезку у стен.</li>
+        </ul>
+        <h2>Частые вопросы</h2>
+        <div class="faq">
+          <h3>Сколько упаковок ламината нужно на комнату?</h3>
+          <p>Площадь комнаты делится на площадь одной доски, а результат — на количество досок в упаковке, с добавлением запаса 5–10%.</p>
+          <h3>Как рассчитать линолеум?</h3>
+          <p>Ширина комнаты делится на ширину рулона — получается число полос, которое умножается на длину комнаты в погонных метрах.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/calc-laminate.js"></script>
+</body>
+</html>
+

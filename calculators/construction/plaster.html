@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор штукатурки и стяжки онлайн — расход мешков — CalcDocs</title>
+  <meta name="description" content="Онлайн-расчёт расхода сухой смеси на штукатурку или стяжку: площадь, толщина слоя, расход кг/м²·мм и количество мешков. Работает в браузере." />
+  <meta name="keywords" content="калькулятор штукатурки, расход штукатурки, сколько мешков, расчет стяжки, расход цементной смеси" />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/construction/plaster.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Калькулятор штукатурки и стяжки — CalcDocs" />
+  <meta property="og:description" content="Рассчитайте расход сухой смеси и количество мешков." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Калькулятор штукатурки и стяжки",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Калькуляторы", "item": "https://calc-doc.ru/#tools" },
+      { "@type": "ListItem", "position": 3, "name": "Стройка и ремонт", "item": "https://calc-doc.ru/calculators/construction/" },
+      { "@type": "ListItem", "position": 4, "name": "Штукатурка и стяжка", "item": "https://calc-doc.ru/calculators/construction/plaster.html" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Как рассчитать расход штукатурки?", "acceptedAnswer": { "@type": "Answer", "text": "Площадь поверхности умножается на толщину слоя (мм) и на расход смеси (кг на 1 м² при 1 мм). Результат — килограммы, которые делятся на вес мешка." } },
+      { "@type": "Question", "name": "Какой расход смеси на 1 мм слоя?", "acceptedAnswer": { "@type": "Answer", "text": "Обычно 1,5–2 кг на 1 м² при толщине 1 мм для цементной штукатурки; точное значение указывает производитель на мешке." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <span class="brand-logo" aria-hidden="true">🧮</span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#tools">Калькуляторы</a> / <a href="/calculators/construction/">Стройка и ремонт</a> / Штукатурка и стяжка</nav>
+      <h1>Калькулятор штукатурки и стяжки</h1>
+      <p class="tool-meta">Сколько сухой смеси и мешков нужно на штукатурку или стяжку. Данные не отправляются на сервер.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="plasterForm">
+            <div class="field">
+              <label for="area">Площадь поверхности (м²)</label>
+              <input type="number" id="area" inputmode="decimal" min="0" step="any" placeholder="например 20" required value="20" />
+              <span class="hint">Для стен — сумма стен минус окна и двери; для пола — длина × ширина.</span>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="thick">Толщина слоя (мм)</label>
+                <input type="number" id="thick" inputmode="decimal" min="0" step="any" placeholder="10" required value="10" />
+              </div>
+              <div class="field">
+                <label for="rate">Расход (кг/м²·мм)</label>
+                <input type="number" id="rate" inputmode="decimal" min="0" step="any" placeholder="1.7" required value="1.7" />
+                <span class="hint">Обычно 1,5–2 кг на м² при 1 мм.</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="bagW">Вес мешка (кг)</label>
+              <input type="number" id="bagW" inputmode="decimal" min="0" step="any" placeholder="30" required value="30" />
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Как рассчитать расход штукатурки и стяжки</h2>
+        <p>Количество смеси в килограммах = <strong>площадь × толщина (мм) × расход (кг/м²·мм)</strong>. Затем результат делится на вес мешка — получается количество мешков.</p>
+        <h3>Ориентировочный расход</h3>
+        <ul>
+          <li>Цементная штукатурка — около <strong>1,5–2 кг/м²</strong> при 1 мм.</li>
+          <li>Стяжка (цементно-песчаная) — около <strong>20 кг/м²</strong> на 10 мм (2 кг/м²·мм).</li>
+        </ul>
+        <p>Точное значение расхода смотрите на упаковке конкретной смеси — оно различается у разных производителей.</p>
+        <h2>Частые вопросы</h2>
+        <div class="faq">
+          <h3>Как рассчитать расход штукатурки?</h3>
+          <p>Площадь поверхности умножается на толщину слоя (мм) и на расход смеси (кг на 1 м² при 1 мм). Результат — килограммы, которые делятся на вес мешка.</p>
+          <h3>Какой расход смеси на 1 мм слоя?</h3>
+          <p>Обычно 1,5–2 кг на 1 м² при толщине 1 мм для цементной штукатурки; точное значение указывает производитель на мешке.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/calc-plaster.js"></script>
+</body>
+</html>
+

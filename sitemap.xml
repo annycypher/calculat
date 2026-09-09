@@ -106,6 +106,31 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://calc-doc.ru/calculators/construction/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calc-doc.ru/calculators/construction/tile.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calc-doc.ru/calculators/construction/laminate.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calc-doc.ru/calculators/construction/plaster.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calc-doc.ru/calculators/construction/paint.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://calc-doc.ru/privacy.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>

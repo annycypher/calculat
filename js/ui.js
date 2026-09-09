@@ -74,6 +74,11 @@ const TOOLS = [
   ['🧱', 'Кирпич', '/calculators/brick.html'],
   ['👪', 'Алименты', '/calculators/alimony.html'],
   ['🧻', 'Обои', '/calculators/wallpaper.html'],
+  ['🏗️', 'Стройка и ремонт', '/calculators/construction/'],
+  ['🔲', 'Плитка', '/calculators/construction/tile.html'],
+  ['🪵', 'Ламинат', '/calculators/construction/laminate.html'],
+  ['🪨', 'Штукатурка', '/calculators/construction/plaster.html'],
+  ['🪣', 'Краска', '/calculators/construction/paint.html'],
   ['💳', 'Счёт', '/generators/invoice.html'],
   ['📊', 'Отчёт', '/generators/report.html'],
   ['🔎', 'DaData', '/converters/dadata.html']

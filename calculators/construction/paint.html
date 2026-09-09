@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор краски и грунтовки онлайн — расход на 1 м² — CalcDocs</title>
+  <meta name="description" content="Онлайн-расчёт расхода краски и грунтовки: площадь поверхности, количество слоёв, расход мл/м² и нужное число банок. Работает в браузере." />
+  <meta name="keywords" content="калькулятор краски, расход краски на 1 м2, сколько краски, расчет грунтовки, расход грунтовки" />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/construction/paint.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Калькулятор краски и грунтовки — CalcDocs" />
+  <meta property="og:description" content="Рассчитайте расход краски и количество банок." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Калькулятор краски и грунтовки",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Калькуляторы", "item": "https://calc-doc.ru/#tools" },
+      { "@type": "ListItem", "position": 3, "name": "Стройка и ремонт", "item": "https://calc-doc.ru/calculators/construction/" },
+      { "@type": "ListItem", "position": 4, "name": "Краска и грунтовка", "item": "https://calc-doc.ru/calculators/construction/paint.html" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Как рассчитать расход краски?", "acceptedAnswer": { "@type": "Answer", "text": "Площадь поверхности умножается на количество слоёв и на расход краски (мл на 1 м² на один слой). Результат — литры, которые делятся на объём банки." } },
+      { "@type": "Question", "name": "Сколько краски нужно на 1 м²?", "acceptedAnswer": { "@type": "Answer", "text": "Обычно 100–160 мл на 1 м² на один слой для водоэмульсионной краски; точное значение указано на банке." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <span class="brand-logo" aria-hidden="true">🧮</span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#tools">Калькуляторы</a> / <a href="/calculators/construction/">Стройка и ремонт</a> / Краска и грунтовка</nav>
+      <h1>Калькулятор краски и грунтовки</h1>
+      <p class="tool-meta">Сколько краски или грунтовки нужно на поверхность и сколько банок купить. Данные не отправляются на сервер.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="paintForm">
+            <div class="field">
+              <label for="material">Материал</label>
+              <select id="material">
+                <option value="paint">Краска</option>
+                <option value="primer">Грунтовка</option>
+              </select>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="length">Длина поверхности (м)</label>
+                <input type="number" id="length" inputmode="decimal" min="0" step="any" placeholder="например 10" required value="10" />
+              </div>
+              <div class="field">
+                <label for="height">Высота поверхности (м)</label>
+                <input type="number" id="height" inputmode="decimal" min="0" step="any" placeholder="например 2.7" required value="2.7" />
+              </div>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="coats">Слоёв</label>
+                <input type="number" id="coats" inputmode="numeric" min="1" max="5" step="1" placeholder="1" required value="1" />
+              </div>
+              <div class="field">
+                <label for="rate">Расход (мл/м² · 1 слой)</label>
+                <input type="number" id="rate" inputmode="decimal" min="0" step="any" placeholder="150" required value="150" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="canL">Объём банки (л)</label>
+              <input type="number" id="canL" inputmode="decimal" min="0" step="any" placeholder="0.9" required value="0.9" />
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Как рассчитать расход краски</h2>
+        <p>Количество = <strong>площадь (длина × высота) × число слоёв × расход (мл/м²)</strong>. Затем литры делятся на объём банки — получается число банок.</p>
+        <h3>Ориентировочный расход</h3>
+        <ul>
+          <li>Водоэмульсионная краска — около <strong>100–160 мл/м²</strong> на один слой.</li>
+          <li>Грунтовка — около <strong>80–120 мл/м²</strong> на один слой.</li>
+          <li>Точное значение всегда указано на банке и зависит от основы и инструмента.</li>
+        </ul>
+        <h2>Частые вопросы</h2>
+        <div class="faq">
+          <h3>Как рассчитать расход краски?</h3>
+          <p>Площадь поверхности умножается на количество слоёв и на расход краски (мл на 1 м² на один слой). Результат — литры, которые делятся на объём банки.</p>
+          <h3>Сколько краски нужно на 1 м²?</h3>
+          <p>Обычно 100–160 мл на 1 м² на один слой для водоэмульсионной краски; точное значение указано на банке.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/calc-paint.js"></script>
+</body>
+</html>
+

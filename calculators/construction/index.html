@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькуляторы стройки и ремонта онлайн — CalcDocs</title>
+  <meta name="description" content="Бесплатные онлайн-калькуляторы для стройки и ремонта: плитка, ламинат и линолеум, штукатурка и стяжка, краска и грунтовка. Работают в браузере." />
+  <meta name="keywords" content="строительные калькуляторы, калькулятор плитки, ламинат, штукатурка, краска, ремонт онлайн" />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/construction/" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Калькуляторы стройки и ремонта — CalcDocs" />
+  <meta property="og:description" content="Плитка, ламинат, штукатурка, краска — расчёт материалов онлайн." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Калькуляторы стройки и ремонта",
+    "url": "https://calc-doc.ru/calculators/construction/",
+    "description": "Онлайн-калькуляторы для стройки и ремонта: плитка, ламинат и линолеум, штукатурка и стяжка, краска и грунтовка."
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Калькуляторы", "item": "https://calc-doc.ru/#tools" },
+      { "@type": "ListItem", "position": 3, "name": "Стройка и ремонт", "item": "https://calc-doc.ru/calculators/construction/" }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <span class="brand-logo" aria-hidden="true">🧮</span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#tools">Калькуляторы</a> / Стройка и ремонт</nav>
+      <h1>Калькуляторы стройки и ремонта</h1>
+      <p class="tool-meta">Расчёт материалов для ремонта: плитка, ламинат, штукатурка, краска. Все данные остаются в вашем браузере.</p>
+    </div>
+
+    <div class="container section">
+      <div class="grid">
+        <a class="card" href="tile.html">
+          <span class="card-icon" aria-hidden="true">🔲</span>
+          <h3>Плитка</h3>
+          <p>Сколько плитки на пол или стены, с запасом и в упаковках.</p>
+        </a>
+        <a class="card" href="laminate.html">
+          <span class="card-icon" aria-hidden="true">🪵</span>
+          <h3>Ламинат и линолеум</h3>
+          <p>Упаковки ламината или погонные метры линолеума на комнату.</p>
+        </a>
+        <a class="card" href="plaster.html">
+          <span class="card-icon" aria-hidden="true">🪨</span>
+          <h3>Штукатурка и стяжка</h3>
+          <p>Расход сухой смеси и количество мешков на поверхность.</p>
+        </a>
+        <a class="card" href="paint.html">
+          <span class="card-icon" aria-hidden="true">🪣</span>
+          <h3>Краска и грунтовка</h3>
+          <p>Расход краски и грунтовки по площади и числу слоёв.</p>
+        </a>
+      </div>
+      <p class="hint" style="margin-top:24px">Добавляются: фундамент, кровля, забор из профнастила, утеплитель и теплопотери, сечение кабеля и другие строительные калькуляторы.</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+</body>
+</html>

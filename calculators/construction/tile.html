@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор плитки онлайн — сколько плитки на пол и стены — CalcDocs</title>
+  <meta name="description" content="Онлайн-расчёт количества плитки для пола и стен: площадь поверхности, размер плитки, запас и количество упаковок. Работает в браузере." />
+  <meta name="keywords" content="калькулятор плитки, сколько плитки на пол, расчет плитки, плитка на стену, количество плитки в м2" />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/construction/tile.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Калькулятор плитки онлайн — CalcDocs" />
+  <meta property="og:description" content="Рассчитайте количество плитки для пола или стен с запасом." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Калькулятор плитки",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Калькуляторы", "item": "https://calc-doc.ru/#tools" },
+      { "@type": "ListItem", "position": 3, "name": "Стройка и ремонт", "item": "https://calc-doc.ru/calculators/construction/" },
+      { "@type": "ListItem", "position": 4, "name": "Плитка", "item": "https://calc-doc.ru/calculators/construction/tile.html" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Как рассчитать количество плитки?", "acceptedAnswer": { "@type": "Answer", "text": "Площадь поверхности делится на площадь одной плитки. К полученному числу добавляют запас на подрезку (обычно 5–10%)." } },
+      { "@type": "Question", "name": "Какой запас плитки брать?", "acceptedAnswer": { "@type": "Answer", "text": "Для диагональной укладки и больших плиток запас увеличивают до 10–15%, при прямой укладке достаточно 5–10%." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <span class="brand-logo" aria-hidden="true">🧮</span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#tools">Калькуляторы</a> / <a href="/calculators/construction/">Стройка и ремонт</a> / Плитка</nav>
+      <h1>Калькулятор плитки</h1>
+      <p class="tool-meta">Сколько плитки нужно на пол или стены — с учётом размера и запаса. Данные не отправляются на сервер.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="tileForm">
+            <div class="field">
+              <label for="length">Длина поверхности (м)</label>
+              <input type="number" id="length" inputmode="decimal" min="0" step="any" placeholder="например 5" required value="5" />
+            </div>
+            <div class="field">
+              <label for="width">Ширина поверхности (м)</label>
+              <input type="number" id="width" inputmode="decimal" min="0" step="any" placeholder="например 3" required value="3" />
+              <span class="hint">Для стен — сумма всех стен минус окна и двери.</span>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="tw">Ширина плитки (см)</label>
+                <input type="number" id="tw" inputmode="decimal" min="0" step="any" placeholder="20" required value="20" />
+              </div>
+              <div class="field">
+                <label for="th">Длина плитки (см)</label>
+                <input type="number" id="th" inputmode="decimal" min="0" step="any" placeholder="30" required value="30" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="reserve">Запас (%)</label>
+              <input type="number" id="reserve" inputmode="decimal" min="0" max="30" step="any" placeholder="10" required value="10" />
+            </div>
+            <div class="field">
+              <label for="perBox">Плиток в упаковке (шт)</label>
+              <input type="number" id="perBox" inputmode="decimal" min="1" step="1" placeholder="0" value="0" />
+              <span class="hint">Если поставить 0 — упаковки не считаются.</span>
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Как рассчитать количество плитки</h2>
+        <p>Площадь поверхности (длина × ширина) делится на площадь одной плитки. К полученному числу добавляется запас на подрезку и возможный бой.</p>
+        <h3>Советы</h3>
+        <ul>
+          <li>Прямая укладка — запас 5–10%, диагональная — 10–15%.</li>
+          <li>Для стен вычитайте окна и двери, для пола — учитывайте плинтусы и пороги.</li>
+          <li>Считайте размер плитки в метрах, чтобы площадь сошлась: см / 100.</li>
+        </ul>
+        <h2>Частые вопросы</h2>
+        <div class="faq">
+          <h3>Как рассчитать количество плитки?</h3>
+          <p>Площадь поверхности делится на площадь одной плитки. К полученному числу добавляют запас на подрезку (обычно 5–10%).</p>
+          <h3>Какой запас плитки брать?</h3>
+          <p>Для диагональной укладки и больших плиток запас увеличивают до 10–15%, при прямой укладке достаточно 5–10%.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/calc-tile.js"></script>
+</body>
+</html>
+
