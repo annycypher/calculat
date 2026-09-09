@@ -4,16 +4,8 @@ const form = document.getElementById('csvForm');
 const fileEl = document.getElementById('file');
 const output = document.getElementById('output');
 
-// Ленивая загрузка библиотеки (грузится только при конвертации)
-function loadScript(src) {
-  return new Promise((resolve, reject) => {
-    const s = document.createElement('script');
-    s.src = src;
-    s.onload = () => resolve();
-    s.onerror = () => reject(new Error('Не удалось загрузить ' + src));
-    document.head.appendChild(s);
-  });
-}
+// Ленивая загрузка библиотеки: большой файл грузим кусками (Cloudflare режет длинные ответы)
+import { loadChunkedScript } from '/js/chunkload.js';
 
 if (form) {
   form.addEventListener('submit', async (e) => {
@@ -22,7 +14,7 @@ if (form) {
     if (!file) { output.innerHTML = `<p class="hint">Сначала выберите CSV-файл.</p>`; return; }
 
     try {
-      if (typeof XLSX === 'undefined') await loadScript('/libs/xlsx.full.min.js');
+      if (typeof XLSX === 'undefined') await loadChunkedScript('/libs/xlsx.full.min.js');
     } catch (err) {
       output.innerHTML = `<p class="hint" style="color:#c0392b">Библиотека SheetJS не загрузилась. Проверьте интернет.</p>`;
       return;

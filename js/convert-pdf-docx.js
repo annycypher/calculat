@@ -1,15 +1,7 @@
 // PDF → Word (текстовый вариант): pdf.js извлекает текст, docx собирает .docx.
 
-// Ленивая загрузка библиотек (грузится только при конвертации)
-function loadScript(src) {
-  return new Promise((resolve, reject) => {
-    const s = document.createElement('script');
-    s.src = src;
-    s.onload = () => resolve();
-    s.onerror = () => reject(new Error('Не удалось загрузить ' + src));
-    document.head.appendChild(s);
-  });
-}
+// Библиотеки большие, Cloudflare режет длинные ответы → грузим по частям (Range).
+import { loadChunkedScript, importChunked, chunkedBlobUrl } from '/js/chunkload.js';
 
 const form = document.getElementById('pdfForm');
 const fileEl = document.getElementById('file');
@@ -25,9 +17,9 @@ if (form) {
 
     setOut(`<p class="hint" style="margin:0">Обработка PDF… Это может занять время.</p>`);
     try {
-      if (typeof pdfjsLib === 'undefined') await loadScript('/libs/pdf.min.js');
-      pdfjsLib.GlobalWorkerOptions.workerSrc = '/libs/pdf.worker.min.js';
-      const { Document, Paragraph, TextRun, Packer } = await import('/libs/docx.mjs');
+      if (typeof pdfjsLib === 'undefined') await loadChunkedScript('/libs/pdf.min.js');
+      pdfjsLib.GlobalWorkerOptions.workerSrc = await chunkedBlobUrl('/libs/pdf.worker.min.js');
+      const { Document, Paragraph, TextRun, Packer } = await importChunked('/libs/docx.mjs');
       const buf = await file.arrayBuffer();
       const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
       const mkP = (text) => new Paragraph({ children: [new TextRun({ text })] });
