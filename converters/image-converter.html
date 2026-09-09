@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Конвертер изображений онлайн — PNG, JPG, WEBP, сжатие — CalcDocs</title>
-  <meta name="description" content="Бесплатный онлайн-конвертер изображений: PNG, JPG, WEBP, сжатие и изменение размера. Всё прямо в браузере, без загрузки на сервер." />
-  <meta name="keywords" content="конвертер изображений, png в jpg, jpg в webp, сжать изображение, изменить размер картинки, онлайн конвертер картинок" />
+  <title>Сжатие изображений онлайн — до 30 файлов сразу — CalcDocs</title>
+  <meta name="description" content="Бесплатное сжатие изображений в браузере: перетащите до 30 PNG, JPG, WEBP — они сожмутся в оптимальном качестве без видимой потери. Файлы не загружаются на сервер." />
+  <meta name="keywords" content="сжать изображение, сжатие фото онлайн, compress image, png webp, сжать png, уменьшить размер картинки" />
   <link rel="canonical" href="https://calc-doc.ru/converters/image-converter.html" />
   <meta name="robots" content="index, follow" />
   <meta property="og:title" content="Конвертер изображений онлайн — CalcDocs" />
-  <meta property="og:description" content="PNG / JPG / WEBP, сжатие и ресайз прямо в браузере." />
+  <meta property="og:description" content="Сжатие изображений в оптимальном качестве, до 30 файлов сразу." />
   <meta property="og:type" content="website" />
   <link rel="manifest" href="/manifest.webmanifest" />
   <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
@@ -59,58 +59,39 @@
 
   <main>
     <div class="container tool-hero">
-      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#converters">Конвертеры</a> / Изображения</nav>
-      <h1>Конвертер изображений</h1>
-      <p class="tool-meta">Конвертируйте PNG / JPG / WEBP, сжимайте и меняйте размер. Файл не покидает ваше устройство.</p>
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#converters">Конвертеры</a> / Сжатие изображений</nav>
+      <h1>Сжатие изображений</h1>
+      <p class="tool-meta">Перетащите до 30 фото — они сожмутся в оптимальном качестве без видимой потери. Файлы не покидают ваше устройство.</p>
     </div>
 
-    <div class="container section no-print">
-      <div class="form-card">
-        <form id="imgForm">
-          <div class="field">
-            <label for="file">Изображение</label>
-            <input type="file" id="file" name="file" accept="image/*" required />
-            <span class="hint">Поддерживаются PNG, JPG/JPEG, WEBP, GIF, BMP.</span>
-          </div>
-          <div class="row2">
-            <div class="field">
-              <label for="format">Формат на выходе</label>
-              <select id="format" name="format">
-                <option value="jpeg">JPG</option>
-                <option value="png">PNG</option>
-                <option value="webp">WEBP</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="quality">Качество: <span id="qualityVal">85%</span></label>
-              <input type="range" id="quality" name="quality" min="10" max="100" step="1" value="85" />
-              <span class="hint">Для JPG и WEBP; на PNG не влияет.</span>
-            </div>
-          </div>
-          <div class="field">
-            <label for="maxWidth">Макс. ширина, px (0 = не менять)</label>
-            <input type="number" id="maxWidth" name="maxWidth" min="0" step="1" placeholder="например 1200" value="0" />
-          </div>
-          <button class="btn btn-primary" type="submit" style="width:100%">Конвертировать</button>
-        </form>
-      </div>
-      <div class="form-card" style="margin-top:20px">
-        <h3>Результат</h3>
-        <div id="output" class="result-box" style="margin-top:0">
-          <p style="margin:0;color:var(--text-muted)">Загрузите изображение и нажмите «Конвертировать».</p>
+    <div class="container ic-app">
+      <div class="ic-drop" id="drop" role="button" tabindex="0" aria-label="Загрузить изображения">
+        <input type="file" id="file" multiple accept="image/*" hidden />
+        <div class="ic-drop-inner">
+          <div class="ic-drop-ic" aria-hidden="true">🖼️</div>
+          <p class="ic-drop-title">Перетащите изображения сюда</p>
+          <p class="ic-drop-sub">или нажмите, чтобы выбрать · PNG, JPG, WEBP · до 30 файлов</p>
+          <button class="btn btn-primary" id="pickBtn" type="button">Выбрать файлы</button>
         </div>
       </div>
+
+      <div class="ic-summary" id="summary" hidden>
+        <span>Готово: <strong id="sumCount">0</strong> · сэкономлено <strong id="sumSaved">0 КБ</strong></span>
+        <button class="btn btn-ghost" id="clearBtn" type="button">Очистить</button>
+      </div>
+
+      <div class="ic-list" id="list"></div>
     </div>
 
     <div class="container section">
       <div class="prose">
-        <h2>Как конвертировать изображение</h2>
-        <p>Просто выберите файл, укажите нужный формат (JPG, PNG или WEBP), при желании — качество и максимальную ширину, и нажмите «Конвертировать». Результат откроется для предпросмотра и его можно скачать.</p>
-        <h3>Важно</h3>
+        <h2>Как это работает</h2>
+        <p>Перетащите изображения (или нажмите и выберите до 30 файлов). Каждое сжимается в оптимальном качестве без видимой потери: JPG и WEBP перекодируются, PNG/GIF/BMP превращаются в компактный WEBP. Скачайте результат кнопкой напротив файла.</p>
+        <h3>Что важно</h3>
         <ul>
-          <li>Обработка идёт <strong>в вашем браузере</strong>: файл не загружается на сервер и не хранится.</li>
-          <li>JPG и WEBP — сжатые (качество настраивается), PNG — без потерь.</li>
-          <li>WEBP поддерживается последними версиями Chrome, Edge, Opera, Safari.</li>
+          <li>Всё происходит <strong>в браузере</strong> — файлы не загружаются на сервер.</li>
+          <li>WEBP поддерживается современными браузерами.</li>
+          <li>Имя файла = исходное имя + <strong>calc_doc</strong> в конце.</li>
         </ul>
       </div>
     </div>
@@ -130,7 +111,7 @@
   </footer>
 
   <script type="module" src="/js/ui.js?v=4"></script>
-  <script type="module" src="/js/convert-image.js"></script>
+  <script type="module" src="/js/convert-image.js?v=2"></script>
 </body>
 </html>
 

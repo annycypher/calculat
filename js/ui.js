@@ -67,7 +67,7 @@ const TOOLS = [
   ['✍️', 'Доверенность', '/generators/power-of-attorney.html'],
   ['📋', 'Договор', '/generators/contract.html'],
   ['🗓️', 'Заявление на отпуск', '/generators/leave-request.html'],
-  ['🖼️', 'Конвертер изображений', '/converters/image-converter.html'],
+  ['🖼️', 'Сжатие изображений', '/converters/image-converter.html'],
   ['📑', 'CSV → Excel', '/converters/csv-to-xlsx.html'],
   ['📄', 'PDF → Word', '/converters/pdf-to-word.html'],
   ['🎮', 'Мини-игры', '/games/'],

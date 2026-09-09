@@ -26,7 +26,7 @@ export const SEARCH = [
   { t: 'Компенсация за задержку зарплаты', u: '/calculators/finance/salary-delay.html', k: 'задержка зарплаты компенсация 236 ТК', d: 'Компенсация по ст. 236 ТК РФ.' },
   { t: 'Сложный процент', u: '/calculators/finance/compound-interest.html', k: 'сложный процент доходность вклад', d: 'Доходность вклада с пополнением и капитализацией.' },
   { t: 'Средний заработок', u: '/calculators/finance/average-earnings.html', k: 'средний заработок стаж больничный', d: 'Средний дневной и месячный заработок, стаж.' },
-  { t: 'Конвертер изображений', u: '/converters/image-converter.html', k: 'изображение PNG JPG WEBP сжатие', d: 'PNG, JPG, WEBP и сжатие прямо в браузере.' },
+  { t: 'Сжатие изображений', u: '/converters/image-converter.html', k: 'сжать изображение сжатие фото png webp размер', d: 'Сжатие фото до 30 файлов сразу в оптимальном качестве.' },
   { t: 'CSV → Excel', u: '/converters/csv-to-xlsx.html', k: 'csv excel таблица xlsx', d: 'Превратите CSV-файл в готовый .xlsx.' },
   { t: 'PDF → Word', u: '/converters/pdf-to-word.html', k: 'pdf word docx текст конвертер', d: 'Извлеките текст из PDF в редактируемый DOCX.' },
   { t: 'Генератор QR-кода', u: '/converters/qr-generator.html', k: 'qr код генератор png svg jpg', d: 'QR-код из текста или ссылки — PNG, JPG, SVG.' },
