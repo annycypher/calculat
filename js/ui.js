@@ -68,6 +68,7 @@ const TOOLS = [
   ['🖼️', 'Конвертер изображений', '/converters/image-converter.html'],
   ['📑', 'CSV → Excel', '/converters/csv-to-xlsx.html'],
   ['📄', 'PDF → Word', '/converters/pdf-to-word.html'],
+  ['🎮', 'Мини-игры', '/games/'],
   ['💳', 'Пеня', '/calculators/penalty.html'],
   ['🧾', 'НДС', '/calculators/vat.html'],
   ['🧱', 'Кирпич', '/calculators/brick.html'],
