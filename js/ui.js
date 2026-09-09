@@ -73,7 +73,10 @@ const TOOLS = [
   ['🧾', 'НДС', '/calculators/vat.html'],
   ['🧱', 'Кирпич', '/calculators/brick.html'],
   ['👪', 'Алименты', '/calculators/alimony.html'],
-  ['🧻', 'Обои', '/calculators/wallpaper.html']
+  ['🧻', 'Обои', '/calculators/wallpaper.html'],
+  ['💳', 'Счёт', '/generators/invoice.html'],
+  ['📊', 'Отчёт', '/generators/report.html'],
+  ['🔎', 'DaData', '/converters/dadata.html']
 ];
 function buildRelated() {
   const footer = document.querySelector('.site-footer');

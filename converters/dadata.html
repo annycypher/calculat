@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DaData-конструктор запросов онлайн — suggest API (орг., адрес, банк) — CalcDocs</title>
+  <meta name="description" content="Конструктор запросов к DaData Suggest API: организация, адрес, банк, ФИО. Сформируйте и скопируйте запрос (curl), проверьте ответ JSON." />
+  <meta name="keywords" content="dadata, suggest api, конструктор запросов, подсказки по ИНН, подсказки адреса, api dadata" />
+  <link rel="canonical" href="https://calc-doc.ru/converters/dadata.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="DaData-конструктор запросов — CalcDocs" />
+  <meta property="og:description" content="Соберите запрос к DaData Suggest API и скопируйте его для проверки." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "DaData-конструктор запросов",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Конвертеры", "item": "https://calc-doc.ru/#converters" },
+      { "@type": "ListItem", "position": 3, "name": "DaData-конструктор", "item": "https://calc-doc.ru/converters/dadata.html" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Что такое DaData Suggest API?", "acceptedAnswer": { "@type": "Answer", "text": "Это сервис подсказок: по части строки он возвращает полное название организации, адрес или банк в структурированном виде (JSON)." } },
+      { "@type": "Question", "name": "Почему запрос из браузера может не сработать?", "acceptedAnswer": { "@type": "Answer", "text": "DaData обычно не отдаёт CORS-заголовки сторонним сайтам, поэтому браузер может заблокировать ответ. Решение — выполнять запрос с сервера или через прокси." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <span class="brand-logo" aria-hidden="true">🧮</span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#converters">Конвертеры</a> / DaData-конструктор</nav>
+      <h1>DaData-конструктор запросов</h1>
+      <p class="tool-meta">Соберите запрос к DaData Suggest API (организация, адрес, банк, ФИО) и скопируйте его для проверки.</p>
+    </div>
+    <div class="container section no-print">
+      <div class="note" style="margin-bottom:16px">🔑 Для реальных запросов DaData нужен API-токен. Прямой вызов из браузера может быть ограничен CORS — тогда используйте готовую <strong>curl-команду</strong> из сервера или терминала.</div>
+    </div>
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="dadataForm">
+            <div class="field">
+              <label for="type">Тип подсказок</label>
+              <select id="type">
+                <option value="party">Организация (party)</option>
+                <option value="address">Адрес (address)</option>
+                <option value="bank">Банк (bank)</option>
+                <option value="fio">ФИО (fio)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="query">Поисковая строка</label>
+              <input type="text" id="query" placeholder="ООО Ромашка / Москва / Сбербанк / Иванов" required value="ООО Ромашка" />
+            </div>
+            <div class="field">
+              <label for="token">API-токен DaData (key)</label>
+              <input type="text" id="token" placeholder="Ваш токен" />
+              <span class="hint">Токен хранится только в вашем браузере (localStorage).</span>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="count">Кол-во результатов</label>
+                <input type="number" id="count" min="1" max="20" step="1" value="5" />
+              </div>
+              <div class="field">
+                <label for="bust">ИНН (для party)</label>
+                <input type="text" id="bust" placeholder="Необязательно" />
+              </div>
+            </div>
+            <button class="btn btn-primary" type="button" id="buildBtn" style="width:100%;margin-bottom:8px">Сформировать запрос (curl)</button>
+            <button class="btn btn-ghost" type="submit" style="width:100%">Запросить API</button>
+          </form>
+        </div>
+
+        <div class="form-card">
+          <h3>Результат</h3>
+          <pre id="out" style="white-space:pre-wrap;word-break:break-word;font-size:12px;background:var(--bg, #f6f7fb);padding:12px;border-radius:8px;margin-top:0;max-height:420px;overflow:auto">Здесь появится запрос (curl) и ответ API.</pre>
+          <button class="btn btn-ghost no-print" id="copyBtn" style="width:100%;margin-top:10px" hidden>📋 Скопировать результат</button>
+        </div>
+      </div>
+    </div>
+    <div class="container section">
+      <div class="prose">
+        <h2>Как пользоваться конструктором</h2>
+        <p>Выберите тип подсказок (организация, адрес, банк или ФИО), введите поисковую строку и при необходимости токен DaData. Кнопка <strong>«Сформировать запрос»</strong> соберёт готовую cURL-команду — её можно запустить в терминале или на сервере.</p>
+        <h3>Как получить токен</h3>
+        <ul>
+          <li>Зарегистрируйтесь на <a href="https://dadata.ru" target="_blank" rel="noopener nofollow">dadata.ru</a>.</li>
+          <li>Найдите API-ключ в личном кабинете (раздел «Настройки»).</li>
+          <li>Подставьте его в поле «API-токен» — он сохранится только у вас в браузере.</li>
+        </ul>
+        <p>Прямой вызов из браузера может блокироваться CORS — тогда используйте готовую curl-команду или прокси-сервер.</p>
+        <h2>Частые вопросы</h2>
+        <div class="faq">
+          <h3>Что такое DaData Suggest API?</h3>
+          <p>Это сервис подсказок: по части строки он возвращает полное название организации, адрес или банк в структурированном виде (JSON).</p>
+          <h3>Почему запрос из браузера может не сработать?</h3>
+          <p>DaData обычно не отдаёт CORS-заголовки сторонним сайтам, поэтому браузер может заблокировать ответ. Решение — выполнять запрос с сервера или через прокси.</p>
+        </div>
+      </div>
+    </div>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/dadata.js"></script>
+  </main>
+</body>
+</html>

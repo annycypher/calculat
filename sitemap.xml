@@ -91,6 +91,21 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://calc-doc.ru/generators/invoice.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calc-doc.ru/generators/report.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calc-doc.ru/converters/dadata.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://calc-doc.ru/privacy.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>

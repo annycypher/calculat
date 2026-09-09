@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Счёт на оплату онлайн — генератор счёта с QR-кодом в PDF — CalcDocs</title>
+  <meta name="description" content="Онлайн-генератор счёта на оплату: реквизиты, позиции, итого и QR-код. Сохраните готовый счёт в PDF бесплатно, без регистрации." />
+  <meta name="keywords" content="счет на оплату, генератор счетов, счет на оплату онлайн, счет с QR кодом, счет в PDF" />
+  <link rel="canonical" href="https://calc-doc.ru/generators/invoice.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Генератор счёта на оплату с QR — CalcDocs" />
+  <meta property="og:description" content="Соберите и скачайте счёт на оплату с QR-кодом в PDF за минуту." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Генератор счёта на оплату",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Файлы", "item": "https://calc-doc.ru/#files" },
+      { "@type": "ListItem", "position": 3, "name": "Счёт на оплату", "item": "https://calc-doc.ru/generators/invoice.html" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Как скачать счёт в PDF?", "acceptedAnswer": { "@type": "Answer", "text": "Заполните форму, нажмите «Создать счёт» и затем «Скачать в PDF» — в окне печати выберите принтер «Сохранить как PDF»." } },
+      { "@type": "Question", "name": "Что такое QR-код на счете?", "acceptedAnswer": { "@type": "Answer", "text": "QR-код закодирует данные для оплаты — их можно считать камерой телефона или банковским приложением. Код формируется автоматически из реквизитов и суммы." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <span class="brand-logo" aria-hidden="true">🧮</span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#files">Файлы</a> / Счёт на оплату</nav>
+      <h1>Генератор счёта на оплату</h1>
+      <p class="tool-meta">Заполните реквизиты и позиции — получите готовый счёт с QR-кодом, который можно скачать в PDF.</p>
+    </div>
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="invoiceForm">
+            <div class="row2">
+              <div class="field">
+                <label for="invNum">Номер счёта</label>
+                <input type="text" id="invNum" placeholder="1" required value="1" />
+              </div>
+              <div class="field">
+                <label for="invDate">Дата</label>
+                <input type="text" id="invDate" placeholder="01.01.2026" required value="01.01.2026" />
+              </div>
+            </div>
+            <h3>Исполнитель (кто выставляет)</h3>
+            <div class="field">
+              <label for="sellerName">Наименование / ФИО</label>
+              <input type="text" id="sellerName" placeholder="ИП Иванов И.И." required value="ИП Иванов И.И." />
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="sellerInn">ИНН</label>
+                <input type="text" id="sellerInn" placeholder="7701234567" required value="7701234567" />
+              </div>
+              <div class="field">
+                <label for="sellerKpp">КПП</label>
+                <input type="text" id="sellerKpp" placeholder="770101001" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="sellerBank">Банк</label>
+              <input type="text" id="sellerBank" placeholder="АО «Альфа-Банк»" required value="АО «Альфа-Банк»" />
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="sellerBik">БИК</label>
+                <input type="text" id="sellerBik" placeholder="044525593" required value="044525593" />
+              </div>
+              <div class="field">
+                <label for="sellerAccount">Расчётный счёт</label>
+                <input type="text" id="sellerAccount" placeholder="40702810000000000000" required value="40702810000000000000" />
+              </div>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="sellerCorr">Корр. счёт</label>
+                <input type="text" id="sellerCorr" placeholder="30101810200000000593" required value="30101810200000000593" />
+              </div>
+              <div class="field">
+                <label for="sellerAddr">Адрес</label>
+                <input type="text" id="sellerAddr" placeholder="г. Москва, ул. Ленина, д. 1" />
+              </div>
+            </div>
+            <h3>Заказчик (плательщик)</h3>
+            <div class="field">
+              <label for="buyerName">Наименование / ФИО</label>
+              <input type="text" id="buyerName" placeholder="ООО «Ромашка»" required value="ООО «Ромашка»" />
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="buyerInn">ИНН</label>
+                <input type="text" id="buyerInn" placeholder="7701234567" />
+              </div>
+              <div class="field">
+                <label for="buyerAddr">Адрес</label>
+                <input type="text" id="buyerAddr" placeholder="г. Москва" />
+              </div>
+            </div>
+            <h3>Позиции счёта</h3>
+            <div id="itemsRow"></div>
+            <button type="button" class="btn btn-ghost" id="addItem" style="width:100%">+ Добавить позицию</button>
+            <div class="row2" style="margin-top:16px">
+              <div class="field">
+                <label for="vat">НДС</label>
+                <select id="vat">
+                  <option value="0">Без НДС</option>
+                  <option value="20">НДС 20%</option>
+                  <option value="10">НДС 10%</option>
+                </select>
+              </div>
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Создать счёт</button>
+          </form>
+        </div>
+        <div>
+          <div class="form-card" id="previewCard">
+            <div class="print-area" id="printArea">
+              <p style="color:#888;margin:0">Здесь появится ваш счёт.</p>
+            </div>
+          </div>
+          <button class="btn btn-primary no-print" id="printBtn" disabled style="width:100%;margin-top:16px">🖨️ Скачать в PDF</button>
+          <p class="hint no-print" id="printHint" hidden>В окне печати выберите «Сохранить как PDF».</p>
+        </div>
+      </div>
+    </div>
+    <div class="container section">
+      <div class="prose">
+        <h2>Как скачать счёт в PDF</h2>
+        <p>Заполните форму и нажмите «Создать счёт» — готовый счёт с QR-кодом появится справа. Затем нажмите «Скачать в PDF» и в окне печати выберите принтер <strong>«Сохранить как PDF»</strong>.</p>
+        <h3>Что входит в счёт</h3>
+        <ul>
+          <li>Реквизиты исполнителя (банк, БИК, счета, ИНН/КПП) и заказчика.</li>
+          <li>Таблица позиций с количеством, ценой и суммой.</li>
+          <li>QR-код с данными для оплаты.</li>
+        </ul>
+        <h2>Частые вопросы</h2>
+        <div class="faq">
+          <h3>Как скачать счёт в PDF?</h3>
+          <p>Заполните форму, нажмите «Создать счёт» и затем «Скачать в PDF» — в окне печати выберите принтер «Сохранить как PDF».</p>
+          <h3>Что такое QR-код на счете?</h3>
+          <p>QR-код закодирует данные для оплаты — их можно считать камерой телефона или банковским приложением. Код формируется автоматически из реквизитов и суммы.</p>
+        </div>
+      </div>
+    </div>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="/js/qrcode.js"></script>
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/gen-invoice.js"></script>
+  </main>
+</body>
+</html>

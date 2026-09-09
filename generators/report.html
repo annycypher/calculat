@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Генератор PDF-отчёта онлайн — шаблон отчёта с таблицей в PDF — CalcDocs</title>
+  <meta name="description" content="Онлайн-генератор отчёта: название, период, показатели и выводы. Сохраните готовый отчёт в PDF бесплатно, без регистрации." />
+  <meta name="keywords" content="генератор отчета, отчет в pdf, отчет онлайн, шаблон отчета, бизнес отчет" />
+  <link rel="canonical" href="https://calc-doc.ru/generators/report.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Генератор PDF-отчёта — CalcDocs" />
+  <meta property="og:description" content="Соберите и скачайте отчёт с таблицей показателей в PDF." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Генератор PDF-отчёта",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Файлы", "item": "https://calc-doc.ru/#files" },
+      { "@type": "ListItem", "position": 3, "name": "PDF-отчёт", "item": "https://calc-doc.ru/generators/report.html" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Как скачать отчёт в PDF?", "acceptedAnswer": { "@type": "Answer", "text": "Заполните форму, нажмите «Создать отчёт» и затем «Скачать в PDF» — в окне печати выберите принтер «Сохранить как PDF»." } },
+      { "@type": "Question", "name": "Можно ли редактировать показатели?", "acceptedAnswer": { "@type": "Answer", "text": "Да. Добавляйте, убирайте и меняйте строки таблицы показателей прямо в форме — отчёт обновится автоматически." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <span class="brand-logo" aria-hidden="true">🧮</span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#files">Файлы</a> / PDF-отчёт</nav>
+      <h1>Генератор PDF-отчёта</h1>
+      <p class="tool-meta">Заполните название, показатели и выводы — получите готовый отчёт, который можно скачать в PDF.</p>
+    </div>
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="reportForm">
+            <div class="field">
+              <label for="title">Название отчёта</label>
+              <input type="text" id="title" placeholder="Отчёт о продажах за месяц" required value="Отчёт о продажах за месяц" />
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="period">Период</label>
+                <input type="text" id="period" placeholder="Январь 2026" required value="Январь 2026" />
+              </div>
+              <div class="field">
+                <label for="author">Автор / организация</label>
+                <input type="text" id="author" placeholder="ООО «Ромашка»" required value="ООО «Ромашка»" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="intro">Введение</label>
+              <textarea id="intro" rows="3" placeholder="Краткое описание, цель отчёта…" required>В отчёте приведены основные показатели за выбранный период.</textarea>
+            </div>
+            <h3>Показатели</h3>
+            <div id="metricsRow"></div>
+            <button type="button" class="btn btn-ghost" id="addMetric" style="width:100%">+ Добавить показатель</button>
+            <div class="field" style="margin-top:16px">
+              <label for="conclusion">Выводы</label>
+              <textarea id="conclusion" rows="3" placeholder="Итоги, выводы, рекомендации…">Показатели в норме, требуется дальнейший мониторинг.</textarea>
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Создать отчёт</button>
+          </form>
+        </div>
+
+        <div>
+          <div class="form-card" id="previewCard">
+            <div class="print-area" id="printArea">
+              <p style="color:#888;margin:0">Здесь появится ваш отчёт.</p>
+            </div>
+          </div>
+          <button class="btn btn-primary no-print" id="printBtn" disabled style="width:100%;margin-top:16px">🖨️ Скачать в PDF</button>
+          <p class="hint no-print" id="printHint" hidden>В окне печати выберите «Сохранить как PDF».</p>
+        </div>
+      </div>
+    </div>
+    <div class="container section">
+      <div class="prose">
+        <h2>Как скачать отчёт в PDF</h2>
+        <p>Заполните форму и нажмите «Создать отчёт» — готовый отчёт появится справа. Затем нажмите «Скачать в PDF» и в окне печати выберите принтер <strong>«Сохранить как PDF»</strong>.</p>
+        <h3>Что входит в отчёт</h3>
+        <ul>
+          <li>Титульный блок: название, период, автор.</li>
+          <li>Введение и таблица показателей.</li>
+          <li>Выводы и подпись.</li>
+        </ul>
+        <h2>Частые вопросы</h2>
+        <div class="faq">
+          <h3>Как скачать отчёт в PDF?</h3>
+          <p>Заполните форму, нажмите «Создать отчёт» и затем «Скачать в PDF» — в окне печати выберите принтер «Сохранить как PDF».</p>
+          <h3>Можно ли редактировать показатели?</h3>
+          <p>Да. Добавляйте, убирайте и меняйте строки таблицы показателей прямо в форме — отчёт обновится автоматически.</p>
+        </div>
+      </div>
+    </div>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/converters/infographic.html">Графика</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/gen-report.js"></script>
+  </main>
+</body>
+</html>
