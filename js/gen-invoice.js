@@ -1,5 +1,44 @@
 // Генератор счёта на оплату: собирает данные из формы, строит счёт с QR-кодом
 // и даёт сохранить его в PDF через window.print().
+// QR строится локальной библиотекой /libs/qrcode-generator.js (загружается через
+// js/chunkload.js — без CDN и сторонних сервисов, данные не покидают браузер).
+
+import { loadChunkedScript } from '/js/chunkload.js?v=8';
+
+// ─── QR: загрузка библиотеки и сборка SVG из матрицы (вид как у прежнего qrSvg) ───
+let qrLibPromise = null;
+function ensureQrLib() {
+  if (typeof window.qrcode === 'function') return Promise.resolve(true);
+  if (!qrLibPromise) {
+    qrLibPromise = loadChunkedScript('/libs/qrcode-generator.js')
+      .then(() => typeof window.qrcode === 'function')
+      .catch(() => false);
+  }
+  return qrLibPromise;
+}
+
+function qrSvgFromMatrix(text, moduleSize, margin) {
+  moduleSize = moduleSize || 4;
+  margin = margin || 4;
+  const qr = window.qrcode(0, 'L'); // тип 0 = авто, уровень коррекции L
+  qr.addData(text);
+  qr.make();
+  const n = qr.getModuleCount();
+  const dim = (n + 2 * margin) * moduleSize;
+  let rects = '';
+  for (let r = 0; r < n; r++) {
+    for (let c = 0; c < n; c++) {
+      if (qr.isDark(r, c)) {
+        rects += '<rect x="' + ((c + margin) * moduleSize) + '" y="' + ((r + margin) * moduleSize) +
+                 '" width="' + moduleSize + '" height="' + moduleSize + '"/>';
+      }
+    }
+  }
+  return '<svg xmlns="http://www.w3.org/2000/svg" width="' + dim + '" height="' + dim +
+         '" viewBox="0 0 ' + dim + ' ' + dim + '" shape-rendering="crispEdges"' +
+         ' style="display:block;max-width:100%;height:auto">' +
+         '<rect width="100%" height="100%" fill="#fff"/><g fill="#000">' + rects + '</g></svg>';
+}
 
 const form = document.getElementById('invoiceForm');
 const printArea = document.getElementById('printArea');
@@ -62,7 +101,10 @@ if (form) {
 
     // QR: короткая строка с реквизитами и суммой (Scan-совместимый текст)
     const qrText = 'ST00012|Name=' + get('sellerInn') + '|Sum=' + Math.round(total * 100) + '|Acc=' + get('sellerAccount') + '|BIC=' + get('sellerBik') + '|Amt=' + fmt(total);
-    const qr = (typeof qrSvg === 'function') ? qrSvg(qrText, 4, 4) : '';
+    const qrReady = typeof window.qrcode === 'function';
+    const qr = qrReady
+      ? qrSvgFromMatrix(qrText, 4, 4)
+      : '<div style="font-size:10px;color:#777">QR-код загружается…</div>';
 
     printArea.innerHTML = `
       <div style="font-size:13px;font-family:Arial,Helvetica,sans-serif;color:#000;line-height:1.5">
@@ -102,7 +144,16 @@ if (form) {
     if (printBtn) printBtn.disabled = false;
     if (printHint) printHint.hidden = false;
     printBtn.focus();
+
+    // Если библиотека ещё не догрузилась — перестраиваем счёт с QR сразу после загрузки.
+    if (!qrReady) {
+      ensureQrLib().then((ok) => {
+        if (ok) form.dispatchEvent(new Event('submit', { cancelable: true }));
+      });
+    }
   });
 }
 
 if (printBtn) printBtn.addEventListener('click', () => window.print());
+
+ensureQrLib(); // прогрев заранее, чтобы к отправке формы QR был готов

@@ -2,7 +2,8 @@
 // Текстовый слой переносится как обычный текст (с форматированием);
 // сканы и встроенные картинки распознаются OCR автоматически.
 // Библиотеки большие, Cloudflare режет длинные ответы → грузим по частям (Range).
-import { loadCdnScript, importCdn, cdnBlobUrl } from '/js/chunkload.js?v=7';
+// pdf.js (320 КБ), его воркер (1 МБ) и docx (695 КБ) лежат локально в /libs — без CDN.
+import { loadChunkedScript, importChunked, chunkedBlobUrl } from '/js/chunkload.js?v=8';
 
 const form = document.getElementById('pdfForm');
 const fileEl = document.getElementById('file');
@@ -99,11 +100,11 @@ if (form) {
 
     setOut(`<p class="hint" style="margin:0">Загрузка библиотек… (первый раз дольше)</p>`);
     try {
-      if (typeof pdfjsLib === 'undefined') { setOut('Загрузка pdf.js…'); await loadCdnScript('https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js'); }
+      if (typeof pdfjsLib === 'undefined') { setOut('Загрузка pdf.js…'); await loadChunkedScript('/libs/pdf.min.js'); }
       setOut('Загрузка воркера pdf.js…');
-      pdfjsLib.GlobalWorkerOptions.workerSrc = await cdnBlobUrl('https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js');
+      pdfjsLib.GlobalWorkerOptions.workerSrc = await chunkedBlobUrl('/libs/pdf.worker.min.js');
       setOut('Загрузка docx…');
-      const docx = await importCdn('https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.mjs');
+      const docx = await importChunked('/libs/docx.mjs');
       const { Document, Paragraph, ImageRun, Packer } = docx;
       TextRun = docx.TextRun;
 

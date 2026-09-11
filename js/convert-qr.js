@@ -1,5 +1,6 @@
 // Генератор QR-кода: PNG / JPG / SVG. Данные остаются в браузере.
-import { loadCdnScript } from '/js/chunkload.js?v=8';
+// Библиотека qrcode-generator лежит локально в /libs — CDN не используется.
+import { loadChunkedScript } from '/js/chunkload.js?v=8';
 
 const form = document.getElementById('qrForm');
 const textEl = document.getElementById('text');
@@ -19,7 +20,7 @@ function debounce(fn, ms) { let t; return () => { clearTimeout(t); t = setTimeou
 
 async function ensureLib() {
   if (window.qrcode) return;
-  await loadCdnScript('https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js');
+  await loadChunkedScript('/libs/qrcode-generator.js');
 }
 
 function buildQr() {

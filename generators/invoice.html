@@ -201,9 +201,10 @@
     </div>
   </footer>
 
-  <script src="/js/qrcode.js"></script>
+  <!-- QR-код: локальная библиотека /libs/qrcode-generator.js подключается из gen-invoice.js
+       через js/chunkload.js (без CDN и сторонних сервисов) -->
   <script type="module" src="/js/ui.js?v=4"></script>
-  <script type="module" src="/js/gen-invoice.js"></script>
+  <script type="module" src="/js/gen-invoice.js?v=2"></script>
   </main>
 </body>
 </html>
