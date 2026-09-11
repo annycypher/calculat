@@ -193,8 +193,11 @@
   .foot-links a{color:var(--mut);text-decoration:none;font-size:13.5px;font-weight:600}
   .foot-links a:hover{color:var(--txt)}
 
-  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.3,1)}
-  .reveal.vis{opacity:1;transform:none}
+  /* Появление контента — прогрессивное улучшение: элементы видимы по умолчанию,
+     скрываются только когда JS активен (.js ставит инлайн-скрипт в <head>),
+     а если модуль по какой-то причине не выполнится — таймер всё покажет. */
+  .js .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.3,1)}
+  .js .reveal.vis{opacity:1;transform:none}
 
   .toast{position:fixed;bottom:28px;left:50%;transform:translate(-50%,20px);z-index:80;padding:12px 20px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:10px;opacity:0;pointer-events:none;transition:.35s cubic-bezier(.2,.7,.3,1)}
   .toast svg{color:var(--vio)}

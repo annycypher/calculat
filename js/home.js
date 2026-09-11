@@ -2,13 +2,14 @@
 // Содержит: мобильное меню, свет за курсором, reveal-анимации, tilt-наклон,
 // toast, демо-инструменты (ипотека, QR на локальной библиотеке, сжатие) и подсказки в tooltip.
 // Статистика «посещений»/«инструментов» из демо удалена — цифры там были вымышленные.
-import { loadChunkedScript } from '/js/chunkload.js?v=8';
-
+  // Загрузчик подключается ДИНАМИЧЕСКИ: даже если /js/chunkload.js недоступен,
+  // модуль выполнится и остальная логика страницы (показ контента и т.д.) не сломается.
   window.__qrLibReady = (function () {
     var p = null;
     return function () {
       if (typeof window.qrcode === 'function') return Promise.resolve(true);
-      if (!p) p = loadChunkedScript('/libs/qrcode-generator.js')
+      if (!p) p = import('/js/chunkload.js?v=8')
+        .then(function (m) { return m.loadChunkedScript('/libs/qrcode-generator.js'); })
         .then(function () { return typeof window.qrcode === 'function'; })
         .catch(function () { return false; });
       return p;
@@ -18,6 +19,13 @@ import { loadChunkedScript } from '/js/chunkload.js?v=8';
 (function(){
   'use strict';
   const $ = id => document.getElementById(id);
+
+  /* Появление при скролле */
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if(e.isIntersecting){ e.target.classList.add('vis'); io.unobserve(e.target); }
+  }), {threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  window.__homeReady = true;
 
   /* Хедер + кнопка наверх */
   const header = $('header'), toTop = $('toTop');
@@ -44,11 +52,6 @@ import { loadChunkedScript } from '/js/chunkload.js?v=8';
     });}
   }, {passive:true});
 
-  /* Появление при скролле */
-  const io = new IntersectionObserver(es => es.forEach(e => {
-    if(e.isIntersecting){ e.target.classList.add('vis'); io.unobserve(e.target); }
-  }), {threshold:.12});
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
   /* Toast */
   const toast = $('toast'); let tTimer;

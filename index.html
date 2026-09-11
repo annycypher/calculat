@@ -14,7 +14,7 @@
   <link rel="manifest" href="/manifest.webmanifest" />
   <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="/fonts/fonts.css" />
-  <link rel="stylesheet" href="/home.css?v=2" />
+  <link rel="stylesheet" href="/home.css?v=3" />
   <meta name="theme-color" content="#0b0913" />
   <script type="application/ld+json">
 {
@@ -34,6 +34,10 @@
 }
   </script>
   <noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
+  <script>document.documentElement.className += ' js';
+  // Страховка: если js/home.js не выполнится, через 1.8 с показываем контент.
+  setTimeout(function(){ if(!window.__homeReady){ var r=document.querySelectorAll('.reveal');
+    for(var i=0;i<r.length;i++){ if(r[i].className.indexOf('vis')<0) r[i].className += ' vis'; } } }, 1800);</script>
 </head>
 <body>
 <div class="orbs" aria-hidden="true">
@@ -539,6 +543,6 @@
      ни CDN, ни сторонних сервисов — данные не покидают браузер) -->
 
   <script type="module" src="/js/ui.js?v=6"></script>
-  <script type="module" src="/js/home.js?v=1"></script>
+  <script type="module" src="/js/home.js?v=2"></script>
 </body>
 </html>

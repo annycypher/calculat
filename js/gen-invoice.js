@@ -3,14 +3,13 @@
 // QR строится локальной библиотекой /libs/qrcode-generator.js (загружается через
 // js/chunkload.js — без CDN и сторонних сервисов, данные не покидают браузер).
 
-import { loadChunkedScript } from '/js/chunkload.js?v=8';
-
 // ─── QR: загрузка библиотеки и сборка SVG из матрицы (вид как у прежнего qrSvg) ───
 let qrLibPromise = null;
 function ensureQrLib() {
   if (typeof window.qrcode === 'function') return Promise.resolve(true);
   if (!qrLibPromise) {
-    qrLibPromise = loadChunkedScript('/libs/qrcode-generator.js')
+    qrLibPromise = import('/js/chunkload.js?v=8')
+      .then((m) => m.loadChunkedScript('/libs/qrcode-generator.js'))
       .then(() => typeof window.qrcode === 'function')
       .catch(() => false);
   }
