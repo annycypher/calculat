@@ -17,3 +17,12 @@ Thumbs.db
 .venv/
 __pycache__/
 *.pyc
+
+# Переезд на хостинг (sweb): секреты и ключи не коммитим
+sweb-migration/deploy.env
+sweb-migration/deploy.env.*
+sweb-migration/deploy.env.txt
+sweb-migration/id_sweb
+sweb-migration/id_sweb.*
+sweb-migration/*.bak
+

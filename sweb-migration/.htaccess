@@ -1,0 +1,98 @@
+# .htaccess для calc-doc.ru на Apache (хостинг sweb.ru / SpaceWeb)
+# Кладётся В КОРЕНЬ сайта (туда же, где index.html).
+# Заменяет служебные файлы Cloudflare Pages `_headers` и `_redirects`
+# (на Apache они не работают — их вообще не нужно заливать).
+
+Options -Indexes
+DirectoryIndex index.html
+
+# ─────────────────────── Типы файлов ───────────────────────
+AddDefaultCharset UTF-8
+<IfModule mod_mime.c>
+  AddType application/javascript              .js .mjs
+  AddType text/css                            .css
+  AddType font/woff2                          .woff2
+  AddType image/svg+xml                       .svg
+  AddType application/manifest+json           .webmanifest
+  AddType application/xml                     .xml
+</IfModule>
+
+# ─────────────────────── Сжатие ───────────────────────
+# HTML/CSS/JS/JSON/SVG сжимаем; woff2, jpg, png уже сжаты — их не трогаем.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml application/xml \
+    application/javascript application/json application/manifest+json image/svg+xml
+</IfModule>
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/css application/javascript \
+    application/json application/manifest+json image/svg+xml
+</IfModule>
+
+# ─────────────────────── Кэширование ───────────────────────
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html                     "access plus 0 seconds"
+  ExpiresByType text/css                      "access plus 7 days"
+  ExpiresByType application/javascript        "access plus 7 days"
+  ExpiresByType font/woff2                    "access plus 30 days"
+  ExpiresByType image/svg+xml                 "access plus 14 days"
+  ExpiresByType image/jpeg                    "access plus 14 days"
+  ExpiresByType image/png                     "access plus 14 days"
+</IfModule>
+
+# ─────────────────────── Заголовки безопасности ───────────────────────
+# Значения перенесены из _headers без изменений (CSP оставлена как есть —
+# она разрешает cdn.jsdelivr.net и tessdata для OCR в PDF→Word).
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), publickey-credentials-get=()"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' blob: https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' blob: https://cdn.jsdelivr.net https://tessdata.projectnaptha.com; worker-src 'self' blob: https://cdn.jsdelivr.net; object-src 'none'; frame-ancestors 'none'; base-uri 'self'"
+
+  # Правила кэша из _headers + новые ресурсы (home.css, шрифты)
+  <FilesMatch "\.(js|mjs)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+  <FilesMatch "\.(woff2|jpg|jpeg|png|svg)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+  <FilesMatch "\.css$">
+    Header set Cache-Control "public, max-age=86400"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+
+  # HSTS включайте ТОЛЬКО после того, как убедились, что HTTPS работает
+  # на домене и на www (иначе можно «залипнуть» на год):
+  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# ─────────────────────── HTTPS и без www ───────────────────────
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # http -> https
+  # RewriteCond %{HTTPS} !=on
+  # RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+  # www -> без www
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+  # не отдавать служебные/скрытые файлы (.git, .env, .gitignore и т.п.);
+  # исключение — /.well-known/ (нужен для проверки сертификата)
+  RewriteRule (^|/)\.(?!well-known/).* - [F,L]
+
+  # документацию в репозитории тоже не отдаём
+  RewriteRule \.(md|env|log|bak)$ - [F,L]
+</IfModule>
+
+# ─────────────────────── Ошибки ───────────────────────
+ErrorDocument 404 /404.html
+
+# 404 для удалённой страницы инфографики (перенос из _redirects:
+#   /converters/infographic.html  /404  404
+#   /converters/infographic       /404  404 )
+RedirectMatch 404 ^/converters/infographic(\.html)?$
