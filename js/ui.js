@@ -14,6 +14,9 @@ if (yearEl) yearEl.textContent = new Date().getFullYear();
 function getTheme() {
   const saved = localStorage.getItem('calcdocs-theme');
   if (saved === 'light' || saved === 'dark') return saved;
+  // Новая главная — тёмная по умолчанию (data-home-dark на <html>):
+  // иначе на светлой ОС тёмный дизайн открывался бы в светлом варианте.
+  if (document.documentElement.hasAttribute('data-home-dark')) return 'dark';
   return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
 }
 function applyTheme(theme) {
@@ -96,8 +99,9 @@ const TOOLS = [
   ['🔎', 'DaData', '/converters/dadata.html']
 ];
 function buildRelated() {
-  const footer = document.querySelector('.site-footer');
+  const footer = document.querySelector('.site-footer') || document.querySelector('footer');
   if (!footer) return;
+  if (document.querySelector('section[aria-label="Другие инструменты"]')) return; // уже есть
   const current = (location.pathname || '/').replace(/\/$/, '') || '/';
   const chips = TOOLS
     .filter(([, , href]) => href !== current)
@@ -161,8 +165,10 @@ function searchMatches(q) {
 }
 
 function initSearch() {
-  const actions = document.querySelector('.header-actions');
+  // На новой главной хедера старого вида нет — берём контейнер кнопок .head-cta.
+  const actions = document.querySelector('.header-actions') || document.querySelector('.head-cta');
   if (!actions) return;
+  if (document.querySelector('.search-wrap')) return; // поиск уже есть — не дублируем
   actions.insertAdjacentHTML('beforebegin',
     '<div class="search-wrap"><input type="search" id="siteSearch" class="search-input" placeholder="Поиск по сайту…" autocomplete="off" aria-label="Поиск по сайту"><div class="search-dropdown" id="searchDrop" hidden></div></div>');
   const input = document.getElementById('siteSearch');
@@ -189,6 +195,7 @@ function initSearch() {
 function initPopular() {
   const hero = document.querySelector('.hero'); // только главная
   if (!hero) return;
+  if (document.querySelector('.popular-bar')) return; // уже есть — не дублируем
   const chips = POPULAR.map(([label, url]) => `<a class="chip" href="${url}">${escHtml(label)}</a>`).join('');
   hero.insertAdjacentHTML('afterend',
     '<section class="container section" style="padding:8px 0 0"><div class="popular-bar"><span class="popular-label">Популярное:</span><div class="chips">' + chips + '</div></div></section>');

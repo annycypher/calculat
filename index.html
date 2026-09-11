@@ -1,443 +1,544 @@
 <!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CalcDocs — онлайн-калькуляторы и генераторы документов</title>
-  <meta name="description" content="Бесплатные онлайн-калькуляторы (налоги фрилансера, отпускные, ипотека) и генераторы готовых документов (резюме, договор, доверенность). Работают в браузере, без регистрации." />
-  <meta name="keywords" content="калькулятор онлайн, налоговый калькулятор фрилансера, генератор резюме, договор, доверенность, расчет отпускных, ипотечный калькулятор" />
-  <link rel="canonical" href="https://calc-doc.ru/" />
-  <meta name="robots" content="index, follow" />
-  <meta property="og:title" content="CalcDocs — онлайн-калькуляторы и генераторы документов" />
-  <meta property="og:description" content="Бесплатные инструменты: налоги фрилансера, отпускные, ипотека + готовые документы. Всё в браузере." />
-  <meta property="og:type" content="website" />
-  <link rel="manifest" href="/manifest.webmanifest" />
-  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="/styles.css?v=2" />
-  <meta name="theme-color" content="#6d5dfc" />
+<html lang="ru" data-home-dark>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CalcDocs — онлайн-калькуляторы и генераторы документов</title>
+  <meta name="description" content="Бесплатные онлайн-калькуляторы (налоги фрилансера, отпускные, ипотека) и генераторы готовых документов (резюме, договор, доверенность). Работают в браузере, без регистрации." />
+  <meta name="keywords" content="калькулятор онлайн, налоговый калькулятор фрилансера, генератор резюме, договор, доверенность, расчет отпускных, ипотечный калькулятор" />
+  <link rel="canonical" href="https://calc-doc.ru/" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="CalcDocs — онлайн-калькуляторы и генераторы документов" />
+  <meta property="og:description" content="Бесплатные инструменты: налоги фрилансера, отпускные, ипотека + готовые документы. Всё в браузере." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/fonts/fonts.css" />
+  <link rel="stylesheet" href="/home.css?v=2" />
+  <meta name="theme-color" content="#0b0913" />
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "CalcDocs",
-    "url": "https://calc-doc.ru/",
-    "description": "Бесплатные онлайн-калькуляторы и генераторы документов."
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "CalcDocs",
+  "url": "https://calc-doc.ru/",
+  "description": "Бесплатные онлайн-калькуляторы и генераторы документов.",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://calc-doc.ru/search.html?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
   }
+}
   </script>
+  <noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="/">
-        <span class="brand-logo" aria-hidden="true">🧮</span>
-        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+<div class="orbs" aria-hidden="true">
+  <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
+</div>
+<div class="cursor-light" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+  <header id="header">
+    <div class="wrap head-in">
+      <a class="logo" href="/" aria-label="CalcDocs — на главную">
+        <span class="logo-mark">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Docs</span></b>
       </a>
-      <nav class="main-nav" aria-label="Главное меню">
-        <a href="/#tools">Калькуляторы</a>
-        <a href="/#files">Файлы</a>
-        <a href="/#converters">Конвертеры</a>
-        <a href="/#about">О проекте</a>
+      <nav class="desk" aria-label="Главное меню">
+        <a href="#tools">Калькуляторы</a>
+        <a href="#files">Файлы</a>
+        <a href="#converters">Конвертеры</a>
+        <a href="#games">Мини-игры</a>
+        <a href="#about">О проекте</a>
       </nav>
-      <div class="header-actions">
-        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
-        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      <div class="head-cta">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+        <button class="burger" id="burger" aria-label="Открыть меню">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
       </div>
     </div>
   </header>
+  <nav class="m-nav glass" id="mnav" aria-label="Мобильное меню">
+    <a href="#tools">Калькуляторы</a>
+    <a href="#files">Файлы</a>
+    <a href="#converters">Конвертеры</a>
+    <a href="#games">Мини-игры</a>
+    <a href="#about">О проекте</a>
+  </nav>
 
-  <main>
-    <section class="hero">
-      <div class="container">
-        <p class="eyebrow">Бесплатно · без регистрации · онлайн</p>
-        <h1>Онлайн-калькуляторы<br />и генераторы документов</h1>
-        <p class="lead">Считайте налоги, отпускные и ипотеку. Создавайте резюме, договоры и доверенности за минуту — весь продукт работает прямо в браузере.</p>
-        <div class="hero-cta">
-          <a class="btn btn-primary" href="#tools">К инструментам</a>
-          <a class="btn btn-ghost" href="#files">Файлы</a>
+<main class="wrap">
+
+      <!-- Блок рекламы (верх) -->
+      <section aria-label="Реклама">
+        <div class="ad-slot" id="adTop">
+          <span class="ad-label">Реклама</span>
+          <!-- Сюда вставьте AdSense-код или партнёрскую ссылку -->
+        </div>
+      </section>
+
+  <!-- HERO: текст слева + баннер Calc/Doc справа -->
+  <div class="hero">
+    <div class="hero-row">
+
+      <div class="hero-copy reveal vis">
+        <span class="eyebrow glass"><i></i>Бесплатно · Без регистрации</span>
+        <h1>Онлайн-калькуляторы и <em>генераторы документов</em></h1>
+        <div class="hero-actions">
+          <a class="btn btn-vio" href="#tools">
+            Попробовать
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+          <a class="btn btn-glass" href="#how">Как это работает</a>
         </div>
       </div>
-    </section>
 
-    <!-- Кнопка: мини-игры -->
-    <section class="container section" id="games" style="padding: 24px 0 8px;">
-      <a class="card" href="/games/" style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:26px 28px;text-decoration:none;flex-wrap:wrap;">
-        <div>
-          <span class="card-icon" aria-hidden="true">🎮</span>
-          <h3 style="margin:6px 0 4px">Мини-игры: сделай перерыв</h3>
-          <p style="margin:0">Разомни мозг за пару минут — без регистрации.</p>
-        </div>
-        <span class="btn btn-primary" style="pointer-events:none">Играть</span>
-      </a>
-    </section>
+      <!-- БАННЕР: Calc и Doc стоят рядом, имена над ними -->
+      <figure class="hero-banner glass reveal vis">
+        <svg class="duo" viewBox="0 0 560 195" role="img" aria-label="Персонажи Calc и Doc стоят рядом: Calc рисует на планшете, Doc считает деньги">
+          <!-- имена НАД персонажами -->
+          <text x="165" y="36" class="duo-name" fill="#a78bfa">Calc</text>
+          <text x="395" y="36" class="duo-name" fill="#6fd3f2">Doc</text>
 
-    <!-- Блок рекламы (верх) -->
-    <section class="container" aria-label="Реклама">
-      <div class="ad-slot" id="adTop">
-        <span class="ad-label">Реклама</span>
-        <!-- Сюда вставьте AdSense-код или партнёрскую ссылку -->
-      </div>
-    </section>
+          <!-- тени -->
+          <ellipse cx="165" cy="180" rx="88" ry="10" fill="rgba(0,0,0,.35)"/>
+          <ellipse cx="395" cy="180" rx="88" ry="10" fill="rgba(0,0,0,.35)"/>
 
-    <!-- Сетка калькуляторов -->
-    <section class="container section" id="tools">
-      <h2 class="section-title">Категория: <span class="accent">калькуляторы</span></h2>
+          <!-- звёздочки -->
+          <g transform="translate(70,62)"><path class="spark" fill="#a78bfa" d="M0 -6 L1.6 -1.6 L6 0 L1.6 1.6 L0 6 L-1.6 1.6 L-6 0 L-1.6 -1.6 Z"/></g>
+          <g transform="translate(497,66) scale(.85)"><path class="spark s2" fill="#6fd3f2" d="M0 -6 L1.6 -1.6 L6 0 L1.6 1.6 L0 6 L-1.6 1.6 L-6 0 L-1.6 -1.6 Z"/></g>
+          <g transform="translate(281,52) scale(.7)"><path class="spark s3" fill="#f1eef9" d="M0 -6 L1.6 -1.6 L6 0 L1.6 1.6 L0 6 L-1.6 1.6 L-6 0 L-1.6 -1.6 Z"/></g>
+          <g transform="translate(520,140) scale(.6)"><path class="spark s4" fill="#6fd3f2" d="M0 -6 L1.6 -1.6 L6 0 L1.6 1.6 L0 6 L-1.6 1.6 L-6 0 L-1.6 -1.6 Z"/></g>
+          <g transform="translate(40,140) scale(.75)"><path class="spark s5" fill="#a78bfa" d="M0 -6 L1.6 -1.6 L6 0 L1.6 1.6 L0 6 L-1.6 1.6 L-6 0 L-1.6 -1.6 Z"/></g>
 
-      <h3 class="cat-title">Ремонт и строительство</h3>
-      <div class="grid">
-        <a class="card" href="/calculators/construction/">
-          <span class="card-icon" aria-hidden="true">🏗️</span>
-          <h3>Стройка и ремонт</h3>
-          <p>Плитка, ламинат, штукатурка, краска, кирпич, обои — все калькуляторы ремонта.</p>
-        </a>
-        <a class="card" href="/calculators/construction/tile.html">
-          <span class="card-icon" aria-hidden="true">🔲</span>
-          <h3>Плитка</h3>
-          <p>Сколько плитки на пол или стены, с запасом.</p>
-        </a>
-        <a class="card" href="/calculators/construction/laminate.html">
-          <span class="card-icon" aria-hidden="true">🪵</span>
-          <h3>Ламинат и линолеум</h3>
-          <p>Упаковки ламината или метры линолеума.</p>
-        </a>
-        <a class="card" href="/calculators/construction/plaster.html">
-          <span class="card-icon" aria-hidden="true">🪨</span>
-          <h3>Штукатурка и стяжка</h3>
-          <p>Расход смеси и количество мешков.</p>
-        </a>
-        <a class="card" href="/calculators/construction/paint.html">
-          <span class="card-icon" aria-hidden="true">🪣</span>
-          <h3>Краска и грунтовка</h3>
-          <p>Расход краски и сколько банок.</p>
-        </a>
-        <a class="card" href="/calculators/brick.html">
-          <span class="card-icon" aria-hidden="true">🧱</span>
-          <h3>Кирпич на дом</h3>
-          <p>Сколько кирпича нужно на кладку стен.</p>
-        </a>
-        <a class="card" href="/calculators/wallpaper.html">
-          <span class="card-icon" aria-hidden="true">🧻</span>
-          <h3>Обои</h3>
-          <p>Сколько рулонов на комнату, с подгонкой и запасом.</p>
-        </a>
-      </div>
-
-      <h3 class="cat-title">Финансы и налоги</h3>
-      <div class="grid">
-        <a class="card" href="/calculators/finance/">
-          <span class="card-icon" aria-hidden="true">🧮</span>
-          <h3>Финансы и налоги</h3>
-          <p>Кредит, больничный, НДФЛ, взносы ИП — все финансовые расчёты.</p>
-        </a>
-        <a class="card" href="/calculators/finance/credit.html">
-          <span class="card-icon" aria-hidden="true">🏦</span>
-          <h3>Кредитный калькулятор</h3>
-          <p>Аннуитетный и дифференцированный платёж.</p>
-        </a>
-        <a class="card" href="/calculators/finance/sick-leave.html">
-          <span class="card-icon" aria-hidden="true">🤒</span>
-          <h3>Больничный</h3>
-          <p>Пособие по стажу и доходу.</p>
-        </a>
-        <a class="card" href="/calculators/finance/maternity.html">
-          <span class="card-icon" aria-hidden="true">👶</span>
-          <h3>Декретные</h3>
-          <p>По беременности и родам и по уходу.</p>
-        </a>
-        <a class="card" href="/calculators/finance/ndfl.html">
-          <span class="card-icon" aria-hidden="true">📊</span>
-          <h3>НДФЛ и вычеты</h3>
-          <p>Имущественный и инвестиционный возврат.</p>
-        </a>
-        <a class="card" href="/calculators/finance/ip-insurance.html">
-          <span class="card-icon" aria-hidden="true">🧑‍💼</span>
-          <h3>Взносы ИП</h3>
-          <p>Фиксированные + 1% свыше лимита.</p>
-        </a>
-        <a class="card" href="/calculators/finance/salary-delay.html">
-          <span class="card-icon" aria-hidden="true">⏰</span>
-          <h3>Задержка зарплаты</h3>
-          <p>Компенсация по ст. 236 ТК РФ.</p>
-        </a>
-        <a class="card" href="/calculators/finance/compound-interest.html">
-          <span class="card-icon" aria-hidden="true">📈</span>
-          <h3>Сложный процент</h3>
-          <p>Доходность с пополнением.</p>
-        </a>
-        <a class="card" href="/calculators/finance/average-earnings.html">
-          <span class="card-icon" aria-hidden="true">📅</span>
-          <h3>Средний заработок</h3>
-          <p>Средний дневной и месячный, стаж.</p>
-        </a>
-        <a class="card" href="/calculators/mortgage.html">
-          <span class="card-icon" aria-hidden="true">🏠</span>
-          <h3>Ипотечный калькулятор</h3>
-          <p>Ежемесячный платёж, переплата и график по кредиту.</p>
-        </a>
-        <a class="card" href="/calculators/deposit.html">
-          <span class="card-icon" aria-hidden="true">💰</span>
-          <h3>Калькулятор вкладов</h3>
-          <p>Сложный процент, капитализация и пополнение — с графиком.</p>
-        </a>
-        <a class="card" href="/calculators/penalty.html">
-          <span class="card-icon" aria-hidden="true">💳</span>
-          <h3>Пеня и неустойка</h3>
-          <p>Расчёт пени по ставке ЦБ: ст. 395, 1/300, 1/150.</p>
-        </a>
-        <a class="card" href="/calculators/vat.html">
-          <span class="card-icon" aria-hidden="true">🧾</span>
-          <h3>НДС</h3>
-          <p>Начислить или выделить НДС: 20%, 10%, 0%.</p>
-        </a>
-        <a class="card" href="/calculators/tax-freelancer.html">
-          <span class="card-icon" aria-hidden="true">💼</span>
-          <h3>Налог фрилансера</h3>
-          <p>Рассчитайте налог по НПД/самозанятости за месяц или год.</p>
-        </a>
-        <a class="card" href="/calculators/vacation-pay.html">
-          <span class="card-icon" aria-hidden="true">🏖️</span>
-          <h3>Отпускные</h3>
-          <p>Сколько вы получите за отпуск — расчёт по среднему заработку.</p>
-        </a>
-        <a class="card" href="/calculators/alimony.html">
-          <span class="card-icon" aria-hidden="true">👪</span>
-          <h3>Неустойка по алиментам</h3>
-          <p>0,1% в день по ст. 115 СК РФ.</p>
-        </a>
-      </div>
-    </section>
-
-    <!-- Сетка генераторов -->
-    <section class="container section" id="files">
-      <h2 class="section-title">Категория: <span class="accent">файлы</span></h2>
-      <div class="grid">
-        <a class="card" href="/generators/resume.html">
-          <span class="card-icon" aria-hidden="true">📄</span>
-          <h3>Резюме</h3>
-          <p>Готовое резюме из шаблона — сохраните в PDF одним кликом.</p>
-        </a>
-        <a class="card" href="/generators/power-of-attorney.html">
-          <span class="card-icon" aria-hidden="true">✍️</span>
-          <h3>Доверенность</h3>
-          <p>Доверенность на авто или на действия — по шаблону.</p>
-        </a>
-        <a class="card" href="/generators/contract.html">
-          <span class="card-icon" aria-hidden="true">📋</span>
-          <h3>Договор</h3>
-          <p>Типовые договоры: оказание услуг, аренда, купля-продажа.</p>
-        </a>
-        <a class="card" href="/generators/leave-request.html">
-          <span class="card-icon" aria-hidden="true">🗓️</span>
-          <h3>Заявление на отпуск</h3>
-          <p>Заявление на отпуск или отгул — готовый шаблон в PDF.</p>
-        </a>
-        <a class="card" href="/generators/invoice.html">
-          <span class="card-icon" aria-hidden="true">💳</span>
-          <h3>Счёт на оплату</h3>
-          <p>Счёт с реквизитами, позициями и QR-кодом — в PDF.</p>
-        </a>
-        <a class="card" href="/generators/report.html">
-          <span class="card-icon" aria-hidden="true">📊</span>
-          <h3>PDF-отчёт</h3>
-          <p>Отчёт с таблицей показателей и выводами — в PDF.</p>
-        </a>
-      </div>
-    </section>
-
-    <!-- Сетка конвертеров -->
-    <section class="container section" id="converters">
-      <h2 class="section-title">Категория: <span class="accent">конвертеры</span></h2>
-      <div class="grid">
-        <a class="card" href="/converters/image-converter.html">
-          <span class="card-icon" aria-hidden="true">🖼️</span>
-          <h3>Сжатие изображений</h3>
-          <p>До 30 фото сразу, в оптимальном качестве.</p>
-        </a>
-        <a class="card" href="/converters/csv-to-xlsx.html">
-          <span class="card-icon" aria-hidden="true">📑</span>
-          <h3>CSV → Excel</h3>
-          <p>Превратите CSV-файл в готовый .xlsx.</p>
-        </a>
-        <a class="card" href="/converters/pdf-to-word.html">
-          <span class="card-icon" aria-hidden="true">📄</span>
-          <h3>PDF → Word</h3>
-          <p>Извлеките текст из PDF в редактируемый DOCX.</p>
-        </a>
-        <a class="card" href="/converters/dadata.html">
-          <span class="card-icon" aria-hidden="true">🔎</span>
-          <h3>DaData-конструктор</h3>
-          <p>Соберите запрос к DaData Suggest API: орг., адрес, банк.</p>
-        </a>
-        <a class="card" href="/converters/qr-generator.html">
-          <span class="card-icon" aria-hidden="true">📱</span>
-          <h3>Генератор QR-кода</h3>
-          <p>QR из текста или ссылки — PNG, JPG, SVG.</p>
-        </a>
-      </div>
-    </section>
-
-    <!-- Собственный баннер (широкий, перед "Что такое CalcDocs") -->
-    <section class="container" aria-label="Баннер">
-      <div class="hero-banner" role="img" aria-label="Иллюстрация: офис и команда CalcDocs">
-        <svg class="hero-banner-svg" viewBox="0 0 1024 572" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-          <defs>            <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b1b63"/><stop offset="1" stop-color="#140a30"/></linearGradient>
-            <linearGradient id="deskGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5c3b25"/><stop offset="1" stop-color="#3a2416"/></linearGradient></defs>
-                    <rect width="1024" height="572" fill="url(#bgGrad)"/>
-          <rect x="88" y="34" width="848" height="318" rx="18" fill="#0e0730" stroke="#4a34a0" stroke-width="5"/>
-          <g fill="#3a2b86">
-            <rect x="120" y="252" width="72" height="102" rx="4"/>
-            <rect x="232" y="222" width="58" height="132" rx="4"/>
-            <rect x="360" y="272" width="80" height="82" rx="4"/>
-            <rect x="520" y="236" width="66" height="118" rx="4"/>
-            <rect x="640" y="256" width="70" height="98" rx="4"/>
-            <rect x="760" y="226" width="60" height="128" rx="4"/>
-          </g>
-          <g fill="#ffd977" opacity=".9">
-            <rect x="132" y="266" width="10" height="10" rx="2"/><rect x="158" y="266" width="10" height="10" rx="2"/>
-            <rect x="244" y="236" width="10" height="10" rx="2"/><rect x="270" y="260" width="10" height="10" rx="2"/>
-            <rect x="372" y="286" width="10" height="10" rx="2"/>
-            <rect x="532" y="250" width="10" height="10" rx="2"/><rect x="558" y="274" width="10" height="10" rx="2"/>
-            <rect x="772" y="240" width="10" height="10" rx="2"/>
-          </g>
-          <g stroke="#241457" stroke-width="4">
-            <line x1="512" y1="36" x2="512" y2="352"/>
-            <line x1="94" y1="196" x2="930" y2="196"/>
-          </g>
-          <g stroke="#5ad6ff" stroke-width="3" opacity=".45" fill="none">
-            <path d="M180 96 L248 134 L180 172"/>
-            <path d="M248 134 L316 172 L248 210"/>
-          </g>
-          <g>
-            <rect x="330" y="78" width="364" height="62" rx="16" fill="#5ad6ff" opacity=".10"/>
-            <text x="512" y="124" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="800" font-size="42" letter-spacing="3" fill="#bfeeff" opacity=".4">CALC-DOC</text>
-            <text x="512" y="122" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="800" font-size="42" letter-spacing="3" fill="none" stroke="#7df0ff" stroke-width="3">CALC-DOC</text>
-          </g>
-          <g>
-            <rect x="756" y="58" width="224" height="54" rx="12" fill="#d89bff" opacity=".10"/>
-            <text x="868" y="94" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="800" font-size="34" letter-spacing="3" fill="#eed4ff" opacity=".4">OFFICE</text>
-            <text x="868" y="92" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="800" font-size="34" letter-spacing="3" fill="none" stroke="#d89bff" stroke-width="3">OFFICE</text>
-          </g>
-          <rect x="0" y="408" width="1024" height="164" fill="url(#deskGrad)"/>
-          <rect x="0" y="408" width="1024" height="6" fill="#6d4630"/>
-                    <g>
-            <path d="M212 404 L212 300 Q212 248 252 240 L348 240 Q388 248 388 300 L388 404 Z" fill="#6ab6f4"/>
-            <path d="M212 300 Q202 258 226 242 L246 234 L248 292 Z" fill="#58a3e4"/>
-            <path d="M388 300 Q398 258 374 242 L354 234 L352 292 Z" fill="#58a3e4"/>
-            <path d="M252 240 Q300 272 348 240 L338 216 L262 216 Z" fill="#58a3e4"/>
-            <circle cx="300" cy="194" r="60" fill="#6ab6f4"/>
-            <circle cx="260" cy="138" r="17" fill="#6ab6f4"/><circle cx="260" cy="138" r="8" fill="#4f8fc7"/>
-            <circle cx="340" cy="138" r="17" fill="#6ab6f4"/><circle cx="340" cy="138" r="8" fill="#4f8fc7"/>
-            <ellipse cx="300" cy="222" rx="30" ry="22" fill="#dceafe"/>
-            <circle cx="300" cy="205" r="10" fill="#26324d"/>
-            <path d="M300 212 Q300 230 289 236" stroke="#26324d" stroke-width="4" fill="none" stroke-linecap="round"/>
-            <path d="M300 212 Q300 230 311 236" stroke="#26324d" stroke-width="4" fill="none" stroke-linecap="round"/>
-            <circle cx="278" cy="186" r="6" fill="#26324d"/>
-            <circle cx="322" cy="186" r="6" fill="#26324d"/>
-            <text x="300" y="352" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="800" font-size="34" letter-spacing="2" fill="#ffffff">CALC</text>
-            <rect x="230" y="382" width="70" height="32" rx="4" fill="#4caf6d"/>
-            <rect x="230" y="382" width="70" height="32" rx="4" fill="none" stroke="#2e8b4f" stroke-width="3"/>
-            <rect x="238" y="388" width="54" height="8" rx="2" fill="#7ed09a"/>
-            <circle cx="238" cy="384" r="14" fill="#58a3e4"/>
-          </g>
-          <g>
-            <path d="M632 404 L632 300 Q632 250 672 246 L768 246 Q808 250 808 300 L808 404 Z" fill="#f0863a"/>
-            <path d="M632 300 Q622 260 646 246 L668 238 L668 294 Z" fill="#dc7328"/>
-            <path d="M808 300 Q818 260 794 246 L772 238 L772 294 Z" fill="#dc7328"/>
-            <path d="M682 152 L666 108 L706 132 Z" fill="#f0863a"/>
-            <path d="M758 152 L774 108 L734 132 Z" fill="#f0863a"/>
-            <path d="M685 143 L674 118 L701 133 Z" fill="#e0762f"/>
-            <path d="M755 143 L766 118 L739 133 Z" fill="#e0762f"/>
-            <circle cx="720" cy="198" r="58" fill="#f0863a"/>
-            <ellipse cx="720" cy="228" rx="28" ry="20" fill="#ffe9d6"/>
-            <ellipse cx="720" cy="213" rx="9" ry="7" fill="#3a2a1f"/>
-            <path d="M720 219 Q734 236 746 229" stroke="#3a2a1f" stroke-width="4" fill="none" stroke-linecap="round"/>
-            <circle cx="699" cy="189" r="6" fill="#3a2a1f"/>
-            <circle cx="741" cy="189" r="6" fill="#3a2a1f"/>
-            <text x="720" y="352" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="800" font-size="34" letter-spacing="2" fill="#ffffff">DOC</text>
-            <circle cx="700" cy="386" r="14" fill="#dc7328"/>
-            <g>
-              <circle cx="784" cy="306" r="26" fill="#f0c9a0"/>
-              <circle cx="784" cy="306" r="10" fill="#f0863a"/>
-              <path d="M762 300 Q784 282 806 300 Q808 318 784 320 Q760 318 762 300 Z" fill="#ff7fb0"/>
-              <g stroke="#fff" stroke-width="2"><line x1="774" y1="292" x2="776" y2="296"/><line x1="794" y1="292" x2="796" y2="296"/><line x1="784" y1="286" x2="785" y2="290"/></g>
+          <!-- ===== CALC (слева) ===== -->
+          <g class="fl fl-calc">
+            <path d="M150 78 C145 60 138 56 132 52" stroke="#8b5cf6" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="131" cy="50" r="5" fill="#6fd3f2"/>
+            <path d="M180 78 C185 60 192 56 198 52" stroke="#8b5cf6" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="199" cy="50" r="5" fill="#6fd3f2"/>
+            <ellipse cx="150" cy="168" rx="11" ry="6" fill="#8b5cf6"/><ellipse cx="180" cy="168" rx="11" ry="6" fill="#8b5cf6"/>
+            <g fill="#a78bfa">
+              <circle cx="165" cy="118" r="44"/><circle cx="165" cy="76" r="14"/><circle cx="130" cy="86" r="13"/><circle cx="200" cy="86" r="13"/>
+              <circle cx="121" cy="118" r="13"/><circle cx="209" cy="118" r="13"/><circle cx="131" cy="148" r="13"/><circle cx="199" cy="148" r="13"/>
+              <circle cx="152" cy="160" r="11"/><circle cx="178" cy="160" r="11"/>
             </g>
-            <circle cx="790" cy="388" r="14" fill="#dc7328"/>
-          </g>
-                    <g>
-            <path d="M40 472 L124 472 L112 544 L52 544 Z" fill="#8a5a36"/>
-            <rect x="34" y="458" width="92" height="14" rx="6" fill="#9a6a42"/>
-            <g fill="#2f9e63">
-              <ellipse cx="82" cy="404" rx="15" ry="42" transform="rotate(-28 82 404)"/>
-              <ellipse cx="82" cy="404" rx="15" ry="42" transform="rotate(28 82 404)"/>
-              <ellipse cx="82" cy="396" rx="13" ry="44"/>
+            <ellipse cx="165" cy="142" rx="20" ry="14" fill="rgba(255,255,255,.14)"/>
+            <ellipse cx="150" cy="106" rx="9" ry="11" fill="#fff"/><ellipse cx="180" cy="106" rx="9" ry="11" fill="#fff"/>
+            <circle cx="151" cy="108" r="4.5" fill="#1c1230"/><circle cx="179" cy="108" r="4.5" fill="#1c1230"/>
+            <circle cx="153" cy="104" r="1.6" fill="#fff"/><circle cx="181" cy="104" r="1.6" fill="#fff"/>
+            <ellipse cx="137" cy="120" rx="6" ry="4" fill="rgba(23,11,46,.25)"/><ellipse cx="193" cy="120" rx="6" ry="4" fill="rgba(23,11,46,.25)"/>
+            <path d="M157 124 Q165 131 173 124" stroke="#1c1230" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M136 124 C128 140 122 152 122 162" stroke="#8b5cf6" stroke-width="9" fill="none" stroke-linecap="round"/><circle cx="122" cy="163" r="7" fill="#8b5cf6"/>
+            <path d="M196 124 C210 132 222 142 230 150" stroke="#8b5cf6" stroke-width="9" fill="none" stroke-linecap="round"/><circle cx="231" cy="151" r="7" fill="#8b5cf6"/>
+            <g transform="rotate(-6 163 173)">
+              <rect x="132" y="152" width="62" height="42" rx="8" fill="#0b0913" stroke="#a78bfa" stroke-width="2"/>
+              <rect x="138" y="158" width="50" height="30" rx="4" fill="#170b2e" stroke="rgba(167,139,250,.45)" stroke-width="1"/>
+              <polyline class="draw" points="142,182 152,172 160,177 172,165 184,172" fill="none" stroke="#6fd3f2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="184" cy="172" r="2.5" fill="#6fd3f2"/>
             </g>
+            <line x1="231" y1="151" x2="188" y2="169" stroke="#f1eef9" stroke-width="3" stroke-linecap="round"/><circle cx="187" cy="169" r="2" fill="#6fd3f2"/>
           </g>
-          <g>
-            <path d="M936 472 L884 472 L896 544 L956 544 Z" fill="#8a5a36"/>
-            <rect x="878" y="458" width="92" height="14" rx="6" fill="#9a6a42"/>
-            <g fill="#2f9e63">
-              <ellipse cx="942" cy="404" rx="15" ry="42" transform="rotate(28 942 404)"/>
-              <ellipse cx="942" cy="404" rx="15" ry="42" transform="rotate(-28 942 404)"/>
-              <ellipse cx="942" cy="396" rx="13" ry="44"/>
+
+          <!-- ===== DOC (справа) ===== -->
+          <g class="fl fl-doc">
+            <path d="M380 78 C375 60 368 56 362 52" stroke="#38b6dd" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="361" cy="50" r="5" fill="#a78bfa"/>
+            <path d="M410 78 C415 60 422 56 428 52" stroke="#38b6dd" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="429" cy="50" r="5" fill="#a78bfa"/>
+            <ellipse cx="380" cy="168" rx="11" ry="6" fill="#38b6dd"/><ellipse cx="410" cy="168" rx="11" ry="6" fill="#38b6dd"/>
+            <g fill="#6fd3f2">
+              <circle cx="395" cy="118" r="44"/><circle cx="395" cy="76" r="14"/><circle cx="360" cy="86" r="13"/><circle cx="430" cy="86" r="13"/>
+              <circle cx="351" cy="118" r="13"/><circle cx="439" cy="118" r="13"/><circle cx="361" cy="148" r="13"/><circle cx="429" cy="148" r="13"/>
+              <circle cx="382" cy="160" r="11"/><circle cx="408" cy="160" r="11"/>
             </g>
-          </g>
-          <g>
-            <path d="M790 434 L846 412 L944 412 L972 434 Z" fill="#2b2b3d"/>
-            <path d="M806 430 L866 314 L956 314 L932 430 Z" fill="#20202f"/>
-            <path d="M818 426 L874 332 L947 332 L928 426 Z" fill="#63ccff" opacity=".8"/>
-          </g>
-          <g>
-            <rect x="150" y="502" width="122" height="14" rx="3" fill="#eef1f7"/>
-            <rect x="156" y="490" width="122" height="14" rx="3" fill="#dde3f0"/>
-            <rect x="150" y="478" width="122" height="14" rx="3" fill="#f4f6fb"/>
-            <rect x="150" y="478" width="122" height="14" rx="3" fill="none" stroke="#c9d2e4" stroke-width="2"/>
-          </g>
-          <g>
-            <rect x="320" y="474" width="92" height="40" rx="5" fill="#4caf6d"/>
-            <rect x="320" y="474" width="92" height="40" rx="5" fill="none" stroke="#2e8b4f" stroke-width="3"/>
-            <rect x="326" y="479" width="80" height="11" rx="2" fill="#7ed09a"/>
-            <rect x="348" y="490" width="40" height="3" fill="#2e8b4f"/>
-            <rect x="318" y="516" width="70" height="34" rx="5" fill="#3f9a5b"/>
-            <rect x="318" y="516" width="70" height="34" rx="5" fill="none" stroke="#2e8b4f" stroke-width="3"/>
-            <rect x="324" y="521" width="58" height="9" rx="2" fill="#6dc58b"/>
-          </g>
-          <g fill="#e6c46a">
-            <circle cx="442" cy="542" r="8"/><circle cx="460" cy="552" r="8"/><circle cx="424" cy="552" r="8"/>
-            <circle cx="466" cy="536" r="7"/><circle cx="480" cy="554" r="7"/>
+            <ellipse cx="395" cy="142" rx="20" ry="14" fill="rgba(255,255,255,.18)"/>
+            <ellipse cx="380" cy="106" rx="9" ry="11" fill="#fff"/><ellipse cx="410" cy="106" rx="9" ry="11" fill="#fff"/>
+            <circle cx="381" cy="108" r="4.5" fill="#1c1230"/><circle cx="409" cy="108" r="4.5" fill="#1c1230"/>
+            <circle cx="383" cy="104" r="1.6" fill="#fff"/><circle cx="411" cy="104" r="1.6" fill="#fff"/>
+            <ellipse cx="367" cy="120" rx="6" ry="4" fill="rgba(23,11,46,.22)"/><ellipse cx="423" cy="120" rx="6" ry="4" fill="rgba(23,11,46,.22)"/>
+            <path d="M387 124 Q395 131 403 124" stroke="#1c1230" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M364 122 C352 114 344 104 340 94" stroke="#38b6dd" stroke-width="9" fill="none" stroke-linecap="round"/><circle cx="338" cy="92" r="7" fill="#38b6dd"/>
+            <g transform="rotate(-14 336 84)">
+              <rect x="312" y="70" width="46" height="26" rx="3" fill="#5cc98e" stroke="#2f9e6b" stroke-width="1.5"/>
+              <rect x="314" y="68" width="46" height="26" rx="3" fill="#7ee2a8" stroke="#2f9e6b" stroke-width="1.5"/>
+              <rect x="330" y="68" width="8" height="26" fill="rgba(255,255,255,.4)"/>
+              <text x="345" y="85" font-size="11" font-weight="700" fill="#1c6b45" text-anchor="middle">₽</text>
+            </g>
+            <path d="M426 122 C440 130 449 140 453 150" stroke="#38b6dd" stroke-width="9" fill="none" stroke-linecap="round"/><circle cx="454" cy="151" r="7" fill="#38b6dd"/>
+            <circle cx="466" cy="136" r="8" fill="#ffd479" stroke="#d9a13b" stroke-width="2"/><text x="466" y="140" font-size="9" font-weight="800" fill="#8a5b12" text-anchor="middle">₽</text>
+            <circle cx="478" cy="118" r="6" fill="#ffd479" stroke="#d9a13b" stroke-width="1.6"/><text x="478" y="121" font-size="7" font-weight="800" fill="#8a5b12" text-anchor="middle">₽</text>
+            <circle cx="470" cy="158" r="6.5" fill="#ffd479" stroke="#d9a13b" stroke-width="1.6"/>
           </g>
         </svg>
-      </div>
-    </section>
+      </figure>
 
-    <!-- О проекте / SEO-текст -->
-    <section class="container section" id="about">
-      <div class="prose">
-        <h2 class="section-title">Что такое CalcDocs</h2>
-        <p>CalcDocs — набор бесплатных онлайн-инструментов: калькуляторы финансовых и производственных показателей, а также генераторы готовых документов. Все расчёты выполняются мгновенно на вашем устройстве: данные не отправляются на сервер, поэтому можно работать даже без интернета после загрузки страницы.</p>
-        <p>Каждый инструмент можно открыть как отдельное приложение — нажмите «Скачать на рабочий стол» в шапке, чтобы установить его как PWA.</p>
-        <div class="note">🔒 <strong>Мы не храним ваши личные данные.</strong> Все введённые значения обрабатываются только на вашем устройстве и не передаются на сервер. Подробнее — <a href="/privacy.html">в политике конфиденциальности</a>.</div>
-        <h3>Почему это удобно</h3>
-        <ul>
-          <li>Без регистрации и без оплаты.</li>
-          <li>Конфиденциальность: данные не покидают ваше устройство.</li>
-          <li>Адаптивный интерфейс — удобно и с телефона, и с компьютера.</li>
-        </ul>
-      </div>
-    </section>
-  </main>
+    </div>
 
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
-      <nav class="footer-nav" aria-label="Нижнее меню">
-        <a href="/#about">О проекте</a>
-        <a href="/#tools">Калькуляторы</a>
-        <a href="/#files">Файлы</a>
-        <a href="/#converters">Конвертеры</a>
+    <!-- ТРИ КОМПАКТНЫХ ИНСТРУМЕНТА -->
+    <div class="tools" id="demo">
+
+      <!-- 1. Ипотека -->
+      <div class="float f-1 reveal">
+        <div class="tool glass tilt">
+          <div class="tool-head">
+            <span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10.5 9-7.5 9 7.5"/><path d="M5.5 9.5V21h13V9.5"/><path d="M10 21v-6h4v6"/></svg></span>
+            <b>Калькулятор процента по ипотеке<small>аннуитетный платёж · переплата</small></b>
+          </div>
+          <div>
+            <div class="t-grid">
+              <div><label class="t-label" for="mSum">Сумма, ₽</label><input class="t-inp" id="mSum" inputmode="numeric" placeholder="3 000 000"></div>
+              <div><label class="t-label" for="mRate">Ставка, %</label><input class="t-inp" id="mRate" inputmode="decimal" placeholder="12"></div>
+              <div><label class="t-label" for="mTerm">Срок, лет</label><input class="t-inp" id="mTerm" inputmode="numeric" placeholder="15"></div>
+            </div>
+          </div>
+          <div class="t-res">
+            <div class="big"><span>Платёж в месяц</span><b id="mPay">—</b></div>
+            <div class="sub"><span>Переплата по процентам</span><b id="mInt">—</b></div>
+          </div>
+          <div class="t-actions">
+            <button class="btn btn-glass btn-xs" id="mCopy">Скопировать</button>
+            <button class="btn btn-vio btn-xs" id="mReset">Сбросить</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. QR-код -->
+      <div class="float f-2 reveal">
+        <div class="tool glass tilt">
+          <div class="tool-head">
+            <span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 14h3v3h-3zM21 14v.01M14 21v.01M17.5 17.5h.01M21 17.5v3.5h-3.5"/></svg></span>
+            <b>Генератор QR-кода<small>ссылки, текст, контакты</small></b>
+          </div>
+          <div>
+            <label class="t-label" for="qrInp">Текст или ссылка</label>
+            <input class="t-inp" id="qrInp" placeholder="https://calc-doc.ru" autocomplete="off">
+          </div>
+          <div class="qr-view" id="qrView">
+            <img id="qrImg" alt="Ваш QR-код">
+          </div>
+          <div class="t-actions">
+            <button class="btn btn-vio btn-xs" id="qrBtn">Создать QR</button>
+            <button class="btn btn-glass btn-xs" id="qrDl">Скачать</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Сжатие изображения -->
+      <div class="float f-3 reveal">
+        <div class="tool glass tilt">
+          <div class="tool-head">
+            <span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></span>
+            <b>Сжать изображение<small>JPG · PNG · локально в браузере</small></b>
+          </div>
+          <label class="drop" for="cmpFile">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--vio)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V8m0 0-3.5 3.5M12 8l3.5 3.5"/><circle cx="12" cy="12" r="9.5"/></svg>
+            <b>Выберите файл</b>
+            <small>файл не покидает ваш браузер</small>
+          </label>
+          <input type="file" id="cmpFile" accept="image/*" hidden>
+          <div class="cmp-res" id="cmpRes">
+            <div class="cmp-name" id="cmpName"></div>
+            <div class="cmp-line"><span>Было → стало</span><b id="cmpSizes"></b></div>
+            <div class="cmp-line"><span>Экономия</span><span class="badge" id="cmpPct"></span></div>
+          </div>
+          <div class="t-actions">
+            <button class="btn btn-vio btn-xs" id="cmpDl">Скачать JPG</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- СТАТИСТИКА: живые счётчики -->
+    <div class="stats reveal" id="statsBlock">
+      <div class="stat"><b>Все инструменты</b><span>в одном месте</span></div>
+      <div class="stat cyan"><b>0 ₽</b><span>бесплатно, без регистрации</span></div>
+      <div class="stat"><b>более <i>30</i></b><span>инструментов</span></div>
+    </div>
+  </div>
+
+  <!-- КАК ЭТО РАБОТАЕТ -->
+  <section id="how">
+    <div class="sec-head reveal">
+      <span class="kicker">Процесс</span>
+      <h2>Три шага до результата</h2>
+      <p>Никаких установок и ожиданий — всё происходит на странице.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><span class="step-num">01</span><h3>Выберите инструмент</h3><p>Расчёт ипотеки, генерация QR-кода или сжатие фото — переключайтесь свободно.</p></div>
+      <div class="step reveal"><span class="step-num">02</span><h3>Введите данные</h3><p>Сумму и ставку кредита, текст для кода или изображение с устройства.</p></div>
+      <div class="step reveal"><span class="step-num">03</span><h3>Заберите результат</h3><p>Готовый платёж с переплатой, скачанный QR-код или сжатый JPG — в один клик.</p></div>
+    </div>
+  </section>
+
+
+
+  <!-- ===== Блоки с главной calc-doc.ru (мини-игры -> конвертеры) ===== -->
+      <!-- Кнопка: мини-игры -->
+      <section id="games" style="padding: 24px 0 8px;">
+        <a class="card" href="/games/" style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:26px 28px;text-decoration:none;flex-wrap:wrap;">
+          <div>
+            <span class="card-icon" aria-hidden="true">🎮</span>
+            <h3 style="margin:6px 0 4px">Мини-игры: сделай перерыв</h3>
+            <p style="margin:0">Разомни мозг за пару минут — без регистрации.</p>
+          </div>
+          <span class="btn btn-primary" style="pointer-events:none">Играть</span>
+        </a>
+      </section>
+
+      <!-- Сетка калькуляторов -->
+      <section id="tools">
+        <h2 class="section-title">Категория: <span class="accent">калькуляторы</span></h2>
+
+        <h3 class="cat-title">Ремонт и строительство</h3>
+        <div class="grid">
+          <a class="card" href="/calculators/construction/">
+            <span class="card-icon" aria-hidden="true">🏗️</span>
+            <h3>Стройка и ремонт</h3>
+            <p>Плитка, ламинат, штукатурка, краска, кирпич, обои — все калькуляторы ремонта.</p>
+          </a>
+          <a class="card" href="/calculators/construction/tile.html">
+            <span class="card-icon" aria-hidden="true">🔲</span>
+            <h3>Плитка</h3>
+            <p>Сколько плитки на пол или стены, с запасом.</p>
+          </a>
+          <a class="card" href="/calculators/construction/laminate.html">
+            <span class="card-icon" aria-hidden="true">🪵</span>
+            <h3>Ламинат и линолеум</h3>
+            <p>Упаковки ламината или метры линолеума.</p>
+          </a>
+          <a class="card" href="/calculators/construction/plaster.html">
+            <span class="card-icon" aria-hidden="true">🪨</span>
+            <h3>Штукатурка и стяжка</h3>
+            <p>Расход смеси и количество мешков.</p>
+          </a>
+          <a class="card" href="/calculators/construction/paint.html">
+            <span class="card-icon" aria-hidden="true">🪣</span>
+            <h3>Краска и грунтовка</h3>
+            <p>Расход краски и сколько банок.</p>
+          </a>
+          <a class="card" href="/calculators/brick.html">
+            <span class="card-icon" aria-hidden="true">🧱</span>
+            <h3>Кирпич на дом</h3>
+            <p>Сколько кирпича нужно на кладку стен.</p>
+          </a>
+          <a class="card" href="/calculators/wallpaper.html">
+            <span class="card-icon" aria-hidden="true">🧻</span>
+            <h3>Обои</h3>
+            <p>Сколько рулонов на комнату, с подгонкой и запасом.</p>
+          </a>
+        </div>
+
+        <h3 class="cat-title">Финансы и налоги</h3>
+        <div class="grid">
+          <a class="card" href="/calculators/finance/">
+            <span class="card-icon" aria-hidden="true">🧮</span>
+            <h3>Финансы и налоги</h3>
+            <p>Кредит, больничный, НДФЛ, взносы ИП — все финансовые расчёты.</p>
+          </a>
+          <a class="card" href="/calculators/finance/credit.html">
+            <span class="card-icon" aria-hidden="true">🏦</span>
+            <h3>Кредитный калькулятор</h3>
+            <p>Аннуитетный и дифференцированный платёж.</p>
+          </a>
+          <a class="card" href="/calculators/finance/sick-leave.html">
+            <span class="card-icon" aria-hidden="true">🤒</span>
+            <h3>Больничный</h3>
+            <p>Пособие по стажу и доходу.</p>
+          </a>
+          <a class="card" href="/calculators/finance/maternity.html">
+            <span class="card-icon" aria-hidden="true">👶</span>
+            <h3>Декретные</h3>
+            <p>По беременности и родам и по уходу.</p>
+          </a>
+          <a class="card" href="/calculators/finance/ndfl.html">
+            <span class="card-icon" aria-hidden="true">📊</span>
+            <h3>НДФЛ и вычеты</h3>
+            <p>Имущественный и инвестиционный возврат.</p>
+          </a>
+          <a class="card" href="/calculators/finance/ip-insurance.html">
+            <span class="card-icon" aria-hidden="true">🧑‍💼</span>
+            <h3>Взносы ИП</h3>
+            <p>Фиксированные + 1% свыше лимита.</p>
+          </a>
+          <a class="card" href="/calculators/finance/salary-delay.html">
+            <span class="card-icon" aria-hidden="true">⏰</span>
+            <h3>Задержка зарплаты</h3>
+            <p>Компенсация по ст. 236 ТК РФ.</p>
+          </a>
+          <a class="card" href="/calculators/finance/compound-interest.html">
+            <span class="card-icon" aria-hidden="true">📈</span>
+            <h3>Сложный процент</h3>
+            <p>Доходность с пополнением.</p>
+          </a>
+          <a class="card" href="/calculators/finance/average-earnings.html">
+            <span class="card-icon" aria-hidden="true">📅</span>
+            <h3>Средний заработок</h3>
+            <p>Средний дневной и месячный, стаж.</p>
+          </a>
+          <a class="card" href="/calculators/mortgage.html">
+            <span class="card-icon" aria-hidden="true">🏠</span>
+            <h3>Ипотечный калькулятор</h3>
+            <p>Ежемесячный платёж, переплата и график по кредиту.</p>
+          </a>
+          <a class="card" href="/calculators/deposit.html">
+            <span class="card-icon" aria-hidden="true">💰</span>
+            <h3>Калькулятор вкладов</h3>
+            <p>Сложный процент, капитализация и пополнение — с графиком.</p>
+          </a>
+          <a class="card" href="/calculators/penalty.html">
+            <span class="card-icon" aria-hidden="true">💳</span>
+            <h3>Пеня и неустойка</h3>
+            <p>Расчёт пени по ставке ЦБ: ст. 395, 1/300, 1/150.</p>
+          </a>
+          <a class="card" href="/calculators/vat.html">
+            <span class="card-icon" aria-hidden="true">🧾</span>
+            <h3>НДС</h3>
+            <p>Начислить или выделить НДС: 20%, 10%, 0%.</p>
+          </a>
+          <a class="card" href="/calculators/tax-freelancer.html">
+            <span class="card-icon" aria-hidden="true">💼</span>
+            <h3>Налог фрилансера</h3>
+            <p>Рассчитайте налог по НПД/самозанятости за месяц или год.</p>
+          </a>
+          <a class="card" href="/calculators/vacation-pay.html">
+            <span class="card-icon" aria-hidden="true">🏖️</span>
+            <h3>Отпускные</h3>
+            <p>Сколько вы получите за отпуск — расчёт по среднему заработку.</p>
+          </a>
+          <a class="card" href="/calculators/alimony.html">
+            <span class="card-icon" aria-hidden="true">👪</span>
+            <h3>Неустойка по алиментам</h3>
+            <p>0,1% в день по ст. 115 СК РФ.</p>
+          </a>
+        </div>
+      </section>
+
+      <!-- Сетка генераторов -->
+      <section id="files">
+        <h2 class="section-title">Категория: <span class="accent">файлы</span></h2>
+        <div class="grid">
+          <a class="card" href="/generators/resume.html">
+            <span class="card-icon" aria-hidden="true">📄</span>
+            <h3>Резюме</h3>
+            <p>Готовое резюме из шаблона — сохраните в PDF одним кликом.</p>
+          </a>
+          <a class="card" href="/generators/power-of-attorney.html">
+            <span class="card-icon" aria-hidden="true">✍️</span>
+            <h3>Доверенность</h3>
+            <p>Доверенность на авто или на действия — по шаблону.</p>
+          </a>
+          <a class="card" href="/generators/contract.html">
+            <span class="card-icon" aria-hidden="true">📋</span>
+            <h3>Договор</h3>
+            <p>Типовые договоры: оказание услуг, аренда, купля-продажа.</p>
+          </a>
+          <a class="card" href="/generators/leave-request.html">
+            <span class="card-icon" aria-hidden="true">🗓️</span>
+            <h3>Заявление на отпуск</h3>
+            <p>Заявление на отпуск или отгул — готовый шаблон в PDF.</p>
+          </a>
+          <a class="card" href="/generators/invoice.html">
+            <span class="card-icon" aria-hidden="true">💳</span>
+            <h3>Счёт на оплату</h3>
+            <p>Счёт с реквизитами, позициями и QR-кодом — в PDF.</p>
+          </a>
+          <a class="card" href="/generators/report.html">
+            <span class="card-icon" aria-hidden="true">📊</span>
+            <h3>PDF-отчёт</h3>
+            <p>Отчёт с таблицей показателей и выводами — в PDF.</p>
+          </a>
+        </div>
+      </section>
+
+      <!-- Сетка конвертеров -->
+      <section id="converters">
+        <h2 class="section-title">Категория: <span class="accent">конвертеры</span></h2>
+        <div class="grid">
+          <a class="card" href="/converters/image-converter.html">
+            <span class="card-icon" aria-hidden="true">🖼️</span>
+            <h3>Сжатие изображений</h3>
+            <p>До 30 фото сразу, в оптимальном качестве.</p>
+          </a>
+          <a class="card" href="/converters/csv-to-xlsx.html">
+            <span class="card-icon" aria-hidden="true">📑</span>
+            <h3>CSV → Excel</h3>
+            <p>Превратите CSV-файл в готовый .xlsx.</p>
+          </a>
+          <a class="card" href="/converters/pdf-to-word.html">
+            <span class="card-icon" aria-hidden="true">📄</span>
+            <h3>PDF → Word</h3>
+            <p>Извлеките текст из PDF в редактируемый DOCX.</p>
+          </a>
+          <a class="card" href="/converters/dadata.html">
+            <span class="card-icon" aria-hidden="true">🔎</span>
+            <h3>DaData-конструктор</h3>
+            <p>Соберите запрос к DaData Suggest API: орг., адрес, банк.</p>
+          </a>
+          <a class="card" href="/converters/qr-generator.html">
+            <span class="card-icon" aria-hidden="true">📱</span>
+            <h3>Генератор QR-кода</h3>
+            <p>QR из текста или ссылки — PNG, JPG, SVG.</p>
+          </a>
+        </div>
+      </section>
+
+  <!-- ===== /Блоки с главной ===== -->
+
+      <!-- О проекте / SEO-текст -->
+      <section id="about">
+        <div class="prose glass">
+          <h2 class="section-title">Что такое CalcDocs</h2>
+          <p>CalcDocs — набор бесплатных онлайн-инструментов: калькуляторы финансовых и производственных показателей, а также генераторы готовых документов. Все расчёты выполняются мгновенно на вашем устройстве: данные не отправляются на сервер, поэтому можно работать даже без интернета после загрузки страницы.</p>
+          <p>Каждый инструмент можно открыть как отдельное приложение — нажмите «Скачать на рабочий стол» в шапке, чтобы установить его как PWA.</p>
+          <div class="note">🔒 <strong>Мы не храним ваши личные данные.</strong> Все введённые значения обрабатываются только на вашем устройстве и не передаются на сервер. Подробнее — <a href="/privacy.html">в политике конфиденциальности</a>.</div>
+          <h3>Почему это удобно</h3>
+          <ul>
+            <li>Без регистрации и без оплаты.</li>
+            <li>Конфиденциальность: данные не покидают ваше устройство.</li>
+            <li>Адаптивный интерфейс — удобно и с телефона, и с компьютера.</li>
+          </ul>
+        </div>
+      </section>
+
+
+  <footer>
+    <div class="foot-in">
+      <a class="logo" href="/" aria-label="CalcDocs">
+        <span class="logo-mark">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Docs</span></b>
+      </a>
+      <p class="copy">© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <div class="foot-links">
+        <a href="#tools">Калькуляторы</a>
+        <a href="#about">О проекте</a>
         <a href="/privacy.html">Конфиденциальность</a>
-      </nav>
+      </div>
     </div>
   </footer>
+</main>
 
-  <script type="module" src="/js/ui.js?v=4"></script>
+<div class="toast glass" id="toast">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+  <span id="toastMsg">Готово</span>
+</div>
+<button class="to-top glass" id="toTop" aria-label="Наверх">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5m0 0-6 6m6-6 6 6"/></svg>
+</button>
+
+<!-- QR: локальная библиотека /libs/qrcode-generator.js (загружается вашим chunkload.js;
+     ни CDN, ни сторонних сервисов — данные не покидают браузер) -->
+
+  <script type="module" src="/js/ui.js?v=6"></script>
+  <script type="module" src="/js/home.js?v=1"></script>
 </body>
 </html>
