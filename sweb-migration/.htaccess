@@ -73,21 +73,21 @@ AddDefaultCharset UTF-8
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # ─── ВРЕМЕННО ОТКЛЮЧЕНО до выпуска SSL-сертификата (12.09.2026) ───
-  # Причина: на sweb сертификат ещё не выпущен, а сам sweb отдаёт https -> http.
-  # Включённые правила давали бы петлю (http -> https -> http) и ошибку сертификата
-  # у посетителей, пришедших по http или на www.
-  # ВКЛЮЧИТЬ СРАЗУ ПОСЛЕ выпуска Let's Encrypt для calc-doc.ru И www.calc-doc.ru —
-  # распаковать оба блока ниже (убрать «# ») и перезалить этот файл.
+  # HTTPS включён после выпуска сертификата Let's Encrypt (wildcard calc-doc.ru + www).
 
   # http -> https
-  # RewriteCond %{HTTPS} !=on
-  # RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+  # Важно: за прокси sweb переменная %{HTTPS} не выставляется вообще (Apache видит
+  # https-запрос как обычный), поэтому проверять её нельзя — иначе получается петля
+  # (https://calc-doc.ru/ -> 301 -> https://calc-doc.ru/). Проверено на сервере:
+  # Apache 2.2 + PHP 7.1, заголовок X-Forwarded-Proto приходит как http или https.
+  RewriteCond %{HTTP:X-Forwarded-Proto} !^https$ [NC]
+  RewriteCond %{REQUEST_URI} !^/\.well-known/ [NC]
+  RewriteRule ^(.*)$ https://calc-doc.ru/$1 [R=301,L]
 
-  # www -> без www
-  # RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
-  # RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
-  # ─── конец временно отключённого блока ───
+  # www -> без www (не зависит от признака TLS, петли не даёт)
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteCond %{REQUEST_URI} !^/\.well-known/ [NC]
+  RewriteRule ^(.*)$ https://calc-doc.ru/$1 [R=301,L]
 
   # не отдавать служебные/скрытые файлы (.git, .env, .gitignore и т.п.);
   # исключение — /.well-known/ (нужен для проверки сертификата)
