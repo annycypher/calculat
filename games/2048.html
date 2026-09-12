@@ -4,25 +4,49 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>2048 онлайн — игра-головоломка — CalcDocs</title>
-  <meta name="description" content="Игра 2048: соединяйте плитки с одинаковыми числами и соберите 2048. Управление стрелками и свайпом. Работает в браузере." />
-  <meta name="keywords" content="2048, игра 2048 онлайн, головоломка, соединить числа" />
+  <meta name="description" content="Игра 2048 с неоновыми плитками: соединяйте одинаковые числа, собирайте комбо и ставьте рекорд. Управление стрелками, WASD или свайпом. Без регистрации и рекламы." />
+  <meta name="keywords" content="2048, игра 2048 онлайн, головоломка, соединить числа, неон, мини-игры, разминка для мозга" />
   <link rel="canonical" href="https://calc-doc.ru/games/2048.html" />
   <meta name="robots" content="index, follow" />
-  <meta property="og:title" content="2048 — игра — CalcDocs" />
-  <meta property="og:description" content="Соединяйте плитки и соберите 2048." />
+  <meta property="og:title" content="2048 Glow — игра — CalcDocs" />
+  <meta property="og:description" content="Соединяйте плитки и соберите 2048: неоновые плитки, частицы, комбо и рекорды." />
   <meta property="og:type" content="website" />
   <link rel="manifest" href="/manifest.webmanifest" />
   <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/fonts/fonts.css" />
   <link rel="stylesheet" href="/styles.css?v=2" />
-  <meta name="theme-color" content="#6d5dfc" />
+  <link rel="stylesheet" href="/games.css?v=1" />
+  <meta name="theme-color" content="#0b0913" />
   <script type="application/ld+json">
-  { "@context":"https://schema.org", "@type":"SoftwareApplication", "name":"2048", "applicationCategory":"GameApplication", "operatingSystem":"Web", "offers":{ "@type":"Offer","price":"0","priceCurrency":"RUB" } }
+  { "@context":"https://schema.org", "@type":"SoftwareApplication", "name":"2048 Glow", "applicationCategory":"GameApplication", "operatingSystem":"Web", "offers":{ "@type":"Offer","price":"0","priceCurrency":"RUB" } }
   </script>
   <script type="application/ld+json">
   { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Мини-игры","item":"https://calc-doc.ru/games/" }, { "@type":"ListItem","position":3,"name":"2048","item":"https://calc-doc.ru/games/2048.html" } ] }
   </script>
+  <style>
+:root{
+    --g-bg:#0b0913; --g-txt:#f1eef9; --g-mut:#9a92b0;
+    --g-vio:#a78bfa; --g-vio-deep:#8b5cf6; --g-ink:#170b2e;
+    --g-cyan:#6fd3f2; --g-line:rgba(255,255,255,.11); --g-gap:10px;
+  }
+  .gwrap *{margin:0;padding:0;box-sizing:border-box}
+  .gwrap{color:var(--g-txt)}.gwrap .orbs{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}.gwrap .orb{position:absolute;border-radius:50%;filter:blur(110px)}.gwrap .o1{width:560px;height:560px;top:-200px;right:-120px;background:radial-gradient(circle,rgba(139,92,246,.25),transparent 65%);animation:drift 24s ease-in-out infinite alternate}.gwrap .o2{width:480px;height:480px;bottom:-180px;left:-140px;background:radial-gradient(circle,rgba(111,211,242,.13),transparent 65%);animation:drift 30s ease-in-out infinite alternate-reverse}
+  @keyframes drift{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-50px,40px) scale(1.1)}}.gwrap .game{position:relative;z-index:2;width:100%;max-width:460px;margin:0 auto}.gwrap .glass{background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.028));border:1px solid var(--g-line);border-radius:20px;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}.gwrap .top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.gwrap .gtitle{font-family:'Unbounded';font-weight:700;font-size:clamp(20px,5vw,26px);letter-spacing:.02em}.gwrap .gtitle b{color:var(--g-vio)}.gwrap .gtitle i{font-style:normal;color:var(--g-cyan)}.gwrap .hud{display:flex;gap:8px}.gwrap .chip{padding:8px 14px;text-align:center;min-width:74px}.gwrap .chip small{display:block;font-size:9.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--g-mut)}.gwrap .chip b{font-family:'Unbounded';font-weight:600;font-size:17px;color:var(--g-vio)}.gwrap .chip.cy b{color:var(--g-cyan)}.gwrap .board-wrap{position:relative}.gwrap .board{position:relative;width:100%;aspect-ratio:1;padding:var(--g-gap);border-radius:20px;overflow:hidden;touch-action:none}.gwrap .board.shake{animation:shk .28s ease}
+  @keyframes shk{25%{translate:0 4px}50%{translate:-4px 0}75%{translate:0 -4px}}.gwrap .cells{position:absolute;inset:var(--g-gap);display:grid;grid-template:repeat(4,1fr)/repeat(4,1fr);gap:var(--g-gap)}.gwrap .cell{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);border-radius:12px}.gwrap .tiles{position:absolute;inset:var(--g-gap)}.gwrap canvas.fx{position:absolute;inset:var(--g-gap);width:calc(100% - 2*var(--g-gap));height:calc(100% - 2*var(--g-gap));pointer-events:none;z-index:5}.gwrap .tile{
+    position:absolute;left:0;top:0;display:grid;place-items:center;border-radius:12px;
+    font-family:'Unbounded';font-weight:700;font-size:26px;color:var(--g-txt);
+    text-shadow:0 1px 3px rgba(0,0,0,.45);
+    transition:transform .12s ease;will-change:transform;
+  }.gwrap .v2{background:rgba(167,139,250,.10);border:1px solid rgba(167,139,250,.28)}.gwrap .v4{background:rgba(167,139,250,.17);border:1px solid rgba(167,139,250,.36)}.gwrap .v8{background:rgba(139,92,246,.24);border:1px solid rgba(167,139,250,.45)}.gwrap .v16{background:rgba(139,92,246,.33);border:1px solid rgba(167,139,250,.55)}.gwrap .v32{background:rgba(139,92,246,.45);border:1px solid rgba(196,181,253,.6);box-shadow:0 0 18px -6px rgba(139,92,246,.8)}.gwrap .v64{background:#8b5cf6;color:var(--g-ink);text-shadow:none;box-shadow:0 0 22px -6px rgba(139,92,246,1)}.gwrap .v128{background:#a78bfa;color:var(--g-ink);text-shadow:none;box-shadow:0 0 26px -6px rgba(167,139,250,1)}.gwrap .v256{background:#b79bff;color:var(--g-ink);text-shadow:none;box-shadow:0 0 28px -5px rgba(183,155,255,1)}.gwrap .v512{background:linear-gradient(135deg,#8b5cf6,#c9b4ff);color:var(--g-ink);text-shadow:none;box-shadow:0 0 30px -5px rgba(167,139,250,1)}.gwrap .v1024{background:linear-gradient(135deg,#7c3aed,#a78bfa);color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.4);box-shadow:0 0 34px -4px rgba(139,92,246,1)}.gwrap .v2048{background:linear-gradient(135deg,#38b6dd,#6fd3f2);color:#08222e;text-shadow:none;box-shadow:0 0 38px -3px rgba(111,211,242,1);animation:heroic 1.6s ease-in-out infinite}
+  @keyframes heroic{0%,100%{box-shadow:0 0 38px -3px rgba(111,211,242,1)}50%{box-shadow:0 0 54px 2px rgba(111,211,242,.9)}}.gwrap .v128, .gwrap .v256, .gwrap .v512{font-size:23px}.gwrap .v1024, .gwrap .v2048{font-size:20px}.gwrap .pop{animation:pop .2s ease}
+  @keyframes pop{0%{scale:.35;opacity:0}100%{scale:1;opacity:1}}.gwrap .pulse{animation:merg .32s ease}
+  @keyframes merg{0%{scale:1}40%{scale:1.25;filter:brightness(1.7)}100%{scale:1}}.gwrap .fs{position:absolute;z-index:7;font-family:'Unbounded';font-weight:700;font-size:16px;color:var(--g-vio);pointer-events:none;animation:rise .8s ease forwards;text-shadow:0 1px 4px rgba(0,0,0,.5)}.gwrap .fs.cy{color:var(--g-cyan)}
+  @keyframes rise{from{opacity:1}to{transform:translateY(-52px);opacity:0}}.gwrap .combo{position:absolute;left:50%;top:42%;translate:-50% -50%;z-index:7;font-family:'Unbounded';font-weight:700;font-size:30px;color:var(--g-cyan);pointer-events:none;animation:combo .9s ease forwards;text-shadow:0 0 24px rgba(111,211,242,.9)}
+  @keyframes combo{0%{opacity:0;scale:.5}25%{opacity:1;scale:1.15}55%{opacity:1;scale:1}100%{opacity:0;transform:translateY(-30px)}}.gwrap .over{position:absolute;inset:var(--g-gap);z-index:8;border-radius:12px;display:grid;place-items:center;text-align:center;background:rgba(11,9,19,.8);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .35s}.gwrap .over.on{opacity:1;pointer-events:auto}.gwrap .over h2{font-family:'Unbounded';font-weight:700;font-size:30px;margin-bottom:6px}.gwrap .over h2.win{color:var(--g-cyan);text-shadow:0 0 30px rgba(111,211,242,.8)}.gwrap .over h2.lose{color:var(--g-vio)}.gwrap .over p{color:var(--g-mut);font-weight:600;margin-bottom:18px}.gwrap .over .row{display:flex;gap:10px;justify-content:center}.gwrap .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:12px;border:1px solid var(--g-line);font-family:'Manrope';font-weight:800;font-size:14px;cursor:pointer;color:var(--g-txt);background:rgba(255,255,255,.05);transition:.2s;touch-action:manipulation}.gwrap .btn:hover{background:rgba(255,255,255,.09);transform:translateY(-1px)}.gwrap .btn-vio{background:var(--g-vio-deep);color:var(--g-ink);border-color:transparent;box-shadow:0 10px 26px -10px rgba(139,92,246,.8)}.gwrap .btn-vio:hover{background:var(--g-vio)}.gwrap .icon-btn{width:42px;height:42px;justify-content:center;padding:0}.gwrap .hint{margin-top:14px;text-align:center;color:var(--g-mut);font-size:13px;font-weight:600}.gwrap .hint b{color:var(--g-vio)}
+  @media(max-width:420px){.gwrap .tile{font-size:22px}.gwrap .v128, .gwrap .v256, .gwrap .v512{font-size:19px}.gwrap .v1024, .gwrap .v2048{font-size:16px}}
+  </style>
 </head>
-<body>
+<body data-game="2048">
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="/"><span class="brand-logo" aria-hidden="true">🧮</span><span class="brand-name">Calc<span class="accent">Docs</span></span></a>
@@ -44,33 +68,106 @@
     <div class="container tool-hero">
       <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/games/">Мини-игры</a> / 2048</nav>
       <h1>2048</h1>
-      <p class="tool-meta">Соединяйте плитки с одинаковыми числами и соберите 2048. Управление — стрелками или свайпом.</p>
+      <p class="tool-meta">Соединяйте плитки с одинаковыми числами и соберите 2048. Плитки светятся, на крупных числах — вспышка и искры. Счёт и рекорд хранятся только в вашем браузере.</p>
     </div>
 
     <div class="container section no-print">
-      <div class="game-wrap">
-        <div class="game-stats">
-          <div class="game-stat"><div class="k">Счёт</div><div class="v" id="g2048Score">0</div></div>
-          <div class="game-stat"><div class="k">Рекорд</div><div class="v" id="g2048Best">0</div></div>
+      <div class="game-panel">
+        <div class="gwrap">
+<div class="orbs" aria-hidden="true"><div class="orb o1"></div><div class="orb o2"></div></div>
+
+<div class="game">
+  <div class="top">
+    <div class="gtitle"><b>2048</b> <i>Glow</i></div>
+    <div class="hud">
+      <div class="chip glass"><small>Счёт</small><b id="score">0</b></div>
+      <div class="chip glass cy"><small>Рекорд</small><b id="best">0</b></div>
+      <button class="btn icon-btn" id="soundBtn" aria-label="Звук">
+        <svg id="sndOn" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+        <svg id="sndOff" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="m16 9 6 6m0-6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="board-wrap">
+    <div class="board glass" id="board">
+      <div class="cells" id="cells"></div>
+      <div class="tiles" id="tiles"></div>
+      <canvas class="fx" id="fx"></canvas>
+      <div class="over" id="over">
+        <div>
+          <h2 id="overTitle">2048!</h2>
+          <p id="overText"></p>
+          <div class="row">
+            <button class="btn" id="continueBtn" style="display:none">Играть дальше</button>
+            <button class="btn btn-vio" id="restartBtn">Новая игра</button>
+          </div>
         </div>
-        <div class="board-2048" id="g2048Board"></div>
-        <div class="game-message" id="g2048Msg"></div>
-        <div style="text-align:center;margin-top:16px">
-          <button class="btn btn-ghost" id="g2048New">Новая игра</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;justify-content:center;margin-top:14px">
+    <button class="btn btn-vio" id="newBtn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 3v6h-6"/></svg>
+      Новая игра
+    </button>
+  </div>
+  <p class="hint">Стрелки / <b>WASD</b> / свайпы · собери плитку <b>2048</b></p>
+</div>
         </div>
+      </div>
+
+      <div class="gx-rating" data-rating>
+        <strong>Оцените игру</strong>
+        <div class="gx-rating__stars" role="radiogroup" aria-label="Оценка игры от 1 до 5">
+          <button class="rate-star" role="radio" aria-checked="false" aria-label="Оценка 1 из 5" title="1 из 5">★</button>
+          <button class="rate-star" role="radio" aria-checked="false" aria-label="Оценка 2 из 5" title="2 из 5">★</button>
+          <button class="rate-star" role="radio" aria-checked="false" aria-label="Оценка 3 из 5" title="3 из 5">★</button>
+          <button class="rate-star" role="radio" aria-checked="false" aria-label="Оценка 4 из 5" title="4 из 5">★</button>
+          <button class="rate-star" role="radio" aria-checked="false" aria-label="Оценка 5 из 5" title="5 из 5">★</button>
+        </div>
+        <p class="gx-note" data-rating-note hidden></p>
+      </div>
+
+      <div class="gx-share">
+        <button class="btn btn-primary" data-share="native">Поделиться игрой</button>
+        <a class="btn" data-share="tg" href="https://t.me/share/url?url=https%3A%2F%2Fcalc-doc.ru%2Fgames%2F2048.html" target="_blank" rel="nofollow noopener">Telegram</a>
+        <a class="btn" data-share="vk" href="https://vk.com/share.php?url=https%3A%2F%2Fcalc-doc.ru%2Fgames%2F2048.html" target="_blank" rel="nofollow noopener">ВКонтакте</a>
+        <a class="btn" data-share="wa" href="https://api.whatsapp.com/send?text=https%3A%2F%2Fcalc-doc.ru%2Fgames%2F2048.html" target="_blank" rel="nofollow noopener">WhatsApp</a>
+        <button class="btn btn-ghost" data-share="copy">Скопировать ссылку</button>
+        <button class="btn btn-ghost" data-share="native" data-result="1" data-share-result hidden>Поделиться результатом</button>
+      </div>
+
+      <div class="gx-stats" data-game-stats></div>
+      <div class="gx-nudge" data-nudge hidden></div>
+
+      <div class="gx-chips">
+        <a href="/games/">Все мини-игры</a>
+        <a href="/games/quick-math.html">⚡ Быстрый счёт</a>
+        <a href="/games/bubble.html">🫧 Пузыри</a>
       </div>
     </div>
 
     <div class="container section">
       <div class="prose">
-        <h2>Как играть</h2>
+        <h2>Как играть в 2048</h2>
         <p>Стрелки (или свайп) двигают все плитки в выбранную сторону. Одинаковые соседние числа сливаются в одно с суммой. Цель — получить плитку <strong>2048</strong>. После каждого хода появляется новая плитка 2 или 4.</p>
+        <h3>Правила и очки</h3>
+        <ul>
+          <li>Слияние даёт очки, равные получившемуся числу: 2 + 2 → плитка 4 и +4 очка.</li>
+          <li>За один ход плитка сливается только один раз: цепочки «4 + 4 + 4 + 4 → 8 + 8 → 16» не бывает.</li>
+          <li>Если поле заполнено и соседние числа не совпадают — партия заканчивается.</li>
+          <li>После плитки 2048 можно нажать «Играть дальше» и продолжить партию.</li>
+        </ul>
         <h3>Советы</h3>
         <ul>
-          <li>Держите крупные числа в углу и уводите их от края по одной схеме.</li>
-          <li>Не делайте хаотичных движений — старайтесь двигать в две стороны.</li>
-          <li>Если ходов не осталось — игра окончена, начните новую.</li>
+          <li>Держите самое большое число в углу и не отрывайте его от края.</li>
+          <li>Двигайте плитки по возможности в двух направлениях — так поле остаётся управляемым.</li>
+          <li>Рекорд сохраняется в браузере: обновление страницы его не сбросит.</li>
         </ul>
+        <h3>Другие игры</h3>
+        <p><a href="/games/quick-math.html">Быстрый счёт</a> — тренировка устного счёта на время. <a href="/games/bubble.html">Пузыри</a> — «пузырьковый шутер» в неоновой стилистике.</p>
       </div>
     </div>
   </main>
@@ -90,6 +187,246 @@
   </footer>
 
   <script type="module" src="/js/ui.js?v=4"></script>
-  <script type="module" src="/js/game-2048.js?v=1"></script>
+  <script type="module" src="/js/game-extras.js?v=1"></script>
+  <script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+const SIZE=4, GAP=10;
+const board=$('board'), tilesLayer=$('tiles'), cellsEl=$('cells'), cv=$('fx'), ctx=cv.getContext('2d');
+const scoreEl=$('score'), bestEl=$('best'), overEl=$('over'), overTitle=$('overTitle'), overText=$('overText');
+
+function readBest(){ try{ return +localStorage.getItem('g2048-best')||0; }catch(e){ return 0; } }
+
+/* фон-клетки */
+for(let i=0;i<16;i++){const d=document.createElement('div');d.className='cell';cellsEl.appendChild(d);}
+
+let grid, score=0, best=readBest(), moving=false, won=false, soundOn=true;
+let cellPx=0, combo=0, lastGain=0;
+bestEl.textContent=best.toLocaleString('ru-RU');
+
+const PCOL={2:'rgba(196,181,253,.95)',4:'rgba(180,158,252,.95)',8:'rgba(167,139,250,1)',16:'#a78bfa',32:'#9d7bfa',64:'#8b5cf6',128:'#a78bfa',256:'#b79bff',512:'#c9b4ff',1024:'#a78bfa',2048:'#6fd3f2'};
+
+/* ---------- геометрия ---------- */
+function layout(){
+  const w=tilesLayer.clientWidth;
+  cellPx=(w-3*GAP)/4;
+  cv.width=cv.offsetWidth; cv.height=cv.offsetHeight;
+  eachTile(t=>{ t.el.style.width=cellPx+'px'; t.el.style.height=cellPx+'px'; place(t); });
+}
+const px=(i)=>i*(cellPx+GAP);
+function place(t){ t.el.style.transform=`translate(${px(t.c)}px,${px(t.r)}px)`; }
+function eachTile(fn){ for(let r=0;r<SIZE;r++)for(let c=0;c<SIZE;c++){ if(grid[r][c]) fn(grid[r][c]); } }
+
+/* ---------- звук (WebAudio, без файлов) ---------- */
+let AC=null;
+function blip(v){
+  if(!soundOn) return;
+  try{
+    AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+    const o=AC.createOscillator(), g=AC.createGain(), t=AC.currentTime;
+    o.type='sine';
+    o.frequency.value=200*Math.pow(2,Math.log2(v)/4);   /* выше плитка — выше нота */
+    g.gain.setValueAtTime(.07,t);
+    g.gain.exponentialRampToValueAtTime(.0001,t+.14);
+    o.connect(g).connect(AC.destination); o.start(t); o.stop(t+.15);
+  }catch(e){}
+}
+
+/* ---------- частицы ---------- */
+const parts=[];
+function spawnBurst(t){
+  const cx0=px(t.c)+cellPx/2, cy0=px(t.r)+cellPx/2, col=PCOL[t.v]||'#a78bfa';
+  const n=Math.min(8+Math.log2(t.v)*2, 22);
+  for(let i=0;i<n;i++){
+    const a=Math.random()*Math.PI*2, sp=1+Math.random()*3.2;
+    parts.push({x:cx0,y:cy0,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-1,life:1,decay:.02+Math.random()*.025,size:1.5+Math.random()*2.5,col,ring:false});
+  }
+  parts.push({x:cx0,y:cy0,life:1,decay:.045,r:cellPx*.2,col,ring:true});
+}
+(function loop(){
+  ctx.clearRect(0,0,cv.width,cv.height);
+  ctx.globalCompositeOperation='lighter';
+  for(let i=parts.length-1;i>=0;i--){
+    const p=parts[i]; p.life-=p.decay;
+    if(p.life<=0){parts.splice(i,1);continue;}
+    if(p.ring){
+      p.r+=3.2;
+      ctx.strokeStyle=p.col; ctx.globalAlpha=p.life*.6; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,7); ctx.stroke();
+    }else{
+      p.x+=p.vx; p.y+=p.vy; p.vy+=.09;
+      ctx.fillStyle=p.col; ctx.globalAlpha=p.life;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.size*p.life,0,7); ctx.fill();
+    }
+  }
+  ctx.globalAlpha=1;
+  requestAnimationFrame(loop);
+})();
+
+/* ---------- плавающие надписи ---------- */
+function floatText(x,y,txt,cy){
+  const d=document.createElement('div');
+  d.className='fs'+(cy?' cy':''); d.textContent=txt;
+  d.style.left=x+'px'; d.style.top=y+'px';
+  tilesLayer.appendChild(d); setTimeout(()=>d.remove(),820);
+}
+function comboShow(n){
+  const d=document.createElement('div');
+  d.className='combo'; d.textContent='COMBO ×'+n;
+  tilesLayer.appendChild(d); setTimeout(()=>d.remove(),920);
+}
+
+/* ---------- плитки ---------- */
+function makeTile(r,c,v){
+  const el=document.createElement('div');
+  el.className='tile v'+v+' pop'; el.textContent=v;
+  el.style.width=cellPx+'px'; el.style.height=cellPx+'px';
+  const t={r,c,v,el,merged:false};
+  grid[r][c]=t; place(t); tilesLayer.appendChild(el);
+  setTimeout(()=>el.classList.remove('pop'),220);
+  return t;
+}
+function upgrade(t){
+  t.el.className='tile v'+t.v; t.el.textContent=t.v.toLocaleString('ru-RU');
+  t.el.classList.remove('pulse'); void t.el.offsetWidth; t.el.classList.add('pulse');
+}
+function spawnRandom(){
+  const empty=[];
+  for(let r=0;r<SIZE;r++)for(let c=0;c<SIZE;c++) if(!grid[r][c]) empty.push([r,c]);
+  if(!empty.length) return;
+  const [r,c]=empty[Math.floor(Math.random()*empty.length)];
+  makeTile(r,c,Math.random()<.9?2:4);
+}
+
+/* ---------- счёт ---------- */
+function addScore(g,r,c){
+  score+=g; scoreEl.textContent=score.toLocaleString('ru-RU');
+  if(score>best){ best=score; bestEl.textContent=best.toLocaleString('ru-RU'); try{ localStorage.setItem('g2048-best',best); }catch(e){} }
+  floatText(px(c)+cellPx/2-14, px(r)-2, '+'+g, g>=256);
+  const now=performance.now();
+  combo=(now-lastGain<900)?combo+1:1; lastGain=now;
+  if(combo>1) comboShow(combo);
+  if(g>=128){ board.classList.remove('shake'); void board.offsetWidth; board.classList.add('shake'); }
+}
+
+/* ---------- логика хода ---------- */
+const DIRS={left:{dr:0,dc:-1},right:{dr:0,dc:1},up:{dr:-1,dc:0},down:{dr:1,dc:0}};
+function move(dir){
+  if(moving) return;
+  const v=DIRS[dir];
+  const order=[];
+  for(let r=0;r<SIZE;r++)for(let c=0;c<SIZE;c++)order.push([r,c]);
+  order.sort((a,b)=> v.dr===1? b[0]-a[0] : v.dr===-1? a[0]-b[0] : v.dc===1? b[1]-a[1] : a[1]-b[1]);
+  eachTile(t=>t.merged=false);
+  let moved=false; const pairs=[];
+  for(const [r,c] of order){
+    const t=grid[r][c]; if(!t) continue;
+    let cr=r,cc=c,target=null;
+    while(true){
+      const nr=cr+v.dr,nc=cc+v.dc;
+      if(nr<0||nr>3||nc<0||nc>3)break;
+      const occ=grid[nr][nc];
+      if(!occ){cr=nr;cc=nc;continue;}
+      if(occ.v===t.v&&!occ.merged&&!t.merged) target=occ;
+      break;
+    }
+    if(target){
+      grid[r][c]=null; t.r=target.r; t.c=target.c;
+      t.merged=target.merged=true;
+      pairs.push({src:t,dst:target}); moved=true;
+    }else if(cr!==r||cc!==c){
+      grid[r][c]=null; grid[cr][cc]=t; t.r=cr; t.c=cc; moved=true;
+    }
+  }
+  if(!moved) return;
+  moving=true;
+  eachTile(place);
+  setTimeout(()=>{
+    let gained=0;
+    for(const p of pairs){
+      p.src.el.remove();
+      p.dst.v*=2; upgrade(p.dst);
+      gained+=p.dst.v;
+      spawnBurst(p.dst); blip(p.dst.v);
+      floatText(px(p.dst.c)+cellPx/2-14, px(p.dst.r)-2, '+'+p.dst.v, p.dst.v>=256);
+    }
+
+    if(gained){
+      score+=gained; scoreEl.textContent=score.toLocaleString('ru-RU');
+      if(score>best){best=score;bestEl.textContent=best.toLocaleString('ru-RU');try{ localStorage.setItem('g2048-best',best); }catch(e){}}
+      const now=performance.now();
+      combo=(now-lastGain<900)?combo+1:1; lastGain=now;
+      if(combo>1) comboShow(combo);
+      if(pairs.some(p=>p.dst.v>=128)){board.classList.remove('shake');void board.offsetWidth;board.classList.add('shake');}
+    }
+    spawnRandom();
+    if(!won&&hasValue(2048)){ won=true; showOver(true); }
+    else if(isStuck()){ showOver(false); }
+    moving=false;
+  },125);
+}
+function hasValue(v){ return eachTileCheck(t=>t.v===v); }
+function eachTileCheck(fn){ for(let r=0;r<SIZE;r++)for(let c=0;c<SIZE;c++){ if(grid[r][c]&&fn(grid[r][c]))return true; } return false; }
+function isStuck(){
+  for(let r=0;r<SIZE;r++)for(let c=0;c<SIZE;c++){
+    const t=grid[r][c]; if(!t)return false;
+    if(r<3&&grid[r+1][c]&&grid[r+1][c].v===t.v)return false;
+    if(c<3&&grid[r][c+1]&&grid[r][c+1].v===t.v)return false;
+  }
+  return true;
+}
+
+/* ---------- оверлеи ---------- */
+function showOver(win){
+  overTitle.textContent=win?'2048!':'Ходов больше нет';
+  overTitle.className=win?'win':'lose';
+  overText.textContent=win?'Легендарно! Голубая плитка собрана. Идти дальше?':'Счёт: '+score.toLocaleString('ru-RU');
+  $('continueBtn').style.display=win?'':'none';
+  overEl.classList.add('on');
+}
+
+/* ---------- новая игра ---------- */
+function newGame(){
+  tilesLayer.innerHTML=''; overEl.classList.remove('on');
+  grid=Array.from({length:SIZE},()=>Array(SIZE).fill(null));
+  score=0; scoreEl.textContent='0'; won=false; combo=0;
+  layout(); spawnRandom(); spawnRandom();
+}
+ $('newBtn').addEventListener('click',newGame);
+ $('restartBtn').addEventListener('click',newGame);
+ $('continueBtn').addEventListener('click',()=>overEl.classList.remove('on'));
+
+/* ---------- управление ---------- */
+const KEYMAP={ArrowLeft:'left',ArrowRight:'right',ArrowUp:'up',ArrowDown:'down',
+  a:'left',d:'right',w:'up',s:'down',A:'left',D:'right',W:'up',S:'down',
+  ф:'left',в:'right',ц:'up',ы:'down',Ф:'left',В:'right',Ц:'up',Ы:'down'};
+addEventListener('keydown',e=>{
+  const d=KEYMAP[e.key];
+  if(d){ e.preventDefault(); move(d); }
+});
+let ts=null;
+board.addEventListener('touchstart',e=>{ts={x:e.touches[0].clientX,y:e.touches[0].clientY};},{passive:true});
+board.addEventListener('touchmove',e=>e.preventDefault(),{passive:false});
+board.addEventListener('touchend',e=>{
+  if(!ts)return;
+  const dx=e.changedTouches[0].clientX-ts.x, dy=e.changedTouches[0].clientY-ts.y; ts=null;
+  if(Math.max(Math.abs(dx),Math.abs(dy))<24)return;
+  move(Math.abs(dx)>Math.abs(dy)?(dx>0?'right':'left'):(dy>0?'down':'up'));
+});
+
+/* ---------- звук вкл/выкл ---------- */
+ $('soundBtn').addEventListener('click',()=>{
+  soundOn=!soundOn;
+  $('sndOn').style.display=soundOn?'':'none';
+  $('sndOff').style.display=soundOn?'none':'';
+});
+
+addEventListener('resize',layout);
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+if(window.ResizeObserver) new ResizeObserver(layout).observe(tilesLayer);
+newGame();
+})();
+  </script>
 </body>
 </html>

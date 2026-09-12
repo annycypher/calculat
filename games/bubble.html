@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Пузыри (Bubble Shooter) онлайн — игра — CalcDocs</title>
+  <meta name="description" content="Пузырьковый шутер онлайн: стреляйте шариками, собирайте три и больше одинаковых цветов, освобождайте поле и проходите уровни. Неоновая графика, звук без загрузки файлов, рекорд в браузере." />
+  <meta name="keywords" content="пузырьковый шутер, bubble shooter, игра пузыри онлайн, шарики, три в ряд, мини-игры, аркада" />
+  <link rel="canonical" href="https://calc-doc.ru/games/bubble.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Пузыри (Bubble Shooter) — игра — CalcDocs" />
+  <meta property="og:description" content="Лопайте шарики тройками и больше, отрывайте висящие шары и проходите уровни." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/fonts/fonts.css" />
+  <link rel="stylesheet" href="/styles.css?v=2" />
+  <link rel="stylesheet" href="/games.css?v=1" />
+  <meta name="theme-color" content="#0b0913" />
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"SoftwareApplication", "name":"Пузыри (Bubble Shooter)", "applicationCategory":"GameApplication", "operatingSystem":"Web", "offers":{ "@type":"Offer","price":"0","priceCurrency":"RUB" } }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Мини-игры","item":"https://calc-doc.ru/games/" }, { "@type":"ListItem","position":3,"name":"Пузыри","item":"https://calc-doc.ru/games/bubble.html" } ] }
+  </script>
+  <style>
+:root{
+    --g-bg:#0b0913; --g-txt:#f1eef9; --g-mut:#9a92b0;
+    --g-vio:#a78bfa; --g-vio-deep:#8b5cf6; --g-ink:#170b2e;
+    --g-cyan:#6fd3f2; --g-line:rgba(255,255,255,.11);
+  }
+  .gwrap *{margin:0;padding:0;box-sizing:border-box}
+  .gwrap{color:var(--g-txt)}.gwrap .orbs{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}.gwrap .orb{position:absolute;border-radius:50%;filter:blur(110px)}.gwrap .o1{width:560px;height:560px;top:-200px;right:-120px;background:radial-gradient(circle,rgba(139,92,246,.25),transparent 65%);animation:drift 24s ease-in-out infinite alternate}.gwrap .o2{width:480px;height:480px;bottom:-180px;left:-140px;background:radial-gradient(circle,rgba(111,211,242,.13),transparent 65%);animation:drift 30s ease-in-out infinite alternate-reverse}
+  @keyframes drift{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-50px,40px) scale(1.1)}}.gwrap .game{position:relative;z-index:2;width:100%;max-width:480px;margin:0 auto}.gwrap .glass{background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.028));border:1px solid var(--g-line);border-radius:20px;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}.gwrap .top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.gwrap .gtitle{font-family:'Unbounded';font-weight:700;font-size:clamp(18px,5vw,24px)}.gwrap .gtitle b{color:var(--g-vio)}.gwrap .gtitle i{font-style:normal;color:var(--g-cyan)}.gwrap .hud{display:flex;gap:7px;align-items:stretch}.gwrap .chip{padding:7px 12px;text-align:center;min-width:62px}.gwrap .chip small{display:block;font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--g-mut)}.gwrap .chip b{font-family:'Unbounded';font-weight:600;font-size:15px;color:var(--g-vio)}.gwrap .chip.cy b{color:var(--g-cyan)}.gwrap .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 18px;border-radius:12px;border:1px solid var(--g-line);font-family:'Manrope';font-weight:800;font-size:14px;cursor:pointer;color:var(--g-txt);background:rgba(255,255,255,.05);transition:.2s;touch-action:manipulation}.gwrap .btn:hover{background:rgba(255,255,255,.09);transform:translateY(-1px)}.gwrap .btn-vio{background:var(--g-vio-deep);color:var(--g-ink);border-color:transparent;box-shadow:0 10px 26px -10px rgba(139,92,246,.8)}.gwrap .btn-vio:hover{background:var(--g-vio)}.gwrap .icon-btn{width:40px;height:40px;padding:0}.gwrap .stage{position:relative}.gwrap canvas{display:block;width:100%;border-radius:20px;touch-action:none;cursor:crosshair}.gwrap canvas.shake{animation:shk .25s ease}
+  @keyframes shk{25%{translate:0 4px}50%{translate:-4px 0}75%{translate:0 -4px}}.gwrap .fs{position:absolute;z-index:7;font-family:'Unbounded';font-weight:700;font-size:15px;color:var(--g-vio);pointer-events:none;translate:-50% -50%;animation:rise .8s ease forwards;text-shadow:0 1px 4px rgba(0,0,0,.6)}.gwrap .fs.cy{color:var(--g-cyan)}
+  @keyframes rise{from{opacity:1}to{transform:translateY(-46px);opacity:0}}.gwrap .combo{position:absolute;left:50%;top:45%;translate:-50% -50%;z-index:7;font-family:'Unbounded';font-weight:700;font-size:28px;color:var(--g-cyan);pointer-events:none;animation:combo .9s ease forwards;text-shadow:0 0 24px rgba(111,211,242,.9);white-space:nowrap}
+  @keyframes combo{0%{opacity:0;scale:.5}25%{opacity:1;scale:1.15}60%{opacity:1;scale:1}100%{opacity:0;transform:translateY(-26px)}}.gwrap .over{position:absolute;inset:0;z-index:8;border-radius:20px;display:grid;place-items:center;text-align:center;background:rgba(11,9,19,.82);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .35s}.gwrap .over.on{opacity:1;pointer-events:auto}.gwrap .over h2{font-family:'Unbounded';font-weight:700;font-size:26px;margin-bottom:8px}.gwrap .over h2.win{color:var(--g-cyan);text-shadow:0 0 26px rgba(111,211,242,.8)}.gwrap .over h2.lose{color:var(--g-vio)}.gwrap .over p{color:var(--g-mut);font-weight:600;margin-bottom:16px;padding:0 20px}.gwrap .bottom{display:flex;justify-content:center;margin-top:12px}.gwrap .hint{margin-top:12px;text-align:center;color:var(--g-mut);font-size:12.5px;font-weight:600;line-height:1.5}.gwrap .hint b{color:var(--g-vio)}
+  </style>
+</head>
+<body data-game="Пузыри">
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/"><span class="brand-logo" aria-hidden="true">🧮</span><span class="brand-name">Calc<span class="accent">Docs</span></span></a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/games/">Игры</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/games/">Мини-игры</a> / Пузыри</nav>
+      <h1>Пузыри</h1>
+      <p class="tool-meta">Классический «пузырьковый шутер» в неоновой стилистике: цельтесь мышью или пальцем, кликом стреляйте, собирайте 3+ шарика одного цвета. Шары, оторванные от потолка, падают и приносят очки. Рекорд хранится только в вашем браузере.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="game-panel">
+        <div class="gwrap">
+<div class="orbs" aria-hidden="true"><div class="orb o1"></div><div class="orb o2"></div></div>
+
+<div class="game">
+  <div class="top">
+    <div class="gtitle"><b>BUBBLE</b> <i>Glow</i></div>
+    <div class="hud">
+      <div class="chip glass"><small>Счёт</small><b id="score">0</b></div>
+      <div class="chip glass"><small>Уровень</small><b id="lvl">1</b></div>
+      <div class="chip glass cy"><small>Рекорд</small><b id="best">0</b></div>
+      <button class="btn icon-btn" id="soundBtn" aria-label="Звук">
+        <svg id="sndOn" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+        <svg id="sndOff" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="m16 9 6 6m0-6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="stage" id="stage">
+    <canvas id="cv"></canvas>
+    <div class="over" id="over">
+      <div>
+        <h2 id="overTitle"></h2>
+        <p id="overText"></p>
+        <div style="display:flex;gap:10px;justify-content:center">
+          <button class="btn" id="againBtn" style="display:none">Заново</button>
+          <button class="btn btn-vio" id="mainBtn">Новая игра</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <button class="btn btn-vio" id="newBtn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 3v6h-6"/></svg>
+      Новая игра
+    </button>
+  </div>
+  <p class="hint">Мышь / палец — прицел · клик — выстрел · клик по <b>следующему шару</b> — поменять<br>Собирай <b>3+</b> одного цвета · оторванные от потолка шары падают</p>
+</div>
+        </div>
+      </div>
+
+      <div class="gx-rating" data-rating>
+        <strong>Оцените игру</strong>
+        <div class="gx-rating__stars" role="radiogroup" aria-label="Оценка игры от 1 до 5">
+          <button class="rate-star" role="radio" aria-checked="false" aria-label="Оценка 1 из 5" title="1 из 5">★</button>
+          <button class="rate-star" role="radio" aria-checked="false" aria-label="Оценка 2 из 5" title="2 из 5">★</button>
+          <button class="rate-star" role="radio" aria-checked="false" aria-label="Оценка 3 из 5" title="3 из 5">★</button>
+          <button class="rate-star" role="radio" aria-checked="false" aria-label="Оценка 4 из 5" title="4 из 5">★</button>
+          <button class="rate-star" role="radio" aria-checked="false" aria-label="Оценка 5 из 5" title="5 из 5">★</button>
+        </div>
+        <p class="gx-note" data-rating-note hidden></p>
+      </div>
+
+      <div class="gx-share">
+        <button class="btn btn-primary" data-share="native">Поделиться игрой</button>
+        <a class="btn" data-share="tg" href="https://t.me/share/url?url=https%3A%2F%2Fcalc-doc.ru%2Fgames%2Fbubble.html" target="_blank" rel="nofollow noopener">Telegram</a>
+        <a class="btn" data-share="vk" href="https://vk.com/share.php?url=https%3A%2F%2Fcalc-doc.ru%2Fgames%2Fbubble.html" target="_blank" rel="nofollow noopener">ВКонтакте</a>
+        <a class="btn" data-share="wa" href="https://api.whatsapp.com/send?text=https%3A%2F%2Fcalc-doc.ru%2Fgames%2Fbubble.html" target="_blank" rel="nofollow noopener">WhatsApp</a>
+        <button class="btn btn-ghost" data-share="copy">Скопировать ссылку</button>
+        <button class="btn btn-ghost" data-share="native" data-result="1" data-share-result hidden>Поделиться результатом</button>
+      </div>
+
+      <div class="gx-stats" data-game-stats></div>
+      <div class="gx-nudge" data-nudge hidden></div>
+
+      <div class="gx-chips">
+        <a href="/games/">Все мини-игры</a>
+        <a href="/games/2048.html">🔢 2048</a>
+        <a href="/games/quick-math.html">⚡ Быстрый счёт</a>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Как играть в «Пузыри»</h2>
+        <p>Ведите указателем мышь или палец — от пушки идёт линия прицела с отскоками от стен. Клик или касание выпускает шарик. Три и больше шарика одного цвета рядом — лопаются. Нижний ряд поля периодически опускается: если шары дойдут до пунктирной линии, партия заканчивается.</p>
+        <h3>Правила и очки</h3>
+        <ul>
+          <li>Лопается только группа из 3 и более шаров одного цвета, соединённых друг с другом.</li>
+          <li>Шары, которые после взрыва остались без опоры на потолке, падают — за них тоже начисляются очки.</li>
+          <li>Серия удачных выстрелов подряд даёт множитель комбо (до ×5).</li>
+          <li>Поле очищено — уровень пройден, дальше цвета добавляются, а ряд опускается быстрее.</li>
+          <li>Клик по кружку в правом нижнем углу меняет текущий шарик на следующий.</li>
+        </ul>
+        <h3>Управление</h3>
+        <ul>
+          <li><strong>Мышь или палец</strong> — прицел.</li>
+          <li><strong>Клик / касание</strong> — выстрел.</li>
+          <li><strong>Кружок «следующий шар»</strong> — обмен шарика, если подходящего цвета нет.</li>
+        </ul>
+        <h3>Другие игры</h3>
+        <p><a href="/games/2048.html">2048</a> — головоломка с неоновыми плитками. <a href="/games/quick-math.html">Быстрый счёт</a> — тренировка устного счёта на время.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/games/">Игры</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=4"></script>
+  <script type="module" src="/js/game-extras.js?v=1"></script>
+  <script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+const cv=$('cv'), ctx=cv.getContext('2d'), stage=$('stage');
+const scoreEl=$('score'), bestEl=$('best'), lvlEl=$('lvl');
+const overEl=$('over'), overTitle=$('overTitle'), overText=$('overText');
+
+const COLS=8, TOP_PAD=8;
+const PALETTE=[
+  {c:'#f2b8ff',g:'242,184,255'},  /* розово-сиреневый */
+  {c:'#c9b4ff',g:'201,180,255'},  /* светло-сиреневый */
+  {c:'#a78bfa',g:'167,139,250'},  /* фиолет */
+  {c:'#8b5cf6',g:'139,92,246'},   /* тёмный фиолет */
+  {c:'#6fd3f2',g:'111,211,242'}   /* циан — редкий */
+];
+
+let W=0,H=0,R=24,DY=40,deadlineY=0;
+let grid=[], cur=0, nxt=1, level=1, score=0, combo=0;
+let shotsPerDrop=6, shotsLeft=6, colorCount=4;
+let best=readBest();
+let projectile=null, fallers=[], poppers=[], parts=[];
+let angle=-Math.PI/2, playing=true, over=false, soundOn=true;
+let shake=0, lastT=0, swappedPress=false;
+
+function readBest(){ try{ return +localStorage.getItem('bubble-best')||0; }catch(e){ return 0; } }
+
+const shooter={x:0,y:0};
+bestEl.textContent=best.toLocaleString('ru-RU');
+
+/* ---------- геометрия ---------- */
+function resize(){
+  const w=stage.clientWidth;
+  const h=Math.max(400, Math.min(Math.round(w*1.32), 620));
+  W=w; H=h;
+  const dpr=Math.min(devicePixelRatio||1,2);
+  cv.width=W*dpr; cv.height=H*dpr;
+  cv.style.height=H+'px';
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  R=W/(COLS*2); DY=R*Math.sqrt(3);
+  shooter.x=W/2; shooter.y=H-58;
+  deadlineY=H-116;
+}
+const rowLen=odd=>odd?COLS-1:COLS;
+const bx=(row,c)=>R + c*2*R + (row.odd?R:0);
+const by=r=>TOP_PAD + R + r*DY;
+
+/* ---------- звук: WebAudio, без файлов ---------- */
+let AC=null;
+function ac(){ if(!AC){ try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch(e){} } return AC; }
+function tone(f,dur,type,vol,slideTo,when){
+  if(!soundOn) return; const a=ac(); if(!a) return;
+  const t=a.currentTime+(when||0);
+  const o=a.createOscillator(), g=a.createGain();
+  o.type=type||'sine'; o.frequency.setValueAtTime(f,t);
+  if(slideTo) o.frequency.linearRampToValueAtTime(slideTo,t+dur);
+  g.gain.setValueAtTime(vol||.07,t);
+  g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.connect(g).connect(a.destination); o.start(t); o.stop(t+dur+.02);
+}
+const sShoot =()=>tone(300,.09,'sine',.05,560);
+const sBounce=()=>tone(170,.05,'triangle',.04);
+const sSnap  =()=>tone(130,.06,'sine',.05);
+const sPop   =n=>{const b=240+Math.min(n,10)*36; tone(b,.16,'sine',.08); tone(b*1.5,.13,'sine',.05,null,.045); if(n>=5) tone(b*2,.12,'sine',.04,null,.09);};
+const sWin   =()=>[523,659,784,1046].forEach((f,i)=>tone(f,.18,'sine',.07,null,i*.09));
+const sLose  =()=>[392,311,233,175].forEach((f,i)=>tone(f,.22,'sine',.07,null,i*.12));
+
+/* ---------- частицы и анимации ---------- */
+function burst(x,y,pi,big){
+  const col=PALETTE[pi];
+  const n=big?18:9;
+  for(let i=0;i<n;i++){
+    const a=Math.random()*Math.PI*2, sp=1+Math.random()*(big?4:2.6);
+    parts.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-1,life:1,dec:.02+Math.random()*.03,sz:1.5+Math.random()*2.5,col:col.c});
+  }
+  parts.push({x,y,ring:true,r:R*.3,life:1,dec:.05,col:col.c});
+}
+
+/* ---------- построение поля ---------- */
+function randColor(){ return Math.floor(Math.random()*colorCount); }
+function makeRow(odd){
+  const cells=[]; const n=rowLen(odd);
+  for(let c=0;c<n;c++) cells.push(randColor());
+  return cells;
+}
+function initField(){
+  grid=[];
+  const rows=Math.min(4+level,7);
+  for(let r=0;r<rows;r++) grid.push({odd:r%2===1, cells:makeRow(r%2===1)});
+}
+function newGame(){
+  level=1; score=0; combo=0; over=false; playing=true;
+  colorCount=4; shotsPerDrop=6; shotsLeft=6;
+  projectile=null; fallers=[]; poppers=[]; parts=[];
+  cur=randColor(); nxt=randColor();
+  initField();
+  scoreEl.textContent='0'; lvlEl.textContent='1';
+  overEl.classList.remove('on');
+  resize();
+}
+
+/* ---------- соседи по гексу ---------- */
+function deltas(odd){ return odd
+  ? [[0,-1],[0,1],[-1,0],[-1,1],[1,0],[1,1]]
+  : [[0,-1],[0,1],[-1,-1],[-1,0],[1,-1],[1,0]]; }
+function rowOdd(r){
+  if(!grid.length) return false;
+  return (r%2===1) !== grid[0].odd;
+}
+function hasNeighbor(r,c){
+  for(const [dr,dc] of deltas(rowOdd(r))){
+    const rr=r+dr, cc=c+dc;
+    if(rr>=0 && grid[rr] && grid[rr].cells[cc]!=null) return true;
+  }
+  return false;
+}
+function nearestCell(x,y){
+  let bestC=null, bd=1e18;
+  for(let r=0;r<grid.length+2;r++){
+    const odd = r<grid.length ? grid[r].odd : (grid.length? !grid[grid.length-1].odd : false);
+    const n=rowLen(odd);
+    for(let c=0;c<n;c++){
+      if(grid[r] && grid[r].cells[c]!=null) continue;
+      if(r>0 && !hasNeighbor(r,c)) continue;
+      const cx0=R + c*2*R + (odd?R:0), cy0=by(r);
+      const d=(cx0-x)*(cx0-x)+(cy0-y)*(cy0-y);
+      if(d<bd){ bd=d; bestC=[r,c]; }
+    }
+  }
+  return bestC;
+}
+
+/* ---------- кластеры ---------- */
+function sameCluster(r0,c0){
+  const col=grid[r0].cells[c0];
+  const seen=new Set([r0+':'+c0]), out=[[r0,c0]], q=[[r0,c0]];
+  while(q.length){
+    const [r,c]=q.pop();
+    for(const [dr,dc] of deltas(grid[r].odd)){
+      const rr=r+dr, cc=c+dc;
+      const k=rr+':'+cc;
+      if(rr<0||!grid[rr]||grid[rr].cells[cc]==null||seen.has(k)) continue;
+      if(grid[rr].cells[cc]===col){ seen.add(k); out.push([rr,cc]); q.push([rr,cc]); }
+    }
+  }
+  return out;
+}
+function unconnected(){
+  const seen=new Set(), out=[];
+  const q=[];
+  for(let c=0;c<rowLen(grid[0].odd);c++) if(grid[0].cells[c]!=null){ q.push([0,c]); seen.add('0:'+c); }
+  while(q.length){
+    const [r,c]=q.pop();
+    for(const [dr,dc] of deltas(grid[r].odd)){
+      const rr=r+dr, cc=c+dc, k=rr+':'+cc;
+      if(rr<0||!grid[rr]||grid[rr].cells[cc]==null||seen.has(k)) continue;
+      seen.add(k); q.push([rr,cc]);
+    }
+  }
+  for(let r=0;r<grid.length;r++)for(let c=0;c<grid[r].cells.length;c++)
+    if(grid[r].cells[c]!=null && !seen.has(r+':'+c)) out.push([r,c]);
+  return out;
+}
+const totalBubbles=()=>grid.reduce((s,row)=>s+row.cells.filter(v=>v!=null).length,0);
+
+/* ---------- очки и надписи ---------- */
+function addScore(base,cx0,cy0){
+  const mult=Math.min(combo||1,5);
+  const g=base*mult;
+  score+=g; scoreEl.textContent=score.toLocaleString('ru-RU');
+  if(score>best){ best=score; bestEl.textContent=best.toLocaleString('ru-RU'); try{ localStorage.setItem('bubble-best',best); }catch(e){} }
+  floatText(cx0,cy0,'+'+g, mult>1);
+  if(mult>1) comboShow(mult);
+}
+function floatText(x,y,txt,cy){
+  const d=document.createElement('div');
+  d.className='fs'+(cy?' cy':''); d.textContent=txt;
+  d.style.left=x+'px'; d.style.top=y+'px';
+  stage.appendChild(d); setTimeout(()=>d.remove(),820);
+}
+function comboShow(n){
+  const d=document.createElement('div');
+  d.className='combo'; d.textContent='COMBO ×'+n;
+  stage.appendChild(d); setTimeout(()=>d.remove(),920);
+}
+
+/* ---------- выстрел ---------- */
+function shoot(){
+  if(over||projectile||!playing) return;
+  projectile={x:shooter.x,y:shooter.y,vx:Math.cos(angle)*700,vy:Math.sin(angle)*700,color:cur};
+  cur=nxt; nxt=randColor();
+  sShoot();
+  shotsLeft--;
+  if(shotsLeft<=0){ descend(); shotsLeft=shotsPerDrop; }
+}
+
+function hitGrid(x,y){
+  const rr=(2*R*.92)**2;
+  for(let r=0;r<grid.length;r++){
+    const row=grid[r];
+    for(let c=0;c<row.cells.length;c++){
+      if(row.cells[c]==null) continue;
+      const dx0=bx(row,c)-x, dy0=by(r)-y;
+      if(dx0*dx0+dy0*dy0 < rr) return true;
+    }
+  }
+  return false;
+}
+
+function attach(x,y,color){
+  const cell=nearestCell(x,y);
+  if(!cell){ return gameOver(); }
+  const [r,c]=cell;
+  while(grid.length<=r){ const odd=grid.length? !grid[grid.length-1].odd : false; grid.push({odd,cells:new Array(rowLen(odd)).fill(null)}); }
+  grid[r].cells[c]=color;
+  sSnap();
+
+  const cluster=sameCluster(r,c);
+  if(cluster.length>=3){
+    let sx=0, sy=0;
+    for(const [rr,cc] of cluster){
+      const px0=bx(grid[rr],cc), py0=by(rr);
+      burst(px0,py0,grid[rr].cells[cc],cluster.length>=6);
+      poppers.push({x:px0,y:py0,pi:grid[rr].cells[cc],t:0});
+      grid[rr].cells[cc]=null;
+      sx+=px0; sy+=py0;
+    }
+    const floats=unconnected();
+    for(const [rr,cc] of floats){
+      fallers.push({x:bx(grid[rr],cc),y:by(rr),vy:0,vx:(Math.random()-.5)*1.4,pi:grid[rr].cells[cc]});
+      grid[rr].cells[cc]=null;
+    }
+    combo++;
+    const base=(cluster.length*10 + Math.max(0,cluster.length-3)*20 + floats.length*10);
+    addScore(base, sx/cluster.length, sy/cluster.length - 14);
+    sPop(cluster.length);
+    if(cluster.length>=6||floats.length>=5){ cv.classList.remove('shake'); void cv.offsetWidth; cv.classList.add('shake'); }
+    if(totalBubbles()===0) return levelClear();
+  } else {
+    combo=0;
+  }
+  checkBreach();
+}
+
+function descend(){
+  const newOdd = grid.length? !grid[0].odd : false;
+  grid.unshift({odd:newOdd, cells:makeRow(newOdd)});
+  checkBreach();
+}
+function maxBubbleY(){
+  for(let r=grid.length-1;r>=0;r--)
+    for(let c=0;c<grid[r].cells.length;c++)
+      if(grid[r].cells[c]!=null) return by(r);
+  return 0;
+}
+function checkBreach(){
+  if(maxBubbleY()+R >= deadlineY+4) gameOver();
+}
+
+/* ---------- завершение / уровни ---------- */
+function gameOver(){
+  if(over) return;
+  over=true; playing=false; projectile=null; sLose();
+  overTitle.textContent='Шары прорвались!';
+  overTitle.className='lose';
+  overText.textContent='Счёт: '+score.toLocaleString('ru-RU')+(score>=best?' · новый рекорд!':'');
+  $('mainBtn').textContent='Новая игра';
+  $('againBtn').style.display='none';
+  overEl.classList.add('on');
+}
+function levelClear(){
+  playing=false; projectile=null; sWin();
+  const bonus=100*level;
+  score+=bonus; scoreEl.textContent=score.toLocaleString('ru-RU');
+  if(score>best){ best=score; bestEl.textContent=best.toLocaleString('ru-RU'); try{ localStorage.setItem('bubble-best',best); }catch(e){} }
+  overTitle.textContent='Уровень '+level+' пройден!';
+  overTitle.className='win';
+  overText.textContent='Бонус +'+bonus+' · дальше шары опускаются чаще';
+  $('mainBtn').textContent='Следующий уровень';
+  $('againBtn').style.display='';
+  overEl.classList.add('on');
+}
+function nextLevel(){
+  level++; lvlEl.textContent=level;
+  colorCount=Math.min(3+Math.ceil(level/2),5);
+  shotsPerDrop=Math.max(4,7-level);
+  shotsLeft=shotsPerDrop;
+  projectile=null; fallers=[]; poppers=[]; parts=[];
+  cur=randColor(); nxt=randColor();
+  initField(); playing=true; over=false;
+  overEl.classList.remove('on');
+}
+
+/* ---------- прицельная траектория с отскоками ---------- */
+function aimPath(){
+  let x=shooter.x, y=shooter.y, dx=Math.cos(angle), dy=Math.sin(angle);
+  const pts=[]; let dist=0, bounces=0;
+  while(dist<1800 && bounces<3){
+    x+=dx*6; y+=dy*6; dist+=6;
+    if(x<R){x=R;dx=-dx;bounces++;continue;}
+    if(x>W-R){x=W-R;dx=-dx;bounces++;continue;}
+    if(y<by(0)) break;
+    if(hitGrid(x,y)) break;
+    if(pts.length===0 || dist - pts[pts.length-1][2] >= 26) pts.push([x,y,dist]);
+  }
+  return pts;
+}
+
+/* ---------- отрисовка ---------- */
+function drawBubble(x,y,pi,rad){
+  rad=rad||R;
+  const col=PALETTE[pi];
+  ctx.save();
+  ctx.shadowColor=col.c; ctx.shadowBlur=rad*.6;
+  ctx.fillStyle=col.c; ctx.globalAlpha=.92;
+  ctx.beginPath(); ctx.arc(x,y,rad,0,7); ctx.fill();
+  ctx.restore();
+  const hg=ctx.createRadialGradient(x-rad*.35,y-rad*.45,rad*.1,x-rad*.35,y-rad*.45,rad*.95);
+  hg.addColorStop(0,'rgba(255,255,255,.8)');
+  hg.addColorStop(.35,'rgba(255,255,255,.15)');
+  hg.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.fillStyle=hg;
+  ctx.beginPath(); ctx.arc(x,y,rad,0,7); ctx.fill();
+  ctx.fillStyle='rgba(255,255,255,.85)';
+  ctx.beginPath(); ctx.arc(x-rad*.32,y-rad*.4,rad*.14,0,7); ctx.fill();
+}
+
+function draw(t){
+  ctx.clearRect(0,0,W,H);
+
+  /* линия опасности */
+  const danger = maxBubbleY()+R > deadlineY-2.2*DY;
+  const pulse = danger? .55+.45*Math.sin(t/120) : .3;
+  ctx.save();
+  ctx.setLineDash([6,8]);
+  ctx.strokeStyle = danger? 'rgba(255,157,184,'+pulse+')' : 'rgba(255,255,255,.22)';
+  ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(10,deadlineY); ctx.lineTo(W-10,deadlineY); ctx.stroke();
+  ctx.restore();
+
+  /* шары поля */
+  for(let r=0;r<grid.length;r++){
+    const row=grid[r];
+    for(let c=0;c<row.cells.length;c++)
+      if(row.cells[c]!=null) drawBubble(bx(row,c),by(r),row.cells[c]);
+  }
+
+  /* прицельные точки */
+  if(playing && !projectile){
+    const pts=aimPath();
+    ctx.fillStyle='rgba(201,180,255,.55)';
+    for(const [px0,py0] of pts){
+      ctx.beginPath(); ctx.arc(px0,py0,2.4,0,7); ctx.fill();
+    }
+  }
+
+  /* летящий шар */
+  if(projectile) drawBubble(projectile.x,projectile.y,projectile.color);
+
+  /* падающие шары */
+  for(const f of fallers) drawBubble(f.x,f.y,f.pi);
+
+  /* лопающиеся: расходящееся кольцо */
+  for(const p of poppers){
+    const col=PALETTE[p.pi];
+    const k=p.t/.4;
+    ctx.strokeStyle='rgba('+col.g+','+(1-k)*.8+')';
+    ctx.lineWidth=2.5;
+    ctx.beginPath(); ctx.arc(p.x,p.y,R*(1+k*1.4),0,7); ctx.stroke();
+  }
+
+  /* частицы (аддитивно) */
+  ctx.save();
+  ctx.globalCompositeOperation='lighter';
+  for(const p of parts){
+    if(p.ring){
+      p.r+=3.4;
+      ctx.strokeStyle=p.col; ctx.globalAlpha=p.life*.55; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,7); ctx.stroke();
+    }else{
+      ctx.fillStyle=p.col; ctx.globalAlpha=p.life;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.sz*p.life,0,7); ctx.fill();
+    }
+  }
+  ctx.restore();
+
+  /* пушка: базовое кольцо + текущий шар */
+  ctx.strokeStyle='rgba(255,255,255,.25)'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.arc(shooter.x,shooter.y,R+7,0,7); ctx.stroke();
+  drawBubble(shooter.x,shooter.y,cur);
+
+  /* следующий шар + кнопка-подсказка обмена */
+  const nx0=W-42, ny0=H-34;
+  ctx.strokeStyle='rgba(111,211,242,.4)'; ctx.lineWidth=1.5; ctx.setLineDash([3,4]);
+  ctx.beginPath(); ctx.arc(nx0,ny0,R*.85,0,7); ctx.stroke();
+  ctx.setLineDash([]);
+  drawBubble(nx0,ny0,nxt,R*.7);
+
+  /* точки: выстрелов до спуска */
+  for(let i=0;i<shotsPerDrop;i++){
+    ctx.fillStyle = i<shotsLeft ? 'rgba(167,139,250,.95)' : 'rgba(255,255,255,.14)';
+    ctx.beginPath(); ctx.arc(20+i*13,H-26,3.6,0,7); ctx.fill();
+  }
+}
+
+/* ---------- игровой цикл ---------- */
+function loop(t){
+  const dt=Math.min((t-lastT)/1000,.033)||0; lastT=t;
+
+  if(shake>0) shake=Math.max(0,shake-dt*22);
+
+  if(projectile){
+    const steps=Math.ceil(700*dt/4);
+    const sdt=dt/steps;
+    for(let i=0;i<steps;i++){
+      projectile.x+=projectile.vx*sdt;
+      projectile.y+=projectile.vy*sdt;
+      if(projectile.x<R){projectile.x=R;projectile.vx=-projectile.vx;sBounce();}
+      if(projectile.x>W-R){projectile.x=W-R;projectile.vx=-projectile.vx;sBounce();}
+      const hit = projectile.y<=by(0) || hitGrid(projectile.x,projectile.y);
+      if(hit){
+        const p=projectile; projectile=null;
+        attach(p.x,Math.max(p.y,by(0)),p.color);
+        break;
+      }
+    }
+  }
+
+  for(let i=fallers.length-1;i>=0;i--){
+    const f=fallers[i];
+    f.vy+=1400*dt; f.x+=f.vx; f.y+=f.vy;
+    if(f.y>H+R) fallers.splice(i,1);
+  }
+  for(let i=poppers.length-1;i>=0;i--){
+    poppers[i].t+=dt;
+    if(poppers[i].t>.4) poppers.splice(i,1);
+  }
+  for(let i=parts.length-1;i>=0;i--){
+    const p=parts[i]; p.life-=p.dec;
+    if(p.life<=0){parts.splice(i,1);continue;}
+    if(!p.ring){ p.x+=p.vx; p.y+=p.vy; p.vy+=.09; }
+  }
+
+  draw(t);
+  requestAnimationFrame(loop);
+}
+
+/* ---------- управление ---------- */
+function aimFrom(e){
+  const rect=cv.getBoundingClientRect();
+  const px0=e.clientX-rect.left, py0=e.clientY-rect.top;
+  const dx0=px0-shooter.x, dy0=py0-shooter.y;
+  if(dy0>-6){
+    angle = dx0<0 ? -Math.PI+.14 : -.14;
+  } else {
+    angle = Math.atan2(dy0,dx0);
+    angle = Math.max(-Math.PI+.14, Math.min(-.14, angle));
+  }
+}
+cv.addEventListener('pointerdown',e=>{
+  ac(); /* разблокировать звук первым касанием */
+  const rect=cv.getBoundingClientRect();
+  const px0=e.clientX-rect.left, py0=e.clientY-rect.top;
+  const nx0=W-42, ny0=H-34;
+  swappedPress=false;
+  if(!projectile && (px0-nx0)**2+(py0-ny0)**2 < (R*1.4)**2){
+    const tmp=cur; cur=nxt; nxt=tmp;
+    swappedPress=true;
+    tone(520,.07,'sine',.05);
+    return;
+  }
+  try{cv.setPointerCapture(e.pointerId);}catch(_){}
+  aimFrom(e);
+});
+cv.addEventListener('pointermove',e=>{ if(playing) aimFrom(e); });
+cv.addEventListener('pointerup',e=>{
+  if(swappedPress){ swappedPress=false; return; }
+  aimFrom(e); shoot();
+});
+
+/* ---------- кнопки ---------- */
+ $('newBtn').addEventListener('click',newGame);
+ $('mainBtn').addEventListener('click',()=>{
+  if(overEl.classList.contains('on') && $('mainBtn').textContent==='Следующий уровень') nextLevel();
+  else newGame();
+});
+ $('againBtn').addEventListener('click',newGame);
+ $('soundBtn').addEventListener('click',()=>{
+  soundOn=!soundOn;
+  $('sndOn').style.display=soundOn?'':'none';
+  $('sndOff').style.display=soundOn?'none':'';
+});
+
+addEventListener('resize',()=>{resize();});
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(resize);
+if(window.ResizeObserver) new ResizeObserver(resize).observe(stage);
+newGame();
+requestAnimationFrame(loop);
+})();
+  </script>
+</body>
+</html>

@@ -178,7 +178,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /* ═══════════ Подвал ═══════════ */
 .site-footer { border-top: 1px solid var(--border); padding: 28px 0; margin-top: 24px; background: var(--bg-soft); }
 .footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
-.footer-nav { display: flex; gap: 18px; }
+.footer-nav { display: flex; gap: 18px; flex-wrap: wrap; }
 .footer-nav a { color: var(--text-muted); font-size: 14px; }
 .footer-nav a:hover { color: var(--text); }
 
