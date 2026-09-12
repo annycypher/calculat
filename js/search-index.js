@@ -31,6 +31,7 @@ export const SEARCH = [
   { t: 'PDF → Word', u: '/converters/pdf-to-word.html', k: 'pdf word docx текст конвертер', d: 'Извлеките текст из PDF в редактируемый DOCX.' },
   { t: 'Генератор QR-кода', u: '/converters/qr-generator.html', k: 'qr код генератор png svg jpg', d: 'QR-код из текста или ссылки — PNG, JPG, SVG.' },
   { t: 'DaData-конструктор', u: '/converters/dadata.html', k: 'DaData suggest API адрес организация', d: 'Соберите запрос к DaData Suggest API.' },
+  { t: 'SEO транслит для URL и доменов', u: '/converters/seo-translit.html', k: 'транслит транслитерация url домен slug латиница seo ссылка адрес кириллица', d: 'Русский текст в латиницу: slug, домен или поддомен.' },
   { t: 'Резюме', u: '/generators/resume.html', k: 'резюме шаблон', d: 'Готовое резюме из шаблона — в PDF.' },
   { t: 'Доверенность', u: '/generators/power-of-attorney.html', k: 'доверенность', d: 'Доверенность на авто или действия — по шаблону.' },
   { t: 'Договор', u: '/generators/contract.html', k: 'договор услуги аренда', d: 'Типовые договоры: услуги, аренда, купля-продажа.' },

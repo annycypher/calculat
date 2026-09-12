@@ -96,7 +96,8 @@ const TOOLS = [
   ['📅', 'Средний заработок', '/calculators/finance/average-earnings.html'],
   ['💳', 'Счёт', '/generators/invoice.html'],
   ['📊', 'Отчёт', '/generators/report.html'],
-  ['🔎', 'DaData', '/converters/dadata.html']
+  ['🔎', 'DaData', '/converters/dadata.html'],
+  ['🔤', 'SEO транслит', '/converters/seo-translit.html']
 ];
 function buildRelated() {
   const footer = document.querySelector('.site-footer') || document.querySelector('footer');

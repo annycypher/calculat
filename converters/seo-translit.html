@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SEO транслит для URL и доменов — транслитерация онлайн — CalcDocs</title>
+  <meta name="description" content="Онлайн-транслитерация русского текста в латиницу для URL, slug, доменов и поддоменов: правила URL/Яндекс, ГОСТ 7.79-2000 и паспортные. Проверка длины и допустимых символов." />
+  <meta name="keywords" content="транслит, транслитерация онлайн, транслит для url, транслит домена, slug транслит, латиница для ссылки, seo транслит, транслит адреса, кириллица в латиницу" />
+  <link rel="canonical" href="https://calc-doc.ru/converters/seo-translit.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="SEO транслит для URL и доменов — CalcDocs" />
+  <meta property="og:description" content="Русский текст в латиницу для URL, slug и доменов. Три набора правил, проверка длины метки." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css?v=4" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"SoftwareApplication", "name":"SEO транслит для URL и доменов", "applicationCategory":"UtilitiesApplication", "operatingSystem":"Web", "offers":{ "@type":"Offer","price":"0","priceCurrency":"RUB" } }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Конвертеры","item":"https://calc-doc.ru/#converters" }, { "@type":"ListItem","position":3,"name":"SEO транслит","item":"https://calc-doc.ru/converters/seo-translit.html" } ] }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"FAQPage","mainEntity":[ { "@type":"Question","name":"Зачем транслитерировать адрес страницы?","acceptedAnswer":{ "@type":"Answer","text":"Латинские адреса короче и лучше переносятся между сайтами и мессенджерами. Кириллица в URL превращается в длинные последовательности вида %D0%9F, поэтому для ссылок удобнее транслит." } }, { "@type":"Question","name":"Сколько символов допустимо в домене?","acceptedAnswer":{ "@type":"Answer","text":"Метка домена — не более 63 символов, весь домен — не более 253. Дефис не может стоять в начале или конце метки." } }, { "@type":"Question","name":"Какие правила транслитерации выбрать?","acceptedAnswer":{ "@type":"Answer","text":"Для адресов и slug — набор «URL / Яндекс». ГОСТ 7.79-2000 (система Б) — для документов, паспортные правила — для имён и фамилий." } } ] }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/"><span class="brand-logo" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/></svg></span><span class="brand-name">Calc<span class="accent">Docs</span></span></a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a class="active" href="/#converters" aria-current="page">Конвертеры</a>
+        <a href="/games/">Игры</a>
+        <a href="/#about">О проекте</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/#converters">Конвертеры</a> / SEO транслит</nav>
+      <h1>SEO транслит для URL и доменов</h1>
+      <p class="tool-meta">Русский текст → латиница: адрес страницы (slug), домен или поддомен. Транслитерация выполняется в браузере, введённый текст никуда не отправляется.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="trForm">
+            <div class="field">
+              <label for="src">Текст на русском</label>
+              <textarea id="src" rows="3" placeholder="Например: Калькулятор отпускных онлайн">Калькулятор отпускных онлайн</textarea>
+              <span class="hint">Ссылку удобнее вставлять в режиме «Домен» — протокол, путь и параметры уберутся сами.</span>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="mode">Что нужно</label>
+                <select id="mode">
+                  <option value="slug">Slug для URL</option>
+                  <option value="domain">Домен или поддомен</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="std">Правила транслитерации</label>
+                <select id="std">
+                  <option value="url">URL / Яндекс (рекомендуется)</option>
+                  <option value="gost">ГОСТ 7.79-2000 (система Б)</option>
+                  <option value="passport">Паспортные (МВД)</option>
+                </select>
+              </div>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="sep">Разделитель слов в slug</label>
+                <select id="sep">
+                  <option value="-">дефис «-»</option>
+                  <option value="_">подчёркивание «_»</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="zone">Доменная зона</label>
+                <input type="text" id="zone" placeholder="ru" autocomplete="off" />
+                <span class="hint">Если заполнить, результат закончится этой зоной.</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="maxlen">Максимальная длина slug</label>
+              <input type="number" id="maxlen" min="5" max="120" step="1" value="60" inputmode="numeric" />
+              <span class="hint">60 символов — безопасно для выдачи и соцсетей.</span>
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Перевести</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="trResult" style="margin-top:0">
+            <div class="tr-label">Готовый адрес</div>
+            <div class="tr-out" id="trMain">—</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+              <button class="btn btn-primary" type="button" id="trCopy">Копировать</button>
+              <button class="btn btn-ghost" type="button" id="trReset">Сбросить</button>
+            </div>
+            <div class="result-list" style="margin-top:16px">
+              <div class="item"><span>Slug для URL</span><span class="val" id="trSlug">—</span></div>
+              <div class="item"><span>Домен</span><span class="val" id="trDomain">—</span></div>
+              <div class="item"><span>Percent-encoded (UTF-8)</span><span class="val" id="trEnc" style="font-size:13px">—</span></div>
+            </div>
+            <p class="hint" id="trNote" style="margin:12px 0 0"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Что такое SEO-транслит</h2>
+        <p>Транслит (транслитерация) — запись русских слов латиницей. Для адресов страниц это практичнее кириллицы: латинский адрес короче, читаемее и не превращается в набор вида <code>%D0%9F%D1%80</code> при копировании. Поисковые системы одинаково индексируют и кириллицу, и транслит, но латиница удобнее для людей и внешних ссылок.</p>
+        <h2>Как пользоваться</h2>
+        <ul>
+          <li>Введите название страницы, товара или адреса на русском.</li>
+          <li>Выберите, что нужно: <strong>slug для URL</strong> (слова через дефис) или <strong>домен</strong> (метки без пробелов).</li>
+          <li>При необходимости выберите правила транслитерации и укажите доменную зону — например, <code>ru</code>.</li>
+          <li>Скопируйте результат кнопкой «Копировать». Всё считается в браузере, данные не отправляются.</li>
+        </ul>
+        <h2>Правила и ограничения</h2>
+        <ul>
+          <li>Кириллица, пробелы и знаки заменяются: пробел и любые служебные символы становятся разделителем, повторы схлопываются.</li>
+          <li>Метка домена — до <strong>63</strong> символов, весь домен — до <strong>253</strong>. Дефис не может стоять в начале или конце метки.</li>
+          <li>Домены нечувствительны к регистру — результат всегда в нижнем регистре.</li>
+          <li>Из вставленной ссылки убираются протокол, поддомен <code>www</code>, путь, порт и параметры запроса.</li>
+        </ul>
+        <h2>Наборы правил</h2>
+        <ul>
+          <li><strong>URL / Яндекс</strong> — привычный для ссылок вариант: «щёлка» → <code>shchelka</code>, «йогурт» → <code>yogurt</code>.</li>
+          <li><strong>ГОСТ 7.79-2000 (система Б)</strong> — стандарт для документов: «щёлка» → <code>shhyolka</code>, «йогурт» → <code>jogurt</code>.</li>
+          <li><strong>Паспортные (МВД)</strong> — для имён и фамилий: «Хлебников» → <code>khlebnikov</code>.</li>
+        </ul>
+        <p>Транслитерация не заменяет официальные правила: для документов, виз и регистрации уточняйте написание в первоисточнике.</p>
+        <h2>Частые вопросы</h2>
+        <div class="faq">
+          <h3>Зачем транслитерировать адрес страницы?</h3>
+          <p>Латинские адреса короче и лучше переносятся между сайтами и мессенджерами. Кириллица в URL превращается в длинные последовательности вида %D0%9F, поэтому для ссылок удобнее транслит.</p>
+          <h3>Сколько символов допустимо в домене?</h3>
+          <p>Метка домена — не более 63 символов, весь домен — не более 253. Дефис не может стоять в начале или конце метки.</p>
+          <h3>Какие правила транслитерации выбрать?</h3>
+          <p>Для адресов и slug — набор «URL / Яндекс». ГОСТ 7.79-2000 (система Б) — для документов, паспортные правила — для имён и фамилий.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/#about">О проекте</a>
+        <a href="/#tools">Калькуляторы</a>
+        <a href="/#files">Файлы</a>
+        <a href="/#converters">Конвертеры</a>
+        <a href="/games/">Игры</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=6"></script>
+  <script type="module" src="/js/convert-seo-translit.js?v=1"></script>
+</body>
+</html>
