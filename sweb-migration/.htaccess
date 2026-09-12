@@ -104,3 +104,6 @@ ErrorDocument 404 /404.html
 #   /converters/infographic.html  /404  404
 #   /converters/infographic       /404  404 )
 RedirectMatch 404 ^/converters/infographic(\.html)?$
+
+# удалённая игра «Быстрый счёт» (12.09.2026) — страница больше не отдаётся
+RedirectMatch 404 ^/games/quick-math(\.html)?$
