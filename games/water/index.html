@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Water Glow — сортировка жидкостей (переливашки) онлайн — CalcDocs</title>
+  <meta name="description" content="Игра Water Glow: переливайте жидкости по колбам, пока в каждой не соберётся один цвет. Логика без таймеров и проигрышей, рекорды уровней хранятся в браузере. Без регистрации и рекламы." />
+  <meta name="keywords" content="water sort, сортировка воды, переливашки, игра колбы, головоломка онлайн, разминка для мозга, мини-игры, water glow" />
+  <link rel="canonical" href="https://calc-doc.ru/games/water/" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Water Glow — сортировка жидкостей — CalcDocs" />
+  <meta property="og:description" content="Переливайте цвета по колбам: спокойная логическая игра без таймеров, с рекордами уровней." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/fonts/fonts.css" />
+  <link rel="stylesheet" href="/styles.css?v=7" />
+  <link rel="stylesheet" href="/games.css?v=2" />
+  <meta name="theme-color" content="#0b0913" />
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"SoftwareApplication", "name":"Water Glow — сортировка жидкостей", "applicationCategory":"GameApplication", "operatingSystem":"Web", "offers":{ "@type":"Offer","price":"0","priceCurrency":"RUB" } }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Мини-игры","item":"https://calc-doc.ru/games/" }, { "@type":"ListItem","position":3,"name":"Water Glow","item":"https://calc-doc.ru/games/water/" } ] }
+  </script>
+  <style>
+  /* Оформление игры изолировано классом .gwrap — общие стили сайта не затрагиваются. */
+  :root{
+    --g-bg:#0b0913; --g-txt:#f1eef9; --g-mut:#9a92b0;
+    --g-vio:#a78bfa; --g-vio-deep:#8b5cf6; --g-ink:#170b2e;
+    --g-cyan:#6fd3f2; --g-line:rgba(255,255,255,.11);
+  }
+  .gwrap *{margin:0;padding:0;box-sizing:border-box}
+  .gwrap{color:var(--g-txt)}
+  .gwrap .orbs{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+  .gwrap .orb{position:absolute;border-radius:50%;filter:blur(110px)}
+  .gwrap .o1{width:560px;height:560px;top:-200px;right:-120px;background:radial-gradient(circle,rgba(139,92,246,.25),transparent 65%);animation:drift 24s ease-in-out infinite alternate}
+  .gwrap .o2{width:480px;height:480px;bottom:-180px;left:-140px;background:radial-gradient(circle,rgba(111,211,242,.13),transparent 65%);animation:drift 30s ease-in-out infinite alternate-reverse}
+  @keyframes drift{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-50px,40px) scale(1.1)}}
+  .gwrap .game{position:relative;z-index:2;width:100%;max-width:560px;margin:0 auto}
+  .gwrap .glass{background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.028));border:1px solid var(--g-line);border-radius:16px;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+  .gwrap .top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+  .gwrap .gtitle{font-family:'Unbounded';font-weight:700;font-size:clamp(18px,4.6vw,24px);letter-spacing:.02em}
+  .gwrap .gtitle b{color:var(--g-vio)}
+  .gwrap .gtitle i{font-style:normal;color:var(--g-cyan)}
+  .gwrap .hud{display:flex;gap:7px;flex-wrap:wrap}
+  .gwrap .chip{padding:7px 12px;text-align:center;min-width:62px}
+  .gwrap .chip small{display:block;font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--g-mut)}
+  .gwrap .chip b{font-family:'Unbounded';font-weight:600;font-size:15px;color:var(--g-vio)}
+  .gwrap .chip.cy b{color:var(--g-cyan)}
+  .gwrap .stage{position:relative}
+  .gwrap canvas#cv{display:block;width:100%;touch-action:none;cursor:pointer}
+  .gwrap .dead{display:none;text-align:center;color:#ff9db8;font-weight:700;font-size:13.5px;margin-top:10px}
+  .gwrap .dead.on{display:block}
+  .gwrap .over{position:absolute;inset:0;z-index:8;border-radius:16px;display:grid;place-items:center;text-align:center;background:rgba(11,9,19,.82);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .35s}
+  .gwrap .over.on{opacity:1;pointer-events:auto}
+  .gwrap .over h2{font-family:'Unbounded';font-weight:700;font-size:clamp(20px,5vw,28px);margin-bottom:6px;color:var(--g-cyan)}
+  .gwrap .over p{color:var(--g-mut);font-weight:600;margin-bottom:16px}
+  .gwrap .over .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .gwrap .bottom{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+  .gwrap .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 16px;border-radius:12px;border:1px solid var(--g-line);font-family:'Manrope';font-weight:800;font-size:13.5px;cursor:pointer;color:var(--g-txt);background:rgba(255,255,255,.05);transition:.2s;touch-action:manipulation}
+  .gwrap .btn:hover{background:rgba(255,255,255,.09);transform:translateY(-1px)}
+  .gwrap .btn-vio{background:var(--g-vio-deep);color:var(--g-ink);border-color:transparent;box-shadow:0 10px 26px -10px rgba(139,92,246,.8)}
+  .gwrap .btn-vio:hover{background:var(--g-vio)}
+  .gwrap .icon-btn{width:40px;height:40px;padding:0;flex:none}
+  .gwrap .off{opacity:.35;pointer-events:none}
+  .gwrap .hint{margin-top:12px;text-align:center;color:var(--g-mut);font-size:13px;font-weight:600}
+  .gwrap .hint b{color:var(--g-vio)}
+  .gwrap .ach{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .gwrap .ach span{padding:6px 12px;border-radius:100px;font-size:12.5px;font-weight:700;background:rgba(0,0,0,.25);border:1px solid var(--g-line);color:#c9c3da}
+  .gwrap .ach b{font-family:'Unbounded';font-weight:600;color:var(--g-vio);margin-left:6px}
+  @media(max-width:520px){ .gwrap .gtitle{font-size:19px} }
+  </style>
+</head>
+<body data-game="Water Glow">
+    <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="CalcDocs — на главную">
+        <span class="brand-logo" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/files/">Файлы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Файлы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/files/contract/">Договор</a>
+            <a href="/files/invoice/">Счёт на оплату</a>
+            <a href="/files/leave-request/">Заявление на отпуск</a>
+            <a href="/files/power-of-attorney/">Доверенность</a>
+            <a href="/files/report/">Отчёт</a>
+            <a href="/files/resume/">Резюме</a>
+            <a class="nav-all" href="/files/">Все файлы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/games/">Мини-игры</a> / Water Glow</nav>
+      <h1>Water Glow — сортировка жидкостей</h1>
+      <p class="tool-meta">Переливайте цвета по колбам, пока в каждой не соберётся один цвет. Игра без таймеров и проигрышей: уровень всегда решаем, рекорд и прогресс хранятся только в вашем браузере.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="game-panel">
+        <div class="gwrap">
+          <div class="orbs" aria-hidden="true"><div class="orb o1"></div><div class="orb o2"></div></div>
+
+          <div class="game">
+            <div class="top">
+              <div class="gtitle"><b>Water</b> <i>Glow</i></div>
+              <div class="hud">
+                <div class="chip glass"><small>Уровень</small><b id="lvl">1</b></div>
+                <div class="chip glass"><small>Ходы</small><b id="moves">0</b></div>
+                <div class="chip glass cy"><small>Рекорд</small><b id="best">1</b></div>
+                <span id="score" hidden>0</span>
+                <button class="btn icon-btn" id="soundBtn" aria-label="Звук">
+                  <svg id="sndOn" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+                  <svg id="sndOff" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="m16 9 6 6m0-6-6 6"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="stage" id="stage">
+              <canvas id="cv"></canvas>
+              <div class="over" id="over">
+                <div>
+                  <h2 id="overTitle">Уровень пройден!</h2>
+                  <p id="overText"></p>
+                  <div class="row">
+                    <button class="btn btn-vio" id="btnNext">Следующий уровень</button>
+                    <button class="btn" id="btnRetryO">Заново</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <p class="dead" id="dead">Ходов больше нет — отмените последний ход или начните уровень заново.</p>
+
+            <div class="bottom">
+              <button class="btn" id="btnUndo">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg>
+                Отменить
+              </button>
+              <button class="btn" id="btnExtra">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+                Пробирка
+              </button>
+              <button class="btn btn-vio" id="btnRestart">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 3v6h-6"/></svg>
+                Заново
+              </button>
+            </div>
+            <p class="hint">Нажмите колбу → затем ту, куда перелить · соберите <b>4 одного цвета</b> в одной колбе</p>
+
+            <div class="ach">
+              <span>Уровень<b id="statLvl">1</b></span>
+              <span>Решено подряд<b id="statSolved">0</b></span>
+              <span>Всего ходов<b id="statMoves">0</b></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section no-print">
+      <div class="gx-rating" data-rating>
+        <strong>Оцените игру</strong>
+        <div class="gx-rating__stars" role="radiogroup" aria-label="Оценка игры от 1 до 5">
+          <button class="rate-star" role="radio" aria-checked="false" aria-label="Оценка 1 из 5" title="1 из 5">★</button>
+          <button class="rate-star" role="radio" aria-checked="false" aria-label="Оценка 2 из 5" title="2 из 5">★</button>
+          <button class="rate-star" role="radio" aria-checked="false" aria-label="Оценка 3 из 5" title="3 из 5">★</button>
+          <button class="rate-star" role="radio" aria-checked="false" aria-label="Оценка 4 из 5" title="4 из 5">★</button>
+          <button class="rate-star" role="radio" aria-checked="false" aria-label="Оценка 5 из 5" title="5 из 5">★</button>
+        </div>
+        <p class="gx-note" data-rating-note hidden></p>
+      </div>
+
+      <div class="gx-share">
+        <span class="gx-share-label">Поделиться:</span>
+        <button class="share-ic share-ic--tg" data-share="tg" title="Отправить в Telegram" aria-label="Поделиться в Telegram">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        </button>
+        <button class="share-ic share-ic--vk" data-share="vk" title="Поделиться во ВКонтакте" aria-label="Поделиться во ВКонтакте">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m9.489.004.729-.003h3.564l.73.003.914.01.433.007.418.011.403.014.388.016.374.021.36.025.345.03.333.033c1.74.196 2.933.616 3.833 1.516.9.9 1.32 2.092 1.516 3.833l.034.333.029.346.025.36.02.373.025.588.012.41.013.644.009.915.004.98-.001 3.313-.003.73-.01.914-.007.433-.011.418-.014.403-.016.388-.021.374-.025.36-.03.345-.033.333c-.196 1.74-.616 2.933-1.516 3.833-.9.9-2.092 1.32-3.833 1.516l-.333.034-.346.029-.36.025-.373.02-.588.025-.41.012-.644.013-.915.009-.98.004-3.313-.001-.73-.003-.914-.01-.433-.007-.418-.011-.403-.014-.388-.016-.374-.021-.36-.025-.345-.03-.333-.033c-1.74-.196-2.933-.616-3.833-1.516-.9-.9-1.32-2.092-1.516-3.833l-.034-.333-.029-.346-.025-.36-.02-.373-.025-.588-.012-.41-.013-.644-.009-.915-.004-.98.001-3.313.003-.73.01-.914.007-.433.011-.418.014-.403.016-.388.021-.374.025-.36.03-.345.033-.333c.196-1.74.616-2.933 1.516-3.833.9-.9 2.092-1.32 3.833-1.516l.333-.034.346-.029.36-.025.373-.02.588-.025.41-.012.644-.013.915-.009ZM6.79 7.3H4.05c.13 6.24 3.25 9.99 8.72 9.99h.31v-3.57c2.01.2 3.53 1.67 4.14 3.57h2.84c-.78-2.84-2.83-4.41-4.11-5.01 1.28-.74 3.08-2.54 3.51-4.98h-2.58c-.56 1.98-2.22 3.78-3.8 3.95V7.3H10.5v6.92c-1.6-.4-3.62-2.34-3.71-6.92Z"/></svg>
+        </button>
+        <button class="share-ic share-ic--wa" data-share="wa" title="Отправить в WhatsApp" aria-label="Поделиться в WhatsApp">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        </button>
+        <button class="share-ic share-ic--copy" data-share="copy" title="Скопировать ссылку" aria-label="Скопировать ссылку">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M10.4 13.6a4.2 4.2 0 0 0 6 0l2.8-2.8a4.24 4.24 0 0 0-6-6l-1.2 1.2"/><path d="M13.6 10.4a4.2 4.2 0 0 0-6 0l-2.8 2.8a4.24 4.24 0 0 0 6 6l1.2-1.2"/></svg>
+        </button>
+        <button class="share-ic share-ic--native" data-share="native" title="Поделиться (меню устройства)" aria-label="Поделиться">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.4 13.3 15.6 17.4M15.6 6.6 8.4 10.7"/></svg>
+        </button>
+        <button class="share-ic share-ic--result" data-share="native" data-result="1" data-share-result hidden title="Поделиться результатом" aria-label="Поделиться результатом">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 4h9v4.2a4.5 4.5 0 0 1-9 0V4Z"/><path d="M7.5 5.2H4.8v1.6A3.4 3.4 0 0 0 7.5 10M16.5 5.2h2.7v1.6A3.4 3.4 0 0 1 16.5 10"/><path d="M12 12.7V16M8.8 20h6.4"/></svg>
+        </button>
+      </div>
+
+      <div class="gx-stats" data-game-stats></div>
+      <div class="gx-nudge" data-nudge hidden></div>
+
+      <div class="gx-chips">
+        <a href="/games/">Все мини-игры</a>
+        <a href="/games/2048/">🔢 2048</a>
+        <a href="/games/bubble/">🫧 Пузыри</a>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Как играть в Water Glow</h2>
+        <p>Цель — рассортировать жидкость так, чтобы в каждой колбе оказались слои одного цвета. Нажмите колбу — верхний слой «поднимется», затем нажмите другую: жидкость перельётся, если там есть место и сверху такой же цвет или колба пустая.</p>
+        <ul>
+          <li>Переливается вся верхняя группа одного цвета — сколько поместится.</li>
+          <li>За один ход можно перелить только в колбу с таким же верхним цветом или в пустую.</li>
+          <li>Порядок не важен: <strong>«Отменить»</strong> возвращает любой ход, а <strong>«Пробирка»</strong> один раз за уровень добавляет пустую колбу.</li>
+          <li>Собрали четыре слоя одного цвета — колба мягко подсветится. Собрали все — поздравление и следующий уровень.</li>
+        </ul>
+        <h3>Почему это спокойно</h3>
+        <p>Здесь нет таймеров, проигрышей и спешки: уровень всегда решаем (генератор проверяет решение перед показом), а игра ждёт вас столько, сколько нужно. Это цифровой аналог лопающейся пупырчатой плёнки — короткая пауза, чтобы переключить внимание и вернуться к работе с чистой головой.</p>
+        <h3>Достижения</h3>
+        <p>Значения под игровым полем — ваша личная статистика: текущий уровень, сколько уровней решено за сеанс и сколько всего ходов сделано. Всё хранится в браузере, без регистрации и сбора данных.</p>
+        <h3>Другие игры</h3>
+        <p><a href="/games/2048/">2048</a> — головоломка с неоновыми плитками, частицами и комбо-режимом. <a href="/games/bubble/">Пузыри</a> — «пузырьковый шутер»: лопайте шары тройками и проходите уровни.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/about/">О проекте</a>
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/files/">Файлы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/games/">Игры</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=9"></script>
+  <script type="module" src="/js/game-extras.js?v=1"></script>
+  <script type="module" src="/js/game-water.js?v=1"></script>
+</body>
+</html>

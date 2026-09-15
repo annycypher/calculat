@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор вкладов онлайн — сложный процент и капитализация — CalcDocs</title>
+  <meta name="description" content="Бесплатный калькулятор вкладов: рассчитайте доход по вкладу со сложным процентом, капитализацией, пополнением и сроком. Наглядный график роста." />
+  <meta name="keywords" content="калькулятор вкладов, сложный процент, капитализация, доходность вклада, вклад с пополнением, калькулятор депозита" />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/finance/deposit/" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Калькулятор вкладов со сложным процентом — CalcDocs" />
+  <meta property="og:description" content="Ставка, срок, капитализация и пополнение — с наглядным графиком роста." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css?v=7" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Калькулятор вкладов",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Калькуляторы", "item": "https://calc-doc.ru/calculators/" },
+      { "@type": "ListItem", "position": 3, "name": "Финансы и налоги", "item": "https://calc-doc.ru/calculators/finance/" },
+      { "@type": "ListItem", "position": 4, "name": "Вклады", "item": "https://calc-doc.ru/calculators/finance/deposit/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Что такое капитализация процентов по вкладу?", "acceptedAnswer": { "@type": "Answer", "text": "Капитализация — это начисление процентов на уже начисленные проценты, что увеличивает итоговый доход по вкладу (эффект сложного процента)." } },
+      { "@type": "Question", "name": "От чего зависит доход по вкладу?", "acceptedAnswer": { "@type": "Answer", "text": "Доход зависит от суммы, ставки, срока и схемы капитализации: при капитализации проценты добавляются к вкладу и в дальнейшем тоже приносят доход." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+    <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="CalcDocs — на главную">
+        <span class="brand-logo" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/files/">Файлы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Файлы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/files/contract/">Договор</a>
+            <a href="/files/invoice/">Счёт на оплату</a>
+            <a href="/files/leave-request/">Заявление на отпуск</a>
+            <a href="/files/power-of-attorney/">Доверенность</a>
+            <a href="/files/report/">Отчёт</a>
+            <a href="/files/resume/">Резюме</a>
+            <a class="nav-all" href="/files/">Все файлы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/calculators/">Калькуляторы</a> / <a href="/calculators/finance/">Финансы и налоги</a> / Вклады</nav>
+      <h1>Калькулятор вкладов</h1>
+      <p class="tool-meta">Рассчитайте доход по вкладу со сложным процентом (капитализацией), сроком и пополнением. Данные не отправляются на сервер.</p>
+      <p class="calc-note">Расчёты носят справочный характер.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="depositForm">
+            <div class="field">
+              <label for="initial">Сумма вклада (₽)</label>
+              <input type="number" id="initial" inputmode="decimal" min="0" step="any" required value="100000" />
+            </div>
+            <div class="field">
+              <label for="rate">Ставка (% годовых)</label>
+              <input type="number" id="rate" inputmode="decimal" min="0" step="any" required value="16" />
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="unit">Единица срока</label>
+                <select id="unit">
+                  <option value="months">Месяцы</option>
+                  <option value="years">Годы</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="months">Срок</label>
+                <input type="number" id="months" inputmode="numeric" min="1" max="600" step="1" required value="12" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="topup">Пополнение в месяц (₽)</label>
+              <input type="number" id="topup" inputmode="decimal" min="0" step="any" value="0" />
+            </div>
+            <div class="field">
+              <label for="cap">Капитализация</label>
+              <select id="cap">
+                <option value="monthly">Ежемесячно</option>
+                <option value="quarterly">Ежеквартально</option>
+                <option value="yearly">Ежегодно</option>
+                <option value="none">Без капитализации</option>
+              </select>
+            </div>
+            <div class="field" style="display:flex;align-items:flex-start;gap:10px">
+              <input type="checkbox" id="tax" style="width:auto;margin-top:4px" />
+              <label for="tax" style="margin:0">Учесть НДФЛ 13% с дохода</label>
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-list">
+            <div class="item"><span>Вложено</span><span class="val" id="resInvested">—</span></div>
+            <div class="item"><span>Доход (проценты)</span><span class="val" id="resInterest">—</span></div>
+            <div class="item" id="taxRow" style="display:none"><span>НДФЛ 13%</span><span class="val" id="resTax">—</span></div>
+            <div class="item total"><span>Итого на счету</span><span class="val" id="resTotal">—</span></div>
+          </div>
+          <div id="chartBlock" style="display:none;margin-top:20px">
+            <canvas id="chart" style="width:100%;height:300px;display:block"></canvas>
+          </div>
+          <details id="tableBlock" style="display:none;margin-top:20px">
+            <summary style="cursor:pointer;font-weight:600">Помесячная разбивка</summary>
+            <div id="tableWrap" style="overflow-x:auto;margin-top:10px"></div>
+            <p class="hint" id="tableMore" style="display:none">Показаны первые 60 месяцев.</p>
+          </details>
+          <p class="hint" id="tip" style="margin-top:14px;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Как считается доход по вкладу</h2>
+        <p>Банки используют <strong>сложный процент</strong>: начисленные проценты прибавляются к телу вклада и в следующий период тоже приносят доход (капитализация). Чем чаще капитализация, тем больше итоговая сумма.</p>
+        <p>Формула сложного процента: <strong>Итог = Сумма × (1 + ставка/периодов)^(периодов × лет)</strong>. С пополнением расчёт ведётся помесячно — как это делает банк.</p>
+        <h3>На что обратить внимание</h3>
+        <ul>
+          <li><strong>Капитализация</strong>: ежемесячная выгоднее ежеквартальной и ежегодной при равной ставке.</li>
+          <li><strong>Пополнение</strong> увеличивает базу для начисления процентов.</li>
+          <li><strong>НДФЛ 13%</strong> удерживается с дохода, превышающего установленный порог (проверьте актуальные правила).</li>
+        </ul>
+        <h3>Примерные ставки по вкладам (справочно)</h3>
+        <table class="dep-table">
+          <thead><tr><th>Банк</th><th>Продукт</th><th>Ставка</th></tr></thead>
+          <tbody>
+            <tr><td>МТС Банк</td><td>МТС Счёт (накопительный)</td><td>до 15,5%</td></tr>
+            <tr><td>Яндекс Банк</td><td>Сейв (накопительный)</td><td>до 15%</td></tr>
+            <tr><td>Банк ДОМ.РФ</td><td>Вклад</td><td>14,5% (от 1,5 млн ₽)</td></tr>
+            <tr><td>Банк ПСБ</td><td>Вклад «В Победу»</td><td>14,3%</td></tr>
+          </tbody>
+        </table>
+        <p class="hint">Данные справочные, на 30.08.2026, по данным агрегаторов (Сравни.ру). Ставки зависят от суммы, срока и меняются — уточняйте условия в банке. Это примеры, а не полный список банков.</p>
+      </div>
+    </div>
+    <div class="container section">
+      <div class="prose">
+        <h2>Частые вопросы</h2>
+        <div class="faq">
+          <h3>Что такое капитализация процентов по вкладу?</h3>
+          <p>Капитализация — это начисление процентов на уже начисленные проценты, что увеличивает итоговый доход по вкладу (эффект сложного процента).</p>
+          <h3>От чего зависит доход по вкладу?</h3>
+          <p>Доход зависит от суммы, ставки, срока и схемы капитализации: при капитализации проценты добавляются к вкладу и в дальнейшем тоже приносят доход.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/about/">О проекте</a>
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/files/">Файлы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=9"></script>
+  <script type="module" src="/js/calc-deposit.js"></script>
+</body>
+</html>
+

@@ -81,6 +81,61 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 .icon-btn:hover { transform: translateY(-1px); border-color: var(--primary); }
 
+/* ═══════════ Меню с выпадающими категориями ═══════════ */
+/* Разметка одинаковая на всех страницах: .nav-item > .nav-link + .nav-caret (шеврон
+   для телефона) + .nav-panel с подкатегориями. На десктопе панель открывается
+   наведением и фокусом (::focus-within), т.е. работает и без JS. */
+.main-nav { align-items: center; }
+.nav-item { position: relative; display: flex; align-items: center; }
+.nav-link { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.nav-item > .nav-link::after {
+  content: ''; width: 0; height: 0; margin-left: 1px;
+  border-left: 4px solid transparent; border-right: 4px solid transparent;
+  border-top: 5px solid currentColor; opacity: .5;
+  transition: transform .18s ease, opacity .18s ease;
+}
+.nav-item:hover > .nav-link::after,
+.nav-item:focus-within > .nav-link::after { transform: rotate(180deg); opacity: .9; }
+.nav-item.is-active > .nav-link { color: var(--text); background: var(--primary-soft); font-weight: 600; }
+/* «О проекте» — пункт без подкатегорий: стрелку-уголок не показываем. */
+.nav-item-plain > .nav-link::after { display: none; }
+.nav-caret { display: none; }
+.nav-caret svg { transition: transform .18s ease; }
+.nav-panel {
+  position: absolute; top: calc(100% + 10px); left: 0; z-index: 60;
+  display: none; min-width: 300px; padding: 8px;
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: 14px; box-shadow: var(--shadow);
+}
+.nav-item:hover > .nav-panel,
+.nav-item:focus-within > .nav-panel,
+.nav-item.open > .nav-panel { display: block; }
+.nav-panel a {
+  display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+  border-radius: 10px; font-size: 14px; font-weight: 500; color: var(--text);
+  white-space: nowrap;
+}
+.nav-panel a:hover { background: var(--primary-soft); color: var(--primary); }
+.nav-panel b { margin-left: auto; font-size: 13px; font-weight: 600; color: var(--text-muted); }
+.nav-panel .nav-soon {
+  margin-left: auto; padding: 1px 8px; font-size: 12px; color: var(--text-muted);
+  border: 1px dashed var(--border); border-radius: 999px;
+}
+/* Пункт «скоро» — не ссылка: раздел ещё готовится, вести некуда. */
+.nav-panel .nav-soon-item {
+  display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+  border-radius: 10px; font-size: 14px; font-weight: 500; color: var(--text-muted); cursor: default;
+}
+.nav-panel .nav-all {
+  margin-top: 4px; border-top: 1px solid var(--border);
+  border-radius: 0 0 10px 10px; color: var(--primary); font-weight: 600;
+}
+.nav-burger {
+  display: none; place-items: center; width: 42px; height: 42px;
+  border: 1px solid var(--border); border-radius: 12px;
+  background: var(--card-bg); color: var(--text); cursor: pointer;
+}
+
 /* ═══════════ Герой ═══════════ */
 .hero { padding: 48px 0 32px; text-align: center; }
 .eyebrow {
@@ -212,7 +267,51 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 /* ═══════════ Адаптив ═══════════ */
 @media (max-width: 640px) {
-  .main-nav { display: none; }
+  /* Меню превращается в выпадающую панель под шапкой, открывается бургером,
+     категории внутри раскрываются кнопкой-шевроном (.nav-caret). */
+  .header-actions { margin-left: auto; }
+  .nav-burger { display: grid; }
+  .main-nav {
+    position: absolute; left: 0; right: 0; top: 100%; z-index: 70;
+    display: none; flex-direction: column; align-items: stretch; gap: 2px;
+    margin: 0; padding: 10px 16px 16px;
+    max-height: calc(100vh - 64px); overflow-y: auto;
+    background: var(--card-bg); border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+  .main-nav.open { display: flex; }
+  .nav-item { display: block; }
+  .nav-item-plain > .nav-link { padding-right: 12px; }
+  .nav-item > .nav-link {
+    padding: 12px 44px 12px 12px; border-radius: 10px;
+    color: var(--text); font-weight: 600;
+  }
+  .nav-item > .nav-link::after { display: none; }
+  .nav-caret {
+    display: grid; position: absolute; right: 6px; top: 6px;
+    width: 34px; height: 34px; place-items: center;
+    border: 0; border-radius: 10px; background: transparent;
+    color: var(--text-muted); cursor: pointer;
+  }
+  .nav-item.open > .nav-caret { color: var(--primary); }
+  .nav-item.open > .nav-caret svg { transform: rotate(180deg); }
+  .nav-panel {
+    position: static; display: none; min-width: 0;
+    margin: 0 0 6px; padding: 0 0 0 8px;
+    background: transparent; border: 0; box-shadow: none;
+  }
+  .nav-item.open > .nav-panel { display: block; }
+  .nav-panel a { padding: 10px 8px; white-space: normal; }
+  /* Поиск и кнопки шапки переезжают внутрь панели меню (переносит ui.js → syncNavExtra),
+     иначе на телефоне они не влезают в строку шапки. */
+  .main-nav .nav-extra {
+    display: flex; flex-direction: column; gap: 10px;
+    margin-top: 10px; padding-top: 12px; border-top: 1px solid var(--border);
+  }
+  .main-nav .nav-extra .search-wrap { display: block; flex: 0 0 auto; }
+  .main-nav .nav-extra .search-input { width: 100%; }
+  .main-nav .nav-extra .search-dropdown { left: 0; right: 0; min-width: 0; }
+  .main-nav .nav-extra .header-actions { margin-left: 0; }
   .row2 { grid-template-columns: 1fr; }
   .hero { padding: 48px 0 32px; }
 }
@@ -285,6 +384,15 @@ button, input, select, textarea { font: inherit; color: inherit; }
   transition: border-color .12s ease, box-shadow .12s ease;
 }
 .search-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(109, 93, 252, .2); }
+
+/* Шапка на «планшетных» ширинах: меню + поиск + кнопки не влезают в одну строку,
+   поэтому поиск переносится на вторую строку и растягивается по ширине. */
+@media (max-width: 1000px) {
+  .header-inner { flex-wrap: wrap; height: auto; min-height: 64px; padding-top: 8px; padding-bottom: 8px; row-gap: 6px; gap: 12px; }
+  .main-nav { flex-wrap: wrap; }
+  .search-wrap { flex: 1 1 140px; min-width: 0; }
+  .search-input { width: 100%; min-width: 0; }
+}
 .search-dropdown {
   position: absolute; top: calc(100% + 8px); right: 0; min-width: 280px; max-width: 90vw;
   background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;

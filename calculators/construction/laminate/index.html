@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор ламината и линолеума онлайн — сколько упаковок — CalcDocs</title>
+  <meta name="description" content="Онлайн-расчёт ламината (количество досок и упаковок) и линолеума (погонные метры по ширине рулона) для комнаты, с запасом. Работает в браузере." />
+  <meta name="keywords" content="калькулятор ламината, сколько упаковок ламината, расчет ламината, линолеум расчет, ламинат на комнату" />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/construction/laminate/" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Калькулятор ламината и линолеума — CalcDocs" />
+  <meta property="og:description" content="Рассчитайте упаковки ламината или погонные метры линолеума для комнаты." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css?v=7" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Калькулятор ламината и линолеума",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Калькуляторы", "item": "https://calc-doc.ru/calculators/" },
+      { "@type": "ListItem", "position": 3, "name": "Стройка и ремонт", "item": "https://calc-doc.ru/calculators/construction/" },
+      { "@type": "ListItem", "position": 4, "name": "Ламинат и линолеум", "item": "https://calc-doc.ru/calculators/construction/laminate/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Сколько упаковок ламината нужно на комнату?", "acceptedAnswer": { "@type": "Answer", "text": "Площадь комнаты делится на площадь одной доски, а результат — на количество досок в упаковке, с добавлением запаса 5–10%." } },
+      { "@type": "Question", "name": "Как рассчитать линолеум?", "acceptedAnswer": { "@type": "Answer", "text": "Ширина комнаты делится на ширину рулона — получается число полос, которое умножается на длину комнаты в погонных метрах." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+    <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="CalcDocs — на главную">
+        <span class="brand-logo" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <span class="brand-name">Calc<span class="accent">Docs</span></span>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/files/">Файлы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Файлы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/files/contract/">Договор</a>
+            <a href="/files/invoice/">Счёт на оплату</a>
+            <a href="/files/leave-request/">Заявление на отпуск</a>
+            <a href="/files/power-of-attorney/">Доверенность</a>
+            <a href="/files/report/">Отчёт</a>
+            <a href="/files/resume/">Резюме</a>
+            <a class="nav-all" href="/files/">Все файлы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/calculators/">Калькуляторы</a> / <a href="/calculators/construction/">Стройка и ремонт</a> / Ламинат и линолеум</nav>
+      <h1>Калькулятор ламината и линолеума</h1>
+      <p class="tool-meta">Сколько упаковок ламината или погонных метров линолеума нужно на комнату. Данные не отправляются на сервер.</p>
+      <p class="calc-note">Расчёты носят справочный характер.</p>
+    </div>
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="laminateForm">
+            <div class="row2">
+              <div class="field">
+                <label for="length">Длина комнаты (м)</label>
+                <input type="number" id="length" inputmode="decimal" min="0" step="any" placeholder="например 5" required value="5" />
+              </div>
+              <div class="field">
+                <label for="width">Ширина комнаты (м)</label>
+                <input type="number" id="width" inputmode="decimal" min="0" step="any" placeholder="например 4" required value="4" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="material">Материал</label>
+              <select id="material">
+                <option value="laminate">Ламинат</option>
+                <option value="linoleum">Линолеум</option>
+              </select>
+            </div>
+            <div id="lamFields" class="field-group">
+              <div class="row3">
+                <div class="field">
+                  <label for="boardL">Длина доски (мм)</label>
+                  <input type="number" id="boardL" inputmode="decimal" min="0" step="any" placeholder="1285" required value="1285" />
+                </div>
+                <div class="field">
+                  <label for="boardW">Ширина доски (мм)</label>
+                  <input type="number" id="boardW" inputmode="decimal" min="0" step="any" placeholder="192" required value="192" />
+                </div>
+                <div class="field">
+                  <label for="perPack">Досок в упаковке</label>
+                  <input type="number" id="perPack" inputmode="numeric" min="1" step="1" placeholder="8" required value="8" />
+                </div>
+              </div>
+            </div>
+            <div id="linoFields" class="field-group" style="display:none">
+              <div class="field">
+                <label for="rollW">Ширина рулона (м)</label>
+                <input type="number" id="rollW" inputmode="decimal" min="0" step="any" placeholder="2" required value="2" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="reserve">Запас (%)</label>
+              <input type="number" id="reserve" inputmode="decimal" min="0" max="30" step="any" placeholder="5" required value="5" />
+            </div>
+            <button class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Как рассчитать ламинат и линолеум</h2>
+        <p><strong>Ламинат:</strong> площадь комнаты (длина × ширина) делится на площадь одной доски, затем результат — на количество досок в упаковке. Добавляется запас на подрезку.</p>
+        <p><strong>Линолеум:</strong> ширина комнаты делится на ширину рулона — получается число полос. Полосы умножаются на длину комнаты: это нужный метраж в погонных метрах.</p>
+        <h3>Советы</h3>
+        <ul>
+          <li>Для ламината берите запас 5–10%, при диагональной укладке — до 15%.</li>
+          <li>Для линолеума учитывайте стыки и припуск на подрезку у стен.</li>
+        </ul>
+        <h2>Частые вопросы</h2>
+        <div class="faq">
+          <h3>Сколько упаковок ламината нужно на комнату?</h3>
+          <p>Площадь комнаты делится на площадь одной доски, а результат — на количество досок в упаковке, с добавлением запаса 5–10%.</p>
+          <h3>Как рассчитать линолеум?</h3>
+          <p>Ширина комнаты делится на ширину рулона — получается число полос, которое умножается на длину комнаты в погонных метрах.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
+      <nav class="footer-nav" aria-label="Нижнее меню">
+        <a href="/about/">О проекте</a>
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/files/">Файлы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=9"></script>
+  <script type="module" src="/js/calc-laminate.js"></script>
+</body>
+</html>
+

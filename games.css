@@ -52,7 +52,28 @@
 .gx-note { color: var(--text-muted); font-size: 13.5px; line-height: 1.5; }
 
 /* ── «Поделиться» ── */
-.gx-share { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 18px auto 0; max-width: 620px; }
+.gx-share { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: center; margin: 18px auto 0; max-width: 620px; }
+.gx-share-label { color: var(--text-muted); font-size: 14px; font-weight: 600; }
+.share-ic {
+  width: 46px; height: 46px; padding: 0;
+  display: grid; place-items: center;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: transform .16s ease, color .16s ease, border-color .16s ease, background .16s ease;
+}
+.share-ic:hover { transform: translateY(-2px); background: var(--bg-soft); }
+.share-ic:focus-visible { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(109, 93, 252, .2); }
+.share-ic svg { display: block; }
+.share-ic--tg:hover { color: #229ED9; border-color: #229ED9; }
+.share-ic--vk:hover { color: #0077FF; border-color: #0077FF; }
+.share-ic--wa:hover { color: #25D366; border-color: #25D366; }
+.share-ic--copy:hover, .share-ic--native:hover, .share-ic--result:hover { color: var(--primary); border-color: var(--primary); }
+/* display у кнопок перебивает атрибут hidden — возвращаем скрытие (иначе кнопка
+   «поделиться результатом» видна до первой победы). */
+.share-ic[hidden], .gx-share .btn[hidden] { display: none; }
 .gx-share .btn { padding: 10px 16px; }
 
 /* ── Мотивация и статистика ── */

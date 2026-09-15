@@ -6,97 +6,97 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/calculators/tax-freelancer.html</loc>
+    <loc>https://calc-doc.ru/calculators/finance/tax-freelancer/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/calculators/vacation-pay.html</loc>
+    <loc>https://calc-doc.ru/calculators/finance/vacation-pay/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/calculators/mortgage.html</loc>
+    <loc>https://calc-doc.ru/calculators/finance/mortgage/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/calculators/deposit.html</loc>
+    <loc>https://calc-doc.ru/calculators/finance/deposit/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/generators/power-of-attorney.html</loc>
+    <loc>https://calc-doc.ru/files/power-of-attorney/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/generators/contract.html</loc>
+    <loc>https://calc-doc.ru/files/contract/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/generators/leave-request.html</loc>
+    <loc>https://calc-doc.ru/files/leave-request/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/converters/image-converter.html</loc>
+    <loc>https://calc-doc.ru/converters/image-converter/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/converters/csv-to-xlsx.html</loc>
+    <loc>https://calc-doc.ru/converters/csv-to-xlsx/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/converters/pdf-to-word.html</loc>
+    <loc>https://calc-doc.ru/converters/pdf-to-word/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/generators/resume.html</loc>
+    <loc>https://calc-doc.ru/files/resume/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/calculators/penalty.html</loc>
+    <loc>https://calc-doc.ru/calculators/finance/penalty/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/calculators/vat.html</loc>
+    <loc>https://calc-doc.ru/calculators/finance/vat/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/calculators/brick.html</loc>
+    <loc>https://calc-doc.ru/calculators/construction/brick/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/calculators/alimony.html</loc>
+    <loc>https://calc-doc.ru/calculators/finance/alimony/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/calculators/wallpaper.html</loc>
+    <loc>https://calc-doc.ru/calculators/construction/wallpaper/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/generators/invoice.html</loc>
+    <loc>https://calc-doc.ru/files/invoice/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/generators/report.html</loc>
+    <loc>https://calc-doc.ru/files/report/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/converters/dadata.html</loc>
+    <loc>https://calc-doc.ru/converters/dadata/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -106,22 +106,22 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/calculators/construction/tile.html</loc>
+    <loc>https://calc-doc.ru/calculators/construction/tile/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/calculators/construction/laminate.html</loc>
+    <loc>https://calc-doc.ru/calculators/construction/laminate/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/calculators/construction/plaster.html</loc>
+    <loc>https://calc-doc.ru/calculators/construction/plaster/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/calculators/construction/paint.html</loc>
+    <loc>https://calc-doc.ru/calculators/construction/paint/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -131,42 +131,42 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/calculators/finance/credit.html</loc>
+    <loc>https://calc-doc.ru/calculators/finance/credit/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/calculators/finance/sick-leave.html</loc>
+    <loc>https://calc-doc.ru/calculators/finance/sick-leave/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/calculators/finance/maternity.html</loc>
+    <loc>https://calc-doc.ru/calculators/finance/maternity/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/calculators/finance/ndfl.html</loc>
+    <loc>https://calc-doc.ru/calculators/finance/ndfl/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/calculators/finance/ip-insurance.html</loc>
+    <loc>https://calc-doc.ru/calculators/finance/ip-insurance/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/calculators/finance/salary-delay.html</loc>
+    <loc>https://calc-doc.ru/calculators/finance/salary-delay/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/calculators/finance/compound-interest.html</loc>
+    <loc>https://calc-doc.ru/calculators/finance/compound-interest/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/calculators/finance/average-earnings.html</loc>
+    <loc>https://calc-doc.ru/calculators/finance/average-earnings/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -176,22 +176,27 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/games/2048.html</loc>
+    <loc>https://calc-doc.ru/games/2048/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/games/bubble.html</loc>
+    <loc>https://calc-doc.ru/games/bubble/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/converters/qr-generator.html</loc>
+    <loc>https://calc-doc.ru/games/water/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://calc-doc.ru/converters/qr-generator/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calc-doc.ru/converters/seo-translit.html</loc>
+    <loc>https://calc-doc.ru/converters/seo-translit/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -204,5 +209,25 @@
     <loc>https://calc-doc.ru/privacy.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://calc-doc.ru/calculators/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://calc-doc.ru/files/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://calc-doc.ru/converters/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://calc-doc.ru/about/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
 </urlset>

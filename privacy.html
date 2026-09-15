@@ -9,13 +9,13 @@
   <link rel="canonical" href="https://calc-doc.ru/privacy.html" />
   <link rel="manifest" href="/manifest.webmanifest" />
   <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="/styles.css?v=4" />
+  <link rel="stylesheet" href="/styles.css?v=7" />
   <meta name="theme-color" content="#6d5dfc" />
 </head>
 <body>
-  <header class="site-header">
+    <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="/">
+      <a class="brand" href="/" aria-label="CalcDocs — на главную">
         <span class="brand-logo" aria-hidden="true">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
@@ -23,17 +23,62 @@
         </span>
         <span class="brand-name">Calc<span class="accent">Docs</span></span>
       </a>
-      <nav class="main-nav" aria-label="Главное меню">
-        <a href="/#tools">Калькуляторы</a>
-        <a href="/#files">Файлы</a>
-        <a href="/#converters">Конвертеры</a>
-        <a href="/games/">Игры</a>
-        <a href="/#about">О проекте</a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/files/">Файлы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Файлы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/files/contract/">Договор</a>
+            <a href="/files/invoice/">Счёт на оплату</a>
+            <a href="/files/leave-request/">Заявление на отпуск</a>
+            <a href="/files/power-of-attorney/">Доверенность</a>
+            <a href="/files/report/">Отчёт</a>
+            <a href="/files/resume/">Резюме</a>
+            <a class="nav-all" href="/files/">Все файлы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
       </nav>
-      <div class="header-actions">
-        <button id="themeToggle" class="icon-btn" aria-label="Переключить тему" title="Тема">🌓</button>
-        <button id="installBtn" class="icon-btn" aria-label="Установить приложение" title="Скачать на рабочий стол" hidden>⬇️</button>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
       </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
     </div>
   </header>
 
@@ -57,10 +102,12 @@
           <li>Не используем формы входа и подписки.</li>
         </ul>
         <h2>Что хранится на вашем устройстве</h2>
-        <p>В браузере локально (<code>localStorage</code>) сохраняется только ваша настройка темы (светлая/тёмная) и, при необходимости, согласие на обработку файлов cookie. Эти данные остаются на вашем устройстве и могут быть удалены очисткой кэша браузера.</p>
+        <p>В браузере локально (<code>localStorage</code>) сохраняется только ваша настройка темы (светлая/тёмная), при необходимости — согласие на обработку файлов cookie, а также последнее показанное число посещений (чтобы блок статистики выглядел правильно, даже если счётчик недоступен). Эти данные остаются на вашем устройстве и могут быть удалены очисткой кэша браузера.</p>
         <h2>Файлы cookie и аналитика</h2>
-        <p>Сейчас CalcDocs <strong>не использует сторонние трекеры</strong>, не устанавливает рекламные или аналитические cookie и <strong>не подключает Google Analytics и Яндекс.Метрику</strong>. Единственная локальная настройка (тема) хранится в <code>localStorage</code> на вашем устройстве и нам не передаётся.</p>
+        <p>Сейчас CalcDocs <strong>не использует сторонние трекеры</strong>, не устанавливает рекламные или аналитические cookie и <strong>не подключает Google Analytics и Яндекс.Метрику</strong>. Локальные настройки (тема и последнее число счётчика) хранятся в <code>localStorage</code> на вашем устройстве и нам не передаются.</p>
         <p>Если в будущем мы подключим рекламные блоки или аналитику, их сторонние сервисы <strong>могут</strong> использовать файлы cookie и собирать обезличенную статистику для показа релевантной рекламы. Перед включением таких сервисов мы запросим ваше согласие через уведомление в нижней части страницы. Подробная обработка таких данных регулируется политикой соответствующего рекламного сервиса.</p>
+        <h2>Счётчик посещений</h2>
+        <p>Чтобы на главной было видно настоящее число посещений, сайт использует <strong>свой счётчик</strong> на нашем сервере (<code>/api/stats.php</code>) — без сторонних сервисов и <strong>без файлов cookie</strong>. Он сохраняет только обезличенные итоги за сутки: сколько раз открыли страницы и сколько было уникальных посетителей. IP-адрес и данные браузера <strong>не сохраняются</strong>: для подсчёта уникальных за сутки считается короткий необратимый хеш, он живёт только вместе с итогами текущих суток и удаляется вместе с ними (файлы старше 45 суток стираются автоматически). Если запросы к <code>/api/stats.php</code> заблокировать, счётчик просто не сработает — на работу сайта это не влияет.</p>
         <h2>Технические данные (логи хостинга)</h2>
         <p>Для обеспечения безопасности и стабильной работы провайдер хостинга может автоматически фиксировать технические данные (IP-адрес, тип браузера, время запроса). Эти данные используются только для защиты от атак и перегрузок и не используются для идентификации личности.</p>
         <h2>Правовое основание и передача данных</h2>
@@ -71,7 +118,7 @@
         <p>Оператор обработки персональных данных: <strong>[ФИО / ИП / ООО «…»]</strong>, ИНН <strong>[ИНН]</strong>, ОГРН <strong>[ОГРН]</strong>, адрес: <strong>[адрес]</strong>, e-mail: <strong>[ВАШ_EMAIL]</strong>.</p>
         <p><em>Заполните значения в квадратных скобках своими реквизитами перед публикацией.</em></p>
         <h2>Контакты</h2>
-        <p>По вопросам конфиденциальности и обработки персональных данных: <a href="mailto:[ВАШ_EMAIL]">[ВАШ_EMAIL]</a> или через <a href="/#about">страницу «О проекте»</a>.</p>
+        <p>По вопросам конфиденциальности и обработки персональных данных: <a href="mailto:[ВАШ_EMAIL]">[ВАШ_EMAIL]</a> или через <a href="/about/">страницу «О проекте»</a>.</p>
       </div>
     </div>
   </main>
@@ -80,15 +127,15 @@
     <div class="container footer-inner">
       <p>© <span id="year">2026</span> CalcDocs. Все права защищены.</p>
       <nav class="footer-nav" aria-label="Нижнее меню">
-        <a href="/#about">О проекте</a>
-        <a href="/#tools">Калькуляторы</a>
-        <a href="/#files">Файлы</a>
-        <a href="/#converters">Конвертеры</a>
+        <a href="/about/">О проекте</a>
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/files/">Файлы</a>
+        <a href="/converters/">Конвертеры</a>
         <a href="/privacy.html">Конфиденциальность</a>
       </nav>
     </div>
   </footer>
 
-  <script type="module" src="/js/ui.js?v=6"></script>
+  <script type="module" src="/js/ui.js?v=9"></script>
 </body>
 </html>

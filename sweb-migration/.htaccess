@@ -107,3 +107,25 @@ RedirectMatch 404 ^/converters/infographic(\.html)?$
 
 # удалённая игра «Быстрый счёт» (12.09.2026) — страница больше не отдаётся
 RedirectMatch 404 ^/games/quick-math(\.html)?$
+
+# данные счётчика посещений (пишет api/stats.php) снаружи не отдаём:
+# в них только итоговые числа за сутки, открывать их по URL незачем
+RedirectMatch 404 ^/api/data(/|$)
+
+# ─────────── 301: переезд в «чистые» URL папок (15.09.2026) ───────────
+# Инструменты получили адреса вида /calculators/finance/ndfl/ и /files/contract/.
+# ВАЖНО: правил вида ^/xxx/index\.html$ тут быть не должно. Nginx на sweb сам
+# подставляет index.html при запросе папки, поэтому такое правило срабатывает на
+# /xxx/ и уводит на тот же адрес — была петля редиректов (ERR_TOO_MANY_REDIRECTS)
+# на /converters/, /games/, /calculators/finance/ и /calculators/construction/.
+# Канонизацию держат <link rel="canonical"> в самих страницах.
+RedirectMatch 301 ^/calculators/(alimony|deposit|mortgage|penalty|tax-freelancer|vacation-pay|vat)\.html$ https://calc-doc.ru/calculators/finance/$1/
+RedirectMatch 301 ^/calculators/(brick|wallpaper)\.html$ https://calc-doc.ru/calculators/construction/$1/
+RedirectMatch 301 ^/calculators/finance/(?!index)([a-z0-9-]+)\.html$ https://calc-doc.ru/calculators/finance/$1/
+RedirectMatch 301 ^/calculators/construction/(?!index)([a-z0-9-]+)\.html$ https://calc-doc.ru/calculators/construction/$1/
+# генераторы -> файлы
+RedirectMatch 301 ^/generators/([a-z0-9-]+)\.html$ https://calc-doc.ru/files/$1/
+RedirectMatch 301 ^/generators/?$ https://calc-doc.ru/files/
+# конвертеры и игры
+RedirectMatch 301 ^/converters/(?!index)([a-z0-9-]+)\.html$ https://calc-doc.ru/converters/$1/
+RedirectMatch 301 ^/games/(?!index)([a-z0-9-]+)\.html$ https://calc-doc.ru/games/$1/

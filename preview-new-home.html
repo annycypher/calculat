@@ -1260,7 +1260,7 @@
     if(e.key === 'Escape'){ close(); }
   });
   document.addEventListener('click', function(e){ if(!e.target.closest('.search-wrap')) close(); });
-  import('/js/search-index.js?v=1').then(function(m){ SEARCH = m.SEARCH || []; }).catch(function(){});
+  import('/js/search-index.js?v=3').then(function(m){ SEARCH = m.SEARCH || []; }).catch(function(){});
 })();
 </script>
 </body>
