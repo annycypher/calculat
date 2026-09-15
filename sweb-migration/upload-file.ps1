@@ -6,14 +6,33 @@
   Запуск (из корня проекта):
     powershell -ExecutionPolicy Bypass -File sweb-migration\upload-file.ps1 styles.css
     powershell -ExecutionPolicy Bypass -File sweb-migration\upload-file.ps1 header.css styles.css
+    powershell -ExecutionPolicy Bypass -File sweb-migration\upload-file.ps1 -ListFile list.txt
 
   Пути — относительно корня сайта (как их видит браузер): styles.css, games/2048/index.html.
+  Для длинного списка используйте -ListFile: при запуске через powershell -File
+  именованный параметр надёжнее, чем перечисление через пробел (после -File в
+  позиционный массив попадает только одно значение).
   Настройки берутся из sweb-migration\deploy.env (тот же файл, что у deploy.ps1).
 #>
-param([Parameter(Mandatory = $true)][string[]]$Path)
+param(
+  [string[]]$Path,
+  [string]$ListFile,
+  [switch]$DryRun
+)
 
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
+
+# Собираем список бережно: @($null) в PowerShell — это массив с одним $null,
+# поэтому пустые значения отбрасываем явно, иначе получится путь «корень сайта».
+$todo = New-Object System.Collections.Generic.List[string]
+foreach ($x in @($Path)) { if ($x -and $x.Trim()) { $todo.Add($x.Trim()) } }
+if ($ListFile) {
+  if (-not (Test-Path $ListFile)) { throw "Не найден список файлов: $ListFile" }
+  foreach ($l in Get-Content $ListFile) { if ($l -and $l.Trim()) { $todo.Add($l.Trim()) } }
+}
+if ($todo.Count -eq 0) { throw 'Укажите, что заливать: -Path styles.css или -ListFile список.txt' }
+$Path = $todo.ToArray()
 
 $envFile = Join-Path $PSScriptRoot 'deploy.env'
 if (-not (Test-Path $envFile)) { throw "Нет файла $envFile — скопируйте deploy.env.example в deploy.env и заполните." }
@@ -27,6 +46,10 @@ Get-Content $envFile | ForEach-Object {
 $hostName = $cfg['HOST']; $user = $cfg['USER']; $remote = $cfg['REMOTE_PATH'].TrimEnd('/')
 $port = if ($cfg['PORT']) { [int]$cfg['PORT'] } else { 21 }
 $pass = $cfg['PASS']; if (-not $pass) { throw 'Для точечной заливки нужно поле PASS в deploy.env' }
+
+Write-Host ("К заливке: {0} файл(ов):" -f $Path.Count)
+foreach ($rel in $Path) { Write-Host ('  ' + $rel) }
+if ($DryRun) { Write-Host 'DryRun: ничего не отправлено.' -ForegroundColor Yellow; return }
 
 foreach ($rel in $Path) {
   $rel = $rel -replace '\\', '/'
