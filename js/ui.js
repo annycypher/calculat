@@ -1,6 +1,6 @@
 let SEARCH = [], POPULAR = [];
 
-// ui.js — общие UI-функции для всех страниц CalcDocs
+// ui.js — общие UI-функции для всех страниц CalcDoc
 // Тема, кнопка «Установить» (PWA), год в подвале.
 
 const themeToggle = document.getElementById('themeToggle');

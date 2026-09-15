@@ -1,4 +1,4 @@
-/* home.css — оформление главной страницы CalcDocs (тёмное стекло, glassmorphism).
+/* home.css — оформление главной страницы CalcDoc (тёмное стекло, glassmorphism).
    Выделено из preview-new-home.html. Подключается ТОЛЬКО на главной;
    остальные страницы по-прежнему используют styles.css.
    Шрифты — /fonts/fonts.css (самохостинг, без Google Fonts). */
@@ -339,7 +339,7 @@
     /* «Популярное» */
     .popular-bar{display:flex;align-items:center;flex-wrap:wrap;gap:12px}
     .popular-label{font-size:14px;font-weight:600;color:var(--mut);white-space:nowrap}
-    /* «Что такое CalcDocs» */
+    /* «Что такое CalcDoc» */
     .prose{padding:36px 38px;border-radius:24px}
     .prose h2{margin-bottom:16px}
     .prose h3{font-family:'Unbounded',sans-serif;font-weight:600;font-size:17px;margin:26px 0 12px}

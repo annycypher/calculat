@@ -1,6 +1,6 @@
 {
-  "name": "CalcDocs — калькуляторы и документы",
-  "short_name": "CalcDocs",
+  "name": "CalcDoc — калькуляторы и документы",
+  "short_name": "CalcDoc",
   "description": "Бесплатные онлайн-калькуляторы и генераторы документов. Работают прямо в браузере.",
   "start_url": "/",
   "display": "standalone",
