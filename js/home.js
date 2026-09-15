@@ -250,8 +250,11 @@
     function countUp(el, from, to, dur, onStep){
       const t0 = performance.now();
       (function frame(t){
-        const p = Math.min((t - t0) / dur, 1);
-        const v = Math.round(from + (to - from) * (1 - Math.pow(1 - p, 3)));
+        // p держим в [0;1]: метку кадра даёт браузер, и в редких режимах (фоновая
+        // вкладка, виртуальное время в headless) она приходит раньше t0 — без нижней
+        // границы счёт выдавал отрицательные числа вида «-2 373 630».
+        const p = Math.max(0, Math.min((t - t0) / dur, 1));
+        const v = Math.max(0, Math.round(from + (to - from) * (1 - Math.pow(1 - p, 3))));
         el.textContent = v.toLocaleString('ru-RU');
         if(onStep) onStep(v);
         if(p < 1) requestAnimationFrame(frame);
