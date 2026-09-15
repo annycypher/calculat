@@ -12,4 +12,9 @@
 User-agent: *
 Disallow: /
 
+# Счётчик посещений (/api/stats.php) — только для скриптов сайта: краулерам там
+# делать нечего. Строка не мешает и после открытия сайта (для Allow: / более
+# точное правило /api/ имеет приоритет); сам endpoint отдаёт X-Robots-Tag: noindex.
+Disallow: /api/
+
 # Sitemap: https://calc-doc.ru/sitemap.xml

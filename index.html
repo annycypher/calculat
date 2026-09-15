@@ -14,7 +14,7 @@
   <link rel="manifest" href="/manifest.webmanifest" />
   <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="/fonts/fonts.css" />
-  <link rel="stylesheet" href="/home.css?v=3" />
+  <link rel="stylesheet" href="/home.css?v=5" />
   <meta name="theme-color" content="#0b0913" />
   <script type="application/ld+json">
 {
@@ -56,29 +56,65 @@
         </span>
         <b>Calc<span>Docs</span></b>
       </a>
-      <nav class="desk" aria-label="Главное меню">
-        <a href="#tools">Калькуляторы</a>
-        <a href="#files">Файлы</a>
-        <a href="#converters">Конвертеры</a>
-        <a href="/games/">Мини-игры</a>
-        <a href="#about">О проекте</a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/files/">Файлы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Файлы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/files/contract/">Договор</a>
+            <a href="/files/invoice/">Счёт на оплату</a>
+            <a href="/files/leave-request/">Заявление на отпуск</a>
+            <a href="/files/power-of-attorney/">Доверенность</a>
+            <a href="/files/report/">Отчёт</a>
+            <a href="/files/resume/">Резюме</a>
+            <a class="nav-all" href="/files/">Все файлы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
       </nav>
-      <div class="head-cta">
+      <div class="head-cta header-actions">
         <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
         <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
-        <button class="burger" id="burger" aria-label="Открыть меню">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-        </button>
       </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
     </div>
   </header>
-  <nav class="m-nav glass" id="mnav" aria-label="Мобильное меню">
-    <a href="#tools">Калькуляторы</a>
-    <a href="#files">Файлы</a>
-    <a href="#converters">Конвертеры</a>
-    <a href="/games/">Мини-игры</a>
-    <a href="#about">О проекте</a>
-  </nav>
+  <!-- Мобильное меню общее для всех страниц: панель #mainNav в шапке (js/ui.js → initNav) -->
 
 <main class="wrap">
 
@@ -258,11 +294,13 @@
       </div>
     </div>
 
-    <!-- СТАТИСТИКА: живые счётчики -->
+    <!-- СТАТИСТИКА: числа настоящие. «посещений в день» даёт /api/stats.php (см. api/stats.php,
+         учёт визита — js/ui.js), «инструментов» — количество страниц-инструментов в sitemap.xml.
+         Значения в разметке — запасные: они видны, только если счётчик недоступен. -->
     <div class="stats reveal" id="statsBlock">
       <div class="stat"><b>Все инструменты</b><span>в одном месте</span></div>
-      <div class="stat cyan"><b>0 ₽</b><span>бесплатно, без регистрации</span></div>
-      <div class="stat"><b>более <i>30</i></b><span>инструментов</span></div>
+      <div class="stat cyan"><b><i id="stVisits">—</i></b><span id="stVisitsLabel">посещений в день</span></div>
+      <div class="stat"><b>более <i id="stTools">33</i></b><span>инструментов</span></div>
     </div>
   </div>
 
@@ -293,6 +331,23 @@
           </div>
           <span class="btn btn-primary" style="pointer-events:none">Играть</span>
         </a>
+        <div class="grid" style="margin-top:18px">
+          <a class="card" href="/games/2048/">
+            <span class="card-icon" aria-hidden="true">🔢</span>
+            <h3>2048</h3>
+            <p>Неоновые плитки и комбо: соединяйте числа и собирайте 2048.</p>
+          </a>
+          <a class="card" href="/games/bubble/">
+            <span class="card-icon" aria-hidden="true">🫧</span>
+            <h3>Пузыри</h3>
+            <p>Пузырьковый шутер: лопайте шары тройками и проходите уровни.</p>
+          </a>
+          <a class="card" href="/games/water/">
+            <span class="card-icon" aria-hidden="true">💧</span>
+            <h3>Вода</h3>
+            <p>«Water Glow» — сортировка жидкостей по колбам: спокойная логика без таймеров.</p>
+          </a>
+        </div>
       </section>
 
       <!-- Сетка калькуляторов -->
@@ -306,32 +361,32 @@
             <h3>Стройка и ремонт</h3>
             <p>Плитка, ламинат, штукатурка, краска, кирпич, обои — все калькуляторы ремонта.</p>
           </a>
-          <a class="card" href="/calculators/construction/tile.html">
+          <a class="card" href="/calculators/construction/tile/">
             <span class="card-icon" aria-hidden="true">🔲</span>
             <h3>Плитка</h3>
             <p>Сколько плитки на пол или стены, с запасом.</p>
           </a>
-          <a class="card" href="/calculators/construction/laminate.html">
+          <a class="card" href="/calculators/construction/laminate/">
             <span class="card-icon" aria-hidden="true">🪵</span>
             <h3>Ламинат и линолеум</h3>
             <p>Упаковки ламината или метры линолеума.</p>
           </a>
-          <a class="card" href="/calculators/construction/plaster.html">
+          <a class="card" href="/calculators/construction/plaster/">
             <span class="card-icon" aria-hidden="true">🪨</span>
             <h3>Штукатурка и стяжка</h3>
             <p>Расход смеси и количество мешков.</p>
           </a>
-          <a class="card" href="/calculators/construction/paint.html">
+          <a class="card" href="/calculators/construction/paint/">
             <span class="card-icon" aria-hidden="true">🪣</span>
             <h3>Краска и грунтовка</h3>
             <p>Расход краски и сколько банок.</p>
           </a>
-          <a class="card" href="/calculators/brick.html">
+          <a class="card" href="/calculators/construction/brick/">
             <span class="card-icon" aria-hidden="true">🧱</span>
             <h3>Кирпич на дом</h3>
             <p>Сколько кирпича нужно на кладку стен.</p>
           </a>
-          <a class="card" href="/calculators/wallpaper.html">
+          <a class="card" href="/calculators/construction/wallpaper/">
             <span class="card-icon" aria-hidden="true">🧻</span>
             <h3>Обои</h3>
             <p>Сколько рулонов на комнату, с подгонкой и запасом.</p>
@@ -345,77 +400,77 @@
             <h3>Финансы и налоги</h3>
             <p>Кредит, больничный, НДФЛ, взносы ИП — все финансовые расчёты.</p>
           </a>
-          <a class="card" href="/calculators/finance/credit.html">
+          <a class="card" href="/calculators/finance/credit/">
             <span class="card-icon" aria-hidden="true">🏦</span>
             <h3>Кредитный калькулятор</h3>
             <p>Аннуитетный и дифференцированный платёж.</p>
           </a>
-          <a class="card" href="/calculators/finance/sick-leave.html">
+          <a class="card" href="/calculators/finance/sick-leave/">
             <span class="card-icon" aria-hidden="true">🤒</span>
             <h3>Больничный</h3>
             <p>Пособие по стажу и доходу.</p>
           </a>
-          <a class="card" href="/calculators/finance/maternity.html">
+          <a class="card" href="/calculators/finance/maternity/">
             <span class="card-icon" aria-hidden="true">👶</span>
             <h3>Декретные</h3>
             <p>По беременности и родам и по уходу.</p>
           </a>
-          <a class="card" href="/calculators/finance/ndfl.html">
+          <a class="card" href="/calculators/finance/ndfl/">
             <span class="card-icon" aria-hidden="true">📊</span>
             <h3>НДФЛ и вычеты</h3>
             <p>Имущественный и инвестиционный возврат.</p>
           </a>
-          <a class="card" href="/calculators/finance/ip-insurance.html">
+          <a class="card" href="/calculators/finance/ip-insurance/">
             <span class="card-icon" aria-hidden="true">🧑‍💼</span>
             <h3>Взносы ИП</h3>
             <p>Фиксированные + 1% свыше лимита.</p>
           </a>
-          <a class="card" href="/calculators/finance/salary-delay.html">
+          <a class="card" href="/calculators/finance/salary-delay/">
             <span class="card-icon" aria-hidden="true">⏰</span>
             <h3>Задержка зарплаты</h3>
             <p>Компенсация по ст. 236 ТК РФ.</p>
           </a>
-          <a class="card" href="/calculators/finance/compound-interest.html">
+          <a class="card" href="/calculators/finance/compound-interest/">
             <span class="card-icon" aria-hidden="true">📈</span>
             <h3>Сложный процент</h3>
             <p>Доходность с пополнением.</p>
           </a>
-          <a class="card" href="/calculators/finance/average-earnings.html">
+          <a class="card" href="/calculators/finance/average-earnings/">
             <span class="card-icon" aria-hidden="true">📅</span>
             <h3>Средний заработок</h3>
             <p>Средний дневной и месячный, стаж.</p>
           </a>
-          <a class="card" href="/calculators/mortgage.html">
+          <a class="card" href="/calculators/finance/mortgage/">
             <span class="card-icon" aria-hidden="true">🏠</span>
             <h3>Ипотечный калькулятор</h3>
             <p>Ежемесячный платёж, переплата и график по кредиту.</p>
           </a>
-          <a class="card" href="/calculators/deposit.html">
+          <a class="card" href="/calculators/finance/deposit/">
             <span class="card-icon" aria-hidden="true">💰</span>
             <h3>Калькулятор вкладов</h3>
             <p>Сложный процент, капитализация и пополнение — с графиком.</p>
           </a>
-          <a class="card" href="/calculators/penalty.html">
+          <a class="card" href="/calculators/finance/penalty/">
             <span class="card-icon" aria-hidden="true">💳</span>
             <h3>Пеня и неустойка</h3>
             <p>Расчёт пени по ставке ЦБ: ст. 395, 1/300, 1/150.</p>
           </a>
-          <a class="card" href="/calculators/vat.html">
+          <a class="card" href="/calculators/finance/vat/">
             <span class="card-icon" aria-hidden="true">🧾</span>
             <h3>НДС</h3>
             <p>Начислить или выделить НДС: 20%, 10%, 0%.</p>
           </a>
-          <a class="card" href="/calculators/tax-freelancer.html">
+          <a class="card" href="/calculators/finance/tax-freelancer/">
             <span class="card-icon" aria-hidden="true">💼</span>
             <h3>Налог фрилансера</h3>
             <p>Рассчитайте налог по НПД/самозанятости за месяц или год.</p>
           </a>
-          <a class="card" href="/calculators/vacation-pay.html">
+          <a class="card" href="/calculators/finance/vacation-pay/">
             <span class="card-icon" aria-hidden="true">🏖️</span>
             <h3>Отпускные</h3>
             <p>Сколько вы получите за отпуск — расчёт по среднему заработку.</p>
           </a>
-          <a class="card" href="/calculators/alimony.html">
+          <a class="card" href="/calculators/finance/alimony/">
             <span class="card-icon" aria-hidden="true">👪</span>
             <h3>Неустойка по алиментам</h3>
             <p>0,1% в день по ст. 115 СК РФ.</p>
@@ -427,32 +482,32 @@
       <section id="files">
         <h2 class="section-title">Категория: <span class="accent">файлы</span></h2>
         <div class="grid">
-          <a class="card" href="/generators/resume.html">
+          <a class="card" href="/files/resume/">
             <span class="card-icon" aria-hidden="true">📄</span>
             <h3>Резюме</h3>
             <p>Готовое резюме из шаблона — сохраните в PDF одним кликом.</p>
           </a>
-          <a class="card" href="/generators/power-of-attorney.html">
+          <a class="card" href="/files/power-of-attorney/">
             <span class="card-icon" aria-hidden="true">✍️</span>
             <h3>Доверенность</h3>
             <p>Доверенность на авто или на действия — по шаблону.</p>
           </a>
-          <a class="card" href="/generators/contract.html">
+          <a class="card" href="/files/contract/">
             <span class="card-icon" aria-hidden="true">📋</span>
             <h3>Договор</h3>
             <p>Типовые договоры: оказание услуг, аренда, купля-продажа.</p>
           </a>
-          <a class="card" href="/generators/leave-request.html">
+          <a class="card" href="/files/leave-request/">
             <span class="card-icon" aria-hidden="true">🗓️</span>
             <h3>Заявление на отпуск</h3>
             <p>Заявление на отпуск или отгул — готовый шаблон в PDF.</p>
           </a>
-          <a class="card" href="/generators/invoice.html">
+          <a class="card" href="/files/invoice/">
             <span class="card-icon" aria-hidden="true">💳</span>
             <h3>Счёт на оплату</h3>
             <p>Счёт с реквизитами, позициями и QR-кодом — в PDF.</p>
           </a>
-          <a class="card" href="/generators/report.html">
+          <a class="card" href="/files/report/">
             <span class="card-icon" aria-hidden="true">📊</span>
             <h3>PDF-отчёт</h3>
             <p>Отчёт с таблицей показателей и выводами — в PDF.</p>
@@ -464,32 +519,32 @@
       <section id="converters">
         <h2 class="section-title">Категория: <span class="accent">конвертеры</span></h2>
         <div class="grid">
-          <a class="card" href="/converters/image-converter.html">
+          <a class="card" href="/converters/image-converter/">
             <span class="card-icon" aria-hidden="true">🖼️</span>
             <h3>Сжатие изображений</h3>
             <p>До 30 фото сразу, в оптимальном качестве.</p>
           </a>
-          <a class="card" href="/converters/csv-to-xlsx.html">
+          <a class="card" href="/converters/csv-to-xlsx/">
             <span class="card-icon" aria-hidden="true">📑</span>
             <h3>CSV → Excel</h3>
             <p>Превратите CSV-файл в готовый .xlsx.</p>
           </a>
-          <a class="card" href="/converters/pdf-to-word.html">
+          <a class="card" href="/converters/pdf-to-word/">
             <span class="card-icon" aria-hidden="true">📄</span>
             <h3>PDF → Word</h3>
             <p>Извлеките текст из PDF в редактируемый DOCX.</p>
           </a>
-          <a class="card" href="/converters/dadata.html">
+          <a class="card" href="/converters/dadata/">
             <span class="card-icon" aria-hidden="true">🔎</span>
             <h3>DaData-конструктор</h3>
             <p>Соберите запрос к DaData Suggest API: орг., адрес, банк.</p>
           </a>
-          <a class="card" href="/converters/qr-generator.html">
+          <a class="card" href="/converters/qr-generator/">
             <span class="card-icon" aria-hidden="true">📱</span>
             <h3>Генератор QR-кода</h3>
             <p>QR из текста или ссылки — PNG, JPG, SVG.</p>
           </a>
-          <a class="card" href="/converters/seo-translit.html">
+          <a class="card" href="/converters/seo-translit/">
             <span class="card-icon" aria-hidden="true">🔤</span>
             <h3>SEO транслит для URL и доменов</h3>
             <p>Русский текст → латиница: slug, домен, поддомен.</p>
@@ -547,7 +602,7 @@
 <!-- QR: локальная библиотека /libs/qrcode-generator.js (загружается вашим chunkload.js;
      ни CDN, ни сторонних сервисов — данные не покидают браузер) -->
 
-  <script type="module" src="/js/ui.js?v=6"></script>
-  <script type="module" src="/js/home.js?v=2"></script>
+  <script type="module" src="/js/ui.js?v=9"></script>
+  <script type="module" src="/js/home.js?v=3"></script>
 </body>
 </html>

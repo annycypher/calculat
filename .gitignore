@@ -26,3 +26,7 @@ sweb-migration/id_sweb
 sweb-migration/id_sweb.*
 sweb-migration/*.bak
 
+# Данные счётчика посещений (api/stats.php): рабочие файлы сервера,
+# локально появляются только при проверках
+api/data/
+

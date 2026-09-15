@@ -1,7 +1,8 @@
 // js/home.js — интерактив главной страницы (тёмный дизайн из design-reference.html).
 // Содержит: мобильное меню, свет за курсором, reveal-анимации, tilt-наклон,
 // toast, демо-инструменты (ипотека, QR на локальной библиотеке, сжатие) и подсказки в tooltip.
-// Статистика «посещений»/«инструментов» из демо удалена — цифры там были вымышленные.
+// Счётчики статистики — настоящие: визит учитывает js/ui.js, числа приходят
+// с /api/stats.php, анимация запускается при появлении блока в вьюпорте.
   // Загрузчик подключается ДИНАМИЧЕСКИ: даже если /js/chunkload.js недоступен,
   // модуль выполнится и остальная логика страницы (показ контента и т.д.) не сломается.
   window.__qrLibReady = (function () {
@@ -30,15 +31,12 @@
   /* Хедер + кнопка наверх */
   const header = $('header'), toTop = $('toTop');
   addEventListener('scroll', () => {
-    header.classList.toggle('scrolled', scrollY > 30);
-    toTop.classList.toggle('show', scrollY > 600);
+    if (header) header.classList.toggle('scrolled', scrollY > 30);
+    if (toTop) toTop.classList.toggle('show', scrollY > 600);
   }, {passive:true});
-  toTop.addEventListener('click', () => scrollTo({top:0, behavior:'smooth'}));
+  if (toTop) toTop.addEventListener('click', () => scrollTo({top:0, behavior:'smooth'}));
 
-  /* Мобильное меню */
-  const mnav = $('mnav');
-  $('burger').addEventListener('click', () => mnav.classList.toggle('open'));
-  mnav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mnav.classList.remove('open')));
+  /* Мобильное меню — теперь общее для всех страниц: js/ui.js → initNav() */
 
   /* Свет за курсором */
   const light = document.querySelector('.cursor-light');
@@ -211,4 +209,113 @@
     a.href = cmpUrl; a.download = 'compressed.jpg'; a.click();
     showToast('Файл сохранён');
   });
+
+  /* ---------- Статистика: настоящие числа из /api/stats.php ----------
+     Визит учитывает js/ui.js и шлёт числа событием 'cdstats'; здесь только показ.
+     Цифры «доезжают» до значения, когда блок попал в вьюпорт, дальше раз в минуту
+     подтягиваются свежие данные. Если счётчик недоступен (нет PHP, офлайн, открыт
+     локальный файл), остаётся последнее известное значение из localStorage. */
+  const stVisits = $('stVisits'), stTools = $('stTools'), stVisitsLabel = $('stVisitsLabel');
+  const STATS_CACHE = 'calcdocs-stats-v1';
+
+  if (stVisits || stTools){
+    let pending = null, visible = false, shown = false;
+
+    const todayKey = () => new Date().toLocaleDateString('sv-SE'); // локальные сутки YYYY-MM-DD
+    const cacheRead = () => { try { return JSON.parse(localStorage.getItem(STATS_CACHE) || 'null'); } catch(e){ return null; } };
+    const cacheWrite = o => { try { localStorage.setItem(STATS_CACHE, JSON.stringify(o)); } catch(e){} };
+    const valueOf = el => { const n = parseInt(String(el.textContent).replace(/\D/g, ''), 10); return isNaN(n) ? 0 : n; };
+    const VISIT_WORDS = ['посещение в день', 'посещения в день', 'посещений в день'];
+
+    /* Правильное склонение под число: 1 посещение, 2 посещения, 5 посещений. */
+    function plural(n, words){
+      const a = Math.abs(n) % 100, b = a % 10;
+      if(a > 10 && a < 20) return words[2];
+      if(b === 1) return words[0];
+      if(b > 1 && b < 5) return words[1];
+      return words[2];
+    }
+    function setVisitsWord(n){
+      if(!stVisitsLabel) return;
+      const w = plural(n, VISIT_WORDS);
+      if(stVisitsLabel.textContent !== w) stVisitsLabel.textContent = w;
+    }
+
+    function bump(el){
+      const b = el.closest('b'); if(!b) return;
+      b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump');
+    }
+    /* Счёт «доезжает» до нужного числа; на каждом шаге отдаём показанное значение,
+       чтобы подпись («посещение/посещения/посещений») всегда совпадала с цифрой. */
+    function countUp(el, from, to, dur, onStep){
+      const t0 = performance.now();
+      (function frame(t){
+        const p = Math.min((t - t0) / dur, 1);
+        const v = Math.round(from + (to - from) * (1 - Math.pow(1 - p, 3)));
+        el.textContent = v.toLocaleString('ru-RU');
+        if(onStep) onStep(v);
+        if(p < 1) requestAnimationFrame(frame);
+      })(t0);
+    }
+    /* mode: 'silent' — просто показать число, 'first' — проиграть счёт с нуля,
+       'update' — плавно догнать изменившееся число и слегка «подпрыгнуть». */
+    function applyValue(el, to, mode, onStep){
+      to = Math.max(0, Math.round(to));
+      if(mode === 'silent'){ el.textContent = to.toLocaleString('ru-RU'); if(onStep) onStep(to); return; }
+      let from = valueOf(el);
+      if(from === to){
+        if(mode === 'update') return;      // нечего показывать — не мигаем
+        from = 0;                          // в разметке уже стоит это число — считаем с нуля
+      }
+      countUp(el, from, to, mode === 'first' ? 1400 : 450, onStep);
+      if(mode === 'update') bump(el);
+    }
+    function apply(data, mode){
+      if(!data) return;
+      if(stVisits && typeof data.visits === 'number') applyValue(stVisits, data.visits, mode, setVisitsWord);
+      if(stTools && typeof data.tools === 'number' && data.tools > 0) applyValue(stTools, data.tools, mode);
+      cacheWrite({ visits: data.visits, tools: data.tools, date: data.date });
+    }
+    function flush(){
+      if(!pending || !visible) return;
+      const d = pending; pending = null; shown = true;
+      apply(d, 'first');
+    }
+    function refresh(){
+      fetch('/api/stats.php?peek=1', { cache:'no-store', credentials:'omit' })
+        .then(r => (r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))))
+        .then(d => {
+          if(!d || d.ok !== true) throw new Error('no data');
+          if(!shown){ pending = d; return; }
+          apply(d, 'update');
+        })
+        .catch(() => {});
+    }
+
+    // Последнее известное значение — сразу, пока идёт запрос (без анимации).
+    const cachedStats = cacheRead();
+    if(cachedStats){
+      if(stTools && typeof cachedStats.tools === 'number') applyValue(stTools, cachedStats.tools, 'silent');
+      if(stVisits && typeof cachedStats.visits === 'number' && cachedStats.date === todayKey()) applyValue(stVisits, cachedStats.visits, 'silent');
+    }
+
+    // Свежие числа присылает js/ui.js (он же учитывает текущий визит).
+    document.addEventListener('cdstats', e => { pending = e.detail; flush(); });
+    if(window.__cdStats){ pending = window.__cdStats; flush(); }
+
+    // Анимацию запускаем, когда блок статистики попал в вьюпорт — как в макете.
+    const statsBlock = $('statsBlock');
+    if(statsBlock && 'IntersectionObserver' in window){
+      const cio = new IntersectionObserver(es => es.forEach(e => {
+        if(e.isIntersecting){ visible = true; flush(); cio.disconnect(); }
+      }), { threshold:.4 });
+      cio.observe(statsBlock);
+    } else {
+      visible = true; flush();
+    }
+
+    // Обновление раз в минуту и при возврате на вкладку (без учёта визита).
+    setInterval(refresh, 60000);
+    document.addEventListener('visibilitychange', () => { if(!document.hidden) refresh(); });
+  }
 })();

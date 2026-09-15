@@ -62,42 +62,42 @@ if ('serviceWorker' in navigator) {
 
 // ─── «Другие инструменты» — быстрые ссылки на всех страницах ───
 const TOOLS = [
-  ['💼', 'Налог фрилансера', '/calculators/tax-freelancer.html'],
-  ['🏖️', 'Отпускные', '/calculators/vacation-pay.html'],
-  ['🏠', 'Ипотека', '/calculators/mortgage.html'],
-  ['💰', 'Калькулятор вкладов', '/calculators/deposit.html'],
-  ['📄', 'Резюме', '/generators/resume.html'],
-  ['✍️', 'Доверенность', '/generators/power-of-attorney.html'],
-  ['📋', 'Договор', '/generators/contract.html'],
-  ['🗓️', 'Заявление на отпуск', '/generators/leave-request.html'],
-  ['🖼️', 'Сжатие изображений', '/converters/image-converter.html'],
-  ['📑', 'CSV → Excel', '/converters/csv-to-xlsx.html'],
-  ['📄', 'PDF → Word', '/converters/pdf-to-word.html'],
+  ['💼', 'Налог фрилансера', '/calculators/finance/tax-freelancer/'],
+  ['🏖️', 'Отпускные', '/calculators/finance/vacation-pay/'],
+  ['🏠', 'Ипотека', '/calculators/finance/mortgage/'],
+  ['💰', 'Калькулятор вкладов', '/calculators/finance/deposit/'],
+  ['📄', 'Резюме', '/files/resume/'],
+  ['✍️', 'Доверенность', '/files/power-of-attorney/'],
+  ['📋', 'Договор', '/files/contract/'],
+  ['🗓️', 'Заявление на отпуск', '/files/leave-request/'],
+  ['🖼️', 'Сжатие изображений', '/converters/image-converter/'],
+  ['📑', 'CSV → Excel', '/converters/csv-to-xlsx/'],
+  ['📄', 'PDF → Word', '/converters/pdf-to-word/'],
   ['🎮', 'Мини-игры', '/games/'],
-  ['📱', 'QR-код', '/converters/qr-generator.html'],
-  ['💳', 'Пеня', '/calculators/penalty.html'],
-  ['🧾', 'НДС', '/calculators/vat.html'],
-  ['🧱', 'Кирпич', '/calculators/brick.html'],
-  ['👪', 'Алименты', '/calculators/alimony.html'],
-  ['🧻', 'Обои', '/calculators/wallpaper.html'],
+  ['📱', 'QR-код', '/converters/qr-generator/'],
+  ['💳', 'Пеня', '/calculators/finance/penalty/'],
+  ['🧾', 'НДС', '/calculators/finance/vat/'],
+  ['🧱', 'Кирпич', '/calculators/construction/brick/'],
+  ['👪', 'Алименты', '/calculators/finance/alimony/'],
+  ['🧻', 'Обои', '/calculators/construction/wallpaper/'],
   ['🏗️', 'Стройка и ремонт', '/calculators/construction/'],
-  ['🔲', 'Плитка', '/calculators/construction/tile.html'],
-  ['🪵', 'Ламинат', '/calculators/construction/laminate.html'],
-  ['🪨', 'Штукатурка', '/calculators/construction/plaster.html'],
-  ['🪣', 'Краска', '/calculators/construction/paint.html'],
+  ['🔲', 'Плитка', '/calculators/construction/tile/'],
+  ['🪵', 'Ламинат', '/calculators/construction/laminate/'],
+  ['🪨', 'Штукатурка', '/calculators/construction/plaster/'],
+  ['🪣', 'Краска', '/calculators/construction/paint/'],
   ['🧮', 'Финансы и налоги', '/calculators/finance/'],
-  ['🏦', 'Кредит', '/calculators/finance/credit.html'],
-  ['🤒', 'Больничный', '/calculators/finance/sick-leave.html'],
-  ['👶', 'Декретные', '/calculators/finance/maternity.html'],
-  ['📊', 'НДФЛ и вычеты', '/calculators/finance/ndfl.html'],
-  ['🧑‍💼', 'Взносы ИП', '/calculators/finance/ip-insurance.html'],
-  ['⏰', 'Задержка зарплаты', '/calculators/finance/salary-delay.html'],
-  ['📈', 'Сложный процент', '/calculators/finance/compound-interest.html'],
-  ['📅', 'Средний заработок', '/calculators/finance/average-earnings.html'],
-  ['💳', 'Счёт', '/generators/invoice.html'],
-  ['📊', 'Отчёт', '/generators/report.html'],
-  ['🔎', 'DaData', '/converters/dadata.html'],
-  ['🔤', 'SEO транслит', '/converters/seo-translit.html']
+  ['🏦', 'Кредит', '/calculators/finance/credit/'],
+  ['🤒', 'Больничный', '/calculators/finance/sick-leave/'],
+  ['👶', 'Декретные', '/calculators/finance/maternity/'],
+  ['📊', 'НДФЛ и вычеты', '/calculators/finance/ndfl/'],
+  ['🧑‍💼', 'Взносы ИП', '/calculators/finance/ip-insurance/'],
+  ['⏰', 'Задержка зарплаты', '/calculators/finance/salary-delay/'],
+  ['📈', 'Сложный процент', '/calculators/finance/compound-interest/'],
+  ['📅', 'Средний заработок', '/calculators/finance/average-earnings/'],
+  ['💳', 'Счёт', '/files/invoice/'],
+  ['📊', 'Отчёт', '/files/report/'],
+  ['🔎', 'DaData', '/converters/dadata/'],
+  ['🔤', 'SEO транслит', '/converters/seo-translit/']
 ];
 function buildRelated() {
   const footer = document.querySelector('.site-footer') || document.querySelector('footer');
@@ -204,7 +204,7 @@ function initPopular() {
 
 async function bootSearch() {
   try {
-    const m = await import('/js/search-index.js?v=1');
+    const m = await import('/js/search-index.js?v=3');
     SEARCH = m.SEARCH; POPULAR = m.POPULAR;
     initSearch();
     initPopular();
@@ -213,6 +213,116 @@ async function bootSearch() {
   }
 }
 bootSearch();
+
+// ─── Шапка: выпадающее меню категорий (бургер на телефоне, аккордеон внутри) ───
+function initNav() {
+  const nav = document.getElementById('mainNav');
+  if (!nav) return;
+  const burger = document.getElementById('navBurger');
+  const isNarrow = () => !!burger && getComputedStyle(burger).display !== 'none';
+  const closeAll = () => {
+    nav.classList.remove('open');
+    if (burger) burger.setAttribute('aria-expanded', 'false');
+    nav.querySelectorAll('.nav-item.open').forEach((it) => {
+      it.classList.remove('open');
+      const c = it.querySelector('.nav-caret');
+      if (c) c.setAttribute('aria-expanded', 'false');
+    });
+  };
+  if (burger) {
+    burger.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
+  // Кнопка-шеврон: раскрывает категорию на телефоне (на десктопе панель
+  // открывается наведением/фокусом через CSS и кнопка скрыта).
+  nav.querySelectorAll('.nav-caret').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const item = btn.closest('.nav-item');
+      if (!item) return;
+      const open = item.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (!open) return;
+      nav.querySelectorAll('.nav-item.open').forEach((o) => {
+        if (o === item) return;
+        o.classList.remove('open');
+        const c = o.querySelector('.nav-caret');
+        if (c) c.setAttribute('aria-expanded', 'false');
+      });
+    });
+  });
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#mainNav') || e.target.closest('#navBurger') ||
+        e.target.closest('.site-header') || e.target.closest('#header')) return;
+    closeAll();
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAll(); });
+  nav.querySelectorAll('a').forEach((a) => {
+    a.addEventListener('click', () => { if (isNarrow()) closeAll(); });
+  });
+  // Активная категория — по адресу текущей страницы (вручную класс не нужен)
+  const path = location.pathname.replace(/index\.html$/, '');
+  nav.querySelectorAll('.nav-item').forEach((item) => {
+    const a = item.querySelector('.nav-link');
+    const href = a ? a.getAttribute('href') : '';
+    if (!href || href === '/') return;
+    if (path === href || path.indexOf(href) === 0) {
+      item.classList.add('is-active');
+      a.setAttribute('aria-current', 'page');
+    }
+  });
+}
+initNav();
+
+// ─── Мобильная панель: поиск и кнопки шапки внутрь .main-nav ───
+// На телефоне строка шапки не вмещает поиск и кнопки, поэтому при видимом
+// бургере (.nav-burger) переносим их в блок .nav-extra внутри панели меню,
+// а при возврате на десктоп возвращаем на прежние места (порядок сохраняется).
+function syncNavExtra() {
+  const nav = document.getElementById('mainNav');
+  const burger = document.getElementById('navBurger');
+  if (!nav) return;
+  const narrow = !!burger && getComputedStyle(burger).display !== 'none' &&
+    document.documentElement.clientWidth <= 760;
+  const actions = document.querySelector('.head-cta') || document.querySelector('.header-actions');
+  let extra = nav.querySelector('.nav-extra');
+
+  if (narrow) {
+    const parts = [document.querySelector('.search-wrap'), actions].filter(Boolean);
+    if (!parts.length) return;
+    if (!extra) {
+      extra = document.createElement('div');
+      extra.className = 'nav-extra';
+      nav.appendChild(extra);
+    }
+    if (!nav.__extraHome) nav.__extraHome = [];
+    parts.forEach((el) => {
+      if (el.parentElement === extra) return;
+      nav.__extraHome.push({ el, parent: el.parentElement, next: el.nextElementSibling });
+      extra.appendChild(el);
+    });
+    return;
+  }
+
+  if (!extra) return;
+  const home = (nav.__extraHome || []).slice().reverse(); // в обратном порядке — чтобы «соседи» уже вернулись
+  home.forEach((h) => {
+    try {
+      if (h.parent && h.next && h.next.parentElement === h.parent) h.parent.insertBefore(h.el, h.next);
+      else if (h.parent) h.parent.appendChild(h.el);
+    } catch (e) { /* элемент уже удалён со страницы — игнорируем */ }
+  });
+  nav.__extraHome = [];
+  extra.remove();
+}
+syncNavExtra();
+let navExtraTimer = null;
+window.addEventListener('resize', () => {
+  clearTimeout(navExtraTimer);
+  navExtraTimer = setTimeout(syncNavExtra, 150);
+});
 
 // ─── Кнопки действий: поделиться, копировать, наверх, «на рабочий стол» ───
 const ICON_SHARE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg>';
@@ -276,3 +386,25 @@ function initActions() {
   }
 }
 initActions();
+
+// ─── Учёт посещения (своя статистика без cookie: см. api/stats.php) ───
+// Один запрос на открытие страницы: сервер прибавляет сегодняшний визит и
+// возвращает числа, которые главная показывает в блоке статистики.
+// Запрос летит до того, как проснётся js/home.js (скрипты модульные и выполняются
+// по порядку), поэтому на главной в цифрах сразу учитывается текущий визит.
+// Если счётчик недоступен, через 5 с запрос отменяется — на страницу это не влияет.
+if (location.protocol === 'http:' || location.protocol === 'https:') {
+  const ctl = (typeof AbortController === 'function') ? new AbortController() : null;
+  if (ctl) setTimeout(() => ctl.abort(), 5000);
+  fetch('/api/stats.php', {
+    cache: 'no-store', credentials: 'omit', keepalive: true,
+    signal: ctl ? ctl.signal : undefined
+  })
+    .then((r) => (r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))))
+    .then((d) => {
+      if (!d || d.ok !== true) return;
+      window.__cdStats = d;
+      document.dispatchEvent(new CustomEvent('cdstats', { detail: d }));
+    })
+    .catch(() => { /* счётчик недоступен (нет PHP, офлайн) — страница работает как обычно */ });
+}
