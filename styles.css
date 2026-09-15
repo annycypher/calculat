@@ -103,7 +103,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .nav-caret svg { transition: transform .18s ease; }
 .nav-panel {
   position: absolute; top: calc(100% + 10px); left: 0; z-index: 60;
-  display: none; min-width: 300px; padding: 8px;
+  display: none; min-width: 260px; padding: 8px;
   background: var(--card-bg); border: 1px solid var(--border);
   border-radius: 14px; box-shadow: var(--shadow);
 }
