@@ -43,41 +43,6 @@
   }
   .glass::before{content:'';position:absolute;top:0;left:12%;right:12%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);pointer-events:none}
 
-  /* ---------- Хедер ---------- */
-  header{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
-  header.scrolled{background:rgba(11,9,19,.72);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-bottom-color:var(--line)}
-  .head-in{display:flex;align-items:center;justify-content:space-between;height:76px}
-  .logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--txt)}
-  .logo-mark{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:rgba(139,92,246,.16);border:1px solid rgba(167,139,250,.35);color:var(--vio)}
-  .logo b{font-family:'Unbounded';font-weight:600;font-size:19px}
-  .logo b span{color:var(--vio)}
-  /* ---------- Меню с выпадающими категориями (тёмное стекло) ---------- */
-  .main-nav{display:flex;align-items:center;gap:26px;margin-left:auto}
-  .nav-item{position:relative;display:flex;align-items:center}
-  .nav-link{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;color:var(--mut);text-decoration:none;font-weight:600;font-size:14.5px;transition:color .2s}
-  .nav-link:hover{color:var(--txt)}
-  .nav-item > .nav-link::after{content:'';width:0;height:0;margin-left:1px;border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid currentColor;opacity:.5;transition:transform .18s ease,opacity .18s ease}
-  .nav-item:hover > .nav-link::after,.nav-item:focus-within > .nav-link::after{transform:rotate(180deg);opacity:.9}
-  .nav-item.is-active > .nav-link{color:var(--vio)}
-  .nav-item-plain > .nav-link::after{display:none}
-  .nav-caret{display:none}
-  .nav-caret svg{transition:transform .18s ease}
-  .nav-panel{position:absolute;top:calc(100% + 14px);left:0;z-index:60;display:none;min-width:260px;padding:10px;
-    background:rgba(17,14,30,.95);border:1px solid var(--line);border-radius:16px;
-    box-shadow:0 24px 60px -24px rgba(0,0,0,.85);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
-  /* Зазор над панелью (14px) курсор сам не ловит: при движении мыши вниз :hover у .nav-item
-     теряется и меню закрывается. Прозрачный «мостик» закрывает зазор. */
-  .nav-panel::before{content:'';position:absolute;left:0;right:0;top:-14px;height:14px}
-  .nav-item:hover > .nav-panel,.nav-item:focus-within > .nav-panel,.nav-item.open > .nav-panel{display:block}
-  .nav-panel a{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:12px;color:var(--txt);text-decoration:none;font-weight:600;font-size:14px;white-space:nowrap}
-  .nav-panel a:hover{background:var(--glass-2)}
-  .nav-panel b{margin-left:auto;font-size:13px;font-weight:600;color:var(--mut)}
-  .nav-panel .nav-soon{margin-left:auto;padding:1px 8px;font-size:11.5px;color:var(--mut);border:1px dashed var(--line);border-radius:999px}
-  .nav-panel .nav-soon-item{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:12px;color:var(--mut);font-size:14px;font-weight:600;cursor:default;white-space:nowrap}
-  .nav-panel .nav-all{margin-top:6px;border-top:1px solid var(--line);border-radius:0 0 12px 12px;color:var(--vio)}
-  .nav-burger{display:none;width:44px;height:44px;border-radius:12px;background:var(--glass);border:1px solid var(--line);color:var(--txt);cursor:pointer;place-items:center}
-  .nav-burger:hover{background:var(--glass-2)}
-  .head-cta{display:flex;align-items:center;gap:12px}
 
   /* ---------- Кнопки ---------- */
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 24px;border-radius:13px;border:1px solid var(--line);font-family:'Manrope';font-weight:600;font-size:14.5px;cursor:pointer;text-decoration:none;transition:transform .25s,border-color .25s,background .25s,box-shadow .25s;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
@@ -241,34 +206,6 @@
     .hero-banner{flex:none;width:min(520px,94vw)}
   }
   @media(max-width:760px){
-    .head-cta .btn{display:none}
-    .main-nav{position:fixed;top:76px;left:16px;right:16px;z-index:60;display:none;flex-direction:column;align-items:stretch;gap:2px;padding:14px;border-radius:var(--r);
-      background:rgba(17,14,30,.97);border:1px solid var(--line);box-shadow:0 24px 60px -24px rgba(0,0,0,.85);
-      max-height:calc(100vh - 100px);overflow-y:auto;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
-    .main-nav.open{display:flex}
-    .nav-burger{display:grid}
-    .nav-item{display:block}
-    .nav-item-plain > .nav-link{padding-right:12px}
-    .nav-item > .nav-link{padding:13px 44px 13px 12px;border-radius:12px}
-    .nav-item > .nav-link::after{display:none}
-    .nav-caret{display:grid;position:absolute;right:6px;top:8px;width:36px;height:36px;place-items:center;border:0;border-radius:10px;background:transparent;color:var(--mut);cursor:pointer}
-    .nav-item.open > .nav-caret{color:var(--vio)}
-    .nav-item.open > .nav-caret svg{transform:rotate(180deg)}
-    .nav-panel{position:static;display:none;min-width:0;margin:0;padding:0 0 4px 10px;background:transparent;border:0;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
-    .nav-item.open > .nav-panel{display:block}
-    /* На телефоне панель статичная, в потоке: мостик лёг бы на соседний пункт меню. */
-    .nav-panel::before{display:none}
-    .nav-panel a{padding:12px 10px;white-space:normal}
-    /* на телефоне переносы снова разрешены: узкий экран важнее одной строки */
-    .nav-panel .nav-soon-item{white-space:normal}
-    /* Поиск и кнопки переезжают внутрь панели меню (переносит ui.js → syncNavExtra):
-       на телефоне они не влезают в строку шапки. */
-    .main-nav .nav-extra{display:flex;flex-direction:column;gap:12px;margin-top:12px;padding-top:14px;border-top:1px solid var(--line)}
-    .main-nav .nav-extra .search-wrap{display:block;flex:0 0 auto}
-    .main-nav .nav-extra .search-input{width:100%}
-    .main-nav .nav-extra .search-dropdown{left:0;right:0;min-width:0}
-    .main-nav .nav-extra .head-cta{display:flex;margin-left:0}
-    .main-nav .nav-extra .head-cta .icon-btn{display:grid}
     .stats{flex-direction:column;gap:16px}
     .stat + .stat{border-left:none;border-top:1px solid var(--line);padding-top:16px}
     .stat{padding:0}
@@ -276,13 +213,6 @@
     .hero-banner{width:min(400px,92vw)}
   }
   
-    .logo-mark svg{display:block;width:20px;height:20px}
-    /* Иконочные кнопки в шапке: тема + установка PWA (как на текущей главной) */
-    .icon-btn{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--glass);
-      border:1px solid var(--line);color:var(--txt);font-size:17px;line-height:1;cursor:pointer;
-      -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);transition:background .25s,border-color .25s,transform .25s}
-    .icon-btn:hover{background:var(--glass-2);border-color:var(--line-2);transform:translateY(-2px)}
-    @media(max-width:600px){.head-cta .icon-btn{display:none}}
     /* Заголовки секций, перенесённых с главной */
     .section-title{font-family:'Unbounded',sans-serif;font-weight:600;font-size:clamp(23px,3vw,34px);line-height:1.2;margin:0 0 4px}
     .section-title .accent{color:var(--vio)}
@@ -313,22 +243,6 @@
     @media(max-width:960px){.grid{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:760px){.grid{grid-template-columns:1fr}}
   
-    /* Поиск в шапке */
-    .search-wrap{position:relative}
-    .search-input{width:190px;padding:9px 14px;border-radius:999px;font-family:'Manrope',sans-serif;font-size:14px;
-      color:var(--txt);background:var(--glass);border:1px solid var(--line);outline:none;
-      -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);transition:border-color .2s,box-shadow .2s,background .2s}
-    .search-input::placeholder{color:rgba(154,146,176,.7)}
-    .search-input:focus{border-color:rgba(167,139,250,.55);box-shadow:0 0 0 3px rgba(167,139,250,.14);background:var(--glass-2)}
-    .search-input:focus-visible{outline:none}
-    .search-input::-webkit-search-cancel-button{-webkit-appearance:none}
-    .search-dropdown{position:absolute;top:calc(100% + 10px);right:0;min-width:300px;max-width:90vw;padding:6px;border-radius:14px;
-      background:rgba(17,13,29,.92);border:1px solid var(--line);box-shadow:0 24px 48px -22px rgba(0,0,0,.75);z-index:60;
-      -webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
-    .search-dropdown[hidden]{display:none}
-    .search-dropdown a{display:block;padding:10px 12px;border-radius:10px;font-size:14px;color:var(--txt);text-decoration:none;transition:background .15s,color .15s}
-    .search-dropdown a:hover{background:var(--glass-2);color:var(--vio)}
-    .search-none{padding:10px 12px;color:var(--mut);font-size:14px}
     /* Чипы */
     .chips{display:flex;flex-wrap:wrap;gap:10px}
     .chip{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;font-size:14px;font-weight:600;
@@ -352,9 +266,6 @@
       border:1px solid rgba(167,139,250,.3);color:var(--txt);font-size:14.5px}
     section[aria-label="Другие инструменты"] .chips{margin-top:18px}
     /* Адаптив поиска */
-    @media(max-width:1100px){.search-input{width:150px}}
-    @media(max-width:900px){.search-input{width:130px}}
-    @media(max-width:600px){.search-wrap{display:none}}
     @media(max-width:960px){.prose{padding:28px 24px}}
     /* Орбы: без анимации на мобильных и при reduced-motion */
     @media(max-width:760px){.orb{animation:none;filter:blur(70px)}}
@@ -421,13 +332,11 @@
   background:linear-gradient(180deg,rgba(255,255,255,.86),rgba(255,255,255,.64));
   border-color:var(--line)}
 :root[data-theme="light"] .glass::before{background:linear-gradient(90deg,transparent,rgba(255,255,255,.95),transparent)}
-:root[data-theme="light"] header.scrolled{background:rgba(236,238,248,.82)}
 :root[data-theme="light"] .card{background:linear-gradient(180deg,rgba(255,255,255,.94),rgba(255,255,255,.8))}
 :root[data-theme="light"] .card:hover{background:linear-gradient(180deg,#fff,rgba(255,255,255,.92));
   box-shadow:0 18px 40px -22px rgba(109,40,217,.35)}
 :root[data-theme="light"] .chip{background:rgba(255,255,255,.88)}
 :root[data-theme="light"] .chip:hover{background:#fff}
-:root[data-theme="light"] .search-dropdown{background:rgba(255,255,255,.97);box-shadow:0 24px 48px -22px rgba(30,20,60,.35)}
 :root[data-theme="light"] .t-inp{background:rgba(30,20,60,.05);color:var(--txt)}
 :root[data-theme="light"] .t-inp::placeholder{color:rgba(92,85,115,.6)}
 :root[data-theme="light"] .t-res{background:rgba(30,20,60,.035);border-color:rgba(30,20,60,.16)}

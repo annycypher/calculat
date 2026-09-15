@@ -13,6 +13,8 @@
   README.md, ПЛАН_ПРОДВИЖЕНИЯ.md и сама папка sweb-migration.
   Из папки api уходит только код (stats.php): папку api/data с числами счётчика
   посещений создаёт на сервере сам PHP, локальные файлы её не перезаписывают.
+  ВАЖНО: header.css (единая тёмная шапка) перечислен в белом списке $files —
+  без него файл на сервер не уедет и шапка останется старой.
 #>
 param([switch]$DryRun)
 
@@ -39,7 +41,7 @@ $dirs = @('about', 'api', 'calculators', 'converters', 'files', 'fonts', 'games'
         Where-Object { Test-Path (Join-Path $root $_) }
 # api/data — рабочее хранилище счётчика посещений: живёт только на сервере
 function Test-Uploadable([string]$fullPath) { return $fullPath -notmatch '\\api\\data\\' }
-$files = @('index.html', 'home.css', 'styles.css', 'games.css', '404.html', 'search.html', 'privacy.html',
+$files = @('index.html', 'home.css', 'header.css', 'styles.css', 'games.css', '404.html', 'search.html', 'privacy.html',
            'sitemap.xml', 'robots.txt', 'manifest.webmanifest') |
          Where-Object { Test-Path (Join-Path $root $_) }
 # .htaccess для sweb лежит в этой папке; на сервер уходит в корень сайта под тем же именем
