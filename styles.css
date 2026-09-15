@@ -116,6 +116,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
   white-space: nowrap;
 }
 .nav-panel a:hover { background: var(--primary-soft); color: var(--primary); }
+/* Зазор над панелью (10px) курсор сам не ловит: при движении мыши вниз ':hover' у .nav-item
+   теряется и меню закрывается. Прозрачный «мостик» закрывает зазор. */
+.nav-panel::before { content: ''; position: absolute; left: 0; right: 0; top: -10px; height: 10px; }
 .nav-panel b { margin-left: auto; font-size: 13px; font-weight: 600; color: var(--text-muted); }
 .nav-panel .nav-soon {
   margin-left: auto; padding: 1px 8px; font-size: 12px; color: var(--text-muted);
@@ -301,6 +304,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
     background: transparent; border: 0; box-shadow: none;
   }
   .nav-item.open > .nav-panel { display: block; }
+  /* На телефоне панель статичная, в потоке: мостик лёг бы на соседний пункт меню. */
+  .nav-panel::before { display: none; }
   .nav-panel a { padding: 10px 8px; white-space: normal; }
   /* Поиск и кнопки шапки переезжают внутрь панели меню (переносит ui.js → syncNavExtra),
      иначе на телефоне они не влезают в строку шапки. */

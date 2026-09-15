@@ -65,6 +65,9 @@
   .nav-panel{position:absolute;top:calc(100% + 14px);left:0;z-index:60;display:none;min-width:260px;padding:10px;
     background:rgba(17,14,30,.95);border:1px solid var(--line);border-radius:16px;
     box-shadow:0 24px 60px -24px rgba(0,0,0,.85);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+  /* Зазор над панелью (14px) курсор сам не ловит: при движении мыши вниз :hover у .nav-item
+     теряется и меню закрывается. Прозрачный «мостик» закрывает зазор. */
+  .nav-panel::before{content:'';position:absolute;left:0;right:0;top:-14px;height:14px}
   .nav-item:hover > .nav-panel,.nav-item:focus-within > .nav-panel,.nav-item.open > .nav-panel{display:block}
   .nav-panel a{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:12px;color:var(--txt);text-decoration:none;font-weight:600;font-size:14px;white-space:nowrap}
   .nav-panel a:hover{background:var(--glass-2)}
@@ -253,6 +256,8 @@
     .nav-item.open > .nav-caret svg{transform:rotate(180deg)}
     .nav-panel{position:static;display:none;min-width:0;margin:0;padding:0 0 4px 10px;background:transparent;border:0;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
     .nav-item.open > .nav-panel{display:block}
+    /* На телефоне панель статичная, в потоке: мостик лёг бы на соседний пункт меню. */
+    .nav-panel::before{display:none}
     .nav-panel a{padding:12px 10px;white-space:normal}
     /* на телефоне переносы снова разрешены: узкий экран важнее одной строки */
     .nav-panel .nav-soon-item{white-space:normal}
