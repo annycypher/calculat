@@ -16,48 +16,7 @@
   <link rel="stylesheet" href="/fonts/fonts.css" />
   <link rel="stylesheet" href="/styles.css?v=13" />
   <link rel="stylesheet" href="/header.css?v=1" />
-  <style>
-    /* Блоки SEO-текста под калькулятором — только для этой страницы.
-       Цвета и радиусы взяты из темы сайта (styles.css), поэтому блок
-       выглядит одинаково в светлой и тёмной схеме. */
-    .seo-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 18px 0 14px; }
-    .seo-step {
-      padding: 16px 14px; border-radius: var(--radius-sm);
-      background: var(--primary-soft); border: 1px solid color-mix(in srgb, var(--primary) 22%, var(--border));
-    }
-    .seo-step b { display: block; font-size: 20px; font-weight: 800; color: var(--primary); margin-bottom: 6px; }
-    .seo-step span { display: block; font-size: 13.5px; line-height: 1.5; color: var(--text-muted); }
-    .seo-step strong { color: var(--text); }
-    .seo-two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0; }
-    .seo-opt { padding: 18px 20px; border-radius: var(--radius-sm); background: var(--card-bg); border: 1px solid var(--border); box-shadow: var(--shadow); }
-    .seo-opt h3 { margin: 0 0 8px; }
-    .seo-opt ul { margin: 0; padding-left: 18px; }
-    .seo-opt li { margin-bottom: 5px; font-size: 14.5px; }
-    .seo-formula {
-      margin: 14px 0; padding: 16px 20px; border-radius: var(--radius-sm); text-align: center;
-      background: var(--primary-soft); border: 1px dashed color-mix(in srgb, var(--primary) 45%, var(--border));
-      font-weight: 700; color: var(--primary); letter-spacing: .01em;
-    }
-    .seo-faq { margin: 12px 0; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--card-bg); overflow: hidden; }
-    .seo-faq summary {
-      display: flex; justify-content: space-between; align-items: center; gap: 12px;
-      padding: 15px 18px; cursor: pointer; font-weight: 700; list-style: none;
-    }
-    .seo-faq summary:hover { color: var(--primary); }
-    .seo-faq summary::-webkit-details-marker { display: none; }
-    .seo-faq summary::after {
-      content: ''; flex: none; width: 9px; height: 9px; margin-top: -4px;
-      border-right: 2px solid var(--primary); border-bottom: 2px solid var(--primary);
-      transform: rotate(45deg); transition: transform .25s ease;
-    }
-    .seo-faq[open] summary::after { transform: rotate(-135deg); margin-top: 4px; }
-    .seo-faq-b { padding: 0 18px 16px; }
-    .seo-faq-b p { margin: 0; }
-    @media (max-width: 760px) {
-      .seo-steps { grid-template-columns: 1fr 1fr; }
-      .seo-two { grid-template-columns: 1fr; }
-    }
-  </style>
+  <link rel="stylesheet" href="/seo-article.css?v=1" />
   <meta name="theme-color" content="#6d5dfc" />
   <script type="application/ld+json">
   {
@@ -86,12 +45,12 @@
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-      { "@type": "Question", "name": "Как рассчитать ипотеку самостоятельно?", "acceptedAnswer": { "@type": "Answer", "text": "Возьмите сумму кредита, годовую ставку и срок. Месячная ставка — годовая, делённая на 12, число месяцев — срок в годах, умноженный на 12. Дальше формула аннуитета: платёж = S × i × (1 + i)ⁿ ÷ ((1 + i)ⁿ − 1), где i — месячная ставка, n — количество месяцев." } },
-      { "@type": "Question", "name": "Что выгоднее: аннуитет или дифференцированный платёж?", "acceptedAnswer": { "@type": "Answer", "text": "По суммарной переплате выгоднее дифференцированная схема: проценты начисляются на остаток долга, который убывает быстрее. По удобству и размеру одобренного кредита чаще выигрывает аннуитет, поэтому банки России почти всегда предлагают именно его." } },
-      { "@type": "Question", "name": "Какая сейчас ставка по ипотеке?", "acceptedAnswer": { "@type": "Answer", "text": "Ставка зависит от банка, программы и ключевой ставки ЦБ и пересматривается несколько раз в год. Актуальные цифры смотрите в предложениях банков на дату подачи заявки. Калькулятор посчитает платёж под любую ставку." } },
+      { "@type": "Question", "name": "Как рассчитать ипотеку самостоятельно?", "acceptedAnswer": { "@type": "Answer", "text": "Возьмите сумму кредита, годовую ставку и срок. Месячная ставка — это годовая, делённая на 12, а число месяцев — срок в годах, умноженный на 12. Дальше формула аннуитета из раздела выше: платёж = S × i × (1 + i)ⁿ ÷ ((1 + i)ⁿ − 1). Проще вбить четыре числа в калькулятор — он посчитает без ошибок в степенях." } },
+      { "@type": "Question", "name": "Что выгоднее: аннуитет или дифференцированный платёж?", "acceptedAnswer": { "@type": "Answer", "text": "По суммарной переплате выгоднее дифференцированная схема: проценты начисляются на остаток долга, который убывает быстрее. По удобству бюджета и размеру одобренного кредита чаще выигрывает аннуитет — поэтому банки России почти всегда предлагают именно его. На практике тип платежа чаще определяется предложением банка, а не выбором заёмщика." } },
+      { "@type": "Question", "name": "Какая сейчас ставка по ипотеке?", "acceptedAnswer": { "@type": "Answer", "text": "Ставка зависит от банка, программы и ключевой ставки ЦБ и пересматривается несколько раз в год. Актуальные цифры смотрите в предложениях банков на дату подачи заявки. Калькулятор посчитает платёж под любую ставку — подставьте свою и сравните варианты." } },
       { "@type": "Question", "name": "Можно ли погасить ипотеку досрочно?", "acceptedAnswer": { "@type": "Answer", "text": "Да. По закону о потребительском кредите банк не вправе брать за досрочное погашение комиссию или штраф — нужен только предварительный уведомительный срок, обычно до 30 дней. Выгоднее всего гасить в первые годы кредита и с сокращением срока." } },
       { "@type": "Question", "name": "Какой первоначальный взнос нужен для ипотеки?", "acceptedAnswer": { "@type": "Answer", "text": "Обычно от 15–20% стоимости жилья, по льготным программам условия отличаются. Чем больше взнос, тем меньше сумма кредита, ежемесячный платёж и переплата, а часто и сама ставка." } },
-      { "@type": "Question", "name": "Какой доход нужен для одобрения ипотеки?", "acceptedAnswer": { "@type": "Answer", "text": "Ориентируйтесь на правило: платёж по ипотеке не должен превышать 40–50% дохода. При платеже 40 000 ₽ банк обычно ждёт доход от 80 000–100 000 ₽ в месяц. Учитываются другие кредиты и иждивенцы." } }
+      { "@type": "Question", "name": "Какой доход нужен для одобрения ипотеки?", "acceptedAnswer": { "@type": "Answer", "text": "Ориентируйтесь на правило «платёж не больше 40–50% дохода». Банк смотрит совокупный доход и учитывает другие кредиты. Точные требования у каждого банка свои." } }
     ]
   }
   </script>
@@ -171,6 +130,13 @@
       <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/calculators/">Калькуляторы</a> / <a href="/calculators/finance/">Финансы и налоги</a> / Ипотека</nav>
       <h1>Ипотечный калькулятор</h1>
       <p class="tool-meta">Рассчитайте аннуитетный ежемесячный платёж, переплату по процентам и общую сумму кредита. Данные не отправляются на сервер.</p>
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/calculators/finance/credit/">Кредитный калькулятор</a>
+          <a href="/calculators/finance/deposit/">Калькулятор вкладов</a>
+          <a href="/calculators/finance/ndfl/">НДФЛ и налоговые вычеты</a>
+          <a href="/calculators/finance/penalty/">Калькулятор пени</a>
+        </div>
       <p class="calc-note">Расчёты носят справочный характер.</p>
     </div>
 
@@ -321,6 +287,13 @@
           <summary>Какой доход нужен для одобрения ипотеки?</summary>
           <div class="seo-faq-b"><p>Ориентируйтесь на правило «платёж не больше 40–50% дохода». Банк смотрит совокупный доход и учитывает другие кредиты. Точные требования у каждого банка свои.</p></div>
         </details>
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/calculators/finance/credit/">Кредитный калькулятор</a>
+          <a href="/calculators/finance/deposit/">Калькулятор вкладов</a>
+          <a href="/calculators/finance/ndfl/">НДФЛ и налоговые вычеты</a>
+          <a href="/calculators/finance/penalty/">Калькулятор пени</a>
+        </div>
 
         <p class="calc-note">Расчёты носят справочный характер и не являются офертой или индивидуальной кредитной оценкой. Точные условия уточняйте в банке. Данные калькулятора не покидают ваш браузер.</p>
       </div>
