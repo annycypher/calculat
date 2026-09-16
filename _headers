@@ -15,5 +15,14 @@
 /img/*
   Cache-Control: public, max-age=604800
 
+/icons/*
+  Cache-Control: public, max-age=604800
+
+/favicon.ico
+  Cache-Control: public, max-age=604800
+
+/og-cover.png
+  Cache-Control: public, max-age=604800
+
 /styles.css
   Cache-Control: public, max-age=86400

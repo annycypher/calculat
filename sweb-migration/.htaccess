@@ -13,6 +13,8 @@ AddDefaultCharset UTF-8
   AddType text/css                            .css
   AddType font/woff2                          .woff2
   AddType image/svg+xml                       .svg
+  # .ico — иконка вкладки (favicon.ico: кадры 16, 32 и 48 внутри одного файла)
+  AddType image/x-icon                        .ico
   AddType application/manifest+json           .webmanifest
   AddType application/xml                     .xml
 </IfModule>
@@ -38,6 +40,10 @@ AddDefaultCharset UTF-8
   ExpiresByType image/svg+xml                 "access plus 14 days"
   ExpiresByType image/jpeg                    "access plus 14 days"
   ExpiresByType image/png                     "access plus 14 days"
+  # Иконки меняются редко, а браузеры кэшируют favicon особенно упорно:
+  # даём 14 дней, как картинкам.
+  ExpiresByType image/x-icon                  "access plus 14 days"
+  ExpiresByType image/vnd.microsoft.icon      "access plus 14 days"
 </IfModule>
 
 # ─────────────────────── Заголовки безопасности ───────────────────────
@@ -54,7 +60,7 @@ AddDefaultCharset UTF-8
   <FilesMatch "\.(js|mjs)$">
     Header set Cache-Control "public, max-age=604800"
   </FilesMatch>
-  <FilesMatch "\.(woff2|jpg|jpeg|png|svg)$">
+  <FilesMatch "\.(woff2|jpg|jpeg|png|svg|ico)$">
     Header set Cache-Control "public, max-age=604800"
   </FilesMatch>
   <FilesMatch "\.css$">
