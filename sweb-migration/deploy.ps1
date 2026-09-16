@@ -15,6 +15,11 @@
   посещений создаёт на сервере сам PHP, локальные файлы её не перезаписывают.
   ВАЖНО: header.css (единая тёмная шапка) перечислен в белом списке $files —
   без него файл на сервер не уедет и шапка останется старой.
+
+  Каждый файл уходит с 4 попытками: FTP sweb под плотным потоком запросов
+  иногда отвечает «553 File name not allowed» (это не про имя файла — тот же
+  файл проходит со следующей попытки). Если файл так и не уехал, скрипт
+  досылает остальные, печатает список неотправленных и возвращает код 1.
 #>
 param([switch]$DryRun)
 
@@ -100,23 +105,62 @@ function New-FtpRequest($method, $relPath) {
 function New-FtpDir($relPath) {
   try { $r = New-FtpRequest ([System.Net.WebRequestMethods+Ftp]::MakeDirectory) $relPath; $r.GetResponse().Close() } catch { }
 }
+# Текст ошибки FTP человеческим языком: у WebException полезен ответ сервера
+# (например, «553 File name not allowed»), иначе видно только «GetRequestStream».
+function Ftp-ErrorText($e) {
+  $we = $e.Exception
+  if ($we -is [System.Net.WebException] -and $we.Response) {
+    $fr = [System.Net.FtpWebResponse]$we.Response
+    return (('FTP {0} {1}' -f [int]$fr.StatusCode, $fr.StatusDescription) -replace '\s+', ' ').Trim()
+  }
+  return ([string]$we.Message -replace '\s+', ' ').Trim()
+}
+# Одна отправка с повторами. FTP sweb иногда отказывает под плотным потоком
+# запросов («553 File name not allowed»), причём это не про имя файла: тот же
+# файл проходит со следующей попытки (проверено 16.09.2026: после обрыва на
+# js/calc-paint.js тот же файл залился 3 раза из 3, бурст из 15 файлов — без ошибок).
+# Поэтому 4 попытки с растущей паузой, а не падение всей заливки.
 function Send-FtpFile($localFile, $relPath) {
   $bytes = [IO.File]::ReadAllBytes($localFile)
-  $r = New-FtpRequest ([System.Net.WebRequestMethods+Ftp]::UploadFile) $relPath
-  $r.ContentLength = $bytes.Length
-  $s = $r.GetRequestStream(); $s.Write($bytes, 0, $bytes.Length); $s.Close()
-  $r.GetResponse().Close()
+  $last = ''
+  for ($attempt = 1; $attempt -le 4; $attempt++) {
+    try {
+      $r = New-FtpRequest ([System.Net.WebRequestMethods+Ftp]::UploadFile) $relPath
+      $r.ContentLength = $bytes.Length
+      $s = $r.GetRequestStream(); $s.Write($bytes, 0, $bytes.Length); $s.Close()
+      $r.GetResponse().Close()
+      if ($attempt -gt 1) { Write-Host ("    со $attempt-й попытки: " + $relPath) -ForegroundColor DarkYellow }
+      return $true
+    } catch {
+      $last = Ftp-ErrorText $_
+      Start-Sleep -Milliseconds (600 * $attempt)
+    }
+  }
+  Write-Host ("  ! НЕ ОТПРАВЛЕН " + $relPath + " — " + $last) -ForegroundColor Red
+  return $false
 }
+# Папки и файлы идём по списку до конца: одна ошибка больше не обрывает заливку,
+# но в конце скрипт честно скажет, что именно не уехало, и вернёт код 1.
+$failed = New-Object System.Collections.Generic.List[string]
 foreach ($d in $dirs) {
   New-FtpDir $d
-  Get-ChildItem (Join-Path $root $d) -Recurse -File | Where-Object { Test-Uploadable $_.FullName } | ForEach-Object {
-    $rel = $_.FullName.Substring($root.Length + 1) -replace '\\', '/'
+  foreach ($f in (Get-ChildItem (Join-Path $root $d) -Recurse -File | Where-Object { Test-Uploadable $_.FullName })) {
+    $rel = $f.FullName.Substring($root.Length + 1) -replace '\\', '/'
     $sub = $rel.Substring(0, $rel.LastIndexOf('/'))
     New-FtpDir $sub
-    Send-FtpFile $_.FullName $rel
-    Write-Host ("  + " + $rel)
+    if (Send-FtpFile $f.FullName $rel) { Write-Host ("  + " + $rel) } else { $failed.Add($rel) }
+    Start-Sleep -Milliseconds 40
   }
 }
-foreach ($f in $files) { Send-FtpFile (Join-Path $root $f) $f; Write-Host ("  + " + $f) }
-Send-FtpFile $htaccess '.htaccess'; Write-Host '  + .htaccess (из sweb-migration)'
+foreach ($f in $files) {
+  if (Send-FtpFile (Join-Path $root $f) $f) { Write-Host ("  + " + $f) } else { $failed.Add($f) }
+  Start-Sleep -Milliseconds 40
+}
+if (Send-FtpFile $htaccess '.htaccess') { Write-Host '  + .htaccess (из sweb-migration)' } else { $failed.Add('.htaccess') }
+
+if ($failed.Count) {
+  Write-Host ("ЗАЛИВКА НЕПОЛНАЯ: не уехало файлов — " + $failed.Count + ". Скрипт можно запустить снова, он идемпотентный:") -ForegroundColor Red
+  $failed | ForEach-Object { Write-Host ("  - " + $_) -ForegroundColor Red }
+  exit 1
+}
 Write-Host 'Готово (FTP).' -ForegroundColor Green
