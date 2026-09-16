@@ -70,9 +70,14 @@ AddDefaultCharset UTF-8
     Header set Cache-Control "public, max-age=0, must-revalidate"
   </FilesMatch>
 
-  # HSTS включайте ТОЛЬКО после того, как убедились, что HTTPS работает
-  # на домене и на www (иначе можно «залипнуть» на год):
-  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  # HSTS включён 16.09.2026 по решению владельца. Перед включением проверено замером:
+  # HTTPS работает и на домене, и на www (один сертификат CN=calc-doc.ru до 11.12.2026),
+  # http://calc-doc.ru/ и http://www.calc-doc.ru/ отвечают 301 на https — «залипнуть»
+  # не на чем. Год и includeSubDomains: после первого ответа браузер ходит к домену
+  # и его поддоменам только по HTTPS и не даёт обойти ошибку сертификата, поэтому
+  # в панели sweb должно быть включено автоматическое продление сертификата —
+  # откат для уже зашедших пользователей возможен только по истечении max-age.
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
 </IfModule>
 
 # ─────────────────────── HTTPS и без www ───────────────────────
