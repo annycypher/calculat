@@ -3,18 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Конвертеры онлайн: Excel, PDF, Word, картинки, QR — CalcDoc</title>
-  <meta name="description" content="Бесплатные конвертеры CalcDoc: CSV → Excel, PDF → Word, конвертация и сжатие изображений, генератор QR-кодов, SEO-транслит и DaData-конструктор. Файлы обрабатываются в браузере, ничего не загружается на сервер." />
-  <meta name="keywords" content="конвертер csv в excel, pdf в word, сжать изображение, конвертер картинок, генератор qr кода, транслит ссылок, dadata конструктор" />
+  <title>Конвертеры онлайн: Excel, PDF, картинки, QR — CalcDoc</title>
+  <meta name="description" content="Конвертеры онлайн: CSV в Excel, PDF в Word, сжатие изображений, QR-код, SEO-транслит и DaData. Файлы обрабатываются в браузере, без загрузки на сервер." />
+  <meta name="keywords" content="конвертеры онлайн, csv в excel, pdf в word, сжать изображение, генератор qr кода, транслит онлайн, бесплатные конвертеры" />
   <link rel="canonical" href="https://calc-doc.ru/converters/" />
   <meta name="robots" content="index, follow" />
-  <meta property="og:title" content="Конвертеры онлайн: Excel, PDF, Word, картинки, QR — CalcDoc" />
-  <meta property="og:description" content="CSV → Excel, PDF → Word, изображения, QR-коды и транслит — бесплатно, прямо в браузере." />
+  <meta property="og:title" content="Конвертеры онлайн — CalcDoc" />
+  <meta property="og:description" content="CSV в Excel, PDF в Word, сжатие изображений, QR-код, транслит и DaData." />
   <meta property="og:type" content="website" />
   <link rel="manifest" href="/manifest.webmanifest" />
   <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="/fonts/fonts.css" />
   <link rel="stylesheet" href="/styles.css?v=13" />
+  <link rel="stylesheet" href="/seo-article.css?v=1" />
   <link rel="stylesheet" href="/header.css?v=1" />
   <meta name="theme-color" content="#6d5dfc" />
   <script type="application/ld+json">
@@ -22,6 +23,21 @@
   </script>
   <script type="application/ld+json">
   { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Конвертеры","item":"https://calc-doc.ru/converters/" } ] }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Конвертеры бесплатные и без регистрации?", "acceptedAnswer": { "@type": "Answer", "text": "Да. Все инструменты раздела бесплатны, регистрация и подтверждение почты не нужны, количество конвертаций не ограничено. Достаточно открыть страницу, выбрать файл и скачать результат." } },
+      { "@type": "Question", "name": "Файлы загружаются на ваш сервер?", "acceptedAnswer": { "@type": "Answer", "text": "Нет. CSV, картинки и QR обрабатываются в браузере: файл читается локально и никуда не отправляется. Исключения два: распознавание текста в PDF (OCR) подгружает из интернета только модель распознавания, а DaData-конструктор лишь собирает текст запроса к внешнему API, который выполняете вы." } },
+      { "@type": "Question", "name": "Есть ли ограничения по размеру файла?", "acceptedAnswer": { "@type": "Answer", "text": "Жёсткого лимита нет: ограничение — память браузера и время обработки. Большие CSV и многостраничные PDF обрабатываются дольше, а сжатие изображений принимает до 30 файлов за партию — можно обрабатывать их по очереди." } },
+      { "@type": "Question", "name": "Какие форматы поддерживаются?", "acceptedAnswer": { "@type": "Answer", "text": "CSV переводится в XLSX, PDF — в DOCX (сканы сохраняются изображениями или распознаются). Изображения: JPG и JPEG остаются JPG, PNG, GIF и BMP превращаются в WEBP. QR-код скачивается в PNG, JPG или SVG, а SEO-транслит и DaData работают с текстом и запросами." } },
+      { "@type": "Question", "name": "Можно ли пользоваться конвертерами на телефоне?", "acceptedAnswer": { "@type": "Answer", "text": "Да, страницы адаптированы под мобильные экраны, и скачивание файлов работает в мобильных браузерах. Для больших PDF и таблиц удобнее компьютер: обработка идёт в памяти браузера, и на телефоне она занимает больше времени." } },
+      { "@type": "Question", "name": "Что делать, если после конвертации «съехала» вёрстка?", "acceptedAnswer": { "@type": "Answer", "text": "Это особенность форматов: PDF хранит текст по координатам, а не блоками, поэтому таблицы и колонки переносятся приближённо. Поправьте структуру в Word вручную или перенесите данные через таблицу: CSV в Excel, затем вставка в документ. Для сканов включите OCR и проверьте распознанный текст." } }
+    ]
+  }
   </script>
 </head>
 <body>
@@ -112,6 +128,80 @@
         <a class="card" href="/converters/dadata/"><span class="card-icon" aria-hidden="true">🏢</span><h3>DaData-конструктор</h3><p>Сборка строк адреса, ФИО и телефона по стандарту.</p></a>
       </div>
     </div>
+    <div class="container section">
+      <div class="prose">
+        <span class="eyebrow">Конвертеры</span>
+        <h2>Конвертеры онлайн: CSV в Excel, PDF в Word, изображения, QR</h2>
+        <p class="tool-meta">Обновлено: 16 сентября 2026</p>
+        <p>Шесть конвертеров закрывают рутинные задачи с файлами: <strong>CSV в Excel, PDF в Word, сжатие изображений, генератор QR-кода, SEO-транслит и конструктор запросов DaData</strong>. Отдельная установка программ не нужна — всё работает в браузере.</p>
+        <p>Главное отличие от большинства онлайн-сервисов: файлы не загружаются на сервер. Таблицы, документы и фотографии обрабатываются на вашем устройстве, поэтому выгрузки из банка, договоры и личные фото остаются приватными.</p>
+
+        <span class="eyebrow">Инструменты</span>
+        <h2>Что делает каждый конвертер</h2>
+        <table class="seo-table">
+          <thead><tr><th>Инструмент</th><th>Задача</th><th>Результат</th></tr></thead>
+          <tbody>
+            <tr><td>CSV в Excel</td><td>Открыть выгрузку в таблице</td><td>Файл XLSX</td></tr>
+            <tr><td>PDF в Word</td><td>Править текст документа</td><td>Файл DOCX, сканы — изображения или OCR</td></tr>
+            <tr><td>Сжатие изображений</td><td>Уменьшить вес фото до 30 файлов</td><td>JPG или WEBP</td></tr>
+            <tr><td>QR-код</td><td>Ссылка, текст, Wi-Fi, контакты</td><td>PNG, JPG или SVG</td></tr>
+            <tr><td>SEO-транслит</td><td>Русский текст в латиницу для URL и домена</td><td>Slug или домен</td></tr>
+            <tr><td>DaData-конструктор</td><td>Собрать запрос к Suggest API</td><td>JSON и готовая curl-команда</td></tr>
+          </tbody>
+        </table>
+        <p class="hint">Самые частые сценарии: выгрузку из банка или CRM перевести в нормальную таблицу, полученный PDF-договор открыть в Word для правок, а фотографии товара — сжать перед загрузкой на сайт.</p>
+
+        <span class="eyebrow">Приватность</span>
+        <h2>Где обрабатываются ваши файлы</h2>
+        <ul>
+          <li><strong>Локально, без отправки на сервер:</strong> CSV в Excel, сжатие изображений, QR-код, SEO-транслит. Библиотеки загружаются на устройство, работа идёт в браузере.</li>
+          <li><strong>Локально с внешним движком:</strong> распознавание текста в PDF (OCR) скачивает только модель распознавания — сам документ остаётся у вас.</li>
+          <li><strong>Запрос к внешнему API:</strong> DaData-конструктор формирует текст запроса, а обращение к сервису выполняете вы своим токеном — поэтому он и вынесен отдельно.</li>
+        </ul>
+        <span class="eyebrow">Вопросы и ответы</span>
+        <h2>Частые вопросы о конвертерах</h2>
+
+        <details class="seo-faq">
+          <summary>Конвертеры бесплатные и без регистрации?</summary>
+          <div class="seo-faq-b"><p>Да. Все инструменты раздела бесплатны, регистрация и подтверждение почты не нужны, количество конвертаций не ограничено. Достаточно открыть страницу, выбрать файл и скачать результат.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Файлы загружаются на ваш сервер?</summary>
+          <div class="seo-faq-b"><p>Нет. CSV, картинки и QR обрабатываются в браузере: файл читается локально и никуда не отправляется. Исключения два: распознавание текста в PDF (OCR) подгружает из интернета только модель распознавания, а DaData-конструктор лишь собирает текст запроса к внешнему API, который выполняете вы.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Есть ли ограничения по размеру файла?</summary>
+          <div class="seo-faq-b"><p>Жёсткого лимита нет: ограничение — память браузера и время обработки. Большие CSV и многостраничные PDF обрабатываются дольше, а сжатие изображений принимает до 30 файлов за партию — можно обрабатывать их по очереди.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Какие форматы поддерживаются?</summary>
+          <div class="seo-faq-b"><p>CSV переводится в XLSX, PDF — в DOCX (сканы сохраняются изображениями или распознаются). Изображения: JPG и JPEG остаются JPG, PNG, GIF и BMP превращаются в WEBP. QR-код скачивается в PNG, JPG или SVG, а SEO-транслит и DaData работают с текстом и запросами.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Можно ли пользоваться конвертерами на телефоне?</summary>
+          <div class="seo-faq-b"><p>Да, страницы адаптированы под мобильные экраны, и скачивание файлов работает в мобильных браузерах. Для больших PDF и таблиц удобнее компьютер: обработка идёт в памяти браузера, и на телефоне она занимает больше времени.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Что делать, если после конвертации «съехала» вёрстка?</summary>
+          <div class="seo-faq-b"><p>Это особенность форматов: PDF хранит текст по координатам, а не блоками, поэтому таблицы и колонки переносятся приближённо. Поправьте структуру в Word вручную или перенесите данные через таблицу: CSV в Excel, затем вставка в документ. Для сканов включите OCR и проверьте распознанный текст.</p></div>
+        </details>
+
+        <p class="calc-note">Конвертация выполняется локально в браузере, файлы не передаются на сервер. Результат зависит от исходного файла: проверяйте кодировку таблиц, вёрстку документов и качество сжатых изображений. Данные не покидают ваше устройство.</p>
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/converters/csv-to-xlsx/">CSV в Excel</a>
+          <a href="/converters/pdf-to-word/">PDF в Word</a>
+          <a href="/converters/image-converter/">Сжатие изображений</a>
+          <a href="/converters/qr-generator/">Генератор QR-кода</a>
+        </div>
+      </div>
+    </div>
+
   </main>
 
   <footer class="site-footer">
