@@ -181,6 +181,9 @@
   .foot-links{display:flex;gap:22px}
   .foot-links a{color:var(--mut);text-decoration:none;font-size:13.5px;font-weight:600}
   .foot-links a:hover{color:var(--txt)}
+  /* Колонка «Полезные статьи» (фаза C2): те же .foot-links, но в столбик — без своих цветов. */
+  .footer-col{flex-direction:column;align-items:flex-start;gap:8px}
+  .footer-col .eyebrow{margin:0 0 4px}
 
   /* Появление контента — прогрессивное улучшение: элементы видимы по умолчанию,
      скрываются только когда JS активен (.js ставит инлайн-скрипт в <head>),

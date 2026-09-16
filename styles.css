@@ -180,6 +180,11 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .footer-nav { display: flex; gap: 18px; flex-wrap: wrap; }
 .footer-nav a { color: var(--text-muted); font-size: 14px; }
 .footer-nav a:hover { color: var(--text); }
+/* Колонка ссылок в подвале (фаза C2 «Полезные статьи»): те же .footer-nav / .foot-links,
+   но в столбик. Своих цветов и размеров модификатор не задаёт — оформление берётся
+   у ссылок родительского класса. */
+.footer-col { flex-direction: column; align-items: flex-start; gap: 8px; }
+.footer-col .eyebrow { margin: 0 0 4px; }
 
 /* ═══════════ Страница инструмента ═══════════ */
 .tool-layout { display: grid; grid-template-columns: 1fr; gap: 32px; }
