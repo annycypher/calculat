@@ -171,7 +171,7 @@ function initSearch() {
   if (!actions) return;
   if (document.querySelector('.search-wrap')) return; // поиск уже есть — не дублируем
   actions.insertAdjacentHTML('beforebegin',
-    '<div class="search-wrap"><input type="search" id="siteSearch" class="search-input" placeholder="Поиск по сайту…" autocomplete="off" aria-label="Поиск по сайту"><div class="search-dropdown" id="searchDrop" hidden></div></div>');
+    '<div class="search-wrap"><input type="search" id="siteSearch" class="search-input" placeholder="Поиск…" title="Поиск по сайту" autocomplete="off" aria-label="Поиск по сайту"><div class="search-dropdown" id="searchDrop" hidden></div></div>');
   const input = document.getElementById('siteSearch');
   const drop = document.getElementById('searchDrop');
   if (!input || !drop) return;

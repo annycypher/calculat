@@ -70,6 +70,11 @@
   .hero-copy{flex:1 1 360px;min-width:280px;text-align:left}
   .hero-copy h1{margin:20px 0 26px}
   .hero-copy .hero-actions{justify-content:flex-start}
+  /* Ссылка на поиск с главной: в шапке поле короткое, поэтому даём заметный путь
+     «не нашли нужный инструмент → поиск» прямо под кнопками героя. */
+  .hero-hint{margin:16px 0 0;font-size:14.5px;color:var(--mut)}
+  .hero-hint a{color:var(--vio);font-weight:600;text-decoration:none;border-bottom:1px dashed rgba(167,139,250,.5);padding-bottom:1px}
+  .hero-hint a:hover{color:var(--txt);border-bottom-color:currentColor}
   .hero-banner{flex:0 1 400px;margin:0;padding:10px;border-radius:24px}
 
   /* ---------- Баннер Calc и Doc (стоят рядом) ---------- */
