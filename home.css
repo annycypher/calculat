@@ -228,6 +228,13 @@
       box-shadow:0 18px 40px -22px rgba(139,92,246,.55)}
     .card-icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:21px;line-height:1;
       background:rgba(139,92,246,.16);border:1px solid rgba(167,139,250,.35)}
+    /* Иконки карточек: двухцветные инлайн-SVG в цветах темы (фиолетовый + циан).
+       Цвета задаются классами, а не атрибутами — работают и в светлой теме. */
+    .card-icon svg{width:24px;height:24px;display:block}
+    .card-icon .ci-a{fill:none;stroke:var(--vio);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+    .card-icon .ci-b{fill:none;stroke:var(--cyan);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+    .card-icon .ci-fa{fill:rgba(167,139,250,.22);stroke:var(--vio);stroke-width:1.5;stroke-linejoin:round}
+    .card-icon .ci-fb{fill:rgba(111,211,242,.22);stroke:var(--cyan);stroke-width:1.5;stroke-linejoin:round}
     .card h3{font-family:'Unbounded',sans-serif;font-weight:600;font-size:16px;line-height:1.35;margin:15px 0 7px}
     .card p{color:var(--mut);font-size:14px}
     /* Кнопка как на главной */
@@ -313,7 +320,7 @@
 /* ═══════════ Светлая тема главной (кнопка 🌓) ═══════════
    Дизайн тёмный по умолчанию; светлый включается кнопкой темы
    (ui.js ставит data-theme="light" на <html> и помнит выбор в localStorage
-   под общим ключом calcdocs-theme — то есть работает и на остальных страницах). */
+   под общим ключом calcdoc-theme — то есть работает и на остальных страницах). */
 :root[data-theme="light"]{
   --bg:#eceef8;
   --glass:rgba(255,255,255,.66);

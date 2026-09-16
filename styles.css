@@ -11,6 +11,7 @@
   --accent: #f4a340;
   --card-bg: #ffffff;
   --shadow: 0 8px 30px rgba(28, 25, 60, 0.08);
+  --icon-cyan: #2f9fc4;
   --radius: 16px;
   --radius-sm: 10px;
   --maxw: 1120px;
@@ -29,6 +30,7 @@
     --accent: #ffb95c;
     --card-bg: #161831;
     --shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+    --icon-cyan: #6fd3f2;
   }
 }
 
@@ -92,7 +94,18 @@ button, input, select, textarea { font: inherit; color: inherit; }
   box-shadow: var(--shadow); transition: transform .15s ease, border-color .15s ease;
 }
 .card:hover { transform: translateY(-4px); border-color: var(--primary); }
-.card-icon { font-size: 30px; margin-bottom: 6px; }
+/* Иконки карточек: двухцветные инлайн-SVG в цветах темы (как на главной).
+   Цвета задаются классами, а не атрибутами — работает и в светлой, и в тёмной теме. */
+.card-icon {
+  width: 44px; height: 44px; border-radius: 13px; display: grid; place-items: center;
+  font-size: 21px; line-height: 1; margin-bottom: 6px;
+  background: var(--primary-soft); border: 1px solid var(--border);
+}
+.card-icon svg { width: 24px; height: 24px; display: block; }
+.card-icon .ci-a { fill: none; stroke: var(--primary); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.card-icon .ci-b { fill: none; stroke: var(--icon-cyan); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.card-icon .ci-fa { fill: rgba(109, 93, 252, .18); stroke: var(--primary); stroke-width: 1.5; stroke-linejoin: round; }
+.card-icon .ci-fb { fill: rgba(75, 184, 221, .20); stroke: var(--icon-cyan); stroke-width: 1.5; stroke-linejoin: round; }
 .card h3 { margin: 0; font-size: 20px; }
 .card p { margin: 0; color: var(--text-muted); font-size: 15px; }
 .card-badge {
@@ -198,11 +211,13 @@ button, input, select, textarea { font: inherit; color: inherit; }
 :root[data-theme="light"] {
   --bg: #ffffff; --bg-soft: #f5f6fb; --text: #1b1c2e; --text-muted: #5a5c72;
   --border: #e4e6f0; --primary: #6d5dfc; --primary-dark: #5646e0; --primary-soft: #eeebff;
+  --icon-cyan: #2f9fc4;
   --accent: #f4a340; --card-bg: #ffffff; --shadow: 0 8px 30px rgba(28, 25, 60, .08);
 }
 :root[data-theme="dark"] {
   --bg: #0f1020; --bg-soft: #171830; --text: #eef0ff; --text-muted: #a6a9c8;
   --border: #2a2c4d; --primary: #7d6dff; --primary-dark: #624fff; --primary-soft: #23254a;
+  --icon-cyan: #6fd3f2;
   --accent: #ffb95c; --card-bg: #161831; --shadow: 0 8px 30px rgba(0, 0, 0, .45);
 }
 

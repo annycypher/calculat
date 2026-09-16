@@ -6,15 +6,16 @@
   <title>Генератор отчёта: таблица показателей и PDF — CalcDoc</title>
   <meta name="description" content="Генератор PDF-отчёта: титульный блок, введение, таблица показателей и выводы. Строки таблицы добавляются, документ сохраняется в PDF." />
   <meta name="keywords" content="генератор отчёта, отчёт в pdf, шаблон отчёта, отчёт с таблицей показателей, сделать отчёт онлайн, отчёт по проекту" />
-  <link rel="canonical" href="https://calc-doc.ru/files/report/" />
+  <link rel="canonical" href="https://calc-doc.ru/generators/report/" />
   <meta name="robots" content="index, follow" />
   <meta property="og:title" content="Генератор PDF-отчёта — CalcDoc" />
   <meta property="og:description" content="Соберите отчёт с таблицей показателей и выводами за пару минут." />
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
   <link rel="manifest" href="/manifest.webmanifest" />
   <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="/fonts/fonts.css" />
-  <link rel="stylesheet" href="/styles.css?v=13" />
+  <link rel="stylesheet" href="/styles.css?v=14" />
   <link rel="stylesheet" href="/seo-article.css?v=1" />
   <link rel="stylesheet" href="/header.css?v=1" />
   <meta name="theme-color" content="#6d5dfc" />
@@ -34,8 +35,8 @@
     "@type": "BreadcrumbList",
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
-      { "@type": "ListItem", "position": 2, "name": "Файлы", "item": "https://calc-doc.ru/files/" },
-      { "@type": "ListItem", "position": 3, "name": "PDF-отчёт", "item": "https://calc-doc.ru/files/report/" }
+      { "@type": "ListItem", "position": 2, "name": "Генераторы", "item": "https://calc-doc.ru/generators/" },
+      { "@type": "ListItem", "position": 3, "name": "PDF-отчёт", "item": "https://calc-doc.ru/generators/report/" }
     ]
   }
   </script>
@@ -77,16 +78,16 @@
           </div>
         </div>
         <div class="nav-item">
-          <a class="nav-link" href="/files/">Файлы</a>
-          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Файлы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
           <div class="nav-panel" id="navFiles">
-            <a href="/files/contract/">Договор</a>
-            <a href="/files/invoice/">Счёт на оплату</a>
-            <a href="/files/leave-request/">Заявление на отпуск</a>
-            <a href="/files/power-of-attorney/">Доверенность</a>
-            <a href="/files/report/">Отчёт</a>
-            <a href="/files/resume/">Резюме</a>
-            <a class="nav-all" href="/files/">Все файлы</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
           </div>
         </div>
         <div class="nav-item">
@@ -126,7 +127,7 @@
 
   <main>
     <div class="container tool-hero">
-      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/files/">Файлы</a> / PDF-отчёт</nav>
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/generators/">Генераторы</a> / PDF-отчёт</nav>
       <h1>Генератор PDF-отчёта</h1>
       <p class="tool-meta">Заполните название, показатели и выводы — получите готовый отчёт, который можно скачать в PDF.</p>
     </div>
@@ -262,8 +263,8 @@
         <span class="eyebrow">Смотрите также</span>
         <div class="seo-links">
           <a href="/converters/csv-to-xlsx/">CSV в Excel</a>
-          <a href="/files/invoice/">Счёт на оплату</a>
-          <a href="/files/contract/">Договор оказания услуг</a>
+          <a href="/generators/invoice/">Счёт на оплату</a>
+          <a href="/generators/contract/">Договор оказания услуг</a>
           <a href="/calculators/finance/ndfl/">НДФЛ и вычеты</a>
         </div>
       </div>
@@ -276,11 +277,14 @@
       <nav class="footer-nav" aria-label="Нижнее меню">
         <a href="/about/">О проекте</a>
         <a href="/calculators/">Калькуляторы</a>
-        <a href="/files/">Файлы</a>
+        <a href="/generators/">Генераторы</a>
         <a href="/converters/">Конвертеры</a>
         <a href="/privacy.html">Конфиденциальность</a>
       </nav>
     </div>
   </footer>
+  <!-- Скрипты: общий ui.js (тема, меню, «Другие инструменты») и логика генератора отчёта -->
+  <script type="module" src="/js/ui.js?v=9"></script>
+  <script type="module" src="/js/gen-report.js"></script>
 </body>
 </html>

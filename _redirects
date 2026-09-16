@@ -1,3 +1,7 @@
 # Строгий 404 для удалённой страницы инфографики
 /converters/infographic.html  /404  404
 /converters/infographic       /404  404
+
+# Переименование раздела (16.09.2026): /files/ -> /generators/ (постоянные 301)
+/files/*  /generators/:splat  301
+/files    /generators/        301

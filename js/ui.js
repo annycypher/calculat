@@ -12,7 +12,7 @@ if (yearEl) yearEl.textContent = new Date().getFullYear();
 
 // ─── Тема ───
 function getTheme() {
-  const saved = localStorage.getItem('calcdocs-theme');
+  const saved = localStorage.getItem('calcdoc-theme');
   if (saved === 'light' || saved === 'dark') return saved;
   // Новая главная — тёмная по умолчанию (data-home-dark на <html>):
   // иначе на светлой ОС тёмный дизайн открывался бы в светлом варианте.
@@ -28,7 +28,7 @@ applyTheme(getTheme());
 if (themeToggle) {
   themeToggle.addEventListener('click', () => {
     const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    localStorage.setItem('calcdocs-theme', next);
+    localStorage.setItem('calcdoc-theme', next);
     applyTheme(next);
   });
 }
@@ -66,10 +66,10 @@ const TOOLS = [
   ['🏖️', 'Отпускные', '/calculators/finance/vacation-pay/'],
   ['🏠', 'Ипотека', '/calculators/finance/mortgage/'],
   ['💰', 'Калькулятор вкладов', '/calculators/finance/deposit/'],
-  ['📄', 'Резюме', '/files/resume/'],
-  ['✍️', 'Доверенность', '/files/power-of-attorney/'],
-  ['📋', 'Договор', '/files/contract/'],
-  ['🗓️', 'Заявление на отпуск', '/files/leave-request/'],
+  ['📄', 'Резюме', '/generators/resume/'],
+  ['✍️', 'Доверенность', '/generators/power-of-attorney/'],
+  ['📋', 'Договор', '/generators/contract/'],
+  ['🗓️', 'Заявление на отпуск', '/generators/leave-request/'],
   ['🖼️', 'Сжатие изображений', '/converters/image-converter/'],
   ['📑', 'CSV → Excel', '/converters/csv-to-xlsx/'],
   ['📄', 'PDF → Word', '/converters/pdf-to-word/'],
@@ -94,8 +94,8 @@ const TOOLS = [
   ['⏰', 'Задержка зарплаты', '/calculators/finance/salary-delay/'],
   ['📈', 'Сложный процент', '/calculators/finance/compound-interest/'],
   ['📅', 'Средний заработок', '/calculators/finance/average-earnings/'],
-  ['💳', 'Счёт', '/files/invoice/'],
-  ['📊', 'Отчёт', '/files/report/'],
+  ['💳', 'Счёт', '/generators/invoice/'],
+  ['📊', 'Отчёт', '/generators/report/'],
   ['🔎', 'DaData', '/converters/dadata/'],
   ['🔤', 'SEO транслит', '/converters/seo-translit/']
 ];
@@ -117,7 +117,7 @@ const SHOW_CONSENT_BANNER = true; // поставьте false, пока на с�
 if (SHOW_CONSENT_BANNER) {
   const onPrivacy = (location.pathname || '').includes('/privacy.html');
   let consented = false;
-  try { consented = !!localStorage.getItem('calcdocs-consent'); } catch (e) {}
+  try { consented = !!localStorage.getItem('calcdoc-consent'); } catch (e) {}
   if (!onPrivacy && !consented && !document.getElementById('cookieBanner')) {
     const b = document.createElement('div');
     b.className = 'cookie-banner';
@@ -134,7 +134,7 @@ if (SHOW_CONSENT_BANNER) {
       '</div>';
     document.body.appendChild(b);
     b.querySelector('#cookieAccept').addEventListener('click', () => {
-      try { localStorage.setItem('calcdocs-consent', '1'); } catch (e) {}
+      try { localStorage.setItem('calcdoc-consent', '1'); } catch (e) {}
       b.remove();
     });
   }

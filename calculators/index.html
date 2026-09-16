@@ -11,10 +11,11 @@
   <meta property="og:title" content="Калькуляторы онлайн — CalcDoc" />
   <meta property="og:description" content="21 калькулятор по финансам, налогам, стройке и ремонту — бесплатно и без регистрации." />
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
   <link rel="manifest" href="/manifest.webmanifest" />
   <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="/fonts/fonts.css" />
-  <link rel="stylesheet" href="/styles.css?v=13" />
+  <link rel="stylesheet" href="/styles.css?v=14" />
   <link rel="stylesheet" href="/seo-article.css?v=1" />
   <link rel="stylesheet" href="/header.css?v=1" />
   <meta name="theme-color" content="#6d5dfc" />
@@ -63,16 +64,16 @@
           </div>
         </div>
         <div class="nav-item">
-          <a class="nav-link" href="/files/">Файлы</a>
-          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Файлы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
           <div class="nav-panel" id="navFiles">
-            <a href="/files/contract/">Договор</a>
-            <a href="/files/invoice/">Счёт на оплату</a>
-            <a href="/files/leave-request/">Заявление на отпуск</a>
-            <a href="/files/power-of-attorney/">Доверенность</a>
-            <a href="/files/report/">Отчёт</a>
-            <a href="/files/resume/">Резюме</a>
-            <a class="nav-all" href="/files/">Все файлы</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
           </div>
         </div>
         <div class="nav-item">
@@ -120,17 +121,17 @@
     <div class="container section">
       <h2 class="section-title">Категории</h2>
       <div class="grid">
-        <a class="card" href="/calculators/finance/"><span class="card-icon" aria-hidden="true">💰</span><h3>Финансы и налоги</h3><p>Ипотека, кредит, НДФЛ, больничный, декретные, взносы ИП, вклады, пеня, НДС — 15 калькуляторов.</p></a>
-        <a class="card" href="/calculators/construction/"><span class="card-icon" aria-hidden="true">🏗</span><h3>Стройка и ремонт</h3><p>Плитка, обои, ламинат, краска, штукатурка и кирпич — 6 калькуляторов материалов.</p></a>
+        <a class="card" href="/calculators/finance/"><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="5" y="3" width="14" height="18" rx="2"/><path class="ci-b" d="M8 6.5h8"/><circle class="ci-fb" cx="8.5" cy="11" r="0.95"/><circle class="ci-fb" cx="12" cy="11" r="0.95"/><circle class="ci-fb" cx="15.5" cy="11" r="0.95"/><circle class="ci-fb" cx="8.5" cy="15" r="0.95"/><path class="ci-b" d="M11.2 15h5.3"/></svg></span><h3>Финансы и налоги</h3><p>Ипотека, кредит, НДФЛ, больничный, декретные, взносы ИП, вклады, пеня, НДС — 15 калькуляторов.</p></a>
+        <a class="card" href="/calculators/construction/"><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path class="ci-a" d="M3 21h18"/><path class="ci-a" d="M7 21V4h12"/><path class="ci-a" d="M7 4H4"/><path class="ci-b" d="M16 4v5"/><rect class="ci-fa" x="14" y="9" width="4.4" height="3.6" rx="0.6"/></svg></span><h3>Стройка и ремонт</h3><p>Плитка, обои, ламинат, краска, штукатурка и кирпич — 6 калькуляторов материалов.</p></a>
       </div>
       <h2 class="section-title" style="margin-top:32px">Популярное</h2>
       <div class="grid">
-        <a class="card" href="/calculators/finance/tax-freelancer/"><span class="card-icon" aria-hidden="true">💼</span><h3>Налог фрилансера</h3><p>НПД и самозанятость: налог за месяц или год.</p></a>
-        <a class="card" href="/calculators/finance/mortgage/"><span class="card-icon" aria-hidden="true">🏠</span><h3>Ипотека</h3><p>Платёж, переплата и график.</p></a>
-        <a class="card" href="/calculators/finance/vacation-pay/"><span class="card-icon" aria-hidden="true">🏖️</span><h3>Отпускные</h3><p>По среднему заработку.</p></a>
-        <a class="card" href="/calculators/finance/ndfl/"><span class="card-icon" aria-hidden="true">📊</span><h3>НДФЛ и вычеты</h3><p>Сколько вернуть из бюджета.</p></a>
-        <a class="card" href="/calculators/construction/tile/"><span class="card-icon" aria-hidden="true">🔲</span><h3>Плитка</h3><p>Расход плитки и клея на площадь.</p></a>
-        <a class="card" href="/calculators/construction/wallpaper/"><span class="card-icon" aria-hidden="true">🧻</span><h3>Обои</h3><p>Сколько рулонов купить.</p></a>
+        <a class="card" href="/calculators/finance/tax-freelancer/"><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="3" y="8" width="18" height="12" rx="2"/><path class="ci-a" d="M9 8V6.5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2V8"/><path class="ci-b" d="M3 13.5h18"/><circle class="ci-fb" cx="9.6" cy="17" r="1.2"/><circle class="ci-fb" cx="14.4" cy="17" r="1.2"/><path class="ci-b" d="M15.2 15.9L8.8 18.1"/></svg></span><h3>Налог фрилансера</h3><p>НПД и самозанятость: налог за месяц или год.</p></a>
+        <a class="card" href="/calculators/finance/mortgage/"><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path class="ci-a" d="M4 11L12 4.5 20 11V20.5H4z"/><path class="ci-fa" d="M4 11L12 4.5 20 11z"/><rect class="ci-fb" x="10" y="15" width="4" height="5.5" rx="0.6"/></svg></span><h3>Ипотека</h3><p>Платёж, переплата и график.</p></a>
+        <a class="card" href="/calculators/finance/vacation-pay/"><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="3.5" y="5" width="17" height="15.5" rx="2"/><path class="ci-a" d="M3.5 9.8h17M8 3v3.6M16 3v3.6"/><circle class="ci-fb" cx="12" cy="15" r="2.6"/><path class="ci-b" d="M12 11v-1.2M12 20.2V19M7.9 15H6.7M17.3 15h-1.2"/></svg></span><h3>Отпускные</h3><p>По среднему заработку.</p></a>
+        <a class="card" href="/calculators/finance/ndfl/"><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle class="ci-fa" cx="12" cy="12" r="8.5"/><circle class="ci-b" cx="9.2" cy="9.2" r="1.5"/><circle class="ci-b" cx="14.8" cy="14.8" r="1.5"/><path class="ci-b" d="M15.6 8.4L8.4 15.6"/></svg></span><h3>НДФЛ и вычеты</h3><p>Сколько вернуть из бюджета.</p></a>
+        <a class="card" href="/calculators/construction/tile/"><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="3" y="3" width="18" height="18" rx="2"/><path class="ci-b" d="M3 9h18M3 15h18M9 3v18M15 3v18"/><rect class="ci-fa" x="9" y="3" width="6" height="6" rx="0.4"/><rect class="ci-fb" x="15" y="15" width="6" height="6" rx="0.4"/></svg></span><h3>Плитка</h3><p>Расход плитки и клея на площадь.</p></a>
+        <a class="card" href="/calculators/construction/wallpaper/"><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="3.5" y="4" width="13" height="4" rx="2"/><circle class="ci-a" cx="16.5" cy="6" r="2"/><path class="ci-fb" d="M6.5 8v10a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V8z"/></svg></span><h3>Обои</h3><p>Сколько рулонов купить.</p></a>
       </div>
       <p class="hint" style="margin-top:24px">Готовятся: УСН и ОСНО, ФОТ, точка безубыточности, амортизация, инфляция.</p>
     </div>
@@ -205,7 +206,7 @@
         <div class="seo-links">
           <a href="/calculators/finance/">Финансы и налоги</a>
           <a href="/calculators/construction/">Стройка и ремонт</a>
-          <a href="/files/">Документы</a>
+          <a href="/generators/">Документы</a>
           <a href="/converters/">Конвертеры</a>
         </div>
       </div>
@@ -219,7 +220,7 @@
       <nav class="footer-nav" aria-label="Нижнее меню">
         <a href="/about/">О проекте</a>
         <a href="/calculators/">Калькуляторы</a>
-        <a href="/files/">Файлы</a>
+        <a href="/generators/">Генераторы</a>
         <a href="/converters/">Конвертеры</a>
         <a href="/privacy.html">Конфиденциальность</a>
       </nav>

@@ -216,7 +216,7 @@
      подтягиваются свежие данные. Если счётчик недоступен (нет PHP, офлайн, открыт
      локальный файл), остаётся последнее известное значение из localStorage. */
   const stVisits = $('stVisits'), stTools = $('stTools'), stVisitsLabel = $('stVisitsLabel');
-  const STATS_CACHE = 'calcdocs-stats-v1';
+  const STATS_CACHE = 'calcdoc-stats-v1';
 
   if (stVisits || stTools){
     let pending = null, visible = false, shown = false;

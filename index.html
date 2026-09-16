@@ -10,7 +10,8 @@
   <meta name="robots" content="index, follow" />
   <meta property="og:title" content="CalcDoc — онлайн-калькуляторы и документы" />
   <meta property="og:description" content="21 калькулятор, генераторы документов и конвертеры — в браузере, без регистрации." />
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
   <link rel="manifest" href="/manifest.webmanifest" />
   <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="/fonts/fonts.css" />
@@ -50,7 +51,7 @@
       { "@type": "Question", "name": "Куда отправляются введённые данные?", "acceptedAnswer": { "@type": "Answer", "text": "Никуда: расчёт и сборка документов идут на вашем устройстве. Суммы кредита, доходы, реквизиты и загруженные файлы не передаются на сервер. Исключения прямо указаны на страницах: распознавание текста в PDF подгружает модель OCR, а DaData-конструктор лишь собирает текст запроса." } },
       { "@type": "Question", "name": "Сколько времени занимает расчёт?", "acceptedAnswer": { "@type": "Answer", "text": "Обычно 3–5 полей и одна кнопка: результат появляется сразу, без перезагрузки страницы. Примерами считаются: кредит — сумма, ставка, срок, тип платежа; больничный — доход за два года, дни и стаж; материалы для ремонта — площадь и запас." } },
       { "@type": "Question", "name": "Работает ли сайт на телефоне?", "acceptedAnswer": { "@type": "Answer", "text": "Да, интерфейс адаптирован под мобильные экраны: поля удобно заполнять с клавиатуры телефона, а игры управляются свайпами. Файлы и документы тоже можно скачивать на телефон и отправлять оттуда." } },
-      { "@type": "Question", "name": "Как найти нужный инструмент?", "acceptedAnswer": { "@type": "Answer", "text": "Откройте раздел «Калькуляторы», «Файлы» или «Конвертеры» — там перечислены все инструменты с короткими описаниями. Если название не помните, воспользуйтесь поиском по сайту: он ищет и по страницам, и по формулировкам задач." } }
+      { "@type": "Question", "name": "Как найти нужный инструмент?", "acceptedAnswer": { "@type": "Answer", "text": "Откройте раздел «Калькуляторы», «Генераторы» или «Конвертеры» — там перечислены все инструменты с короткими описаниями. Если название не помните, воспользуйтесь поиском по сайту: он ищет и по страницам, и по формулировкам задач." } }
     ]
   }
   </script>
@@ -85,16 +86,16 @@
           </div>
         </div>
         <div class="nav-item">
-          <a class="nav-link" href="/files/">Файлы</a>
-          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Файлы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
           <div class="nav-panel" id="navFiles">
-            <a href="/files/contract/">Договор</a>
-            <a href="/files/invoice/">Счёт на оплату</a>
-            <a href="/files/leave-request/">Заявление на отпуск</a>
-            <a href="/files/power-of-attorney/">Доверенность</a>
-            <a href="/files/report/">Отчёт</a>
-            <a href="/files/resume/">Резюме</a>
-            <a class="nav-all" href="/files/">Все файлы</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
           </div>
         </div>
         <div class="nav-item">
@@ -342,7 +343,7 @@
       <section id="games" style="padding: 24px 0 8px;">
         <a class="card" href="/games/" style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:26px 28px;text-decoration:none;flex-wrap:wrap;">
           <div>
-            <span class="card-icon" aria-hidden="true">🎮</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="3.5" y="8" width="17" height="8" rx="4"/><path class="ci-b" d="M8 11v2M7 12h2"/><circle class="ci-fb" cx="16.4" cy="11.2" r="1"/><circle class="ci-fb" cx="18.6" cy="13.4" r="1"/></svg></span>
             <h3 style="margin:6px 0 4px">Мини-игры: сделай перерыв</h3>
             <p style="margin:0">Разомни мозг за пару минут — без регистрации.</p>
           </div>
@@ -350,17 +351,17 @@
         </a>
         <div class="grid" style="margin-top:18px">
           <a class="card" href="/games/2048/">
-            <span class="card-icon" aria-hidden="true">🔢</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-fa" x="3" y="3" width="8" height="8" rx="2"/><rect class="ci-fb" x="13" y="3" width="8" height="8" rx="2"/><rect class="ci-fb" x="3" y="13" width="8" height="8" rx="2"/><rect class="ci-fa" x="13" y="13" width="8" height="8" rx="2"/></svg></span>
             <h3>2048</h3>
             <p>Неоновые плитки и комбо: соединяйте числа и собирайте 2048.</p>
           </a>
           <a class="card" href="/games/bubble/">
-            <span class="card-icon" aria-hidden="true">🫧</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle class="ci-fa" cx="8.5" cy="9" r="4.5"/><circle class="ci-fb" cx="16.5" cy="8" r="3"/><circle class="ci-fa" cx="13" cy="17" r="3.5"/></svg></span>
             <h3>Пузыри</h3>
             <p>Пузырьковый шутер: лопайте шары тройками и проходите уровни.</p>
           </a>
           <a class="card" href="/games/water/">
-            <span class="card-icon" aria-hidden="true">💧</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path class="ci-a" d="M8 3h8v13.5a4 4 0 0 1-8 0z"/><path class="ci-fb" d="M8 11h8v5.5a4 4 0 0 1-8 0z"/></svg></span>
             <h3>Вода</h3>
             <p>«Water Glow» — сортировка жидкостей по колбам: спокойная логика без таймеров.</p>
           </a>
@@ -374,37 +375,37 @@
         <h3 class="cat-title">Ремонт и строительство</h3>
         <div class="grid">
           <a class="card" href="/calculators/construction/">
-            <span class="card-icon" aria-hidden="true">🏗️</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path class="ci-a" d="M3 21h18"/><path class="ci-a" d="M7 21V4h12"/><path class="ci-a" d="M7 4H4"/><path class="ci-b" d="M16 4v5"/><rect class="ci-fa" x="14" y="9" width="4.4" height="3.6" rx="0.6"/></svg></span>
             <h3>Стройка и ремонт</h3>
             <p>Плитка, ламинат, штукатурка, краска, кирпич, обои — все калькуляторы ремонта.</p>
           </a>
           <a class="card" href="/calculators/construction/tile/">
-            <span class="card-icon" aria-hidden="true">🔲</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="3" y="3" width="18" height="18" rx="2"/><path class="ci-b" d="M3 9h18M3 15h18M9 3v18M15 3v18"/><rect class="ci-fa" x="9" y="3" width="6" height="6" rx="0.4"/><rect class="ci-fb" x="15" y="15" width="6" height="6" rx="0.4"/></svg></span>
             <h3>Плитка</h3>
             <p>Сколько плитки на пол или стены, с запасом.</p>
           </a>
           <a class="card" href="/calculators/construction/laminate/">
-            <span class="card-icon" aria-hidden="true">🪵</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="3" y="4" width="18" height="16" rx="1.5"/><path class="ci-b" d="M3 9.3h18M3 14.7h18M10 4v5.3M14 9.3v5.4M8 14.7V20"/></svg></span>
             <h3>Ламинат и линолеум</h3>
             <p>Упаковки ламината или метры линолеума.</p>
           </a>
           <a class="card" href="/calculators/construction/plaster/">
-            <span class="card-icon" aria-hidden="true">🪨</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="3" y="5" width="18" height="14" rx="1.5"/><path class="ci-b" d="M6 9.5c3.5 1.6 8.5 1.6 12 0M6 13.5c3.5 1.6 8.5 1.6 12 0"/></svg></span>
             <h3>Штукатурка и стяжка</h3>
             <p>Расход смеси и количество мешков.</p>
           </a>
           <a class="card" href="/calculators/construction/paint/">
-            <span class="card-icon" aria-hidden="true">🪣</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path class="ci-a" d="M6 7l1.4 13h9.2L18 7z"/><path class="ci-a" d="M5.2 7h13.6"/><path class="ci-b" d="M8.6 7a3.4 3.4 0 0 1 6.8 0"/><path class="ci-fb" d="M6.7 12h10.6l-.8 8H7.5z"/></svg></span>
             <h3>Краска и грунтовка</h3>
             <p>Расход краски и сколько банок.</p>
           </a>
           <a class="card" href="/calculators/construction/brick/">
-            <span class="card-icon" aria-hidden="true">🧱</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="3" y="5" width="18" height="14" rx="1"/><path class="ci-b" d="M3 9.7h18M3 14.3h18M9.6 5v4.7M14.4 9.7v4.6M9.6 14.3V19"/><rect class="ci-fa" x="3" y="5" width="6.6" height="4.7" rx="0.4"/></svg></span>
             <h3>Кирпич на дом</h3>
             <p>Сколько кирпича нужно на кладку стен.</p>
           </a>
           <a class="card" href="/calculators/construction/wallpaper/">
-            <span class="card-icon" aria-hidden="true">🧻</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="3.5" y="4" width="13" height="4" rx="2"/><circle class="ci-a" cx="16.5" cy="6" r="2"/><path class="ci-fb" d="M6.5 8v10a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V8z"/></svg></span>
             <h3>Обои</h3>
             <p>Сколько рулонов на комнату, с подгонкой и запасом.</p>
           </a>
@@ -413,82 +414,82 @@
         <h3 class="cat-title">Финансы и налоги</h3>
         <div class="grid">
           <a class="card" href="/calculators/finance/">
-            <span class="card-icon" aria-hidden="true">🧮</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="5" y="3" width="14" height="18" rx="2"/><path class="ci-b" d="M8 6.5h8"/><circle class="ci-fb" cx="8.5" cy="11" r="0.95"/><circle class="ci-fb" cx="12" cy="11" r="0.95"/><circle class="ci-fb" cx="15.5" cy="11" r="0.95"/><circle class="ci-fb" cx="8.5" cy="15" r="0.95"/><path class="ci-b" d="M11.2 15h5.3"/></svg></span>
             <h3>Финансы и налоги</h3>
             <p>Кредит, больничный, НДФЛ, взносы ИП — все финансовые расчёты.</p>
           </a>
           <a class="card" href="/calculators/finance/credit/">
-            <span class="card-icon" aria-hidden="true">🏦</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path class="ci-fa" d="M3 9l9-5.2L21 9z"/><path class="ci-a" d="M5.5 9.6V20M18.5 9.6V20M3 20h18"/><path class="ci-b" d="M9.2 12.5V20M14.8 12.5V20"/></svg></span>
             <h3>Кредитный калькулятор</h3>
             <p>Аннуитетный и дифференцированный платёж.</p>
           </a>
           <a class="card" href="/calculators/finance/sick-leave/">
-            <span class="card-icon" aria-hidden="true">🤒</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="4.5" y="3" width="15" height="18" rx="2"/><rect class="ci-fb" x="10.9" y="8" width="2.2" height="7" rx="0.7"/><rect class="ci-fb" x="8.5" y="10.4" width="7" height="2.2" rx="0.7"/><path class="ci-b" d="M7.5 18h9"/></svg></span>
             <h3>Больничный</h3>
             <p>Пособие по стажу и доходу.</p>
           </a>
           <a class="card" href="/calculators/finance/maternity/">
-            <span class="card-icon" aria-hidden="true">👶</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle class="ci-a" cx="9" cy="7" r="3"/><circle class="ci-b" cx="16.5" cy="10.5" r="2.3"/><path class="ci-fa" d="M4 20.5a5 5 0 0 1 10 0z"/><path class="ci-fb" d="M13.5 20.5a3.5 3.5 0 0 1 7 0z"/></svg></span>
             <h3>Декретные</h3>
             <p>По беременности и родам и по уходу.</p>
           </a>
           <a class="card" href="/calculators/finance/ndfl/">
-            <span class="card-icon" aria-hidden="true">📊</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle class="ci-fa" cx="12" cy="12" r="8.5"/><circle class="ci-b" cx="9.2" cy="9.2" r="1.5"/><circle class="ci-b" cx="14.8" cy="14.8" r="1.5"/><path class="ci-b" d="M15.6 8.4L8.4 15.6"/></svg></span>
             <h3>НДФЛ и вычеты</h3>
             <p>Имущественный и инвестиционный возврат.</p>
           </a>
           <a class="card" href="/calculators/finance/ip-insurance/">
-            <span class="card-icon" aria-hidden="true">🧑‍💼</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path class="ci-a" d="M4 9l1.5-4.5h13L20 9"/><path class="ci-a" d="M5 9v11.5h14V9"/><path class="ci-b" d="M4 9c2 2.2 4 2.2 6 0s4-2.2 6 0 4 2.2 4 0"/><rect class="ci-fb" x="10" y="13.5" width="4" height="7" rx="0.6"/></svg></span>
             <h3>Взносы ИП</h3>
             <p>Фиксированные + 1% свыше лимита.</p>
           </a>
           <a class="card" href="/calculators/finance/salary-delay/">
-            <span class="card-icon" aria-hidden="true">⏰</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="3" y="6" width="18" height="12" rx="2"/><path class="ci-a" d="M3.4 7l8.6 5.8L20.6 7"/><circle class="ci-fa" cx="17.5" cy="17.5" r="4.2"/><path class="ci-b" d="M17.5 15.4v2.2l1.5 1"/></svg></span>
             <h3>Задержка зарплаты</h3>
             <p>Компенсация по ст. 236 ТК РФ.</p>
           </a>
           <a class="card" href="/calculators/finance/compound-interest/">
-            <span class="card-icon" aria-hidden="true">📈</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path class="ci-a" d="M4 4v16h16"/><path class="ci-b" d="M6 16.5l4-4.5 3 2.5 4.5-6"/><path class="ci-b" d="M14.6 8.5h3.6v3.6"/></svg></span>
             <h3>Сложный процент</h3>
             <p>Доходность с пополнением.</p>
           </a>
           <a class="card" href="/calculators/finance/average-earnings/">
-            <span class="card-icon" aria-hidden="true">📅</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="3.5" y="5" width="17" height="15.5" rx="2"/><path class="ci-a" d="M3.5 9.8h17M8 3v3.6M16 3v3.6"/><rect class="ci-fb" x="6.8" y="12.5" width="2.6" height="5" rx="0.6"/><rect class="ci-fa" x="10.7" y="14.5" width="2.6" height="3" rx="0.6"/><rect class="ci-fb" x="14.6" y="11.5" width="2.6" height="6" rx="0.6"/></svg></span>
             <h3>Средний заработок</h3>
             <p>Средний дневной и месячный, стаж.</p>
           </a>
           <a class="card" href="/calculators/finance/mortgage/">
-            <span class="card-icon" aria-hidden="true">🏠</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path class="ci-a" d="M4 11L12 4.5 20 11V20.5H4z"/><path class="ci-fa" d="M4 11L12 4.5 20 11z"/><rect class="ci-fb" x="10" y="15" width="4" height="5.5" rx="0.6"/></svg></span>
             <h3>Ипотечный калькулятор</h3>
             <p>Ежемесячный платёж, переплата и график по кредиту.</p>
           </a>
           <a class="card" href="/calculators/finance/deposit/">
-            <span class="card-icon" aria-hidden="true">💰</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><ellipse class="ci-a" cx="12" cy="7" rx="7" ry="3"/><path class="ci-b" d="M5 7v10M19 7v10M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/><ellipse class="ci-fa" cx="12" cy="17" rx="7" ry="3"/></svg></span>
             <h3>Калькулятор вкладов</h3>
             <p>Сложный процент, капитализация и пополнение — с графиком.</p>
           </a>
           <a class="card" href="/calculators/finance/penalty/">
-            <span class="card-icon" aria-hidden="true">💳</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="3" y="7.5" width="18" height="9" rx="2"/><circle class="ci-fa" cx="12" cy="12" r="3.2"/><path class="ci-b" d="M12 10.3V12l1.4.9"/></svg></span>
             <h3>Пеня и неустойка</h3>
             <p>Расчёт пени по ставке ЦБ: ст. 395, 1/300, 1/150.</p>
           </a>
           <a class="card" href="/calculators/finance/vat/">
-            <span class="card-icon" aria-hidden="true">🧾</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path class="ci-a" d="M6 3.5h12v17l-2-1.3-2 1.3-2-1.3-2 1.3-2-1.3-2 1.3z"/><circle class="ci-b" cx="10" cy="9" r="1.5"/><circle class="ci-b" cx="14" cy="15" r="1.5"/><path class="ci-b" d="M14.6 8.5L9.4 15.5"/></svg></span>
             <h3>НДС</h3>
             <p>Начислить или выделить НДС: 20%, 10%, 0%.</p>
           </a>
           <a class="card" href="/calculators/finance/tax-freelancer/">
-            <span class="card-icon" aria-hidden="true">💼</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="3" y="8" width="18" height="12" rx="2"/><path class="ci-a" d="M9 8V6.5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2V8"/><path class="ci-b" d="M3 13.5h18"/><circle class="ci-fb" cx="9.6" cy="17" r="1.2"/><circle class="ci-fb" cx="14.4" cy="17" r="1.2"/><path class="ci-b" d="M15.2 15.9L8.8 18.1"/></svg></span>
             <h3>Налог фрилансера</h3>
             <p>Рассчитайте налог по НПД/самозанятости за месяц или год.</p>
           </a>
           <a class="card" href="/calculators/finance/vacation-pay/">
-            <span class="card-icon" aria-hidden="true">🏖️</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="3.5" y="5" width="17" height="15.5" rx="2"/><path class="ci-a" d="M3.5 9.8h17M8 3v3.6M16 3v3.6"/><circle class="ci-fb" cx="12" cy="15" r="2.6"/><path class="ci-b" d="M12 11v-1.2M12 20.2V19M7.9 15H6.7M17.3 15h-1.2"/></svg></span>
             <h3>Отпускные</h3>
             <p>Сколько вы получите за отпуск — расчёт по среднему заработку.</p>
           </a>
           <a class="card" href="/calculators/finance/alimony/">
-            <span class="card-icon" aria-hidden="true">👪</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle class="ci-a" cx="8.5" cy="7.5" r="3"/><path class="ci-a" d="M3.5 20a5 5 0 0 1 10 0z"/><circle class="ci-fa" cx="17" cy="14.5" r="4.5"/><path class="ci-b" d="M16.4 12.6v3.8M15.4 13.9h2.2M15.4 15.3h2.2"/></svg></span>
             <h3>Неустойка по алиментам</h3>
             <p>0,1% в день по ст. 115 СК РФ.</p>
           </a>
@@ -497,35 +498,35 @@
 
       <!-- Сетка генераторов -->
       <section id="files">
-        <h2 class="section-title">Категория: <span class="accent">файлы</span></h2>
+        <h2 class="section-title">Категория: <span class="accent">генераторы документов</span></h2>
         <div class="grid">
-          <a class="card" href="/files/resume/">
-            <span class="card-icon" aria-hidden="true">📄</span>
+          <a class="card" href="/generators/resume/">
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="4.5" y="3" width="15" height="18" rx="2"/><circle class="ci-b" cx="9" cy="8.5" r="2"/><path class="ci-b" d="M5.8 14.8a3.3 3.3 0 0 1 6.4 0"/><path class="ci-fb" d="M13.5 7.5h4M13.5 10.5h4M6.5 17.5h11"/></svg></span>
             <h3>Резюме</h3>
             <p>Готовое резюме из шаблона — сохраните в PDF одним кликом.</p>
           </a>
-          <a class="card" href="/files/power-of-attorney/">
-            <span class="card-icon" aria-hidden="true">✍️</span>
+          <a class="card" href="/generators/power-of-attorney/">
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="4.5" y="3" width="15" height="18" rx="2"/><path class="ci-b" d="M8 8h8M8 11h8"/><path class="ci-b" d="M7 17c1.4-2 2.8-2 4.2 0"/><circle class="ci-fa" cx="16.5" cy="17.5" r="3.2"/><path class="ci-b" d="M15.4 17.5l.9.9 2-2"/></svg></span>
             <h3>Доверенность</h3>
             <p>Доверенность на авто или на действия — по шаблону.</p>
           </a>
-          <a class="card" href="/files/contract/">
-            <span class="card-icon" aria-hidden="true">📋</span>
+          <a class="card" href="/generators/contract/">
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="4.5" y="5" width="15" height="16" rx="2"/><rect class="ci-fa" x="9" y="2.8" width="6" height="4" rx="1.5"/><path class="ci-b" d="M8 12h8M8 15.5h8"/><path class="ci-fb" d="M7.5 18.6c1.5-1.8 3-1.8 4.5 0s3 1.8 4.5 0"/></svg></span>
             <h3>Договор</h3>
             <p>Типовые договоры: оказание услуг, аренда, купля-продажа.</p>
           </a>
-          <a class="card" href="/files/leave-request/">
-            <span class="card-icon" aria-hidden="true">🗓️</span>
+          <a class="card" href="/generators/leave-request/">
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="4" y="3" width="13" height="18" rx="2"/><path class="ci-b" d="M7 8h7M7 11.5h7M7 15h4"/><path class="ci-fa" d="M17.5 11.5l3 3-6.6 6.6-3.6.6.6-3.6z"/></svg></span>
             <h3>Заявление на отпуск</h3>
             <p>Заявление на отпуск или отгул — готовый шаблон в PDF.</p>
           </a>
-          <a class="card" href="/files/invoice/">
-            <span class="card-icon" aria-hidden="true">💳</span>
+          <a class="card" href="/generators/invoice/">
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="4.5" y="3" width="15" height="18" rx="2"/><path class="ci-b" d="M8 7.5h8M8 11h8M8 14.5h5"/><path class="ci-fb" d="M7 18.5h6"/><path class="ci-b" d="M16 16.6v4M14.6 17.9h2.8M14.6 19.3h2.8"/></svg></span>
             <h3>Счёт на оплату</h3>
             <p>Счёт с реквизитами, позициями и QR-кодом — в PDF.</p>
           </a>
-          <a class="card" href="/files/report/">
-            <span class="card-icon" aria-hidden="true">📊</span>
+          <a class="card" href="/generators/report/">
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="4.5" y="3" width="15" height="18" rx="2"/><path class="ci-b" d="M7 6.5h10"/><rect class="ci-fb" x="7.5" y="14" width="2.6" height="4.5" rx="0.6"/><rect class="ci-fa" x="11" y="11" width="2.6" height="7.5" rx="0.6"/><rect class="ci-fb" x="14.5" y="8" width="2.6" height="10.5" rx="0.6"/></svg></span>
             <h3>PDF-отчёт</h3>
             <p>Отчёт с таблицей показателей и выводами — в PDF.</p>
           </a>
@@ -537,32 +538,32 @@
         <h2 class="section-title">Категория: <span class="accent">конвертеры</span></h2>
         <div class="grid">
           <a class="card" href="/converters/image-converter/">
-            <span class="card-icon" aria-hidden="true">🖼️</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="3" y="4.5" width="18" height="15" rx="2"/><circle class="ci-fa" cx="8.5" cy="9" r="1.8"/><path class="ci-b" d="M4.2 17.5l4.8-4.8 3.4 3.4 3.4-3.4 4 4"/></svg></span>
             <h3>Сжатие изображений</h3>
             <p>До 30 фото сразу, в оптимальном качестве.</p>
           </a>
           <a class="card" href="/converters/csv-to-xlsx/">
-            <span class="card-icon" aria-hidden="true">📑</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="3" y="4" width="9.5" height="16" rx="1.5"/><path class="ci-a" d="M3 9.5h9.5M3 15h9.5"/><path class="ci-b" d="M14.5 12h6M17.5 9l3 3-3 3"/></svg></span>
             <h3>CSV → Excel</h3>
             <p>Превратите CSV-файл в готовый .xlsx.</p>
           </a>
           <a class="card" href="/converters/pdf-to-word/">
-            <span class="card-icon" aria-hidden="true">📄</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="3" y="4.5" width="11" height="15" rx="2"/><path class="ci-b" d="M6 9h5M6 12.5h5"/><path class="ci-b" d="M16 8.5v7M13.6 11l2.4-2.5 2.4 2.5M13.6 13l2.4 2.5 2.4-2.5"/></svg></span>
             <h3>PDF → Word</h3>
             <p>Извлеките текст из PDF в редактируемый DOCX.</p>
           </a>
           <a class="card" href="/converters/dadata/">
-            <span class="card-icon" aria-hidden="true">🔎</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle class="ci-fa" cx="10.5" cy="10.5" r="6"/><path class="ci-a" d="M15 15l5 5"/><path class="ci-b" d="M8 9h5M8 12h3"/></svg></span>
             <h3>DaData-конструктор</h3>
             <p>Соберите запрос к DaData Suggest API: орг., адрес, банк.</p>
           </a>
           <a class="card" href="/converters/qr-generator/">
-            <span class="card-icon" aria-hidden="true">📱</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="3" y="3" width="7" height="7" rx="1"/><rect class="ci-a" x="14" y="3" width="7" height="7" rx="1"/><rect class="ci-a" x="3" y="14" width="7" height="7" rx="1"/><rect class="ci-fa" x="5.4" y="5.4" width="2.2" height="2.2" rx="0.6"/><rect class="ci-fa" x="16.4" y="5.4" width="2.2" height="2.2" rx="0.6"/><rect class="ci-fa" x="5.4" y="16.4" width="2.2" height="2.2" rx="0.6"/><rect class="ci-fb" x="14" y="14" width="3" height="3" rx="0.6"/><rect class="ci-fb" x="18" y="17.5" width="3" height="3.5" rx="0.6"/></svg></span>
             <h3>Генератор QR-кода</h3>
             <p>QR из текста или ссылки — PNG, JPG, SVG.</p>
           </a>
           <a class="card" href="/converters/seo-translit/">
-            <span class="card-icon" aria-hidden="true">🔤</span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path class="ci-a" d="M3 8.5h12M11.5 5l3.5 3.5-3.5 3.5"/><path class="ci-b" d="M21 15.5H9M12.5 12L9 15.5l3.5 3.5"/></svg></span>
             <h3>SEO транслит для URL и доменов</h3>
             <p>Русский текст → латиница: slug, домен, поддомен.</p>
           </a>
@@ -585,7 +586,15 @@
             <li>Адаптивный интерфейс — удобно и с телефона, и с компьютера.</li>
           </ul>
         </div>
-      </section>
+      
+        <div class="grid" style="margin-top:26px">
+          <a class="card" href="/about/">
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle class="ci-a" cx="12" cy="12" r="9"/><path class="ci-b" d="M12 11.5V17M12 7.5h.01"/></svg></span>
+            <h3>О проекте</h3>
+            <p>Кто делает CalcDoc, как проверяются расчёты и почему данные не покидают браузер.</p>
+          </a>
+        </div>
+</section>
 
 
       <div class="container section">
@@ -650,14 +659,14 @@
 
         <details class="seo-faq">
           <summary>Как найти нужный инструмент?</summary>
-          <div class="seo-faq-b"><p>Откройте раздел «Калькуляторы», «Файлы» или «Конвертеры» — там перечислены все инструменты с короткими описаниями. Если название не помните, воспользуйтесь поиском по сайту: он ищет и по страницам, и по формулировкам задач.</p></div>
+          <div class="seo-faq-b"><p>Откройте раздел «Калькуляторы», «Генераторы» или «Конвертеры» — там перечислены все инструменты с короткими описаниями. Если название не помните, воспользуйтесь поиском по сайту: он ищет и по страницам, и по формулировкам задач.</p></div>
         </details>
 
         <p class="calc-note">Информация на сайте носит справочный характер и не является офертой, налоговой или юридической консультацией. Расчёты выполняются в браузере и не покидают ваше устройство.</p>
         <span class="eyebrow">Смотрите также</span>
         <div class="seo-links">
           <a href="/calculators/">Калькуляторы</a>
-          <a href="/files/">Документы</a>
+          <a href="/generators/">Документы</a>
           <a href="/converters/">Конвертеры</a>
           <a href="/about/">О проекте</a>
         </div>
