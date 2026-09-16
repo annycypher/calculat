@@ -115,7 +115,7 @@ function read_day($file) {
 }
 
 /* Сколько инструментов размечено в sitemap.xml: /calculators/<раздел>/<инструмент>/
-   и /files/<инструмент>/, /converters/<инструмент>/ (страницы разделов не считаем).
+   и /generators/<инструмент>/, /converters/<инструмент>/ (страницы разделов не считаем).
    Результат кэшируем на сутки, чтобы не разбирать карту сайта на каждый запрос. */
 function count_tools($root, $cacheFile, $ttl) {
   $now = time();
@@ -134,7 +134,7 @@ function count_tools($root, $cacheFile, $ttl) {
       $seg = array_values(array_filter(explode('/', $path), 'strlen'));
       $cnt = count($seg);
       if ($cnt === 3 && $seg[0] === 'calculators') { $n++; }
-      elseif ($cnt === 2 && ($seg[0] === 'files' || $seg[0] === 'converters')) { $n++; }
+      elseif ($cnt === 2 && ($seg[0] === 'generators' || $seg[0] === 'converters')) { $n++; }
     }
   }
   if ($n > 0) { @file_put_contents($cacheFile, json_encode(array('count' => $n, 'ts' => $now)), LOCK_EX); }

@@ -9,8 +9,10 @@
   В самом скрипте секретов нет — его можно коммитить.
 
   Не заливается: .git, .gitignore, _headers и _redirects (это формат Cloudflare Pages,
-  их роль на Apache выполняет .htaccess), preview-new-home.html, design-reference.html,
-  README.md, ПЛАН_ПРОДВИЖЕНИЯ.md и сама папка sweb-migration.
+  их роль на Apache выполняет .htaccess), папки _archive (черновики-макеты
+  preview-new-home.html и design-reference.html), _backup, документация — README.md,
+  ПЛАН_ПРОДВИЖЕНИЯ.md, AUDIT.md, ОТЧЁТ_ЗАЛИВКИ.md — и сама папка sweb-migration.
+  Заливка идёт по белому списку $dirs/$files ниже: всё, чего там нет, на сервер не уходит.
   Из папки api уходит только код (stats.php): папку api/data с числами счётчика
   посещений создаёт на сервере сам PHP, локальные файлы её не перезаписывают.
   ВАЖНО: header.css (единая тёмная шапка) перечислен в белом списке $files —
@@ -42,7 +44,7 @@ $port = if ($cfg['PORT']) { [int]$cfg['PORT'] } else { if ($mode -eq 'sftp') { 2
 foreach ($k in 'HOST', 'USER', 'REMOTE_PATH') { if (-not $cfg[$k]) { throw "В deploy.env не заполнено поле $k" } }
 
 # ── что заливаем (белый список) ──
-$dirs = @('about', 'api', 'calculators', 'converters', 'files', 'fonts', 'games', 'icons', 'img', 'js', 'libs') |
+$dirs = @('about', 'api', 'calculators', 'converters', 'fonts', 'games', 'generators', 'icons', 'img', 'js', 'libs') |
         Where-Object { Test-Path (Join-Path $root $_) }
 # api/data — рабочее хранилище счётчика посещений: живёт только на сервере
 function Test-Uploadable([string]$fullPath) { return $fullPath -notmatch '\\api\\data\\' }

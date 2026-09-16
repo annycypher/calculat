@@ -113,7 +113,7 @@ RedirectMatch 404 ^/games/quick-math(\.html)?$
 RedirectMatch 404 ^/api/data(/|$)
 
 # ─────────── 301: переезд в «чистые» URL папок (15.09.2026) ───────────
-# Инструменты получили адреса вида /calculators/finance/ndfl/ и /files/contract/.
+# Инструменты получили адреса вида /calculators/finance/ndfl/ и /generators/contract/.
 # ВАЖНО: правил вида ^/xxx/index\.html$ тут быть не должно. Nginx на sweb сам
 # подставляет index.html при запросе папки, поэтому такое правило срабатывает на
 # /xxx/ и уводит на тот же адрес — была петля редиректов (ERR_TOO_MANY_REDIRECTS)
@@ -123,9 +123,12 @@ RedirectMatch 301 ^/calculators/(alimony|deposit|mortgage|penalty|tax-freelancer
 RedirectMatch 301 ^/calculators/(brick|wallpaper)\.html$ https://calc-doc.ru/calculators/construction/$1/
 RedirectMatch 301 ^/calculators/finance/(?!index)([a-z0-9-]+)\.html$ https://calc-doc.ru/calculators/finance/$1/
 RedirectMatch 301 ^/calculators/construction/(?!index)([a-z0-9-]+)\.html$ https://calc-doc.ru/calculators/construction/$1/
-# генераторы -> файлы
-RedirectMatch 301 ^/generators/([a-z0-9-]+)\.html$ https://calc-doc.ru/files/$1/
-RedirectMatch 301 ^/generators/?$ https://calc-doc.ru/files/
+# файлы -> генераторы (16.09.2026): раздел вернулся к имени «Генераторы».
+# Старые правила ходили в обратную сторону (/generators/ -> /files/) и убраны:
+# они увели бы живой /generators/... на адреса, которых больше нет.
+RedirectMatch 301 ^/files/([a-z0-9-]+)\.html$ https://calc-doc.ru/generators/$1/
+RedirectMatch 301 ^/files/([a-z0-9-]+)/?$ https://calc-doc.ru/generators/$1/
+RedirectMatch 301 ^/files/?$ https://calc-doc.ru/generators/
 # конвертеры и игры
 RedirectMatch 301 ^/converters/(?!index)([a-z0-9-]+)\.html$ https://calc-doc.ru/converters/$1/
 RedirectMatch 301 ^/games/(?!index)([a-z0-9-]+)\.html$ https://calc-doc.ru/games/$1/
