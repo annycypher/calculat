@@ -252,6 +252,14 @@ button, input, select, textarea { font: inherit; color: inherit; }
   border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--card-bg);
 }
 
+/* ═══════════ DaData: поле вывода запроса и ответа ═══════════ */
+/* Было инлайн-стилем на <pre id="out">, перенесено сюда (Фаза 6.5). */
+.dadata-out {
+  white-space: pre-wrap; word-break: break-word; font-size: 12px;
+  background: var(--bg); padding: 12px; border-radius: 8px;
+  margin-top: 0; max-height: 420px; overflow: auto;
+}
+
 /* ═══════════ Таблица (вклад, сравнение) ═══════════ */
 .dep-table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 12px 0; }
 .dep-table th, .dep-table td { padding: 8px 10px; text-align: right; border-bottom: 1px solid var(--border); }
