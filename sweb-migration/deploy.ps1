@@ -47,7 +47,7 @@ $port = if ($cfg['PORT']) { [int]$cfg['PORT'] } else { if ($mode -eq 'sftp') { 2
 foreach ($k in 'HOST', 'USER', 'REMOTE_PATH') { if (-not $cfg[$k]) { throw "В deploy.env не заполнено поле $k" } }
 
 # ── что заливаем (белый список) ──
-$dirs = @('about', 'api', 'calculators', 'converters', 'fonts', 'games', 'generators', 'icons', 'img', 'js', 'libs') |
+$dirs = @('about', 'api', 'blog', 'calculators', 'converters', 'fonts', 'games', 'generators', 'icons', 'img', 'js', 'libs') |
         Where-Object { Test-Path (Join-Path $root $_) }
 # api/data — рабочее хранилище счётчика посещений: живёт только на сервере
 function Test-Uploadable([string]$fullPath) { return $fullPath -notmatch '\\api\\data\\' }
