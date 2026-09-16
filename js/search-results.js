@@ -1,5 +1,5 @@
 // Страница результатов поиска.
-import { SEARCH, POPULAR } from '/js/search-index.js?v=3';
+import { SEARCH, POPULAR } from '/js/search-index.js?v=4';
 
 const box = document.getElementById('searchBox');
 const results = document.getElementById('searchResults');

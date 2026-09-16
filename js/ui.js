@@ -204,7 +204,7 @@ function initPopular() {
 
 async function bootSearch() {
   try {
-    const m = await import('/js/search-index.js?v=3');
+    const m = await import('/js/search-index.js?v=4');
     SEARCH = m.SEARCH; POPULAR = m.POPULAR;
     initSearch();
     initPopular();
