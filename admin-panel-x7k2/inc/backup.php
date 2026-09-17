@@ -99,8 +99,10 @@ function backup_prune(int $keep = BACKUP_KEEP): array {
 }
 
 /** Сделать копию сейчас.
-    Возвращает ['ok'=>bool, 'name'=>строка, 'files'=>число, 'size'=>байты, 'error'=>текст, 'deleted'=>[]]. */
-function backup_make(string $reason = ''): array {
+    Возвращает ['ok'=>bool, 'name'=>строка, 'files'=>число, 'size'=>байты, 'error'=>текст, 'deleted'=>[]].
+    $keep — сколько копий оставляем (при восстановлении держим на одну больше, чтобы не удалить ту,
+    из которой восстанавливаем). */
+function backup_make(string $reason = '', int $keep = BACKUP_KEEP): array {
     $problem = backup_problem();
     if ($problem !== '') {
         return array('ok' => false, 'name' => '', 'files' => 0, 'size' => 0, 'error' => $problem, 'deleted' => array());
@@ -158,7 +160,7 @@ function backup_make(string $reason = ''): array {
     }
 
     $size    = (int)@filesize($path);
-    $deleted = backup_prune();
+    $deleted = backup_prune($keep);
     log_action('Копия сайта', $name . ' — ' . $files . ' файлов, ' . human_size($size)
         . ($reason !== '' ? ' (' . $reason . ')' : '')
         . (count($deleted) > 0 ? '; удалены старые: ' . implode(', ', $deleted) : ''));
@@ -186,4 +188,128 @@ function backup_lazy_run(): array {
     $res['ran'] = true;
     return $res;
 }
+
+/* ─────────────────────────── восстановление из копии ─────────────────────────── */
+
+/** Можно ли записывать этот файл из архива.
+    Отсекаем выходы из корня сайта и всё, что в копии быть не должно:
+    саму панель, копии, пароли, журналы, служебные и рабочие папки (список — backup_excludes). */
+function backup_entry_allowed(string $entry): bool {
+    $entry = ltrim(str_replace('\\', '/', $entry), '/');
+    if ($entry === '' || substr($entry, -1) === '/') { return false; }
+    if (strpos($entry, '..') !== false || strpos($entry, ':') !== false) { return false; }
+    foreach (backup_excludes() as $ex) {
+        if ($entry === $ex || strpos($entry, $ex . '/') === 0) { return false; }
+    }
+    return true;
+}
+
+/** Посмотреть, что внутри копии (для экрана подтверждения восстановления). */
+function backup_inspect(string $name): array {
+    $name = basename($name);
+    $path = BACKUP_DIR . '/' . $name;
+    $bad  = array('ok' => false, 'error' => '', 'files' => 0, 'allowed' => 0, 'size' => 0,
+                  'has_index' => false, 'name' => $name, 'mtime' => 0);
+
+    if (!is_file($path) || !path_within($path, BACKUP_DIR)) {
+        $bad['error'] = 'Такой копии нет — возможно, её уже удалили как старую.';
+        return $bad;
+    }
+    if (!class_exists('ZipArchive')) {
+        $bad['error'] = backup_problem();
+        return $bad;
+    }
+    $zip = new ZipArchive();
+    if ($zip->open($path) !== true) {
+        $bad['error'] = 'Архив не открывается — возможно, он повреждён или скачивался не полностью.';
+        return $bad;
+    }
+    $files = 0; $allowed = 0; $hasIndex = false;
+    for ($i = 0; $i < $zip->numFiles; $i++) {
+        $entry = (string)$zip->getNameIndex($i);
+        if (substr($entry, -1) === '/') { continue; }
+        $files++;
+        if (backup_entry_allowed($entry)) { $allowed++; }
+        if ($entry === 'index.html') { $hasIndex = true; }
+    }
+    $zip->close();
+
+    return array('ok' => true, 'error' => '', 'files' => $files, 'allowed' => $allowed,
+                 'size' => (int)@filesize($path), 'has_index' => $hasIndex,
+                 'name' => $name, 'mtime' => (int)@filemtime($path));
+}
+
+/** Восстановить сайт из копии.
+    Порядок: проверка архива → страховочная копия текущего состояния → запись файлов из архива.
+    Файлы, которых в архиве нет (например, созданные позже статьи), НЕ удаляются:
+    восстановление заменяет то, что было в копии, и ничего не стирает.
+
+    Возвращает ['ok'=>bool, 'error'=>текст, 'files'=>записано, 'skipped'=>пропущено,
+                'failed'=>ошибок записи, 'safety'=>имя страховочной копии]. */
+function backup_restore(string $name, bool $safety = true): array {
+    $fail = array('ok' => false, 'error' => '', 'files' => 0, 'skipped' => 0, 'failed' => 0, 'safety' => '');
+
+    $info = backup_inspect($name);
+    if (!$info['ok']) {
+        $fail['error'] = $info['error'];
+        return $fail;
+    }
+    if (empty($info['has_index'])) {
+        $fail['error'] = 'В архиве нет главной страницы index.html — это не похоже на копию сайта, '
+                       . 'восстанавливать из него не буду.';
+        return $fail;
+    }
+
+    /* Страховочная копия: держим на одну больше обычного, чтобы чистка не удалила тот архив,
+       из которого восстанавливаем. */
+    $safetyName = '';
+    if ($safety) {
+        $copy = backup_make('перед восстановлением из ' . basename($name), BACKUP_KEEP + 1);
+        if (!$copy['ok']) {
+            $fail['error'] = 'Не получилось сделать страховочную копию текущего состояния: ' . $copy['error']
+                           . ' Восстановление отменено — так безопаснее.';
+            return $fail;
+        }
+        $safetyName = $copy['name'];
+    }
+    $fail['safety'] = $safetyName;
+
+    $path = BACKUP_DIR . '/' . basename($name);
+    $zip  = new ZipArchive();
+    if ($zip->open($path) !== true) {
+        $fail['error'] = 'Архив перестал открываться — восстановление отменено.';
+        return $fail;
+    }
+
+    $written = 0; $skipped = 0; $failed = 0;
+    for ($i = 0; $i < $zip->numFiles; $i++) {
+        $entry = (string)$zip->getNameIndex($i);
+        if (substr($entry, -1) === '/') { continue; }
+        if (!backup_entry_allowed($entry)) { $skipped++; continue; }
+        $data = $zip->getFromIndex($i);
+        if ($data === false) { $failed++; continue; }
+        $target = SITE_ROOT . '/' . ltrim($entry, '/');
+        if (!path_within(dirname($target), SITE_ROOT) || !ensure_dir(dirname($target))) { $failed++; continue; }
+        if (@file_put_contents($target, $data) !== false) { $written++; } else { $failed++; }
+    }
+    $zip->close();
+
+    if ($written === 0) {
+        log_action('Восстановление не удалось', basename($name) . ' — ни один файл не записан');
+        $fail['error'] = 'Из архива не удалось записать ни один файл — проверьте права на папки сайта.';
+        $fail['skipped'] = $skipped;
+        $fail['failed']  = $failed;
+        return $fail;
+    }
+
+    log_action('Восстановление из копии', basename($name) . ' — записано файлов: ' . $written
+        . ($skipped > 0 ? ', пропущено: ' . $skipped : '')
+        . ($failed > 0 ? ', ошибок записи: ' . $failed : '')
+        . ($safetyName !== '' ? '; страховочная копия: ' . $safetyName : ''));
+
+    return array('ok' => true, 'error' => '', 'files' => $written, 'skipped' => $skipped,
+                 'failed' => $failed, 'safety' => $safetyName);
+}
+
+
 

@@ -214,6 +214,29 @@ ksort($topCounts);
 $tops = array();
 foreach ($topCounts as $k => $v) { $tops[] = $k . '=' . $v; }
 say('     состав архива: ' . implode(', ', $tops));
+
+say('');
+say('3-Б. Скачивание копии на компьютер');
+$zips = backup_zips();
+$newest    = basename((string)$zips[0]);
+$sizeBefore = (int)filesize($zips[0]);
+$r = http(BASE . '/backup.php');
+$token = csrf($r['b']);
+$r = http(BASE . '/backup.php?download=' . rawurlencode($newest) . '&t=' . rawurlencode($token));
+check('копия скачивается (200, отдаётся как zip)', $r['s'] === 200 && substr($r['b'], 0, 2) === 'PK',
+      'код ' . $r['s'] . ', начало: ' . substr($r['b'], 0, 4));
+check('скачанный файл пришёл целиком', strlen($r['b']) === $sizeBefore, 'скачано ' . strlen($r['b']) . ' из ' . $sizeBefore);
+check('это файл архива, а не страница панели', strpos($r['b'], '<!DOCTYPE') === false && strpos($r['b'], 'Копии на сайте') === false);
+check('файл копии на сайте не пострадал', is_file(SITE . '/backups/' . $newest));
+$log = (string)@file_get_contents(SITE . '/content/logs/actions.json');
+check('в журнале отмечено скачивание', strpos($log, 'Скачана копия сайта') !== false);
+
+$r = http(BASE . '/backup.php?download=' . rawurlencode($newest));
+check('без CSRF-токена скачивание отклонено (403)', $r['s'] === 403, 'код ' . $r['s']);
+$r = http(BASE . '/backup.php?download=' . rawurlencode('../../index.html') . '&t=' . rawurlencode($token));
+check('чужие имена файлов не отдаются (404)', $r['s'] === 404, 'код ' . $r['s']);
+$r = http(BASE . '/backup.php?download=no-such-file.zip&t=' . rawurlencode($token));
+check('несуществующая копия не отдаётся (404)', $r['s'] === 404, 'код ' . $r['s']);
 check('в архиве НЕТ панели', !has_prefix($names, 'admin-panel-x7k2/'));
 check('в архиве НЕТ старых копий', !has_prefix($names, 'backups/'));
 check('в архиве НЕТ паролей пользователей', !in_array('content/users.json', $names, true));
@@ -310,16 +333,89 @@ check('редактору раздел «Бэкапы» открыт (копию
 logout_now();
 
 say('');
+say('7-Б. Восстановление из копии: изменил → восстановил → вернулось');
+check('администратор вошёл для проверки восстановления', login_as('owner', 'Secret123'));
+
+$probe = SITE . '/tests-restore-probe.html';
+$fresh = SITE . '/tests-restore-new.html';
+@unlink($probe); @unlink($fresh);
+@file_put_contents($probe, 'ВЕРСИЯ-1');
+$newestBefore = count(backup_zips()) > 0 ? basename((string)backup_zips()[0]) : '';
+$r = http(BASE . '/backup.php');
+check('у администратора в списке есть кнопки «Восстановить…»', $r['s'] === 200 && strpos($r['b'], 'restore=') !== false);
+$token = csrf($r['b']);
+http(BASE . '/backup.php', array('csrf' => $token, 'action' => 'make'));
+$zips = backup_zips();
+$copyName = basename((string)$zips[0]);
+$copyNames = zip_names($zips[0]);
+check('сделана новая копия с пробным файлом',
+      $copyName !== $newestBefore && (int)filesize($zips[0]) > 20000 && in_array('tests-restore-probe.html', $copyNames, true),
+      'копия: ' . $copyName);
+
+@file_put_contents($probe, 'ВЕРСИЯ-2');
+@file_put_contents($fresh, 'создан после копии');
+check('файл изменён на ВЕРСИЯ-2, рядом создан новый', (string)@file_get_contents($probe) === 'ВЕРСИЯ-2' && is_file($fresh));
+
+$r = http(BASE . '/backup.php?restore=' . rawurlencode($copyName));
+check('экран подтверждения открывается', $r['s'] === 200 && has($r['b'], 'Восстановить сайт из этой копии'), 'код ' . $r['s']);
+check('на экране видно, сколько файлов будет заменено', has($r['b'], 'Панель заменит'));
+$rtoken = csrf($r['b']);
+$copiesBefore = count(backup_zips());
+
+$r = http(BASE . '/backup.php', array('csrf' => $rtoken, 'action' => 'restore', 'name' => $copyName, 'word' => 'не то слово'));
+check('неверное слово подтверждения — восстановление отменено', $r['s'] === 302, 'код ' . $r['s']);
+check('после отказа файл остался изменённым', (string)@file_get_contents($probe) === 'ВЕРСИЯ-2');
+
+$r = http(BASE . '/backup.php?restore=' . rawurlencode($copyName));
+$rtoken = csrf($r['b']);
+$r = http(BASE . '/backup.php', array('csrf' => $rtoken, 'action' => 'restore', 'name' => $copyName, 'word' => 'ВОССТАНОВИТЬ'));
+check('верное слово (заглавными) принято', $r['s'] === 302, 'код ' . $r['s']);
+check('изменённый файл вернулся к виду из копии',
+      (string)@file_get_contents($probe) === 'ВЕРСИЯ-1', (string)@file_get_contents($probe));
+check('файл, созданный после копии, остался на месте', is_file($fresh));
+$r = http(BASE . '/backup.php');
+check('на странице отчёт о восстановлении', $r['s'] === 200 && has($r['b'], 'Сайт восстановлен из копии'));
+check('панель и пароли восстановлением не тронуты',
+      is_file(PANEL . '/inc/backup.php') && is_file(SITE . '/content/users.json'));
+check('появилась страховочная копия прежнего состояния',
+      count(backup_zips()) === $copiesBefore + 1, 'было ' . $copiesBefore . ', стало ' . count(backup_zips()));
+
+$zips = backup_zips();
+$safetyNames = zip_names($zips[0]);
+$safetyText = '';
+$zip = new ZipArchive();
+if ($zip->open($zips[0]) === true) { $safetyText = (string)$zip->getFromName('tests-restore-probe.html'); $zip->close(); }
+check('в страховочной копии сохранено состояние «до» (ВЕРСИЯ-2)',
+      strpos($safetyText, 'ВЕРСИЯ-2') !== false, substr($safetyText, 0, 30));
+check('пробный файл попал в страховочную копию', in_array('tests-restore-probe.html', $safetyNames, true));
+
+say('');
+say('7-В. Восстановление закрыто для редактора');
+logout_now();
+check('редактор вошёл в панель', login_as('redaktor', 'Editor123'));
+$r = http(BASE . '/backup.php?restore=' . rawurlencode($copyName));
+check('экран восстановления редактору закрыт (403)', $r['s'] === 403, 'код ' . $r['s']);
+$r = http(BASE . '/backup.php');
+check('в списке копий редактор не видит ссылок восстановления',
+      $r['s'] === 200 && strpos($r['b'], 'restore=') === false, 'код ' . $r['s']);
+check('кнопка «Скачать» редактору доступна', has($r['b'], 'Скачать'));
+logout_now();
+
+say('');
 say('8. Уборка за тестом');
 foreach (backup_zips() as $z) { @unlink($z); }
 @unlink($stamp);
 @unlink(SITE . '/content/settings.json');
 @unlink(SITE . '/content/users.json');
+@unlink(SITE . '/tests-restore-probe.html');
+@unlink(SITE . '/tests-restore-new.html');
 @unlink(SITE . '/content/logs/actions.json');
 if ($hadUsers) { @rename($usersBak, SITE . '/content/users.json'); }
 check('тестовые копии убраны', count(backup_zips()) === 0);
 check('папка backups/ осталась (копии будут делаться снова)', is_dir(SITE . '/backups'));
 check('временный файл данных убран', !is_file(SITE . '/content/settings.json'));
+check('пробные файлы восстановления убраны',
+      !is_file(SITE . '/tests-restore-probe.html') && !is_file(SITE . '/tests-restore-new.html'));
 check($hadUsers ? 'ваш файл пользователей возвращён на место' : 'панель оставлена ненастроенной',
       $hadUsers ? is_file(SITE . '/content/users.json') : !is_file(SITE . '/content/users.json'));
 check('служебные файлы теста убраны', !is_file($usersBak));
