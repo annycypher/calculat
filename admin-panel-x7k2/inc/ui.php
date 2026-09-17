@@ -28,7 +28,7 @@ function panel_sections(): array {
         array('file' => 'analytics.php',   'title' => 'Аналитика',    'group' => 'Обзор',        'icon' => '△', 'ready' => false, 'hint' => 'посещения, источники — фаза 8'),
 
         array('file' => 'articles.php',    'title' => 'Статьи',       'group' => 'Контент',      'icon' => '✎', 'ready' => false, 'hint' => 'создание и публикация — фаза 4'),
-        array('file' => 'media.php',       'title' => 'Медиа-файлы',  'group' => 'Контент',      'icon' => '▨', 'ready' => false, 'hint' => 'картинки сайта — фаза 3'),
+        array('file' => 'media.php',       'title' => 'Медиа-файлы',  'group' => 'Контент',      'icon' => '▨', 'ready' => true,  'hint' => 'картинки сайта'),
         array('file' => 'meta.php',        'title' => 'Мета-теги',    'group' => 'Контент',      'icon' => '⌗', 'ready' => false, 'hint' => 'title и description — фаза 4'),
         array('file' => 'content.php',     'title' => 'Текст страниц','group' => 'Контент',      'icon' => '≡', 'ready' => false, 'hint' => 'правка по маркерам — фаза 9'),
         array('file' => 'catalog.php',     'title' => 'Каталог',      'group' => 'Контент',      'icon' => '▦', 'ready' => false, 'hint' => 'калькуляторы и хабы — фаза 9'),
