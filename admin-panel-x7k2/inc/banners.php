@@ -275,22 +275,51 @@ function banner_fit_list(array $banners, string $slot, string $pagePath, string 
     return $out;
 }
 
-/** Выбор баннера с учётом веса и ротации: чем больше вес, тем чаще показывается.
-    $seed увеличивается при каждом выводе, поэтому баннеры сменяют друг друга;
-    если по весам выпал тот же баннер, что был в прошлом выпуске, берём следующий. */
+/** Выбор баннера с учётом веса и ротации.
+    Строим цикл с чередованием (баннер с весом 3 встаёт в него трижды, но не подряд),
+    поэтому каждый выпуск берёт следующий пункт цикла: баннеры сменяют друг друга,
+    а вес решает, как часто каждый выпадает. */
 function banner_pick(array $list, string $pagePath, string $slot, int $seed): array {
     if (count($list) === 0) { return array(); }
-    $cycle = array();
+
+    /* Вес каждого баннера — сколько раз он входит в цикл. */
+    $left = array();
+    $total = 0;
     foreach ($list as $b) {
-        $w = max(1, min(10, (int)($b['weight'] ?? 1)));
-        for ($i = 0; $i < $w; $i++) { $cycle[] = $b; }
+        $id = (string)($b['id'] ?? '');
+        if ($id === '') { continue; }
+        $left[$id] = max(1, min(10, (int)($b['weight'] ?? 1)));
+        $total += $left[$id];
+    }
+    if ($total === 0) { return (array)$list[0]; }
+
+    /* Чередуем: за один проход по списку берём по одному баннеру каждого, не ставя тот же подряд. */
+    $cycle = array();
+    $guard = 0;
+    while (count($cycle) < $total && $guard <= $total * 2 + 2) {
+        $added = false;
+        foreach ($list as $b) {
+            $id = (string)($b['id'] ?? '');
+            if ($id === '' || $left[$id] <= 0) { continue; }
+            $last = count($cycle) > 0 ? (string)($cycle[count($cycle) - 1]['id'] ?? '') : '';
+            if ($id === $last && count($list) > 1) { continue; }
+            $cycle[] = $b;
+            $left[$id]--;
+            $added = true;
+        }
+        $guard++;
+        if (!$added) {                       // остались только повторы — добавляем их подряд
+            foreach ($list as $b) {
+                $id = (string)($b['id'] ?? '');
+                while (isset($left[$id]) && $left[$id] > 0) { $cycle[] = $b; $left[$id]--; }
+            }
+        }
     }
     $n = count($cycle);
-    $h = crc32($pagePath . '|' . $slot) % $n;
-    /* Шагаем на число РАЗНЫХ баннеров (а не на 1): тогда следующий выпуск гарантированно
-       берёт другой баннер, а вес по-прежнему решает, сколько мест он занимает в цикле. */
-    $stride = max(1, count($list));
-    $idx = ((($seed * $stride) + $h) % $n + $n) % $n;
+    if ($n === 0) { return (array)$list[0]; }
+
+    $h   = crc32($pagePath . '|' . $slot) % $n;
+    $idx = (($seed + $h) % $n + $n) % $n;
     return (array)$cycle[$idx];
 }
 

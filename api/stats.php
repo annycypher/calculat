@@ -7,13 +7,14 @@
 
    Как вызывается (js/ui.js — на каждой странице, js/home.js — только на главной):
      GET /api/stats.php           — учесть текущий визит и вернуть статистику;
-     GET /api/stats.php?peek=1    — только вернуть статистику, ничего не считая.
+     GET /api/stats.php?peek=1    — только вернуть статистику, ничего не считая;
+     GET /api/stats.php?p=/blog/  — записать визит конкретной странице (без ?p= путь берётся из Referer).
 
    Ответ (JSON, всегда 200; при сбое хранилища — ok:false):
      { "ok": true, "date": "2026-09-15", "visits": 12, "hits": 37, "tools": 33, "recorded": 1 }
 
    Что лежит на диске: api/data/YYYY-MM-DD.json
-     { "hits": 37, "salt": "…", "visitors": { "<16 hex>": 1, … } }
+     { "hits": 37, "salt": "…", "visitors": { "<16 hex>": 1, … }, "pages": { "/calculators/finance/vat/": 4, … } }
    Ничего, кроме этих чисел, не сохраняется: ни IP, ни User-Agent, ни cookie.
    Для подсчёта уникальных за сутки берётся короткий хеш (первые 16 hex-символов sha256)
    от суточной соли, даты, IP и User-Agent — восстановить по нему посетителя нельзя,
@@ -78,6 +79,34 @@ function is_bot($ua) {
   return (bool) preg_match('/bot|crawl|spider|slurp|headless|lighthouse|monitor|uptime|pingdom|curl|wget|python|httpclient|facebookexternalhit|whatsapp|preview|scan|probe/i', $ua);
 }
 
+/* Какая страница запросила счётчик: адрес вида /calculators/finance/vat/ (или пусто).
+   Путь берём из ?p= (если передали явно) или из Referer — но только когда это наш сайт:
+   чужие домены и мусор не записываем. Нужно для отчёта «трафик без денег» в панели. */
+function page_path() {
+  $explicit = isset($_GET['p']) ? trim((string) $_GET['p']) : '';
+  $path = '';
+  if ($explicit !== '' && preg_match('#^/[A-Za-z0-9_\-/.]*$#', $explicit)) {
+    $path = $explicit;
+  } else {
+    $ref = isset($_SERVER['HTTP_REFERER']) ? trim((string) $_SERVER['HTTP_REFERER']) : '';
+    if ($ref !== '') {
+      $host = parse_url($ref, PHP_URL_HOST);
+      $self = isset($_SERVER['HTTP_HOST']) ? preg_replace('/:\d+$/', '', (string) $_SERVER['HTTP_HOST']) : '';
+      $p    = parse_url($ref, PHP_URL_PATH);
+      if (is_string($p) && $p !== '' && (!is_string($host) || $host === '' || $self === '' || strcasecmp($host, $self) === 0)) {
+        $path = $p;
+      }
+    }
+  }
+  if ($path === '' || strlen($path) > 120) { return ''; }
+  $path = '/' . ltrim($path, '/');
+  if (substr($path, -10) === 'index.html') { $path = substr($path, 0, -10); }   // /blog/index.html → /blog/
+  if ($path === '' || $path === '/index.html') { $path = '/'; }
+  if (strpos($path, '//') !== false) { return ''; }
+  if (preg_match('#^/(admin-panel-x7k2|api|content|backups|media)(/|$)#', $path)) { return ''; }  // служебное не считаем
+  return $path;
+}
+
 /* Обновление файла дня под блокировкой: читаем, меняем, пишем. */
 function update_day($file, $mutator) {
   $fh = @fopen($file, 'c+b');
@@ -89,9 +118,10 @@ function update_day($file, $mutator) {
     'hits'     => isset($j['hits']) ? (int) $j['hits'] : 0,
     'salt'     => (isset($j['salt']) && is_string($j['salt']) && $j['salt'] !== '') ? $j['salt'] : rand_hex(8),
     'visitors' => (isset($j['visitors']) && is_array($j['visitors'])) ? $j['visitors'] : array(),
+    'pages'    => (isset($j['pages']) && is_array($j['pages'])) ? $j['pages'] : array(),
   );
   $state = call_user_func($mutator, $state);
-  if (!is_array($state)) { $state = array('hits' => 0, 'salt' => '', 'visitors' => array()); }
+  if (!is_array($state)) { $state = array('hits' => 0, 'salt' => '', 'visitors' => array(), 'pages' => array()); }
   ftruncate($fh, 0);
   rewind($fh);
   fwrite($fh, json_encode($state, JSON_UNESCAPED_UNICODE));
@@ -111,6 +141,7 @@ function read_day($file) {
   return array(
     'hits'     => isset($j['hits']) ? (int) $j['hits'] : 0,
     'visitors' => (isset($j['visitors']) && is_array($j['visitors'])) ? $j['visitors'] : array(),
+    'pages'    => (isset($j['pages']) && is_array($j['pages'])) ? $j['pages'] : array(),
   );
 }
 
@@ -176,10 +207,14 @@ $file  = $DIR . '/' . $today . '.json';
 $tools = count_tools(dirname(__DIR__), $DIR . '/tools.json', $TOOLS_TTL);
 
 if ($record) {
-  $ip = client_ip();
-  $state = update_day($file, function ($s) use ($ip, $ua, $today) {
+  $ip   = client_ip();
+  $page = page_path();
+  $state = update_day($file, function ($s) use ($ip, $ua, $today, $page) {
     $s['hits'] = (int) $s['hits'] + 1;
     $s['visitors'][substr(hash('sha256', $s['salt'] . '|' . $today . '|' . $ip . '|' . $ua), 0, 16)] = 1;
+    if ($page !== '') {
+      $s['pages'][$page] = isset($s['pages'][$page]) ? (int) $s['pages'][$page] + 1 : 1;
+    }
     return $s;
   });
   if (!is_array($state)) { respond(array('ok' => false, 'error' => 'storage')); }

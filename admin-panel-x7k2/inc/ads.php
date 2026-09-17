@@ -445,6 +445,79 @@ function ads_render_site(): array {
 }
 
 
+/** Дни, за которые есть данные счётчика: ['2026-09-15' => файл, …] — свежие первыми. */
+function ads_traffic_days(int $days = 30): array {
+    $dir   = SITE_ROOT . '/api/data';
+    $out   = array();
+    $limit = strtotime('-' . max(1, $days) . ' days');
+    foreach ((array)glob($dir . '/*.json') as $file) {
+        $name = basename((string)$file, '.json');
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $name)) { continue; }   // tools.json и прочее не считаем
+        $ts = strtotime($name);
+        if ($ts === false || $ts < $limit) { continue; }
+        $out[$name] = (string)$file;
+    }
+    krsort($out);
+    return $out;
+}
+
+/** Просмотры по страницам за период: ['итого' => [путь => N], 'дни' => N, 'по_дням' => [путь => [дата => N]]]. */
+function ads_traffic(int $days = 30): array {
+    $total = array();
+    $byDay = array();
+    $files = ads_traffic_days($days);
+
+    foreach ($files as $date => $file) {
+        $j = json_decode((string)@file_get_contents($file), true);
+        if (!is_array($j) || !isset($j['pages']) || !is_array($j['pages'])) { continue; }
+        foreach ($j['pages'] as $page => $views) {
+            $page  = (string)$page;
+            $views = (int)$views;
+            if ($page === '' || $views <= 0) { continue; }
+            $total[$page] = (int)($total[$page] ?? 0) + $views;
+            if (!isset($byDay[$page])) { $byDay[$page] = array(); }
+            $byDay[$page][(string)$date] = (int)($byDay[$page][(string)$date] ?? 0) + $views;
+        }
+    }
+    arsort($total);
+    return array('total' => $total, 'days' => count($files), 'by_day' => $byDay,
+                 'has_pages' => count($total) > 0);
+}
+
+/** Отчёт «трафик без денег»: страницы с просмотрами, где нет ни одного активного блока. */
+function ads_traffic_nomoney(int $days = 30, int $limit = 20): array {
+    $traffic = ads_traffic($days);
+    $perPage = ads_per_page();
+    $slotsAll = ads_slot_pages();
+    $service  = ads_service_pages();
+
+    $free = array();
+    $paid = 0;
+    $serviceSeen = 0;
+    foreach ($traffic['total'] as $page => $views) {
+        if (in_array((string)$page, $service, true)) { $serviceSeen++; continue; }   // на служебных рекламы нет по решению
+        $hasAds = isset($perPage[$page]) && (int)$perPage[$page]['count'] > 0;
+        if ($hasAds) { $paid++; continue; }
+
+        $slots = isset($slotsAll[$page]) ? (array)$slotsAll[$page] : array();
+        $free[] = array('page' => (string)$page, 'views' => (int)$views, 'slots' => $slots,
+                        'marked' => count($slots) > 0,
+                        'days' => (array)($traffic['by_day'][$page] ?? array()));
+    }
+
+    return array(
+        'free'       => array_slice($free, 0, max(1, $limit)),
+        'free_all'   => count($free),
+        'paid'       => $paid,
+        'service'    => $serviceSeen,
+        'views_free' => (int)array_sum(array_column($free, 'views')),
+        'views_all'  => (int)array_sum($traffic['total']),
+        'days'       => (int)$traffic['days'],
+        'has_pages'  => (bool)$traffic['has_pages'],
+        'list'       => $free,
+    );
+}
+
 /** Страницы, где рекламы не ставим: по решению в ADMIN-MARKERS.md это служебные страницы. */
 function ads_service_pages(): array {
     return array('/privacy.html', '/search.html', '/404.html');

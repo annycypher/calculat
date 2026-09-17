@@ -97,7 +97,7 @@ function site_pages_list(): array {
         $rel = str_replace('\\', '/', substr($f->getPathname(), strlen($root) + 1));
         if ($rel === '404.html') { continue; }
         if ($rel === 'index.html') { $out[] = '/'; continue; }
-        if (substr($rel, -11) === '/index.html') { $out[] = '/' . substr($rel, 0, -10) . '/'; continue; }
+        if (substr($rel, -11) === '/index.html') { $out[] = '/' . substr($rel, 0, -11) . '/'; continue; }
         $out[] = '/' . $rel;
     }
     sort($out);

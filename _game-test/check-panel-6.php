@@ -457,7 +457,148 @@ check('копии страниц за тестом убраны',
       count(array_diff(array_map('basename', (array)glob(SITE . '/backups/files/*')), $backupFilesBefore2)) === 0);
 
 say('');
+say('8-Г. Отчёт «Трафик без денег» (шаг 6.3)');
+
+/* Снимок данных счётчика: после теста вернём как было */
+$dataDir = SITE . '/api/data';
+$dataBackup = array();
+foreach ((array)glob($dataDir . '/*') as $df) {
+    if (is_file((string)$df)) { $dataBackup[basename((string)$df)] = (string)@file_get_contents((string)$df); }
+}
+foreach (array_keys($dataBackup) as $dn) { @unlink($dataDir . '/' . $dn); }
+
+/* Чтобы отчёт было на чём проверить, оставляем рекламу только в блоге:
+   «везде»-блоки выключаем — тогда у страниц без рекламы появляется шанс попасть в отчёт. */
+foreach (array($idOdd, $id3) as $offId) {
+    $csrfOff = csrf(http(BASE . '/ads.php')['b']);
+    http(BASE . '/ads.php', array('csrf' => $csrfOff, 'op' => 'toggle', 'id' => $offId));
+}
+check('реклама осталась только на страницах блога', empty(ads_row($idOdd)['active']) && empty(ads_row($id3)['active'])
+      && !empty(ads_row($id)['active']));
+
+$r = http(BASE . '/ads.php');
+check('в панели есть отчёт «Трафик без денег»',
+      has($r['b'], 'Трафик без денег') && has($r['b'], 'Период:'));
+check('без данных счётчика отчёт честно об этом говорит',
+      has($r['b'], 'счётчик не записал ни одной страницы'));
+check('панель подсказывает, откуда данные', has($r['b'], 'api/stats.php'));
+
+/* Кладём три дня данных: сегодня, два дня назад и старый (45 дней — он вне 30-дневного окна) */
+$today = date('Y-m-d');
+$d2    = date('Y-m-d', strtotime('-2 days'));
+$d45   = date('Y-m-d', strtotime('-45 days'));
+if (!is_dir($dataDir)) { @mkdir($dataDir, 0755, true); }
+@file_put_contents($dataDir . '/' . $today . '.json', json_encode(array('hits' => 12, 'pages' => array(
+    '/' => 100, '/calculators/finance/vat/' => 40, '/blog/otpusknye/' => 20, '/about/' => 5)), JSON_UNESCAPED_UNICODE));
+@file_put_contents($dataDir . '/' . $d2 . '.json', json_encode(array('hits' => 6, 'pages' => array(
+    '/calculators/finance/vat/' => 30, '/privacy.html' => 7)), JSON_UNESCAPED_UNICODE));
+@file_put_contents($dataDir . '/' . $d45 . '.json', json_encode(array('hits' => 1, 'pages' => array(
+    '/about/' => 500)), JSON_UNESCAPED_UNICODE));
+
+$r = http(BASE . '/ads.php');
+$rep = $r['b'];
+check('в отчёте видно страницы с просмотрами', has($rep, '/calculators/finance/vat/') && has($rep, 'Просмотров всего: 202'));
+check('страница-лидер (главная, 100 просмотров) идёт первой',
+      strpos($rep, '<td><code>/</code></td>') !== false
+      && strpos($rep, '<td><code>/</code></td>') < strpos($rep, '<td><code>/calculators/finance/vat/</code></td>'));
+check('страница с рекламой (блог) в список не попала как «без денег»',
+      substr_count($rep, '<td><code>/blog/otpusknye/</code></td>') === 0,
+      'встреч: ' . substr_count($rep, '<td><code>/blog/otpusknye/</code></td>'));
+check('служебные страницы пропущены с пояснением',
+      substr_count($rep, '<td><code>/privacy.html</code></td>') === 0 && has($rep, 'служебных пропущено'));
+check('старые данные (45 дней) не попали в 30-дневное окно', !has($rep, '>505<'));
+
+$r = http(BASE . '/ads.php?days=90');
+check('за 90 дней старые просмотры учитываются', strpos($r['b'], '>505<') !== false);
+$r = http(BASE . '/ads.php?days=7');
+check('за 7 дней период тоже работает', has($r['b'], '7 дней'));
+
+$r = http(BASE . '/ads.php');
+check('у страницы со слотами показаны места под рекламу',
+      has($rep, 'После шапки') || has($rep, 'ads-top') || has($rep, 'Добавить блок для этой страницы'));
+$r = http(BASE . '/ads.php?new=1&slot=ads-mid&for=' . rawurlencode('/about/'));
+check('кнопка «добавить блок для страницы» подставляет адрес',
+      strpos($r['b'], 'value="/about/"') !== false || strpos($r['b'], '/about/') !== false);
+
+/* Двадцать пять страниц с показами: в отчёте должно остаться ровно 20 строк */
+$many = array();
+$toolFiles = array_merge(
+    (array)glob(SITE . '/calculators/*/*/index.html'),
+    (array)glob(SITE . '/converters/*/index.html'),
+    (array)glob(SITE . '/generators/*/index.html')
+);
+$i = 0;
+foreach ((array)$toolFiles as $tf) {
+    if ($i >= 25) { break; }
+    $rel = '/' . str_replace('\\', '/', substr((string)$tf, strlen(SITE) + 1));
+    $rel = str_replace('/index.html', '/', $rel);
+    $many[$rel] = 40 - $i;
+    $i++;
+}
+check('для проверки топ-20 собрано 25 страниц', count($many) === 25, 'страниц: ' . count($many));
+@file_put_contents($dataDir . '/' . $today . '.json', json_encode(array('hits' => 12, 'pages' => $many), JSON_UNESCAPED_UNICODE));
+$r = http(BASE . '/ads.php');
+check('в отчёте не больше 20 строк (топ-20)', substr_count($r['b'], '<td><code>/') === 20,
+      'строк: ' . substr_count($r['b'], '<td><code>/'));
+
+say('');
+say('8-Д. Счётчик пишет страницы (нужно отчёту)');
+
+/** Запрос с заголовками Referer и User-Agent — как это делает браузер со страницы. */
+function http_ref(string $url, string $referer): array {
+    $ctx = stream_context_create(array('http' => array(
+        'method' => 'GET',
+        'header' => "Referer: " . $referer . "\r\n"
+                  . "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36",
+        'ignore_errors' => true, 'follow_location' => 0, 'timeout' => 30,
+    )));
+    $body = @file_get_contents($url, false, $ctx);
+    $status = 0;
+    foreach ((array)($http_response_header ?? array()) as $i => $line) {
+        if ($i === 0 && preg_match('#^HTTP/\S+\s+(\d{3})#', $line, $m)) { $status = (int)$m[1]; }
+    }
+    return array('s' => $status, 'b' => (string)$body);
+}
+
+$dayFile = $dataDir . '/' . $today . '.json';
+@unlink($dayFile);
+
+$r = http_ref(SITEURL . '/api/stats.php?p=' . rawurlencode('/blog/otpusknye/'), SITEURL . '/blog/otpusknye/');
+$j = json_decode($r['b'], true);
+check('счётчик отвечает как раньше', $r['s'] === 200 && is_array($j) && !empty($j['ok']), 'код ' . $r['s']);
+$day = json_decode((string)@file_get_contents($dayFile), true);
+check('счётчик записал страницу из параметра',
+      is_array($day) && (int)($day['pages']['/blog/otpusknye/'] ?? 0) === 1,
+      'pages: ' . json_encode((array)($day['pages'] ?? array()), JSON_UNESCAPED_UNICODE));
+
+$r = http_ref(SITEURL . '/api/stats.php', SITEURL . '/calculators/finance/vat/');
+$day = json_decode((string)@file_get_contents($dayFile), true);
+check('без параметра страница берётся из Referer',
+      (int)($day['pages']['/calculators/finance/vat/'] ?? 0) === 1);
+$r = http_ref(SITEURL . '/api/stats.php', 'https://chuzhoy-domen.example/blog/');
+$day = json_decode((string)@file_get_contents($dayFile), true);
+check('чужие домены в счётчик не попадают', !isset($day['pages']['/blog/']));
+$r = http_ref(SITEURL . '/api/stats.php', SITEURL . '/admin-panel-x7k2/ads.php');
+$day = json_decode((string)@file_get_contents($dayFile), true);
+check('обращения к панели не считаются', !isset($day['pages']['/admin-panel-x7k2/ads.php']));
+check('старые поля счётчика не сломались',
+      isset($day['hits']) && (int)$day['hits'] >= 1 && isset($day['visitors']) && is_array($day['visitors']));
+
+/* Возвращаем данные счётчика как было */
+foreach ((array)glob($dataDir . '/*') as $df) {
+    $name = basename((string)$df);
+    if (!isset($dataBackup[$name]) && is_file((string)$df)) { @unlink((string)$df); }
+}
+foreach ($dataBackup as $name => $text) { @file_put_contents($dataDir . '/' . $name, $text); }
+$restored = true;
+foreach ($dataBackup as $name => $text) {
+    if ((string)@file_get_contents($dataDir . '/' . $name) !== $text) { $restored = false; }
+}
+check('данные счётчика возвращены как было', $restored);
+
+say('');
 say('9. Уборка за тестом');
+
 
 
 

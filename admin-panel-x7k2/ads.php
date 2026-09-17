@@ -131,6 +131,9 @@ $delAd = $delId !== '' ? ads_find($delId) : array();
 
 $form    = ($editId !== '' || $newMode) ? ads_form_fields($editId) : array();
 $renderMode = isset($_GET['render']);
+$adsDays    = isset($_GET['days']) ? (int)$_GET['days'] : 30;
+if (!in_array($adsDays, array(7, 30, 90), true)) { $adsDays = 30; }
+$adsMoney   = ads_traffic_nomoney($adsDays, 20);
 $adsGlobal  = ads_global();
 $adsPlan    = ads_plan();
 $adsState   = ads_current_state();
@@ -151,6 +154,9 @@ if ($newMode) {
     if (count($form) === 0) { $form = ads_blank(); }
     $slotFromGet = isset($_GET['slot']) ? (string)$_GET['slot'] : '';
     if (isset($slots[$slotFromGet])) { $form['slot'] = $slotFromGet; }
+    /* Пришли из отчёта «трафик без денег» — сразу ставим нужную страницу */
+    $forPage = isset($_GET['for']) ? trim((string)$_GET['for']) : '';
+    if ($forPage !== '' && substr($forPage, 0, 1) === '/') { $form['pages'] = array($forPage); }
 }
 $adsList = ads_all()['ads'];
 $summary = ads_summary($adsList);
@@ -449,6 +455,54 @@ panel_page_start('Рекламные блоки', 'РСЯ, AdSense и свои �
       </form>
       <div class="field-hint">Выключатель действует при выводе: после переключения нажмите
         «Вывести рекламу на сайт…», чтобы страницы обновились.</div>
+<?php } ?>
+<?php card_end(); ?>
+
+<?php card_start('Трафик без денег', 'Страницы, куда уже приходят люди, а рекламы на них нет'); ?>
+      <p class="hint" style="margin:0 0 10px">Период:
+<?php foreach (array(7 => '7 дней', 30 => '30 дней', 90 => '90 дней') as $d => $label) { ?>
+        <?php echo $d === $adsDays ? badge($label, 'vio') : '<a class="btn ghost" href="' . h(panel_url('ads.php?days=' . $d)) . '">' . h($label) . '</a>'; ?>
+<?php } ?>
+      </p>
+<?php if (!$adsMoney['has_pages']) { ?>
+      <p class="empty">За последние <?php echo (int)$adsMoney['days']; ?> дней счётчик не записал ни одной страницы.
+        Так бывает, пока сайт не опубликован или пока данные по страницам пусты.</p>
+      <p class="hint" style="margin:0">Счётчик <code>api/stats.php</code> пишет, сколько раз открыли каждую страницу
+        (без cookie и IP) — он уже умеет это делать, а раздел «Аналитика» (шаг 8) покажет полную картину.</p>
+<?php } else { ?>
+      <p style="margin:0 0 10px">Страниц с показами за период: <strong><?php echo count($adsMoney['list']); ?></strong>
+        (без рекламы — <?php echo (int)$adsMoney['free_all']; ?>, уже с рекламой — <?php echo (int)$adsMoney['paid']; ?>,
+        служебных пропущено — <?php echo (int)$adsMoney['service']; ?>).
+        Просмотров всего: <?php echo (int)$adsMoney['views_all']; ?>,
+        из них на страницах без рекламы: <strong><?php echo (int)$adsMoney['views_free']; ?></strong>.</p>
+<?php if (count($adsMoney['free']) === 0) { ?>
+      <p class="hint" style="margin:0">Все страницы с посетителями уже под рекламой — отличная работа.</p>
+<?php } else { ?>
+      <table class="table">
+        <tr><th>Страница</th><th>Просмотры</th><th>Места под рекламу</th><th>Что сделать</th></tr>
+<?php foreach ($adsMoney['free'] as $row) { ?>
+        <tr>
+          <td><code><?php echo h((string)$row['page']); ?></code></td>
+          <td><strong><?php echo (int)$row['views']; ?></strong>
+            <div class="hint"><?php echo $row['days'] !== array()
+                ? 'дней с показами: ' . count((array)$row['days']) : 'по дням данных нет'; ?></div></td>
+          <td><?php echo (int)$row['marked']
+                ? badge(implode(', ', array_map('ads_slot_title', (array)$row['slots'])), 'mut')
+                : badge('нет разметки слотов', 'warn'); ?></td>
+          <td>
+<?php if ((int)$row['marked']) { ?>
+            <a class="btn ghost" href="<?php echo h(panel_url('ads.php?new=1&slot=' . rawurlencode((string)$row['slots'][0]) . '&for=' . rawurlencode((string)$row['page']))); ?>">Добавить блок для этой страницы…</a>
+<?php } else { ?>
+            <span class="hint">страницы нет в разметке слотов</span>
+<?php } ?>
+          </td>
+        </tr>
+<?php } ?>
+      </table>
+      <div class="field-hint">Это топ-20 страниц по просмотрам без активной рекламы.
+        Смотрите на них в первую очередь: спрос уже есть, а монетизации нет.
+        Кнопка справа открывает форму и сразу подставляет эту страницу в «Свои адреса».</div>
+<?php } ?>
 <?php } ?>
 <?php card_end(); ?>
 

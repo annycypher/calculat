@@ -33,6 +33,17 @@ for ($seed = 1; $seed <= 6; $seed++) {
 }
 echo 'ротация (веса 3/1/1): ' . implode(' | ', $line) . PHP_EOL;
 
+/* Что выберет планировщик для страницы инструмента: три выпуска подряд */
+if (count(banners_all()['banners']) > 0) {
+    for ($seed = 1; $seed <= 3; $seed++) {
+        $plan = banner_plan($seed);
+        $pick = $plan['items']['/calculators/finance/vat/']['banner-top'] ?? array();
+        echo 'план, выпуск ' . $seed . ': banner-top на vat = ' . (string)($pick['id'] ?? '—')
+           . ' (кандидатов ' . count(banner_fit_list(banners_all()['banners'], 'banner-top', '/calculators/finance/vat/')) . ')'
+           . PHP_EOL;
+    }
+}
+
 $two = array(array('id' => 'A', 'weight' => 1), array('id' => 'B', 'weight' => 5));
 $line2 = array();
 for ($seed = 1; $seed <= 6; $seed++) {
