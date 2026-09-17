@@ -42,6 +42,37 @@ header.app-header#header {
 header.app-header#header.scrolled {
   background: rgba(11, 9, 19, .72); border-bottom-color: var(--hline);
 }
+/* Светлая тема главной: над светлым фоном прозрачная шапка получает тёмную палитру —
+   иначе белый «Calc» в логотипе и светлые пункты меню сливаются с фоном (видно только
+   фиолетовый «Doc»). Как только шапка становится стеклянной (.scrolled — прокрутка),
+   палитра снова светлая: под ней тёмный фон, и текст должен быть светлым.
+   Панели категорий и выпадающий поиск — тёмное стекло на любой теме, поэтому внутри них
+   палитра возвращается к исходной. */
+:root[data-theme="light"] header.app-header#header:not(.scrolled) {
+  --htxt: #1b1533;
+  --hmut: #5c5573;
+  --hvio: #6d28d9;
+  --hline: rgba(30, 20, 60, .14);
+  --hline-2: rgba(30, 20, 60, .3);
+  --hglass: rgba(30, 20, 60, .05);
+  --hglass-2: rgba(30, 20, 60, .09);
+}
+:root[data-theme="light"] header.app-header#header:not(.scrolled) .nav-panel,
+:root[data-theme="light"] header.app-header#header:not(.scrolled) .search-dropdown {
+  --htxt: #f1eef9;
+  --hmut: #9a92b0;
+  --hvio: #a78bfa;
+  --hline: rgba(255, 255, 255, .11);
+  --hglass: rgba(255, 255, 255, .05);
+  --hglass-2: rgba(255, 255, 255, .08);
+}
+/* Поле поиска в светлой теме: лупа и placeholder тоже тёмные, иначе теряются на светлом. */
+:root[data-theme="light"] header.app-header#header:not(.scrolled) .search-input {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235c5573' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='6'/%3E%3Cpath d='M20.5 20.5 16 16'/%3E%3C/svg%3E");
+}
+:root[data-theme="light"] header.app-header#header:not(.scrolled) .search-input::placeholder {
+  color: rgba(92, 85, 115, .8);
+}
 
 /* Контейнер строки шапки: ширина и отступы как в .wrap на главной */
 header.app-header .head-in,
