@@ -35,7 +35,7 @@ function panel_sections(): array {
         array('file' => 'glossary.php',    'title' => 'Глоссарий',    'group' => 'Контент',      'icon' => 'Aa','ready' => false, 'hint' => 'термины — фаза 10'),
 
         array('file' => 'banners.php',     'title' => 'Баннеры',      'group' => 'Реклама',      'icon' => '▣', 'ready' => true,  'hint' => 'слоты и картинки'),
-        array('file' => 'ads.php',         'title' => 'Рекламные блоки','group' => 'Реклама',    'icon' => '◲', 'ready' => false, 'hint' => 'РСЯ и AdSense — фаза 6'),
+        array('file' => 'ads.php',         'title' => 'Рекламные блоки','group' => 'Реклама',    'icon' => '◲', 'ready' => true,  'hint' => 'РСЯ, AdSense, свой HTML'),
         array('file' => 'reviews.php',     'title' => 'Отзывы',       'group' => 'Реклама',      'icon' => '★', 'ready' => false, 'hint' => 'модерация — фаза 7-В'),
 
         array('file' => 'seo-center.php',  'title' => 'SEO-центр',    'group' => 'Продвижение',  'icon' => '◎', 'ready' => false, 'hint' => 'оценка страниц — фаза 7'),

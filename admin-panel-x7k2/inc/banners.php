@@ -189,6 +189,7 @@ function banners_delete(string $id): array {
 require_once __DIR__ . '/backup.php';
 require_once __DIR__ . '/media.php';
 require_once __DIR__ . '/publish.php';      // file_backup(): копия картинки перед перезаписью
+require_once __DIR__ . '/pages.php';        // список страниц сайта и правила «где показывать»
 
 /** Состояние баннера для списка. */
 function banner_status(array $b): array {
@@ -207,55 +208,9 @@ function banner_status(array $b): array {
 
 /** Показывать ли баннер на этой странице (адрес вида /blog/otpusknye/). */
 function banner_pages_ok(array $b, string $path): bool {
-    $path = '/' . ltrim($path, '/');
-    if ($path !== '/' && substr($path, -1) !== '/') { $path .= '/'; }
-
-    foreach ((array)($b['pages'] ?? array()) as $p) {
-        $p = trim((string)$p);
-        if ($p === '') { continue; }
-        if ($p === '*') { return true; }
-        if (substr($p, -2) === '/*') {                       // «/blog/*» — все страницы раздела
-            if (strpos($path, substr($p, 0, -1)) === 0) { return true; }
-            continue;
-        }
-        if (strpos($p, '*') !== false) {                     // «/blog/*otpusk*» и подобное
-            $re = '#^' . str_replace('\*', '.*', preg_quote($p, '#')) . '$#';
-            if (preg_match($re, $path)) { return true; }
-            continue;
-        }
-        if (rtrim($p, '/') === rtrim($path, '/')) { return true; }
-    }
-    return false;
+    return pages_rule_match((array)($b['pages'] ?? array()), $path);
 }
 
-/** Страницы сайта: адреса вида «/», «/blog/», «/calculators/finance/vat/». */
-function site_pages_list(): array {
-    $out  = array();
-    $root = rtrim(str_replace('\\', '/', SITE_ROOT), '/');
-    $excl = backup_excludes();
-
-    $filter = new RecursiveCallbackFilterIterator(
-        new RecursiveDirectoryIterator(SITE_ROOT, FilesystemIterator::SKIP_DOTS),
-        function ($cur) use ($excl, $root) {
-            $rel = str_replace('\\', '/', substr($cur->getPathname(), strlen($root) + 1));
-            if ($rel === '') { return true; }
-            foreach ($excl as $ex) {
-                if ($rel === $ex || strpos($rel, $ex . '/') === 0) { return false; }
-            }
-            return true;
-        }
-    );
-    foreach (new RecursiveIteratorIterator($filter) as $f) {
-        if (!$f->isFile() || strtolower((string)$f->getExtension()) !== 'html') { continue; }
-        $rel = str_replace('\\', '/', substr($f->getPathname(), strlen($root) + 1));
-        if ($rel === '404.html') { continue; }
-        if ($rel === 'index.html') { $out[] = '/'; continue; }
-        if (substr($rel, -11) === '/index.html') { $out[] = '/' . substr($rel, 0, -10) . '/'; continue; }
-        $out[] = '/' . $rel;
-    }
-    sort($out);
-    return $out;
-}
 /* ─────────── вывод баннеров в страницы сайта (шаг 5.3) ─────────── */
 
 /** Счётчик ротации и время последнего вывода держим в том же файле баннеров. */
