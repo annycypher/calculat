@@ -56,7 +56,13 @@ function banners_all(): array {
 }
 
 function banners_save_all(array $list): bool {
-    return json_write(banners_file(), array('version' => 1, 'banners' => array_values($list)));
+    $meta = banners_meta();                       // счётчик ротации и время вывода не теряем
+    return json_write(banners_file(), array(
+        'version' => 1,
+        'banners' => array_values($list),
+        'rotate'  => (int)$meta['rotate'],
+        'last_render' => (string)$meta['last_render'],
+    ));
 }
 
 function banners_find(string $id): array {
@@ -250,7 +256,228 @@ function site_pages_list(): array {
     sort($out);
     return $out;
 }
-/** Проверка картинки баннера: размеры и вес против слота. ['ok','notes'=>[]] */
+/* ─────────── вывод баннеров в страницы сайта (шаг 5.3) ─────────── */
+
+/** Счётчик ротации и время последнего вывода держим в том же файле баннеров. */
+function banners_meta(): array {
+    $data = json_read(banners_file(), array());
+    return array(
+        'rotate'      => (int)($data['rotate'] ?? 0),
+        'last_render' => (string)($data['last_render'] ?? ''),
+    );
+}
+
+function banners_meta_save(array $meta): bool {
+    $data = json_read(banners_file(), array('version' => 1, 'banners' => array()));
+    if (!is_array($data)) { $data = array(); }
+    $data['version'] = 1;
+    $data['banners'] = array_values((array)($data['banners'] ?? array()));
+    $data['rotate']  = (int)($meta['rotate'] ?? 0);
+    if (isset($meta['last_render'])) { $data['last_render'] = (string)$meta['last_render']; }
+    return json_write(banners_file(), $data);
+}
+
+/** Путь к файлу страницы сайта по её адресу («/», «/blog/», «/privacy.html»). */
+function banner_page_file(string $rel): string {
+    $rel = '/' . ltrim($rel, '/');
+    if ($rel === '/') { return SITE_ROOT . '/index.html'; }
+    if (substr($rel, -1) === '/') { return SITE_ROOT . $rel . 'index.html'; }
+    return SITE_ROOT . $rel;
+}
+
+/** Страницы сайта, в которых есть слоты баннеров: ['/blog/…/' => ['banner-top', …]]. */
+function banner_slot_pages(): array {
+    static $cache = null;
+    if ($cache !== null) { return $cache; }
+
+    $slots = banner_slots();
+    $out   = array();
+    foreach (site_pages_list() as $rel) {
+        $path = banner_page_file((string)$rel);
+        if (!is_file($path)) { continue; }
+        $html = (string)@file_get_contents($path);
+        if ($html === '') { continue; }
+
+        $here = array();
+        foreach (array_keys($slots) as $slot) {
+            if (strpos($html, '<!--SLOT:' . $slot . '-->') !== false) { $here[] = (string)$slot; }
+        }
+        if (count($here) > 0) { $out[(string)$rel] = $here; }
+    }
+    $cache = $out;
+    return $out;
+}
+
+/** Баннеры, которые подходят этой странице и слоту: включён, срок идёт, страницы совпали. */
+function banner_fit_list(array $banners, string $slot, string $pagePath, string $today = ''): array {
+    if ($today === '') { $today = date('Y-m-d'); }
+    $out = array();
+    foreach ($banners as $b) {
+        if ((string)($b['slot'] ?? '') !== $slot)                          { continue; }
+        $st = banner_status($b);
+        if ((string)$st['text'] !== 'показывается')                        { continue; }
+        if ((string)($b['date_from'] ?? '') !== '' && (string)$b['date_from'] > $today) { continue; }
+        if (!banner_pages_ok($b, $pagePath))                               { continue; }
+        $out[] = $b;
+    }
+    return $out;
+}
+
+/** Выбор баннера с учётом веса и ротации: чем больше вес, тем чаще показывается.
+    $seed увеличивается при каждом выводе, поэтому баннеры сменяют друг друга;
+    если по весам выпал тот же баннер, что был в прошлом выпуске, берём следующий. */
+function banner_pick(array $list, string $pagePath, string $slot, int $seed): array {
+    if (count($list) === 0) { return array(); }
+    $cycle = array();
+    foreach ($list as $b) {
+        $w = max(1, min(10, (int)($b['weight'] ?? 1)));
+        for ($i = 0; $i < $w; $i++) { $cycle[] = $b; }
+    }
+    $n = count($cycle);
+    $h = crc32($pagePath . '|' . $slot) % $n;
+    /* Шагаем на число РАЗНЫХ баннеров (а не на 1): тогда следующий выпуск гарантированно
+       берёт другой баннер, а вес по-прежнему решает, сколько мест он занимает в цикле. */
+    $stride = max(1, count($list));
+    $idx = ((($seed * $stride) + $h) % $n + $n) % $n;
+    return (array)$cycle[$idx];
+}
+
+/** Блок баннера для страницы: рамка по ширине слота, картинка с копиями под телефон.
+    Стили пишем прямо в блоке — так страница не зависит от стилей сайта и ?v= не нужно.
+    width:100% и height:auto — на телефоне 360 px баннер сжимается, а не растягивает страницу. */
+function banner_slot_markup(array $b, string $slot): string {
+    $html = banner_html($b);
+    if ($html === '') { return ''; }
+    $slots = banner_slots();
+    $maxW  = isset($slots[$slot]) ? (int)$slots[$slot]['w'] : 1200;
+    return '<div class="banner-slot" data-slot="' . h($slot) . '" data-banner="' . h((string)($b['id'] ?? '')) . '"'
+         . ' style="max-width:' . $maxW . 'px;margin:26px auto;padding:0 16px">'
+         . '<div style="line-height:0">' . $html . '</div></div>';
+}
+
+/** План вывода: что панель вставит в каждый слот каждой страницы. */
+function banner_plan(int $seed = 0): array {
+    $banners = banners_all()['banners'];
+    $pages   = banner_slot_pages();
+    $items   = array();
+    $inserted = 0; $empty = 0;
+
+    foreach ($pages as $rel => $slots) {
+        foreach ((array)$slots as $slot) {
+            $list = banner_fit_list($banners, (string)$slot, (string)$rel);
+            $pick = banner_pick($list, (string)$rel, (string)$slot, $seed);
+            $items[(string)$rel][(string)$slot] = $pick;
+            if (count($pick) > 0) { $inserted++; } else { $empty++; }
+        }
+    }
+    return array('pages' => $pages, 'items' => $items, 'inserted' => $inserted, 'empty' => $empty,
+                 'page_count' => count($pages), 'slot_count' => $inserted + $empty);
+}
+
+/** Заменить содержимое одного слота. ['html','changed'] */
+function banner_apply_slot(string $html, string $slot, string $markup): array {
+    $open  = '<!--SLOT:' . $slot . '-->';
+    $close = '<!--/SLOT:' . $slot . '-->';
+    $pos   = strpos($html, $open);
+    if ($pos === false) { return array('html' => $html, 'changed' => false); }
+    $closePos = strpos($html, $close, $pos + strlen($open));
+    if ($closePos === false) { return array('html' => $html, 'changed' => false); }
+
+    $nl         = (strpos($html, "\r\n") !== false) ? "\r\n" : "\n";
+    $lineStart  = (int)strrpos(substr($html, 0, $pos), "\n") + 1;
+    $afterClose = $closePos + strlen($close);
+    $lineEnd    = strpos($html, "\n", $afterClose);
+    if ($lineEnd === false) { $lineEnd = strlen($html); }
+    $indent = '';
+    if (preg_match('/^[ \t]*/', (string)substr($html, $lineStart, $pos - $lineStart), $im)) { $indent = (string)$im[0]; }
+
+    $new = $indent . $open . $nl;
+    if ($markup !== '') { $new .= $indent . $markup . $nl; }
+    $new .= $indent . $close;
+
+    $old = substr($html, $lineStart, $lineEnd - $lineStart);
+    if ($old === $new) { return array('html' => $html, 'changed' => false); }
+    return array('html' => substr($html, 0, $lineStart) . $new . substr($html, $lineEnd), 'changed' => true);
+}
+
+/** Записать план в страницы: перед каждой записью — копия файла в backups/files. */
+function banner_apply(array $plan): array {
+    $out = array('ok' => true, 'error' => '', 'files' => array(),
+                 'inserted' => (int)($plan['inserted'] ?? 0), 'empty' => (int)($plan['empty'] ?? 0), 'unchanged' => 0);
+
+    foreach ((array)($plan['items'] ?? array()) as $rel => $slots) {
+        $abs = banner_page_file((string)$rel);
+        if (!is_file($abs)) { continue; }
+        $html = (string)@file_get_contents($abs);
+        $new  = $html;
+        $changed = false;
+
+        foreach ((array)$slots as $slot => $pick) {
+            $markup = count((array)$pick) > 0 ? banner_slot_markup((array)$pick, (string)$slot) : '';
+            $res    = banner_apply_slot($new, (string)$slot, $markup);
+            if ($res['changed']) { $new = (string)$res['html']; $changed = true; }
+        }
+        if (!$changed) { $out['unchanged']++; continue; }
+
+        $bak = file_backup($abs);
+        if (empty($bak['ok'])) {
+            $out['ok']    = false;
+            $out['error'] = 'Копию файла сделать не удалось: ' . (string)($bak['error'] ?? '');
+            return $out;
+        }
+        if (@file_put_contents($abs, $new) === false) {
+            $out['ok']    = false;
+            $out['error'] = 'Не получилось записать ' . (string)$rel . ' — проверьте права на файл.';
+            return $out;
+        }
+        $out['files'][] = array('rel' => (string)$rel, 'backup' => (string)($bak['name'] ?? ''));
+    }
+    return $out;
+}
+
+/** Что стоит на страницах сейчас: сколько блоков выведено, сколько слотов пусто. */
+function banner_current_state(): array {
+    $rendered = 0; $empty = 0; $pages = array();
+    foreach (banner_slot_pages() as $rel => $slots) {
+        $abs  = banner_page_file((string)$rel);
+        $html = is_file($abs) ? (string)@file_get_contents($abs) : '';
+        foreach ((array)$slots as $slot) {
+            $open  = '<!--SLOT:' . $slot . '-->';
+            $close = '<!--/SLOT:' . $slot . '-->';
+            $p = strpos($html, $open);
+            if ($p === false) { continue; }
+            $c     = strpos($html, $close, $p);
+            $inner = $c !== false ? substr($html, $p, $c - $p) : '';
+            if (strpos($inner, 'class="banner-slot"') !== false) {
+                $rendered++;
+                if (!isset($pages[(string)$rel])) { $pages[(string)$rel] = array(); }
+                $pages[(string)$rel][] = (string)$slot;
+            } else {
+                $empty++;
+            }
+        }
+    }
+    return array('rendered' => $rendered, 'empty' => $empty, 'pages' => $pages);
+}
+
+/** Вывести баннеры на сайт: посчитать план и записать в страницы. Ротация — счётчик в файле баннеров. */
+function banner_render_site(): array {
+    $meta = banners_meta();
+    $seed = (int)$meta['rotate'] + 1;
+    $plan = banner_plan($seed);
+    $res  = banner_apply($plan);
+    $res['rotate'] = $seed;
+    $res['plan']   = $plan;
+    if ($res['ok']) {
+        banners_meta_save(array('rotate' => $seed, 'last_render' => date('Y-m-d H:i:s')));
+        log_action('Баннеры выведены на сайт',
+            'обновлено страниц: ' . count((array)$res['files']) . ', баннеров в слотах: ' . (int)$res['inserted']
+            . ', пустых слотов: ' . (int)$res['empty']);
+    }
+    return $res;
+}
+
+
 function banner_image_check(string $name, string $slot): array {
     $slots = banner_slots();
     $path  = MEDIA_DIR . '/' . basename($name);
@@ -306,7 +533,8 @@ function banner_html(array $b): string {
     if ($name === '' || !is_file(MEDIA_DIR . '/' . $name)) { return ''; }
 
     $sizes = '(max-width: ' . ((int)$spec['w'] + 40) . 'px) 100vw, ' . (int)$spec['w'] . 'px';
-    $img   = media_snippet($name, h((string)($b['alt'] ?? '')), $sizes);
+    $img   = media_snippet($name, h((string)($b['alt'] ?? '')), $sizes,
+                           'display:block;width:100%;height:auto;max-width:100%;border-radius:14px');
 
     $url = trim((string)($b['url'] ?? ''));
     if ($url === '') { return $img; }

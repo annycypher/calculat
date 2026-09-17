@@ -569,7 +569,7 @@ foreach ($sitePages as $rel) {
 }
 check('главная и страницы блога байт в байт как были', $same);
 check('баннер не вставился в главную страницу',
-      strpos((string)@file_get_contents(SITE . '/index.html'), 'banner-top') === false
+      strpos((string)@file_get_contents(SITE . '/index.html'), 'class="banner-slot"') === false
       && strpos((string)@file_get_contents(SITE . '/index.html'), $imgName) === false);
 check('настройки баннеров лежат в панели, а не в страницах', is_file(SITE . '/content/banners.json'));
 $site = json_decode((string)@file_get_contents(SITE . '/content/banners.json'), true);
@@ -579,7 +579,159 @@ check('в файле баннеров осталось четыре баннер
       count((array)($site['banners'] ?? array())) === 4, 'записей: ' . count((array)($site['banners'] ?? array())));
 
 say('');
+say('11-Б. Вывод баннеров в слоты сайта (шаг 5.3)');
+
+/* Слепки ВСЕХ страниц сайта: после проверок вернём их байт в байт */
+$renderPages = array();
+$it = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(SITE, FilesystemIterator::SKIP_DOTS));
+foreach ($it as $rf) {
+    if (!$rf->isFile() || strtolower((string)$rf->getExtension()) !== 'html') { continue; }
+    $rel = str_replace('\\', '/', substr($rf->getPathname(), strlen(SITE) + 1));
+    if (preg_match('#^(admin-panel-x7k2|backups|_backup|_archive|_game-test|media|content|api|sweb-migration|libs)/#', $rel)) { continue; }
+    $renderPages[] = $rel;
+}
+$renderBefore = array();
+foreach ($renderPages as $rv) { $renderBefore[$rv] = (string)@file_get_contents(SITE . '/' . $rv); }
+$backupFilesBefore3 = array_map('basename', (array)glob(SITE . '/backups/files/*'));
+
+$vatFile  = SITE . '/calculators/finance/vat/index.html';
+$blogFile = SITE . '/blog/index.html';
+
+$r = http(BASE . '/banners.php');
+check('в панели есть карточка «Вывод на сайт»',
+      has($r['b'], 'Вывод на сайт') && has($r['b'], 'Обновить баннеры на сайте…'));
+preg_match('/Слотов на сайте: (\d+) на (\d+) страницах/u', plain($r['b']), $slm);
+check('панель называет число слотов и страниц',
+      (int)($slm[1] ?? 0) >= 191 && (int)($slm[2] ?? 0) >= 48,
+      'слотов: ' . (int)($slm[1] ?? 0) . ', страниц: ' . (int)($slm[2] ?? 0));
+check('в таблице вывода видно, сколько слотов займёт каждый баннер', has($r['b'], 'В этом выводе'));
+
+/* Новые статьи панель собирает уже со слотами — иначе баннеры в них негде показать */
+$r = http(BASE . '/article-template.php?preview=1');
+check('шаблон новой статьи содержит слоты баннеров',
+      strpos($r['b'], '<!--SLOT:banner-top-->') !== false && strpos($r['b'], '<!--SLOT:banner-footer-->') !== false
+      && strpos($r['b'], '<!--SLOT:banner-mid-->') !== false && strpos($r['b'], '<!--SLOT:banner-after-tool-->') !== false,
+      'код ' . $r['s']);
+
+$r = http(BASE . '/banners.php?render=1');
+check('экран подтверждения вывода открывается',
+      $r['s'] === 200 && has($r['b'], 'Обновить баннеры на сайте?')
+      && has($r['b'], 'Да, обновить баннеры на сайте') && has($r['b'], 'backups/files'), 'код ' . $r['s']);
+$csrf = csrf($r['b']);
+$r = http(BASE . '/banners.php', array('csrf' => $csrf, 'op' => 'render'));
+check('вывод принят (редирект)', $r['s'] === 302, 'код ' . $r['s']);
+$r = http(BASE . '/banners.php');
+check('панель отчиталась о выводе', has($r['b'], 'Баннеры выведены на сайт'));
+check('панель помнит, когда выводила', !has($r['b'], 'ещё не выводили') && has($r['b'], 'Последнее обновление'));
+// MARKER-TEST-5-3-B
+
+$vat = (string)@file_get_contents($vatFile);
+check('в странице появился блок баннера в шапке',
+      strpos($vat, 'class="banner-slot" data-slot="banner-top" data-banner="') !== false);
+check('блок вставлен внутрь слота — между маркерами',
+      (bool)preg_match('#<!--SLOT:banner-top-->\s+<div class="banner-slot".*?</div></div>\s+<!--/SLOT:banner-top-->#s', $vat));
+check('в блоке картинка с копиями под телефон и размерами',
+      (bool)preg_match('#<div class="banner-slot".*?<img src="/media/uploads/[^"]+" srcset="[^"]+" sizes="[^"]+"#s', $vat));
+check('у картинки проставлены размеры, «ленивая» загрузка и подпись alt',
+      (bool)preg_match('#<img [^>]*width="\d+" height="\d+"[^>]*loading="lazy" alt="[^"]+"#', $vat));
+check('картинка сжимается на телефоне (360 px): width:100% и height:auto',
+      strpos($vat, 'style="display:block;width:100%;height:auto;max-width:100%;border-radius:14px"') !== false);
+check('блок не шире слота (max-width 1200 px и поля по бокам)',
+      strpos($vat, 'style="max-width:1200px;margin:26px auto;padding:0 16px"') !== false);
+
+$vatSlots = array();
+preg_match_all('/data-slot="([a-z-]+)" data-banner="([a-z0-9]+)"/', $vat, $vm, PREG_SET_ORDER);
+foreach ($vm as $vrow) { $vatSlots[(string)$vrow[1]] = (string)$vrow[2]; }
+check('на странице инструмента баннеры только в своих слотах: шапка и середина',
+      count($vatSlots) === 2 && isset($vatSlots['banner-top']) && isset($vatSlots['banner-mid']),
+      'слоты: ' . implode(', ', array_keys($vatSlots)));
+check('в слоты «после инструмента» и «перед подвалом» ничего не попало',
+      !isset($vatSlots['banner-after-tool']) && !isset($vatSlots['banner-footer']));
+
+$firstTop = (string)($vatSlots['banner-top'] ?? '');
+$r    = http(BASE . '/banners.php?render=1');
+$csrf = csrf($r['b']);
+http(BASE . '/banners.php', array('csrf' => $csrf, 'op' => 'render'));
+$vat2 = (string)@file_get_contents($vatFile);
+preg_match('/data-slot="banner-top" data-banner="([a-z0-9]+)"/', $vat2, $v2m);
+$secondTop = (string)($v2m[1] ?? '');
+$r    = http(BASE . '/banners.php?render=1');
+$csrf = csrf($r['b']);
+http(BASE . '/banners.php', array('csrf' => $csrf, 'op' => 'render'));
+$vat2b = (string)@file_get_contents($vatFile);
+preg_match('/data-slot="banner-top" data-banner="([a-z0-9]+)"/', $vat2b, $v2c);
+$thirdTop = (string)($v2c[1] ?? '');
+check('ротация: выпуски показывают разные баннеры в одном слоте',
+      count(array_unique(array($firstTop, $secondTop, $thirdTop))) >= 2,
+      $firstTop . ' → ' . $secondTop . ' → ' . $thirdTop);
+
+/* Просроченный и выключенный баннеры со страниц уходят */
+$csrf = csrf(http(BASE . '/banners.php?e=' . $id)['b']);
+http(BASE . '/banners.php', array('csrf' => $csrf, 'op' => 'save', 'id' => $id, 'slot' => 'banner-top',
+    'image' => $imgName, 'alt' => 'Тестовый баннер шапки', 'url' => '/calculators/finance/vat/',
+    'title' => 'Тест шапки', 'pages' => array('*'), 'pages_extra' => '',
+    'date_from' => date('Y-m-d'), 'date_to' => date('Y-m-d', strtotime('-1 day')), 'weight' => '3', 'active' => '1'));
+$csrf = csrf(http(BASE . '/banners.php')['b']);
+http(BASE . '/banners.php', array('csrf' => $csrf, 'op' => 'toggle', 'id' => $id3));
+$r    = http(BASE . '/banners.php?render=1');
+$csrf = csrf($r['b']);
+http(BASE . '/banners.php', array('csrf' => $csrf, 'op' => 'render'));
+$vat3 = (string)@file_get_contents($vatFile);
+check('просроченный баннер убран со страницы', strpos($vat3, 'data-banner="' . $id . '"') === false);
+check('выключенный баннер убран со страницы', strpos($vat3, 'data-banner="' . $id3 . '"') === false);
+check('на странице остался баннер с идущим сроком',
+      strpos($vat3, 'data-banner="' . $idPv . '"') !== false, 'ожидали ' . $idPv);
+// MARKER-TEST-5-3-C
+
+/* Баннер «только для блога»: на странице инструмента его нет, в блоге — есть */
+$csrf = csrf(http(BASE . '/banners.php?e=' . $idPv)['b']);
+http(BASE . '/banners.php', array('csrf' => $csrf, 'op' => 'save', 'id' => $idPv, 'slot' => 'banner-top',
+    'image' => $imgName2, 'alt' => 'Внешняя ссылка', 'url' => 'https://calc-doc.ru/blog/', 'title' => 'Внешняя',
+    'pages' => array('/blog/*'), 'pages_extra' => '', 'date_from' => date('Y-m-d'), 'date_to' => '',
+    'weight' => '1', 'active' => '1'));
+$csrf = csrf(http(BASE . '/banners.php')['b']);
+http(BASE . '/banners.php', array('csrf' => $csrf, 'op' => 'toggle', 'id' => $idSmall));
+$r    = http(BASE . '/banners.php?render=1');
+$csrf = csrf($r['b']);
+http(BASE . '/banners.php', array('csrf' => $csrf, 'op' => 'render'));
+
+$vat4  = (string)@file_get_contents($vatFile);
+$blog4 = (string)@file_get_contents($blogFile);
+check('на странице инструмента баннеров не осталось (другие страницы показа)',
+      substr_count($vat4, 'class="banner-slot"') === 0);
+check('пустой слот ничего не рисует, но маркеры на месте',
+      substr_count($vat4, '<!--SLOT:banner-top-->') === 1 && substr_count($vat4, '<!--/SLOT:banner-top-->') === 1
+      && substr_count($vat4, '<!--SLOT:banner-footer-->') === 1);
+check('в блоге баннер, ограниченный страницами «/blog/*», показан',
+      strpos($blog4, 'data-banner="' . $idPv . '"') !== false);
+check('внешняя ссылка выведена с target и rel',
+      strpos($blog4, 'target="_blank" rel="noopener"') !== false);
+check('в блоге пустые слоты тоже ничего не рисуют',
+      substr_count($blog4, 'class="banner-slot"') === 1, 'блоков: ' . substr_count($blog4, 'class="banner-slot"'));
+check('текст страниц не пострадал — изменились только блоки в слотах',
+      strpos(plain($vat4), 'Калькулятор НДС') !== false && strpos(plain($blog4), 'Статьи') !== false);
+
+/* Возвращаем все страницы сайта байт в байт и убираем копии, сделанные тестом */
+$restored = 0;
+foreach ($renderBefore as $rv => $text) {
+    if (@file_put_contents(SITE . '/' . $rv, $text) !== false) { $restored++; }
+}
+foreach (array_values(array_diff(array_map('basename', (array)glob(SITE . '/backups/files/*')), $backupFilesBefore3)) as $nb) {
+    @unlink(SITE . '/backups/files/' . $nb);
+}
+check('все страницы сайта возвращены как было',
+      $restored === count($renderBefore)
+      && (string)@file_get_contents($vatFile) === $renderBefore['calculators/finance/vat/index.html']
+      && (string)@file_get_contents($blogFile) === $renderBefore['blog/index.html']);
+check('копии страниц из backups/files за тестом убраны',
+      count(array_diff(array_map('basename', (array)glob(SITE . '/backups/files/*')), $backupFilesBefore3)) === 0);
+check('в снимке страницы блоков баннеров не было (панель писала только в слоты)',
+      strpos($renderBefore['calculators/finance/vat/index.html'], 'banner-slot') === false);
+
+say('');
 say('12. Уборка за тестом');
+
+
 
 @unlink($bannersFile);
 if ($hadBanners) { @rename(__DIR__ . '/banners.json.bak', $bannersFile); }

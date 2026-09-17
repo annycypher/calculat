@@ -112,6 +112,19 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         exit;
     }
 
+    if ($op === 'render') {
+        $res = banner_render_site();
+        if ($res['ok']) {
+            flash('Баннеры выведены на сайт: обновлено страниц — ' . count((array)$res['files'])
+                . ', баннеров в слотах — ' . (int)$res['inserted']
+                . ', пустых слотов — ' . (int)$res['empty'] . '.');
+        } else {
+            flash('Вывести не получилось: ' . $res['error'], 'error');
+        }
+        header('Location: ' . panel_url('banners.php'));
+        exit;
+    }
+
     if ($op === 'save') {
         $res = banners_put($fields, $id);
         if ($res['ok']) {
@@ -137,6 +150,7 @@ $editId  = isset($_GET['e']) ? trim((string)$_GET['e']) : '';
 $newMode = isset($_GET['new']);
 $pick    = isset($_GET['pick']);
 $delId   = isset($_GET['del']) ? trim((string)$_GET['del']) : '';
+$renderMode = isset($_GET['render']);
 
 if ($editId !== '' && count(banners_find($editId)) === 0) {
     flash('Такого баннера нет — возможно, его удалили.', 'error');
@@ -150,6 +164,19 @@ $banners   = banners_all()['banners'];
 $mediaList = media_list();
 $pagesAll  = site_pages_list();
 
+/* Что панель выведет на сайт при следующем обновлении (ротация — следующий шаг счётчика). */
+$slotPages  = banner_slot_pages();
+$bdState    = banner_current_state();
+$bdMeta     = banners_meta();
+$bdPlan     = banner_plan((int)$bdMeta['rotate'] + 1);
+$bdCounts   = array();
+foreach ((array)$bdPlan['items'] as $bdRel => $bdSlots) {
+    foreach ((array)$bdSlots as $bdSlot => $bdPick) {
+        $bdId = (string)($bdPick['id'] ?? '');
+        if ($bdId !== '') { $bdCounts[$bdId] = (int)($bdCounts[$bdId] ?? 0) + 1; }
+    }
+}
+
 panel_page_start('Баннеры', 'Картинки в четырёх местах сайта: где показывать, когда и по какой ссылке', 'banners.php');
 
 if ($newMode) {
@@ -158,6 +185,41 @@ if ($newMode) {
     if (isset($slots[$slotFromGet])) { $form['slot'] = $slotFromGet; }
 }
 ?>
+<?php if ($renderMode) { ?>
+<?php card_start('Обновить баннеры на сайте?',
+                 'Панель перезапишет только содержимое слотов; копия каждого файла — в backups/files', 'warn'); ?>
+<?php
+    $bdActive = 0; $bdSkipped = 0;
+    foreach ($banners as $b) {
+        if ((int)($bdCounts[(string)$b['id']] ?? 0) > 0) { $bdActive++; } else { $bdSkipped++; }
+    }
+?>
+      <p style="margin:0 0 10px">Панель впишет баннеры в слоты страниц сайта. Сейчас на сайте
+        <strong><?php echo (int)$bdPlan['page_count']; ?></strong> страниц со слотами
+        (<?php echo (int)$bdPlan['slot_count']; ?> слотов).
+        В этом обновлении будет заполнено <strong><?php echo (int)$bdPlan['inserted']; ?></strong> слотов,
+        а <?php echo (int)$bdPlan['empty']; ?> останутся пустыми — там баннер не покажется, страница выглядит как обычно.</p>
+<?php if ($bdPlan['inserted'] === 0) { ?>
+      <p class="field-warn">⚠ Подходящих баннеров нет: проверьте, что баннеры включены, срок показа идёт и выбраны нужные страницы.
+        Если обновить сейчас, панель просто уберёт из слотов прежние баннеры.</p>
+<?php } ?>
+      <p class="hint" style="margin:0 0 10px">Участвуют в выводе: <?php echo (int)$bdActive; ?> баннер(ов).
+        Не попадут ни на одну страницу: <?php echo (int)$bdSkipped; ?> (выключенные, с истёкшим сроком
+        или с другими страницами показа).</p>
+      <p class="hint" style="margin:0 0 14px">Ротация: если в слоте несколько подходящих баннеров, при каждом обновлении
+        панель меняет их по кругу с учётом веса. Последнее обновление:
+        <?php echo $bdMeta['last_render'] !== '' ? h(ago((string)$bdMeta['last_render'])) : 'ещё не выводили'; ?>.</p>
+      <div class="btn-row">
+        <form method="post" action="<?php echo h(panel_url('banners.php')); ?>">
+          <?php echo csrf_field(); ?>
+          <input type="hidden" name="op" value="render" />
+          <button class="btn primary" type="submit">Да, обновить баннеры на сайте</button>
+        </form>
+        <a class="btn ghost" href="<?php echo h(panel_url('banners.php')); ?>">Отмена</a>
+      </div>
+<?php card_end(); ?>
+<?php } ?>
+
 <?php if ($delBan !== array()) { ?>
 <?php card_start('Удалить баннер?', 'Картинка останется в медиа-файлах — её можно использовать снова', 'err'); ?>
       <p style="margin:0 0 10px">Баннер в слоте «<?php echo h(banner_slot_title((string)($delBan['slot'] ?? ''))); ?>»:
@@ -444,7 +506,7 @@ if ($newMode) {
 <?php } ?>
       </select>
       <div class="field-hint">Если в слоте несколько баннеров, панель показывает их по очереди. Чем больше вес,
-        тем чаще показывается этот баннер.</div>
+        тем чаще показывается этот баннер — при большом весе он может выпасть и два выпуска подряд.</div>
 
       <div class="btn-row" style="margin-top:14px">
         <button class="btn primary" type="submit" name="op" value="save">Сохранить баннер</button>
@@ -453,6 +515,47 @@ if ($newMode) {
 <?php card_end(); ?>
 </form>
 <?php } ?>
+
+<?php card_start('Вывод на сайт', 'Панель сама вписывает баннеры в слоты страниц — файлы сайта править руками не нужно'); ?>
+      <p style="margin:0 0 10px">Слотов на сайте: <strong><?php echo (int)$bdPlan['slot_count']; ?></strong>
+        на <?php echo (int)$bdPlan['page_count']; ?> страницах.
+        Сейчас выведено блоков: <strong><?php echo (int)$bdState['rendered']; ?></strong>,
+        пустых слотов: <?php echo (int)$bdState['empty']; ?>.
+        Последнее обновление: <?php echo $bdMeta['last_render'] !== '' ? h(ago((string)$bdMeta['last_render'])) : 'ещё не выводили'; ?>.</p>
+
+<?php if (count($banners) === 0) { ?>
+      <p class="empty">Баннеров пока нет — добавьте их выше, потом нажмите «Обновить баннеры на сайте».</p>
+<?php } else { ?>
+      <table class="table">
+        <tr><th>Баннер</th><th>Слот</th><th>Состояние</th><th>Страницы показа</th><th>В этом выводе</th></tr>
+<?php foreach ($banners as $b) {
+        $st  = banner_status($b);
+        $cnt = (int)($bdCounts[(string)$b['id']] ?? 0); ?>
+        <tr>
+          <td><code class="media-name"><?php echo h((string)($b['image'] ?? '')); ?></code>
+            <?php if ((string)($b['title'] ?? '') !== '') { ?>
+            <div class="hint"><?php echo h((string)$b['title']); ?></div>
+            <?php } ?></td>
+          <td><?php echo h(banner_slot_title((string)($b['slot'] ?? ''))); ?></td>
+          <td><?php echo badge((string)$st['text'], (string)$st['tone']); ?></td>
+          <td><span class="hint"><?php echo h(implode(', ', (array)($b['pages'] ?? array()))); ?></span></td>
+          <td><?php echo $cnt > 0 ? badge('слотов: ' . $cnt, 'ok') : badge('ни одного', 'mut'); ?></td>
+        </tr>
+<?php } ?>
+      </table>
+<?php } ?>
+
+      <div class="btn-row" style="margin-top:14px">
+        <a class="btn primary" href="<?php echo h(panel_url('banners.php?render=1')); ?>">Обновить баннеры на сайте…</a>
+      </div>
+      <div class="field-hint">Панель перепишет только содержимое слотов — остальной текст страниц остаётся как есть.
+        Копия каждого изменённого файла ложится в <code>backups\files\</code>, страницу всегда можно вернуть.
+        Если в слоте несколько баннеров, каждый выпуск меняет их по кругу с учётом веса (ротация),
+        а выключенные и просроченные баннеры со страниц убираются.</div>
+      <div class="field-hint">Слоты уже стоят в страницах комментариями вида
+        <code>&lt;!--SLOT:banner-top--&gt;</code> (проверено по ADMIN-MARKERS.md). Служебные страницы
+        (политика, поиск, 404) остаются без баннеров — как вы и решали.</div>
+<?php card_end(); ?>
 
 <?php card_start('Что дальше', 'Подсказки, чтобы не искать по разделам'); ?>
       <ul style="margin:0;padding-left:22px;color:var(--mut);font-size:13.5px">

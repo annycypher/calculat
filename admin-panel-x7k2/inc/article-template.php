@@ -295,12 +295,22 @@ function article_body(array $f): string {
     $out .= '      <h1>' . h($title) . "</h1>\n";
     $out .= '      <p class="tool-meta">Обновлено: ' . h(article_russian_date($modified)) . "</p>\n";
     $out .= "    </div>\n\n";
+    $out .= "    <!--SLOT:banner-top-->\n    <!--/SLOT:banner-top-->\n";
     $out .= "    <div class=\"container section\">\n";
     $out .= "      <div class=\"prose\">\n";
     if ($category !== '') { $out .= '        <span class="eyebrow">' . h($category) . "</span>\n"; }
     if ($intro !== '')    { $out .= '        <p>' . article_inline($intro) . "</p>\n"; }
 
-    foreach ((array)($f['blocks'] ?? array()) as $b) { $out .= article_block_html((array)$b); }
+    /* Слот «после инструмента» ставим на треть текста: в статье нет калькулятора, поэтому
+       два баннера подряд в начале выглядели бы плохо (как и в существующих статьях сайта). */
+    $blocks = array_values((array)($f['blocks'] ?? array()));
+    $cut    = (int)floor(count($blocks) / 3);
+    foreach ($blocks as $i => $b) {
+        if (count($blocks) >= 3 && (int)$i === $cut) {
+            $out .= "        <!--SLOT:banner-after-tool-->\n        <!--/SLOT:banner-after-tool-->\n";
+        }
+        $out .= article_block_html((array)$b);
+    }
 
     $faq = array();
     foreach ((array)($f['faq'] ?? array()) as $item) {
@@ -309,7 +319,8 @@ function article_body(array $f): string {
         if ($q !== '' && $a !== '') { $faq[] = array('q' => $q, 'a' => $a); }
     }
     if (count($faq) > 0) {
-        $out .= "\n        <h2>Частые вопросы</h2>\n";
+        $out .= "\n        <!--SLOT:banner-mid-->\n        <!--/SLOT:banner-mid-->\n";
+        $out .= "        <h2>Частые вопросы</h2>\n";
         foreach ($faq as $item) {
             $out .= "        <details class=\"seo-faq\">\n";
             $out .= '          <summary>' . article_inline($item['q']) . "</summary>\n";
@@ -339,6 +350,7 @@ function article_body(array $f): string {
           . " в договоре, у ведомства или у профильного специалиста. Все вычисления выполняются в браузере"
           . " и не покидают ваше устройство.</p>\n";
     $out .= "      </div>\n    </div>\n";
+    $out .= "    <!--SLOT:banner-footer-->\n    <!--/SLOT:banner-footer-->\n";
     return $out;
 }
 

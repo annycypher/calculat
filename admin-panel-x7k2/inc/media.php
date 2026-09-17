@@ -441,8 +441,10 @@ function media_process(string $name): array {
     return $report;
 }
 
-/** Готовый HTML для вставки на страницу: srcset с копиями, фолбэк — оригинал. */
-function media_snippet(string $name, string $alt = '', string $sizes = '(max-width: 900px) 100vw, 800px'): string {
+/** Готовый HTML для вставки на страницу: srcset с копиями, фолбэк — оригинал.
+    $style — необязательные стили картинки (нужны баннерам: width:100% и height:auto, чтобы
+    на телефоне 360 px картинка сжималась, а не растягивала страницу). */
+function media_snippet(string $name, string $alt = '', string $sizes = '(max-width: 900px) 100vw, 800px', string $style = ''): string {
     $name = basename($name);
     $item = media_index_get($name);
     $w = isset($item['w']) ? (int)$item['w'] : 0;
@@ -463,6 +465,7 @@ function media_snippet(string $name, string $alt = '', string $sizes = '(max-wid
         $html .= ' srcset="' . implode(', ', $parts) . '" sizes="' . $sizes . '"';
     }
     if ($w > 0 && $h > 0) { $html .= ' width="' . $w . '" height="' . $h . '"'; }
+    if ($style !== '')    { $html .= ' style="' . $style . '"'; }
     $html .= ' loading="lazy" alt="' . ($alt !== '' ? $alt : 'Опишите картинку словами') . '" />';
     return $html;
 }
