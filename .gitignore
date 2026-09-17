@@ -35,6 +35,7 @@ api/data/
 content/users.json
 content/media.json
 content/articles.json
+content/banners.json
 content/security/*.json
 content/security/*.txt
 content/logs/*.json

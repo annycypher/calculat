@@ -1,0 +1,327 @@
+<?php
+/* inc/banners.php — баннеры в слоты сайта (шаг 5.1 протокола v4).
+
+   Четыре слота с размерами и лимитом веса (из задания):
+     banner-top        1200×200  ≤ 60 КБ  — шапка страницы
+     banner-after-tool  970×250  ≤ 70 КБ  — сразу после калькулятора
+     banner-mid         728×90   ≤ 40 КБ  — середина статьи
+     banner-footer     1200×150  ≤ 55 КБ  — над подвалом
+
+   Баннеры живут в content/banners.json (закрыт .htaccess, в git не кладём):
+     { "version": 1, "banners": [ { id, slot, image, alt, url, title, pages[],
+                                    date_from, date_to, active, weight, created, modified } ] }
+
+   Где показывать: pages[] — правила: "*" (везде), "/" (главная), "/blog/*" (все статьи),
+   "/calculators/*" и так далее. Сама вставка в страницы — шаг 5.3.
+*/
+
+declare(strict_types=1);
+
+/* Прямой заход браузером в этот файл — закрываем (см. пояснение в config.php). */
+if (isset($_SERVER['SCRIPT_FILENAME']) && realpath((string)$_SERVER['SCRIPT_FILENAME']) === realpath(__FILE__)) {
+    http_response_code(404);
+    exit;
+}
+
+/** Слоты: размеры и лимит веса. */
+function banner_slots(): array {
+    return array(
+        'banner-top'        => array('title' => 'Шапка страницы',           'w' => 1200, 'h' => 200, 'kb' => 60),
+        'banner-after-tool' => array('title' => 'Сразу после калькулятора', 'w' => 970,  'h' => 250, 'kb' => 70),
+        'banner-mid'        => array('title' => 'Середина статьи',          'w' => 728,  'h' => 90,  'kb' => 40),
+        'banner-footer'     => array('title' => 'Над подвалом',             'w' => 1200, 'h' => 150, 'kb' => 55),
+    );
+}
+
+/** Название слота по ключу. */
+function banner_slot_title(string $slot): string {
+    $slots = banner_slots();
+    return isset($slots[$slot]) ? $slots[$slot]['title'] : $slot;
+}
+
+/** Файл баннеров. */
+function banners_file(): string {
+    return CONTENT_DIR . '/banners.json';
+}
+
+/** Все баннеры: свежие сверху. */
+function banners_all(): array {
+    $data = json_read(banners_file(), array('version' => 1, 'banners' => array()));
+    $list = (isset($data['banners']) && is_array($data['banners'])) ? $data['banners'] : array();
+    usort($list, function ($a, $b) {
+        $s = strcmp((string)($b['modified'] ?? ''), (string)($a['modified'] ?? ''));
+        return $s !== 0 ? $s : strcmp((string)($a['title'] ?? ''), (string)($b['title'] ?? ''));
+    });
+    return array('version' => 1, 'banners' => array_values($list));
+}
+
+function banners_save_all(array $list): bool {
+    return json_write(banners_file(), array('version' => 1, 'banners' => array_values($list)));
+}
+
+function banners_find(string $id): array {
+    if ($id === '') { return array(); }
+    foreach (banners_all()['banners'] as $b) {
+        if ((string)($b['id'] ?? '') === $id) { return $b; }
+    }
+    return array();
+}
+
+/** Баннеры одного слота. */
+function banners_by_slot(string $slot): array {
+    $out = array();
+    foreach (banners_all()['banners'] as $b) {
+        if ((string)($b['slot'] ?? '') === $slot) { $out[] = $b; }
+    }
+    return $out;
+}
+
+/** Пустой баннер для формы. */
+function banner_blank(string $slot = 'banner-top'): array {
+    return array(
+        'slot' => $slot, 'image' => '', 'alt' => '', 'url' => '', 'title' => '',
+        'pages' => array('*'), 'date_from' => date('Y-m-d'), 'date_to' => '',
+        'active' => true, 'weight' => 1,
+    );
+}
+/** Привести данные формы к нужному виду. ['ok','error','banner'] */
+function banners_clean(array $in): array {
+    $slots = banner_slots();
+    $slot  = (string)($in['slot'] ?? 'banner-top');
+    if (!isset($slots[$slot])) { $slot = 'banner-top'; }
+
+    $b = array(
+        'slot'      => $slot,
+        'image'     => basename(trim((string)($in['image'] ?? ''))),
+        'alt'       => trim((string)($in['alt'] ?? '')),
+        'url'       => trim((string)($in['url'] ?? '')),
+        'title'     => trim((string)($in['title'] ?? '')),
+        'pages'     => array(),
+        'date_from' => (string)($in['date_from'] ?? ''),
+        'date_to'   => (string)($in['date_to'] ?? ''),
+        'active'    => !empty($in['active']),
+        'weight'    => max(1, min(10, (int)($in['weight'] ?? 1))),
+    );
+    foreach ((array)($in['pages'] ?? array()) as $p) {
+        $p = trim((string)$p);
+        if ($p !== '') { $b['pages'][] = $p; }
+    }
+    if (count($b['pages']) === 0) { $b['pages'] = array('*'); }
+    if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', (string)$b['date_from'])) { $b['date_from'] = date('Y-m-d'); }
+    if ($b['date_to'] !== '' && !preg_match('/^\d{4}-\d{2}-\d{2}$/', (string)$b['date_to'])) { $b['date_to'] = ''; }
+    if ($b['url'] !== '' && strpos($b['url'], '/') !== 0 && strpos($b['url'], 'http') !== 0) {
+        $b['url'] = '/' . $b['url'];                       // «calculators/…» тоже поймём
+    }
+
+    $error = '';
+    if ($b['image'] === '')                          { $error = 'Не выбрана картинка баннера.'; }
+    elseif (!is_file(MEDIA_DIR . '/' . $b['image'])) { $error = 'Картинки «' . $b['image'] . '» нет в media/uploads.'; }
+    elseif ($b['alt'] === '')                        { $error = 'Заполните подпись alt — её читают поисковики и незрячие посетители.'; }
+
+    return array('ok' => $error === '', 'error' => $error, 'banner' => $b);
+}
+
+/** Создать или обновить баннер. ['ok','id','error'] */
+function banners_put(array $in, string $id = ''): array {
+    $clean = banners_clean($in);
+    if (!$clean['ok']) { return array('ok' => false, 'id' => $id, 'error' => $clean['error']); }
+
+    $list = banners_all()['banners'];
+    $now  = date('Y-m-d H:i:s');
+    if ($id === '') { $id = bin2hex(random_bytes(4)); }
+
+    $found = false;
+    foreach ($list as $i => $b) {
+        if ((string)($b['id'] ?? '') === $id) {
+            $list[$i] = array_merge($b, $clean['banner'], array('id' => $id, 'modified' => $now));
+            $found = true;
+            break;
+        }
+    }
+    if (!$found) {
+        $list[] = array_merge($clean['banner'], array('id' => $id, 'created' => $now, 'modified' => $now));
+    }
+    if (!banners_save_all($list)) {
+        return array('ok' => false, 'id' => $id, 'error' => 'Не получилось записать баннеры: проверьте права на папку content/.');
+    }
+    return array('ok' => true, 'id' => $id, 'error' => '');
+}
+
+/** Включить/выключить баннер. */
+function banners_toggle(string $id): array {
+    $list = banners_all()['banners'];
+    $ok   = false;
+    foreach ($list as $i => $b) {
+        if ((string)($b['id'] ?? '') === $id) {
+            $list[$i]['active']   = empty($b['active']);
+            $list[$i]['modified'] = date('Y-m-d H:i:s');
+            $ok = true;
+            break;
+        }
+    }
+    if (!$ok) { return array('ok' => false, 'error' => 'Такого баннера нет.'); }
+    return banners_save_all($list)
+        ? array('ok' => true, 'error' => '')
+        : array('ok' => false, 'error' => 'Не получилось сохранить файл баннеров.');
+}
+
+/** Удалить баннер. */
+function banners_delete(string $id): array {
+    $list = array();
+    $gone = false;
+    foreach (banners_all()['banners'] as $b) {
+        if ((string)($b['id'] ?? '') === $id) { $gone = true; continue; }
+        $list[] = $b;
+    }
+    if (!$gone) { return array('ok' => false, 'error' => 'Такого баннера нет — возможно, его уже удалили.'); }
+    return banners_save_all($list)
+        ? array('ok' => true, 'error' => '')
+        : array('ok' => false, 'error' => 'Не получилось сохранить файл баннеров.');
+}
+/* Нужен список исключений и обработка картинок — берём из соседних модулей
+   (в фазе 7 список исключений переедет в общий сканер сайта). */
+require_once __DIR__ . '/backup.php';
+require_once __DIR__ . '/media.php';
+require_once __DIR__ . '/publish.php';      // file_backup(): копия картинки перед перезаписью
+
+/** Состояние баннера для списка. */
+function banner_status(array $b): array {
+    $today = date('Y-m-d');
+    if (empty($b['active'])) {
+        return array('tone' => 'mut', 'text' => 'выключен');
+    }
+    if ((string)($b['date_from'] ?? '') !== '' && (string)$b['date_from'] > $today) {
+        return array('tone' => 'warn', 'text' => 'ждёт ' . (string)$b['date_from']);
+    }
+    if ((string)($b['date_to'] ?? '') !== '' && (string)$b['date_to'] < $today) {
+        return array('tone' => 'err', 'text' => 'срок истёк ' . (string)$b['date_to']);
+    }
+    return array('tone' => 'ok', 'text' => 'показывается');
+}
+
+/** Показывать ли баннер на этой странице (адрес вида /blog/otpusknye/). */
+function banner_pages_ok(array $b, string $path): bool {
+    $path = '/' . ltrim($path, '/');
+    if ($path !== '/' && substr($path, -1) !== '/') { $path .= '/'; }
+
+    foreach ((array)($b['pages'] ?? array()) as $p) {
+        $p = trim((string)$p);
+        if ($p === '') { continue; }
+        if ($p === '*') { return true; }
+        if (substr($p, -2) === '/*') {                       // «/blog/*» — все страницы раздела
+            if (strpos($path, substr($p, 0, -1)) === 0) { return true; }
+            continue;
+        }
+        if (strpos($p, '*') !== false) {                     // «/blog/*otpusk*» и подобное
+            $re = '#^' . str_replace('\*', '.*', preg_quote($p, '#')) . '$#';
+            if (preg_match($re, $path)) { return true; }
+            continue;
+        }
+        if (rtrim($p, '/') === rtrim($path, '/')) { return true; }
+    }
+    return false;
+}
+
+/** Страницы сайта: адреса вида «/», «/blog/», «/calculators/finance/vat/». */
+function site_pages_list(): array {
+    $out  = array();
+    $root = rtrim(str_replace('\\', '/', SITE_ROOT), '/');
+    $excl = backup_excludes();
+
+    $filter = new RecursiveCallbackFilterIterator(
+        new RecursiveDirectoryIterator(SITE_ROOT, FilesystemIterator::SKIP_DOTS),
+        function ($cur) use ($excl, $root) {
+            $rel = str_replace('\\', '/', substr($cur->getPathname(), strlen($root) + 1));
+            if ($rel === '') { return true; }
+            foreach ($excl as $ex) {
+                if ($rel === $ex || strpos($rel, $ex . '/') === 0) { return false; }
+            }
+            return true;
+        }
+    );
+    foreach (new RecursiveIteratorIterator($filter) as $f) {
+        if (!$f->isFile() || strtolower((string)$f->getExtension()) !== 'html') { continue; }
+        $rel = str_replace('\\', '/', substr($f->getPathname(), strlen($root) + 1));
+        if ($rel === '404.html') { continue; }
+        if ($rel === 'index.html') { $out[] = '/'; continue; }
+        if (substr($rel, -11) === '/index.html') { $out[] = '/' . substr($rel, 0, -10) . '/'; continue; }
+        $out[] = '/' . $rel;
+    }
+    sort($out);
+    return $out;
+}
+/** Проверка картинки баннера: размеры и вес против слота. ['ok','notes'=>[]] */
+function banner_image_check(string $name, string $slot): array {
+    $slots = banner_slots();
+    $path  = MEDIA_DIR . '/' . basename($name);
+    if (!is_file($path)) { return array('ok' => false, 'notes' => array('файла нет в media/uploads')); }
+    $dim  = @getimagesize($path);
+    $spec = isset($slots[$slot]) ? $slots[$slot] : array('w' => 0, 'h' => 0, 'kb' => 0);
+    if ($dim === false) { return array('ok' => false, 'notes' => array('файл не читается как картинка')); }
+
+    $notes = array();
+    if ((int)$dim[0] !== (int)$spec['w'] || (int)$dim[1] !== (int)$spec['h']) {
+        $notes[] = 'размер ' . (int)$dim[0] . '×' . (int)$dim[1] . ', а слоту нужно '
+                 . (int)$spec['w'] . '×' . (int)$spec['h'] . '. Нажмите «Подогнать под слот».';
+    }
+    $kb = (int)round((int)@filesize($path) / 1024);
+    if ($kb > (int)$spec['kb']) {
+        $notes[] = 'вес ' . $kb . ' КБ, а для слота желательно до ' . (int)$spec['kb'] . ' КБ. Нажмите «Подогнать под слот».';
+    }
+    return array('ok' => count($notes) === 0, 'notes' => $notes);
+}
+
+/** Подогнать картинку под слот: точный размер (обрезка по центру) и сжатие. */
+function banner_fit_image(string $name, string $slot): array {
+    $slots = banner_slots();
+    $name  = basename($name);
+    if (!isset($slots[$slot])) { return array('ok' => false, 'error' => 'Неизвестный слот.', 'note' => ''); }
+    $path = MEDIA_DIR . '/' . $name;
+    if (!is_file($path)) { return array('ok' => false, 'error' => 'Файла нет в media/uploads.', 'note' => ''); }
+    if (!function_exists('imagecreatetruecolor')) {
+        return array('ok' => false, 'error' => 'На PHP не включено расширение GD.', 'note' => '');
+    }
+
+    $ext = strtolower((string)pathinfo($name, PATHINFO_EXTENSION));
+    $src = media_image_load($path, $ext);
+    if ($src === false) { return array('ok' => false, 'error' => 'Картинка не читается.', 'note' => ''); }
+
+    file_backup($path);                        // протокол: перед перезаписью файла держим копию
+
+    $W  = (int)$slots[$slot]['w'];
+    $H  = (int)$slots[$slot]['h'];
+    $sw = imagesx($src);
+    $sh = imagesy($src);
+    $before = (int)@filesize($path);
+
+    /* Масштаб по большей стороне, затем центральная обрезка: картинка заполнит слот без искажений */
+    $scale = max($W / max(1, $sw), $H / max(1, $sh));
+    $nw = (int)max($W, round($sw * $scale));
+    $nh = (int)max($H, round($sh * $scale));
+    $tmp = media_image_scale($src, $nw, $nh);
+    @imagedestroy($src);
+    if ($tmp === false) { return array('ok' => false, 'error' => 'Не получилось изменить размер.', 'note' => ''); }
+
+    $dst = @imagecreatetruecolor($W, $H);
+    if ($dst === false) {
+        @imagedestroy($tmp);
+        return array('ok' => false, 'error' => 'Не получилось создать холст картинки.', 'note' => '');
+    }
+    $fill = @imagecolorallocate($dst, 255, 255, 255);
+    if ($fill !== false) { @imagefill($dst, 0, 0, $fill); }
+    @imagecopy($dst, $tmp, 0, 0, (int)round(($nw - $W) / 2), (int)round(($nh - $H) / 2), $W, $H);
+    @imagedestroy($tmp);
+
+    $ok = media_image_save($dst, $path, $ext);
+    @imagedestroy($dst);
+    if (!$ok) { return array('ok' => false, 'error' => 'Не получилось записать картинку — проверьте права.', 'note' => ''); }
+
+    @chmod($path, 0644);
+    media_index_forget($name);                 // размеры изменились — старый индекс медиа больше не верен
+    log_action('Баннер подогнан под слот', $name . ' → ' . $W . '×' . $H);
+    return array('ok' => true, 'error' => '',
+                 'note' => human_size($before) . ' → ' . human_size((int)@filesize($path)) . ' (' . $W . '×' . $H . ')');
+}
+
+
+
