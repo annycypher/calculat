@@ -87,6 +87,18 @@ function seo_tag_texts(DOMDocument $doc, string $tag): array {
     return $out;
 }
 
+/** Путь внутренней ссылки ('/' — наш сайт; '' — внешняя, почта, телефон).
+    Хвосты «?запрос» и «#якорь» отбрасываем: для списка ссылок они не важны. */
+function seo_link_path(string $href): string {
+    $href = trim($href);
+    if ($href === '' || $href[0] !== '/' || substr($href, 0, 2) === '//') { return ''; }
+    foreach (array('#', '?') as $cut) {
+        $pos = strpos($href, $cut);
+        if ($pos !== false) { $href = substr($href, 0, $pos); }
+    }
+    return trim($href);
+}
+
 /** Ссылка внутри <nav> (меню, хлебные крошки)? — такие в «контекстные» не считаем. */
 function seo_inside_nav(DOMNode $node, array $navs): bool {
     for ($p = $node->parentNode; $p !== null; $p = $p->parentNode) {
@@ -105,7 +117,7 @@ function seo_parse(string $html): array {
     $out = array('parsed' => false, 'title' => '', 'description' => '', 'h1s' => array(),
                  'first_para' => '', 'headings' => 0, 'words' => 0, 'text' => '',
                  'para_max' => 0, 'lists' => 0, 'imgs' => 0, 'imgs_no_alt' => array(),
-                 'links' => array(), 'has_main' => false);
+                 'links' => array(), 'links_all' => array(), 'has_main' => false);
     if (trim($html) === '') { return $out; }
 
     $prev = libxml_use_internal_errors(true);
@@ -153,20 +165,28 @@ function seo_parse(string $html): array {
         }
     }
 
-    /* Контекстные внутренние ссылки: в основном тексте, но не в навигации. */
+    /* Контекстные внутренние ссылки: в основном тексте, но не в навигации.
+       А в «все внутренние ссылки» попадает вся страница — вместе с меню, крошками и подвалом:
+       именно по ним панель считает, какие страницы связаны между собой. */
     $navs = array();
-    foreach ($root->getElementsByTagName('nav') as $nav) { $navs[] = $nav; }
+    foreach ($doc->getElementsByTagName('nav') as $nav) { $navs[] = $nav; }
+    /* Все внутренние ссылки страницы: вместе с меню, крошками и подвалом — по ним панель
+       считает, какие страницы связаны между собой. */
+    $all = array();
+    foreach ($doc->getElementsByTagName('a') as $a) {
+        $path = seo_link_path((string)$a->getAttribute('href'));
+        if ($path !== '') { $all[$path] = true; }
+    }
+
+    /* Контекстные ссылки: только в основном тексте и не в навигации — это ссылки «по смыслу». */
     $links = array();
     foreach ($root->getElementsByTagName('a') as $a) {
-        $href = trim((string)$a->getAttribute('href'));
-        if ($href === '' || $href[0] !== '/' || substr($href, 0, 2) === '//') { continue; }
-        if (seo_inside_nav($a, $navs)) { continue; }
-        $cut = strpos($href, '#');
-        if ($cut !== false) { $href = substr($href, 0, $cut); }
-        if ($href === '' || $href === '/') { continue; }
-        $links[$href] = true;                        // одну и ту же ссылку считаем один раз
+        $path = seo_link_path((string)$a->getAttribute('href'));
+        if ($path === '' || $path === '/' || seo_inside_nav($a, $navs)) { continue; }
+        $links[$path] = true;
     }
-    $out['links'] = array_keys($links);
+    $out['links']     = array_keys($links);
+    $out['links_all'] = array_keys($all);
     return $out;
 }
 
@@ -376,7 +396,9 @@ function seo_analyze(string $rel, string $html, array $opts = array()): array {
                  'h1' => (string)($p['h1s'][0] ?? ''), 'words' => (int)$p['words'],
                  'headings' => (int)$p['headings'], 'links' => $links, 'imgs' => (int)$p['imgs'],
                  'imgs_no_alt' => $noAlt, 'para_max' => (int)$p['para_max'], 'lists' => (int)$p['lists'],
-                 'density' => $dens, 'lastmod' => $last, 'in_sitemap' => $days >= 0,
+                 'density' => $dens, 'lastmod' => $last, 'lastmod_days' => $days, 'in_sitemap' => $days >= 0,
+                 'link_paths' => (array)$p['links'], 'link_paths_all' => (array)$p['links_all'],
+                 'dupe_title_pages' => $dupeT, 'dupe_desc_pages' => $dupeD,
                  'checks' => $checks, 'problems' => $problems);
 }
 
@@ -444,6 +466,33 @@ function seo_scan(array $only = array(), bool $with_dupes = true): array {
     foreach ($sameT as $group) { if (count($group) > 1) { $s['dupe_titles']++; } }
     foreach ($sameD as $group) { if (count($group) > 1) { $s['dupe_descs']++; } }
 
+    /* Входящие ссылки: считаем по всем страницам — от них зависит список сирот.
+       Ссылку страницы на саму себя не считаем: иначе сирота спрячется. */
+    $inAll = array(); $inText = array();
+    foreach ($list as $rel => $row) {
+        foreach ((array)$row['link_paths_all'] as $to) {
+            if ((string)$to !== $rel) { $inAll[(string)$to][] = $rel; }
+        }
+        foreach ((array)$row['link_paths'] as $to) {
+            if ((string)$to !== $rel) { $inText[(string)$to][] = $rel; }
+        }
+    }
+    foreach ($list as $rel => $row) {
+        $list[$rel]['inlinks']      = count((array)($inAll[$rel] ?? array()));
+        $list[$rel]['inlinks_text'] = count((array)($inText[$rel] ?? array()));
+        $list[$rel]['inlink_pages'] = array_slice((array)($inAll[$rel] ?? array()), 0, 6);
+    }
+
+    /* Сколько сирот, сколько давно не обновлялось — для сводки. */
+    $s['orphans'] = 0; $s['stale'] = 0; $s['no_date'] = 0;
+    foreach ($list as $row) {
+        if (!empty($row['service'])) { continue; }
+        if ((int)$row['inlinks'] === 0) { $s['orphans']++; }
+        if (empty($row['in_sitemap']))  { $s['no_date']++; }
+        elseif ((int)$row['lastmod_days'] > SEO_FRESH_DAYS) { $s['stale']++; }
+    }
+    $s['dupes'] = (int)$s['dupe_titles'] + (int)$s['dupe_descs'];
+
     $s['avg'] = $rated > 0 ? (int)round($sum / $rated) : 0;
     if ($rated === 0) { $s['worst'] = 0; }
 
@@ -492,6 +541,87 @@ function seo_scan_get(): array {
     $scan['pages']   = (array)($scan['pages'] ?? array());
     $scan['summary'] = (array)($scan['summary'] ?? array());
     return $scan;
+}
+
+/* ───────────────────── списки проблем (шаг 7.2) ───────────────────── */
+
+/** Сироты: страницы, на которые нет ни одной ссылки с других страниц сайта.
+    Служебные (политика, поиск, 404) по умолчанию не показываем: на них ссылки в подвале есть всегда. */
+function seo_scan_orphans(array $scan, bool $withService = false): array {
+    $out = array();
+    foreach ((array)($scan['pages'] ?? array()) as $row) {
+        if (!empty($row['service']) && !$withService) { continue; }
+        if ((int)($row['inlinks'] ?? 0) === 0) { $out[] = $row; }
+    }
+    return $out;
+}
+
+/** Давно не обновлявшиеся: дата в карте сайта есть, и она старше половины года. */
+function seo_scan_stale(array $scan, int $days = SEO_FRESH_DAYS): array {
+    $out = array();
+    foreach ((array)($scan['pages'] ?? array()) as $row) {
+        if (empty($row['in_sitemap'])) { continue; }
+        if ((int)($row['lastmod_days'] ?? 0) > $days) { $out[] = $row; }
+    }
+    return $out;
+}
+
+/** Страницы, которых нет в карте сайта: даты у них нет вовсе — это отдельный список. */
+function seo_scan_nodate(array $scan): array {
+    $out = array();
+    foreach ((array)($scan['pages'] ?? array()) as $row) {
+        if (empty($row['in_sitemap'])) { $out[] = $row; }
+    }
+    return $out;
+}
+
+/** Дубли меты: группы страниц с одинаковым title и с одинаковым description. */
+function seo_scan_dupes(array $scan): array {
+    $groups = array('title' => array(), 'desc' => array());
+    foreach ((array)($scan['pages'] ?? array()) as $row) {
+        foreach (array('title', 'desc') as $kind) {
+            $others = (array)($row['dupe_' . $kind . '_pages'] ?? array());
+            if (count($others) === 0) { continue; }
+            $pages = array_merge(array((string)$row['rel']), array_map('strval', $others));
+            $pages = array_values(array_unique($pages));
+            if (count($pages) < 2) { continue; }        // «группа» из одной страницы — не дубль
+            sort($pages);
+            $key = implode('|', $pages);
+            if (!isset($groups[$kind][$key])) {
+                $groups[$kind][$key] = array(
+                    'pages'  => $pages,
+                    'sample' => $kind === 'title' ? (string)$row['title'] : (string)$row['description'],
+                    'kind'   => $kind,
+                );
+            }
+        }
+    }
+    foreach ($groups as $kind => $list) {
+        $groups[$kind] = array_values($list);
+        usort($groups[$kind], function ($a, $b) {
+            $c = count((array)$b['pages']) - count((array)$a['pages']);
+            return $c !== 0 ? $c : strcmp((string)$a['pages'][0], (string)$b['pages'][0]);
+        });
+    }
+    return $groups;
+}
+
+/** Откуда логично поставить ссылку на сироту: раздел-родитель и раздел выше, если они есть на сайте.
+    Полный разбор перелинковки со «смежными страницами» — шаг 7-Б. */
+function seo_scan_suggest_sources(string $rel, array $scan): array {
+    $have = array();
+    foreach ((array)($scan['pages'] ?? array()) as $row) { $have[(string)($row['rel'] ?? '')] = true; }
+
+    $out  = array();
+    $path = rtrim($rel, '/');
+    while (count($out) < 2) {
+        $pos = strrpos($path, '/');
+        if ($pos === false || $pos === 0) { break; }
+        $path = substr($path, 0, $pos);
+        $cand = $path . '/';
+        if ($cand !== $rel && isset($have[$cand]) && !in_array($cand, $out, true)) { $out[] = $cand; }
+    }
+    return $out;
 }
 
 /* ─────────── ключ страницы: свой из файла или выделенный из H1 ─────────── */

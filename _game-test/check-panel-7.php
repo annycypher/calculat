@@ -392,9 +392,13 @@ check('в таблице есть строки со страницами и ра
 check('в таблице видно, что ключ взят из H1', has($page, 'ключ взят из H1'));
 check('в таблице видно служебные страницы', has($page, 'служебная'));
 
-/* Оценки в таблице идут по возрастанию — «худшие сверху» проверяем по самой странице */
+/* Оценки в таблице идут по возрастанию — «худшие сверху» проверяем по самой странице.
+   Берём только таблицу «Страницы по оценке»: в карточке сирот тоже есть оценки, они бы мешали. */
+$segStart = strpos($page, 'Страницы по оценке');
+$segEnd   = strpos($page, '<a id="orphans">');
+$seg      = $segStart === false ? '' : substr($page, $segStart, $segEnd === false ? null : $segEnd - $segStart);
 $scores = array();
-if (preg_match_all('#badge-[a-z]+">(\d+)/100<#', $page, $mm)) { $scores = array_map('intval', $mm[1]); }
+if (preg_match_all('#badge-[a-z]+">(\d+)/100<#', $seg, $mm)) { $scores = array_map('intval', $mm[1]); }
 $sorted = $scores; sort($sorted);
 check('на странице оценки идут от худшей к лучшей', count($scores) > 3 && $scores === $sorted,
       'оценки: ' . implode(',', array_slice($scores, 0, 8)));
@@ -436,18 +440,139 @@ foreach ($hashBefore as $rel => $md5) {
 check('скан через панель не изменил страницы сайта', $samePages);
 check('снимок скана записался в content/seo.json', is_file($seoFile));
 
-/* Убираем тестового пользователя */
-@unlink(SITE . '/content/users.json');
-@unlink(SITE . '/content/logs/actions.json');
-if ($hadUsers) { @rename($usersBak, SITE . '/content/users.json'); }
+say('');
+say('9. Списки проблем: сироты, давно не обновлялись, дубли меты (шаг 7.2)');
+
+check('адрес внутренней ссылки чистится от якоря и запроса',
+      seo_link_path('/blog/x/#faq') === '/blog/x/' && seo_link_path('/blog/x/?q=1') === '/blog/x/'
+      && seo_link_path('/a/') === '/a/');
+check('внешние ссылки и якоря за свои не считаются',
+      seo_link_path('https://example.com/') === '' && seo_link_path('#top') === '' && seo_link_path('mailto:a@b.c') === '');
+check('все внутренние ссылки страницы включают меню и подвал, а контекстные — нет',
+      in_array('/', (array)$p['links_all'], true) && in_array('/about/', (array)$p['links_all'], true)
+      && !in_array('/', (array)$p['links'], true) && !in_array('/about/', (array)$p['links'], true));
+
+$scanLists = seo_scan();
+$sLists    = (array)$scanLists['summary'];
+$orphanCalc = 0; $staleCalc = 0; $noDateCalc = 0; $inlinksHome = 0;
+foreach ((array)$scanLists['pages'] as $r) {
+    if (!empty($r['service'])) { continue; }
+    if ((int)$r['inlinks'] === 0) { $orphanCalc++; }
+    if (empty($r['in_sitemap']))  { $noDateCalc++; }
+    elseif ((int)$r['lastmod_days'] > SEO_FRESH_DAYS) { $staleCalc++; }
+    if ((string)$r['rel'] === '/') { $inlinksHome = (int)$r['inlinks']; }
+}
+check('сводка про сирот совпадает с находками по строкам', (int)$sLists['orphans'] === $orphanCalc,
+      'в сводке ' . (int)$sLists['orphans'] . ', по строкам ' . $orphanCalc);
+check('сводка про давно не обновлявшиеся совпадает', (int)$sLists['stale'] === $staleCalc);
+check('сводка про страницы без даты совпадает', (int)$sLists['no_date'] === $noDateCalc);
+check('у главной страницы входящие ссылки есть (её все линкуют из меню)', $inlinksHome > 0,
+      'входящих: ' . $inlinksHome);
+check('у страницы калькулятора есть входящие ссылки',
+      (int)seo_scan_find($scanLists, '/calculators/finance/ndfl/')['inlinks'] > 0);
+
+check('подсказка «откуда сослаться» ведёт в раздел-родитель',
+      seo_scan_suggest_sources('/calculators/finance/ndfl/', $scanLists) === array('/calculators/finance/', '/calculators/'),
+      implode(', ', seo_scan_suggest_sources('/calculators/finance/ndfl/', $scanLists)));
+check('для статьи подсказка — раздел блога',
+      seo_scan_suggest_sources('/blog/otpusknye/', $scanLists) === array('/blog/'));
+check('для страницы верхнего уровня подсказок нет',
+      seo_scan_suggest_sources('/privacy.html', $scanLists) === array());
+
+$fakeRow = function (string $rel, int $inlinks, int $days, bool $inMap, int $score = 70,
+                     string $dupDesc = '', array $dupWith = array()): array {
+    return array('rel' => $rel, 'score' => $score, 'tone' => seo_tone($score), 'inlinks' => $inlinks,
+                 'inlinks_text' => 0, 'lastmod_days' => $days, 'in_sitemap' => $inMap, 'service' => false,
+                 'lastmod' => $inMap ? date('Y-m-d', time() - $days * 86400) : '',
+                 'title' => 'Заголовок ' . $rel, 'description' => $dupDesc,
+                 'dupe_title_pages' => array(), 'dupe_desc_pages' => $dupWith);
+};
+$fakeScan = array('summary' => array(), 'pages' => array(
+    $fakeRow('/fake/orphan/', 0, 10, true),
+    $fakeRow('/fake/old/', 3, 400, true),
+    $fakeRow('/fake/nomap/', 2, -1, false),
+    $fakeRow('/fake/dupe-one/', 5, 5, true, 80, 'Одинаковое описание двух страниц', array('/fake/other/')),
+    $fakeRow('/fake/other/', 5, 5, true, 80, 'Одинаковое описание двух страниц', array('/fake/dupe-one/')),
+));
+
+check('сирота находится в списке сирот',
+      in_array('/fake/orphan/', array_column(seo_scan_orphans($fakeScan), 'rel'), true));
+check('страница с входящими ссылками в сироты не попадает',
+      !in_array('/fake/old/', array_column(seo_scan_orphans($fakeScan), 'rel'), true));
+check('давно не обновлявшаяся страница попадает в свой список',
+      in_array('/fake/old/', array_column(seo_scan_stale($fakeScan), 'rel'), true));
+check('свежая страница в «давно не обновлявшихся» не значится',
+      !in_array('/fake/dupe-one/', array_column(seo_scan_stale($fakeScan), 'rel'), true));
+check('страница без даты в карте сайта — в отдельном списке',
+      in_array('/fake/nomap/', array_column(seo_scan_nodate($fakeScan), 'rel'), true)
+      && !in_array('/fake/nomap/', array_column(seo_scan_stale($fakeScan), 'rel'), true));
+
+$fakeDupes = seo_scan_dupes($fakeScan);
+check('дубли description собираются в одну группу из двух страниц',
+      count((array)$fakeDupes['desc']) === 1 && count((array)$fakeDupes['desc'][0]['pages']) === 2,
+      'групп: ' . count((array)$fakeDupes['desc']));
+check('в группе дублей обе страницы по адресу',
+      in_array('/fake/dupe-one/', (array)$fakeDupes['desc'][0]['pages'], true)
+      && in_array('/fake/other/', (array)$fakeDupes['desc'][0]['pages'], true));
+check('в группе виден сам текст меты', mb_strlen((string)$fakeDupes['desc'][0]['sample']) > 10);
+$smallScan = seo_scan(array('/calculators/finance/ndfl/', '/blog/otpusknye/'));
+check('на двух реальных страницах сайта дублей меты нет',
+      count((array)seo_scan_dupes($smallScan)['title']) === 0 && count((array)seo_scan_dupes($smallScan)['desc']) === 0);
+
+/* Проверяем списки на живой странице: готовим «проблему» — две страницы без входящих ссылок
+   и с одинаковым описанием, — прогоняем проверку через панель и смотрим, что она их нашла. */
+@file_put_contents($fileA, probe_html('Тестовая страница раз: описание как у второй страницы',
+    $badDesc, '<h1>Тестовая страница раз</h1><p>Текст для проверки списков проблем в SEO-центре панели.</p>'));
+@file_put_contents($fileB, probe_html('Тестовая страница два: описание как у первой страницы',
+    $badDesc, '<h1>Тестовая страница два</h1><p>Текст для проверки списков проблем в SEO-центре панели.</p>'));
+
+$r = http(BASE . '/seo-center.php');
+$r = http(BASE . '/seo-center.php', array('csrf' => csrf($r['b']), 'op' => 'scan'));
+$r = http(BASE . '/seo-center.php');
+$page = $r['b'];
+
+check('в панели есть карточка сирот', has($page, 'Сироты: на эти страницы нет ссылок'));
+check('в панели есть карточка про давно не обновлявшиеся', has($page, 'Давно не обновлялись'));
+check('в панели есть карточка дублей меты', has($page, 'Дубли меты'));
+check('в сводке видны числа по новым спискам',
+      has($page, 'Сироты: нет входящих ссылок') && has($page, 'Дубли меты (всего)'));
+check('в «давно не обновлявшихся» видно предупреждение про страницы без даты',
+      has($page, 'которых нет в карте сайта'));
+
+$hasA = has($page, $probeA); $hasB = has($page, $probeB);
+check('в списке сирот появились тестовые страницы',
+      $hasA && $hasB && has($page, 'добавьте ссылку из'),
+      'A: ' . ($hasA ? 'есть' : 'нет') . ' | B: ' . ($hasB ? 'есть' : 'нет'));
+check('в дублях меты видны обе тестовые страницы',
+      has($page, 'Одинаковое description') && $hasA && $hasB,
+      'заголовок: ' . (has($page, 'Одинаковое description') ? 'есть' : 'нет'));
+check('пока проблемы есть, панель не пишет «Сирот нет»', !has($page, 'Сирот нет'));
+
+/* Убираем тестовые страницы и проверяем, что списки снова пустые */
+@unlink($fileA); @rmdir(dirname($fileA));
+@unlink($fileB); @rmdir(dirname($fileB));
+$r = http(BASE . '/seo-center.php');
+$r = http(BASE . '/seo-center.php', array('csrf' => csrf($r['b']), 'op' => 'scan'));
+$r = http(BASE . '/seo-center.php');
+check('после удаления проблем панель честно пишет, что сирот нет', has($r['b'], 'Сирот нет'));
+check('и что дублей меты нет', has($r['b'], 'Дублей нет'));
+check('список страниц после правки вернулся к прежнему', site_pages_list() === $pagesBefore);
 
 say('');
-say('9. Уборка за тестом');
+say('10. Уборка за тестом');
 
 @unlink($fileA); @rmdir(dirname($fileA));
 @unlink($fileB); @rmdir(dirname($fileB));
 if ($seoBackup !== null) { @file_put_contents($seoFile, $seoBackup); }
 else { @unlink($seoFile); }
+
+/* Убираем тестового пользователя панели */
+@unlink(SITE . '/content/users.json');
+@unlink(SITE . '/content/logs/actions.json');
+if ($hadUsers) { @rename($usersBak, SITE . '/content/users.json'); }
+check($hadUsers ? 'ваш файл пользователей возвращён' : 'панель оставлена ненастроенной',
+      $hadUsers ? is_file(SITE . '/content/users.json') : !is_file(SITE . '/content/users.json'));
+check('копия пользователей за тестом убрана', !is_file($usersBak));
 
 check('тестовых страниц больше нет', !is_file($fileA) && !is_file($fileB));
 check('список страниц сайта вернулся как был', site_pages_list() === $pagesBefore);

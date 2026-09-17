@@ -59,6 +59,18 @@ $crit    = seo_criteria();
 $sumW    = 0;
 foreach ($crit as $c) { $sumW += (int)$c['w']; }
 
+/* Списки проблем (шаг 7.2): сироты, давно не обновлявшиеся, дубли меты. */
+$orphans = $has ? seo_scan_orphans($scan) : array();
+$stale   = $has ? seo_scan_stale($scan)   : array();
+$nodate  = $has ? seo_scan_nodate($scan)  : array();
+$dupes   = $has ? seo_scan_dupes($scan)   : array('title' => array(), 'desc' => array());
+
+/** Цвет бейджа по оценке страницы — чтобы не повторять одно и то же трижды. */
+function seo_tone_badge_tone(array $row): string {
+    $t = (string)($row['tone'] ?? 'err');
+    return $t === 'ok' ? 'ok' : ($t === 'warn' ? 'warn' : 'err');
+}
+
 panel_page_start('SEO-центр', 'Проверка страниц сайта по критериям поиска — что мешает позициям', 'seo-center.php');
 ?>
 <?php card_start('Проверить весь сайт', 'Панель читает страницы сайта и считает оценку — файлы при этом не меняются'); ?>
@@ -78,9 +90,10 @@ panel_page_start('SEO-центр', 'Проверка страниц сайта �
           <button class="btn primary" type="submit"><?php echo $has ? 'Проверить весь сайт заново' : 'Проверить весь сайт'; ?></button>
         </div>
       </form>
-      <div class="field-hint">Проверка занимает пару секунд и ничего не меняет: ни страницы сайта,
-        ни карту сайта. Ключ страницы панель выделяет из H1 — если он выделен не там, где нужно,
-        скажите: научим задавать ключи вручную (это шаг 7.3).</div>
+      <div class="field-hint">Проверка занимает пару секунд и ничего не меняет: ни страницы сайта, ни карту сайта.
+        Кроме оценок панель собирает три списка: <strong>сироты</strong> (на страницу нет ссылок),
+        <strong>давно не обновлявшиеся</strong> и <strong>дубли меты</strong>. Ключ страницы панель выделяет из H1 —
+        если он выделен не там, где нужно, скажите: научим задавать ключи вручную (это шаг 7.3).</div>
 <?php card_end(); ?>
 
 <?php if ($has) { ?>
@@ -119,6 +132,13 @@ panel_page_start('SEO-центр', 'Проверка страниц сайта �
           <td><span class="hint">одинаковые заголовки у разных страниц: поисковик выберет одну, остальные потеряют показы</span></td></tr>
         <tr><td>Дубли description</td><td><?php echo (int)($summary['dupe_descs'] ?? 0); ?></td>
           <td><span class="hint">одинаковые описания — то же самое, только по описаниям</span></td></tr>
+        <tr><td>Сироты: нет входящих ссылок</td><td><?php echo badge((string)(int)($summary['orphans'] ?? 0), (int)($summary['orphans'] ?? 0) > 0 ? 'warn' : 'ok'); ?></td>
+          <td><span class="hint"><a href="#orphans">список ниже</a>: на такие страницы не ведёт ни одна ссылка —
+            поисковые роботы находят их только через карту сайта</span></td></tr>
+        <tr><td>Давно не обновлялись</td><td><?php echo badge((string)(int)($summary['stale'] ?? 0), (int)($summary['stale'] ?? 0) > 0 ? 'warn' : 'ok'); ?></td>
+          <td><span class="hint"><a href="#stale">список ниже</a>: дата последнего изменения старше полугода</span></td></tr>
+        <tr><td>Дубли меты (всего)</td><td><?php echo badge((string)(int)($summary['dupes'] ?? 0), (int)($summary['dupes'] ?? 0) > 0 ? 'err' : 'ok'); ?></td>
+          <td><span class="hint"><a href="#dupes">список ниже</a>: группы страниц с одинаковым title или description</span></td></tr>
         <tr><td>Нет в карте сайта</td><td><?php echo (int)($summary['no_sitemap'] ?? 0); ?></td>
           <td><span class="hint">такие страницы хуже находят поисковые роботы: добавьте их в sitemap.xml</span></td></tr>
       </table>
@@ -156,6 +176,89 @@ panel_page_start('SEO-центр', 'Проверка страниц сайта �
       </table>
       <div class="field-hint">Это список дел, а не приговор: панель ничего не меняет на сайте. Правки мета-тегов
         и текстов делаются в разделах контента — статьи в разделе «Статьи», остальное появится по мере фаз.</div>
+<?php } ?>
+<?php card_end(); ?>
+
+<a id="orphans"></a>
+<?php card_start('Сироты: на эти страницы нет ссылок', 'Поисковые роботы находят их только через карту сайта'); ?>
+<?php if (count($orphans) === 0) { ?>
+      <p style="margin:0"><?php echo badge('Сирот нет', 'ok'); ?> На каждую страницу сайта ведёт хотя бы одна ссылка
+        с другой страницы. Это хороший знак: роботы обходят сайт по ссылкам, а карта сайта — только подсказка.</p>
+<?php } else { ?>
+      <table class="table">
+        <tr><th>Страница</th><th>Оценка</th><th>Откуда логично сослаться</th></tr>
+<?php   foreach ($orphans as $row) {
+            $src = seo_scan_suggest_sources((string)$row['rel'], $scan); ?>
+        <tr>
+          <td><code><?php echo h((string)$row['rel']); ?></code>
+            <div class="hint"><a href="<?php echo h((string)$row['rel']); ?>" target="_blank" rel="noopener">открыть страницу ↗</a></div></td>
+          <td><?php echo badge((int)$row['score'] . '/100', seo_tone_badge_tone($row)); ?></td>
+          <td><?php if (count($src) === 0) { ?>
+            <span class="hint">подходящего раздела рядом нет — поставьте ссылку из статьи по теме</span>
+<?php       } else { foreach ($src as $sug) { ?>
+            <div>добавьте ссылку из <code><?php echo h((string)$sug); ?></code></div>
+<?php       } } ?></td>
+        </tr>
+<?php   } ?>
+      </table>
+      <div class="field-hint">Входящих ссылок не бывает у новых страниц и у тех, что никто не упомянул.
+        Полный разбор перелинковки — слабые страницы, битые ссылки и «смежные» подсказки — будет в разделе
+        «Перелинковка» (шаг 7-Б).</div>
+<?php } ?>
+<?php card_end(); ?>
+
+<a id="stale"></a>
+<?php card_start('Давно не обновлялись', 'Дата последнего изменения старше полугода'); ?>
+<?php if (count($stale) === 0) { ?>
+      <p style="margin:0 0 8px"><?php echo badge('Всё свежее', 'ok'); ?> Даты в карте сайта свежие: страниц старше
+        полугода нет. Поисковики любят сайты, которые живут, — обновляйте содержимое, когда меняются ставки и суммы.</p>
+<?php } else { ?>
+      <table class="table">
+        <tr><th>Страница</th><th>Последнее изменение</th><th>Оценка</th><th>Что сделать</th></tr>
+<?php   foreach ($stale as $row) { ?>
+        <tr>
+          <td><code><?php echo h((string)$row['rel']); ?></code></td>
+          <td><?php echo h((string)$row['lastmod']); ?>
+            <div class="hint"><?php echo h(ago((string)$row['lastmod'] . ' 12:00:00')); ?> ·
+              прошло дней: <?php echo (int)$row['lastmod_days']; ?></div></td>
+          <td><?php echo badge((int)$row['score'] . '/100', seo_tone_badge_tone($row)); ?></td>
+          <td><span class="hint">проверьте ставки и суммы, обновите примеры — и поправьте дату в карте сайта</span></td>
+        </tr>
+<?php   } ?>
+      </table>
+<?php } ?>
+<?php if (count($nodate) > 0) { ?>
+      <p class="field-warn">⚠ Страниц, которых нет в карте сайта: <?php echo count($nodate); ?> —
+<?php   $i = 0; foreach ($nodate as $row) { $i++; if ($i > 5) { echo ' и ещё ' . (count($nodate) - 5) . '…'; break; }
+        echo ' <code>' . h((string)$row['rel']) . '</code>'; } ?>.
+        У них нет даты последнего изменения, и поисковому роботу труднее их найти.</p>
+<?php } ?>
+      <div class="field-hint">Дату панель берёт из <code>sitemap.xml</code> — именно её видят поисковики.
+        Если страницу поправили, а дату в карте не обновили, считайте, что её не обновляли.</div>
+<?php card_end(); ?>
+
+<a id="dupes"></a>
+<?php card_start('Дубли меты', 'Одинаковые title или description у разных страниц'); ?>
+<?php if (count((array)$dupes['title']) === 0 && count((array)$dupes['desc']) === 0) { ?>
+      <p style="margin:0"><?php echo badge('Дублей нет', 'ok'); ?> У каждой страницы свой заголовок и своё описание —
+        поисковику не придётся выбирать, какую из двух одинаковых страниц показать.</p>
+<?php } else { ?>
+<?php   foreach (array('title' => 'Одинаковый title', 'desc' => 'Одинаковое description') as $kind => $head) {
+            if (count((array)$dupes[$kind]) === 0) { continue; } ?>
+      <div class="block-card">
+        <div class="block-title" style="font-size:13px"><?php echo h($head); ?> — групп: <?php echo count((array)$dupes[$kind]); ?></div>
+<?php     foreach ((array)$dupes[$kind] as $g) { ?>
+        <p style="margin:6px 0 2px"><strong><?php echo count((array)$g['pages']); ?> стр.:</strong>
+<?php       foreach ((array)$g['pages'] as $p) { ?>
+          <a href="<?php echo h(panel_url('seo-center.php?e=' . rawurlencode((string)$p))); ?>"><code><?php echo h((string)$p); ?></code></a>
+<?php       } ?></p>
+        <div class="hint" style="margin-bottom:6px">Текст: <?php echo h(mb_substr((string)$g['sample'], 0, 160)); ?></div>
+<?php     } ?>
+      </div>
+<?php   } ?>
+      <div class="field-hint">Правило простое: у каждой страницы должен быть свой заголовок и своё описание.
+        Иначе поисковик покажет одну страницу, а остальные из той же группы останутся без показов.
+        Частая причина дублей — разделы и статьи, сделанные по одному шаблону.</div>
 <?php } ?>
 <?php card_end(); ?>
 

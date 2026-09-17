@@ -23,6 +23,9 @@ echo 'Зелёных: ' . (int)$s['ok'] . ' | жёлтых: ' . (int)$s['warn'] 
    . ' | средняя оценка: ' . (int)$s['avg'] . ' | худшая: ' . (int)$s['worst'] . PHP_EOL;
 echo 'Дублей title: ' . (int)$s['dupe_titles'] . ' | дублей description: ' . (int)$s['dupe_descs']
    . ' | страниц нет в карте сайта: ' . (int)$s['no_sitemap'] . PHP_EOL;
+echo 'Сирот (нет входящих ссылок): ' . (int)($s['orphans'] ?? 0)
+   . ' | давно не обновлялись: ' . (int)($s['stale'] ?? 0)
+   . ' | без даты в карте сайта: ' . (int)($s['no_date'] ?? 0) . PHP_EOL;
 echo str_repeat('-', 100) . PHP_EOL;
 
 if (count($only) > 0) {
