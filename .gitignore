@@ -30,5 +30,12 @@ sweb-migration/*.bak
 # локально появляются только при проверках
 api/data/
 
+# Данные админ-панели: рабочие файлы сервера, в git не нужны
+# (папки и .htaccess-заглушки держим в репозитории)
+content/users.json
+content/security/*.json
+content/logs/*.json
+content/logs/*.log
+
 # Локальные резервные копии перед массовыми правками (протокол запуска)
 _backup/
