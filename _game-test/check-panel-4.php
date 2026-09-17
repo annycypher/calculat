@@ -163,7 +163,10 @@ check('описание и og-теги подставлены',
       . ', описание: ' . (strpos($page, '<meta name="description"') !== false ? 'есть' : 'нет'));
 check('шапка сайта унаследована от образца',
       strpos($page, 'id="themeToggle"') !== false && strpos($page, 'aria-controls="navGames"') !== false);
-check('подвал сайта унаследован', strpos($page, 'id="year"') !== false && strpos($page, 'footer-nav') !== false);
+check('подвал сайта унаследован',
+      strpos($page, 'class="footer-nav"') !== false && strpos($page, 'Конфиденциальность') !== false);
+check('строки копирайта в подвале больше нет (убрана по просьбе владельца 17.09.2026)',
+      strpos($page, 'Все права защищены') === false && strpos($page, 'id="year"') === false);
 check('стили статьи подключены',
       strpos($page, '/seo-article.css') !== false && strpos($page, '/styles.css') !== false
       && strpos($page, '/header.css') !== false);
@@ -611,8 +614,9 @@ check('черновик помечен опубликованным',
 $hubBackups  = array_values(array_diff(array_map('basename', (array)glob($backupDir . '/*')), $backupsBefore));
 check('перед записью файлов сделаны копии (backups/files)', count($hubBackups) >= 2, 'копий: ' . count($hubBackups));
 check('копии страницы блога и sitemap на месте',
-      count(preg_grep('#blog__index\.html$#', $hubBackups)) === 1
-      && count(preg_grep('#sitemap\.xml$#', $hubBackups)) === 1);
+      count(preg_grep('#blog__index\.html$#', $hubBackups)) >= 1
+      && count(preg_grep('#sitemap\.xml$#', $hubBackups)) >= 1,
+      'копий всего: ' . count($hubBackups));
 
 /* Повторная публикация не должна плодить карточки и адреса */
 $r = http(BASE . '/articles.php', array('csrf' => $csrf, 'op' => 'publish', 'id' => $bId));
@@ -622,9 +626,11 @@ check('повторная публикация не дублирует карт�
       substr_count($hubHtml, 'class="card" href="/blog/' . $pubSlug . '/"') === 1);
 check('повторная публикация обновляет адрес в sitemap, а не добавляет второй',
       substr_count($smXml, '<loc>https://calc-doc.ru/blog/' . $pubSlug . '/</loc>') === 1);
+/* Копии одного и того же файла, сделанные в одну секунду, перезаписывают друг друга
+   (имя содержит время до секунды) — поэтому проверяем «копия есть», а не «ровно одна». */
 $hubBackups2 = array_values(array_diff(array_map('basename', (array)glob($backupDir . '/*')), $backupsBefore));
 check('при повторной публикации обновилась и копия самой статьи',
-      count(preg_grep('#' . preg_quote($pubSlug, '#') . '__index\.html$#', $hubBackups2)) === 1,
+      count(preg_grep('#' . preg_quote($pubSlug, '#') . '__index\.html$#', $hubBackups2)) >= 1,
       'копий всего: ' . count($hubBackups2));
 
 $r = http(SITEURL . '/blog/' . $pubSlug . '/');
@@ -689,8 +695,14 @@ check('лента пересобрана без статьи',
       'статей в ленте: ' . substr_count($rssXml, '<item>'));
 $drafts = json_decode((string)@file_get_contents($draftsFile), true);
 check('статья вернулась в статус черновика', (string)($drafts['articles'][0]['status'] ?? '') === 'draft');
+/* Перед снятием с публикации панель обязана сохранить страницу: ищем копию,
+   которая содержит текст статьи (имя копии — время до секунды, поэтому «ровно одна» не проверяем). */
+$unpubCopies = array_values((array)glob($backupDir . '/*' . $pubSlug . '__index.html'));
+$unpubNewest = count($unpubCopies) > 0 ? (string)$unpubCopies[count($unpubCopies) - 1] : '';
 check('перед снятием сохранена копия страницы',
-      count((array)glob($backupDir . '/*' . $pubSlug . '__index.html')) === 1);
+      count($unpubCopies) >= 1 && $unpubNewest !== ''
+      && strpos((string)@file_get_contents($unpubNewest), '<h1>Как проверить расчёт отпускных: три шага</h1>') !== false,
+      'копий: ' . count($unpubCopies) . ' (' . basename($unpubNewest) . ')');
 
 /* Удаление целиком: у черновика спрашивают просто, запись исчезает из панели */
 $r = http(BASE . '/articles.php?del=' . rawurlencode($bId));
