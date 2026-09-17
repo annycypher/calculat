@@ -401,6 +401,129 @@ $drafts = json_decode((string)@file_get_contents($draftsFile), true);
 check('черновиков больше нет', count((array)($drafts['articles'] ?? array())) === 0);
 
 say('');
+say('11-Б. Картинки из медиа и сниппет Яндекса (шаг 4.2b)');
+
+/** Загрузка файла как из браузера (нужна для media.php). */
+function http_upload(string $url, string $fileName, string $content, array $fields = array()): array {
+    global $jar;
+    $b = '----calcDoc' . bin2hex(random_bytes(6));
+    $e = "\r\n";
+    $body = '';
+    foreach ($fields as $k => $v) {
+        $body .= '--' . $b . $e . 'Content-Disposition: form-data; name="' . $k . '"' . $e . $e . $v . $e;
+    }
+    $body .= '--' . $b . $e
+           . 'Content-Disposition: form-data; name="file"; filename="' . $fileName . '"' . $e
+           . 'Content-Type: application/octet-stream' . $e . $e . $content . $e
+           . '--' . $b . '--' . $e;
+    $head = array('Content-Type: multipart/form-data; boundary=' . $b);
+    if ($jar !== '') { $head[] = 'Cookie: ' . $jar; }
+    $ctx = stream_context_create(array('http' => array(
+        'method' => 'POST', 'header' => implode("\r\n", $head), 'content' => $body,
+        'ignore_errors' => true, 'follow_location' => 0, 'timeout' => 120,
+    )));
+    $resp   = @file_get_contents($url, false, $ctx);
+    $status = 0;
+    foreach ((array)($http_response_header ?? array()) as $i => $line) {
+        if ($i === 0 && preg_match('#^HTTP/\S+\s+(\d{3})#', $line, $m)) { $status = (int)$m[1]; }
+        if (stripos($line, 'Set-Cookie:') === 0) { jar_set(trim(substr($line, 11))); }
+    }
+    return array('s' => $status, 'b' => (string)$resp);
+}
+
+/* Черновик и широкая картинка 2200 px — у неё появятся копии 480/768/1200 */
+$r    = http(BASE . '/articles.php?new=1');
+$csrf = csrf($r['b']);
+$r    = http(BASE . '/articles.php', article_form_post(array('csrf' => $csrf)));
+$drafts = json_decode((string)@file_get_contents($draftsFile), true);
+$bId    = (string)($drafts['articles'][0]['id'] ?? '');
+check('черновик для проверки картинок создан', $bId !== '');
+
+$wideJpg = '';
+if (function_exists('imagecreatetruecolor')) {
+    $im = imagecreatetruecolor(2200, 1200);
+    for ($y = 0; $y < 1200; $y += 3) {
+        imagefilledrectangle($im, 0, $y, 2200, $y + 2, imagecolorallocate($im, ($y * 7) % 255, 140, 200));
+    }
+    ob_start(); imagejpeg($im, null, 96); $wideJpg = (string)ob_get_clean();
+    imagedestroy($im);
+}
+$r = http_upload(BASE . '/media.php', 'tests-media-article.jpg', $wideJpg, array('csrf' => $csrf, 'action' => 'upload'));
+check('картинка загружена в медиа-файлы', $r['s'] === 302, 'код ' . $r['s']);
+$mediaFiles = (array)glob(SITE . '/media/uploads/tests-media-article-*.jpg');
+$mediaName  = count($mediaFiles) > 0 ? basename((string)$mediaFiles[0]) : '';
+check('у картинки появились копии под экран',
+      $mediaName !== '' && count((array)glob(SITE . '/media/uploads/tests-media-article-*-480.webp')) === 1,
+      'файл: ' . $mediaName);
+
+$r = http(BASE . '/articles.php?id=' . rawurlencode($bId) . '&pick=cover');
+check('выбор обложки открывается и показывает медиа-файлы',
+      $r['s'] === 200 && has($r['b'], 'Выберите картинку для обложки')
+      && strpos($r['b'], 'value="set_image:' . $mediaName . '"') !== false, 'код ' . $r['s']);
+$csrf = csrf($r['b']);
+
+$r = http(BASE . '/articles.php', article_form_post(array('csrf' => $csrf, 'id' => $bId,
+      'op' => 'set_image:' . $mediaName, 'pick_target' => 'cover')));
+check('обложка выбрана (редирект)', $r['s'] === 302, 'код ' . $r['s']);
+$drafts = json_decode((string)@file_get_contents($draftsFile), true);
+check('обложка записана в черновик',
+      (string)($drafts['articles'][0]['fields']['image'] ?? '') === $mediaName,
+      (string)($drafts['articles'][0]['fields']['image'] ?? 'нет'));
+
+$r = http(BASE . '/articles.php?id=' . rawurlencode($bId));
+check('обложка показана миниатюрой и с копиями под экран',
+      has($r['b'], 'копий под экран: 3') && has($r['b'], 'Убрать обложку'), 'код ' . $r['s']);
+check('сниппет поиска: заголовок, адрес и описание',
+      strpos($r['b'], 'class="snippet"') !== false
+      && has($r['b'], 'calc-doc.ru › blog › kak-proverit-raschet-otpusknyh-tri-shaga')
+      && has($r['b'], 'Три шага проверки расчёта отпускных'));
+check('сниппет советует добавить частые вопросы', has($r['b'], 'Добавьте 3–5 «Частых вопросов»'));
+check('в панели есть раздел про картинки статьи', has($r['b'], 'Картинки статьи'));
+/* Картинка внутри текста */
+$r = http(BASE . '/articles.php', article_form_post(array('csrf' => $csrf, 'id' => $bId,
+      'op' => 'add_block', 'block_type' => 'image')));
+$drafts = json_decode((string)@file_get_contents($draftsFile), true);
+$imgIdx = -1;
+foreach ((array)($drafts['articles'][0]['fields']['blocks'] ?? array()) as $i => $blk) {
+    if ((string)($blk['type'] ?? '') === 'image') { $imgIdx = (int)$i; }
+}
+check('блок «Картинка» добавлен', $imgIdx >= 0, 'индекс: ' . $imgIdx);
+$blocksNow = (array)($drafts['articles'][0]['fields']['blocks'] ?? array());   // как их видит форма
+
+$r = http(BASE . '/articles.php?id=' . rawurlencode($bId) . '&pick=block&idx=' . $imgIdx);
+check('выбор картинки для блока открывается',
+      has($r['b'], 'Выберите картинку для блока ' . ($imgIdx + 1))
+      && strpos($r['b'], 'value="set_image:' . $mediaName . '"') !== false, 'код ' . $r['s']);
+$csrf = csrf($r['b']);
+
+$r = http(BASE . '/articles.php', article_form_post(array('csrf' => $csrf, 'id' => $bId,
+      'op' => 'set_image:' . $mediaName, 'pick_target' => 'block', 'pick_idx' => $imgIdx, 'blocks' => $blocksNow)));
+$drafts = json_decode((string)@file_get_contents($draftsFile), true);
+check('картинка записана в блок',
+      (string)($drafts['articles'][0]['fields']['blocks'][$imgIdx]['name'] ?? '') === $mediaName,
+      (string)($drafts['articles'][0]['fields']['blocks'][$imgIdx]['name'] ?? 'нет'));
+
+$r = http(BASE . '/articles.php?id=' . rawurlencode($bId));
+check('панель предупреждает про пустую подпись alt', has($r['b'], 'нет подписи alt'));
+
+$withAlt = article_form_post(array('csrf' => $csrf, 'id' => $bId, 'op' => 'save', 'blocks' => $blocksNow));
+$withAlt['blocks'][$imgIdx] = array('type' => 'image', 'name' => $mediaName, 'alt' => 'Плитка в ванной');
+$r = http(BASE . '/articles.php', $withAlt);
+$r = http(BASE . '/articles.php?id=' . rawurlencode($bId));
+check('с подписью alt предупреждение исчезает',
+      has($r['b'], 'Картинки в тексте на месте и с подписями'), 'код ' . $r['s']);
+
+$r = http(BASE . '/articles.php?preview=1&id=' . rawurlencode($bId));
+check('в предпросмотре картинка отдана с копиями и «ленивой» загрузкой',
+      strpos($r['b'], 'srcset=') !== false && strpos($r['b'], $mediaName) !== false
+      && strpos($r['b'], '480w') !== false && strpos($r['b'], 'loading="lazy"') !== false, 'код ' . $r['s']);
+
+$r = http(BASE . '/articles.php', article_form_post(array('csrf' => $csrf, 'id' => $bId,
+      'op' => 'clear_image', 'pick_target' => 'cover')));
+$drafts = json_decode((string)@file_get_contents($draftsFile), true);
+check('обложку можно убрать', (string)($drafts['articles'][0]['fields']['image'] ?? 'x') === '');
+
+say('');
 say('12. Редактор ничего не публикует на сайт (публикация — шаг 4.3)');
 check('файла статьи на сайте нет',
       !is_file(SITE . '/blog/kak-proverit-raschet-otpusknyh-tri-shaga/index.html'));
@@ -413,6 +536,18 @@ check('в sitemap.xml новой статьи нет',
 say('');
 say('13. Уборка за тестом');
 @unlink($draftsFile);
+foreach ((array)glob(SITE . '/media/uploads/tests-media-*') as $mediaTmp) { @unlink($mediaTmp); }
+/* Из индекса картинок убираем только записи теста — ваши картинки не трогаем */
+$mediaIndexFile = SITE . '/content/media.json';
+$mediaIndex     = json_decode((string)@file_get_contents($mediaIndexFile), true);
+if (is_array($mediaIndex)) {
+    foreach (array_keys($mediaIndex) as $mk) {
+        if (strpos((string)$mk, 'tests-media-') === 0) { unset($mediaIndex[$mk]); }
+    }
+    @file_put_contents($mediaIndexFile, (string)json_encode($mediaIndex, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+}
+check('тестовые картинки и черновик убраны',
+      count((array)glob(SITE . '/media/uploads/tests-media-*')) === 0 && !is_file($draftsFile));
 @unlink($demoFile);
 @unlink(SITE . '/content/users.json');
 @unlink(SITE . '/content/logs/actions.json');

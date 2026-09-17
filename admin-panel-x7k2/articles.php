@@ -75,6 +75,93 @@ function article_preview_key(string $id): string {
     return $id !== '' ? $id : 'new';
 }
 
+/** Как статья будет выглядеть в выдаче Яндекса: заголовок, адрес, описание и подсказки. */
+function article_yandex_snippet(array $fields): array {
+    $shell = article_shell();
+    $host  = (string)preg_replace('#^https?://#', '', rtrim((string)$shell['site_url'], '/'));
+    $slug  = (string)($fields['slug'] ?? '');
+    $title = trim((string)($fields['title'] ?? ''));
+    $desc  = article_plain((string)($fields['description'] ?? ''));
+    $notes = array();
+
+    if ($title === '') {
+        $notes[] = 'Заголовок пуст — в выдаче будет служебный текст страницы.';
+    } elseif (mb_strlen($title) > 60) {
+        $notes[] = 'Заголовок длиннее 60 знаков: Яндекс обрежет его в выдаче.';
+    }
+    if ($desc === '') {
+        $notes[] = 'Описание пустое — Яндекс соберёт кусок текста сам, и получится как повезёт.';
+        $desc = article_plain((string)($fields['intro'] ?? ''));
+    }
+    $faq = 0;
+    foreach ((array)($fields['faq'] ?? array()) as $item) {
+        if (trim((string)($item['q'] ?? '')) !== '' && trim((string)($item['a'] ?? '')) !== '') { $faq++; }
+    }
+
+    return array(
+        'title'     => $title !== '' ? mb_substr($title, 0, 65) : '(заголовок не заполнен)',
+        'title_cut' => mb_strlen($title) > 65,
+        'url'       => $host . ' › blog › ' . ($slug !== '' ? $slug : 'адрес-статьи'),
+        'desc'      => mb_substr($desc, 0, 170),
+        'desc_cut'  => mb_strlen($desc) > 170,
+        'faq'       => $faq,
+        'notes'     => $notes,
+    );
+}
+
+/** Что известно про картинку: есть ли файл, копии под экран, размеры, вес. */
+function article_image_info(string $name): array {
+    $name = basename($name);
+    if ($name === '') { return array('set' => false, 'exists' => false, 'copies' => 0, 'w' => 0, 'h' => 0, 'bytes' => 0); }
+    $path = MEDIA_DIR . '/' . $name;
+    $idx  = media_index_get($name);
+    $dim  = is_file($path) ? @getimagesize($path) : false;
+    $copies = 0;
+    foreach (media_copy_widths() as $cw) {
+        if (count(media_copy_entry($idx, $cw)) > 0) { $copies++; }
+    }
+    return array(
+        'set'    => true,
+        'exists' => is_file($path),
+        'copies' => $copies,
+        'w'      => $dim ? (int)$dim[0] : (int)($idx['w'] ?? 0),
+        'h'      => $dim ? (int)$dim[1] : (int)($idx['h'] ?? 0),
+        'bytes'  => is_file($path) ? (int)@filesize($path) : 0,
+    );
+}
+
+/** Подсказки по картинкам статьи: обложка и картинки в тексте. */
+function article_image_notes(array $fields): array {
+    $notes = array();
+    $cover = trim((string)($fields['image'] ?? ''));
+
+    if ($cover === '') {
+        $notes[] = 'Обложка не выбрана — в соцсетях покажется общая картинка сайта (это допустимо).';
+    } else {
+        $info = article_image_info($cover);
+        if (!$info['exists']) {
+            $notes[] = 'Обложка «' . $cover . '» не найдена в media/uploads — в соцсетях покажется общая картинка сайта.';
+        } elseif ($info['copies'] === 0) {
+            $notes[] = 'У обложки нет копий под экран: откройте «Медиа-файлы» и нажмите «Подготовить копии».';
+        }
+    }
+
+    $images = 0; $noAlt = 0; $noFile = 0;
+    foreach ((array)($fields['blocks'] ?? array()) as $b) {
+        if ((string)($b['type'] ?? '') !== 'image') { continue; }
+        $images++;
+        if (trim((string)($b['alt'] ?? '')) === '') { $noAlt++; }
+        $name = (string)($b['name'] ?? '');
+        if ($name === '' || !is_file(MEDIA_DIR . '/' . $name)) { $noFile++; }
+    }
+    if ($noFile > 0) { $notes[] = 'У ' . $noFile . ' картинок в тексте файл не найден — выберите их заново из медиа-файлов.'; }
+    if ($noAlt > 0)  { $notes[] = 'У ' . $noAlt . ' картинок в тексте нет подписи alt — её не увидят ни поисковики, ни незрячие читатели.'; }
+    if ($images > 0 && $noAlt === 0 && $noFile === 0) { $notes[] = 'Картинки в тексте на месте и с подписями.'; }
+
+    return $notes;
+}
+
+
 /* ── Предпросмотр (?preview=1): отдаём собранную страницу статьи ── */
 if (isset($_GET['preview'])) {
     $pid = isset($_GET['id']) ? (string)$_GET['id'] : '';
@@ -118,6 +205,33 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 
     if ($op === 'use_demo') {
         $clean = articles_clean(article_demo(), true);
+    } elseif (strpos($op, 'set_image:') === 0) {
+        $target = (string)($_POST['pick_target'] ?? 'cover');
+        $name   = basename(substr($op, 10));                  // «set_image:имя.jpg» — так кнопка несёт и действие, и файл
+        if ($name !== '' && is_file(MEDIA_DIR . '/' . $name)) {
+            if ($target === 'cover') {
+                $clean['fields']['image'] = $name;
+            } else {
+                $i = (int)($_POST['pick_idx'] ?? -1);
+                if ($i >= 0 && isset($clean['fields']['blocks'][$i])
+                    && (string)($clean['fields']['blocks'][$i]['type'] ?? '') === 'image') {
+                    $clean['fields']['blocks'][$i]['name'] = $name;
+                }
+            }
+            log_action('Статья: выбрана картинка', $name . ' (' . ($target === 'cover' ? 'обложка' : 'блок ' . (int)($_POST['pick_idx'] ?? 0)) . ')');
+        } else {
+            flash('Картинка «' . $name . '» не найдена в media/uploads — возможно, её удалили.', 'error');
+        }
+    } elseif ($op === 'clear_image') {
+        $target = (string)($_POST['pick_target'] ?? 'cover');
+        if ($target === 'cover') {
+            $clean['fields']['image'] = '';
+        } else {
+            $i = (int)($_POST['pick_idx'] ?? -1);
+            if ($i >= 0 && isset($clean['fields']['blocks'][$i])) {
+                $clean['fields']['blocks'][$i]['name'] = '';
+            }
+        }
     } elseif ($op === 'add_block') {
         $type = (string)($_POST['block_type'] ?? 'p');
         if (!isset(articles_block_types()[$type])) { $type = 'p'; }
@@ -184,6 +298,20 @@ $preview = panel_url('articles.php?preview=1' . ($editId !== '' ? '&id=' . rawur
 $words   = articles_words($fields);
 $warns   = article_seo_warnings($fields);
 
+/* Выбор картинки: ?pick=cover — обложка, ?pick=block&idx=N — картинка внутри текста */
+$pick    = isset($_GET['pick']) ? (string)$_GET['pick'] : '';
+$pickIdx = isset($_GET['idx']) ? (int)$_GET['idx'] : -1;
+if ($pick === 'block') { $pick = 'block'; } elseif ($pick !== '') { $pick = 'cover'; }
+$mediaList = media_list();
+$snippet   = article_yandex_snippet($fields);
+$imageNotes = article_image_notes($fields);
+$coverInfo  = article_image_info((string)($fields['image'] ?? ''));
+$pickUrl = function (string $target, int $idx = -1) use ($editId): string {
+    $q = 'articles.php?' . ($editId !== '' ? 'id=' . rawurlencode($editId) . '&' : '')
+       . 'pick=' . rawurlencode($target) . ($idx >= 0 ? '&idx=' . $idx : '');
+    return panel_url($q);
+};
+
 panel_page_start('Статьи', 'Черновики, редактор статьи и предпросмотр', 'articles.php');
 ?>
 
@@ -245,6 +373,36 @@ panel_page_start('Статьи', 'Черновики, редактор стат�
   <div class="editor-grid">
     <div class="editor-main">
 
+<?php if ($pick !== '') { ?>
+<?php card_start($pick === 'cover' ? 'Выберите картинку для обложки' : 'Выберите картинку для блока ' . (int)($pickIdx + 1),
+                 'Нажмите «Поставить эту» — картинка сразу попадёт в черновик', 'warn'); ?>
+      <input type="hidden" name="pick_target" value="<?php echo h($pick === 'cover' ? 'cover' : 'block'); ?>" />
+      <input type="hidden" name="pick_idx" value="<?php echo (int)$pickIdx; ?>" />
+<?php if (count($mediaList) === 0) { ?>
+      <p class="empty">В медиа-файлах пока нет картинок — сначала загрузите их.</p>
+      <div class="btn-row">
+        <a class="btn ghost" href="<?php echo h(panel_url('media.php')); ?>">Открыть «Медиа-файлы»</a>
+      </div>
+<?php } else { ?>
+      <div class="media-grid">
+<?php foreach ($mediaList as $m) { $mi = article_image_info((string)$m['name']); ?>
+        <div class="media-item">
+          <div class="media-thumb"><img src="<?php echo h((string)$m['url']); ?>" alt="" loading="lazy" /></div>
+          <code class="media-name"><?php echo h((string)$m['name']); ?></code>
+          <div class="media-meta"><?php echo (int)$m['w']; ?>×<?php echo (int)$m['h']; ?> ·
+            <?php echo h(human_size((int)$m['size'])); ?>
+            <?php echo $mi['copies'] > 0 ? badge('копии под экран', 'ok') : badge('копий нет', 'warn'); ?></div>
+          <button class="btn primary" type="submit" name="op" value="set_image:<?php echo h((string)$m['name']); ?>">Поставить эту</button>
+        </div>
+<?php } ?>
+      </div>
+      <p class="hint" style="margin:12px 0 0">Нужной картинки нет? Загрузите её в разделе
+        <a href="<?php echo h(panel_url('media.php')); ?>">Медиа-файлы</a> и вернитесь сюда —
+        панель сама сделает копии под экран и покажет их телефонам.</p>
+<?php } ?>
+<?php card_end(); ?>
+<?php } ?>
+
 <?php card_start('Основное', 'Заголовок и описание — главное, что видит человек в поиске'); ?>
       <label for="a-title">Заголовок статьи</label>
       <input type="text" id="a-title" name="title" value="<?php echo h((string)($fields['title'] ?? '')); ?>" />
@@ -293,9 +451,23 @@ panel_page_start('Статьи', 'Черновики, редактор стат�
 
       <label for="a-image">Картинка для соцсетей (og:image)</label>
       <input type="text" id="a-image" name="image" value="<?php echo h((string)($fields['image'] ?? '')); ?>"
-             placeholder="/media/uploads/имя-код.jpg" />
-      <div class="field-hint">Пусто — возьмётся общая картинка сайта. Выбор из медиа-файлов появится в шаге 4.2b,
-        пока адрес можно скопировать в разделе «Медиа-файлы».</div>
+             placeholder="имя файла из media/uploads" />
+      <div class="field-hint">Пусто — возьмётся общая картинка сайта.</div>
+<?php if ($coverInfo['set']) { ?>
+      <div class="image-line">
+<?php if ($coverInfo['exists']) { ?>
+        <img class="image-thumb" src="<?php echo h('/media/uploads/' . basename((string)$fields['image'])); ?>" alt="" loading="lazy" />
+<?php } ?>
+        <div class="hint"><?php echo $coverInfo['exists']
+            ? (int)$coverInfo['w'] . '×' . (int)$coverInfo['h'] . ' · ' . h(human_size((int)$coverInfo['bytes']))
+              . ($coverInfo['copies'] > 0 ? ' · копий под экран: ' . (int)$coverInfo['copies'] : ' · копий под экран нет')
+            : 'файл не найден в media/uploads'; ?></div>
+      </div>
+<?php } ?>
+      <div class="btn-row" style="margin-top:10px">
+        <a class="btn ghost" href="<?php echo h($pickUrl('cover')); ?>">Выбрать из медиа</a>
+        <button class="btn ghost" type="submit" name="op" value="clear_image">Убрать обложку</button>
+      </div>
 <?php card_end(); ?>
 
 <?php card_start('Текст статьи', 'Блоки идут по порядку — так их увидят читатели'); ?>
@@ -357,11 +529,26 @@ panel_page_start('Статьи', 'Черновики, редактор стат�
 <?php } elseif ($type === 'image') { ?>
         <label>Файл картинки (из media/uploads)</label>
         <input type="text" name="blocks[<?php echo (int)$i; ?>][name]" value="<?php echo h((string)($b['name'] ?? '')); ?>"
-               placeholder="имя-код.jpg" />
+               placeholder="имя файла" />
         <label>Подпись для незрячих и поисковиков (alt)</label>
         <input type="text" name="blocks[<?php echo (int)$i; ?>][alt]" value="<?php echo h((string)($b['alt'] ?? '')); ?>" />
-        <div class="field-hint">Адрес файла скопируйте в разделе «Медиа-файлы» (выбор мышкой появится в 4.2b).
-          Панель сама подставит копии под экран и размеры.</div>
+<?php $bi = article_image_info((string)($b['name'] ?? '')); ?>
+<?php if ($bi['set']) { ?>
+        <div class="image-line">
+<?php if ($bi['exists']) { ?>
+          <img class="image-thumb" src="<?php echo h('/media/uploads/' . basename((string)$b['name'])); ?>" alt="" loading="lazy" />
+<?php } ?>
+          <div class="hint"><?php echo $bi['exists']
+              ? (int)$bi['w'] . '×' . (int)$bi['h'] . ' · ' . h(human_size((int)$bi['bytes']))
+                . ($bi['copies'] > 0 ? ' · копий под экран: ' . (int)$bi['copies'] : ' · копий под экран нет')
+              : 'файл не найден в media/uploads'; ?></div>
+        </div>
+<?php } ?>
+        <div class="btn-row" style="margin-top:10px">
+          <a class="btn ghost" href="<?php echo h($pickUrl('block', (int)$i)); ?>">Выбрать из медиа</a>
+        </div>
+        <div class="field-hint">Панель сама подставит копии под экран (480/768/1200), размеры и «ленивую» загрузку —
+          текст не будет «прыгать», а на телефоне картинка придёт легче.</div>
 
 <?php } else { ?>
         <textarea name="blocks[<?php echo (int)$i; ?>][text]" rows="4"><?php echo h((string)($b['text'] ?? '')); ?></textarea>
@@ -499,7 +686,31 @@ $faqCount = count((array)($fields['faq'] ?? array()));
 <?php } else { ?>
       <p class="hint" style="margin:12px 0 0">Замечаний нет — статья заполнена по правилам.</p>
 <?php } ?>
-<?php soon_block('Сниппет Яндекса (как статья выглядит в выдаче) и подсказки по картинкам', '4.2b'); ?>
+
+      <h3 style="margin:16px 0 8px;font-size:14px;color:var(--mut)">Как статья покажется в поиске</h3>
+      <div class="snippet">
+        <div class="snippet-title"><?php echo h($snippet['title']); ?><?php if ($snippet['title_cut']) { echo '…'; } ?></div>
+        <div class="snippet-url"><?php echo h($snippet['url']); ?></div>
+        <div class="snippet-desc"><?php echo h($snippet['desc']); ?><?php if ($snippet['desc_cut']) { echo '…'; } ?><?php
+          if ($snippet['faq'] >= 3) { ?> <span class="snippet-faq">Ещё <?php echo (int)$snippet['faq']; ?> вопроса</span><?php } ?></div>
+      </div>
+<?php foreach ($snippet['notes'] as $sn) { ?>
+      <p class="field-hint" style="margin:8px 0 0;color:var(--warn)"><?php echo h($sn); ?></p>
+<?php } ?>
+<?php if ($snippet['faq'] >= 3) { ?>
+      <p class="field-hint" style="margin:8px 0 0">Вопросов <?php echo (int)$snippet['faq']; ?>: в выдаче под текстом появятся
+        раскрывающиеся вопросы — их даёт разметка FAQ.</p>
+<?php } else { ?>
+      <p class="field-hint" style="margin:8px 0 0">Добавьте 3–5 «Частых вопросов» — тогда в выдаче появятся раскрывающиеся
+        вопросы, и сниппет станет заметнее.</p>
+<?php } ?>
+
+      <h3 style="margin:16px 0 8px;font-size:14px;color:var(--mut)">Картинки статьи</h3>
+      <ul style="margin:0;padding-left:22px;color:var(--mut);font-size:13.5px">
+<?php foreach ($imageNotes as $in) { ?>
+        <li><?php echo h($in); ?></li>
+<?php } ?>
+      </ul>
 <?php card_end(); ?>
 
     </aside>
