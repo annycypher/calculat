@@ -43,7 +43,7 @@ function panel_sections(): array {
         array('file' => 'outreach.php',    'title' => 'Аутрич',       'group' => 'Продвижение',  'icon' => '↗', 'ready' => false, 'hint' => 'внешние ссылки — фаза 7-Б'),
         array('file' => 'popular.php',     'title' => 'Популярное',   'group' => 'Продвижение',  'icon' => '☆', 'ready' => false, 'hint' => 'рейтинг страниц — фаза 9'),
 
-        array('file' => 'backup.php',      'title' => 'Бэкапы',       'group' => 'Сервис',       'icon' => '⛁', 'ready' => false, 'hint' => 'копии сайта — фаза 2'),
+        array('file' => 'backup.php',      'title' => 'Бэкапы',       'group' => 'Сервис',       'icon' => '⛁', 'ready' => true,  'hint' => 'копии сайта'),
         array('file' => 'users.php',       'title' => 'Пользователи', 'group' => 'Сервис',       'icon' => '☺', 'ready' => true,  'hint' => 'доступы и роли'),
         array('file' => 'log.php',         'title' => 'Журнал',       'group' => 'Сервис',       'icon' => '☰', 'ready' => false, 'hint' => 'кто что делал — фаза 9'),
         array('file' => 'settings.php',    'title' => 'Настройки',    'group' => 'Сервис',       'icon' => '⚙', 'ready' => false, 'hint' => 'адрес сайта, счётчики — фаза 11'),

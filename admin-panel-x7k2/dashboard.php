@@ -15,10 +15,23 @@ declare(strict_types=1);
 require __DIR__ . '/inc/config.php';
 require __DIR__ . '/inc/auth.php';
 require __DIR__ . '/inc/ui.php';
+require __DIR__ . '/inc/backup.php';
 
 panel_session_start();
 ensure_guards();
 require_login();
+
+/* Ленивый автозапуск копии: зашли в панель — проверили, не старше ли последняя копия 4 суток.
+   Копию делает сама панель, поэтому здесь достаточно одной строки (подробности — в inc/backup.php). */
+$autoBackup = backup_lazy_run();
+if ($autoBackup['ran']) {
+    if ($autoBackup['ok']) {
+        flash('Автоматическая копия сайта готова: ' . $autoBackup['name'] . ' — '
+            . (int)$autoBackup['files'] . ' файлов, ' . human_size($autoBackup['size']) . '.');
+    } else {
+        flash('Автоматическая копия не получилась: ' . $autoBackup['error'] . ' Проверьте раздел «Бэкапы».', 'error');
+    }
+}
 
 /* ── счётчики: разделы панели появятся в следующих фазах, поэтому сейчас почти всё нули ── */
 $articles = json_read(CONTENT_DIR . '/articles.json', array());
