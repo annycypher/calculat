@@ -290,21 +290,9 @@ function media_save_upload(array $file): array {
     );
 }
 
-/** Имя файла латиницей: кириллица → латиница, остальное — в дефисы. */
+/** Имя файла латиницей: кириллица → латиница, остальное — в дефисы (см. slugify в config.php). */
 function media_slug(string $name): string {
-    $name = mb_strtolower(trim($name));
-    $map = array('а'=>'a','б'=>'b','в'=>'v','г'=>'g','д'=>'d','е'=>'e','ё'=>'e','ж'=>'zh','з'=>'z',
-        'и'=>'i','й'=>'y','к'=>'k','л'=>'l','м'=>'m','н'=>'n','о'=>'o','п'=>'p','р'=>'r','с'=>'s',
-        'т'=>'t','у'=>'u','ф'=>'f','х'=>'h','ц'=>'c','ч'=>'ch','ш'=>'sh','щ'=>'sch','ъ'=>'','ы'=>'y',
-        'ь'=>'','э'=>'e','ю'=>'yu','я'=>'ya');
-    $out = '';
-    foreach (preg_split('//u', $name, -1, PREG_SPLIT_NO_EMPTY) as $ch) {
-        $out .= isset($map[$ch]) ? $map[$ch] : $ch;
-    }
-    $out = preg_replace('/[^a-z0-9]+/', '-', $out);
-    $out = trim((string)$out, '-');
-    if (strlen($out) > 60) { $out = substr($out, 0, 60); }
-    return $out === '' ? 'img' : $out;
+    return slugify($name, 60, 'img');
 }
 
 /** Где на сайте используется эта картинка: список страниц (относительные пути). */

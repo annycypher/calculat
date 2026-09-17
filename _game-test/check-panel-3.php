@@ -271,9 +271,15 @@ $r = http(BASE . '/media.php');
 check('на странице виден вес «до и после»', has($r['b'], 'Вес:'), 'нет строки про вес');
 check('на странице перечислены копии', has($r['b'], 'Копии: 480px'), 'нет строки про копии');
 
-/* Готовый код берём прямо со страницы — это то, что владелец копирует */
-preg_match('#<textarea class="media-snippet"[^>]*>(.*?)</textarea>#s', $r['b'], $smm);
-$snippet = html_entity_decode((string)(isset($smm[1]) ? $smm[1] : ''), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+/* Готовый код берём прямо со страницы — это то, что владелец копирует.
+   Берём поле именно нашей широкой картинки: в списке свежие сверху, но при загрузках
+   в одну секунду порядок спорный, поэтому ищем по имени файла. */
+preg_match_all('#<textarea class="media-snippet"[^>]*>(.*?)</textarea>#s', $r['b'], $sms);
+$snippet = '';
+foreach ((array)$sms[1] as $rawSnippet) {
+    $decoded = html_entity_decode((string)$rawSnippet, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    if ($wideName !== '' && strpos($decoded, '/' . $wideName) !== false) { $snippet = $decoded; break; }
+}
 check('код вставки: оригинал в src, копии в srcset, alt и lazy',
       strpos($snippet, 'src="/media/uploads/' . $wideName . '"') !== false
       && strpos($snippet, 'srcset="/media/uploads/' . (isset($copyNames[480]) ? $copyNames[480] : '') . ' 480w') !== false

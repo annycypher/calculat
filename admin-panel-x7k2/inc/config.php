@@ -148,6 +148,27 @@ function safe_filename(string $name, string $fallback = 'file'): string {
     return $base === '' ? $fallback : $base;
 }
 
+/** Текст в «адресный» вид: кириллица → латиница, остальное — в дефисы.
+    Используется для имён картинок и адресов статей (/blog/{slug}/). */
+function slugify(string $text, int $max = 60, string $fallback = 'item'): string {
+    $text = mb_strtolower(trim($text));
+    $map = array('а'=>'a','б'=>'b','в'=>'v','г'=>'g','д'=>'d','е'=>'e','ё'=>'e','ж'=>'zh','з'=>'z',
+        'и'=>'i','й'=>'y','к'=>'k','л'=>'l','м'=>'m','н'=>'n','о'=>'o','п'=>'p','р'=>'r','с'=>'s',
+        'т'=>'t','у'=>'u','ф'=>'f','х'=>'h','ц'=>'c','ч'=>'ch','ш'=>'sh','щ'=>'sch','ъ'=>'','ы'=>'y',
+        'ь'=>'','э'=>'e','ю'=>'yu','я'=>'ya');
+    $out = '';
+    foreach (preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY) as $ch) {
+        $out .= isset($map[$ch]) ? $map[$ch] : $ch;
+    }
+    $out = preg_replace('/[^a-z0-9]+/', '-', $out);
+    $out = trim((string)$out, '-');
+    if ($max > 0 && strlen($out) > $max) {
+        $out = substr($out, 0, $max);
+        $out = rtrim($out, '-');
+    }
+    return $out === '' ? $fallback : $out;
+}
+
 /* .htaccess-заглушка: через веб содержимое служебной папки не отдаётся.
    Тот же текст, что и в api/data/.htaccess — так уже сделано на сайте. */
 function ensure_guard(string $dir): void {
