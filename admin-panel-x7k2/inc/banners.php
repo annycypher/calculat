@@ -271,7 +271,49 @@ function banner_image_check(string $name, string $slot): array {
     return array('ok' => count($notes) === 0, 'notes' => $notes);
 }
 
-/** Подогнать картинку под слот: точный размер (обрезка по центру) и сжатие. */
+/** Копии картинки под телефон (480/768/1200): что уже готово, а что нет.
+    Возвращает ['w','h','copies'=>[ширина => [name,url,bytes,w,h,format]]]. */
+function banner_copies(string $name): array {
+    $name = basename($name);
+    $item = media_index_get($name);
+    if (count($item) === 0) {
+        $dim  = is_file(MEDIA_DIR . '/' . $name) ? @getimagesize(MEDIA_DIR . '/' . $name) : false;
+        $item = array('w' => $dim !== false ? (int)$dim[0] : 0,
+                      'h' => $dim !== false ? (int)$dim[1] : 0, 'copies' => array());
+    }
+    $copies = array();
+    foreach (media_copy_widths() as $cw) {
+        $c = media_copy_entry($item, $cw);
+        if (isset($c['url'])) {
+            $copies[$cw] = array(
+                'name'   => (string)($c['name'] ?? ''), 'url' => (string)$c['url'],
+                'bytes'  => (int)($c['bytes'] ?? 0),    'w'   => (int)($c['w'] ?? $cw),
+                'h'      => (int)($c['h'] ?? 0),        'format' => (string)($c['format'] ?? ''),
+            );
+        }
+    }
+    return array('w' => (int)($item['w'] ?? 0), 'h' => (int)($item['h'] ?? 0), 'copies' => $copies);
+}
+
+/** Код баннера для страницы сайта — ровно такой вставит шаг 5.3:
+    <a href><img src srcset sizes width height alt loading="lazy" /></a>
+    Подписи и адрес экранируем сразу, поэтому код можно печатать как есть. */
+function banner_html(array $b): string {
+    $slots = banner_slots();
+    $slot  = (string)($b['slot'] ?? 'banner-top');
+    $spec  = isset($slots[$slot]) ? $slots[$slot] : array('w' => 0, 'h' => 0);
+    $name  = basename((string)($b['image'] ?? ''));
+    if ($name === '' || !is_file(MEDIA_DIR . '/' . $name)) { return ''; }
+
+    $sizes = '(max-width: ' . ((int)$spec['w'] + 40) . 'px) 100vw, ' . (int)$spec['w'] . 'px';
+    $img   = media_snippet($name, h((string)($b['alt'] ?? '')), $sizes);
+
+    $url = trim((string)($b['url'] ?? ''));
+    if ($url === '') { return $img; }
+    $outside = (strpos($url, 'http://') === 0 || strpos($url, 'https://') === 0);
+    return '<a href="' . h($url) . '"' . ($outside ? ' target="_blank" rel="noopener"' : '') . '>' . $img . '</a>';
+}
+
 function banner_fit_image(string $name, string $slot): array {
     $slots = banner_slots();
     $name  = basename($name);
@@ -317,10 +359,25 @@ function banner_fit_image(string $name, string $slot): array {
     if (!$ok) { return array('ok' => false, 'error' => 'Не получилось записать картинку — проверьте права.', 'note' => ''); }
 
     @chmod($path, 0644);
-    media_index_forget($name);                 // размеры изменились — старый индекс медиа больше не верен
+
+    /* Размеры изменились — пересобираем копии 480/768/1200 и обновляем индекс медиа,
+       иначе телефон получил бы копии от старой картинки (или не получил бы вовсе). */
+    $built = media_process($name);
+    $copyNote = '';
+    if (!empty($built['ok'])) {
+        $list = array();
+        foreach ((array)($built['copies'] ?? array()) as $cw => $c) { $list[] = (string)$cw; }
+        $copyNote = count($list) > 0
+            ? ' Копии под телефон пересобраны: ' . implode(', ', $list) . ' px.'
+            : ' Копии под телефон не нужны — картинка ровно по размеру слота.';
+    } else {
+        $copyNote = ' Копии под телефон собрать не получилось: ' . (string)($built['error'] ?? 'неизвестная причина') . '.';
+    }
+
     log_action('Баннер подогнан под слот', $name . ' → ' . $W . '×' . $H);
     return array('ok' => true, 'error' => '',
-                 'note' => human_size($before) . ' → ' . human_size((int)@filesize($path)) . ' (' . $W . '×' . $H . ')');
+                 'note' => human_size($before) . ' → ' . human_size((int)@filesize($path)) . ' (' . $W . '×' . $H . ').'
+                           . $copyNote);
 }
 
 

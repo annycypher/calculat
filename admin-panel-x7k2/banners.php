@@ -209,6 +209,10 @@ if ($newMode) {
 <?php } ?>
               <code class="media-name"><?php echo h((string)($b['image'] ?? '')); ?></code>
               <?php echo $check['ok'] ? badge('по размеру слота', 'ok') : badge('нужен подгон', 'warn'); ?>
+<?php $bc = banner_copies((string)($b['image'] ?? ''));
+      if ((int)$bc['w'] > 480 && count((array)$bc['copies']) === 0) {
+          echo badge('нет копий под телефон', 'warn');
+      } ?>
 <?php if ((string)($b['title'] ?? '') !== '') { ?>
               <div class="hint"><?php echo h((string)$b['title']); ?></div>
 <?php } ?>
@@ -267,13 +271,17 @@ if ($newMode) {
 <?php } else { ?>
       <div class="media-grid">
 <?php foreach ($mediaList as $m) {
-        $mi = banner_image_check((string)$m['name'], $fSlot); ?>
+        $mi = banner_image_check((string)$m['name'], $fSlot);
+        $mc = banner_copies((string)$m['name']);
+        $mcList = array();
+        foreach ((array)$mc['copies'] as $cw => $c) { $mcList[] = (int)$cw; } ?>
         <div class="media-item">
           <div class="media-thumb"><img src="<?php echo h((string)$m['url']); ?>" alt="" loading="lazy" /></div>
           <code class="media-name"><?php echo h((string)$m['name']); ?></code>
           <div class="media-meta"><?php echo (int)$m['w']; ?>×<?php echo (int)$m['h']; ?> ·
             <?php echo h(human_size((int)$m['size'])); ?><br>
-            <?php echo $mi['ok'] ? badge('подходит слоту', 'ok') : badge('подгон после выбора', 'warn'); ?></div>
+            <?php echo $mi['ok'] ? badge('подходит слоту', 'ok') : badge('подгон после выбора', 'warn'); ?>
+            <?php echo count($mcList) > 0 ? badge('копии ' . implode('/', $mcList) . ' px', 'vio') : ''; ?></div>
           <button class="btn primary" type="submit" name="op" value="set_image:<?php echo h((string)$m['name']); ?>">Поставить эту</button>
         </div>
 <?php } ?>
@@ -322,6 +330,58 @@ if ($newMode) {
       </div>
       <div class="field-hint">«Подогнать под слот» обрежет картинку по центру до
         <?php echo (int)$fSpec['w']; ?>×<?php echo (int)$fSpec['h']; ?> и сожмёт её — сайт будет открываться быстрее.</div>
+<?php card_end(); ?>
+
+<?php card_start('Предпросмотр: как баннер встанет на сайт',
+                 'Рамка — настоящего размера слота; телефон получит лёгкую копию картинки'); ?>
+<?php
+    $previewHtml = ($fImage !== '' && is_file(MEDIA_DIR . '/' . $fImage))
+        ? banner_html(array('slot' => $fSlot, 'image' => $fImage, 'alt' => (string)($form['alt'] ?? ''),
+                            'url' => (string)($form['url'] ?? '')))
+        : '';
+    $copies = $fImage !== '' ? banner_copies($fImage) : array('w' => 0, 'h' => 0, 'copies' => array());
+?>
+      <div class="banner-preview-wrap">
+        <div class="banner-frame" style="width:<?php echo (int)$fSpec['w']; ?>px;height:<?php echo (int)$fSpec['h']; ?>px"><?php
+          echo $previewHtml !== ''
+              ? $previewHtml
+              : '<span>Здесь будет баннер — сначала выберите картинку</span>'; ?></div>
+      </div>
+      <div class="banner-frame-note">Это настоящий размер слота «<?php echo h((string)$fSpec['title']); ?>» —
+        <?php echo (int)$fSpec['w']; ?>×<?php echo (int)$fSpec['h']; ?> px<?php
+        if ((int)$fSpec['w'] > 900) { ?>, если рамка не помещается в окно, прокрутите её вбок<?php } ?>.
+        Картинка обрезана так же, как её покажет сайт (по центру).</div>
+
+<?php if ($fImage !== '') {
+        $mw       = media_copy_widths();
+        $smallest = (int)($mw[0] ?? 480); ?>
+      <div class="field-hint" style="margin-top:12px">Копии картинки под маленькие экраны:</div>
+<?php if (count((array)$copies['copies']) > 0) { ?>
+      <div class="banner-copies">
+<?php foreach ((array)$copies['copies'] as $cw => $c) { ?>
+        <span class="banner-copy"><?php echo (int)$cw; ?> px → <?php echo (int)$c['w']; ?>×<?php echo (int)$c['h']; ?>
+          · <?php echo h(human_size((int)$c['bytes'])); ?> · <?php echo h(strtoupper((string)$c['format'])); ?></span>
+<?php } ?>
+      </div>
+      <div class="field-hint">Браузер сам возьмёт подходящую копию: телефон — <?php echo $smallest; ?> px,
+        планшет — <?php echo (int)($mw[1] ?? 768); ?> px, большой экран — сама картинка
+        <?php echo (int)$copies['w']; ?> px. Копия не нужна, если она не меньше оригинала.</div>
+<?php } elseif ((int)$copies['w'] > $smallest) { ?>
+      <p class="field-warn">⚠ Копий под телефон нет — на телефоне загрузится сама картинка
+        (<?php echo (int)$copies['w']; ?> px, <?php echo h(human_size((int)@filesize(MEDIA_DIR . '/' . $fImage))); ?>).
+        Нажмите «Подогнать под слот» — панель соберёт лёгкие копии <?php echo $smallest; ?> и
+        <?php echo (int)($mw[1] ?? 768); ?> px.</p>
+<?php } else { ?>
+      <div class="field-hint">Копии не нужны: картинка всего <?php echo (int)$copies['w']; ?> px —
+        она и так лёгкая для телефона.</div>
+<?php } ?>
+<?php } ?>
+
+<?php if ($previewHtml !== '') { ?>
+      <div class="field-hint" style="margin-top:12px">Код, который панель вставит в страницу (шаг 5.3):</div>
+      <code class="banner-code"><?php echo h($previewHtml); ?></code>
+      <div class="field-hint">Разметку менять не нужно — панель собирает её сама, когда выводит баннер.</div>
+<?php } ?>
 <?php card_end(); ?>
 
 <?php card_start('Куда ведёт и что читают вслепую', 'Ссылку увидит посетитель, который кликнул по баннеру'); ?>

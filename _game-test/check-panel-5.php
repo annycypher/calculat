@@ -302,6 +302,18 @@ check('имя файла не изменилось, баннер по-прежн
 
 $r = http(BASE . '/banners.php?e=' . $id);
 check('замечаний о размере больше нет', !has($r['b'], 'а слоту нужно 1200×200'));
+check('панель сообщила о пересборке копий под телефон',
+      has($r['b'], 'Копии под телефон пересобраны: 480, 768 px'));
+$copyName480 = pathinfo($imgName, PATHINFO_FILENAME) . '-480.webp';
+$copyName768 = pathinfo($imgName, PATHINFO_FILENAME) . '-768.webp';
+$dim480 = @getimagesize(SITE . '/media/uploads/' . $copyName480);
+$dim768 = @getimagesize(SITE . '/media/uploads/' . $copyName768);
+check('копия 480 px пересобрана под новый размер картинки (480×80)',
+      $dim480 !== false && (int)$dim480[0] === 480 && (int)$dim480[1] === 80,
+      'копия: ' . ($dim480 === false ? 'нет' : (int)$dim480[0] . '×' . (int)$dim480[1]));
+check('копия 768 px тоже пересобрана (768×128)',
+      $dim768 !== false && (int)$dim768[0] === 768 && (int)$dim768[1] === 128,
+      'копия: ' . ($dim768 === false ? 'нет' : (int)$dim768[0] . '×' . (int)$dim768[1]));
 $r = http(BASE . '/banners.php');
 check('в списке появился бейдж «по размеру слота»', has($r['b'], 'по размеру слота'));
 
@@ -411,6 +423,84 @@ check('слот шапки показывает два баннера', has($r['
 check('оба баннера видны в списке', has($r['b'], 'Тест шапки') && has($r['b'], 'Второй'));
 check('картинка точного размера получает бейдж «по размеру слота»', has($r['b'], 'по размеру слота'));
 check('панель объясняет ротацию', has($r['b'], 'ротаци'));
+
+say('');
+say('8-Б. Предпросмотр баннера в рамке слота (шаг 5.2)');
+
+$base = pathinfo($imgName, PATHINFO_FILENAME);
+
+$r  = http(BASE . '/banners.php?e=' . $id);
+$pv = $r['b'];
+check('на странице правки есть карточка предпросмотра',
+      $r['s'] === 200 && has($pv, 'как баннер встанет на сайт'), 'код ' . $r['s']);
+check('рамка нарисована настоящим размером слота (1200×200)',
+      strpos($pv, 'class="banner-frame" style="width:1200px;height:200px"') !== false);
+check('в рамке настоящая ссылка вокруг картинки',
+      strpos($pv, '<div class="banner-frame" style="width:1200px;height:200px"><a href="/calculators/finance/vat/">') !== false);
+check('картинка в рамке отдаётся с srcset из копий 480 и 768',
+      strpos($pv, 'srcset="/media/uploads/' . $base . '-480.webp 480w, /media/uploads/' . $base . '-768.webp 768w"') !== false);
+check('у картинки правильные sizes под ширину слота',
+      strpos($pv, 'sizes="(max-width: 1240px) 100vw, 1200px"') !== false);
+check('у картинки проставлены width, height, lazy и подпись alt',
+      strpos($pv, 'width="1200" height="200"') !== false
+      && strpos($pv, 'loading="lazy" alt="Тестовый баннер шапки"') !== false);
+check('копии показаны с размерами и весом',
+      has($pv, '480 px → 480×80') && has($pv, '768 px → 768×128') && has($pv, 'WEBP'));
+check('в предпросмотре виден код, который панель вставит в страницу',
+      strpos($pv, 'class="banner-code"') !== false && strpos($pv, '&lt;img src=') !== false
+      && strpos($pv, 'srcset=&quot;') !== false);
+
+/* Баннер без ссылки, а потом с внешней ссылкой */
+$r    = http(BASE . '/banners.php?new=1&slot=banner-top');
+$csrf = csrf($r['b']);
+$r    = http(BASE . '/banners.php', array('csrf' => $csrf, 'op' => 'save', 'id' => '', 'slot' => 'banner-top',
+    'image' => $imgName2, 'alt' => 'Предпросмотр без ссылки', 'url' => '', 'title' => 'Без ссылки',
+    'pages' => array('*'), 'date_from' => date('Y-m-d'), 'date_to' => '', 'weight' => '1', 'active' => '1'));
+$idPv = preg_match('/\?e=([a-zA-Z0-9]+)/', (string)$r['l'], $mp) ? (string)$mp[1] : '';
+check('баннер для проверки предпросмотра сохранён', $idPv !== '');
+$r = http(BASE . '/banners.php?e=' . $idPv);
+check('баннер без ссылки выводится без ссылки',
+      strpos($r['b'], 'style="width:1200px;height:200px"><img src="/media/uploads/' . $imgName2 . '"') !== false);
+$csrfPv = csrf($r['b']);
+$r = http(BASE . '/banners.php', array('csrf' => $csrfPv, 'op' => 'save', 'id' => $idPv, 'slot' => 'banner-top',
+    'image' => $imgName2, 'alt' => 'Внешняя ссылка', 'url' => 'https://calc-doc.ru/blog/', 'title' => 'Внешняя',
+    'pages' => array('*'), 'date_from' => date('Y-m-d'), 'date_to' => '', 'weight' => '1', 'active' => '1'));
+$r = http(BASE . '/banners.php?e=' . $idPv);
+check('внешняя ссылка открывается в новой вкладке',
+      strpos($r['b'], '<a href="https://calc-doc.ru/blog/" target="_blank" rel="noopener">') !== false);
+
+/* Маленькая картинка: копий нет и не нужно — панель не должна пугать зря */
+$csrf = csrf(http(BASE . '/media.php')['b']);
+$r = http_upload(BASE . '/media.php', 'tests-media-banner-small.jpg', make_jpg(300, 100),
+                 array('csrf' => $csrf, 'action' => 'upload'));
+$smallFiles = (array)glob(SITE . '/media/uploads/tests-media-banner-small-*.jpg');
+$imgSmall   = count($smallFiles) > 0 ? basename((string)$smallFiles[0]) : '';
+check('маленькая картинка 300×100 загружена', $imgSmall !== '',
+      'копий рядом: ' . count((array)glob(SITE . '/media/uploads/tests-media-banner-small-*-480.webp')));
+$r    = http(BASE . '/banners.php?new=1&slot=banner-mid');
+$csrf = csrf($r['b']);
+$r    = http(BASE . '/banners.php', array('csrf' => $csrf, 'op' => 'save', 'id' => '', 'slot' => 'banner-mid',
+    'image' => $imgSmall, 'alt' => 'Маленькая картинка', 'url' => '', 'title' => 'Маленькая',
+    'pages' => array('*'), 'date_from' => date('Y-m-d'), 'date_to' => '', 'weight' => '1', 'active' => '1'));
+$idSmall = preg_match('/\?e=([a-zA-Z0-9]+)/', (string)$r['l'], $ms) ? (string)$ms[1] : '';
+check('баннер из маленькой картинки сохранён', $idSmall !== '');
+$r = http(BASE . '/banners.php?e=' . $idSmall);
+check('рамка середины статьи — 728×90', strpos($r['b'], 'style="width:728px;height:90px"') !== false);
+check('маленькой картинке копии не нужны — панель не пугает зря',
+      !has($r['b'], 'Копий под телефон нет') && has($r['b'], 'Копии не нужны: картинка всего 300 px'));
+check('предпросмотр маленькой картинки показывает её саму, без srcset',
+      strpos($r['b'], 'style="width:728px;height:90px"><img src="/media/uploads/' . $imgSmall . '"') !== false
+      && strpos($r['b'], 'class="banner-code">&lt;img src=&quot;/media/uploads/' . $imgSmall . '&quot;') !== false);
+
+/* Пустая форма: рамка-заглушка, ошибок нет */
+$r = http(BASE . '/banners.php?new=1&slot=banner-footer');
+check('в пустой форме рамка показывает подсказку вместо картинки',
+      $r['s'] === 200 && strpos($r['b'], 'style="width:1200px;height:150px"><span>Здесь будет баннер') !== false,
+      'код ' . $r['s']);
+check('в пустой форме нет кода для страницы и нет предупреждений о копиях',
+      strpos($r['b'], 'class="banner-code"') === false
+      && !has($r['b'], 'Копий под телефон нет'));
+
 say('');
 say('9. Что панель не даёт сделать (ошибки формы)');
 
@@ -485,8 +575,8 @@ check('настройки баннеров лежат в панели, а не �
 $site = json_decode((string)@file_get_contents(SITE . '/content/banners.json'), true);
 check('файл баннеров читается как JSON и помнит версию',
       is_array($site) && (int)($site['version'] ?? 0) === 1 && isset($site['banners']));
-check('в файле баннеров осталось два баннера (третий удалён на проверке удаления)',
-      count((array)($site['banners'] ?? array())) === 2, 'записей: ' . count((array)($site['banners'] ?? array())));
+check('в файле баннеров осталось четыре баннера (один удалён на проверке удаления)',
+      count((array)($site['banners'] ?? array())) === 4, 'записей: ' . count((array)($site['banners'] ?? array())));
 
 say('');
 say('12. Уборка за тестом');
