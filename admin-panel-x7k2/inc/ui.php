@@ -38,7 +38,7 @@ function panel_sections(): array {
         array('file' => 'ads.php',         'title' => 'Рекламные блоки','group' => 'Реклама',    'icon' => '◲', 'ready' => true,  'hint' => 'РСЯ, AdSense, свой HTML'),
         array('file' => 'reviews.php',     'title' => 'Отзывы',       'group' => 'Реклама',      'icon' => '★', 'ready' => false, 'hint' => 'модерация — фаза 7-В'),
 
-        array('file' => 'seo-center.php',  'title' => 'SEO-центр',    'group' => 'Продвижение',  'icon' => '◎', 'ready' => false, 'hint' => 'оценка страниц — фаза 7'),
+        array('file' => 'seo-center.php',  'title' => 'SEO-центр',    'group' => 'Продвижение',  'icon' => '◎', 'ready' => true,  'hint' => 'оценка страниц по критериям поиска'),
         array('file' => 'links.php',       'title' => 'Перелинковка', 'group' => 'Продвижение',  'icon' => '⤳', 'ready' => false, 'hint' => 'внутренние ссылки — фаза 7-Б'),
         array('file' => 'outreach.php',    'title' => 'Аутрич',       'group' => 'Продвижение',  'icon' => '↗', 'ready' => false, 'hint' => 'внешние ссылки — фаза 7-Б'),
         array('file' => 'popular.php',     'title' => 'Популярное',   'group' => 'Продвижение',  'icon' => '☆', 'ready' => false, 'hint' => 'рейтинг страниц — фаза 9'),
