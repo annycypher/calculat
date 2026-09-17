@@ -26,6 +26,39 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     csrf_check();
     $op = (string)($_POST['op'] ?? '');
 
+    /* Свои ключи страниц (шаг 7.3): важнее ключа, выделенного из H1. */
+    if ($op === 'key_save') {
+        $res = seo_keywords_set(trim((string)($_POST['rel'] ?? '')), (string)($_POST['keyword'] ?? ''));
+        flash($res['ok'] ? 'Ключ сохранён. Нажмите «Проверить весь сайт», и оценки пересчитаются с вашим ключом.'
+                         : 'Не сохранил: ' . $res['error'], $res['ok'] ? 'ok' : 'error');
+        if ($res['ok']) { log_action('SEO-центр: задан свой ключ страницы'); }
+        header('Location: ' . panel_url('seo-center.php#keys'));
+        exit;
+    }
+    if ($op === 'key_del') {
+        $res = seo_keywords_set(trim((string)($_POST['rel'] ?? '')), '');
+        flash($res['ok'] ? 'Свой ключ убран — панель снова возьмёт ключ из H1.' : 'Не получилось: ' . $res['error'],
+              $res['ok'] ? 'ok' : 'error');
+        header('Location: ' . panel_url('seo-center.php#keys'));
+        exit;
+    }
+
+    /* Позиции из Вебмастера (шаг 7.3): владелец переносит их руками. */
+    if ($op === 'pos_save') {
+        $res = seo_position_save($_POST);
+        flash($res['ok'] ? ($res['replaced'] ? 'Позиция за эту дату заменена на новую.' : 'Позиция добавлена.')
+                         : 'Не сохранил: ' . $res['error'], $res['ok'] ? 'ok' : 'error');
+        if ($res['ok']) { log_action('SEO-центр: записана позиция из Вебмастера'); }
+        header('Location: ' . panel_url('seo-center.php#positions'));
+        exit;
+    }
+    if ($op === 'pos_del') {
+        $ok = seo_position_delete(trim((string)($_POST['id'] ?? '')));
+        flash($ok ? 'Строка позиции убрана.' : 'Не получилось убрать строку — попробуйте ещё раз.', $ok ? 'ok' : 'error');
+        header('Location: ' . panel_url('seo-center.php#positions'));
+        exit;
+    }
+
     if ($op === 'scan') {
         $scan = seo_scan();
         $ok   = seo_scan_save($scan);
@@ -64,6 +97,26 @@ $orphans = $has ? seo_scan_orphans($scan) : array();
 $stale   = $has ? seo_scan_stale($scan)   : array();
 $nodate  = $has ? seo_scan_nodate($scan)  : array();
 $dupes   = $has ? seo_scan_dupes($scan)   : array('title' => array(), 'desc' => array());
+
+/* Позиции и свои ключи (шаг 7.3). */
+$tracked   = seo_positions_tracked();
+$posSum    = seo_positions_summary();
+$ownKeys   = seo_keywords_saved();
+$posDelId  = isset($_GET['delpos']) ? trim((string)$_GET['delpos']) : '';
+$posDelRow = array();
+foreach (seo_positions() as $row) { if ((string)$row['id'] === $posDelId) { $posDelRow = $row; } }
+$keyRel    = isset($_GET['keyrel']) ? trim((string)$_GET['keyrel']) : '';
+if ($keyRel !== '' && !in_array($keyRel, site_pages_list(), true)) { $keyRel = ''; }
+
+/* Подписи страниц для выпадающих списков: видно, какой ключ панель считает сейчас. */
+$pageOptions = array();
+foreach (site_pages_list() as $p) {
+    $own = isset($ownKeys[$p]) ? (string)$ownKeys[$p] : '';
+    $row = $has ? seo_scan_find($scan, $p) : array();
+    $der = count($row) > 0 ? (string)$row['keyword'] : '';
+    $hint = $own !== '' ? ' · свой ключ: ' . $own : ($der !== '' ? ' · из H1: ' . $der : '');
+    $pageOptions[$p] = $p . $hint;
+}
 
 /** Цвет бейджа по оценке страницы — чтобы не повторять одно и то же трижды. */
 function seo_tone_badge_tone(array $row): string {
@@ -139,6 +192,11 @@ panel_page_start('SEO-центр', 'Проверка страниц сайта �
           <td><span class="hint"><a href="#stale">список ниже</a>: дата последнего изменения старше полугода</span></td></tr>
         <tr><td>Дубли меты (всего)</td><td><?php echo badge((string)(int)($summary['dupes'] ?? 0), (int)($summary['dupes'] ?? 0) > 0 ? 'err' : 'ok'); ?></td>
           <td><span class="hint"><a href="#dupes">список ниже</a>: группы страниц с одинаковым title или description</span></td></tr>
+        <tr><td>Запросы из Вебмастера</td><td><?php echo badge((string)(int)$posSum['queries'], (int)$posSum['queries'] > 0 ? 'vio' : 'mut'); ?></td>
+          <td><span class="hint"><a href="#positions">ввод и тренд</a>: выросли <?php echo (int)$posSum['up']; ?>,
+            сдали позиции <?php echo (int)$posSum['down']; ?>, без изменений <?php echo (int)$posSum['flat']; ?></span></td></tr>
+        <tr><td>Свои ключи страниц</td><td><?php echo badge((string)count($ownKeys), count($ownKeys) > 0 ? 'vio' : 'mut'); ?></td>
+          <td><span class="hint"><a href="#keys">задать ключ</a>: без своего ключа панель выделяет его из H1</span></td></tr>
         <tr><td>Нет в карте сайта</td><td><?php echo (int)($summary['no_sitemap'] ?? 0); ?></td>
           <td><span class="hint">такие страницы хуже находят поисковые роботы: добавьте их в sitemap.xml</span></td></tr>
       </table>
@@ -313,6 +371,146 @@ panel_page_start('SEO-центр', 'Проверка страниц сайта �
 
 <?php } /* конец «если есть снимок скана» */ ?>
 
+<?php if (count($posDelRow) > 0) { ?>
+<?php card_start('Убрать строку позиции?', 'Это только запись в панели — на сайте ничего не меняется', 'err'); ?>
+      <p style="margin:0 0 10px">Строка: <code><?php echo h((string)$posDelRow['rel']); ?></code> ·
+        запрос «<?php echo h((string)$posDelRow['query']); ?>» ·
+        позиция <?php echo (int)$posDelRow['position']; ?> на <?php echo h((string)$posDelRow['date']); ?>.</p>
+      <div class="btn-row">
+        <form method="post" action="<?php echo h(panel_url('seo-center.php')); ?>">
+          <?php echo csrf_field(); ?>
+          <input type="hidden" name="op" value="pos_del" />
+          <input type="hidden" name="id" value="<?php echo h((string)$posDelRow['id']); ?>" />
+          <button class="btn primary" style="background:linear-gradient(135deg,#ff8f98,#ffb3a7);color:#2a0d12" type="submit">Да, убрать строку</button>
+        </form>
+        <a class="btn ghost" href="<?php echo h(panel_url('seo-center.php#positions')); ?>">Отмена</a>
+      </div>
+<?php card_end(); ?>
+<?php } ?>
+
+<a id="positions"></a>
+<?php card_start('Позиции из Вебмастера', 'Ручной ввод: страница, запрос, позиция, дата — тренд панель посчитает сама'); ?>
+      <p style="margin:0 0 10px">Откуда числа: Яндекс.Вебмастер → «Поисковые запросы» → «Позиции сайта».
+        Там по каждому запросу видно, на каком месте страница. Переносите строки сюда — раз в неделю или раз в месяц,
+        как удобно. Автоматически панель данные не забирает: для этого нужен доступ к вашему аккаунту Вебмастера,
+        а мы договорились ничего лишнего не подключать.</p>
+      <form method="post" action="<?php echo h(panel_url('seo-center.php')); ?>">
+        <?php echo csrf_field(); ?>
+        <input type="hidden" name="op" value="pos_save" />
+        <label for="pos-rel">Страница</label>
+        <select id="pos-rel" name="rel">
+<?php foreach ($pageOptions as $rel => $label) { ?>
+          <option value="<?php echo h((string)$rel); ?>"<?php echo $rel === ($posDelRow !== array() ? (string)$posDelRow['rel'] : '') ? ' selected' : ''; ?>><?php echo h((string)$label); ?></option>
+<?php } ?>
+        </select>
+        <label for="pos-query" style="margin-top:10px">Запрос (как в Вебмастере)</label>
+        <input type="text" id="pos-query" name="query" placeholder="например: калькулятор ндфл" />
+        <label for="pos-value" style="margin-top:10px">Позиция</label>
+        <input type="number" id="pos-value" name="position" min="1" max="100" step="1" />
+        <label for="pos-date" style="margin-top:10px">Дата</label>
+        <input type="date" id="pos-date" name="date" value="<?php echo h(date('Y-m-d')); ?>" />
+        <div class="field-hint">Позиция — место в выдаче: 1 — первый результат, 3 — третий. Если запроса нет в топ-100,
+          вводить его не нужно. Повторный ввод за ту же дату по той же странице и запросу заменяет прежнее значение.</div>
+        <div class="btn-row" style="margin-top:12px">
+          <button class="btn primary" type="submit">Записать позицию</button>
+        </div>
+      </form>
+<?php if (count($tracked) === 0) { ?>
+      <p class="empty" style="margin-top:12px">Пока ни одной позиции. Добавьте первую строку — а через неделю вторую,
+        и панель покажет, растёт страница или сдаёт позиции.</p>
+<?php } else { ?>
+      <table class="table" style="margin-top:14px">
+        <tr><th>Запрос</th><th>Страница</th><th>Сейчас</th><th>Тренд</th><th>История</th><th>Убрать</th></tr>
+<?php   foreach ($tracked as $item) {
+            $t     = (array)$item['trend'];
+            $count = (int)$t['count'];
+            $delta = (int)$t['delta']; ?>
+        <tr>
+          <td><?php echo h((string)$item['query']); ?></td>
+          <td><code><?php echo h((string)$item['rel']); ?></code></td>
+          <td><strong><?php echo (int)$t['last']; ?></strong>
+            <div class="hint"><?php echo h((string)$t['to']); ?><?php echo $count > 1 ? ' · было ' . (int)$t['first'] : ''; ?></div></td>
+          <td><?php
+            if ($count < 2) { echo badge('ждём второго измерения', 'mut'); }
+            elseif ($delta > 0) { echo badge('+' . $delta, 'ok'); }
+            elseif ($delta < 0) { echo badge((string)$delta, 'err'); }
+            else { echo badge('без изменений', 'mut'); } ?>
+            <div class="hint"><?php echo h((string)$t['word']); ?> · лучшее <?php echo (int)$t['best']; ?>, худшее <?php echo (int)$t['worst']; ?></div></td>
+          <td>
+            <details>
+              <summary style="cursor:pointer">точек: <?php echo $count; ?></summary>
+              <ul style="margin:6px 0 0;padding-left:18px;font-size:12.5px;color:var(--mut)">
+<?php       foreach ((array)$t['points'] as $p) { ?>
+                <li><?php echo h((string)$p['date']); ?> — <?php echo (int)$p['position']; ?></li>
+<?php       } ?>
+              </ul>
+            </details>
+          </td>
+          <td>
+            <a class="btn ghost" href="<?php echo h(panel_url('seo-center.php?delpos=' . rawurlencode((string)$item['rows'][0]['id']) . '#positions')); ?>">Убрать…</a>
+          </td>
+        </tr>
+<?php   } ?>
+      </table>
+      <div class="field-hint">В поиске меньше — лучше: если позиция упала с 8 на 3, панель показывает «+5» зелёным и пишет
+        «вышел выше». Сначала в списке идут те, кто сдал позиции, — за них и стоит браться.</div>
+<?php } ?>
+<?php card_end(); ?>
+
+<a id="keys"></a>
+<?php card_start('Свои ключи страниц', 'Тогда панель проверяет именно ваш ключ, а не тот, что выделен из H1'); ?>
+      <p style="margin:0 0 10px">Панель умеет сама выделять ключ из H1, но если страница продвигается по другому запросу,
+        напишите его здесь: критерии «ключ в title», «ключ в description», «ключ в H1», «ключ в первом абзаце»
+        и «плотность ключа» начнут считаться по вашему ключу. После сохранения нажмите «Проверить весь сайт»,
+        чтобы оценки пересчитались.</p>
+      <form method="post" action="<?php echo h(panel_url('seo-center.php')); ?>">
+        <?php echo csrf_field(); ?>
+        <input type="hidden" name="op" value="key_save" />
+        <label for="key-rel">Страница</label>
+        <select id="key-rel" name="rel">
+<?php foreach ($pageOptions as $rel => $label) { ?>
+          <option value="<?php echo h((string)$rel); ?>"<?php echo $rel === $keyRel ? ' selected' : ''; ?>><?php echo h((string)$label); ?></option>
+<?php } ?>
+        </select>
+        <label for="key-word" style="margin-top:10px">Ключ страницы</label>
+        <input type="text" id="key-word" name="keyword" placeholder="например: калькулятор ндфл"
+               value="<?php echo h($keyRel !== '' && isset($ownKeys[$keyRel]) ? (string)$ownKeys[$keyRel] : ''); ?>" />
+        <div class="field-hint">2–4 слова, как вы сами называете этот запрос в Вебмастере. Пустое поле — ключ убирается,
+          и панель снова возьмёт его из H1.</div>
+        <div class="btn-row" style="margin-top:12px">
+          <button class="btn primary" type="submit">Сохранить ключ</button>
+        </div>
+      </form>
+<?php if (count($ownKeys) === 0) { ?>
+      <p class="empty" style="margin-top:12px">Своих ключей пока нет: панель выделяет ключ из H1 каждой страницы
+        и честно помечает это в отчёте («ключ взят из H1»).</p>
+<?php } else { ?>
+      <table class="table" style="margin-top:14px">
+        <tr><th>Страница</th><th>Ваш ключ</th><th>Что считает панель</th><th>Действия</th></tr>
+<?php   foreach ($ownKeys as $rel => $kw) { ?>
+        <tr>
+          <td><code><?php echo h((string)$rel); ?></code></td>
+          <td><strong><?php echo h((string)$kw); ?></strong></td>
+          <td><span class="hint">ключ в title, description, H1 и первом абзаце + плотность ключа в тексте</span></td>
+          <td>
+            <div class="btn-row">
+              <a class="btn ghost" href="<?php echo h(panel_url('seo-center.php?keyrel=' . rawurlencode((string)$rel) . '#keys')); ?>">Изменить</a>
+              <form method="post" action="<?php echo h(panel_url('seo-center.php')); ?>">
+                <?php echo csrf_field(); ?>
+                <input type="hidden" name="op" value="key_del" />
+                <input type="hidden" name="rel" value="<?php echo h((string)$rel); ?>" />
+                <button class="btn ghost" type="submit">Убрать</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+<?php   } ?>
+      </table>
+      <div class="field-hint">Свой ключ важнее выделенного из H1 — он и попадёт в отчёт. Хороший ключ описывает страницу
+        теми словами, которыми её ищут: обычно это то, что видно в Вебмастере в списке запросов.</div>
+<?php } ?>
+<?php card_end(); ?>
+
 <?php card_start('Как читать оценки', 'Правила одинаковые для всех страниц — баллы берутся из задания'); ?>
       <table class="table">
         <tr><th>Критерий</th><th>Баллов</th></tr>
@@ -324,9 +522,9 @@ panel_page_start('SEO-центр', 'Проверка страниц сайта �
       <div class="field-hint">Зелёная страница — 80 баллов и выше, жёлтая — 60–79, красная — меньше 60.
         Свежесть страницы может не только добавить 5 баллов, но и снять 5: если страница не правилась больше полугода,
         панель пишет об этом прямо.</div>
-      <div class="field-hint">Ключ страницы панель выделяет из H1 — и честно помечает это в отчёте. Если у страницы
-        не тот ключ, какой вы продвигаете, поправьте H1 или скажите: в шаге 7.3 появится ввод ключей вручную
-        (там же будут запросы и позиции из Яндекс.Вебмастера).</div>
+      <div class="field-hint">Ключ страницы панель берёт из <code>content/seo.json</code>, если вы задали свой
+        (карточка «Свои ключи страниц»), иначе выделяет из H1 — и честно помечает это в отчёте. Позиции из Вебмастера
+        вводятся вручную (карточка «Позиции из Вебмастера»): панель считает тренд и показывает, кто вырос, а кто сдал.</div>
       <div class="field-hint">Служебные страницы — политика конфиденциальности, поиск, 404 — панель считает,
         но в средние оценки не берёт: у них не бывает большого текста, и портить общую картину ими незачем.</div>
 <?php card_end(); ?>

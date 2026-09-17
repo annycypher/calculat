@@ -624,6 +624,180 @@ function seo_scan_suggest_sources(string $rel, array $scan): array {
     return $out;
 }
 
+/* ────────────────── позиции и свои ключи (шаг 7.3) ────────────────── */
+
+/** Записать данные в content/seo.json, не теряя остальное (скан, ключи, позиции). */
+function seo_data_save(array $patch): bool {
+    $data = json_read(seo_file(), array('version' => 1));
+    if (!is_array($data)) { $data = array(); }
+    $data['version'] = 1;
+    foreach ($patch as $key => $value) { $data[(string)$key] = $value; }
+    return json_write(seo_file(), $data);
+}
+
+/** Строки позиций: их владелец переносит из Яндекс.Вебмастера вручную. */
+function seo_positions(): array {
+    $data = json_read(seo_file(), array('version' => 1));
+    $list = (isset($data['positions']) && is_array($data['positions'])) ? $data['positions'] : array();
+    $out  = array();
+    foreach ($list as $row) {
+        if (!is_array($row) || (string)($row['rel'] ?? '') === '') { continue; }
+        $out[] = array(
+            'id'       => (string)($row['id'] ?? ''),
+            'rel'      => (string)$row['rel'],
+            'query'    => (string)($row['query'] ?? ''),
+            'position' => (int)($row['position'] ?? 0),
+            'date'     => (string)($row['date'] ?? ''),
+            'created'  => (string)($row['created'] ?? ''),
+        );
+    }
+    return $out;
+}
+
+/** Проверить и сохранить строку позиции. ['ok','error','id','replaced'] */
+function seo_position_save(array $in, string $id = ''): array {
+    $rel = trim((string)($in['rel'] ?? ''));
+    if ($rel === '' || substr($rel, 0, 1) !== '/' || !in_array($rel, site_pages_list(), true)) {
+        return array('ok' => false, 'error' => 'Выберите страницу из списка — такой страницы на сайте я не вижу.', 'id' => '', 'replaced' => false);
+    }
+    $query = trim((string)preg_replace('/\s+/u', ' ', (string)($in['query'] ?? '')));
+    if (mb_strlen($query) < 2) {
+        return array('ok' => false, 'error' => 'Напишите запрос так, как он показан в Вебмастере (хотя бы два знака).', 'id' => '', 'replaced' => false);
+    }
+    $position = (int)($in['position'] ?? 0);
+    if ($position < 1 || $position > 100) {
+        return array('ok' => false, 'error' => 'Позиция — число от 1 до 100 (если запроса нет в топ-100, вводить его не нужно).', 'id' => '', 'replaced' => false);
+    }
+    $date = trim((string)($in['date'] ?? ''));
+    if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date) || strtotime($date . ' 12:00:00') === false) { $date = date('Y-m-d'); }
+
+    $list     = seo_positions();
+    $now      = date('Y-m-d H:i:s');
+    $replaced = false;
+
+    /* Повторный ввод за ту же дату по той же странице и запросу заменяет прежнее значение. */
+    foreach ($list as $i => $row) {
+        $samePair = (string)$row['rel'] === $rel && mb_strtolower((string)$row['query']) === mb_strtolower($query);
+        if (($id !== '' && (string)$row['id'] === $id) || ($id === '' && $samePair && (string)$row['date'] === $date)) {
+            $id = (string)$row['id'];
+            $list[$i] = array_merge($row, array('rel' => $rel, 'query' => $query, 'position' => $position, 'date' => $date, 'created' => $now));
+            $replaced = true;
+            break;
+        }
+    }
+    if (!$replaced) {
+        if ($id === '') { $id = bin2hex(random_bytes(4)); }
+        $list[] = array('id' => $id, 'rel' => $rel, 'query' => $query, 'position' => $position, 'date' => $date, 'created' => $now);
+    }
+
+    $ok = seo_data_save(array('positions' => array_values($list)));
+    return array('ok' => $ok, 'error' => $ok ? '' : 'Не получилось записать файл — проверьте права на папку content/.',
+                 'id' => $id, 'replaced' => $replaced);
+}
+
+/** Убрать строку позиции. */
+function seo_position_delete(string $id): bool {
+    if ($id === '') { return false; }
+    $list = array();
+    foreach (seo_positions() as $row) {
+        if ((string)$row['id'] !== $id) { $list[] = $row; }
+    }
+    return seo_data_save(array('positions' => array_values($list)));
+}
+
+/** Точки одной пары «страница + запрос»: по датам, от старой к новой. */
+function seo_position_points(array $rows): array {
+    $points = array();
+    foreach ($rows as $row) {
+        $date = (string)($row['date'] ?? '');
+        if ($date === '') { continue; }
+        $points[] = array('date' => $date, 'position' => (int)($row['position'] ?? 0), 'created' => (string)($row['created'] ?? ''));
+    }
+    usort($points, function ($a, $b) {
+        $cmp = strcmp((string)$a['date'], (string)$b['date']);
+        return $cmp !== 0 ? $cmp : strcmp((string)$a['created'], (string)$b['created']);
+    });
+    return $points;
+}
+
+/** Тренд по одной паре «страница + запрос»: было, стало, насколько изменилось.
+    В выдаче меньше — лучше, поэтому снижение позиции считаем ростом. */
+function seo_position_trend(array $rows): array {
+    $points = seo_position_points($rows);
+    $n      = count($points);
+    if ($n === 0) {
+        return array('points' => array(), 'count' => 0, 'first' => 0, 'last' => 0, 'delta' => 0,
+                     'tone' => 'mut', 'word' => 'нет данных', 'best' => 0, 'worst' => 0);
+    }
+    $first = (int)$points[0]['position'];
+    $last  = (int)$points[$n - 1]['position'];
+    $delta = $first - $last;                            // плюс — позиция стала меньше, то есть лучше
+    $best  = $last; $worst = $last;
+    foreach ($points as $p) {
+        if ((int)$p['position'] < $best)  { $best  = (int)$p['position']; }
+        if ((int)$p['position'] > $worst) { $worst = (int)$p['position']; }
+    }
+    $tone = $n < 2 ? 'mut' : ($delta > 0 ? 'ok' : ($delta < 0 ? 'err' : 'mut'));
+    $word = $n < 2 ? 'одно измерение — тренд появится со второго' : ($delta > 0 ? 'вышел выше' : ($delta < 0 ? 'сдал позиции' : 'без изменений'));
+    return array('points' => $points, 'count' => $n, 'first' => $first, 'last' => $last, 'delta' => $delta,
+                 'tone' => $tone, 'word' => $word, 'best' => $best, 'worst' => $worst,
+                 'from' => (string)$points[0]['date'], 'to' => (string)$points[$n - 1]['date']);
+}
+
+/** Отслеживаемые запросы: страница + запрос с последней позицией и трендом.
+    Сначала те, что сдали позиции, — за них стоит взяться. */
+function seo_positions_tracked(): array {
+    $groups = array();
+    foreach (seo_positions() as $row) {
+        $key = (string)$row['rel'] . '|' . mb_strtolower((string)$row['query']);
+        $groups[$key][] = $row;
+    }
+    $out = array();
+    foreach ($groups as $rows) {
+        $trend = seo_position_trend($rows);
+        $out[] = array('rel' => (string)$rows[0]['rel'], 'query' => (string)$rows[0]['query'],
+                       'trend' => $trend, 'rows' => $rows);
+    }
+    usort($out, function ($a, $b) {
+        $da = (int)$a['trend']['delta']; $db = (int)$b['trend']['delta'];
+        if (count((array)$a['trend']['points']) < 2) { $da = 0; }
+        if (count((array)$b['trend']['points']) < 2) { $db = 0; }
+        if ($da !== $db) { return $da - $db; }          // ухудшившиеся — вверх
+        return strcmp((string)$a['query'], (string)$b['query']);
+    });
+    return $out;
+}
+
+/** Сводка по позициям: сколько запросов ведём, у скольких рост, у скольких падение. */
+function seo_positions_summary(): array {
+    $out = array('queries' => 0, 'points' => 0, 'up' => 0, 'down' => 0, 'flat' => 0, 'single' => 0, 'best' => 0, 'worst' => 0);
+    foreach (seo_positions_tracked() as $item) {
+        $out['queries']++;
+        $out['points'] += (int)$item['trend']['count'];
+        if ((int)$item['trend']['count'] < 2)      { $out['single']++; continue; }
+        if ((int)$item['trend']['delta'] > 0)      { $out['up']++; }
+        elseif ((int)$item['trend']['delta'] < 0)  { $out['down']++; }
+        else                                       { $out['flat']++; }
+    }
+    return $out;
+}
+
+/** Задать, изменить или убрать свой ключ страницы (пустой ключ — убрать). ['ok','error'] */
+function seo_keywords_set(string $rel, string $keyword): array {
+    if ($rel === '' || substr($rel, 0, 1) !== '/' || !in_array($rel, site_pages_list(), true)) {
+        return array('ok' => false, 'error' => 'Выберите страницу из списка — такой страницы на сайте я не вижу.');
+    }
+    $list = seo_keywords_saved();
+    $kw   = trim((string)preg_replace('/\s+/u', ' ', $keyword));
+    if (mb_strlen($kw) > 80) {
+        return array('ok' => false, 'error' => 'Ключ слишком длинный: до 80 знаков, обычно это 2–4 слова.');
+    }
+    if ($kw === '') { unset($list[$rel]); } else { $list[$rel] = $kw; }
+
+    $ok = seo_data_save(array('keywords' => $list));
+    return array('ok' => $ok, 'error' => $ok ? '' : 'Не получилось записать файл — проверьте права на папку content/.');
+}
+
 /* ─────────── ключ страницы: свой из файла или выделенный из H1 ─────────── */
 
 /** Слова-«шум»: их пропускаем, когда ищем ключ в H1. */

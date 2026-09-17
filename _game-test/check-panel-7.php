@@ -559,7 +559,159 @@ check('и что дублей меты нет', has($r['b'], 'Дублей не�
 check('список страниц после правки вернулся к прежнему', site_pages_list() === $pagesBefore);
 
 say('');
-say('10. Уборка за тестом');
+say('10. Позиции из Вебмастера и свои ключи страниц (шаг 7.3)');
+
+check('пока позиций нет — панель ничего не выдумывает', seo_positions() === array());
+
+$bad = seo_position_save(array('rel' => '/net-takoy-stranicy/', 'query' => 'тест', 'position' => 5, 'date' => date('Y-m-d')));
+check('страница не из списка — понятная ошибка', empty($bad['ok']) && strpos((string)$bad['error'], 'Выберите страницу') !== false);
+$bad = seo_position_save(array('rel' => '/blog/', 'query' => 'т', 'position' => 5, 'date' => date('Y-m-d')));
+check('слишком короткий запрос не принимается', empty($bad['ok']));
+$bad = seo_position_save(array('rel' => '/blog/', 'query' => 'статьи', 'position' => 0, 'date' => date('Y-m-d')));
+check('позиция 0 не принимается', empty($bad['ok']));
+$bad = seo_position_save(array('rel' => '/blog/', 'query' => 'статьи', 'position' => 150, 'date' => date('Y-m-d')));
+check('позиция больше 100 не принимается', empty($bad['ok']));
+
+$relPos = '/calculators/finance/ndfl/';
+$d1 = date('Y-m-d', strtotime('-14 days'));
+$d2 = date('Y-m-d', strtotime('-7 days'));
+$d3 = date('Y-m-d');
+
+$r1 = seo_position_save(array('rel' => $relPos, 'query' => 'калькулятор ндфл', 'position' => 9, 'date' => $d1));
+check('первая позиция сохраняется', !empty($r1['ok']) && (string)$r1['id'] !== '');
+check('позиция читается обратно', count(seo_positions()) === 1 && (int)seo_positions()[0]['position'] === 9);
+$r2 = seo_position_save(array('rel' => $relPos, 'query' => 'Калькулятор НДФЛ', 'position' => 6, 'date' => $d2));
+check('вторая позиция добавляется', !empty($r2['ok']) && empty($r2['replaced']));
+$r3 = seo_position_save(array('rel' => $relPos, 'query' => 'калькулятор ндфл', 'position' => 4, 'date' => $d3));
+check('третья позиция добавляется', !empty($r3['ok']));
+check('четыре строки не появилось — запросы с разным регистром считаются одним',
+      count(seo_positions()) === 3, 'строк: ' . count(seo_positions()));
+
+$tracked = seo_positions_tracked();
+check('запрос сгруппирован в одну строку', count($tracked) === 1 && (string)$tracked[0]['query'] !== '');
+$trend = (array)$tracked[0]['trend'];
+check('точек три и они идут по датам', (int)$trend['count'] === 3
+      && (string)$trend['points'][0]['date'] === $d1 && (string)$trend['points'][2]['date'] === $d3);
+check('«было 9, стало 4» — рост в выдаче', (int)$trend['first'] === 9 && (int)$trend['last'] === 4
+      && (int)$trend['delta'] === 5 && (string)$trend['tone'] === 'ok' && (string)$trend['word'] === 'вышел выше');
+check('лучшее и худшее посчитаны', (int)$trend['best'] === 4 && (int)$trend['worst'] === 9);
+
+$rep = seo_position_save(array('rel' => $relPos, 'query' => 'калькулятор ндфл', 'position' => 12, 'date' => $d3));
+check('повторный ввод за ту же дату заменяет значение, а не плодит строки',
+      !empty($rep['ok']) && !empty($rep['replaced']) && count(seo_positions()) === 3
+      && (int)seo_positions_tracked()[0]['trend']['last'] === 12);
+check('после ухудшения тренд красный и слова правильные',
+      (int)seo_positions_tracked()[0]['trend']['delta'] === -3
+      && (string)seo_positions_tracked()[0]['trend']['tone'] === 'err'
+      && (string)seo_positions_tracked()[0]['trend']['word'] === 'сдал позиции');
+
+$r = seo_position_save(array('rel' => '/blog/', 'query' => 'статьи и инструкции', 'position' => 3, 'date' => 'не-дата'));
+check('мусор в дате заменяется сегодняшним днём',
+      !empty($r['ok']) && (string)seo_positions()[count(seo_positions()) - 1]['date'] === date('Y-m-d'));
+
+check('упавший запрос идёт первым в списке (за него и браться)',
+      (string)seo_positions_tracked()[0]['rel'] === $relPos);
+
+$posSum = seo_positions_summary();
+check('сводка по позициям сходится',
+      (int)$posSum['queries'] === 2 && (int)$posSum['points'] === 4 && (int)$posSum['up'] === 0
+      && (int)$posSum['down'] === 1 && (int)$posSum['single'] === 1,
+      'запросов ' . (int)$posSum['queries'] . ', точек ' . (int)$posSum['points']
+      . ', вниз ' . (int)$posSum['down'] . ', одиночных ' . (int)$posSum['single']);
+
+$delId = (string)seo_positions()[0]['id'];
+check('строка позиции удаляется', seo_position_delete($delId) && count(seo_positions()) === 3);
+
+say('');
+say('11. Свои ключи страниц');
+
+$badKey = seo_keywords_set('/net-takoy-stranicy/', 'что-то');
+check('ключ для несуществующей страницы не сохраняется',
+      empty($badKey['ok']) && strpos((string)$badKey['error'], 'Выберите страницу') !== false);
+$longKey = seo_keywords_set('/blog/', str_repeat('длинно', 20));
+check('слишком длинный ключ не принимается', empty($longKey['ok']));
+check('свой ключ сохраняется и читается',
+      !empty(seo_keywords_set($relPos, 'налог на доходы физлиц')['ok'])
+      && (string)(seo_keywords_saved()[$relPos] ?? '') === 'налог на доходы физлиц');
+
+$rowKey = seo_scan_find(seo_scan(array($relPos)), $relPos);
+check('скан берёт именно ваш ключ и помечает это',
+      (string)$rowKey['keyword'] === 'налог на доходы физлиц' && !empty($rowKey['own_keyword'])
+      && strpos((string)$rowKey['keyword_note'], 'ключ задан вручную') !== false,
+      (string)$rowKey['keyword_note']);
+
+check('свой ключ убирается', !empty(seo_keywords_set($relPos, '')['ok']) && seo_keywords_saved() === array());
+$rowKey2 = seo_scan_find(seo_scan(array($relPos)), $relPos);
+check('без своего ключа панель снова берёт его из H1',
+      empty($rowKey2['own_keyword']) && strpos((string)$rowKey2['keyword_note'], 'ключ взят из H1') !== false);
+
+say('');
+say('12. Позиции и ключи на живой странице панели');
+
+$r = http(BASE . '/seo-center.php');
+check('на странице есть карточка ввода позиций',
+      has($r['b'], 'Позиции из Вебмастера') && has($r['b'], 'Записать позицию'));
+check('на странице есть карточка своих ключей',
+      has($r['b'], 'Свои ключи страниц') && has($r['b'], 'Сохранить ключ'));
+check('в выпадающем списке видны все страницы сайта',
+      substr_count($r['b'], '<option value="/') >= count($pagesBefore),
+      'вариантов: ' . substr_count($r['b'], '<option value="/'));
+check('в подписях видно, какой ключ панель считает сейчас', has($r['b'], 'из H1:'));
+
+/* Вводим две позиции через саму панель */
+$r = http(BASE . '/seo-center.php', array('csrf' => csrf($r['b']), 'op' => 'pos_save', 'rel' => '/blog/otpusknye/',
+    'query' => 'расчёт отпускных', 'position' => '11', 'date' => date('Y-m-d', strtotime('-10 days'))));
+check('позиция через панель записывается', $r['s'] === 302, 'код ' . $r['s']);
+$r = http(BASE . '/seo-center.php');
+$r = http(BASE . '/seo-center.php', array('csrf' => csrf($r['b']), 'op' => 'pos_save', 'rel' => '/blog/otpusknye/',
+    'query' => 'расчёт отпускных', 'position' => '5', 'date' => date('Y-m-d')));
+check('вторая позиция через панель записывается', $r['s'] === 302);
+
+$r = http(BASE . '/seo-center.php');
+$page = $r['b'];
+check('в таблице видна запись с запросом и страницей',
+      has($page, 'расчёт отпускных') && has($page, '/blog/otpusknye/'));
+check('панель показывает рост зелёным и словами',
+      has($page, 'вышел выше') && has($page, '+6') && has($page, 'было 11'));
+check('история измерений раскрывается', has($page, 'точек: 2'));
+check('в сводке появились запросы из Вебмастера', has($page, 'Запросы из Вебмастера'));
+check('у строки есть кнопка удаления', strpos($page, 'delpos=') !== false);
+
+$delLink = '';
+if (preg_match('/seo-center\.php\?delpos=([a-f0-9]+)/', $page, $mm)) { $delLink = (string)$mm[1]; }
+$rowsBefore = count(seo_positions());
+$r = http(BASE . '/seo-center.php?delpos=' . $delLink);
+check('перед удалением панель спрашивает подтверждение', has($r['b'], 'Убрать строку позиции?'));
+$r = http(BASE . '/seo-center.php', array('csrf' => csrf($r['b']), 'op' => 'pos_del', 'id' => $delLink));
+check('строка убирается после подтверждения', $r['s'] === 302);
+check('в файле стало на одну строку меньше', count(seo_positions()) === $rowsBefore - 1,
+      'было ' . $rowsBefore . ', стало ' . count(seo_positions()));
+
+/* Свои ключи через панель */
+$r = http(BASE . '/seo-center.php');
+$r = http(BASE . '/seo-center.php', array('csrf' => csrf($r['b']), 'op' => 'key_save',
+    'rel' => '/calculators/finance/ndfl/', 'keyword' => 'калькулятор ндфл онлайн'));
+check('ключ через панель сохраняется', $r['s'] === 302);
+$r = http(BASE . '/seo-center.php');
+check('свой ключ виден в таблице', has($r['b'], 'калькулятор ндфл онлайн') && has($r['b'], 'Изменить'));
+check('подпись страницы в списке показывает свой ключ', has($r['b'], 'свой ключ: калькулятор ндфл онлайн'));
+$r = http(BASE . '/seo-center.php?keyrel=' . rawurlencode('/calculators/finance/ndfl/'));
+check('форма изменения подставляет текущий ключ',
+      strpos($r['b'], 'value="калькулятор ндфл онлайн"') !== false);
+$r = http(BASE . '/seo-center.php', array('csrf' => csrf($r['b']), 'op' => 'key_del', 'rel' => '/calculators/finance/ndfl/'));
+check('ключ убирается через панель', $r['s'] === 302 && seo_keywords_saved() === array());
+$r = http(BASE . '/seo-center.php');
+check('после удаления ключа панель снова пишет про H1', has($r['b'], 'ключ взят из H1'));
+
+/* Чистим записи, сделанные через панель */
+foreach (seo_positions() as $posRow) { seo_position_delete((string)$posRow['id']); }
+check('позиции после проверок пусты', seo_positions() === array());
+check('ключи после проверок пусты', seo_keywords_saved() === array());
+check('файл content/seo.json остался целым', is_file($seoFile));
+
+say('');
+say('13. Уборка за тестом');
+
 
 @unlink($fileA); @rmdir(dirname($fileA));
 @unlink($fileB); @rmdir(dirname($fileB));
