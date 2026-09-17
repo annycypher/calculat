@@ -39,6 +39,42 @@ function pages_rule_match(array $rules, string $path): bool {
     return false;
 }
 
+/** Путь к файлу страницы сайта по её адресу («/», «/blog/», «/privacy.html»). */
+function site_page_file(string $rel): string {
+    $rel = '/' . ltrim($rel, '/');
+    if ($rel === '/') { return SITE_ROOT . '/index.html'; }
+    if (substr($rel, -1) === '/') { return SITE_ROOT . $rel . 'index.html'; }
+    return SITE_ROOT . $rel;
+}
+
+/** Заменить содержимое слота в HTML страницы (между парными маркерами).
+    Возвращает ['html','changed']. Маркеры вида <!--SLOT:имя--> … <!--/SLOT:имя-->.
+    Панели (баннеры, реклама) используют это, чтобы писать только в свой слот и не портить страницу. */
+function slot_apply(string $html, string $slot, string $markup): array {
+    $open  = '<!--SLOT:' . $slot . '-->';
+    $close = '<!--/SLOT:' . $slot . '-->';
+    $pos   = strpos($html, $open);
+    if ($pos === false) { return array('html' => $html, 'changed' => false); }
+    $closePos = strpos($html, $close, $pos + strlen($open));
+    if ($closePos === false) { return array('html' => $html, 'changed' => false); }
+
+    $nl         = (strpos($html, "\r\n") !== false) ? "\r\n" : "\n";
+    $lineStart  = (int)strrpos(substr($html, 0, $pos), "\n") + 1;
+    $afterClose = $closePos + strlen($close);
+    $lineEnd    = strpos($html, "\n", $afterClose);
+    if ($lineEnd === false) { $lineEnd = strlen($html); }
+    $indent = '';
+    if (preg_match('/^[ \t]*/', (string)substr($html, $lineStart, $pos - $lineStart), $im)) { $indent = (string)$im[0]; }
+
+    $new = $indent . $open . $nl;
+    if ($markup !== '') { $new .= $indent . str_replace($nl, $nl . $indent, $markup) . $nl; }
+    $new .= $indent . $close;
+
+    $old = substr($html, $lineStart, $lineEnd - $lineStart);
+    if ($old === $new) { return array('html' => $html, 'changed' => false); }
+    return array('html' => substr($html, 0, $lineStart) . $new . substr($html, $lineEnd), 'changed' => true);
+}
+
 /** Страницы сайта: адреса вида «/», «/blog/», «/calculators/finance/vat/». */
 function site_pages_list(): array {
     $out  = array();

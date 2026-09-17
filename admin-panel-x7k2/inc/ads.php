@@ -26,6 +26,7 @@ if (isset($_SERVER['SCRIPT_FILENAME']) && realpath((string)$_SERVER['SCRIPT_FILE
 }
 
 require_once __DIR__ . '/pages.php';        // список страниц и правила «где показывать»
+require_once __DIR__ . '/publish.php';      // file_backup(): копия файла перед записью
 
 /** Сколько блоков на странице считаем нормой (из задания: больше двух — уже перебор). */
 const ADS_PAGE_LIMIT = 2;
@@ -75,7 +76,11 @@ function ads_all(): array {
 }
 
 function ads_save_all(array $list): bool {
-    return json_write(ads_file(), array('version' => 1, 'ads' => array_values($list)));
+    $data = json_read(ads_file(), array('version' => 1, 'ads' => array()));
+    if (!is_array($data)) { $data = array(); }
+    $data['version'] = 1;
+    $data['ads']     = array_values($list);       // общий выключатель и время вывода не теряем
+    return json_write(ads_file(), $data);
 }
 
 function ads_find(string $id): array {
@@ -118,6 +123,7 @@ function ads_clean(array $in): array {
         'pages'   => array(),
         'active'  => !empty($in['active']),
         'risk_ok' => !empty($in['risk_ok']),
+        'min_height' => max(0, min(1200, (int)($in['min_height'] ?? 0))),
     );
     foreach ((array)($in['pages'] ?? array()) as $p) {
         $p = trim((string)$p);
@@ -226,6 +232,219 @@ function ads_delete(string $id): array {
         ? array('ok' => true, 'error' => '')
         : array('ok' => false, 'error' => 'Не получилось сохранить файл рекламы.');
 }
+/** Сколько места резервируем под блок по умолчанию (CLS=0: страница не «дёргается»). */
+const ADS_MIN_HEIGHT = 280;
+
+/** Слоты рекламы, которые стоят в страницах: ['/путь/' => ['ads-top', …]]. */
+function ads_slot_pages(): array {
+    static $cache = null;
+    if ($cache !== null) { return $cache; }
+
+    $slots   = ads_slots();
+    $service = ads_service_pages();
+    $out     = array();
+    foreach (site_pages_list() as $rel) {
+        if (in_array((string)$rel, $service, true)) { continue; }
+        $path = site_page_file((string)$rel);
+        if (!is_file($path)) { continue; }
+        $html = (string)@file_get_contents($path);
+        if ($html === '') { continue; }
+
+        $here = array();
+        foreach (array_keys($slots) as $slot) {
+            if (strpos($html, '<!--SLOT:' . $slot . '-->') !== false) { $here[] = (string)$slot; }
+        }
+        if (count($here) > 0) { $out[(string)$rel] = $here; }
+    }
+    $cache = $out;
+    return $out;
+}
+
+/** Блоки, которые встанут в этот слот на этой странице: включён и совпали страницы. */
+function ads_fit_slot(array $list, string $slot, string $pagePath): array {
+    $out = array();
+    foreach ($list as $ad) {
+        if ((string)($ad['slot'] ?? '') !== $slot)     { continue; }
+        if (empty($ad['active']))                      { continue; }
+        if (!pages_rule_match((array)($ad['pages'] ?? array()), $pagePath)) { continue; }
+        $out[] = $ad;
+    }
+    return $out;
+}
+
+/** Сколько места резервируем под блок: из настроек блока, иначе 280 px (для своего HTML — не резервируем). */
+function ads_min_height(array $ad): int {
+    $set = (int)($ad['min_height'] ?? 0);
+    if ($set > 0) { return min(1200, $set); }
+    return ((string)($ad['type'] ?? '') === 'html') ? 0 : ADS_MIN_HEIGHT;
+}
+
+/** Скрипт ленивой загрузки: код лежит в <template> и вставляется, когда блок подходит к экрану.
+    Так код площадки (и её скрипт) не грузится, пока до блока не долистали. */
+function ads_lazy_js(): string {
+    return "(function(){var s=document.currentScript,h=s&&s.parentNode;if(!h){return;}"
+         . "var t=h.querySelector('template[data-ad-code]');"
+         . "function put(){if(!t||t.getAttribute('data-done')){return;}t.setAttribute('data-done','1');"
+         . "var f=t.content.cloneNode(true),list=f.querySelectorAll('script');"
+         . "for(var i=0;i<list.length;i++){var o=list[i],n=document.createElement('script');"
+         . "for(var k=0;k<o.attributes.length;k++){n.setAttribute(o.attributes[k].name,o.attributes[k].value);}"
+         . "n.textContent=o.textContent;o.parentNode.replaceChild(n,o);}"
+         . "h.appendChild(f);}"
+         . "if('IntersectionObserver' in window){var io=new IntersectionObserver(function(e){"
+         . "if(e[0].isIntersecting){io.disconnect();put();}},{rootMargin:'300px 0px'});io.observe(h);}"
+         . "else{put();}})();";
+}
+
+/** Разметка одного рекламного блока для страницы: место под блок, подпись «Реклама», код и ленивая вставка. */
+function ads_block_markup(array $ad): string {
+    $code = (string)($ad['code'] ?? '');
+    if (trim($code) === '') { return ''; }
+
+    $minH = ads_min_height($ad);
+    $style = ($minH > 0 ? 'min-height:' . $minH . 'px;' : '') . 'margin:26px auto;max-width:1000px;padding:0 16px';
+
+    $out  = '<section class="ad-slot" data-ad-slot="' . h((string)($ad['slot'] ?? '')) . '"'
+          . ' data-ad="' . h((string)($ad['id'] ?? '')) . '" data-ad-type="' . h((string)($ad['type'] ?? '')) . '"'
+          . ' style="' . $style . '">' . "\n";
+    $out .= '<span class="ad-label">Реклама</span>' . "\n";
+    $out .= '<template data-ad-code="1">' . $code . '</template>' . "\n";
+    $out .= '<script>' . ads_lazy_js() . '</script>' . "\n";
+    $out .= '</section>';
+    return $out;
+}
+// MARKER-ADS-RENDER
+
+/** Глобальный выключатель всей рекламы: состояние читаем/пишем в том же файле. */
+function ads_global(): array {
+    $data = json_read(ads_file(), array());
+    return array(
+        'off'    => !empty($data['global_off']),
+        'reason' => (string)($data['global_off_reason'] ?? ''),
+        'since'  => (string)($data['global_off_since'] ?? ''),
+        'last'   => (string)($data['last_render'] ?? ''),
+    );
+}
+
+function ads_global_save(bool $off, string $reason = ''): bool {
+    $data = json_read(ads_file(), array('version' => 1, 'ads' => array()));
+    if (!is_array($data)) { $data = array(); }
+    $data['version'] = 1;
+    $data['ads']     = array_values((array)($data['ads'] ?? array()));
+    $data['global_off'] = $off;
+    if ($off) {
+        $data['global_off_reason'] = $reason;
+        $data['global_off_since']  = date('Y-m-d H:i:s');
+    } else {
+        unset($data['global_off_reason'], $data['global_off_since']);
+    }
+    return json_write(ads_file(), $data);
+}
+
+function ads_last_render_save(): bool {
+    $data = json_read(ads_file(), array('version' => 1, 'ads' => array()));
+    if (!is_array($data)) { $data = array(); }
+    $data['version'] = 1;
+    $data['ads']     = array_values((array)($data['ads'] ?? array()));
+    $data['last_render'] = date('Y-m-d H:i:s');
+    return json_write(ads_file(), $data);
+}
+
+/** План вывода: что панель впишет в каждый рекламный слот каждой страницы. */
+function ads_plan(): array {
+    $g       = ads_global();
+    $list    = $g['off'] ? array() : ads_all()['ads'];       // выключена вся реклама — слоты пустеют
+    $pages   = ads_slot_pages();
+    $items   = array();
+    $blocks  = 0; $empty = 0;
+
+    foreach ($pages as $rel => $slots) {
+        foreach ((array)$slots as $slot) {
+            $fit = ads_fit_slot($list, (string)$slot, (string)$rel);
+            $items[(string)$rel][(string)$slot] = $fit;
+            if (count($fit) > 0) { $blocks += count($fit); } else { $empty++; }
+        }
+    }
+    return array('pages' => $pages, 'items' => $items, 'blocks' => $blocks, 'empty_slots' => $empty,
+                 'page_count' => count($pages), 'slot_count' => $blocks + $empty,
+                 'global_off' => $g['off']);
+}
+
+/** Записать план в страницы: пишем только между маркерами, перед записью — копия файла. */
+function ads_apply(array $plan): array {
+    $out = array('ok' => true, 'error' => '', 'files' => array(), 'blocks' => 0, 'empty' => 0, 'unchanged' => 0);
+
+    foreach ((array)($plan['items'] ?? array()) as $rel => $slots) {
+        $abs = site_page_file((string)$rel);
+        if (!is_file($abs)) { continue; }
+        $html = (string)@file_get_contents($abs);
+        $new  = $html;
+        $changed = false;
+
+        foreach ((array)$slots as $slot => $adsFit) {
+            $parts = array();
+            foreach ((array)$adsFit as $ad) {
+                $markup = ads_block_markup((array)$ad);
+                if ($markup !== '') { $parts[] = $markup; }
+            }
+            $res = slot_apply($new, (string)$slot, implode("\n", $parts));
+            if ($res['changed']) { $new = (string)$res['html']; $changed = true; }
+        }
+        if (!$changed) { $out['unchanged']++; continue; }
+
+        $bak = file_backup($abs);
+        if (empty($bak['ok'])) {
+            $out['ok']    = false;
+            $out['error'] = 'Копию файла сделать не удалось: ' . (string)($bak['error'] ?? '');
+            return $out;
+        }
+        if (@file_put_contents($abs, $new) === false) {
+            $out['ok']    = false;
+            $out['error'] = 'Не получилось записать ' . (string)$rel . ' — проверьте права на файл.';
+            return $out;
+        }
+        $out['files'][] = (string)$rel;
+    }
+    $out['blocks'] = (int)($plan['blocks'] ?? 0);
+    $out['empty']  = (int)($plan['empty_slots'] ?? 0);
+    return $out;
+}
+
+/** Что стоит на страницах сейчас: сколько блоков выведено и сколько слотов пусто. */
+function ads_current_state(): array {
+    $blocks = 0; $empty = 0;
+    foreach (ads_slot_pages() as $rel => $slots) {
+        $abs  = site_page_file((string)$rel);
+        $html = is_file($abs) ? (string)@file_get_contents($abs) : '';
+        foreach ((array)$slots as $slot) {
+            $open  = '<!--SLOT:' . $slot . '-->';
+            $close = '<!--/SLOT:' . $slot . '-->';
+            $p = strpos($html, $open);
+            if ($p === false) { continue; }
+            $c     = strpos($html, $close, $p);
+            $inner = $c !== false ? substr($html, $p, $c - $p) : '';
+            $blocks += substr_count($inner, 'class="ad-slot"');
+            if (strpos($inner, 'class="ad-slot"') === false) { $empty++; }
+        }
+    }
+    return array('blocks' => $blocks, 'empty' => $empty);
+}
+
+/** Вывести рекламу на сайт: посчитать план и записать в страницы. */
+function ads_render_site(): array {
+    $plan = ads_plan();
+    $res  = ads_apply($plan);
+    $res['plan'] = $plan;
+    if ($res['ok']) {
+        ads_last_render_save();
+        log_action('Реклама выведена на сайт',
+            'обновлено страниц: ' . count((array)$res['files']) . ', блоков: ' . (int)$res['blocks']
+            . ', пустых слотов: ' . (int)$res['empty']
+            . ($plan['global_off'] ? ' (реклама выключена общим выключателем)' : ''));
+    }
+    return $res;
+}
+
+
 /** Страницы, где рекламы не ставим: по решению в ADMIN-MARKERS.md это служебные страницы. */
 function ads_service_pages(): array {
     return array('/privacy.html', '/search.html', '/404.html');

@@ -74,6 +74,31 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         exit;
     }
 
+    if ($op === 'render') {
+        $res = ads_render_site();
+        if ($res['ok']) {
+            flash('Реклама выведена на сайт: обновлено страниц — ' . count((array)$res['files'])
+                . ', блоков — ' . (int)$res['blocks'] . ', пустых слотов — ' . (int)$res['empty'] . '.');
+        } else {
+            flash('Вывести не получилось: ' . $res['error'], 'error');
+        }
+        header('Location: ' . panel_url('ads.php'));
+        exit;
+    }
+
+    if ($op === 'global_off' || $op === 'global_on') {
+        $off = ($op === 'global_off');
+        $reason = $off ? trim((string)($_POST['reason'] ?? '')) : '';
+        $ok = ads_global_save($off, $reason);
+        flash($ok
+            ? ($off ? 'Вся реклама выключена. Нажмите «Вывести рекламу на сайт…», чтобы убрать блоки со страниц.'
+                    : 'Реклама снова включена. Нажмите «Вывести рекламу на сайт…», чтобы блоки вернулись.')
+            : 'Не получилось сохранить выключатель — проверьте права на папку content/.', $ok ? 'ok' : 'error');
+        if ($ok) { log_action($off ? 'Реклама выключена общим выключателем' : 'Реклама включена', $reason); }
+        header('Location: ' . panel_url('ads.php'));
+        exit;
+    }
+
     if ($op === 'save') {
         $res = ads_put($fields, $id);
         if ($res['ok']) {
@@ -105,6 +130,21 @@ if ($editId !== '' && count(ads_find($editId)) === 0) {
 $delAd = $delId !== '' ? ads_find($delId) : array();
 
 $form    = ($editId !== '' || $newMode) ? ads_form_fields($editId) : array();
+$renderMode = isset($_GET['render']);
+$adsGlobal  = ads_global();
+$adsPlan    = ads_plan();
+$adsState   = ads_current_state();
+$adsSlotMap = ads_slot_pages();
+$adsCounts  = array();
+foreach ((array)$adsPlan['items'] as $plRel => $plSlots) {
+    foreach ((array)$plSlots as $plSlot => $plAds) {
+        foreach ((array)$plAds as $plAd) {
+            $plId = (string)($plAd['id'] ?? '');
+            if ($plId !== '') { $adsCounts[$plId] = (int)($adsCounts[$plId] ?? 0) + 1; }
+        }
+    }
+}
+
 $slots   = ads_slots();
 $types   = ads_types();
 if ($newMode) {
@@ -136,6 +176,35 @@ if (count($form) > 0) {
 
 panel_page_start('Рекламные блоки', 'РСЯ, AdSense и свои блоки в четырёх местах страницы', 'ads.php');
 ?>
+<?php if ($renderMode) { ?>
+<?php card_start('Вывести рекламу на сайт?',
+                 'Панель перезапишет только содержимое рекламных слотов; копия каждого файла — в backups/files', 'warn'); ?>
+      <p style="margin:0 0 10px">Слотов рекламы на сайте: <strong><?php echo (int)$adsPlan['slot_count']; ?></strong>
+        на <?php echo (int)$adsPlan['page_count']; ?> страницах.
+        В этом выпуске встанет <strong><?php echo (int)$adsPlan['blocks']; ?></strong> блоков,
+        пустыми останутся <?php echo (int)$adsPlan['empty_slots']; ?> слотов.</p>
+<?php if ($adsPlan['global_off']) { ?>
+      <p class="field-warn">⚠ Общий выключатель рекламы включён: панель уберёт все блоки со страниц
+        (слоты и комментарии останутся на месте).</p>
+<?php } ?>
+<?php if (count($adsList) === 0) { ?>
+      <p class="field-warn">⚠ Блоков нет: выводить нечего. Сначала добавьте блоки выше.</p>
+<?php } ?>
+      <p class="hint" style="margin:0 0 14px">Последний вывод:
+        <?php echo $adsGlobal['last'] !== '' ? h(ago((string)$adsGlobal['last'])) : 'ещё не выводили'; ?>.
+        Каждый блок встанет с местом под него (страница не «дёргается»), подписью «Реклама»
+        и ленивой загрузкой: код площадки подгрузится, когда до блока долистают.</p>
+      <div class="btn-row">
+        <form method="post" action="<?php echo h(panel_url('ads.php')); ?>">
+          <?php echo csrf_field(); ?>
+          <input type="hidden" name="op" value="render" />
+          <button class="btn primary" type="submit">Да, вывести рекламу на сайт</button>
+        </form>
+        <a class="btn ghost" href="<?php echo h(panel_url('ads.php')); ?>">Отмена</a>
+      </div>
+<?php card_end(); ?>
+<?php } ?>
+
 <?php if ($delAd !== array()) { ?>
 <?php card_start('Удалить блок рекламы?', 'Код блока пропадёт из панели; страницы сайта не изменятся', 'err'); ?>
       <p style="margin:0 0 10px">Блок «<?php echo h((string)($delAd['name'] ?? '')); ?>» — тип
@@ -262,6 +331,13 @@ panel_page_start('Рекламные блоки', 'РСЯ, AdSense и свои �
         placeholder="вставьте код, который выдал Яндекс или Google"><?php echo h((string)($form['code'] ?? '')); ?></textarea>
       <div class="field-hint">Вставьте код целиком, как он есть — вместе с тегами <code>&lt;script&gt;</code>,
         если они есть. Панель ничего не вырезает и не меняет.</div>
+
+      <label for="ad-min-height" style="margin-top:12px">Место под блок, px</label>
+      <input type="number" id="ad-min-height" name="min_height" min="0" max="1200" step="10"
+             value="<?php echo (int)($form['min_height'] ?? 0); ?>" />
+      <div class="field-hint">Сколько места зарезервировать под рекламу, чтобы страница не «дёргалась»,
+        когда код загрузится (это и есть CLS = 0). Оставьте 0 — панель возьмёт
+        <?php echo ADS_MIN_HEIGHT; ?> px для РСЯ и AdSense, а для своего HTML не будет резервировать ничего.</div>
 <?php card_end(); ?>
 
 <?php card_start('Где показывать', 'Можно показывать блок везде или выбранных разделах'); ?>
@@ -305,6 +381,76 @@ panel_page_start('Рекламные блоки', 'РСЯ, AdSense и свои �
 <?php card_end(); ?>
 </form>
 <?php } ?>
+
+<?php card_start('Вывод на сайт', 'Панель сама вписывает код в рекламные слоты страниц — файлы сайта править руками не нужно'); ?>
+      <p style="margin:0 0 10px">Слотов рекламы: <strong><?php echo (int)$adsPlan['slot_count']; ?></strong>
+        на <?php echo (int)$adsPlan['page_count']; ?> страницах.
+        Сейчас на страницах блоков: <strong><?php echo (int)$adsState['blocks']; ?></strong>,
+        пустых слотов: <?php echo (int)$adsState['empty']; ?>.
+        Последний вывод: <?php echo $adsGlobal['last'] !== '' ? h(ago((string)$adsGlobal['last'])) : 'ещё не выводили'; ?>.</p>
+
+<?php if (count($adsList) === 0) { ?>
+      <p class="empty">Блоков пока нет — добавьте их выше, потом нажмите «Вывести рекламу на сайт».</p>
+<?php } else { ?>
+      <table class="table">
+        <tr><th>Блок</th><th>Слот</th><th>Состояние</th><th>Страницы показа</th><th>В этом выводе</th></tr>
+<?php foreach ($adsList as $ad) { ?>
+        <tr>
+          <td><?php echo h((string)($ad['name'] ?? '')); ?>
+            <div class="hint">место под блок:
+              <?php $mh = ads_min_height($ad); echo $mh > 0 ? (int)$mh . ' px' : 'по размеру кода'; ?></div></td>
+          <td><?php echo h(ads_slot_title((string)($ad['slot'] ?? ''))); ?></td>
+          <td><?php echo empty($ad['active']) ? badge('выключен', 'mut') : badge('включён', 'ok'); ?></td>
+          <td><span class="hint"><?php echo h(implode(', ', (array)($ad['pages'] ?? array()))); ?></span></td>
+          <td><?php $cnt = (int)($adsCounts[(string)$ad['id']] ?? 0);
+                echo $cnt > 0 ? badge('слотов: ' . $cnt, 'ok') : badge('ни одного', 'mut'); ?></td>
+        </tr>
+<?php } ?>
+      </table>
+<?php } ?>
+
+      <div class="btn-row" style="margin-top:14px">
+        <a class="btn primary" href="<?php echo h(panel_url('ads.php?render=1')); ?>">Вывести рекламу на сайт…</a>
+      </div>
+      <div class="field-hint">Панель перепишет только содержимое рекламных слотов — остальной текст страниц не меняется.
+        Копия каждого изменённого файла ложится в <code>backups/files</code>.
+        Каждый блок ставится с зарезервированным местом (страница не «дёргается», CLS=0), подписью «Реклама»
+        и ленивой загрузкой: код площадки подгружается, когда до блока долистают.</div>
+      <div class="field-hint">Слоты уже размечены в страницах комментариями вида
+        <code>&lt;!--SLOT:ads-top--&gt;</code>. На служебных страницах (политика, поиск, 404) рекламы нет.</div>
+<?php card_end(); ?>
+
+<?php card_start('Общий выключатель рекламы', 'Одна кнопка убирает всю рекламу с сайта',
+                 !empty($adsGlobal['off']) ? 'err' : ''); ?>
+<?php if (!empty($adsGlobal['off'])) { ?>
+      <p style="margin:0 0 10px"><?php echo badge('Реклама выключена', 'err'); ?>
+        <?php if ((string)$adsGlobal['since'] !== '') { ?>с <?php echo h(ago((string)$adsGlobal['since'])); ?><?php } ?>
+        <?php if ((string)$adsGlobal['reason'] !== '') { ?> — причина: <?php echo h((string)$adsGlobal['reason']); ?><?php } ?>.</p>
+      <p class="hint" style="margin:0 0 12px">Сейчас на страницах может остаться прежний код: нажмите
+        «Вывести рекламу на сайт…», и панель уберёт все блоки из слотов.</p>
+      <div class="btn-row">
+        <form method="post" action="<?php echo h(panel_url('ads.php')); ?>">
+          <?php echo csrf_field(); ?>
+          <input type="hidden" name="op" value="global_on" />
+          <button class="btn primary" type="submit">Включить рекламу снова</button>
+        </form>
+      </div>
+<?php } else { ?>
+      <p style="margin:0 0 10px"><?php echo badge('Реклама работает', 'ok'); ?>
+        Выключить стоит, если площадка сняла блоки, идёт проверка или вы правите оформление.</p>
+      <form method="post" action="<?php echo h(panel_url('ads.php')); ?>">
+        <?php echo csrf_field(); ?>
+        <input type="hidden" name="op" value="global_off" />
+        <label for="ad-off-reason">Причина (необязательно)</label>
+        <input type="text" id="ad-off-reason" name="reason" placeholder="например: идёт проверка РСЯ" />
+        <div class="btn-row" style="margin-top:12px">
+          <button class="btn ghost" type="submit">Выключить всю рекламу</button>
+        </div>
+      </form>
+      <div class="field-hint">Выключатель действует при выводе: после переключения нажмите
+        «Вывести рекламу на сайт…», чтобы страницы обновились.</div>
+<?php } ?>
+<?php card_end(); ?>
 
 <?php card_start('Что дальше', 'Подсказки, чтобы не искать по разделам'); ?>
       <ul style="margin:0;padding-left:22px;color:var(--mut);font-size:13.5px">

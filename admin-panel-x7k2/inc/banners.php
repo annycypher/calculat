@@ -234,10 +234,7 @@ function banners_meta_save(array $meta): bool {
 
 /** Путь к файлу страницы сайта по её адресу («/», «/blog/», «/privacy.html»). */
 function banner_page_file(string $rel): string {
-    $rel = '/' . ltrim($rel, '/');
-    if ($rel === '/') { return SITE_ROOT . '/index.html'; }
-    if (substr($rel, -1) === '/') { return SITE_ROOT . $rel . 'index.html'; }
-    return SITE_ROOT . $rel;
+    return site_page_file($rel);
 }
 
 /** Страницы сайта, в которых есть слоты баннеров: ['/blog/…/' => ['banner-top', …]]. */
@@ -331,28 +328,7 @@ function banner_plan(int $seed = 0): array {
 
 /** Заменить содержимое одного слота. ['html','changed'] */
 function banner_apply_slot(string $html, string $slot, string $markup): array {
-    $open  = '<!--SLOT:' . $slot . '-->';
-    $close = '<!--/SLOT:' . $slot . '-->';
-    $pos   = strpos($html, $open);
-    if ($pos === false) { return array('html' => $html, 'changed' => false); }
-    $closePos = strpos($html, $close, $pos + strlen($open));
-    if ($closePos === false) { return array('html' => $html, 'changed' => false); }
-
-    $nl         = (strpos($html, "\r\n") !== false) ? "\r\n" : "\n";
-    $lineStart  = (int)strrpos(substr($html, 0, $pos), "\n") + 1;
-    $afterClose = $closePos + strlen($close);
-    $lineEnd    = strpos($html, "\n", $afterClose);
-    if ($lineEnd === false) { $lineEnd = strlen($html); }
-    $indent = '';
-    if (preg_match('/^[ \t]*/', (string)substr($html, $lineStart, $pos - $lineStart), $im)) { $indent = (string)$im[0]; }
-
-    $new = $indent . $open . $nl;
-    if ($markup !== '') { $new .= $indent . $markup . $nl; }
-    $new .= $indent . $close;
-
-    $old = substr($html, $lineStart, $lineEnd - $lineStart);
-    if ($old === $new) { return array('html' => $html, 'changed' => false); }
-    return array('html' => substr($html, 0, $lineStart) . $new . substr($html, $lineEnd), 'changed' => true);
+    return slot_apply($html, $slot, $markup);
 }
 
 /** Записать план в страницы: перед каждой записью — копия файла в backups/files. */

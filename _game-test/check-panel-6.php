@@ -334,7 +334,132 @@ check('новых копий в backups/files тест не создавал',
       count(array_diff(array_map('basename', (array)glob(SITE . '/backups/files/*')), $backupFilesBefore)) === 0);
 
 say('');
+say('8-Б. Вывод рекламы в слоты (шаг 6.2)');
+
+/* Слепки всех страниц: после проверок вернём их байт в байт */
+$allPages = array();
+$it2 = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(SITE, FilesystemIterator::SKIP_DOTS));
+foreach ($it2 as $rf2) {
+    if (!$rf2->isFile() || strtolower((string)$rf2->getExtension()) !== 'html') { continue; }
+    $rel2 = str_replace('\\', '/', substr($rf2->getPathname(), strlen(SITE) + 1));
+    if (preg_match('#^(admin-panel-x7k2|backups|_backup|_archive|_game-test|media|content|api|sweb-migration|libs)/#', $rel2)) { continue; }
+    $allPages[] = $rel2;
+}
+$pagesBefore = array();
+foreach ($allPages as $rp) { $pagesBefore[$rp] = (string)@file_get_contents(SITE . '/' . $rp); }
+$backupFilesBefore2 = array_map('basename', (array)glob(SITE . '/backups/files/*'));
+
+$vatFile6  = SITE . '/calculators/finance/vat/index.html';
+$blogFile6 = SITE . '/blog/index.html';
+
+$r = http(BASE . '/ads.php');
+check('в панели есть карточка «Вывод на сайт»',
+      has($r['b'], 'Вывод на сайт') && has($r['b'], 'Вывести рекламу на сайт…'));
+preg_match('/Слотов рекламы: (\d+) на (\d+) страницах/u', plain($r['b']), $sl6);
+check('панель видит слоты рекламы на страницах',
+      (int)($sl6[1] ?? 0) >= 191 && (int)($sl6[2] ?? 0) >= 48,
+      'слотов: ' . (int)($sl6[1] ?? 0) . ', страниц: ' . (int)($sl6[2] ?? 0));
+check('в панели есть общий выключатель рекламы',
+      has($r['b'], 'Общий выключатель рекламы') && has($r['b'], 'Выключить всю рекламу'));
+
+/* Блоку «своя кнопка внизу» поставим своё место под блок, чтобы проверить поле */
+$csrf = csrf(http(BASE . '/ads.php?e=' . $id3)['b']);
+http(BASE . '/ads.php', ad_post(array('csrf' => $csrf, 'id' => $id3, 'slot' => 'ads-before-footer', 'type' => 'html',
+    'name' => 'Своя кнопка внизу', 'code' => '<a href="/about/">О проекте</a>', 'pages' => array('*'),
+    'risk_ok' => '1', 'min_height' => '200')));
+check('место под блок сохраняется (200 px)', (int)(ads_row($id3)['min_height'] ?? 0) === 200);
+
+$r = http(BASE . '/ads.php?render=1');
+check('экран подтверждения вывода открывается',
+      $r['s'] === 200 && has($r['b'], 'Вывести рекламу на сайт?') && has($r['b'], 'Да, вывести рекламу на сайт'),
+      'код ' . $r['s']);
+$csrf = csrf($r['b']);
+$r = http(BASE . '/ads.php', array('csrf' => $csrf, 'op' => 'render'));
+check('вывод принят (редирект)', $r['s'] === 302, 'код ' . $r['s']);
+$r = http(BASE . '/ads.php');
+check('панель отчиталась о выводе', has($r['b'], 'Реклама выведена на сайт'));
+// MARKER-TEST-6-2-B
+
+$vat6 = (string)@file_get_contents($vatFile6);
+check('в странице появился блок рекламы в слоте',
+      strpos($vat6, 'class="ad-slot" data-ad-slot="ads-top" data-ad="') !== false);
+check('блок вставлен внутрь слота — между маркерами',
+      (bool)preg_match('#<!--SLOT:ads-top-->\s+<section class="ad-slot".*?</section>\s+<!--/SLOT:ads-top-->#s', $vat6));
+check('у блока есть подпись «Реклама»', strpos($vat6, 'class="ad-label">Реклама</span>') !== false);
+check('код лежит в шаблоне (не грузится, пока не долистали)',
+      strpos($vat6, '<template data-ad-code="1">') !== false && strpos($vat6, 'О проекте</a>') !== false);
+check('рядом скрипт ленивой загрузки',
+      strpos($vat6, 'IntersectionObserver') !== false && strpos($vat6, 'document.currentScript') !== false
+      && strpos($vat6, "rootMargin:'300px 0px'") !== false);
+check('у блока зарезервировано место под рекламу (CLS=0)',
+      strpos($vat6, 'style="min-height:200px;margin:26px auto;max-width:1000px;padding:0 16px"') !== false);
+check('свой HTML без своего размера не резервирует место',
+      strpos($vat6, 'style="margin:26px auto;max-width:1000px;padding:0 16px"') !== false);
+check('на странице инструмента нет блока, ограниченного блогом',
+      strpos($vat6, 'yaContextCb') === false && substr_count($vat6, 'class="ad-slot"') === 2,
+      'блоков: ' . substr_count($vat6, 'class="ad-slot"'));
+
+$blog6 = (string)@file_get_contents($blogFile6);
+check('в блоге выведен блок, ограниченный страницами «/blog/*»',
+      strpos($blog6, 'data-ad="' . $id . '"') !== false);
+check('у РСЯ-блока место по умолчанию 280 px', strpos($blog6, 'min-height:280px') !== false);
+check('служебные страницы рекламы не получили',
+      strpos((string)@file_get_contents(SITE . '/privacy.html'), 'class="ad-slot"') === false
+      && strpos((string)@file_get_contents(SITE . '/search.html'), 'class="ad-slot"') === false);
+
+say('');
+say('8-В. Общий выключатель рекламы');
+
+$csrf = csrf(http(BASE . '/ads.php')['b']);
+$r = http(BASE . '/ads.php', array('csrf' => $csrf, 'op' => 'global_off', 'reason' => 'тест'));
+check('выключатель принят', $r['s'] === 302, 'код ' . $r['s']);
+$r = http(BASE . '/ads.php');
+check('панель пишет, что реклама выключена',
+      has($r['b'], 'Реклама выключена') && has($r['b'], 'Включить рекламу снова'));
+$r = http(BASE . '/ads.php?render=1');
+check('в подтверждении вывода предупреждение о выключателе',
+      has($r['b'], 'Общий выключатель рекламы включён'));
+$csrf = csrf($r['b']);
+http(BASE . '/ads.php', array('csrf' => $csrf, 'op' => 'render'));
+$vatOff = (string)@file_get_contents($vatFile6);
+check('с выключенной рекламой блоки уходят со страниц', substr_count($vatOff, 'class="ad-slot"') === 0);
+check('маркеры слотов остаются на месте',
+      substr_count($vatOff, '<!--SLOT:ads-top-->') === 1 && substr_count($vatOff, '<!--/SLOT:ads-top-->') === 1);
+// MARKER-TEST-6-2-C
+
+$csrf = csrf(http(BASE . '/ads.php')['b']);
+$r = http(BASE . '/ads.php', array('csrf' => $csrf, 'op' => 'global_on'));
+check('выключатель снят', $r['s'] === 302);
+$r = http(BASE . '/ads.php');
+check('панель снова пишет, что реклама работает', has($r['b'], 'Реклама работает'));
+$r = http(BASE . '/ads.php?render=1');
+$csrf = csrf($r['b']);
+http(BASE . '/ads.php', array('csrf' => $csrf, 'op' => 'render'));
+$vatOn = (string)@file_get_contents($vatFile6);
+check('после включения реклама вернулась на страницы', substr_count($vatOn, 'class="ad-slot"') === 2,
+      'блоков: ' . substr_count($vatOn, 'class="ad-slot"'));
+
+/* Возвращаем все страницы сайта байт в байт и убираем копии теста */
+$restored2 = 0;
+foreach ($pagesBefore as $rp => $text) {
+    if (@file_put_contents(SITE . '/' . $rp, $text) !== false) { $restored2++; }
+}
+foreach (array_values(array_diff(array_map('basename', (array)glob(SITE . '/backups/files/*')), $backupFilesBefore2)) as $nb2) {
+    @unlink(SITE . '/backups/files/' . $nb2);
+}
+check('все страницы сайта возвращены как было',
+      $restored2 === count($pagesBefore)
+      && (string)@file_get_contents($vatFile6) === $pagesBefore['calculators/finance/vat/index.html']
+      && (string)@file_get_contents($blogFile6) === $pagesBefore['blog/index.html']);
+check('в снимке страницы рекламы не было (панель пишет только в слоты)',
+      strpos($pagesBefore['calculators/finance/vat/index.html'], 'ad-slot') === false);
+check('копии страниц за тестом убраны',
+      count(array_diff(array_map('basename', (array)glob(SITE . '/backups/files/*')), $backupFilesBefore2)) === 0);
+
+say('');
 say('9. Уборка за тестом');
+
+
 
 @unlink($adsFile);
 if ($hadAds) { @rename(__DIR__ . '/ads.json.bak', $adsFile); }
