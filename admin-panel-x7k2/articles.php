@@ -17,6 +17,7 @@ require __DIR__ . '/inc/ui.php';
 require __DIR__ . '/inc/media.php';
 require __DIR__ . '/inc/article-template.php';
 require __DIR__ . '/inc/articles.php';
+require __DIR__ . '/inc/publish.php';
 
 panel_session_start();
 ensure_guards();
@@ -203,6 +204,31 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         exit;
     }
 
+    if ($op === 'publish') {
+        /* Публикуем то, что видно в форме; если форма пришла пустой (кнопка со экрана подтверждения) —
+           берём сохранённый черновик. */
+        $pubFields = $clean['fields'];
+        if (trim((string)($pubFields['title'] ?? '')) === '' && $id !== '') {
+            $saved = articles_find($id);
+            if (count($saved) > 0) { $pubFields = (array)$saved['fields']; }
+        }
+        $pub = article_publish($pubFields, $id);
+        if ($pub['ok']) {
+            $lines = array();
+            foreach ((array)$pub['steps'] as $st) {
+                $lines[] = $st['what'] . ($st['backup'] !== '' ? ' (копия: ' . $st['backup'] . ')' : '');
+            }
+            flash('Статья опубликована: ' . $pub['url'] . '. Что сделано: ' . implode('; ', $lines) . '.'
+                . (count($pub['notes']) > 0 ? ' Обратите внимание: ' . implode(' ', $pub['notes']) : ''));
+            unset($_SESSION['articles_preview'][article_preview_key($id)]);
+            header('Location: ' . panel_url('articles.php?id=' . rawurlencode((string)$pub['id'])));
+        } else {
+            flash('Опубликовать не получилось: ' . $pub['error'], 'error');
+            header('Location: ' . panel_url('articles.php?id=' . rawurlencode($id)));
+        }
+        exit;
+    }
+
     if ($op === 'use_demo') {
         $clean = articles_clean(article_demo(), true);
     } elseif (strpos($op, 'set_image:') === 0) {
@@ -284,6 +310,7 @@ $list     = articles_all()['articles'];
 $editId   = isset($_GET['id']) ? trim((string)$_GET['id']) : '';
 $draft    = $editId !== '' ? articles_find($editId) : array();
 $delDraft = isset($_GET['del']) ? articles_find((string)$_GET['del']) : array();
+$pubDraft = isset($_GET['pub']) ? articles_find((string)$_GET['pub']) : array();
 
 $mode = 'list';
 if ($editId !== '') {
@@ -334,23 +361,56 @@ panel_page_start('Статьи', 'Черновики, редактор стат�
 <?php card_end(); ?>
 <?php } ?>
 
+<?php if ($pubDraft !== array()) { ?>
+<?php card_start('Опубликовать статью на сайте?', 'Это запишет файлы сайта — перед каждой записью панель сделает копию', 'warn'); ?>
+      <p style="margin:0 0 10px">Статья: <strong><?php echo h((string)($pubDraft['fields']['title'] ?? '—')); ?></strong>
+        · адрес <code>/blog/<?php echo h((string)($pubDraft['fields']['slug'] ?? '')); ?>/</code>
+        · слов <?php echo (int)articles_words((array)$pubDraft['fields']); ?></p>
+      <p class="hint" style="margin:0 0 8px">Панель сделает три вещи:</p>
+      <ul style="margin:0 0 10px;padding-left:22px;color:var(--mut)">
+        <li>запишет страницу <code>/blog/<?php echo h((string)($pubDraft['fields']['slug'] ?? '')); ?>/index.html</code>
+          (если файл уже был — сначала сделает его копию);</li>
+        <li>добавит карточку статьи первым пунктом в списке на <code>/blog/</code>;</li>
+        <li>добавит адрес в <code>sitemap.xml</code> с датой обновления и пересоберёт ленту <code>/rss.xml</code>.</li>
+      </ul>
+      <p class="hint" style="margin:0 0 12px">Публикуется <strong>сохранённая</strong> версия. Если вы только что правили текст —
+        сначала нажмите «Сохранить черновик» в редакторе, потом возвращайтесь сюда.</p>
+      <div class="btn-row">
+        <form method="post" action="<?php echo h(panel_url('articles.php')); ?>">
+          <?php echo csrf_field(); ?>
+          <input type="hidden" name="op" value="publish" />
+          <input type="hidden" name="id" value="<?php echo h((string)$pubDraft['id']); ?>" />
+          <button class="btn primary" type="submit">Да, опубликовать</button>
+        </form>
+        <a class="btn ghost" href="<?php echo h(panel_url('articles.php?id=' . rawurlencode((string)$pubDraft['id']))); ?>">Отмена — вернуться в редактор</a>
+      </div>
+<?php card_end(); ?>
+<?php } ?>
+
 <?php card_start('Черновики статей', 'Статья появится на сайте только после публикации (шаг 4.3) — пока всё живёт в черновиках панели'); ?>
 <?php if (count($list) === 0) { ?>
       <p class="empty">Черновиков нет. Создайте первую статью — или начните с готового примера про расчёт плитки
         (он подскажет, как заполнять поля).</p>
 <?php } else { ?>
       <table class="table">
-        <tr><th>Заголовок</th><th>Адрес на сайте</th><th>Слов</th><th>Изменён</th><th>Действия</th></tr>
-<?php foreach ($list as $a) { $f = (array)($a['fields'] ?? array()); $aid = (string)($a['id'] ?? ''); ?>
+        <tr><th>Заголовок</th><th>Статус</th><th>Адрес на сайте</th><th>Слов</th><th>Изменён</th><th>Действия</th></tr>
+<?php foreach ($list as $a) { $f = (array)($a['fields'] ?? array()); $aid = (string)($a['id'] ?? '');
+        $isPub = articles_is_published($a); ?>
         <tr>
           <td><?php echo h((string)($f['title'] ?? '—')); ?></td>
+          <td class="nowrap"><?php echo $isPub ? badge('опубликована', 'ok') : badge('черновик'); ?></td>
           <td class="nowrap"><code>/blog/<?php echo h((string)($f['slug'] ?? '')); ?>/</code></td>
           <td class="nowrap"><?php echo (int)articles_words($f); ?></td>
           <td class="nowrap"><?php echo h(ago((string)($a['modified'] ?? ''))); ?></td>
           <td>
             <div class="btn-row">
               <a class="btn ghost" href="<?php echo h(panel_url('articles.php?id=' . rawurlencode($aid))); ?>">Редактировать</a>
-              <a class="btn ghost" href="<?php echo h(panel_url('articles.php?preview=1&id=' . rawurlencode($aid))); ?>" target="_blank" rel="noopener">Посмотреть</a>
+<?php if ($isPub) { ?>
+              <a class="btn ghost" href="<?php echo h('/blog/' . rawurlencode((string)($f['slug'] ?? '')) . '/'); ?>" target="_blank" rel="noopener">На сайте</a>
+<?php } else { ?>
+              <a class="btn ghost" href="<?php echo h(panel_url('articles.php?preview=1&id=' . rawurlencode($aid))); ?>" target="_blank" rel="noopener">Предпросмотр</a>
+              <a class="btn primary" href="<?php echo h(panel_url('articles.php?pub=' . rawurlencode($aid))); ?>">Опубликовать…</a>
+<?php } ?>
               <a class="btn ghost" href="<?php echo h(panel_url('articles.php?del=' . rawurlencode($aid))); ?>">Удалить…</a>
             </div>
           </td>
@@ -624,8 +684,17 @@ panel_page_start('Статьи', 'Черновики, редактор стат�
     </div>
     <aside class="editor-side">
 
-<?php card_start('Черновик', $mode === 'edit' ? 'Сохранён в панели' : 'Ещё не сохранён'); ?>
-      <p class="hint" style="margin:0 0 10px">Адрес: <code>/blog/<?php echo h((string)($fields['slug'] ?? '')); ?>/</code><br>
+<?php $draftPublished = $mode === 'edit' ? articles_is_published($draft) : false; ?>
+<?php card_start($draftPublished ? 'Статья опубликована' : 'Черновик',
+                 $mode === 'edit'
+                    ? ($draftPublished ? 'Страница есть на сайте; новые правки нужно опубликовать заново' : 'Сохранён в панели, на сайте его пока нет')
+                    : 'Ещё не сохранён'); ?>
+      <p class="hint" style="margin:0 0 10px">Адрес: <code>/blog/<?php echo h((string)($fields['slug'] ?? '')); ?>/</code></p>
+<?php if ($draftPublished) { ?>
+      <p class="hint" style="margin:0 0 10px"><?php echo badge('опубликована', 'ok'); ?>
+        <?php echo h((string)($draft['published_at'] ?? '')); ?></p>
+<?php } ?>
+      <p class="hint" style="margin:0 0 10px">
         Слов: <strong><?php echo (int)$words; ?></strong> ·
         блоков: <strong><?php echo count((array)($fields['blocks'] ?? array())); ?></strong> ·
         вопросов: <strong><?php echo count((array)($fields['faq'] ?? array())); ?></strong> ·
@@ -638,6 +707,12 @@ panel_page_start('Статьи', 'Черновики, редактор стат�
         «Обновить предпросмотр» показывает текущие правки, не записывая их в черновик.</p>
 <?php if ($mode === 'edit') { ?>
       <div class="btn-row" style="margin-top:10px">
+        <a class="btn primary" href="<?php echo h(panel_url('articles.php?pub=' . rawurlencode($editId))); ?>"><?php
+          echo $draftPublished ? 'Опубликовать правки…' : 'Опубликовать на сайте…'; ?></a>
+<?php if ($draftPublished) { ?>
+        <a class="btn ghost" href="<?php echo h('/blog/' . rawurlencode((string)($fields['slug'] ?? '')) . '/'); ?>"
+           target="_blank" rel="noopener">Открыть на сайте</a>
+<?php } ?>
         <a class="btn ghost" href="<?php echo h(panel_url('articles.php?del=' . rawurlencode($editId))); ?>">Удалить черновик…</a>
         <a class="btn ghost" href="<?php echo h(panel_url('articles.php')); ?>">К списку статей</a>
       </div>
@@ -646,9 +721,10 @@ panel_page_start('Статьи', 'Черновики, редактор стат�
         <a class="btn ghost" href="<?php echo h(panel_url('articles.php')); ?>">К списку статей</a>
       </div>
 <?php } ?>
-      <p class="field-hint" style="margin-top:10px">Публикация в
-        <code>/blog/<?php echo h((string)($fields['slug'] ?? '')); ?>/index.html</code> появится в шаге 4.3:
-        тогда же панель обновит список статей, <code>sitemap.xml</code> и ленту для поисковиков.</p>
+      <p class="field-hint" style="margin-top:10px">Публикация запишет
+        <code>/blog/<?php echo h((string)($fields['slug'] ?? '')); ?>/index.html</code>, добавит карточку в список статей,
+        адрес в <code>sitemap.xml</code> и пересоберёт ленту <code>/rss.xml</code>. Перед записью панель делает копии файлов
+        в <code>backups/files/</code>.</p>
 <?php card_end(); ?>
 
 <?php card_start('Предпросмотр', 'В рамке — настоящая страница сайта с вашим текстом'); ?>

@@ -204,7 +204,8 @@ function articles_put(array $fields, string $id = ''): array {
         if ((string)($a['id'] ?? '') === $id) {
             $list[$i]['fields']   = $clean['fields'];
             $list[$i]['modified'] = $now;
-            $list[$i]['status']   = 'draft';
+            /* Статус не сбрасываем: опубликованная статья остаётся опубликованной после правок */
+            if (empty($list[$i]['status'])) { $list[$i]['status'] = 'draft'; }
             $found = true;
             break;
         }
@@ -264,6 +265,28 @@ function articles_slug_busy(string $slug, string $exceptId = ''): bool {
         if ((string)($fields['slug'] ?? '') === $slug && (string)($a['id'] ?? '') !== $exceptId) { return true; }
     }
     return false;
+}
+
+/** Пометить статью опубликованной (после записи файла на сайт). */
+function articles_mark_published(string $id, string $url = ''): bool {
+    $list = articles_all()['articles'];
+    $ok   = false;
+    foreach ($list as $i => $a) {
+        if ((string)($a['id'] ?? '') === $id) {
+            $list[$i]['status']       = 'published';
+            $list[$i]['url']          = $url !== '' ? $url : (string)($a['url'] ?? '');
+            $list[$i]['published_at'] = date('Y-m-d H:i:s');
+            $list[$i]['modified']     = date('Y-m-d H:i:s');
+            $ok = true;
+            break;
+        }
+    }
+    return $ok && articles_save_all($list);
+}
+
+/** Опубликована ли статья. */
+function articles_is_published(array $article): bool {
+    return (string)($article['status'] ?? '') === 'published';
 }
 
 

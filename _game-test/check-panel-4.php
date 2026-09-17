@@ -534,7 +534,130 @@ check('в sitemap.xml новой статьи нет',
       strpos((string)@file_get_contents(SITE . '/sitemap.xml'), 'kak-proverit') === false);
 
 say('');
-say('13. Уборка за тестом');
+say('13. Публикация статьи на сайт (шаг 4.3)');
+$pubSlug  = 'kak-proverit-raschet-otpusknyh-tri-shaga';
+$pubFile  = SITE . '/blog/' . $pubSlug . '/index.html';
+$hubFile  = SITE . '/blog/index.html';
+$smFile   = SITE . '/sitemap.xml';
+$rssFile  = SITE . '/rss.xml';
+$safeDir  = __DIR__ . '/pub-restore';
+$backupDir = SITE . '/backups/files';
+
+/* Копии «как было» — тест вернёт файлы сайта в исходное состояние */
+if (!is_dir($safeDir)) { mkdir($safeDir, 0777, true); }
+$rssExisted = is_file($rssFile);
+foreach (array($hubFile, $smFile, $rssFile) as $src) {
+    if (is_file($src)) {
+        @copy($src, $safeDir . '/' . str_replace('/', '__', substr($src, strlen(SITE) + 1)));
+    }
+}
+$backupsBefore = array_map('basename', (array)glob($backupDir . '/*'));
+check('тест запомнил исходные файлы сайта', is_file($safeDir . '/blog__index.html') && is_file($safeDir . '/sitemap.xml'));
+
+/* Публикуем черновик из прошлой проверки */
+$r = http(BASE . '/articles.php?id=' . rawurlencode($bId) . '&pub=' . rawurlencode($bId));
+check('экран подтверждения публикации открывается',
+      $r['s'] === 200 && has($r['b'], 'Опубликовать статью на сайте?') && has($r['b'], 'Да, опубликовать'), 'код ' . $r['s']);
+$csrf = csrf($r['b']);
+
+$r = http(BASE . '/articles.php', array('csrf' => $csrf, 'op' => 'publish', 'id' => $bId));
+check('публикация принята (редирект)', $r['s'] === 302, 'код ' . $r['s']);
+$r = http(BASE . '/articles.php?id=' . rawurlencode($bId));
+check('панель отчиталась о публикации',
+      has($r['b'], 'Статья опубликована: https://calc-doc.ru/blog/' . $pubSlug . '/') && has($r['b'], 'копия:'));
+check('в списке статей статус «опубликована»', has($r['b'], 'опубликована') && has($r['b'], 'Опубликовать правки'));
+
+check('страница статьи записана на сайт', is_file($pubFile));
+$pubHtml = (string)@file_get_contents($pubFile);
+check('на странице есть заголовок, крошки и разметка для поисковиков',
+      strpos($pubHtml, '<h1>Как проверить расчёт отпускных: три шага</h1>') !== false
+      && strpos($pubHtml, '/blog/">Статьи</a> / Проверка расчёта') !== false
+      && strpos($pubHtml, '"@type":"Article"') !== false);
+check('страница унаследовала шапку и подвал сайта',
+      strpos($pubHtml, 'id="themeToggle"') !== false && strpos($pubHtml, 'footer-nav') !== false);
+$ld = jsonld_blocks($pubHtml);
+check('разметка на записанной странице читается как JSON', count($ld) >= 2 && !isset($ld[0]['ОШИБКА']));
+
+$hubHtml = (string)@file_get_contents($hubFile);
+check('карточка статьи появилась в списке /blog/', strpos($hubHtml, 'href="/blog/' . $pubSlug . '/"') !== false);
+check('карточка стоит первой в списке',
+      strpos($hubHtml, 'href="/blog/' . $pubSlug . '/"') < strpos($hubHtml, 'href="/blog/otpusknye/"'),
+      'позиции: ' . strpos($hubHtml, 'href="/blog/' . $pubSlug . '/"') . ' и ' . strpos($hubHtml, 'href="/blog/otpusknye/"'));
+check('старые статьи в списке остались', substr_count($hubHtml, 'class="card" href="/blog/') === 4,
+      'карточек: ' . substr_count($hubHtml, 'class="card" href="/blog/'));
+
+$smXml = (string)@file_get_contents($smFile);
+check('адрес добавлен в sitemap.xml с датой',
+      strpos($smXml, '<loc>https://calc-doc.ru/blog/' . $pubSlug . '/</loc>') !== false
+      && strpos($smXml, '<lastmod>' . date('Y-m-d') . '</lastmod>') !== false);
+check('в sitemap.xml нет дублей адреса',
+      substr_count($smXml, '<loc>https://calc-doc.ru/blog/' . $pubSlug . '/</loc>') === 1);
+check('sitemap.xml остаётся XML',
+      strpos($smXml, '<?xml') === 0 && substr_count($smXml, '<url>') === 50,
+      'url: ' . substr_count($smXml, '<url>'));
+
+check('лента /rss.xml собрана', is_file($rssFile));
+$rssXml = (string)@file_get_contents($rssFile);
+check('в ленте есть новая статья и старые',
+      strpos($rssXml, '<title>Как проверить расчёт отпускных: три шага</title>') !== false
+      && substr_count($rssXml, '<item>') === 4 && strpos($rssXml, 'Как рассчитать отпускные') !== false,
+      'статей в ленте: ' . substr_count($rssXml, '<item>'));
+
+$drafts = json_decode((string)@file_get_contents($draftsFile), true);
+check('черновик помечен опубликованным',
+      (string)($drafts['articles'][0]['status'] ?? '') === 'published'
+      && strpos((string)($drafts['articles'][0]['url'] ?? ''), $pubSlug) !== false);
+
+$hubBackups  = array_values(array_diff(array_map('basename', (array)glob($backupDir . '/*')), $backupsBefore));
+check('перед записью файлов сделаны копии (backups/files)', count($hubBackups) >= 2, 'копий: ' . count($hubBackups));
+check('копии страницы блога и sitemap на месте',
+      count(preg_grep('#blog__index\.html$#', $hubBackups)) === 1
+      && count(preg_grep('#sitemap\.xml$#', $hubBackups)) === 1);
+
+/* Повторная публикация не должна плодить карточки и адреса */
+$r = http(BASE . '/articles.php', array('csrf' => $csrf, 'op' => 'publish', 'id' => $bId));
+$hubHtml = (string)@file_get_contents($hubFile);
+$smXml   = (string)@file_get_contents($smFile);
+check('повторная публикация не дублирует карточку',
+      substr_count($hubHtml, 'class="card" href="/blog/' . $pubSlug . '/"') === 1);
+check('повторная публикация обновляет адрес в sitemap, а не добавляет второй',
+      substr_count($smXml, '<loc>https://calc-doc.ru/blog/' . $pubSlug . '/</loc>') === 1);
+$hubBackups2 = array_values(array_diff(array_map('basename', (array)glob($backupDir . '/*')), $backupsBefore));
+check('при повторной публикации обновилась и копия самой статьи',
+      count(preg_grep('#' . preg_quote($pubSlug, '#') . '__index\.html$#', $hubBackups2)) === 1,
+      'копий всего: ' . count($hubBackups2));
+
+$r = http(SITEURL . '/blog/' . $pubSlug . '/');
+check('опубликованная статья открывается как страница сайта',
+      $r['s'] === 200 && strpos($r['b'], '<h1>Как проверить расчёт отпускных: три шага</h1>') !== false, 'код ' . $r['s']);
+$r = http(SITEURL . '/rss.xml');
+check('лента отдаётся как файл', $r['s'] === 200 && strpos($r['b'], '<rss version="2.0">') !== false, 'код ' . $r['s']);
+
+say('');
+say('14. Уборка за тестом');
+
+/* Возвращаем файлы сайта «как было»: страница блога, sitemap, лента, папка статьи */
+foreach (array('blog/index.html', 'sitemap.xml', 'rss.xml') as $rel) {
+    $saved = $safeDir . '/' . str_replace('/', '__', $rel);
+    if (is_file($saved)) { @rename($saved, SITE . '/' . $rel); }
+    elseif ($rel === 'rss.xml' && !$rssExisted) { @unlink($rssFile); }
+}
+@unlink($pubFile);
+@rmdir(SITE . '/blog/' . $pubSlug);
+foreach (array_values(array_diff(array_map('basename', (array)glob($backupDir . '/*')), $backupsBefore)) as $nb) {
+    @unlink($backupDir . '/' . $nb);
+}
+@rmdir($safeDir);
+check('файлы сайта возвращены в исходное состояние',
+      !is_file($pubFile) && !is_dir(SITE . '/blog/' . $pubSlug)
+      && strpos((string)@file_get_contents($hubFile), $pubSlug) === false
+      && strpos((string)@file_get_contents($smFile), $pubSlug) === false
+      && (!$rssExisted ? !is_file($rssFile) : true));
+check('тестовые копии файлов убраны из backups/files',
+      count(array_diff(array_map('basename', (array)glob($backupDir . '/*')), $backupsBefore)) === 0);
+check('страница блога снова показывает три статьи',
+      substr_count((string)@file_get_contents($hubFile), 'class="card" href="/blog/') === 3,
+      'карточек: ' . substr_count((string)@file_get_contents($hubFile), 'class="card" href="/blog/'));
 @unlink($draftsFile);
 foreach ((array)glob(SITE . '/media/uploads/tests-media-*') as $mediaTmp) { @unlink($mediaTmp); }
 /* Из индекса картинок убираем только записи теста — ваши картинки не трогаем */
