@@ -241,6 +241,90 @@ function rss_build(string $siteUrl = ''): array {
     return array('ok' => true, 'error' => '', 'changed' => 'лента собрана из ' . count($items) . ' статей', 'backup' => $w['backup']);
 }
 
+/* ─────────────────── снятие с публикации (шаг 4.4) ─────────────────── */
+
+/** Убрать карточку статьи из списка /blog/. */
+function blog_hub_remove(string $slug): array {
+    $hub = SITE_ROOT . '/blog/index.html';
+    if (!is_file($hub)) {
+        return array('ok' => false, 'error' => 'Не нашёл страницу блога /blog/index.html.', 'changed' => '', 'backup' => '');
+    }
+    $html   = (string)@file_get_contents($hub);
+    $href   = '/blog/' . $slug . '/';
+    $pattern = '#[ \t]*<a class="card" href="' . preg_quote($href, '#') . '">.*?</a>\s*\n#s';
+    if (!preg_match($pattern, $html)) {
+        return array('ok' => true, 'error' => '', 'changed' => '', 'backup' => '');
+    }
+    $html = (string)preg_replace($pattern, '', $html, 1);
+    $w    = file_write_safe($hub, $html);
+    if (!$w['ok']) { return array('ok' => false, 'error' => $w['error'], 'changed' => '', 'backup' => ''); }
+    return array('ok' => true, 'error' => '', 'changed' => 'карточка убрана из списка', 'backup' => $w['backup']);
+}
+
+/** Убрать адрес статьи из sitemap.xml. */
+function sitemap_remove(string $url): array {
+    $file = SITE_ROOT . '/sitemap.xml';
+    if (!is_file($file)) {
+        return array('ok' => false, 'error' => 'Не нашёл sitemap.xml в корне сайта.', 'changed' => '', 'backup' => '');
+    }
+    $xml = (string)@file_get_contents($file);
+    if (strpos($xml, '<loc>' . $url . '</loc>') === false) {
+        return array('ok' => true, 'error' => '', 'changed' => '', 'backup' => '');
+    }
+    $xml = (string)preg_replace('#\s*<url>\s*<loc>' . preg_quote($url, '#') . '</loc>.*?</url>#s', '', $xml, 1);
+    $w   = file_write_safe($file, $xml);
+    if (!$w['ok']) { return array('ok' => false, 'error' => $w['error'], 'changed' => '', 'backup' => ''); }
+    return array('ok' => true, 'error' => '', 'changed' => 'адрес убран из sitemap', 'backup' => $w['backup']);
+}
+
+/** Снять статью с публикации: страница уходит в копии, список, sitemap и лента чистятся,
+    черновик остаётся в панели (его можно опубликовать заново).
+    Возвращает ['ok','error','steps'=>[['what','backup']],'notes'=>[]]. */
+function article_unpublish(array $fields, string $id = ''): array {
+    $steps = array();
+    $notes = array();
+    $fail  = array('ok' => false, 'error' => '', 'steps' => array(), 'notes' => array());
+
+    $slug = (string)($fields['slug'] ?? '');
+    if ($slug === '') { $fail['error'] = 'У статьи нет адреса — снимать нечего.'; return $fail; }
+
+    $path = SITE_ROOT . '/blog/' . $slug . '/index.html';
+    if (is_file($path)) {
+        $b = file_backup($path);                       // сначала копия — страница не потеряется
+        if (!$b['ok']) { $fail['error'] = $b['error']; return $fail; }
+        if (!@unlink($path)) {
+            $fail['error'] = 'Не получилось убрать файл страницы — проверьте права на папку блога.';
+            return $fail;
+        }
+        @rmdir(SITE_ROOT . '/blog/' . $slug);
+        $steps[] = array('what' => 'Страница /blog/' . $slug . '/ убрана с сайта', 'backup' => $b['name']);
+    } else {
+        $notes[] = 'Файла страницы не было — возможно, статью уже снимали с публикации.';
+    }
+
+    $hub = blog_hub_remove($slug);
+    if (!$hub['ok'])                { $notes[] = 'Список статей: ' . $hub['error']; }
+    elseif ($hub['changed'] !== '') { $steps[] = array('what' => 'Список статей /blog/: ' . $hub['changed'], 'backup' => $hub['backup']); }
+
+    $shell = article_shell();
+    $url   = rtrim((string)$shell['site_url'], '/') . '/blog/' . $slug . '/';
+    $sm    = sitemap_remove($url);
+    if (!$sm['ok'])                { $notes[] = 'sitemap.xml: ' . $sm['error']; }
+    elseif ($sm['changed'] !== '') { $steps[] = array('what' => 'sitemap.xml: ' . $sm['changed'], 'backup' => $sm['backup']); }
+
+    if (is_file(SITE_ROOT . '/rss.xml')) {
+        $rss = rss_build();
+        if (!$rss['ok']) { $notes[] = 'Лента: ' . $rss['error']; }
+        else             { $steps[] = array('what' => 'rss.xml: ' . $rss['changed'], 'backup' => $rss['backup']); }
+    }
+
+    if ($id !== '') { articles_mark_draft($id); }
+    log_action('Статья снята с публикации', '/blog/' . $slug . '/');
+
+    return array('ok' => true, 'error' => '', 'steps' => $steps, 'notes' => $notes);
+}
+
+
 /* ─────────────────── сама публикация ─────────────────── */
 
 /** Опубликовать статью: файл страницы, список статей, sitemap, лента, статус черновика.

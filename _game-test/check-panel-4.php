@@ -305,7 +305,7 @@ $draftsFile = SITE . '/content/articles.json';
 check('администратор вошёл для проверки редактора', login_as('owner', 'Secret123'));
 
 $r = http(BASE . '/articles.php');
-check('список статей открывается', $r['s'] === 200 && has($r['b'], 'Черновиков нет'), 'код ' . $r['s']);
+check('список статей открывается', $r['s'] === 200 && has($r['b'], 'Статей пока нет'), 'код ' . $r['s']);
 check('в списке есть кнопки создания и шаблона',
       has($r['b'], 'Создать статью') && has($r['b'], 'Шаблон статьи отдельно'));
 
@@ -632,6 +632,74 @@ check('опубликованная статья открывается как �
       $r['s'] === 200 && strpos($r['b'], '<h1>Как проверить расчёт отпускных: три шага</h1>') !== false, 'код ' . $r['s']);
 $r = http(SITEURL . '/rss.xml');
 check('лента отдаётся как файл', $r['s'] === 200 && strpos($r['b'], '<rss version="2.0">') !== false, 'код ' . $r['s']);
+
+say('');
+say('13-Б. Список статей: поиск, фильтр, снятие с публикации (шаг 4.4)');
+
+$r = http(BASE . '/articles.php');
+check('в списке есть поиск и фильтр со счётчиками',
+      strpos($r['b'], 'Поиск по заголовку') !== false && has($r['b'], 'Опубликованные (1)') && has($r['b'], 'Черновики (0)'),
+      'код ' . $r['s']);
+check('у опубликованной статьи есть «На сайте» и «Снять с публикации…»',
+      has($r['b'], 'Снять с публикации…') && has($r['b'], 'На сайте'));
+
+$r = http(BASE . '/articles.php?q=' . rawurlencode('отпускных'));
+check('поиск находит статью по куску заголовка', has($r['b'], 'Как проверить расчёт отпускных'));
+$r = http(BASE . '/articles.php?q=' . rawurlencode('такогонет'));
+check('поиск честно сообщает, что не нашёл', has($r['b'], 'ничего не найдено'));
+$r = http(BASE . '/articles.php?status=published');
+check('фильтр «Опубликованные» показывает статью', has($r['b'], 'Как проверить расчёт отпускных'));
+$r = http(BASE . '/articles.php?status=draft');
+check('фильтр «Черновики» её скрывает',
+      !has($r['b'], 'Как проверить расчёт отпускных') && has($r['b'], 'ничего не найдено'));
+
+/* Пока статья опубликована, экран удаления предлагает выбрать вариант */
+$r = http(BASE . '/articles.php?del=' . rawurlencode($bId));
+check('для опубликованной статьи предлагают два варианта удаления',
+      has($r['b'], 'Удалить статью со страницы и из панели?')
+      && has($r['b'], 'Убрать только с сайта') && has($r['b'], 'Удалить целиком'), 'код ' . $r['s']);
+
+/* Снимаем с публикации */
+$r = http(BASE . '/articles.php?unpub=' . rawurlencode($bId));
+check('экран снятия с публикации открывается',
+      has($r['b'], 'Снять статью с публикации?') && has($r['b'], 'Да, снять с публикации'), 'код ' . $r['s']);
+$csrf = csrf($r['b']);
+$r = http(BASE . '/articles.php', array('csrf' => $csrf, 'op' => 'unpublish', 'id' => $bId));
+check('снятие принято (редирект)', $r['s'] === 302, 'код ' . $r['s']);
+$r = http(BASE . '/articles.php?id=' . rawurlencode($bId));
+check('панель отчиталась о снятии с публикации',
+      has($r['b'], 'Статья снята с публикации') && has($r['b'], 'Опубликовать на сайте…'));
+
+check('страницы на сайте больше нет', !is_file($pubFile) && !is_dir(SITE . '/blog/' . $pubSlug));
+$r = http(SITEURL . '/blog/' . $pubSlug . '/');
+check('статьи по этому адресу больше нет (на хостинге будет 404)',
+      strpos($r['b'], '<h1>Как проверить расчёт отпускных: три шага</h1>') === false,
+      'код ' . $r['s']);
+$hubHtml = (string)@file_get_contents($hubFile);
+check('карточка ушла из списка блога',
+      strpos($hubHtml, $pubSlug) === false && substr_count($hubHtml, 'class="card" href="/blog/') === 3,
+      'карточек: ' . substr_count($hubHtml, 'class="card" href="/blog/'));
+$smXml = (string)@file_get_contents($smFile);
+check('адрес ушёл из sitemap.xml',
+      strpos($smXml, $pubSlug) === false && substr_count($smXml, '<url>') === 49,
+      'url: ' . substr_count($smXml, '<url>'));
+$rssXml = (string)@file_get_contents($rssFile);
+check('лента пересобрана без статьи',
+      strpos($rssXml, $pubSlug) === false && substr_count($rssXml, '<item>') === 3,
+      'статей в ленте: ' . substr_count($rssXml, '<item>'));
+$drafts = json_decode((string)@file_get_contents($draftsFile), true);
+check('статья вернулась в статус черновика', (string)($drafts['articles'][0]['status'] ?? '') === 'draft');
+check('перед снятием сохранена копия страницы',
+      count((array)glob($backupDir . '/*' . $pubSlug . '__index.html')) === 1);
+
+/* Удаление целиком: у черновика спрашивают просто, запись исчезает из панели */
+$r = http(BASE . '/articles.php?del=' . rawurlencode($bId));
+check('у черновика подтверждение простое', has($r['b'], 'Удалить черновик?'), 'код ' . $r['s']);
+$csrf = csrf($r['b']);
+$r = http(BASE . '/articles.php', array('csrf' => $csrf, 'op' => 'delete', 'full' => '1', 'id' => $bId));
+check('удаление принято (редирект)', $r['s'] === 302, 'код ' . $r['s']);
+$drafts = json_decode((string)@file_get_contents($draftsFile), true);
+check('запись удалена из панели', count((array)($drafts['articles'] ?? array())) === 0);
 
 say('');
 say('14. Уборка за тестом');

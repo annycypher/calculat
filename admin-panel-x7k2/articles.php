@@ -196,9 +196,48 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     $raw    = article_fields_from_post();
     $clean  = articles_clean($raw, true);                 // пустые блоки сохраняем: их только что добавили
 
+    if ($op === 'unpublish') {
+        $unpFields = $clean['fields'];
+        if (trim((string)($unpFields['slug'] ?? '')) === '' && $id !== '') {
+            $saved = articles_find($id);
+            if (count($saved) > 0) { $unpFields = (array)$saved['fields']; }
+        }
+        $unp = article_unpublish($unpFields, $id);
+        if ($unp['ok']) {
+            $lines = array();
+            foreach ((array)$unp['steps'] as $st) {
+                $lines[] = $st['what'] . ($st['backup'] !== '' ? ' (копия: ' . $st['backup'] . ')' : '');
+            }
+            flash('Статья снята с публикации. Что сделано: '
+                . (count($lines) > 0 ? implode('; ', $lines) : 'страницы на сайте уже не было') . '.'
+                . (count($unp['notes']) > 0 ? ' ' . implode(' ', $unp['notes']) : '')
+                . ' Черновик остался в панели — статью можно опубликовать заново.');
+            header('Location: ' . panel_url('articles.php?id=' . rawurlencode($id)));
+        } else {
+            flash('Снять с публикации не получилось: ' . $unp['error'], 'error');
+            header('Location: ' . panel_url('articles.php?id=' . rawurlencode($id)));
+        }
+        exit;
+    }
+
     if ($op === 'delete') {
+        $full  = !empty($_POST['full']);
+        $extra = '';
+        if ($full) {
+            /* Удаляем статью целиком: сначала убираем её с сайта (со всеми копиями), потом из панели */
+            $delFields = $clean['fields'];
+            if (trim((string)($delFields['slug'] ?? '')) === '' && $id !== '') {
+                $saved = articles_find($id);
+                if (count($saved) > 0) { $delFields = (array)$saved['fields']; }
+            }
+            $unp = article_unpublish($delFields, $id);
+            $extra = $unp['ok']
+                ? ' С сайта убрано: ' . (count($unp['steps']) > 0 ? implode('; ', array_column($unp['steps'], 'what')) : 'ничего не менял') . '.'
+                : ' С сайта убрать не удалось: ' . $unp['error'];
+        }
         $res = articles_delete($id);
-        flash($res['ok'] ? 'Черновик удалён.' : 'Удалить не получилось: ' . $res['error'], $res['ok'] ? 'ok' : 'error');
+        flash(($res['ok'] ? 'Запись удалена из панели.' : 'Удалить не получилось: ' . $res['error']) . $extra,
+              $res['ok'] ? 'ok' : 'error');
         unset($_SESSION['articles_preview'][article_preview_key($id)]);
         header('Location: ' . panel_url('articles.php'));
         exit;
@@ -305,12 +344,31 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 }
 // MARKER-ARTICLES-RENDER
 
-/* ── Что показываем: список черновиков или редактор статьи ── */
-$list     = articles_all()['articles'];
+/* ── Что показываем: список статей (с поиском и фильтром) или редактор ── */
+$q       = trim((string)($_GET['q'] ?? ''));
+$status  = (string)($_GET['status'] ?? '');
+if (!in_array($status, array('', 'draft', 'published'), true)) { $status = ''; }
+$allList = articles_all()['articles'];
+$counts  = array('all' => count($allList), 'draft' => 0, 'published' => 0);
+foreach ($allList as $a) {
+    if (articles_is_published($a)) { $counts['published']++; } else { $counts['draft']++; }
+}
+$list = array_values(array_filter($allList, function ($a) use ($q, $status) {
+    if ($status === 'draft' && articles_is_published($a)) { return false; }
+    if ($status === 'published' && !articles_is_published($a)) { return false; }
+    if ($q !== '') {
+        $f   = (array)($a['fields'] ?? array());
+        $hay = mb_strtolower((string)($f['title'] ?? '') . ' ' . (string)($f['slug'] ?? '') . ' '
+               . (string)($f['description'] ?? '') . ' ' . (string)($f['category'] ?? ''));
+        if (mb_strpos($hay, mb_strtolower($q)) === false) { return false; }
+    }
+    return true;
+}));
 $editId   = isset($_GET['id']) ? trim((string)$_GET['id']) : '';
 $draft    = $editId !== '' ? articles_find($editId) : array();
 $delDraft = isset($_GET['del']) ? articles_find((string)$_GET['del']) : array();
 $pubDraft = isset($_GET['pub']) ? articles_find((string)$_GET['pub']) : array();
+$unpDraft = isset($_GET['unpub']) ? articles_find((string)$_GET['unpub']) : array();
 
 $mode = 'list';
 if ($editId !== '') {
@@ -342,13 +400,40 @@ $pickUrl = function (string $target, int $idx = -1) use ($editId): string {
 panel_page_start('Статьи', 'Черновики, редактор статьи и предпросмотр', 'articles.php');
 ?>
 
-<?php if ($delDraft !== array()) { ?>
-<?php card_start('Удалить черновик?', 'На сайте ничего не удаляется: статья ещё не опубликована', 'err'); ?>
-      <p style="margin:0 0 10px">Черновик: <strong><?php echo h((string)($delDraft['fields']['title'] ?? '—')); ?></strong>
+<?php if ($delDraft !== array()) {
+        $delPub = articles_is_published($delDraft); ?>
+<?php card_start($delPub ? 'Удалить статью со страницы и из панели?' : 'Удалить черновик?',
+                 $delPub
+                    ? 'Статья сейчас опубликована: можно убрать её только с сайта или удалить целиком'
+                    : 'На сайте ничего не удаляется — статья ещё не опубликована',
+                 'err'); ?>
+      <p style="margin:0 0 10px"><?php echo $delPub ? 'Статья' : 'Черновик'; ?>:
+        <strong><?php echo h((string)($delDraft['fields']['title'] ?? '—')); ?></strong>
         · адрес <code>/blog/<?php echo h((string)($delDraft['fields']['slug'] ?? '')); ?>/</code>
         · слов <?php echo (int)articles_words((array)$delDraft['fields']); ?></p>
-      <p class="hint" style="margin:0 0 12px">Удаляется только черновик панели. Если статью уже публиковали,
-        её файл на сайте останется — его можно будет удалить в шаге 4.4.</p>
+<?php if ($delPub) { ?>
+      <p class="hint" style="margin:0 0 10px">Страница открывается по адресу
+        <code>/blog/<?php echo h((string)($delDraft['fields']['slug'] ?? '')); ?>/</code>. Выберите, что сделать:</p>
+      <ul style="margin:0 0 12px;padding-left:22px;color:var(--mut)">
+        <li><strong>Убрать только с сайта</strong> — страница исчезнет, карточка уйдёт из списка, адрес из sitemap и ленты,
+          а черновик останется в панели (можно опубликовать заново).</li>
+        <li><strong>Удалить целиком</strong> — то же самое плюс запись исчезнет из панели.
+          Копии файлов останутся в <code>backups/files/</code>.</li>
+      </ul>
+      <div class="btn-row">
+        <a class="btn primary" href="<?php echo h(panel_url('articles.php?unpub=' . rawurlencode((string)$delDraft['id']))); ?>">Убрать только с сайта</a>
+        <form method="post" action="<?php echo h(panel_url('articles.php')); ?>">
+          <?php echo csrf_field(); ?>
+          <input type="hidden" name="op" value="delete" />
+          <input type="hidden" name="full" value="1" />
+          <input type="hidden" name="id" value="<?php echo h((string)$delDraft['id']); ?>" />
+          <button class="btn primary" style="background:linear-gradient(135deg,#ff8f98,#ffb3a7);color:#2a0d12" type="submit">Удалить целиком</button>
+        </form>
+        <a class="btn ghost" href="<?php echo h(panel_url('articles.php')); ?>">Отмена</a>
+      </div>
+<?php } else { ?>
+      <p class="hint" style="margin:0 0 12px">Удаляется только черновик панели. Если статью позже опубликуют,
+        её файл появится на сайте — тогда удалять нужно уже в списке статей.</p>
       <div class="btn-row">
         <form method="post" action="<?php echo h(panel_url('articles.php')); ?>">
           <?php echo csrf_field(); ?>
@@ -357,6 +442,30 @@ panel_page_start('Статьи', 'Черновики, редактор стат�
           <button class="btn primary" style="background:linear-gradient(135deg,#ff8f98,#ffb3a7);color:#2a0d12" type="submit">Да, удалить черновик</button>
         </form>
         <a class="btn ghost" href="<?php echo h(panel_url('articles.php')); ?>">Отмена</a>
+      </div>
+<?php } ?>
+<?php card_end(); ?>
+<?php } ?>
+
+<?php if ($unpDraft !== array()) { ?>
+<?php card_start('Снять статью с публикации?', 'Страница исчезнет с сайта — панель сначала сделает её копию', 'warn'); ?>
+      <p style="margin:0 0 10px">Статья: <strong><?php echo h((string)($unpDraft['fields']['title'] ?? '—')); ?></strong>
+        · адрес <code>/blog/<?php echo h((string)($unpDraft['fields']['slug'] ?? '')); ?>/</code></p>
+      <p class="hint" style="margin:0 0 8px">Что произойдёт:</p>
+      <ul style="margin:0 0 10px;padding-left:22px;color:var(--mut)">
+        <li>файл страницы уедет в копии <code>backups/files/</code> и исчезнет с сайта (адрес вернёт «страница не найдена»);</li>
+        <li>карточка статьи уйдёт из списка на <code>/blog/</code>;</li>
+        <li>адрес уйдёт из <code>sitemap.xml</code>, лента <code>/rss.xml</code> пересоберётся без статьи;</li>
+        <li>в панели статья станет черновиком — её можно доработать и опубликовать снова.</li>
+      </ul>
+      <div class="btn-row">
+        <form method="post" action="<?php echo h(panel_url('articles.php')); ?>">
+          <?php echo csrf_field(); ?>
+          <input type="hidden" name="op" value="unpublish" />
+          <input type="hidden" name="id" value="<?php echo h((string)$unpDraft['id']); ?>" />
+          <button class="btn primary" type="submit">Да, снять с публикации</button>
+        </form>
+        <a class="btn ghost" href="<?php echo h(panel_url('articles.php?id=' . rawurlencode((string)$unpDraft['id']))); ?>">Отмена</a>
       </div>
 <?php card_end(); ?>
 <?php } ?>
@@ -387,10 +496,25 @@ panel_page_start('Статьи', 'Черновики, редактор стат�
 <?php card_end(); ?>
 <?php } ?>
 
-<?php card_start('Черновики статей', 'Статья появится на сайте только после публикации (шаг 4.3) — пока всё живёт в черновиках панели'); ?>
+<?php card_start('Статьи', 'Статья появляется на сайте после публикации — до этого она живёт черновиком в панели'); ?>
+      <form method="get" action="<?php echo h(panel_url('articles.php')); ?>"
+            style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+        <input type="search" name="q" value="<?php echo h($q); ?>" placeholder="Поиск по заголовку, адресу, описанию"
+               style="max-width:320px" />
+        <select name="status" style="max-width:230px">
+          <option value="">Все статьи (<?php echo (int)$counts['all']; ?>)</option>
+          <option value="draft"<?php echo $status === 'draft' ? ' selected' : ''; ?>>Черновики (<?php echo (int)$counts['draft']; ?>)</option>
+          <option value="published"<?php echo $status === 'published' ? ' selected' : ''; ?>>Опубликованные (<?php echo (int)$counts['published']; ?>)</option>
+        </select>
+        <button class="btn ghost" type="submit">Показать</button>
+<?php if ($q !== '' || $status !== '') { ?>
+        <a class="btn ghost" href="<?php echo h(panel_url('articles.php')); ?>">Сбросить</a>
+<?php } ?>
+      </form>
 <?php if (count($list) === 0) { ?>
-      <p class="empty">Черновиков нет. Создайте первую статью — или начните с готового примера про расчёт плитки
-        (он подскажет, как заполнять поля).</p>
+      <p class="empty"><?php
+        if ($q !== '' || $status !== '') { echo 'По этому условию ничего не найдено.'; }
+        else { echo 'Статей пока нет. Создайте первую — в черновике есть готовый пример про расчёт плитки.'; } ?></p>
 <?php } else { ?>
       <table class="table">
         <tr><th>Заголовок</th><th>Статус</th><th>Адрес на сайте</th><th>Слов</th><th>Изменён</th><th>Действия</th></tr>
@@ -407,6 +531,7 @@ panel_page_start('Статьи', 'Черновики, редактор стат�
               <a class="btn ghost" href="<?php echo h(panel_url('articles.php?id=' . rawurlencode($aid))); ?>">Редактировать</a>
 <?php if ($isPub) { ?>
               <a class="btn ghost" href="<?php echo h('/blog/' . rawurlencode((string)($f['slug'] ?? '')) . '/'); ?>" target="_blank" rel="noopener">На сайте</a>
+              <a class="btn ghost" href="<?php echo h(panel_url('articles.php?unpub=' . rawurlencode($aid))); ?>">Снять с публикации…</a>
 <?php } else { ?>
               <a class="btn ghost" href="<?php echo h(panel_url('articles.php?preview=1&id=' . rawurlencode($aid))); ?>" target="_blank" rel="noopener">Предпросмотр</a>
               <a class="btn primary" href="<?php echo h(panel_url('articles.php?pub=' . rawurlencode($aid))); ?>">Опубликовать…</a>
@@ -712,6 +837,7 @@ panel_page_start('Статьи', 'Черновики, редактор стат�
 <?php if ($draftPublished) { ?>
         <a class="btn ghost" href="<?php echo h('/blog/' . rawurlencode((string)($fields['slug'] ?? '')) . '/'); ?>"
            target="_blank" rel="noopener">Открыть на сайте</a>
+        <a class="btn ghost" href="<?php echo h(panel_url('articles.php?unpub=' . rawurlencode($editId))); ?>">Снять с публикации…</a>
 <?php } ?>
         <a class="btn ghost" href="<?php echo h(panel_url('articles.php?del=' . rawurlencode($editId))); ?>">Удалить черновик…</a>
         <a class="btn ghost" href="<?php echo h(panel_url('articles.php')); ?>">К списку статей</a>

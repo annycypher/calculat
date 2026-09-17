@@ -289,4 +289,20 @@ function articles_is_published(array $article): bool {
     return (string)($article['status'] ?? '') === 'published';
 }
 
+/** Вернуть статью в черновики (после снятия с публикации). */
+function articles_mark_draft(string $id): bool {
+    $list = articles_all()['articles'];
+    $ok   = false;
+    foreach ($list as $i => $a) {
+        if ((string)($a['id'] ?? '') === $id) {
+            $list[$i]['status']         = 'draft';
+            $list[$i]['unpublished_at'] = date('Y-m-d H:i:s');
+            $list[$i]['modified']       = date('Y-m-d H:i:s');
+            $ok = true;
+            break;
+        }
+    }
+    return $ok && articles_save_all($list);
+}
+
 
