@@ -37,11 +37,32 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && ($_POST['action'] ?? '') ==
     csrf_check();
     $res = media_save_upload(isset($_FILES['file']) && is_array($_FILES['file']) ? $_FILES['file'] : array());
     if ($res['ok']) {
-        flash('Картинка загружена: ' . $res['name'] . ' — ' . human_size($res['size']) . ', '
-            . (int)$res['w'] . '×' . (int)$res['h'] . '. Адрес для страниц: ' . $res['url']
-            . ($res['note'] !== '' ? ' ' . $res['note'] : ''));
+        /* Сразу сжимаем и готовим копии 480/768/1200 — чтобы адрес можно было сразу ставить на страницы */
+        $prep = media_process($res['name']);
+        $msg  = 'Картинка загружена: ' . $res['name'] . ' — ' . (int)$res['w'] . '×' . (int)$res['h'] . '. ';
+        if ($prep['ok']) {
+            $msg .= 'Вес: ' . human_size($prep['before']) . ' → ' . human_size($prep['after'])
+                  . ', копий для быстрой загрузки: ' . count($prep['copies']) . '.';
+        } else {
+            $msg .= 'Автоматическая обработка не удалась: ' . $prep['error'];
+        }
+        flash($msg);
     } else {
         flash('Картинка не загружена: ' . $res['error'], 'error');
+    }
+    header('Location: ' . panel_url('media.php'));
+    exit;
+}
+
+/* ── 1-Б. Обработка картинки по кнопке (сжать, собрать копии) ── */
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && ($_POST['action'] ?? '') === 'prepare') {
+    csrf_check();
+    $res = media_process(basename((string)($_POST['name'] ?? '')));
+    if ($res['ok']) {
+        flash('Готово: ' . human_size($res['before']) . ' → ' . human_size($res['after'])
+            . ', копий сделано: ' . count($res['copies']) . '. ' . $res['note']);
+    } else {
+        flash('Обработать не удалось: ' . $res['error'], 'error');
     }
     header('Location: ' . panel_url('media.php'));
     exit;
@@ -151,17 +172,43 @@ panel_page_start('Медиа-файлы', 'Картинки сайта: лежа
       <p class="empty"><?php echo $q !== '' ? 'По этому запросу ничего не нашлось.' : 'Картинок пока нет — загрузите первую выше.'; ?></p>
 <?php } else { ?>
       <div class="media-grid">
-<?php foreach ($list as $f) { $id = 'url-' . md5((string)$f['name']); ?>
+<?php foreach ($list as $f) { $id = 'url-' . md5((string)$f['name']); $sid = 'snip-' . md5((string)$f['name']);
+        $info = media_index_get((string)$f['name']);
+        $copies = array();
+        foreach (media_copy_widths() as $cw) {
+            $c = media_copy_entry($info, $cw);
+            if (isset($c['url'])) { $copies[$cw] = $c; }
+        } ?>
         <div class="media-item">
           <div class="media-thumb"><img src="<?php echo h($f['url']); ?>" alt="<?php echo h($f['name']); ?>" loading="lazy" /></div>
           <code class="media-name"><?php echo h($f['name']); ?></code>
           <div class="media-meta"><?php echo h((string)$f['w'] . '×' . (string)$f['h']); ?> ·
             <?php echo h(human_size($f['size'])); ?> · <?php echo h(ago(date('Y-m-d H:i:s', (int)$f['mtime']))); ?></div>
-          <input class="media-url" id="<?php echo h($id); ?>" type="text" readonly value="<?php echo h($f['url']); ?>" />
+<?php if (isset($info['bytes'])) {
+        $before = (int)$info['orig_bytes']; $after = (int)$info['bytes'];
+        $saved = $before - $after; ?>
+          <div class="media-meta">Вес: <?php echo h(human_size($before)); ?> → <?php echo h(human_size($after)); ?><?php
+            if ($saved > 0) { echo ' <span class="badge badge-ok">−' . (int)round($saved * 100 / max(1, $before)) . '%</span>'; } ?></div>
+<?php } ?>
+<?php if (count($copies) > 0) { $parts = array();
+        foreach ($copies as $cw => $c) { $parts[] = (int)$cw . 'px — ' . human_size((int)$c['bytes']); } ?>
+          <div class="media-meta">Копии: <?php echo h(implode(' · ', $parts)); ?></div>
+<?php } ?>
+          <textarea class="media-snippet" id="<?php echo h($sid); ?>" readonly rows="3"><?php echo h(media_snippet((string)$f['name'])); ?></textarea>
+          <div class="btn-row">
+            <button class="btn ghost copy-btn" type="button" data-for="<?php echo h($sid); ?>">Скопировать код для страницы</button>
+          </div>
           <div class="btn-row">
             <button class="btn ghost copy-btn" type="button" data-for="<?php echo h($id); ?>">Скопировать адрес</button>
+            <form method="post" action="<?php echo h(panel_url('media.php')); ?>">
+              <?php echo csrf_field(); ?>
+              <input type="hidden" name="action" value="prepare" />
+              <input type="hidden" name="name" value="<?php echo h($f['name']); ?>" />
+              <button class="btn ghost" type="submit">Подготовить копии</button>
+            </form>
             <a class="btn ghost" href="<?php echo h(panel_url('media.php?del=' . rawurlencode((string)$f['name']))); ?>">Удалить…</a>
           </div>
+          <input class="media-url" id="<?php echo h($id); ?>" type="text" readonly value="<?php echo h($f['url']); ?>" />
         </div>
 <?php } ?>
       </div>
@@ -170,13 +217,16 @@ panel_page_start('Медиа-файлы', 'Картинки сайта: лежа
 <?php } ?>
 <?php card_end(); ?>
 
-<?php card_start('Как пользоваться', 'Что делают адреса картинок и что появится дальше'); ?>
-      <p class="hint" style="margin:0 0 10px">Скопированный адрес (вида <code>/media/uploads/имя-код.jpg</code>) — это то,
-        что ставится на страницы сайта: в статьях появится кнопка «Вставить картинку» (фаза 4), а пока адрес можно
-        использовать при правке текста страниц.</p>
-      <p class="hint" style="margin:0 0 10px">Удаление файла не трогает страницы: панель только предупреждает, если картинка
-        где-то используется — поэтому читайте подсказку в окне подтверждения.</p>
-<?php soon_block('Сжатие картинок, WebP и уменьшенные копии 480/768/1200 с показом веса «до и после»', '3.2'); ?>
+<?php card_start('Как пользоваться', 'Что панель делает с картинками сама, а что можно переспросить'); ?>
+      <p class="hint" style="margin:0 0 10px">При загрузке панель сразу готовит картинку: если она шире 1920 px — уменьшает, пересохраняет со сжатием
+        и делает копии шириной 480, 768 и 1200 px в WebP (это «лёгкий» формат, страницы грузятся быстрее). В карточке видно вес «до и после»,
+        список копий и кнопку «Подготовить копии» — нажмите её, если файл попал в папку не через панель.</p>
+      <p class="hint" style="margin:0 0 10px">«Скопировать код для страницы» даёт готовый HTML: в нём уже есть адрес картинки, набор копий
+        (srcset + sizes), размеры width/height и loading="lazy" — так браузер сам выберет лёгкую копию под размер экрана,
+        а страница не «прыгает» при загрузке. Этот код пригодится в статьях (фаза 4) и в баннерах (фаза 5).</p>
+      <p class="hint" style="margin:0 0 10px">Анимированные GIF панель сохраняет как статичную картинку — для анимаций лучше не использовать GIF.</p>
+      <p class="hint" style="margin:0">Удаление файла убирает и все его копии, а если картинка где-то используется — панель предупредит об этом
+        до удаления.</p>
 <?php card_end(); ?>
 
 <script>

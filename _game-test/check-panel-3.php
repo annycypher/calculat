@@ -191,7 +191,8 @@ $r = http(BASE . '/media.php');
 check('панель сообщила о загрузке', has($r['b'], 'Картинка загружена'));
 check('в списке видно имя файла и стороны картинки',
       has($r['b'], $upName) && has($r['b'], '40×25'), 'имя: ' . $upName);
-check('в списке есть адрес для копирования', has($r['b'], '/media/uploads/' . $upName));
+check('в списке есть адрес для копирования',
+      strpos($r['b'], 'value="/media/uploads/' . $upName) !== false);
 $r = http(SITEURL . '/media/uploads/' . $upName);
 check('картинка открывается по адресу сайта (200)', $r['s'] === 200, 'код ' . $r['s']);
 check('браузер получит настоящий PNG', substr($r['b'], 0, 4) === "\x89PNG");
@@ -224,6 +225,95 @@ $r = http_upload(BASE . '/media.php', 'Тестовая Картинка.png', $
 $files = uploads('testovaya-kartinka*');
 check('кириллица в имени превратилась в латиницу', count($files) === 1, 'найдено: ' . count($files));
 if (count($files) === 1) { say('     имя: ' . basename($files[0])); }
+
+say('');
+say('3-Б. Сжатие, WebP и копии 480/768/1200');
+/* Собираем «широкую» фотографию 2200 px (JPEG, как из фотоаппарата) — панель должна уменьшить её до 1920 и собрать копии. */
+$wide = '';
+if (function_exists('imagecreatetruecolor')) {
+    $im = imagecreatetruecolor(2200, 1200);
+    for ($y = 0; $y < 1200; $y += 3) {
+        imagefilledrectangle($im, 0, $y, 2200, $y + 2, imagecolorallocate($im, ($y * 7) % 255, ($y * 3) % 255, 200));
+    }
+    ob_start(); imagejpeg($im, null, 96); $wide = (string)ob_get_clean();
+    imagedestroy($im);
+}
+check('широкая картинка 2200×1200 собрана (JPEG, 240 КБ+)', strlen($wide) > 100000, 'байт: ' . strlen($wide));
+
+$r = http_upload(BASE . '/media.php', 'tests-media-wide.jpg', $wide, array('csrf' => $token, 'action' => 'upload'));
+check('широкая картинка загружена', $r['s'] === 302, 'код ' . $r['s']);
+$wideList = uploads('tests-media-wide*');
+$wideName = '';
+$copyNames = array();
+foreach ($wideList as $p) {
+    if (preg_match('/-(\d+)\.webp$/', basename($p), $mm)) { $copyNames[(int)$mm[1]] = basename($p); }
+    else { $wideName = basename($p); }
+}
+check('оригинал сохранён', $wideName !== '', 'найдено файлов: ' . count($wideList));
+check('копии 480/768/1200 в WebP созданы', count($copyNames) === 3, 'копий: ' . count($copyNames));
+
+$dim = $wideName !== '' ? @getimagesize(UPLOADS . '/' . $wideName) : false;
+check('оригинал уменьшен до 1920 px по ширине', $dim !== false && (int)$dim[0] === 1920,
+      $dim ? ((int)$dim[0] . '×' . (int)$dim[1]) : 'нет файла');
+
+foreach (array(480, 768, 1200) as $w) {
+    $file = isset($copyNames[$w]) ? UPLOADS . '/' . $copyNames[$w] : '';
+    $okFile = $file !== '' && is_file($file);
+    $sign = $okFile ? (string)@file_get_contents($file) : '';
+    $dim2 = $okFile ? @getimagesize($file) : false;
+    check('копия ' . $w . ' px — настоящий WebP нужной ширины',
+          $okFile && substr($sign, 0, 4) === 'RIFF' && substr($sign, 8, 4) === 'WEBP'
+          && $dim2 !== false && (int)$dim2[0] === $w,
+          $okFile ? ($sign === '' ? 'пусто' : substr($sign, 8, 4) . ' ' . ($dim2 ? $dim2[0] : '?')) : 'нет файла');
+}
+
+$r = http(BASE . '/media.php');
+check('на странице виден вес «до и после»', has($r['b'], 'Вес:'), 'нет строки про вес');
+check('на странице перечислены копии', has($r['b'], 'Копии: 480px'), 'нет строки про копии');
+
+/* Готовый код берём прямо со страницы — это то, что владелец копирует */
+preg_match('#<textarea class="media-snippet"[^>]*>(.*?)</textarea>#s', $r['b'], $smm);
+$snippet = html_entity_decode((string)(isset($smm[1]) ? $smm[1] : ''), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+check('код вставки: оригинал в src, копии в srcset, alt и lazy',
+      strpos($snippet, 'src="/media/uploads/' . $wideName . '"') !== false
+      && strpos($snippet, 'srcset="/media/uploads/' . (isset($copyNames[480]) ? $copyNames[480] : '') . ' 480w') !== false
+      && strpos($snippet, ' 1200w') !== false
+      && strpos($snippet, 'sizes="') !== false
+      && strpos($snippet, 'alt="') !== false && strpos($snippet, 'loading="lazy"') !== false, $snippet);
+check('в коде есть размеры кадра (страница не «прыгает» при загрузке)',
+      strpos($snippet, 'width="1920"') !== false && strpos($snippet, 'height="1047"') !== false, $snippet);
+
+$index = json_decode((string)@file_get_contents(SITE . '/content/media.json'), true);
+$idxEntry = isset($index[$wideName]) ? $index[$wideName] : array();
+check('в индексе сохранён вес «до и после» и копии',
+      isset($idxEntry['orig_bytes'], $idxEntry['bytes']) && (int)$idxEntry['orig_bytes'] > (int)$idxEntry['bytes']
+      && isset($idxEntry['copies']) && count((array)$idxEntry['copies']) === 3,
+      'запись: ' . (count($idxEntry) > 0 ? 'есть' : 'нет'));
+check('в журнале есть запись об обработке',
+      strpos((string)@file_get_contents(SITE . '/content/logs/actions.json'), 'Картинка подготовлена') !== false);
+
+/* Удаление убирает и настоящие копии */
+$r = http(BASE . '/media.php?del=' . rawurlencode($wideName));
+$dtoken = csrf($r['b']);
+$r = http(BASE . '/media.php', array('csrf' => $dtoken, 'action' => 'delete', 'name' => $wideName));
+check('широкая картинка удалена', $r['s'] === 302 && !is_file(UPLOADS . '/' . $wideName));
+$left = uploads('tests-media-wide*');
+check('вместе с ней удалены все копии', count($left) === 0, 'осталось: ' . count($left));
+$index = json_decode((string)@file_get_contents(SITE . '/content/media.json'), true);
+check('запись в индексе тоже убрана', !isset($index[$wideName]));
+
+/* Маленькая картинка: копии не нужны, и файл не должен стать тяжелее */
+$before = count(uploads());
+$r = http_upload(BASE . '/media.php', 'tests-media-small.png', $png, array('csrf' => $token, 'action' => 'upload'));
+check('маленькая картинка загружена и обработана', $r['s'] === 302, 'код ' . $r['s']);
+check('для картинки 40×25 копии не создаются', count(uploads()) === $before + 1, 'файлов: ' . count(uploads()));
+$smallList = uploads('tests-media-small-*');
+$smallName = count($smallList) > 0 ? basename($smallList[0]) : '';
+$index = json_decode((string)@file_get_contents(SITE . '/content/media.json'), true);
+$smallIdx = isset($index[$smallName]) ? $index[$smallName] : array();
+check('маленький файл не стал тяжелее после обработки',
+      isset($smallIdx['orig_bytes'], $smallIdx['bytes']) && (int)$smallIdx['bytes'] <= (int)$smallIdx['orig_bytes'],
+      $smallName . ': ' . (isset($smallIdx['bytes']) ? ((int)$smallIdx['orig_bytes'] . ' → ' . (int)$smallIdx['bytes']) : 'нет записи'));
 
 say('');
 say('6. Где используется картинка и удаление');

@@ -33,6 +33,7 @@ api/data/
 # Данные админ-панели: рабочие файлы сервера, в git не нужны
 # (папки и .htaccess-заглушки держим в репозитории)
 content/users.json
+content/media.json
 content/security/*.json
 content/security/*.txt
 content/logs/*.json
