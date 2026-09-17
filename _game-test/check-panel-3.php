@@ -289,6 +289,12 @@ check('в индексе сохранён вес «до и после» и ко�
       isset($idxEntry['orig_bytes'], $idxEntry['bytes']) && (int)$idxEntry['orig_bytes'] > (int)$idxEntry['bytes']
       && isset($idxEntry['copies']) && count((array)$idxEntry['copies']) === 3,
       'запись: ' . (count($idxEntry) > 0 ? 'есть' : 'нет'));
+if (isset($idxEntry['orig_bytes'], $idxEntry['bytes'])) {
+    $copyText = array();
+    foreach ((array)$idxEntry['copies'] as $cw => $c) { $copyText[] = (int)$cw . ' px — ' . human_size((int)$c['bytes']); }
+    say('     вес картинки: ' . human_size((int)$idxEntry['orig_bytes']) . ' → ' . human_size((int)$idxEntry['bytes'])
+        . ', копии: ' . implode(', ', $copyText));
+}
 check('в журнале есть запись об обработке',
       strpos((string)@file_get_contents(SITE . '/content/logs/actions.json'), 'Картинка подготовлена') !== false);
 
@@ -372,8 +378,25 @@ foreach (uploads() as $p) { @unlink($p); }
 @unlink($testPage);
 @unlink(SITE . '/content/users.json');
 @unlink(SITE . '/content/logs/actions.json');
+/* Из индекса картинок убираем только записи теста — ваши картинки не трогаем */
+$indexFile = SITE . '/content/media.json';
+$indexAll  = json_decode((string)@file_get_contents($indexFile), true);
+if (is_array($indexAll)) {
+    foreach (array_keys($indexAll) as $k) {
+        foreach (TEST_PATTERNS as $pat) {
+            if (fnmatch($pat, (string)$k)) { unset($indexAll[$k]); break; }
+        }
+    }
+    @file_put_contents($indexFile, (string)json_encode($indexAll, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+}
 if ($hadUsers) { @rename($usersBak, SITE . '/content/users.json'); }
 check('тестовые картинки убраны', count(uploads()) === 0);
+$indexLeft = json_decode((string)@file_get_contents($indexFile), true);
+$indexTest = 0;
+foreach ((array)$indexLeft as $k => $v) {
+    foreach (TEST_PATTERNS as $pat) { if (fnmatch($pat, (string)$k)) { $indexTest++; break; } }
+}
+check('в индексе картинок не осталось записей теста', $indexTest === 0, 'записей: ' . $indexTest);
 check('папка media/uploads осталась на месте', is_dir(UPLOADS));
 check('тестовая страница убрана', !is_file($testPage));
 check($hadUsers ? 'ваш файл пользователей возвращён' : 'панель оставлена ненастроенной',
