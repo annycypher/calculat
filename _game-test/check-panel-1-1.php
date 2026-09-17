@@ -1,11 +1,12 @@
 <?php
-/* check-panel-1-1.php — функциональный тест шага 1.1 (каркас админ-панели).
+/* check-panel-1-1.php — функциональный тест ФАЗЫ 1 (шаги 1.1–1.3 админ-панели).
 
    Запускается только через _game-test\check-panel-1-1.ps1: тот поднимает локальный
    сервер `php -S 127.0.0.1:8091` на корень сайта и вызывает этот файл.
 
-   Чек-лист шага: первый запуск по install-ключу, вход и редиректы, неверный пароль,
-   лимит 5 попыток → блокировка 10 минут, выход, CSRF, bcrypt-хеш, .htaccess-заглушки.
+   Чек-лист: первый запуск по install-ключу, вход и редиректы, неверный пароль,
+   лимит 5 попыток → блокировка 10 минут, выход, CSRF, bcrypt-хеши, .htaccess-заглушки,
+   дашборд (счётчики, меню, журнал), роли администратор/редактор и защита последнего админа.
 
    В конце сам удаляет тестовые данные (users.json, attempts.json, журнал), чтобы панель
    осталась «чистой» для настоящего первого запуска. Аргумент №1 — путь к файлу отчёта.
@@ -85,11 +86,40 @@ function logout_token(string $html): string {
 function plain(string $html): string { return (string)preg_replace('/\s+/u', ' ', strip_tags($html)); }
 function has(string $html, string $needle): bool { return strpos(plain($html), $needle) !== false; }
 
+/** Пользователи из файла content/users.json. */
+function users_file_rows(): array {
+    $data = json_decode((string)@file_get_contents(SITE . '/content/users.json'), true);
+    return (array)(isset($data['users']) ? $data['users'] : array());
+}
+
+function user_row(string $login): array {
+    foreach (users_file_rows() as $u) {
+        if (($u['login'] ?? '') === $login) { return $u; }
+    }
+    return array();
+}
+
+/** Войти как логин/пароль. true — если панель пустила (302 на dashboard.php). */
+function login_as(string $login, string $password): bool {
+    reset_jar();
+    $r = http(BASE . '/login.php');
+    $token = csrf($r['b']);
+    $r = http(BASE . '/login.php', array('csrf' => $token, 'action' => 'login', 'login' => $login, 'password' => $password));
+    return $r['s'] === 302 && strpos((string)$r['l'], 'dashboard.php') !== false;
+}
+
+/** Выйти из панели текущей сессией (токен берём со ссылки «Выйти»). */
+function logout_now(): void {
+    $r = http(BASE . '/dashboard.php');
+    $t = logout_token($r['b']);
+    if ($t !== '') { http(BASE . '/login.php?action=logout&t=' . rawurlencode($t)); }
+}
+
 /* install-ключ читаем из config.php — тест не расходится с панелью */
 $config = (string)file_get_contents(PANEL . '/inc/config.php');
 $KEY = preg_match("/INSTALL_KEY\s*=\s*'([^']+)'/", $config, $m) ? $m[1] : '';
 
-say('Функциональный тест шага 1.1 — каркас панели CalcDoc Admin');
+say('Функциональный тест фазы 1 (шаги 1.1–1.3) — каркас, дашборд, роли панели CalcDoc Admin');
 say('Дата: ' . date('d.m.Y H:i') . '   Адрес: ' . BASE);
 say('');
 say('0. Подготовка: чистое состояние (ни пользователей, ни попыток)');
@@ -198,7 +228,78 @@ $att = trim((string)@file_get_contents(SITE . '/content/security/attempts.json')
 check('успешный вход обнулил счётчик неудач', $att === '[]' || $att === '{}', $att);
 
 say('');
-say('4. Блокировка после 5 неудачных попыток');
+say('4. Роли: администратор и редактор');
+$r = http(BASE . '/users.php');
+check('раздел «Пользователи» открыт администратору', $r['s'] === 200 && has($r['b'], 'Что кому можно'), 'код ' . $r['s']);
+$adminToken = csrf($r['b']);
+check('в формах раздела есть CSRF-токен', $adminToken !== '');
+
+$r = http(BASE . '/users.php', array('csrf' => $adminToken, 'action' => 'create', 'login' => 'redaktor',
+      'name' => 'Петя Редактор', 'role' => 'editor', 'password' => 'Editor123', 'password2' => 'Editor123'));
+check('редактор создан (редирект 302)', $r['s'] === 302, 'код ' . $r['s']);
+$u = (string)@file_get_contents(SITE . '/content/users.json');
+check('двое пользователей, оба пароля — bcrypt',
+      count(users_file_rows()) === 2 && substr_count($u, '$2y$') === 2);
+check('открытых паролей в файле нет',
+      strpos($u, 'Editor123') === false && strpos($u, 'Secret123') === false);
+check('редактор записан с ролью editor', (user_row('redaktor')['role'] ?? '') === 'editor');
+$r = http(BASE . '/users.php');
+check('редактор виден в списке', has($r['b'], 'redaktor') && has($r['b'], 'Петя Редактор'));
+
+$r = http(BASE . '/users.php', array('csrf' => $adminToken, 'action' => 'role', 'login' => 'owner', 'role' => 'editor'));
+$r = http(BASE . '/users.php');
+check('последнего администратора нельзя понизить',
+      has($r['b'], 'единственный активный администратор') && (user_row('owner')['role'] ?? '') === 'admin');
+
+$r = http(BASE . '/users.php', array('csrf' => $adminToken, 'action' => 'delete', 'login' => 'owner'));
+$r = http(BASE . '/users.php');
+check('себя удалить нельзя', has($r['b'], 'Себя удалить нельзя') && user_row('owner') !== array());
+
+$r = http(BASE . '/users.php', array('csrf' => $adminToken, 'action' => 'toggle', 'login' => 'owner'));
+$r = http(BASE . '/users.php');
+check('свой вход отключить нельзя', has($r['b'], 'Свой вход отключить нельзя') && !empty(user_row('owner')['active']));
+
+logout_now();
+check('вход редактором работает', login_as('redaktor', 'Editor123'));
+$r = http(BASE . '/dashboard.php');
+check('редактор видит дашборд и свою роль', $r['s'] === 200 && has($r['b'], 'редактор'));
+$r = http(BASE . '/users.php');
+check('редактору раздел «Пользователи» закрыт (403)',
+      $r['s'] === 403 && has($r['b'], 'не даёт доступа'), 'код ' . $r['s']);
+
+logout_now();
+check('вход администратором снова работает', login_as('owner', 'Secret123'));
+$r = http(BASE . '/users.php');
+$adminToken = csrf($r['b']);
+$r = http(BASE . '/users.php', array('csrf' => $adminToken, 'action' => 'password', 'login' => 'redaktor',
+      'password' => 'Editor456', 'password2' => 'Editor456'));
+check('пароль редактора сброшен (редирект 302)', $r['s'] === 302, 'код ' . $r['s']);
+logout_now();
+check('со старым паролем редактор не входит', login_as('redaktor', 'Editor123') === false);
+check('с новым паролем редактор входит', login_as('redaktor', 'Editor456'));
+logout_now();
+check('администратор входит после сброса чужого пароля', login_as('owner', 'Secret123'));
+
+$r = http(BASE . '/users.php?uid=redaktor&del=1');
+check('перед удалением показано подтверждение', $r['s'] === 200 && has($r['b'], 'Да, удалить'));
+$adminToken = csrf($r['b']);
+$r = http(BASE . '/users.php', array('csrf' => $adminToken, 'action' => 'delete', 'login' => 'redaktor'));
+check('удаление редактора принято (редирект 302)', $r['s'] === 302, 'код ' . $r['s']);
+$r = http(BASE . '/users.php');
+check('редактор удалён, остался один пользователь',
+      user_row('redaktor') === array() && count(users_file_rows()) === 1);
+$log = (string)@file_get_contents(SITE . '/content/logs/actions.json');
+check('в журнале записаны создание, сброс пароля и удаление пользователя',
+      strpos($log, 'Создан пользователь') !== false
+      && strpos($log, 'Сброшен пароль пользователя') !== false
+      && strpos($log, 'Удалён пользователь') !== false);
+check('в журнале записаны входы и неудачный вход',
+      strpos($log, 'Вход в панель') !== false && strpos($log, 'Неудачный вход') !== false);
+check('в журнале нет секретов (пароли не пишем)', strpos($log, 'Editor456') === false && strpos($log, 'Secret123') === false);
+
+
+say('');
+say('5. Блокировка после 5 неудачных попыток');
 reset_jar();
 $r = http(BASE . '/login.php');
 $token = csrf($r['b']);
@@ -224,18 +325,18 @@ check('в attempts.json блокировка записана на ~10 мину�
       'до ' . ($blockedUntil > 0 ? date('H:i:s', $blockedUntil) : '—'));
 
 say('');
-say('5. CSRF-защита форм');
+say('6. CSRF-защита форм');
 $r = http(BASE . '/login.php', array('action' => 'login', 'login' => 'owner', 'password' => 'Secret123'));
 check('POST без CSRF-токена отклонён (403)', $r['s'] === 403, 'код ' . $r['s']);
 
 say('');
-say('6. Служебные папки закрыты .htaccess');
+say('7. Служебные папки закрыты .htaccess');
 foreach (array('admin-panel-x7k2/inc', 'content', 'content/security', 'content/logs') as $dir) {
     check('.htaccess есть в ' . $dir . '/', is_file(SITE . '/' . $dir . '/.htaccess'));
 }
 
 say('');
-say('7. Уборка тестовых данных (панель оставляем ненастроенной)');
+say('8. Уборка тестовых данных (панель оставляем ненастроенной)');
 @unlink(SITE . '/content/users.json');
 @unlink(SITE . '/content/security/attempts.json');
 @unlink(SITE . '/content/logs/actions.json');
