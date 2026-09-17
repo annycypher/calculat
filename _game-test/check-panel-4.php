@@ -266,8 +266,153 @@ $r = http(BASE . '/article-template.php?preview=1');
 check('и предпросмотр редактору отдаётся', $r['s'] === 200 && strpos($r['b'], '<h1>') !== false, 'код ' . $r['s']);
 logout_now();
 
+/* Данные в том виде, в каком их отправляет форма редактора */
+function article_form_post(array $over = array()): array {
+    $base = array(
+        'csrf' => '', 'op' => 'save', 'id' => '',
+        'title'          => 'Как проверить расчёт отпускных: три шага',
+        'slug'           => '',
+        'category'       => 'Отпускные',
+        'breadcrumb'     => 'Проверка расчёта',
+        'description'    => 'Три шага проверки расчёта отпускных: средний дневной заработок, исключаемые периоды и праздники. Разбор типичных ошибок на примере с цифрами.',
+        'keywords'       => 'расчёт отпускных, проверка расчёта, средний дневной заработок',
+        'excerpt'        => 'Как за пять минут проверить расчёт отпускных и найти ошибку.',
+        'author'         => 'CalcDoc',
+        'date_published' => '2026-09-17',
+        'date_modified'  => '2026-09-17',
+        'image'          => '',
+        'intro'          => 'Отпускные легко проверить самому: достаточно знать две формулы и посмотреть, какие периоды исключили из расчёта.',
+        'cta'            => 'Проверьте свою сумму в калькуляторе отпускных.',
+        'blocks'         => array(
+            array('type' => 'h2', 'text' => 'Шаг 1. Средний дневной заработок'),
+            array('type' => 'p', 'text' => 'Все выплаты за 12 месяцев делятся на 12 и на 29,3.'),
+            array('type' => 'ul', 'items_text' => "зарплата\nпремии\nнадбавки"),
+            array('type' => 'formula', 'text' => 'Средний дневной заработок = выплаты ÷ 12 ÷ 29,3'),
+        ),
+        'faq'     => array(array('q' => 'Что исключают из расчёта?', 'a' => 'Больничные, прошлые отпуска и простой — вместе с днями.')),
+        'related' => array(
+            array('title' => 'Калькулятор отпускных', 'url' => '/calculators/finance/vacation-pay/'),
+            array('title' => 'Больничный: расчёт', 'url' => '/calculators/finance/sick-leave/'),
+        ),
+    );
+    return array_merge($base, $over);
+}
+
 say('');
-say('11. Уборка за тестом');
+say('11. Редактор статей (шаг 4.2a)');
+$draftsFile = SITE . '/content/articles.json';
+@unlink($draftsFile);
+check('администратор вошёл для проверки редактора', login_as('owner', 'Secret123'));
+
+$r = http(BASE . '/articles.php');
+check('список статей открывается', $r['s'] === 200 && has($r['b'], 'Черновиков нет'), 'код ' . $r['s']);
+check('в списке есть кнопки создания и шаблона',
+      has($r['b'], 'Создать статью') && has($r['b'], 'Шаблон статьи отдельно'));
+
+$r = http(BASE . '/articles.php?new=1');
+check('форма новой статьи открывается', $r['s'] === 200 && has($r['b'], 'Основное'), 'код ' . $r['s']);
+check('в форме есть блоки, вопросы и ссылки',
+      has($r['b'], 'Текст статьи') && has($r['b'], 'Частые вопросы') && has($r['b'], 'Смотрите также'));
+$csrf = csrf($r['b']);
+check('в форме есть CSRF-токен', $csrf !== '');
+
+$r = http(BASE . '/articles.php', article_form_post(array('csrf' => $csrf, 'title' => '', 'slug' => 'bez-nazvaniya')));
+$r = http(BASE . '/articles.php');
+check('статья без заголовка не сохраняется', has($r['b'], 'У статьи нет заголовка') && !is_file($draftsFile));
+
+$r = http(BASE . '/articles.php', article_form_post(array('csrf' => $csrf)));
+check('черновик сохраняется (редирект)', $r['s'] === 302, 'код ' . $r['s']);
+$r = http(BASE . '/articles.php');
+check('панель отчиталась о сохранении', has($r['b'], 'Черновик сохранён'));
+
+$drafts  = json_decode((string)@file_get_contents($draftsFile), true);
+$saved   = isset($drafts['articles'][0]) ? $drafts['articles'][0] : array();
+$savedId = (string)($saved['id'] ?? '');
+check('в черновиках ровно одна статья', count((array)($drafts['articles'] ?? array())) === 1,
+      'статей: ' . count((array)($drafts['articles'] ?? array())));
+check('адрес собран из заголовка',
+      (string)($saved['fields']['slug'] ?? '') === 'kak-proverit-raschet-otpusknyh-tri-shaga',
+      (string)($saved['fields']['slug'] ?? 'нет'));
+check('блоки разобраны по типам и списку',
+      count((array)($saved['fields']['blocks'] ?? array())) === 4
+      && (string)($saved['fields']['blocks'][2]['items'][2] ?? '') === 'надбавки');
+check('вопрос и две ссылки сохранены',
+      count((array)($saved['fields']['faq'] ?? array())) === 1
+      && count((array)($saved['fields']['related'] ?? array())) === 2);
+check('в списке видно статью и её адрес',
+      has($r['b'], 'Как проверить расчёт отпускных: три шага') && has($r['b'], 'kak-proverit-raschet-otpusknyh-tri-shaga'));
+
+$r = http(BASE . '/articles.php?id=' . rawurlencode($savedId));
+check('редактор открывает черновик с заполненными полями',
+      $r['s'] === 200 && strpos($r['b'], 'value="kak-proverit-raschet-otpusknyh-tri-shaga"') !== false, 'код ' . $r['s']);
+check('в редакторе видны блоки, вопросы и ссылки',
+      has($r['b'], 'Подзаголовок H2') && has($r['b'], 'Вопрос 1') && has($r['b'], 'Ссылка 2'));
+check('в правой колонке есть предпросмотр и «Умное SEO»',
+      has($r['b'], 'Умное SEO') && has($r['b'], 'Предпросмотр') && strpos($r['b'], '<iframe') !== false);
+$csrf = csrf($r['b']);
+
+/* Блоки: добавить, поднять, удалить */
+$r = http(BASE . '/articles.php', article_form_post(array('csrf' => $csrf, 'id' => $savedId, 'op' => 'add_block', 'block_type' => 'h3')));
+$drafts  = json_decode((string)@file_get_contents($draftsFile), true);
+$nBlocks = count((array)($drafts['articles'][0]['fields']['blocks'] ?? array()));
+check('кнопка «Добавить блок» добавила блок', $nBlocks === 5, 'блоков: ' . $nBlocks);
+
+$post5 = article_form_post(array('csrf' => $csrf, 'id' => $savedId));
+$post5['blocks'][] = array('type' => 'p', 'text' => 'Пятый блок для проверки перемещения.');
+$r = http(BASE . '/articles.php', array_merge($post5, array('op' => 'move_up_4')));
+$drafts = json_decode((string)@file_get_contents($draftsFile), true);
+$moved  = (string)($drafts['articles'][0]['fields']['blocks'][3]['text'] ?? '');
+check('кнопка «выше» меняет блоки местами', $moved === 'Пятый блок для проверки перемещения.', $moved);
+
+$r = http(BASE . '/articles.php', array_merge($post5, array('op' => 'del_block_4')));
+$drafts = json_decode((string)@file_get_contents($draftsFile), true);
+check('кнопка «удалить» убирает блок',
+      count((array)($drafts['articles'][0]['fields']['blocks'] ?? array())) === 4,
+      'блоков: ' . count((array)($drafts['articles'][0]['fields']['blocks'] ?? array())));
+
+/* Вопросы */
+$withFaq = $post5;
+$withFaq['faq'][] = array('q' => 'Нужен ли запас при расчёте?', 'a' => 'Запас нужен на подрезку и на бой.');
+$r = http(BASE . '/articles.php', array_merge($withFaq, array('op' => 'add_faq')));
+$drafts = json_decode((string)@file_get_contents($draftsFile), true);
+check('кнопка «Добавить вопрос» добавляет вопрос',
+      count((array)($drafts['articles'][0]['fields']['faq'] ?? array())) === 3,
+      'вопросов: ' . count((array)($drafts['articles'][0]['fields']['faq'] ?? array())));
+
+/* Живой предпросмотр: правка заголовка без сохранения */
+$changed = article_form_post(array('csrf' => $csrf, 'id' => $savedId, 'op' => 'preview',
+      'title' => 'Проверка расчёта отпускных: правка без сохранения'));
+$r = http(BASE . '/articles.php', $changed);
+check('предпросмотр без сохранения принят (редирект)', $r['s'] === 302, 'код ' . $r['s']);
+$r = http(BASE . '/articles.php?preview=1&id=' . rawurlencode($savedId));
+check('в предпросмотре видна несохранённая правка',
+      strpos($r['b'], '<h1>Проверка расчёта отпускных: правка без сохранения</h1>') !== false, 'код ' . $r['s']);
+$drafts = json_decode((string)@file_get_contents($draftsFile), true);
+check('в черновике при этом остался прежний заголовок',
+      (string)($drafts['articles'][0]['fields']['title'] ?? '') === 'Как проверить расчёт отпускных: три шага',
+      (string)($drafts['articles'][0]['fields']['title'] ?? 'нет'));
+
+/* Удаление черновика */
+$r = http(BASE . '/articles.php?del=' . rawurlencode($savedId));
+check('перед удалением спрашивают подтверждение', has($r['b'], 'Удалить черновик?'));
+$r = http(BASE . '/articles.php', array('csrf' => $csrf, 'op' => 'delete', 'id' => $savedId));
+check('удаление принято (редирект)', $r['s'] === 302, 'код ' . $r['s']);
+$drafts = json_decode((string)@file_get_contents($draftsFile), true);
+check('черновиков больше нет', count((array)($drafts['articles'] ?? array())) === 0);
+
+say('');
+say('12. Редактор ничего не публикует на сайт (публикация — шаг 4.3)');
+check('файла статьи на сайте нет',
+      !is_file(SITE . '/blog/kak-proverit-raschet-otpusknyh-tri-shaga/index.html'));
+check('в блоге на сайте по-прежнему три статьи',
+      count((array)glob(SITE . '/blog/*/index.html')) === 3,
+      'статей: ' . count((array)glob(SITE . '/blog/*/index.html')));
+check('в sitemap.xml новой статьи нет',
+      strpos((string)@file_get_contents(SITE . '/sitemap.xml'), 'kak-proverit') === false);
+
+say('');
+say('13. Уборка за тестом');
+@unlink($draftsFile);
 @unlink($demoFile);
 @unlink(SITE . '/content/users.json');
 @unlink(SITE . '/content/logs/actions.json');

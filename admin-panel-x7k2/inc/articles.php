@@ -1,0 +1,269 @@
+<?php
+/* inc/articles.php — черновики статей панели (шаг 4.2 протокола v4).
+
+   Черновики живут в content/articles.json (файл закрыт .htaccess, в git не кладём):
+     { "version": 1, "articles": [ { id, status, created, modified, fields: {…} } ] }
+   Поля те же, что понимает шаблон статьи (inc/article-template.php):
+   title, slug, breadcrumb, category, description, keywords, excerpt, author,
+   date_published, date_modified, image, intro, blocks[], faq[], related[], cta.
+
+   Публикация (запись /blog/{slug}/index.html, sitemap, лента) — шаг 4.3.
+*/
+
+declare(strict_types=1);
+
+/* Прямой заход браузером в этот файл — закрываем (см. пояснение в config.php). */
+if (isset($_SERVER['SCRIPT_FILENAME']) && realpath((string)$_SERVER['SCRIPT_FILENAME']) === realpath(__FILE__)) {
+    http_response_code(404);
+    exit;
+}
+
+/** Файл черновиков. */
+function articles_file(): string {
+    return CONTENT_DIR . '/articles.json';
+}
+
+/** Все черновики, свежие сверху. */
+function articles_all(): array {
+    $data = json_read(articles_file(), array('version' => 1, 'articles' => array()));
+    $list = (isset($data['articles']) && is_array($data['articles'])) ? $data['articles'] : array();
+    usort($list, function ($a, $b) {
+        return strcmp((string)($b['modified'] ?? ''), (string)($a['modified'] ?? ''));
+    });
+    return array('version' => 1, 'articles' => array_values($list));
+}
+
+function articles_save_all(array $list): bool {
+    return json_write(articles_file(), array('version' => 1, 'articles' => array_values($list)));
+}
+
+/** Найти черновик по id (пустой массив — если нет). */
+function articles_find(string $id): array {
+    if ($id === '') { return array(); }
+    foreach (articles_all()['articles'] as $a) {
+        if ((string)($a['id'] ?? '') === $id) { return $a; }
+    }
+    return array();
+}
+
+/** Пустые поля для новой статьи. */
+function articles_blank(): array {
+    return array(
+        'title' => '', 'slug' => '', 'breadcrumb' => '', 'category' => '', 'description' => '',
+        'keywords' => '', 'excerpt' => '', 'author' => 'CalcDoc',
+        'date_published' => date('Y-m-d'), 'date_modified' => date('Y-m-d'),
+        'image' => '', 'intro' => '',
+        'blocks' => array(array('type' => 'p', 'text' => '')),
+        'faq' => array(),
+        'related' => array(),
+        'cta' => '',
+    );
+}
+
+/** Типы блоков, которые понимает шаблон. */
+function articles_block_types(): array {
+    return array(
+        'p'       => 'Абзац',
+        'h2'      => 'Подзаголовок H2',
+        'h3'      => 'Подзаголовок H3',
+        'ul'      => 'Список',
+        'steps'   => 'Шаги с номерами',
+        'formula' => 'Формула (выделенная строка)',
+        'two'     => 'Две колонки (входит / не входит)',
+        'table'   => 'Таблица',
+        'image'   => 'Картинка из медиа-файлов',
+        'html'    => 'Свой HTML (для аккуратных правок)',
+    );
+}
+/** Привести поля из формы к тому виду, который понимает шаблон.
+    $keepEmpty = true оставляет только что добавленные пустые блоки и вопросы — иначе
+    они исчезали бы прямо в редакторе. При публикации (шаг 4.3) пустое выбросим.
+    Возвращает ['fields'=>[…], 'error'=>текст] — пустой error значит «всё хорошо». */
+function articles_clean(array $in, bool $keepEmpty = true): array {
+    $f = articles_blank();
+
+    foreach (array('title', 'category', 'breadcrumb', 'keywords', 'excerpt', 'author', 'image', 'intro', 'cta') as $k) {
+        $f[$k] = trim((string)($in[$k] ?? ''));
+    }
+    $f['description'] = trim((string)($in['description'] ?? ''));
+
+    $pub = (string)($in['date_published'] ?? '');
+    $mod = (string)($in['date_modified'] ?? '');
+    $f['date_published'] = preg_match('/^\d{4}-\d{2}-\d{2}$/', $pub) ? $pub : date('Y-m-d');
+    $f['date_modified']  = preg_match('/^\d{4}-\d{2}-\d{2}$/', $mod) ? $mod : $f['date_published'];
+
+    /* Адрес: латиница, цифры, дефис. Пусто — соберём из заголовка. */
+    $slug = trim((string)($in['slug'] ?? ''));
+    $f['slug'] = slugify($slug !== '' ? $slug : $f['title'], 60, '');
+
+    if ($f['author'] === '') { $f['author'] = 'CalcDoc'; }
+
+    /* Блоки: понятные типы, пустые выбрасываем */
+    $types  = articles_block_types();
+    $blocks = array();
+    foreach ((array)($in['blocks'] ?? array()) as $b) {
+        if (!is_array($b)) { continue; }
+        $type = (string)($b['type'] ?? 'p');
+        if (!isset($types[$type])) { $type = 'p'; }
+        $block = array('type' => $type);
+
+        if ($type === 'ul' || $type === 'steps') {
+            $lines = array();
+            foreach ((array)($b['items'] ?? array()) as $line) {
+                $line = trim((string)$line);
+                if ($line !== '') { $lines[] = $line; }
+            }
+            if (count($lines) === 0 && !$keepEmpty) { continue; }
+            $block['items'] = $lines;
+
+        } elseif ($type === 'two') {
+            $left  = array('title' => trim((string)($b['left_title'] ?? '')), 'items' => array());
+            $right = array('title' => trim((string)($b['right_title'] ?? '')), 'items' => array());
+            foreach ((array)($b['left_items'] ?? array()) as $line) {
+                $line = trim((string)$line);
+                if ($line !== '') { $left['items'][] = $line; }
+            }
+            foreach ((array)($b['right_items'] ?? array()) as $line) {
+                $line = trim((string)$line);
+                if ($line !== '') { $right['items'][] = $line; }
+            }
+            if (count($left['items']) === 0 && count($right['items']) === 0 && !$keepEmpty) { continue; }
+            $block['left']  = $left;
+            $block['right'] = $right;
+
+        } elseif ($type === 'table') {
+            $rows = array();
+            foreach ((array)($b['rows'] ?? array()) as $line) {
+                $line = trim((string)$line);
+                if ($line === '') { continue; }
+                $rows[] = array_map('trim', explode('|', $line));
+            }
+            if (count($rows) === 0 && !$keepEmpty) { continue; }
+            $block['head'] = count($rows) > 0 ? array_shift($rows) : array();
+            $block['rows'] = $rows;
+
+        } elseif ($type === 'image') {
+            $name = basename(trim((string)($b['name'] ?? '')));
+            if ($name === '' && !$keepEmpty) { continue; }
+            $block['name'] = $name;
+            $block['alt']  = trim((string)($b['alt'] ?? ''));
+
+        } elseif ($type === 'html') {
+            $html = trim((string)($b['text'] ?? ''));
+            if ($html === '' && !$keepEmpty) { continue; }
+            $block['text'] = $html;
+
+        } else {                                    // p, h2, h3, formula
+            $text = trim((string)($b['text'] ?? ''));
+            if ($text === '' && !$keepEmpty) { continue; }
+            $block['text'] = $text;
+        }
+        $blocks[] = $block;
+    }
+    $f['blocks'] = $blocks;
+
+    $faq = array();
+    foreach ((array)($in['faq'] ?? array()) as $item) {
+        if (!is_array($item)) { continue; }
+        $q = trim((string)($item['q'] ?? ''));
+        $a = trim((string)($item['a'] ?? ''));
+        if (($q === '' || $a === '') && !$keepEmpty) { continue; }
+        $faq[] = array('q' => $q, 'a' => $a);
+    }
+    $f['faq'] = $faq;
+
+    $rel = array();
+    foreach ((array)($in['related'] ?? array()) as $item) {
+        if (!is_array($item)) { continue; }
+        $t = trim((string)($item['title'] ?? ''));
+        $u = trim((string)($item['url'] ?? ''));
+        if (($t === '' || $u === '') && !$keepEmpty) { continue; }
+        $rel[] = array('title' => $t, 'url' => $u);
+    }
+    $f['related'] = $rel;
+
+    $error = '';
+    if ($f['title'] === '')    { $error = 'У статьи нет заголовка — без него страницу не собрать.'; }
+    elseif ($f['slug'] === '') { $error = 'Не получилось собрать адрес: добавьте латинское название.'; }
+
+    return array('fields' => $f, 'error' => $error);
+}
+/** Сохранить черновик (новый или существующий по id). ['ok','id','error'] */
+function articles_put(array $fields, string $id = ''): array {
+    $clean = articles_clean($fields);
+    if ($clean['error'] !== '') {
+        return array('ok' => false, 'id' => $id, 'error' => $clean['error']);
+    }
+
+    $list = articles_all()['articles'];
+    $now  = date('Y-m-d H:i:s');
+    if ($id === '') { $id = bin2hex(random_bytes(4)); }
+
+    $found = false;
+    foreach ($list as $i => $a) {
+        if ((string)($a['id'] ?? '') === $id) {
+            $list[$i]['fields']   = $clean['fields'];
+            $list[$i]['modified'] = $now;
+            $list[$i]['status']   = 'draft';
+            $found = true;
+            break;
+        }
+    }
+    if (!$found) {
+        $list[] = array('id' => $id, 'status' => 'draft', 'created' => $now, 'modified' => $now,
+                        'fields' => $clean['fields']);
+    }
+    if (!articles_save_all($list)) {
+        return array('ok' => false, 'id' => $id,
+                     'error' => 'Не получилось записать черновик: проверьте права на папку content/.');
+    }
+    return array('ok' => true, 'id' => $id, 'error' => '');
+}
+
+/** Удалить черновик. ['ok','error'] */
+function articles_delete(string $id): array {
+    $list = array();
+    $gone = false;
+    foreach (articles_all()['articles'] as $a) {
+        if ((string)($a['id'] ?? '') === $id) { $gone = true; continue; }
+        $list[] = $a;
+    }
+    if (!$gone) {
+        return array('ok' => false, 'error' => 'Такого черновика нет — возможно, его уже удалили.');
+    }
+    if (!articles_save_all($list)) {
+        return array('ok' => false, 'error' => 'Не получилось сохранить файл черновиков.');
+    }
+    return array('ok' => true, 'error' => '');
+}
+
+/** Сколько слов в статье (для списка и панели «Умное SEO»). */
+function articles_words(array $fields): int {
+    $text = (string)($fields['intro'] ?? '');
+    foreach ((array)($fields['blocks'] ?? array()) as $b) {
+        $text .= ' ' . (string)($b['text'] ?? '');
+        foreach ((array)($b['items'] ?? array()) as $item) { $text .= ' ' . (string)$item; }
+        foreach ((array)($b['head'] ?? array()) as $th)    { $text .= ' ' . (string)$th; }
+        foreach ((array)($b['rows'] ?? array()) as $row)   {
+            foreach ((array)$row as $td) { $text .= ' ' . (string)$td; }
+        }
+        foreach (array('left', 'right') as $side) {
+            $col = (array)($b[$side] ?? array());
+            $text .= ' ' . (string)($col['title'] ?? '');
+            foreach ((array)($col['items'] ?? array()) as $item) { $text .= ' ' . (string)$item; }
+        }
+    }
+    foreach ((array)($fields['faq'] ?? array()) as $item) { $text .= ' ' . (string)($item['a'] ?? ''); }
+    return count(preg_split('/\s+/u', trim(strip_tags($text)), -1, PREG_SPLIT_NO_EMPTY));
+}
+
+/** Черновик с этим адресом уже есть? (пригодится при публикации, шаг 4.3) */
+function articles_slug_busy(string $slug, string $exceptId = ''): bool {
+    foreach (articles_all()['articles'] as $a) {
+        $fields = (array)($a['fields'] ?? array());
+        if ((string)($fields['slug'] ?? '') === $slug && (string)($a['id'] ?? '') !== $exceptId) { return true; }
+    }
+    return false;
+}
+
+

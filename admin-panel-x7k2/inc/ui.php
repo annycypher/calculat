@@ -27,7 +27,7 @@ function panel_sections(): array {
         array('file' => 'dashboard.php',   'title' => 'Дашборд',      'group' => 'Обзор',        'icon' => '▤', 'ready' => true,  'hint' => 'сводка по сайту'),
         array('file' => 'analytics.php',   'title' => 'Аналитика',    'group' => 'Обзор',        'icon' => '△', 'ready' => false, 'hint' => 'посещения, источники — фаза 8'),
 
-        array('file' => 'article-template.php', 'title' => 'Статьи',  'group' => 'Контент',     'icon' => '✎', 'ready' => true,  'hint' => 'шаблон статьи: редактор — шаг 4.2'),
+        array('file' => 'articles.php',   'title' => 'Статьи',       'group' => 'Контент',      'icon' => '✎', 'ready' => true,  'hint' => 'черновики и редактор статьи'),
         array('file' => 'media.php',       'title' => 'Медиа-файлы',  'group' => 'Контент',      'icon' => '▨', 'ready' => true,  'hint' => 'картинки сайта'),
         array('file' => 'meta.php',        'title' => 'Мета-теги',    'group' => 'Контент',      'icon' => '⌗', 'ready' => false, 'hint' => 'title и description — фаза 4'),
         array('file' => 'content.php',     'title' => 'Текст страниц','group' => 'Контент',      'icon' => '≡', 'ready' => false, 'hint' => 'правка по маркерам — фаза 9'),

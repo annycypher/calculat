@@ -202,10 +202,15 @@ function article_two_html(array $column): string {
     return $out . "          </div>\n";
 }
 
-/** Один блок текста статьи — по типу блока. */
+/** Один блок текста статьи — по типу блока. Пустые блоки (их только что добавили
+    в редакторе) не выводятся: на странице не должно быть пустых абзацев. */
 function article_block_html(array $b): string {
     $type = (string)($b['type'] ?? 'p');
     $text = (string)($b['text'] ?? '');
+
+    if (in_array($type, array('p', 'h2', 'h3', 'formula', 'html'), true) && trim($text) === '') { return ''; }
+    if (($type === 'ul' || $type === 'steps') && count(array_filter((array)($b['items'] ?? array()))) === 0) { return ''; }
+    if ($type === 'two' && count((array)($b['left'] ?? array())) === 0 && count((array)($b['right'] ?? array())) === 0) { return ''; }
 
     switch ($type) {
         case 'h2':

@@ -34,6 +34,7 @@ api/data/
 # (папки и .htaccess-заглушки держим в репозитории)
 content/users.json
 content/media.json
+content/articles.json
 content/security/*.json
 content/security/*.txt
 content/logs/*.json
