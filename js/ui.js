@@ -276,16 +276,18 @@ function initNav() {
 }
 initNav();
 
-// ─── Мобильная панель: поиск и кнопки шапки внутрь .main-nav ───
-// На телефоне строка шапки не вмещает поиск и кнопки, поэтому при видимом
+// ─── Узкая строка шапки: поиск и кнопки шапки внутрь .main-nav ───
+// На узких окнах строка шапки не вмещает поиск и кнопки, поэтому при видимом
 // бургере (.nav-burger) переносим их в блок .nav-extra внутри панели меню,
 // а при возврате на десктоп возвращаем на прежние места (порядок сохраняется).
+// Порог 1024 совпадает с @media в header.css: до этой ширины меню не помещается
+// в строку и уезжает в панель (замеры: переполнение до 112 px на 874 px).
 function syncNavExtra() {
   const nav = document.getElementById('mainNav');
   const burger = document.getElementById('navBurger');
   if (!nav) return;
   const narrow = !!burger && getComputedStyle(burger).display !== 'none' &&
-    document.documentElement.clientWidth <= 760;
+    document.documentElement.clientWidth <= 1024;
   const actions = document.querySelector('.head-cta') || document.querySelector('.header-actions');
   let extra = nav.querySelector('.nav-extra');
 

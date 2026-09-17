@@ -171,8 +171,13 @@ header.app-header .search-dropdown a {
 header.app-header .search-dropdown a:hover { background: var(--hglass-2); color: var(--hvio); }
 header.app-header .search-none { padding: 10px 12px; color: var(--hmut); font-size: 14px; }
 
-/* ── Телефон: меню уезжает в панель под шапкой (как на главной) ── */
-@media (max-width: 760px) {
+/* ── Узкая строка шапки: меню уезжает в панель под шапкой ──
+   Точка перехода 1024 px, а не 760: замеры в headless Chrome показали, что ниже ~1002 px
+   полное меню (~574 px) + поле поиска + кнопки не помещаются в строку и страница получала
+   горизонтальное переполнение — 112 px на 874 px, 42 px на 960 px, 2 px на 1000 px.
+   До 1024 px (брейкпоинт, который уже используется на сайте) показываем бургер,
+   поиск и кнопки переезжают в панель меню (js/ui.js → syncNavExtra, порог там же). */
+@media (max-width: 1024px) {
   header.app-header .main-nav {
     position: fixed; top: 76px; left: 16px; right: 16px; z-index: 60;
     display: none; flex-direction: column; align-items: stretch; gap: 2px; padding: 14px;
