@@ -18,6 +18,12 @@
 
 declare(strict_types=1);
 
+/* Прямой заход браузером в этот файл — закрываем (см. пояснение в config.php). */
+if (isset($_SERVER['SCRIPT_FILENAME']) && realpath((string)$_SERVER['SCRIPT_FILENAME']) === realpath(__FILE__)) {
+    http_response_code(404);
+    exit;
+}
+
 // ───────────────────────────── сессия ─────────────────────────────
 
 function panel_session_start(): void {

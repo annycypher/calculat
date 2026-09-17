@@ -141,6 +141,29 @@ check('на дашборде видно, кто вошёл', has($r['b'], 'Хо�
 $logoutToken = logout_token($r['b']);
 check('в ссылке выхода есть CSRF-токен', $logoutToken !== '');
 
+$sm = (string)@file_get_contents(SITE . '/sitemap.xml');
+check('на дашборде заголовок «Дашборд»', has($r['b'], 'Дашборд'));
+check('меню панели со всеми разделами и отметкой «скоро»',
+      has($r['b'], 'Перелинковка') && has($r['b'], 'Аналитика') && has($r['b'], 'скоро'));
+check('счётчик страниц совпадает с sitemap.xml',
+      has($r['b'], 'Страниц в sitemap.xml') && has($r['b'], (string)substr_count($sm, '<loc>')));
+check('карточка «Резервные копии» на месте', has($r['b'], 'Резервные копии'));
+check('журнал показывает запись первого запуска',
+      has($r['b'], 'Последние действия') && has($r['b'], 'Первый запуск'));
+check('быстрые кнопки на месте', has($r['b'], 'Быстрые кнопки') && has($r['b'], 'Открыть сайт'));
+check('разметка без непарных тегов',
+      substr_count($r['b'], '<section') === substr_count($r['b'], '</section>')
+      && substr_count($r['b'], '<div') === substr_count($r['b'], '</div>'),
+      'section ' . substr_count($r['b'], '<section') . '/' . substr_count($r['b'], '</section>')
+      . ', div ' . substr_count($r['b'], '<div') . '/' . substr_count($r['b'], '</div>'));
+
+$r = http(BASE . '/assets/panel.css');
+check('стиль панели отдаётся (200)', $r['s'] === 200, 'код ' . $r['s']);
+
+$r = http(BASE . '/inc/config.php');
+check('прямой заход в inc/config.php закрыт (404)', $r['s'] === 404, 'код ' . $r['s']);
+check('install-ключ через веб не отдаётся', has($r['b'], $KEY) === false);
+
 $r = http(BASE . '/login.php?action=logout&t=' . rawurlencode($logoutToken));
 check('выход → редирект на login.php', $r['s'] === 302 && strpos((string)$r['l'], 'login.php') !== false,
       'код ' . $r['s'] . ' → ' . $r['l']);

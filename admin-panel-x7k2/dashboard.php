@@ -1,81 +1,155 @@
 <?php
-/* dashboard.php — ЗАГЛУШКА шага 1.1: показывает, что вход в панель работает.
+/* dashboard.php — дашборд панели (шаг 1.2 протокола v4).
 
-   Настоящий дашборд (счётчики статей и баннеров, статус бэкапа, последние действия,
-   быстрые кнопки) будет на шаге 1.2 — этот файл тогда перепишется целиком.
+   Счётчики (статьи, черновики, баннеры, реклама, отзывы на модерации, медиа, пользователи),
+   статус бэкапа (красным, если старше 4 суток), аналитика — пока заглушка,
+   последние действия из журнала и быстрые кнопки.
+
+   Данные берём прямо с диска: JSON панели в /content/, журнал /content/logs/actions.json,
+   копии /backups/*.zip, загрузки /media/uploads/, sitemap.xml и папка блога.
+   Чего ещё нет — честно показываем нулём и поясняем, в какой фазе появится.
 */
 
 declare(strict_types=1);
 
 require __DIR__ . '/inc/config.php';
 require __DIR__ . '/inc/auth.php';
+require __DIR__ . '/inc/ui.php';
 
 panel_session_start();
 ensure_guards();
 require_login();
 
-$user    = current_user();
-$flashes = flashes();
-$logout  = panel_url('login.php?action=logout&t=' . rawurlencode(csrf_token()));
-?>
-<!DOCTYPE html>
-<html lang="ru" data-theme="dark">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex, nofollow" />
-  <title><?php echo h(PANEL_NAME); ?> — <?php echo h(PANEL_VERSION); ?></title>
-  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="/fonts/fonts.css" />
-  <style>
-    :root { --bg:#0b0913; --card:rgba(255,255,255,.05); --line:rgba(255,255,255,.12);
-            --txt:#f1eef9; --mut:#9a92b0; --vio:#a78bfa; --cyan:#6fd3f2; --ok:#7ee0b8; }
-    * { box-sizing:border-box; }
-    body { margin:0; min-height:100vh; color:var(--txt); font:16px/1.6 'Manrope', Arial, sans-serif;
-           background:radial-gradient(900px 500px at 80% -10%, rgba(111,211,242,.10), transparent 70%), var(--bg); }
-    .head { display:flex; align-items:center; justify-content:space-between; gap:16px;
-            max-width:840px; margin:0 auto; padding:22px 20px; border-bottom:1px solid var(--line); }
-    .head b { font-family:'Unbounded', sans-serif; font-weight:600; font-size:18px; }
-    .head b span { color:var(--vio); }
-    .head .who { color:var(--mut); font-size:14px; }
-    .head a { color:var(--cyan); text-decoration:none; font-weight:600; font-size:14px; }
-    main { max-width:840px; margin:0 auto; padding:26px 20px 60px; }
-    .card { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:22px; }
-    h1 { font-family:'Unbounded', sans-serif; font-size:19px; margin:0 0 10px; }
-    p { margin:0 0 12px; }
-    code { color:var(--cyan); }
-    .msg { border-radius:12px; padding:11px 13px; font-size:14px; margin-bottom:14px;
-           background:rgba(126,224,184,.12); border:1px solid rgba(126,224,184,.32); color:var(--ok); }
-    ol { margin:0; padding-left:22px; color:var(--mut); }
-    ol li { margin-bottom:6px; }
-  </style>
-</head>
-<body>
-  <div class="head">
-    <b>Calc<span>Doc</span> Admin</b>
-    <div class="who">Вы вошли как <strong><?php echo h($user['name']); ?></strong>
-      (<?php echo h($user['login']); ?>, <?php echo $user['role'] === 'admin' ? 'администратор' : 'редактор'; ?>)</div>
-    <a href="<?php echo h($logout); ?>">Выйти</a>
-  </div>
+/* ── счётчики: разделы панели появятся в следующих фазах, поэтому сейчас почти всё нули ── */
+$articles = json_read(CONTENT_DIR . '/articles.json', array());
+$drafts   = 0;
+foreach ($articles as $a) { if (isset($a['status']) && $a['status'] === 'draft') { $drafts++; } }
 
-  <main>
-<?php foreach ($flashes as $f) { ?>
-    <div class="msg"><?php echo h($f['text']); ?></div>
+$banners = json_read(CONTENT_DIR . '/banners.json', array());
+$ads     = json_read(CONTENT_DIR . '/ads.json', array());
+
+$reviews = json_read(CONTENT_DIR . '/reviews.json', array());
+$pending = 0;
+foreach ($reviews as $rev) { if (isset($rev['status']) && $rev['status'] === 'pending') { $pending++; } }
+
+$mediaCount = 0; $mediaSize = 0;
+if (is_dir(MEDIA_DIR)) {
+    $it = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(MEDIA_DIR, FilesystemIterator::SKIP_DOTS));
+    foreach ($it as $f) { if ($f->isFile()) { $mediaCount++; $mediaSize += (int)$f->getSize(); } }
+}
+
+$usersCount = count(users_all());
+
+$sitemap   = (string)@file_get_contents(SITE_ROOT . '/sitemap.xml');
+$pageCount = $sitemap === '' ? 0 : substr_count($sitemap, '<loc>');
+
+$blogCount = 0;
+foreach ((array)glob(SITE_ROOT . '/blog/*', GLOB_ONLYDIR) as $dir) { if (is_file($dir . '/index.html')) { $blogCount++; } }
+foreach ((array)glob(SITE_ROOT . '/blog/*.html') as $file) { if (basename($file) !== 'index.html') { $blogCount++; } }
+
+/* ── резервные копии: список, свежесть, тон предупреждения ── */
+$backups = array();
+foreach ((array)glob(BACKUP_DIR . '/*.zip') as $zip) {
+    $backups[] = array('name' => basename($zip), 'size' => (int)filesize($zip), 'mtime' => (int)filemtime($zip));
+}
+usort($backups, function ($a, $b) { return $b['mtime'] <=> $a['mtime']; });
+
+$lastBackup = count($backups) > 0 ? $backups[0] : null;
+$backupDays = $lastBackup !== null ? (int)floor((time() - $lastBackup['mtime']) / 86400) : 0;
+if ($lastBackup === null) {
+    $backupTone = 'warn';
+    $backupText = 'Копий пока нет. Модуль копий включаем в фазе 2 — тогда же панель начнёт делать копию сама, если последней больше 4 суток.';
+} elseif ($backupDays > 4) {
+    $backupTone = 'err';
+    $backupText = 'Последней копии уже ' . $backupDays . ' дн — это больше 4 суток. Сделайте копию перед следующими правками.';
+} else {
+    $backupTone = 'ok';
+    $backupText = 'Копия свежая. Панель делает копию сама, если последней больше 4 суток.';
+}
+
+/* ── последние действия из журнала (пишется с шага 1.1) ── */
+$actions = json_read(LOG_DIR . '/actions.json', array());
+$actions = array_slice(array_reverse($actions), 0, 8);
+
+/* ── быстрые кнопки: берём из реестра разделов, поэтому «оживают» сами по мере фаз ── */
+$quickFiles = array('articles.php', 'media.php', 'banners.php', 'ads.php', 'reviews.php',
+                    'seo-center.php', 'analytics.php', 'backup.php', 'users.php');
+$byFile = array();
+foreach (panel_sections() as $s) { $byFile[$s['file']] = $s; }
+
+panel_page_start('Дашборд', 'Что есть на сайте сейчас и что происходило в панели', 'dashboard.php');
+?>
+
+      <div class="stats">
+<?php stat_card('Страниц в sitemap.xml', (string)$pageCount, 'адреса сайта для поисковиков'); ?>
+<?php stat_card('Статей в блоге', (string)$blogCount, 'страницы /blog/'); ?>
+<?php stat_card('Статей панели', (string)count($articles), $drafts > 0 ? 'черновиков: ' . $drafts : 'раздел статей — фаза 4'); ?>
+<?php stat_card('Баннеры', (string)count($banners), 'раздел баннеров — фаза 5'); ?>
+<?php stat_card('Рекламные блоки', (string)count($ads), 'раздел рекламы — фаза 6'); ?>
+<?php stat_card('Отзывы на модерации', (string)$pending, 'раздел отзывов — фаза 7-В', $pending > 0 ? 'warn' : ''); ?>
+<?php stat_card('Файлы медиа', (string)$mediaCount, $mediaCount > 0 ? human_size($mediaSize) : 'загрузка картинок — фаза 3'); ?>
+<?php stat_card('Пользователи панели', (string)$usersCount, 'доступы и роли — фаза 1.3'); ?>
+      </div>
+
+<?php card_start('Резервные копии', 'Копия сайта перед правками — ваша страховка', $backupTone); ?>
+      <p class="hint" style="margin:0 0 12px"><?php echo h($backupText); ?></p>
+<?php if ($lastBackup !== null) { ?>
+      <table class="table">
+        <tr><th>Копия</th><th>Когда</th><th>Вес</th></tr>
+<?php foreach (array_slice($backups, 0, 3) as $b) { ?>
+        <tr>
+          <td><code><?php echo h($b['name']); ?></code></td>
+          <td class="nowrap"><?php echo h(date('d.m.Y H:i', $b['mtime'])); ?> <?php echo badge(ago(date('Y-m-d H:i:s', $b['mtime']))); ?></td>
+          <td class="nowrap"><?php echo h(human_size($b['size'])); ?></td>
+        </tr>
 <?php } ?>
-    <div class="card">
-      <h1>Каркас панели работает</h1>
-      <p>Это временная страница шага 1.1: она подтверждает, что вход, сессия и защита форм настроены.
-         Настоящий дашборд со счётчиками появится на следующем шаге.</p>
-      <p>Что уже готово:</p>
-      <ol>
-        <li>вход по логину и паролю (bcrypt), сессия только внутри админки;</li>
-        <li>лимит 5 неудачных попыток → блокировка на 10 минут;</li>
-        <li>CSRF-защита всех форм, автоматическое закрытие служебных папок <code>.htaccess</code>;</li>
-        <li>первый запуск по install-ключу — вы его уже прошли.</li>
-      </ol>
-      <p style="margin-top:14px;color:var(--mut);font-size:14px">Дальше по плану: шаг 1.2 — рабочий дашборд,
-         шаг 1.3 — пользователи и роли.</p>
-    </div>
-  </main>
-</body>
-</html>
+      </table>
+<?php } ?>
+<?php if (count($backups) === 0) { soon_block('Кнопка «Сделать копию сейчас»', '2'); } ?>
+<?php card_end(); ?>
+
+<?php card_start('Аналитика', 'Посещения сайта, источники переходов, устройства'); ?>
+      <p class="hint" style="margin:0 0 12px">Счётчик на сайте уже работает: страницы записывают посещение через
+        <code>api/stats.php</code>, данные лежат на сервере и закрыты от веба. График, источники и устройства
+        добавим в фазе 8 — тогда здесь появятся живые цифры за сегодня и за неделю.</p>
+<?php soon_block('Раздел «Аналитика»', '8'); ?>
+<?php card_end(); ?>
+
+<?php card_start('Последние действия', 'Журнал панели: кто и что делал'); ?>
+<?php if (count($actions) === 0) { ?>
+      <p class="empty">Пока пусто. Журнал заполняется, когда вы входите и что-то меняете — первая запись
+        появится сразу после вашего входа.</p>
+<?php } else { ?>
+      <table class="table">
+        <tr><th>Когда</th><th>Кто</th><th>Что сделал</th></tr>
+<?php foreach ($actions as $a) { ?>
+        <tr>
+          <td class="nowrap"><?php echo h(isset($a['ts']) ? ago((string)$a['ts']) : '—'); ?></td>
+          <td class="nowrap"><?php echo h(isset($a['login']) ? (string)$a['login'] : '—'); ?></td>
+          <td><?php echo h(isset($a['action']) ? (string)$a['action'] : ''); ?><?php
+            if (!empty($a['details'])) { echo ' <span class="hint">' . h((string)$a['details']) . '</span>'; } ?></td>
+        </tr>
+<?php } ?>
+      </table>
+      <p class="hint" style="margin:12px 0 0">Последние 8 записей из <code>content/logs/actions.json</code>
+        (файл закрыт от веба). Раздел «Журнал» с фильтрами и поиском — фаза 9.</p>
+<?php } ?>
+<?php card_end(); ?>
+
+<?php card_start('Быстрые кнопки', 'Частые действия — в один клик. Серые кнопки оживут в фазе, указанной в подсказке.'); ?>
+      <div class="btn-row">
+        <a class="btn primary" href="/" target="_blank" rel="noopener">Открыть сайт ↗</a>
+<?php foreach ($quickFiles as $file) {
+        $s = $byFile[$file];
+        if ($s['ready']) { ?>
+        <a class="btn ghost" href="<?php echo h(panel_url($file)); ?>"><?php echo h($s['title']); ?></a>
+<?php   } else { ?>
+        <span class="btn ghost off" title="<?php echo h($s['hint']); ?>"><?php echo h($s['title']); ?> <span class="badge">скоро</span></span>
+<?php   }
+      } ?>
+      </div>
+<?php card_end(); ?>
+
+<?php
+panel_page_end();
+

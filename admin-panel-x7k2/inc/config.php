@@ -17,6 +17,13 @@
 
 declare(strict_types=1);
 
+/* Прямой заход браузером в этот файл (а не подключение из страниц панели) — закрываем:
+   на хостинге папку защищает .htaccess, а это правило работает и там, где он не читается. */
+if (isset($_SERVER['SCRIPT_FILENAME']) && realpath((string)$_SERVER['SCRIPT_FILENAME']) === realpath(__FILE__)) {
+    http_response_code(404);
+    exit;
+}
+
 // ── Что за панель ──
 const PANEL_NAME    = 'CalcDoc Admin';
 const PANEL_VERSION = '0.1.0';                     // 0.1 — каркас (фаза 1 протокола v4)
