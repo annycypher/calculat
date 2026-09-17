@@ -5,6 +5,8 @@
    У блока: название, тип кода (РСЯ / AdSense / свой HTML), сам код, страницы показа, вкл/выкл.
    Больше двух блоков на страницу — красное предупреждение и обход через «Я понимаю риск».
    Сам вывод в страницы (min-height, ленивая загрузка, общий выключатель) — шаг 6.2.
+   Отчёт «Трафик без денег» — шаг 6.3, инструкция «как получить код РСЯ и AdSense» — шаг 6.4
+   (тексты инструкции живут в inc/ads.php: ads_help_readiness, ads_help_guides, ads_help_common).
 */
 
 declare(strict_types=1);
@@ -301,6 +303,7 @@ panel_page_start('Рекламные блоки', 'РСЯ, AdSense и свои �
     $fPages  = (array)($form['pages'] ?? array('*'));
     $presets = ads_page_presets();
     $fOver   = $previewOver;
+    $codeNotes = ads_code_notes($form);
 ?>
 <form method="post" action="<?php echo h(panel_url('ads.php')); ?>">
   <?php echo csrf_field(); ?>
@@ -336,7 +339,20 @@ panel_page_start('Рекламные блоки', 'РСЯ, AdSense и свои �
       <textarea id="ad-code" name="code" rows="8" spellcheck="false" style="font-family:ui-monospace, Consolas, monospace;font-size:12.5px"
         placeholder="вставьте код, который выдал Яндекс или Google"><?php echo h((string)($form['code'] ?? '')); ?></textarea>
       <div class="field-hint">Вставьте код целиком, как он есть — вместе с тегами <code>&lt;script&gt;</code>,
-        если они есть. Панель ничего не вырезает и не меняет.</div>
+        если они есть. Панель ничего не вырезает и не меняет. Где взять код — в инструкции ниже,
+        блок «Как получить код: РСЯ и AdSense».</div>
+<?php if (count($codeNotes) > 0) { ?>
+      <div class="block-card" style="margin-top:8px">
+        <div class="block-title" style="font-size:13px">Что панель видит в вашем коде</div>
+        <ul style="margin:6px 0 0;padding-left:20px;font-size:12.5px">
+<?php   foreach ($codeNotes as $nt) {
+        $tone = (string)$nt['tone'];
+        $clr  = $tone === 'warn' ? 'var(--warn)' : ($tone === 'ok' ? 'var(--ok)' : 'var(--mut)'); ?>
+          <li style="color:<?php echo $clr; ?>;margin-bottom:3px"><?php echo h((string)$nt['text']); ?></li>
+<?php   } ?>
+        </ul>
+      </div>
+<?php } ?>
 
       <label for="ad-min-height" style="margin-top:12px">Место под блок, px</label>
       <input type="number" id="ad-min-height" name="min_height" min="0" max="1200" step="10"
@@ -506,12 +522,94 @@ panel_page_start('Рекламные блоки', 'РСЯ, AdSense и свои �
 <?php } ?>
 <?php card_end(); ?>
 
+<?php
+/* ── Инструкция: как получить код РСЯ и AdSense (шаг 6.4) ── */
+$helpItems  = ads_help_readiness();
+$helpDone   = 0;
+foreach ($helpItems as $hi) { if ((string)$hi['state'] === 'done') { $helpDone++; } }
+?>
+<a id="help"></a>
+<?php card_start('Как получить код: РСЯ и AdSense',
+                 'Инструкция внутри панели: подключение бесплатное, платить никому не нужно'); ?>
+      <p style="margin:0 0 12px">Порядок одинаковый у обеих площадок: подать заявку в кабинете → поставить код на сайт →
+        дождаться проверки → вставить код блока в панель → нажать «Вывести рекламу на сайт…».
+        Панель код не меняет: вставляет ровно тот текст, который выдал Яндекс или Google.</p>
+      <div class="block-card">
+        <div class="block-head">
+          <span class="block-title">Что должно быть на сайте до заявки</span>
+          <span class="hint">выполнено <?php echo (int)$helpDone; ?> из <?php echo count($helpItems); ?> пунктов (часть проверяется вручную)</span>
+        </div>
+        <table class="table">
+          <tr><th>Что смотрят площадки</th><th>Состояние</th><th>Пояснение</th></tr>
+<?php foreach ($helpItems as $it) {
+        $st      = (string)$it['state'];
+        $stBadge = $st === 'done' ? badge('есть', 'ok')
+                 : ($st === 'todo' ? badge('осталось сделать', 'err') : badge('проверьте сами', 'warn')); ?>
+          <tr>
+            <td><?php echo h((string)$it['text']); ?></td>
+            <td><?php echo $stBadge; ?></td>
+            <td><span class="hint"><?php echo h((string)$it['note']); ?></span></td>
+          </tr>
+<?php } ?>
+        </table>
+        <div class="field-hint">Панель проверяет то, что видно на диске: страницы, политику, карту сайта и правила для роботов.
+          Что из панели не проверить (работает ли адрес в интернете, свои ли тексты) — помечено «проверьте сами»: посмотрите своими глазами.</div>
+      </div>
+<?php card_end(); ?>
+
+<?php card_start('Пошагово: РСЯ и AdSense', 'Раскройте нужный кабинет и идите по шагам — от заявки до кода в панели'); ?>
+<?php foreach (ads_help_guides() as $gk => $g) { ?>
+      <details class="block-card">
+        <summary style="cursor:pointer;font-weight:600"><?php echo h((string)$g['title']); ?> — пошагово</summary>
+        <p style="margin:8px 0 6px"><?php echo h((string)$g['short']); ?></p>
+        <p style="margin:0 0 8px;font-size:13px"><?php
+          $links = array();
+          foreach ((array)$g['where'] as $wp) {
+              $links[] = '<a href="' . h((string)$wp['u']) . '" target="_blank" rel="noopener">' . h((string)$wp['t']) . '</a>';
+          }
+          echo implode(' · ', $links); ?></p>
+        <ol style="margin:0 0 10px;padding-left:22px;font-size:13.5px">
+<?php   foreach ((array)$g['steps'] as $st) { ?>
+          <li style="margin-bottom:6px"><strong><?php echo h((string)$st['t']); ?></strong> —
+            <span style="color:var(--mut)"><?php echo h((string)$st['d']); ?></span></li>
+<?php   } ?>
+        </ol>
+        <p style="margin:0 0 6px;font-size:13px"><strong>Сколько ждать:</strong> <?php echo h((string)$g['time']); ?></p>
+        <ul style="margin:0;padding-left:20px;font-size:12.5px;color:var(--mut)">
+<?php   foreach ((array)$g['tips'] as $tip) { ?>
+          <li style="margin-bottom:3px"><?php echo h((string)$tip); ?></li>
+<?php   } ?>
+        </ul>
+      </details>
+<?php } ?>
+<?php card_end(); ?>
+
+<?php $helpCommon = ads_help_common(); ?>
+<?php card_start('Что нельзя делать и почему отказывают', 'Правила площадок: за нарушение отключают аккаунт и снимают деньги'); ?>
+      <div class="block-card">
+        <div class="block-title" style="font-size:13px">Ни в коем случае нельзя</div>
+        <ul style="margin:6px 0 0;padding-left:20px;font-size:13px">
+<?php foreach ((array)$helpCommon['never'] as $nv) { ?>
+          <li style="margin-bottom:4px"><?php echo h((string)$nv); ?></li>
+<?php } ?>
+        </ul>
+      </div>
+      <div class="block-card">
+        <div class="block-title" style="font-size:13px">Частые причины отказа</div>
+        <ul style="margin:6px 0 0;padding-left:20px;font-size:13px;color:var(--mut)">
+<?php foreach ((array)$helpCommon['reject'] as $rj) { ?>
+          <li style="margin-bottom:4px"><?php echo h((string)$rj); ?></li>
+<?php } ?>
+        </ul>
+      </div>
+      <p class="hint" style="margin:0"><?php echo h((string)$helpCommon['ask']); ?></p>
+<?php card_end(); ?>
+
 <?php card_start('Что дальше', 'Подсказки, чтобы не искать по разделам'); ?>
       <ul style="margin:0;padding-left:22px;color:var(--mut);font-size:13.5px">
-        <li>Вставка кода в страницы (с местом под блок, чтобы вёрстка не «дёргалась», и ленивой загрузкой),
-          а также общий выключатель всей рекламы — следующий шаг (6.2).</li>
-        <li>Отчёт «Трафик без денег» — шаг 6.3: он покажет страницы с посетителями, где рекламы нет.</li>
-        <li>Инструкция, как получить код РСЯ и AdSense, — шаг 6.4.</li>
+        <li>Подключить рекламу — по инструкции выше: заявка в кабинете площадки, код в панели, проверка на сайте.</li>
+        <li>Смотреть, что приносит деньги: отчёт «Трафик без денег» выше, полная картина посещений — раздел «Аналитика» (фаза 8).</li>
+        <li>Дальше по плану — SEO-центр (фаза 7): проверка страниц по критериям поиска и список того, что мешает позициям.</li>
       </ul>
 <?php card_end(); ?>
 
