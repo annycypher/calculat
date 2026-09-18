@@ -92,6 +92,23 @@ check('пустой предпросмотр подсказывает, что д
 check('кнопки действий в ряд и на всю ширину на телефоне',
     has($css, '.gen-actions') && has($css, '.gen-actions .btn { width: 100%; }'));
 
+/* ── Шаг 1.3: шаблон страницы генератора ── */
+$tpl = (string)@file_get_contents(SITE . '/generators/_template.html');
+check('шаблон страницы генератора есть', $tpl !== '', 'байт: ' . strlen($tpl));
+check('в шаблоне сетка, форма и предпросмотр',
+    has($tpl, 'class="gen-grid"') && has($tpl, 'class="gen-form"') && has($tpl, 'id="genPreview"'));
+check('в шаблоне четыре кнопки действий',
+    has($tpl, 'data-gen-action="copy"') && has($tpl, 'data-gen-action="doc"')
+    && has($tpl, 'data-gen-action="print"') && has($tpl, 'data-gen-action="clear"'));
+check('шаблон подключает движок, нормы и стили печати',
+    has($tpl, '/js/generator-engine.js') && has($tpl, '/js/generator-norms.js') && has($tpl, '/print.css?v=2'));
+check('в шаблоне есть пометка о несверенной норме', has($tpl, 'genNormNote'));
+check('шаблон напоминает, что шапку и подвал берут с готовой страницы',
+    has($tpl, 'шапку и подвал') || has($tpl, 'СЮДА: шапка'));
+check('шаблон требует нормы из блока, а не выдуманные',
+    has($tpl, 'ТОЛЬКО из js/generator-norms.js'));
+check('в шаблоне сказано про файл .doc для Word', has($tpl, 'файл .doc для Word'));
+
 say('');
 say('Проверок: ' . $n . ', пройдено: ' . $ok . ', провалено: ' . $fail);
 

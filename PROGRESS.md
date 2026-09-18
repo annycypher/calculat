@@ -660,3 +660,4 @@ js/generator-norms.js v2: все девять норм заполнены (пу�
 
  
 - 18.09.2026: шаг 1.2 — CSS генераторов в styles.css (.gen-grid, .gen-preview как бумага A4, .gen-actions), тест check-engine расширен до 21 проверки
+- 18.09.2026: шаг 1.3 — шаблон страницы генератора /generators/_template.html (gen-grid, форма, предпросмотр, четыре кнопки, движок+нормы+print.css, пометка о несверенной норме). Фаза 1 закрыта: check-engine 29/29.
