@@ -6,12 +6,16 @@
 
    Обычный вход: логин + пароль, лимит 5 неудачных попыток → блокировка 10 минут,
    после входа — переход туда, куда посетитель шёл (login.php?next=users.php).
+
+   Каждая попытка входа — и удачная, и нет — попадает в журнал (content/security/logins.json):
+   время, логин, метка устройства и хеш IP. Сам IP и строка браузера не сохраняются (шаг 7.1).
 */
 
 declare(strict_types=1);
 
 require __DIR__ . '/inc/config.php';
 require __DIR__ . '/inc/auth.php';
+require __DIR__ . '/inc/security-lib.php';   /* журнал входов и метка устройства (шаг 7.1) */
 
 panel_session_start();
 ensure_guards();
@@ -68,6 +72,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
             $user = user_find($login);
             if ($user !== null) { login_user($user); }
             log_action('Первый запуск: создан администратор', 'логин: ' . $login, $login);
+            log_login($login, true, 'первый запуск: создан администратор');
             flash('Администратор создан. Теперь вы вошли в панель как ' . $login . '.');
             header('Location: ' . panel_url($next));
             exit;
@@ -78,10 +83,12 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         $form['login'] = $login;
         $res = login_attempt($login, $pass);
         if ($res['ok']) {
+            log_login($login, true, 'успешный вход');
             flash('Здравствуйте! Вы вошли в панель.');
             header('Location: ' . panel_url($next));
             exit;
         }
+        log_login($login, false, (string)$res['error']);
         $error = $res['error'];
     }
 }
