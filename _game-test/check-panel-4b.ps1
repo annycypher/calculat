@@ -1,0 +1,38 @@
+# check-panel-4b.ps1 — функциональный тест фазы 4 (задание MASTER-FINAL.md, «Центр ссылок» 4.1–4.5).
+#
+# Что делает:
+#   1) поднимает локальный PHP-сервер на корень сайта (127.0.0.1:8096);
+#   2) запускает проверки _game-test\check-panel-4b.php;
+#   3) гасит сервер и сохраняет отчёт в ..\shots\panel-4b.txt.
+#
+# Запуск: powershell -NoProfile -ExecutionPolicy Bypass -File _game-test\check-panel-4b.ps1
+# Тест работает на временных страницах blog\_links4-probe-* и на временном пользователе:
+# в конце всё убирает и возвращает файлы панели (users/links/backlinks/outreach/articles) как было.
+# Важно: тесты нельзя запускать параллельно — они делят content/users.json (см. PROGRESS.md).
+
+$ErrorActionPreference = 'Stop'
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
+$php    = 'C:\Users\krs3d\AppData\Local\Microsoft\WinGet\Packages\PHP.PHP.8.4_Microsoft.Winget.Source_8wekyb3d8bbwe\php.exe'
+$root   = Split-Path -Parent $PSScriptRoot                        # ...\calc_docs (корень сайта)
+$shots  = Join-Path (Split-Path -Parent $root) 'shots'
+$report = Join-Path $shots 'panel-4b.txt'
+$log    = Join-Path $env:TEMP 'calcdoc-panel-4b-server.log'
+$port   = 8096
+
+if (-not (Test-Path $shots)) { New-Item -ItemType Directory -Path $shots | Out-Null }
+if (-not (Test-Path $php))   { Write-Host "Не найден php.exe: $php"; exit 2 }
+
+$srv = Start-Process -FilePath $php -ArgumentList @('-S', "127.0.0.1:$port", '-t', $root) `
+       -PassThru -WindowStyle Hidden -RedirectStandardError $log
+Start-Sleep -Seconds 2
+try {
+    & $php (Join-Path $PSScriptRoot 'check-panel-4b.php') $report
+    $code = $LASTEXITCODE
+} finally {
+    if ($srv -and -not $srv.HasExited) { Stop-Process -Id $srv.Id -Force }
+}
+
+Write-Host ''
+Write-Host "Код возврата: $code    Отчёт: $report    Лог сервера: $log"
+exit $code
