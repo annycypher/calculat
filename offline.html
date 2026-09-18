@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Вы офлайн — CalcDoc</title>
+  <meta name="description" content="Нет соединения, но калькуляторы CalcDoc работают без сети: расчёт идёт в браузере, данные не покидают устройство." />
+  <link rel="canonical" href="https://calc-doc.ru/offline.html" />
+  <meta name="robots" content="noindex, follow" />
+  <meta name="theme-color" content="#0f1020" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/fonts/fonts.css?v=20" />
+  <link rel="stylesheet" href="/styles.css?v=20" />
+  <link rel="stylesheet" href="/header.css?v=20" />
+  <!-- Страница показывается, когда сети нет: стили могут быть не в кэше, поэтому часть оформления — прямо здесь. -->
+  <style>
+    body { margin: 0; background: #0f1020; color: #f1eef9; font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+    .off-wrap { max-width: 720px; margin: 0 auto; padding: 48px 20px 64px; }
+    .off-card { padding: 22px; border: 1px solid rgba(255,255,255,.14); border-radius: 18px; background: rgba(255,255,255,.04); }
+    h1 { font-size: 26px; margin: 0 0 10px; }
+    p { line-height: 1.6; color: #cfc9e4; margin: 0 0 12px; }
+    ul { padding-left: 20px; line-height: 1.9; }
+    a { color: #6fd3f2; }
+    .off-list a { font-weight: 600; }
+    .off-note { font-size: 14px; color: #9a92b0; }
+  </style>
+</head>
+<body>
+  <div class="off-wrap">
+    <div class="off-card">
+      <h1>Вы офлайн — калькуляторы работают, данные не покидают устройство</h1>
+      <p>Интернет пропал, но считать можно: калькуляторы и генераторы CalcDoc работают прямо в браузере,
+        без сервера. Ничего никуда не отправляется — ни цифры, ни документы.</p>
+      <p><b>Что делать:</b></p>
+      <ul class="off-list">
+        <li><a href="/calculators/finance/mortgage/">Ипотечный калькулятор</a> — платёж, переплата, выплата</li>
+        <li><a href="/calculators/finance/deposit/">Калькулятор вкладов</a> — доход с капитализацией</li>
+        <li><a href="/calculators/finance/credit/">Кредитный калькулятор</a> — платёж и переплата</li>
+        <li><a href="/calculators/">Все калькуляторы</a> — финансы, налоги, стройка</li>
+        <li><a href="/generators/">Генераторы документов</a> — договоры и заявления</li>
+      </ul>
+      <p class="off-note">Проверьте соединение и обновите страницу, если нужны статьи, отзывы или поиск:
+        для них интернет всё же нужен. Вернуться на главную — <a href="/">calc-doc.ru</a>.</p>
+    </div>
+  </div>
+</body>
+</html>

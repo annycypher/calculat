@@ -7,7 +7,7 @@
 // если её ещё нет. В генераторах кнопка уже есть (#printBtn) — там мы только помечаем
 // область и подпись, а нажатие оставляем их собственному коду (двойных вызовов печати не будет).
 
-const AREAS = '#result, .result-box, .print-area, .print-doc, [data-print="area"]';
+const AREAS = '#result, .result-box, .result-list, .print-area, .print-doc, [data-print="area"]';
 const BUTTONS = '#printBtn, [data-print="btn"], .print-btn';
 
 /** Подключить print.css один раз. */

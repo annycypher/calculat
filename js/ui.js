@@ -4,8 +4,20 @@ let SEARCH = [], POPULAR = [];
 // Тема, кнопка «Установить» (PWA), панель действий.
 import '/js/print-result.js?v=1';   // «🖨 Распечатать результат» на страницах с результатом (шаг 8.2)
 import '/js/share-params.js?v=1';   // «Поделиться с параметрами» на ипотеке, вкладах и кредите (шаг 8.3)
+import '/js/share-png.js?v=1';      // PNG-карточка расчёта на тех же трёх калькуляторах (шаг 10.2)
 import '/js/share.js?v=1';          // кнопки «Поделиться» на статьях блога (шаг 9.3)
 import '/js/ads.js?v=1';            // рекламные слоты: место зарезервировано, показ после кода (шаг 9.4)
+
+/* PWA: офлайн-режим (шаг 10.1). Регистрируем service-worker один раз и только там, где это
+   разрешено браузером: https и локальный сервер разработки. На http-хостинге просто не сработает. */
+if ('serviceWorker' in navigator
+    && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js', { scope: '/' }).catch(() => {
+      /* не получилось — сайт работает как обычно, офлайн-режим просто не включится */
+    });
+  });
+}
 
 const themeToggle = document.getElementById('themeToggle');
 const installBtn = document.getElementById('installBtn');

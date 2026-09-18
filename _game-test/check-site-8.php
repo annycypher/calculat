@@ -223,7 +223,10 @@ $all = array();
 $it = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(SITE, FilesystemIterator::SKIP_DOTS));
 foreach ($it as $f) {
     $p = $f->getPathname();
-    if ($f->isFile() && substr($p, -5) === '.html' && !preg_match('#\\\\(admin-panel|_archive|_backup|_game-test)\\\\#', $p)) { $all[] = $p; }
+    if (!$f->isFile() || substr($p, -5) !== '.html') { continue; }
+    if (preg_match('#\\\\(admin-panel|_archive|_backup|backups|_game-test|sweb-migration)\\\\#', $p)) { continue; }
+    if ($f->getFilename() === 'offline.html') { continue; }   /* офлайн-страница без подвала — так и задумано */
+    $all[] = $p;
 }
 $noFoot = 0;
 foreach ($all as $p) { if (mb_strpos((string)file_get_contents($p), 'href="/popular/">Популярное</a>') === false) { $noFoot++; } }
