@@ -25,6 +25,8 @@ panel_require('users', 'раздел «Пользователи»');
 
 $me      = current_user();
 $meLogin = (string)$me['login'];
+/* Роль вошедшего: администратор может всё, редактор — всё, кроме удаления статей и аккаунтов администраторов. */
+$meIsAdmin = (($me['role'] ?? '') === 'admin');
 
 /** Сколько активных администраторов, кроме указанного логина (защита последнего админа). */
 function active_admins_except(string $login): int {
@@ -51,9 +53,26 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     $login  = trim((string)($_POST['login'] ?? ''));
     $target = $login !== '' ? user_find($login) : null;
 
+    /* Решение владельца 18.09.2026: аккаунт администратора — пароль и роль меняет только администратор.
+       Раздел «Пользователи» редактору открыт, но защиту этих учётных записей он не трогает.
+       Проверяем на сервере, а не только прячем формы: иначе запрет обошли бы прямым POST-запросом. */
+    $targetIsAdmin = $target !== null && (($target['role'] ?? '') === 'admin');
+    if (!$meIsAdmin && $targetIsAdmin && in_array($action, array('password', 'role'), true)) {
+        log_action('Отказ: аккаунт администратора', $login . ' — ' . ($action === 'role' ? 'смена роли' : 'сброс пароля'), $meLogin);
+        flash('Пароль и роль администратора может менять только администратор.', 'error');
+        header('Location: ' . panel_url('users.php'));
+        exit;
+    }
+
     if ($action === 'create') {
         $name  = trim((string)($_POST['name'] ?? ''));
         $role  = ((string)($_POST['role'] ?? 'editor')) === 'admin' ? 'admin' : 'editor';
+        if ($role === 'admin' && !$meIsAdmin) {
+            log_action('Отказ: создание администратора', $login, $meLogin);
+            flash('Создавать администраторов может только администратор. Роль «редактор» доступна без ограничений.', 'error');
+            header('Location: ' . panel_url('users.php'));
+            exit;
+        }
         $pass  = (string)($_POST['password'] ?? '');
         $pass2 = (string)($_POST['password2'] ?? '');
 
@@ -156,24 +175,30 @@ $users      = users_all();
 $activeAdmins = 0;
 foreach ($users as $u) { if (($u['role'] ?? '') === 'admin' && !empty($u['active'])) { $activeAdmins++; } }
 
+/* Может ли вошедший менять пароль и роль открытого пользователя (решение владельца 18.09.2026):
+   аккаунты администраторов трогает только администратор. */
+$editIsAdmin     = $editUser !== null && (($editUser['role'] ?? '') === 'admin');
+$canEditThisUser = $meIsAdmin || !$editIsAdmin;
+
 panel_page_start('Пользователи', 'Кто входит в панель и что каждому разрешено', 'users.php');
 ?>
 
-<?php card_start('Что кому можно', 'Редактор ведёт сайт, но не трогает доступы и опасные действия'); ?>
+<?php card_start('Что кому можно', 'Редактор ведёт сайт; закрыты только удаление статей и аккаунты администраторов'); ?>
       <table class="table">
         <tr><th>Действие</th><th>Администратор</th><th>Редактор</th></tr>
         <tr><td>Статьи: создавать и править</td><td><?php echo badge('можно', 'ok'); ?></td><td><?php echo badge('можно', 'ok'); ?></td></tr>
         <tr><td>Медиа, баннеры, реклама, отзывы (модерация)</td><td><?php echo badge('можно', 'ok'); ?></td><td><?php echo badge('можно', 'ok'); ?></td></tr>
         <tr><td>Удаление статей</td><td><?php echo badge('можно', 'ok'); ?></td><td><?php echo badge('нельзя', 'err'); ?></td></tr>
-        <tr><td>Пользователи и роли</td><td><?php echo badge('можно', 'ok'); ?></td><td><?php echo badge('нельзя', 'err'); ?></td></tr>
-        <tr><td>Настройки сайта</td><td><?php echo badge('можно', 'ok'); ?></td><td><?php echo badge('нельзя', 'err'); ?></td></tr>
-        <tr><td>Бэкап: сделать копию</td><td><?php echo badge('можно', 'ok'); ?></td><td><?php echo badge('можно', 'ok'); ?></td></tr>
-        <tr><td>Бэкап: восстановить из копии</td><td><?php echo badge('можно', 'ok'); ?></td><td><?php echo badge('нельзя', 'err'); ?></td></tr>
-        <tr><td>Внутренние ссылки и аутрич</td><td><?php echo badge('можно', 'ok'); ?></td><td><?php echo badge('нельзя', 'err'); ?></td></tr>
+        <tr><td>Настройки сайта, внутренние ссылки и аутрич</td><td><?php echo badge('можно', 'ok'); ?></td><td><?php echo badge('можно', 'ok'); ?></td></tr>
+        <tr><td>Бэкап: сделать копию и восстановить из копии</td><td><?php echo badge('можно', 'ok'); ?></td><td><?php echo badge('можно', 'ok'); ?></td></tr>
+        <tr><td>Пользователи: создать, роли и пароли редакторов</td><td><?php echo badge('можно', 'ok'); ?></td><td><?php echo badge('можно', 'ok'); ?></td></tr>
+        <tr><td>Создать администратора</td><td><?php echo badge('можно', 'ok'); ?></td><td><?php echo badge('нельзя', 'err'); ?></td></tr>
+        <tr><td>Пароль и роль администратора</td><td><?php echo badge('можно', 'ok'); ?></td><td><?php echo badge('нельзя', 'err'); ?></td></tr>
       </table>
       <p class="hint" style="margin:12px 0 0">Активных администраторов: <strong><?php echo (int)$activeAdmins; ?></strong>,
         всего пользователей: <strong><?php echo count($users); ?></strong>.
-        Нельзя удалить, отключить или понизить администратора, если он остался последним: панель иначе осталась бы без управления.</p>
+        Защиты: последнего активного администратора нельзя удалить, отключить или понизить (панель осталась бы без управления),
+        а пароль и роль администратора меняет только администратор — решение владельца от 18.09.2026.</p>
 <?php card_end(); ?>
 
 <?php card_start('Добавить пользователя', 'Пароль придумайте сразу — передайте его человеку лично или сообщением, не публикуйте'); ?>
@@ -192,9 +217,13 @@ panel_page_start('Пользователи', 'Кто входит в панел�
         <label for="new-role">Роль</label>
         <select id="new-role" name="role">
           <option value="editor">Редактор — ведёт статьи и картинки, без доступов и опасных действий</option>
+<?php if ($meIsAdmin) { ?>
           <option value="admin">Администратор — полный доступ, включая этот раздел</option>
+<?php } ?>
         </select>
-        <div class="field-hint">Роль можно поменять в любой момент — в списке ниже.</div>
+        <div class="field-hint"><?php echo $meIsAdmin
+          ? 'Роль можно поменять в любой момент — в списке ниже.'
+          : 'Создавать администраторов может только администратор, поэтому здесь доступна роль «редактор».'; ?></div>
 
         <label for="new-pass">Пароль</label>
         <input type="password" id="new-pass" name="password" required autocomplete="new-password" />
@@ -287,6 +316,7 @@ panel_page_start('Пользователи', 'Кто входит в панел�
         заблокированы, пока не появится второй администратор. Так панель не останется без управления.</p>
 <?php } ?>
 
+<?php if ($canEditThisUser) { ?>
       <label for="e-role">Роль</label>
       <form method="post" action="<?php echo h(panel_url('users.php')); ?>">
         <?php echo csrf_field(); ?>
@@ -296,8 +326,7 @@ panel_page_start('Пользователи', 'Кто входит в панел�
           <option value="editor"<?php echo $eRole === 'editor' ? ' selected' : ''; ?>>Редактор — контент без доступов и опасных действий</option>
           <option value="admin"<?php echo $eRole === 'admin' ? ' selected' : ''; ?>>Администратор — полный доступ</option>
         </select>
-        <div class="field-hint">Смена роли сразу меняет доступные разделы: у редактора «Пользователи», «Настройки»
-          и восстановление копий закрыты.</div>
+        <div class="field-hint">Смена роли сразу меняет доступные разделы: у редактора закрыты удаление статей и аккаунты администраторов.</div>
         <div class="btn-row" style="margin-top:14px"><button class="btn primary" type="submit">Сохранить роль</button></div>
       </form>
 
@@ -312,6 +341,10 @@ panel_page_start('Пользователи', 'Кто входит в панел�
         <input type="password" id="e-pass2" name="password2" required autocomplete="new-password" />
         <div class="btn-row" style="margin-top:14px"><button class="btn primary" type="submit">Сбросить пароль</button></div>
       </form>
+<?php } else { ?>
+      <p class="field-hint" style="margin:0">Пароль и роль администратора может менять только администратор —
+        это защита учётной записи владельца (решение от 18.09.2026). Остальные возможности раздела редактору доступны.</p>
+<?php } ?>
 
       <h3 style="margin:20px 0 8px;font-size:14px;color:var(--mut)">Доступ и удаление</h3>
       <div class="btn-row">

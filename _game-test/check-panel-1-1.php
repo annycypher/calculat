@@ -267,6 +267,35 @@ $r = http(BASE . '/users.php');
 check('редактору раздел «Пользователи» открыт (решение владельца 18.09.2026)',
       $r['s'] === 200 && has($r['b'], 'Активных администраторов'), 'код ' . $r['s']);
 
+/* Решение владельца 18.09.2026: аккаунт администратора — пароль и роль меняет только администратор. */
+$ownerHash = (string)(user_row('owner')['pass_hash'] ?? '');
+$r = http(BASE . '/users.php?uid=owner');
+$editorToken = csrf($r['b']);
+check('редактору карточка администратора открывается, форм роли и пароля нет',
+      $r['s'] === 200 && has($r['b'], 'менять только администратор') && !has($r['b'], 'Сбросить пароль'),
+      'код ' . $r['s']);
+
+$r = http(BASE . '/users.php', array('csrf' => $editorToken, 'action' => 'password', 'login' => 'owner',
+      'password' => 'Chuzhoy123', 'password2' => 'Chuzhoy123'));
+$r = http(BASE . '/users.php');
+check('редактору пароль администратора не меняется',
+      has($r['b'], 'может менять только администратор')
+      && (string)(user_row('owner')['pass_hash'] ?? '') === $ownerHash,
+      'пароль администратора изменился');
+
+$r = http(BASE . '/users.php', array('csrf' => $editorToken, 'action' => 'role', 'login' => 'owner', 'role' => 'editor'));
+$r = http(BASE . '/users.php');
+check('редактору роль администратора не меняется',
+      has($r['b'], 'может менять только администратор') && (user_row('owner')['role'] ?? '') === 'admin');
+
+$r = http(BASE . '/users.php', array('csrf' => $editorToken, 'action' => 'create', 'login' => 'admin2',
+      'name' => 'Второй админ', 'role' => 'admin', 'password' => 'Admin2-123', 'password2' => 'Admin2-123'));
+$r = http(BASE . '/users.php');
+check('редактору не дают создать администратора',
+      has($r['b'], 'Создавать администраторов может только администратор') && user_row('admin2') === array());
+check('в разделе редактору прямо сказано, что администраторов создаёт только администратор',
+      has($r['b'], 'только администратор, поэтому здесь доступна роль «редактор»'));
+
 logout_now();
 check('вход администратором снова работает', login_as('owner', 'Secret123'));
 $r = http(BASE . '/users.php');
