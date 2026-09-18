@@ -192,8 +192,8 @@ require_once __DIR__ . '/publish.php';      // file_backup(): копия кар�
 require_once __DIR__ . '/pages.php';        // список страниц сайта и правила «где показывать»
 
 /** Состояние баннера для списка. */
-function banner_status(array $b): array {
-    $today = date('Y-m-d');
+function banner_status(array $b, string $today = ''): array {
+    if ($today === '') { $today = date('Y-m-d'); }
     if (empty($b['active'])) {
         return array('tone' => 'mut', 'text' => 'выключен');
     }
@@ -260,15 +260,16 @@ function banner_slot_pages(): array {
     return $out;
 }
 
-/** Баннеры, которые подходят этой странице и слоту: включён, срок идёт, страницы совпали. */
+/** Баннеры, которые подходят этой странице и слоту: включён, срок идёт, страницы совпали.
+    Дата проверки передаётся в banner_status(), иначе переданный «сегодня» игнорировался бы
+    и баннер с истёкшим сроком считался бы подходящим. */
 function banner_fit_list(array $banners, string $slot, string $pagePath, string $today = ''): array {
     if ($today === '') { $today = date('Y-m-d'); }
     $out = array();
     foreach ($banners as $b) {
         if ((string)($b['slot'] ?? '') !== $slot)                          { continue; }
-        $st = banner_status($b);
+        $st = banner_status($b, $today);
         if ((string)$st['text'] !== 'показывается')                        { continue; }
-        if ((string)($b['date_from'] ?? '') !== '' && (string)$b['date_from'] > $today) { continue; }
         if (!banner_pages_ok($b, $pagePath))                               { continue; }
         $out[] = $b;
     }
