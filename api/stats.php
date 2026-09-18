@@ -14,11 +14,18 @@
      { "ok": true, "date": "2026-09-15", "visits": 12, "hits": 37, "tools": 33, "recorded": 1 }
 
    Что лежит на диске: api/data/YYYY-MM-DD.json
-     { "hits": 37, "salt": "…", "visitors": { "<16 hex>": 1, … }, "pages": { "/calculators/finance/vat/": 4, … } }
-   Ничего, кроме этих чисел, не сохраняется: ни IP, ни User-Agent, ни cookie.
+     { "hits": 37, "salt": "…", "visitors": { "<16 hex>": 1, … }, "pages": { "/calculators/finance/vat/": 4, … },
+       "sources": { "direct": 5, "internal": 20, "search": 9, "social": 2, "other": 1 },
+       "devices": { "desktop": 30, "mobile": 7, "tablet": 0 },
+       "refs": { "yandex.ru": 9, "vk.com": 2 }, "newcomers": 8, "returning": 5 }
+   Ничего, кроме этих чисел, не сохраняется: ни IP, ни User-Agent, ни cookie, ни адреса страниц-источников —
+   от Referer остаётся только домен (без пути и без поискового запроса).
    Для подсчёта уникальных за сутки берётся короткий хеш (первые 16 hex-символов sha256)
    от суточной соли, даты, IP и User-Agent — восстановить по нему посетителя нельзя,
    а вместе с файлом дня он удаляется (файлы старше 45 суток вычищаются автоматически).
+   «Новые и вернувшиеся» (шаг 6.1) считаются по отдельному реестру api/data/known.json: соль на календарный
+   месяц и дата первого визита по хешу от соли, IP и User-Agent. IP там тоже нет; записи старше 180 суток
+   вычищаются, а в новом месяце посетитель снова считается новым — так задумано, чтобы не вести его вечно.
    Счётчик описан в политике конфиденциальности (/privacy.html) и в sweb-migration/README.md.
 
    Совместимость: PHP 5.6–8.x (без стрелочных функций и типизированных свойств).
@@ -107,6 +114,75 @@ function page_path() {
   return $path;
 }
 
+/* ───────── откуда пришёл посетитель, с какого устройства, впервые или нет (шаг 6.1) ───────── */
+
+/* Домен, с которого пришли (Referer). Сам адрес не сохраняем: ни пути, ни поискового запроса —
+   только домен, иначе в файле оказались бы чужие запросы. Пусто — зашли напрямую. */
+function referer_host() {
+  $ref = isset($_SERVER['HTTP_REFERER']) ? trim((string) $_SERVER['HTTP_REFERER']) : '';
+  if ($ref === '') { return ''; }
+  $host = parse_url($ref, PHP_URL_HOST);
+  if (!is_string($host) || $host === '') { return ''; }
+  $host = strtolower((string) preg_replace('/^www\./', '', $host));
+  if (strlen($host) > 80 || !preg_match('/^[a-z0-9.\-]+$/', $host)) { return ''; }
+  return $host;
+}
+
+/* Откуда пришёл: direct — адрес открыли вручную, internal — свои страницы, search — поисковики,
+   social — соцсети и мессенджеры, other — остальные сайты (домен виден в отчёте). */
+function referer_source($host, $self) {
+  if ($host === '') { return 'direct'; }
+  if ($self !== '' && (strcasecmp($host, $self) === 0 || strcasecmp($host, 'www.' . $self) === 0)) { return 'internal'; }
+  if (preg_match('/(^|\.)(google|yandex|bing|duckduckgo|mail|rambler|yahoo|search|go|brave|ecosia|nigma)\.[a-z]{2,}$/', $host)) { return 'search'; }
+  if (preg_match('/(^|\.)(vk|t|telegram|ok|dzen|zen|facebook|instagram|twitter|x|youtube|pinterest|reddit|habr|livejournal|tumblr|linkedin|whatsapp|viber)\.[a-z]{2,}$/', $host)) { return 'social'; }
+  return 'other';
+}
+
+/* Устройство по User-Agent: планшет, телефон или компьютер. Планшет проверяем первым:
+   в его строке тоже встречается «Android»/«Mobile». */
+function device_kind($ua) {
+  if (preg_match('/ipad|tablet|kindle|silk|playbook/i', $ua)) { return 'tablet'; }
+  if (preg_match('/mobile|android|iphone|ipod|windows phone|opera mini|opera mobi|blackberry/i', $ua)) { return 'mobile'; }
+  return 'desktop';
+}
+
+/* Новый посетитель или вернувшийся. Дневной хеш для этого не годится — соль меняется каждый день,
+   поэтому держим отдельный реестр: соль на календарный месяц и дата первого визита по хешу.
+   IP не храним и здесь: только короткий хеш от соли, IP и User-Agent. Записи старше 180 суток
+   вычищаем, в новом месяце посетитель снова считается новым — вечно за ним не ходим. */
+function visitor_period($file, $ip, $ua) {
+  $fh = @fopen($file, 'c+b');
+  if (!$fh) { return ''; }
+  if (!flock($fh, LOCK_EX)) { fclose($fh); return ''; }
+  $j = json_decode(stream_get_contents($fh), true);
+  if (!is_array($j)) { $j = array(); }
+
+  $month = date('Y-m');
+  $salt  = (isset($j['month'], $j['salt']) && $j['month'] === $month && is_string($j['salt']) && $j['salt'] !== '')
+         ? (string) $j['salt'] : rand_hex(8);
+  $seen  = (isset($j['seen']) && is_array($j['seen'])) ? $j['seen'] : array();
+
+  $limit = date('Y-m-d', time() - 180 * 86400);
+  foreach ($seen as $k => $d) {
+    if (!is_string($d) || $d < $limit) { unset($seen[$k]); }
+  }
+
+  $hash = substr(hash('sha256', $salt . '|' . $ip . '|' . $ua), 0, 16);
+  $kind = isset($seen[$hash]) ? 'returning' : 'new';
+  if ($kind === 'new') { $seen[$hash] = date('Y-m-d'); }
+
+  ftruncate($fh, 0);
+  rewind($fh);
+  fwrite($fh, json_encode(array('version' => 1, 'month' => $month, 'salt' => $salt, 'seen' => $seen)));
+  fflush($fh);
+  flock($fh, LOCK_UN);
+  fclose($fh);
+  return $kind;
+}
+
+/* Сколько доменов-источников держим в файле дня: остальные не запоминаем, чтобы файл не пух. */
+define('REFS_LIMIT', 50);
+
 /* Обновление файла дня под блокировкой: читаем, меняем, пишем. */
 function update_day($file, $mutator) {
   $fh = @fopen($file, 'c+b');
@@ -115,13 +191,22 @@ function update_day($file, $mutator) {
   $j = json_decode(stream_get_contents($fh), true);
   if (!is_array($j)) { $j = array(); }
   $state = array(
-    'hits'     => isset($j['hits']) ? (int) $j['hits'] : 0,
-    'salt'     => (isset($j['salt']) && is_string($j['salt']) && $j['salt'] !== '') ? $j['salt'] : rand_hex(8),
-    'visitors' => (isset($j['visitors']) && is_array($j['visitors'])) ? $j['visitors'] : array(),
-    'pages'    => (isset($j['pages']) && is_array($j['pages'])) ? $j['pages'] : array(),
+    'hits'      => isset($j['hits']) ? (int) $j['hits'] : 0,
+    'salt'      => (isset($j['salt']) && is_string($j['salt']) && $j['salt'] !== '') ? $j['salt'] : rand_hex(8),
+    'visitors'  => (isset($j['visitors']) && is_array($j['visitors'])) ? $j['visitors'] : array(),
+    'pages'     => (isset($j['pages']) && is_array($j['pages'])) ? $j['pages'] : array(),
+    'sources'   => (isset($j['sources']) && is_array($j['sources'])) ? $j['sources'] : array(),
+    'devices'   => (isset($j['devices']) && is_array($j['devices'])) ? $j['devices'] : array(),
+    'refs'      => (isset($j['refs']) && is_array($j['refs'])) ? $j['refs'] : array(),
+    'newcomers' => isset($j['newcomers']) ? (int) $j['newcomers'] : 0,
+    'returning' => isset($j['returning']) ? (int) $j['returning'] : 0,
   );
   $state = call_user_func($mutator, $state);
-  if (!is_array($state)) { $state = array('hits' => 0, 'salt' => '', 'visitors' => array(), 'pages' => array()); }
+  if (!is_array($state)) {
+    $state = array('hits' => 0, 'salt' => '', 'visitors' => array(), 'pages' => array(),
+                   'sources' => array(), 'devices' => array(), 'refs' => array(),
+                   'newcomers' => 0, 'returning' => 0);
+  }
   ftruncate($fh, 0);
   rewind($fh);
   fwrite($fh, json_encode($state, JSON_UNESCAPED_UNICODE));
@@ -139,9 +224,15 @@ function read_day($file) {
     if (is_array($decoded)) { $j = $decoded; }
   }
   return array(
-    'hits'     => isset($j['hits']) ? (int) $j['hits'] : 0,
-    'visitors' => (isset($j['visitors']) && is_array($j['visitors'])) ? $j['visitors'] : array(),
-    'pages'    => (isset($j['pages']) && is_array($j['pages'])) ? $j['pages'] : array(),
+    'hits'      => isset($j['hits']) ? (int) $j['hits'] : 0,
+    'salt'      => '',
+    'visitors'  => (isset($j['visitors']) && is_array($j['visitors'])) ? $j['visitors'] : array(),
+    'pages'     => (isset($j['pages']) && is_array($j['pages'])) ? $j['pages'] : array(),
+    'sources'   => (isset($j['sources']) && is_array($j['sources'])) ? $j['sources'] : array(),
+    'devices'   => (isset($j['devices']) && is_array($j['devices'])) ? $j['devices'] : array(),
+    'refs'      => (isset($j['refs']) && is_array($j['refs'])) ? $j['refs'] : array(),
+    'newcomers' => isset($j['newcomers']) ? (int) $j['newcomers'] : 0,
+    'returning' => isset($j['returning']) ? (int) $j['returning'] : 0,
   );
 }
 
@@ -172,13 +263,14 @@ function count_tools($root, $cacheFile, $ttl) {
   return $n;
 }
 
-/* Убираем файлы старых суток (кэш числа инструментов не трогаем). */
+/* Убираем файлы старых суток (кэш числа инструментов и реестр посетителей не трогаем). */
 function prune($dir, $days) {
   $limit = time() - $days * 86400;
   $files = glob($dir . '/*.json');
   if (!is_array($files)) { return; }
   foreach ($files as $f) {
-    if (basename($f) === 'tools.json') { continue; }
+    $name = basename($f);
+    if ($name === 'tools.json' || $name === 'known.json') { continue; }
     $t = @filemtime($f);
     if ($t !== false && $t < $limit) { @unlink($f); }
   }
@@ -207,14 +299,35 @@ $file  = $DIR . '/' . $today . '.json';
 $tools = count_tools(dirname(__DIR__), $DIR . '/tools.json', $TOOLS_TTL);
 
 if ($record) {
-  $ip   = client_ip();
-  $page = page_path();
-  $state = update_day($file, function ($s) use ($ip, $ua, $today, $page) {
+  $ip     = client_ip();
+  $page   = page_path();
+  $host   = referer_host();
+  $self   = isset($_SERVER['HTTP_HOST']) ? strtolower((string) preg_replace('/:\d+$/', '', (string) $_SERVER['HTTP_HOST'])) : '';
+  $src    = referer_source($host, $self);
+  $device = device_kind($ua);
+  /* Новый или вернувшийся — спрашиваем реестр до записи дня: он знает всех, кто уже приходил в этом месяце. */
+  $kind   = visitor_period($DIR . '/known.json', $ip, $ua);
+
+  $state = update_day($file, function ($s) use ($ip, $ua, $today, $page, $host, $src, $device, $kind) {
     $s['hits'] = (int) $s['hits'] + 1;
-    $s['visitors'][substr(hash('sha256', $s['salt'] . '|' . $today . '|' . $ip . '|' . $ua), 0, 16)] = 1;
+    $hash  = substr(hash('sha256', $s['salt'] . '|' . $today . '|' . $ip . '|' . $ua), 0, 16);
+    $first = !isset($s['visitors'][$hash]);            /* первый визит этого посетителя за сутки */
+    $s['visitors'][$hash] = 1;
     if ($page !== '') {
       $s['pages'][$page] = isset($s['pages'][$page]) ? (int) $s['pages'][$page] + 1 : 1;
     }
+    $s['sources'][$src]    = isset($s['sources'][$src]) ? (int) $s['sources'][$src] + 1 : 1;
+    $s['devices'][$device] = isset($s['devices'][$device]) ? (int) $s['devices'][$device] + 1 : 1;
+    /* Домены-источники: свои страницы и прямые заходы не пишем — по ним источник уже понятен. */
+    if ($host !== '' && $src !== 'internal' && $src !== 'direct') {
+      if (isset($s['refs'][$host])) {
+        $s['refs'][$host] = (int) $s['refs'][$host] + 1;
+      } elseif (count($s['refs']) < REFS_LIMIT) {
+        $s['refs'][$host] = 1;
+      }
+    }
+    if ($first && $kind === 'new')       { $s['newcomers'] = (int) $s['newcomers'] + 1; }
+    if ($first && $kind === 'returning') { $s['returning'] = (int) $s['returning'] + 1; }
     return $s;
   });
   if (!is_array($state)) { respond(array('ok' => false, 'error' => 'storage')); }
@@ -224,10 +337,14 @@ if ($record) {
 }
 
 respond(array(
-  'ok'       => true,
-  'date'     => $today,
-  'visits'   => count($state['visitors']),
-  'hits'     => (int) $state['hits'],
-  'tools'    => (int) $tools,
-  'recorded' => $record ? 1 : 0,
+  'ok'        => true,
+  'date'      => $today,
+  'visits'    => count($state['visitors']),
+  'hits'      => (int) $state['hits'],
+  'tools'     => (int) $tools,
+  'recorded'  => $record ? 1 : 0,
+  'sources'   => $state['sources'],
+  'devices'   => $state['devices'],
+  'newcomers' => (int) $state['newcomers'],
+  'returning' => (int) $state['returning'],
 ));
