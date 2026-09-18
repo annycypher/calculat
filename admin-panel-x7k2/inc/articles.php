@@ -107,6 +107,9 @@ function articles_clean(array $in, bool $keepEmpty = true): array {
     foreach ((array)($in['blocks'] ?? array()) as $b) {
         if (!is_array($b)) { continue; }
         $type = (string)($b['type'] ?? 'p');
+        /* Тип блока должен быть из списка панели: иначе при ручной правке файла в статью попадал
+           бы блок, который публикация не умеет разметить. Такие блоки просто не сохраняем. */
+        if (!isset(articles_block_types()[$type])) { continue; }
         if (!isset($types[$type])) { $type = 'p'; }
         $block = array('type' => $type);
 

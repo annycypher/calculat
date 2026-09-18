@@ -77,15 +77,16 @@ $words = articles_words(array('intro' => 'один два три четыре п
     'blocks' => array(array('type' => 'text', 'text' => 'шесть семь восемь девять десять'))));
 check('счётчик слов считает лид вместе с блоками', (int)$words >= 10, 'слов: ' . (int)$words);
 
-/* Находка сценария: неизвестный тип блока редактор не отсекает — сохраняет как данные.
-   UI панели таких блоков не создаёт, но при правке файла вручную они попадут в статью.
-   Проверяем, что движок на них хотя бы не падает, и фиксируем это в отчёте. */
+/* Находка сценария (исправлена): неизвестный тип блока редактор раньше сохранял как данные,
+   и такой блок мог уехать в опубликованную статью. Теперь неизвестные типы не сохраняются. */
 $unknown = articles_clean(array('title' => 'Неизвестный блок', 'slug' => 'test-editor-block',
     'intro' => 'Проверка неизвестного типа блока.', 'blocks' => array(array('type' => 'нет-такого', 'text' => 'данные'))));
 $unknownBlocks = (array)($unknown['fields']['blocks'] ?? array());
-check('неизвестный тип блока не ломает редактор (сохраняется как данные)',
-    (string)$unknown['error'] === '' && count($unknownBlocks) === 1,
-    'ошибка: «' . (string)$unknown['error'] . '», блоков: ' . count($unknownBlocks));
+check('неизвестный тип блока не сохраняется',
+    count($unknownBlocks) === 0, 'блоков осталось: ' . count($unknownBlocks));
+check('известный тип блока при этом сохраняется',
+    count((array)(articles_clean(array('title' => 'Обычный блок', 'slug' => 'test-editor-p',
+        'intro' => 'Проверка обычного блока.', 'blocks' => array(array('type' => 'p', 'text' => 'текст'))))['fields']['blocks'] ?? array())) === 1);
 check('тип блока из панели входит в известные, то есть UI таких блоков не создаёт',
     is_array($types) && count($types) >= 3 && !in_array('нет-такого', array_keys($types), true)
     && !in_array('нет-такого', array_values($types), true));
