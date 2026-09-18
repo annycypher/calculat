@@ -137,9 +137,9 @@ say('');
 say('4. Лента статей (9.2)');
 $blog = file_get('blog/index.html');
 check('на странице блога есть иконка RSS у блока «Статьи»',
-    has($blog, 'class="rss-link"') && has($blog, 'href="/rss.xml"') && has($blog, 'RSS'));
-check('иконка стоит именно у заголовка «Статьи»',
-    (bool)preg_match('/<h2 class="section-title">Статьи <a class="rss-link"/u', $blog));
+    has($blog, 'class="rss-link"') && has($blog, 'href="/rss.xml"') && has($blog, 'RSS-лента'));
+check('заголовок «Статьи» и сетка карточек не изменены (на них завязана публикация)',
+    has($blog, '<h2 class="section-title">Статьи</h2>'));
 $rss = req('/rss.xml');
 $feedOk = $rss['s'] === 200 && has($rss['b'], '<rss') && has($rss['b'], '<item');
 if (!$feedOk) {
