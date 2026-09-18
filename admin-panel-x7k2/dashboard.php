@@ -19,6 +19,7 @@ require __DIR__ . '/inc/backup.php';
 require __DIR__ . '/inc/outreach.php';
 require __DIR__ . '/inc/links.php';
 require __DIR__ . '/inc/backlinks.php';
+require __DIR__ . '/inc/reviews.php';   /* счётчик «Отзывы на модерации» считаем движком отзывов: он знает формат файла */
 
 panel_session_start();
 ensure_guards();
@@ -44,9 +45,9 @@ foreach ($articles as $a) { if (isset($a['status']) && $a['status'] === 'draft')
 $banners = json_read(CONTENT_DIR . '/banners.json', array());
 $ads     = json_read(CONTENT_DIR . '/ads.json', array());
 
-$reviews = json_read(CONTENT_DIR . '/reviews.json', array());
-$pending = 0;
-foreach ($reviews as $rev) { if (isset($rev['status']) && $rev['status'] === 'pending') { $pending++; } }
+/* Отзывы считаем движком отзывов: в файле отзывов лежат и записи, и чёрный список, поэтому
+   «на модерации» здесь должно считаться ровно так же, как в разделе «Отзывы». */
+$pending = (int)reviews_stats()['pending'];
 
 $mediaCount = 0; $mediaSize = 0;
 if (is_dir(MEDIA_DIR)) {
@@ -120,7 +121,7 @@ panel_page_start('Дашборд', 'Что есть на сайте сейчас
 <?php stat_card('Статей панели', (string)count($articles), $drafts > 0 ? 'черновиков: ' . $drafts : 'раздел статей — фаза 4'); ?>
 <?php stat_card('Баннеры', (string)count($banners), 'раздел баннеров — фаза 5'); ?>
 <?php stat_card('Рекламные блоки', (string)count($ads), 'раздел рекламы — фаза 6'); ?>
-<?php stat_card('Отзывы на модерации', (string)$pending, 'раздел отзывов — фаза 7-В', $pending > 0 ? 'warn' : ''); ?>
+<?php stat_card('Отзывы на модерации', (string)$pending, $pending > 0 ? 'ждёт решения — раздел «Отзывы»' : 'очередь пуста — раздел «Отзывы»', $pending > 0 ? 'warn' : ''); ?>
 <?php stat_card('Файлы медиа', (string)$mediaCount, $mediaCount > 0 ? human_size($mediaSize) : 'загрузка картинок — фаза 3'); ?>
 <?php stat_card('Пользователи панели', (string)$usersCount, 'доступы и роли — фаза 1.3'); ?>
       </div>
