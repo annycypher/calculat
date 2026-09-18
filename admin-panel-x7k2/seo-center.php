@@ -16,6 +16,8 @@ require __DIR__ . '/inc/config.php';
 require __DIR__ . '/inc/auth.php';
 require __DIR__ . '/inc/ui.php';
 require __DIR__ . '/inc/seo.php';
+require __DIR__ . '/inc/links.php';
+require __DIR__ . '/inc/backlinks.php';
 
 panel_session_start();
 ensure_guards();
@@ -107,6 +109,17 @@ $posDelRow = array();
 foreach (seo_positions() as $row) { if ((string)$row['id'] === $posDelId) { $posDelRow = $row; } }
 $keyRel    = isset($_GET['keyrel']) ? trim((string)$_GET['keyrel']) : '';
 if ($keyRel !== '' && !in_array($keyRel, site_pages_list(), true)) { $keyRel = ''; }
+
+/* Ссылки: данные сканера «Перелинковки» и реестра бэклинков (шаг 4.5 задания). */
+$linkScan = links_scan_get();
+$linkHas  = count($linkScan) > 0;
+$linkOrph = $linkHas ? links_orphans($linkScan)      : array();
+$linkExt  = $linkHas ? links_ext_problems($linkScan) : array();
+$linkSum  = (array)($linkScan['summary'] ?? array());
+$blItems  = backlinks_data()['items'];
+$blStats  = backlinks_stats($blItems);
+$blAlerts = backlinks_day_alerts($blItems);
+$linkTone = ((int)($linkSum['broken_targets'] ?? 0) > 0 || count($blAlerts) > 0) ? 'warn' : 'ok';
 
 /* Подписи страниц для выпадающих списков: видно, какой ключ панель считает сейчас. */
 $pageOptions = array();
@@ -387,6 +400,46 @@ panel_page_start('SEO-центр', 'Проверка страниц сайта �
       </div>
 <?php card_end(); ?>
 <?php } ?>
+
+<a id="links"></a>
+<?php card_start('Внутренние ссылки и внешние', 'Данные сканера «Перелинковки»: он смотрит ссылки в текстах, а не только в меню', $linkTone); ?>
+      <div class="seo-links" data-scanned="<?php echo $linkHas ? '1' : '0'; ?>"
+           data-orphans="<?php echo count($linkOrph); ?>" data-weak="<?php echo (int)($linkSum['weak'] ?? 0); ?>"
+           data-broken="<?php echo (int)($linkSum['broken_targets'] ?? 0); ?>"
+           data-ext="<?php echo count($linkExt); ?>" data-backlinks-live="<?php echo (int)$blStats['live']; ?>"
+           data-day-alerts="<?php echo count($blAlerts); ?>"></div>
+<?php if (!$linkHas) { ?>
+      <p class="hint" style="margin:0 0 12px">Скана внутренних ссылок ещё не было — это отдельный скан, не тот, что выше.
+        Откройте раздел «Перелинковка» и нажмите «Просканировать сайт»: панель посчитает ссылки в текстах страниц,
+        отдельно от меню, крошек и подвала, и покажет сирот, слабые и битые адреса.</p>
+<?php } else { ?>
+      <table class="table">
+        <tr><th>Что показал сканер ссылок</th><th>Сколько</th><th>Чем помочь</th></tr>
+        <tr><td>Сироты: 0–1 ссылка из текста</td><td><strong><?php echo count($linkOrph); ?></strong></td>
+            <td>в «Перелинковке» у каждой страницы есть подсказка «откуда поставить ссылку» и готовый HTML-чип</td></tr>
+        <tr><td>Слабые: 2–3 ссылки</td><td><strong><?php echo (int)($linkSum['weak'] ?? 0); ?></strong></td>
+            <td>хватит пары упоминаний из смежных материалов</td></tr>
+        <tr><td>Битые адреса</td><td><strong><?php echo (int)($linkSum['broken_targets'] ?? 0); ?></strong></td>
+            <td><?php echo (int)($linkSum['broken_targets'] ?? 0) > 0
+                ? 'видно, на каких страницах они стоят — список в «Перелинковке»' : 'ссылок в никуда нет'; ?></td></tr>
+        <tr><td>Внешние без noopener</td><td><strong><?php echo count($linkExt); ?></strong></td>
+            <td>допишите <code>rel="noopener"</code> рядом с <code>target="_blank"</code></td></tr>
+        <tr><td>Внешние ссылки на сайт</td><td><strong><?php echo (int)$blStats['live']; ?></strong> живых</td>
+            <td>из реестра «Бэклинки»: за 30 дней добавилось <?php echo (int)$blStats['last30']; ?></td></tr>
+      </table>
+      <div class="field-hint">Последний скан: <strong><?php echo h(ago((string)($linkScan['at'] ?? ''))); ?></strong>
+        (<?php echo h((string)($linkScan['at'] ?? '')); ?>). После правок страниц скан стоит повторить —
+        цифры здесь и на дашборде берутся из него.</div>
+<?php } ?>
+<?php if (count($blAlerts) > 0) { ?>
+      <p class="hint" style="margin:12px 0 0">⚠ В «Бэклинках» есть дни, когда добавлено больше 15 ссылок:
+        такой рост поисковый робот читает как неестественный — разнесите ссылки по датам.</p>
+<?php } ?>
+      <div class="btn-row">
+        <a class="btn ghost" href="<?php echo h(panel_url('links.php')); ?>">Перелинковка</a>
+        <a class="btn ghost" href="<?php echo h(panel_url('backlinks.php')); ?>">Бэклинки</a>
+      </div>
+<?php card_end(); ?>
 
 <a id="positions"></a>
 <?php card_start('Позиции из Вебмастера', 'Ручной ввод: страница, запрос, позиция, дата — тренд панель посчитает сама'); ?>
