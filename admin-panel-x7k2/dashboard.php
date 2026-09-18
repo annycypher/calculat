@@ -17,6 +17,8 @@ require __DIR__ . '/inc/auth.php';
 require __DIR__ . '/inc/ui.php';
 require __DIR__ . '/inc/backup.php';
 require __DIR__ . '/inc/outreach.php';
+require __DIR__ . '/inc/links.php';
+require __DIR__ . '/inc/backlinks.php';
 
 panel_session_start();
 ensure_guards();
@@ -66,6 +68,18 @@ $outItems  = outreach_data()['items'];
 $outStats  = outreach_stats($outItems);
 $outRemind = outreach_reminders($outItems);
 $outTone   = count($outRemind) > 0 ? 'warn' : 'ok';
+
+/* ── ссылки: сироты и битые из последнего скана + реестр бэклинков (шаг 4.5 задания) ── */
+$linkScan   = links_scan_get();
+$linkHas    = count($linkScan) > 0;
+$linkOrph   = $linkHas ? links_orphans($linkScan) : array();
+$linkBroken = $linkHas ? links_broken($linkScan) : array();
+$linkExt    = $linkHas ? links_ext_problems($linkScan) : array();
+$linkSum    = (array)($linkScan['summary'] ?? array());
+$blItems    = backlinks_data()['items'];
+$blStats    = backlinks_stats($blItems);
+$blAlerts   = backlinks_day_alerts($blItems);
+$linkTone   = ((int)($linkSum['broken_targets'] ?? 0) > 0 || count($blAlerts) > 0) ? 'warn' : 'ok';
 
 /* ── резервные копии: список, свежесть, тон предупреждения ── */
 $backups = array();
@@ -143,6 +157,47 @@ panel_page_start('Дашборд', 'Что есть на сайте сейчас
         если ответа нет дольше <?php echo (int)OUTREACH_REMIND_DAYS; ?> дней, и подскажет формулировки писем.</p>
 <?php } ?>
       <div class="btn-row"><a class="btn ghost" href="<?php echo h(panel_url('outreach.php')); ?>">Открыть доску аутрича</a></div>
+<?php card_end(); ?>
+
+<?php card_start('Ссылки', 'Внутренняя перелинковка и внешние ссылки на сайт', $linkTone); ?>
+      <div class="links-widget" data-scanned="<?php echo $linkHas ? '1' : '0'; ?>"
+           data-orphans="<?php echo count($linkOrph); ?>" data-weak="<?php echo (int)($linkSum['weak'] ?? 0); ?>"
+           data-broken="<?php echo (int)($linkSum['broken_targets'] ?? 0); ?>" data-ext="<?php echo count($linkExt); ?>"
+           data-backlinks="<?php echo (int)$blStats['total']; ?>" data-backlinks-live="<?php echo (int)$blStats['live']; ?>"
+           data-backlinks30="<?php echo (int)$blStats['last30']; ?>" data-day-alerts="<?php echo count($blAlerts); ?>"></div>
+<?php if (!$linkHas) { ?>
+      <p class="hint" style="margin:0 0 12px">Внутренние ссылки ещё не сканировали. Откройте «Перелинковку» и нажмите
+        «Просканировать сайт» — панель покажет сирот, слабые страницы, битые адреса и внешние ссылки без noopener.</p>
+<?php } else { ?>
+      <table class="table">
+        <tr><th>Что</th><th>Сколько</th><th>Пояснение</th></tr>
+        <tr><td>Сироты (0–1 ссылка из текста)</td><td><strong><?php echo count($linkOrph); ?></strong></td>
+            <td>о таких страницах знают только меню и карта сайта</td></tr>
+        <tr><td>Слабые (2–3 ссылки)</td><td><strong><?php echo (int)($linkSum['weak'] ?? 0); ?></strong></td>
+            <td>не хватает пары упоминаний в текстах</td></tr>
+        <tr><td>Битые адреса</td><td><strong><?php echo (int)($linkSum['broken_targets'] ?? 0); ?></strong></td>
+            <td><?php echo (int)($linkSum['broken_targets'] ?? 0) > 0
+                ? 'это ссылки в никуда — их стоит поправить' : 'ссылок в никуда нет'; ?></td></tr>
+        <tr><td>Внешние без noopener</td><td><strong><?php echo count($linkExt); ?></strong></td>
+            <td>чужие ссылки, которые открываются в новой вкладке</td></tr>
+        <tr><td>Внешние ссылки на сайт</td>
+            <td><strong><?php echo (int)$blStats['live']; ?></strong> живых
+                <span class="hint">(всего <?php echo (int)$blStats['total']; ?>)</span></td>
+            <td>из реестра «Бэклинки»: за 30 дней добавилось <?php echo (int)$blStats['last30']; ?></td></tr>
+      </table>
+<?php } ?>
+<?php if (count($blAlerts) > 0) { ?>
+      <p class="hint" style="margin:12px 0 0">⚠ В «Бэклинках» есть дни, когда добавлено больше 15 ссылок:
+        такой рост поисковики читают как неестественный — разнесите ссылки по датам.</p>
+<?php } ?>
+<?php if ($linkHas && count($linkOrph) > 0) { ?>
+      <p class="hint" style="margin:12px 0 0">С сиротами поможет «Перелинковка»: там для каждой страницы есть подсказка
+        «откуда поставить ссылку» и готовый HTML-чип.</p>
+<?php } ?>
+      <div class="btn-row">
+        <a class="btn ghost" href="<?php echo h(panel_url('links.php')); ?>">Перелинковка</a>
+        <a class="btn ghost" href="<?php echo h(panel_url('backlinks.php')); ?>">Бэклинки</a>
+      </div>
 <?php card_end(); ?>
 
 <?php card_start('Резервные копии', 'Копия сайта перед правками — ваша страховка', $backupTone); ?>
