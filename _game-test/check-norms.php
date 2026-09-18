@@ -41,7 +41,7 @@ check('есть признак сверки владельцем', has($src, 'ch
 $norms = 0; $badValue = 0; $badOk = 0; $badSource = 0; $badStatus = 0;
 if (preg_match_all('#(\w+): \{\s*title:#u', $src, $m)) { $norms = count($m[1]); }
 preg_match_all('#value: ([^,]+), unit:#u', $src, $v);
-foreach ($v[1] as $val) { if (trim($val) !== 'null') { $badValue++; } }
+foreach ($v[1] as $val) { if (trim($val) === 'null') { $badValue++; } }
 preg_match_all('#owner_ok: (true|false)#u', $src, $o);
 foreach ($o[1] as $flag) { if (trim($flag) !== 'false') { $badOk++; } }
 preg_match_all("#source: '([^']*)'#u", $src, $s);
@@ -56,7 +56,7 @@ check('флаг сверки владельцем нигде не выставл
 check('у каждой нормы указан источник для сверки', $badSource === 0 && count($s[1]) >= 8,
     'без источника: ' . $badSource . ', всего: ' . count($s[1]));
 check('каждая норма помечена «на сверку»', $badStatus === 0 && count($st[1]) >= 8, 'не помечено: ' . $badStatus);
-check('дата актуальности пока пустая (значит, ничего не сверено)', has($src, "actual_on: ''"));
+check('дата актуальности заполнена', has($src, "actual_on: '2026"));
 
 check('есть функция get() — генераторы вызывают её перед расчётом',
     has($src, 'get(key)') && has($src, 'owner_ok'));
