@@ -1,0 +1,7 @@
+# media/uploads — папка для картинок владельца (баннеры, картинки статей).
+# Отсюда должны отдаваться только картинки: если кто-то загрузит «картинку» с расширением скрипта,
+# она не выполнится, а будет отдана как файл.
+<FilesMatch "\.(php|phtml|phps|php[0-9]|pl|py|cgi|sh|bash|exe|dll|so|js|mjs|html?|xml)$">
+  Require all denied
+</FilesMatch>
+Options -Indexes
