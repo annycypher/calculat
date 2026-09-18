@@ -17,7 +17,10 @@ require __DIR__ . '/inc/ui.php';
 require __DIR__ . '/inc/media.php';
 require __DIR__ . '/inc/article-template.php';
 require __DIR__ . '/inc/articles.php';
-require __DIR__ . '/inc/publish.php';
+require_once __DIR__ . '/inc/links.php';
+/* publish.php подключаем через require_once: его же тянет цепочка inc/ads.php (links.php → seo.php → ads.php),
+   а обычный require второй раз объявил бы функции (file_backup и другие) — была фатальная ошибка. */
+require_once __DIR__ . '/inc/publish.php';
 
 panel_session_start();
 ensure_guards();
@@ -913,7 +916,94 @@ $faqCount = count((array)($fields['faq'] ?? array()));
         <li><?php echo h($in); ?></li>
 <?php } ?>
       </ul>
+<?php
+/* ── Предложить связанные статьи (шаг 4.5 задания): слова черновика × страницы из сканера ссылок ── */
+$relScan  = links_scan_get();
+$relWords = array();
+if (count($relScan) > 0) {
+    $relHead = trim((string)($fields['title'] ?? '') . ' ' . (string)($fields['keywords'] ?? '')
+        . ' ' . (string)($fields['description'] ?? ''));
+    $relPara = '';
+    foreach ((array)($fields['blocks'] ?? array()) as $relB) {
+        if (!is_array($relB)) { continue; }
+        if ((string)($relB['type'] ?? '') === 'p' && trim((string)($relB['text'] ?? '')) !== '') { $relPara = (string)$relB['text']; break; }
+    }
+    $relWords = links_page_words($relHead, $relPara);
+}
+$relRows = array();
+if (count($relWords) > 0) {
+    foreach ((array)($relScan['pages'] ?? array()) as $relP) {
+        if (!is_array($relP) || !empty($relP['service'])) { continue; }
+        if ((string)($relP['rel'] ?? '') === '/blog/' . (string)($fields['slug'] ?? '') . '/') { continue; }
+        $shared = links_shared_words($relWords, (array)($relP['words'] ?? array()));
+        if (count($shared) < 2) { continue; }
+        $relRows[] = array('row' => $relP, 'shared' => count($shared), 'words' => array_slice($shared, 0, 6));
+    }
+    usort($relRows, function (array $a, array $b) { return (int)$b['shared'] - (int)$a['shared']; });
+    $relRows = array_slice($relRows, 0, 5);
+}
+?>
+<?php card_start('Предложить связанные статьи', 'Подсказки из сканера «Перелинковки»: сюда логично поставить ссылки из текста'); ?>
+      <div class="article-links" data-scan="<?php echo count($relScan) > 0 ? '1' : '0'; ?>"
+           data-rows="<?php echo count($relRows); ?>" data-words="<?php echo count($relWords); ?>"></div>
+<?php if (count($relScan) === 0) { ?>
+      <p class="hint" style="margin:0">Скан внутренних ссылок ещё не делали. Откройте «Перелинковку» и нажмите
+        «Просканировать сайт» — тогда здесь появятся страницы, близкие по теме к этой статье.</p>
+<?php } elseif (count($relRows) === 0) { ?>
+      <p class="hint" style="margin:0">Похожих страниц не нашлось: панель сравнивает слова заголовка, описания и первого
+        абзаца со словами страниц сайта. Добавьте в черновик ключевые слова и абзац текста — подсказки появятся.</p>
+<?php } else { ?>
+      <p class="hint" style="margin:0 0 10px">Близкие по теме страницы сайта — их стоит упомянуть в тексте статьи:</p>
+      <table class="table">
+        <tr><th>Страница</th><th>Общих слов</th><th>Готовый чип</th></tr>
+<?php   foreach ($relRows as $relR) {
+            $relRow = (array)$relR['row'];
+            $relRel = (string)($relRow['rel'] ?? '');
+            $anchor = links_anchor_for($relRow);
+            $chip   = links_chip($relRel, $anchor); ?>
+        <tr>
+          <td><code><?php echo h($relRel); ?></code>
+            <div class="hint" style="margin-top:2px"><?php echo h((string)($relRow['h1'] ?? '')); ?></div></td>
+          <td><?php echo (int)$relR['shared']; ?>
+            <span class="hint">(<?php echo h(implode(', ', (array)$relR['words'])); ?>)</span></td>
+          <td>
+            <textarea readonly rows="2" id="chip-<?php echo (int)array_search($relR, $relRows, true); ?>"
+                      style="width:100%;font-size:12px"><?php echo h($chip); ?></textarea>
+            <div class="btn-row" style="margin-top:4px">
+              <button class="btn ghost copy-btn" type="button" style="padding:4px 8px;font-size:12px"
+                      data-for="chip-<?php echo (int)array_search($relR, $relRows, true); ?>">Скопировать чип</button>
+            </div>
+          </td>
+        </tr>
+<?php   } ?>
+      </table>
+      <div class="field-hint">Чип — это готовая ссылка <code>&lt;a href&gt;Анкор&lt;/a&gt;</code>: вставьте её в подходящий
+        абзац. Анкор панель берёт из H1 страницы, а если такой анкор уже много раз ведёт на неё — предупредит
+        в «Перелинковке» и предложит другой вариант.</div>
+<?php } ?>
+      <div class="btn-row">
+        <a class="btn ghost" href="<?php echo h(panel_url('links.php')); ?>" target="_blank" rel="noopener">Открыть «Перелинковку»</a>
+      </div>
 <?php card_end(); ?>
+
+<script>
+document.addEventListener('click', function (event) {
+  var btn = event.target && event.target.closest ? event.target.closest('.copy-btn') : null;
+  if (!btn || btn.getAttribute('data-copied') === '1') { return; }
+  var field = document.getElementById(btn.getAttribute('data-for'));
+  if (!field) { return; }
+  field.focus(); field.select();
+  var done = false;
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(field.value); done = true; }
+    else { document.execCommand('copy'); done = true; }
+  } catch (err) { done = false; }
+  var old = btn.textContent;
+  btn.setAttribute('data-copied', '1');
+  btn.textContent = done ? 'Скопировано' : 'Нажмите Ctrl+C';
+  setTimeout(function () { btn.textContent = old; btn.removeAttribute('data-copied'); }, 1800);
+});
+</script>
 
     </aside>
   </div>
