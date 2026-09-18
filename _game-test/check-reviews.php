@@ -31,10 +31,16 @@ function check(string $name, bool $pass, string $extra = ''): void {
 
 function has(string $hay, string $needle): bool { return mb_strpos($hay, $needle) !== false; }
 
-/* Сохраняем всё, что тест может задеть. */
-$watch = array(reviews_file());
-foreach (array('/reviews/index.html', '/index.html', '/sitemap.xml') as $rel) { $watch[] = SITE . $rel; }
-$watch[] = LOG_DIR . '/actions.json';
+/* Сохраняем всё, что тест может задеть: отзывы, все страницы и карты сайта, журнал.
+   Вывод блока отзывов трогает много страниц сразу, поэтому снимок берём по всему сайту. */
+$watch = array(reviews_file(), LOG_DIR . '/actions.json');
+$it = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(SITE, FilesystemIterator::SKIP_DOTS));
+foreach ($it as $f) {
+    $p = $f->getPathname();
+    if (!$f->isFile()) { continue; }
+    if (preg_match('#\\\\(admin-panel|backups|_archive|_backup|_game-test|sweb-migration)\\\\#', $p)) { continue; }
+    if (substr($p, -5) === '.html' || substr($p, -4) === '.xml') { $watch[] = $p; }
+}
 $back = array();
 foreach ($watch as $f) { $back[$f] = is_file($f) ? (string)file_get_contents($f) : null; }
 register_shutdown_function(function () use ($back) {
