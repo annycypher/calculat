@@ -174,7 +174,7 @@ function links_page_links(string $rel, string $html, array $known = array()): ar
         $key = $path . "\n" . $anchor;
         if (!isset($text[$key])) { $text[$key] = array('to' => $path, 'anchor' => $anchor, 'count' => 0); }
         $text[$key]['count']++;
-        if (count($known) > 0 && !in_array($path, $known, true)) { $broken[$path] = $anchor; }
+        if (count($known) > 0 && !in_array($path, $known, true)) { $base = rtrim((string)$path, '/'); $exists = is_file(SITE_ROOT . $path) || is_dir(SITE_ROOT . $base) || is_file(SITE_ROOT . $base . '/index.html'); if (!$exists) { $broken[$path] = $anchor; } }
     }
 
     $out['text'] = array_values($text);

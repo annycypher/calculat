@@ -101,6 +101,15 @@ check('битых ссылок в отчёте нет', count($broken) === 0,
     count($broken) . ' — ' . substr(json_encode(array_slice((array)$broken, 0, 2), JSON_UNESCAPED_UNICODE), 0, 200));
 check('ссылка на существующий файл (лента RSS) живой',
     is_file(SITE . '/rss.xml') && !has(json_encode($broken, JSON_UNESCAPED_UNICODE), '/rss.xml'));
+/* Это же должно быть видно и в самом скане: раньше отметка «битая» ставилась на любой адрес,
+   которого нет среди страниц, и в неё попадала лента. */
+$scanBrokenRows = 0;
+foreach ((array)($back['pages'] ?? array()) as $row) {
+    foreach ((array)($row['broken'] ?? array()) as $b) {
+        if (has(json_encode($b, JSON_UNESCAPED_UNICODE), '/rss.xml')) { $scanBrokenRows++; }
+    }
+}
+check('в самом скане лента RSS не помечена битой', $scanBrokenRows === 0, 'найдено отметок: ' . $scanBrokenRows);
 $ext = links_ext_problems($back);
 check('с внешними ссылками проблем нет', count($ext) === 0,
     'проблем: ' . count($ext) . ' — ' . substr(json_encode(array_slice($ext, 0, 2), JSON_UNESCAPED_UNICODE), 0, 200));
