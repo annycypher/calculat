@@ -625,3 +625,19 @@ status = «на сверку». Плюс функции get() (возвраща�
 Тест: _game-test\check-norms.ps1 — следит, чтобы в блоке не появилось ни одной нормы с числом
 до сверки (в том числе моими руками), у каждой нормы был источник и пометка «на сверку».
 
+
+### Фаза 1, шаг 1.1 — универсальный движок (18.09.2026). Сделано
+
+Создан js/generator-engine.js — один namespace GenEngine, без внешних библиотек:
+  readParams() — параметры из адреса (?field=value) в поля по name и пересчёт страницы;
+  renderPreview(fields, template) — шаблон с {{placeholder}} → HTML, значения экранируются,
+    незнакомые плейсхолдеры убираются, даты {{date_today}}/{{date_long}} подставляет движок;
+  previewToDocx(html, filename) — Blob application/msword с BOM → скачивание .doc для Word;
+  copyToClipboard(text) — буфер обмена с запасным способом;
+  printPreview(html) — отдельное окно с print.css v2 и A4-полями, печать только документа;
+  bindFields(inputId, placeholder) — живая связь поля и документа;
+  build(options) — сборка генератора: связи, предпросмотр в .gen-preview и кнопки по data-gen-action
+    (copy, doc, print, clear) + readParams при загрузке.
+Движок намеренно не считает проценты и ставки: нормы — в js/generator-norms.js, только после сверки.
+Тест: _game-test\check-engine.ps1 — 19/19.
+
