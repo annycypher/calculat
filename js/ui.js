@@ -4,6 +4,8 @@ let SEARCH = [], POPULAR = [];
 // Тема, кнопка «Установить» (PWA), панель действий.
 import '/js/print-result.js?v=1';   // «🖨 Распечатать результат» на страницах с результатом (шаг 8.2)
 import '/js/share-params.js?v=1';   // «Поделиться с параметрами» на ипотеке, вкладах и кредите (шаг 8.3)
+import '/js/share.js?v=1';          // кнопки «Поделиться» на статьях блога (шаг 9.3)
+import '/js/ads.js?v=1';            // рекламные слоты: место зарезервировано, показ после кода (шаг 9.4)
 
 const themeToggle = document.getElementById('themeToggle');
 const installBtn = document.getElementById('installBtn');

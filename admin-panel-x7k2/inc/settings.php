@@ -265,6 +265,8 @@ function settings_block(string $html, string $name, string $inner, string $ancho
 
         if ($inner === '') {
             $new = '';                                    /* блок больше не нужен — убираем целиком */
+            /* Забираем и перевод строки: иначе после удаления остаётся пустая строка. */
+            if ($lineEnd < strlen($html)) { $lineEnd++; }
         } else {
             $indent = '';
             if (preg_match('/^[ \t]*/', (string)substr($html, $lineStart, $pos - $lineStart), $im)) { $indent = (string)$im[0]; }
@@ -288,7 +290,7 @@ function settings_block(string $html, string $name, string $inner, string $ancho
     if (preg_match('/^[ \t]*/', (string)substr($html, $lineStart, $anchorPos - $lineStart), $im)) { $indent = (string)$im[0]; }
     $norm = str_replace(array("\r\n", "\r"), "\n", $inner);
     $body = $indent . str_replace("\n", $nl . $indent, $norm);
-    $at    = $after ? $anchorPos + strlen($anchor) : $anchorPos;
+    $at    = $after ? $anchorPos + strlen($anchor) : $lineStart;
     $block = ($after ? $nl : '') . $indent . $open . $nl . $body . $nl . $indent . $close . ($after ? '' : $nl);
     return array('html' => substr($html, 0, $at) . $block . substr($html, $at), 'changed' => true);
 }
@@ -331,9 +333,25 @@ function settings_notice_html(): string {
     return $out;
 }
 
+/** Иконка Telegram (циан) для подвала — если владелец задал адрес канала (шаг 9.1).
+    Пусто — если адрес не задан: тогда блока на страницах не будет вовсе. */
+function settings_tg_html(): string {
+    $tg = trim((string)settings_get('tg', ''));
+    if ($tg === '' || !preg_match('#^https?://#i', $tg)) { return ''; }
+
+    $out  = '<a class="foot-tg" href="' . h($tg) . '" target="_blank" rel="noopener"'
+          . ' title="Telegram-канал CalcDoc" aria-label="Telegram-канал CalcDoc"'
+          . ' style="display:inline-flex;align-items:center;gap:8px;color:inherit;text-decoration:none;font-size:14px">';
+    $out .= '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6fd3f2" stroke-width="1.7"'
+          . ' stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+          . '<path d="M21 4.5 2.8 11.4l5.3 1.7 1.3 5.4 3.1-3.6 4.6 3.6z"/><path d="M8.1 13.1 21 4.5"/></svg>';
+    $out .= '<span>Telegram</span></a>';
+    return $out;
+}
+
 /** Что сейчас на сайте: сколько страниц, где стоит счётчик Метрики и уведомление. */
 function settings_site_state(): array {
-    $pages = 0; $metrika = 0; $notice = 0;
+    $pages = 0; $metrika = 0; $notice = 0; $tg = 0;
     foreach (site_pages_list() as $rel) {
         $file = site_page_file((string)$rel);
         if (!is_file($file)) { continue; }
@@ -342,12 +360,14 @@ function settings_site_state(): array {
         $pages++;
         if (strpos($html, '<!--SETTINGS:metrika-->') !== false) { $metrika++; }
         if (strpos($html, '<!--SETTINGS:notice-->') !== false) { $notice++; }
+        if (strpos($html, '<!--SETTINGS:tg-->') !== false) { $tg++; }
     }
     $maint = settings_get('maintenance', array());
     return array(
         'pages'       => $pages,
         'metrika'     => $metrika,
         'notice'      => $notice,
+        'tg'          => $tg,
         'metrika_set' => preg_match('/^\d{5,12}$/', (string)settings_get('metrika', '')) === 1,
         'notice_on'   => is_array($maint) && !empty($maint['on']),
         'metrika_at'  => (string)settings_get('metrika_at', ''),
@@ -361,7 +381,8 @@ function settings_site_state(): array {
 function settings_render_site(): array {
     $mk     = settings_metrika_html();
     $notice = settings_notice_html();
-    $pages  = 0; $mkDone = 0; $ntDone = 0;
+    $tg     = settings_tg_html();
+    $pages  = 0; $mkDone = 0; $ntDone = 0; $tgDone = 0;
     $notes  = array();
 
     foreach (site_pages_list() as $rel) {
@@ -397,12 +418,25 @@ function settings_render_site(): array {
         }
         $ntChanged = ($fresh !== $ntStart);
 
+        /* Иконка Telegram в подвале (шаг 9.1): появляется, когда владелец задал адрес канала. */
+        $tgStart = $fresh;
+        for ($pass = 0; $pass < 2; $pass++) {
+            $r3 = settings_block($fresh, 'tg', $tg, '</footer>', false);
+            if (empty($r3['changed']) && $tg !== '' && strpos($fresh, '<!--SETTINGS:tg-->') === false) {
+                $r3 = settings_block($fresh, 'tg', $tg, '</body>', false);   /* страницы без подвала */
+            }
+            if (empty($r3['changed'])) { break; }
+            $fresh = (string)$r3['html'];
+        }
+        $tgChanged = ($fresh !== $tgStart);
+
         if ($fresh === $html) { continue; }
 
         $w = file_write_safe($file, $fresh);
         if (empty($w['ok'])) { $notes[] = $rel . ' — ' . (string)$w['error']; continue; }
         if ($mkChanged) { $mkDone++; }
         if ($ntChanged) { $ntDone++; }
+        if ($tgChanged) { $tgDone++; }
     }
 
     /* Отметим в настройках, когда выводили и что именно стоит на сайте. */
@@ -411,9 +445,9 @@ function settings_render_site(): array {
     $all['notice_at']  = ($notice !== '') ? date('Y-m-d H:i') : '';
     settings_save_all($all);
 
-    if (function_exists('log_action') && ($mkDone > 0 || $ntDone > 0)) {
+    if (function_exists('log_action') && ($mkDone > 0 || $ntDone > 0 || $tgDone > 0)) {
         log_action('Настройки выведены на сайт',
-            'страниц со счётчиком Метрики: ' . $mkDone . ', с уведомлением: ' . $ntDone);
+            'страниц со счётчиком Метрики: ' . $mkDone . ', с уведомлением: ' . $ntDone . ', с иконкой Telegram: ' . $tgDone);
     }
 
     return array(
@@ -422,6 +456,7 @@ function settings_render_site(): array {
         'pages'   => $pages,
         'metrika' => $mkDone,
         'notice'  => $ntDone,
+        'tg'      => $tgDone,
         'notes'   => $notes,
     );
 }

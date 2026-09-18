@@ -1,3 +1,6 @@
+# Лента статей: удобный адрес /blog/rss.xml ведёт на настоящую ленту /rss.xml (шаг 9.2)
+/blog/rss.xml  /rss.xml  301
+
 # Строгий 404 для удалённой страницы инфографики
 /converters/infographic.html  /404  404
 /converters/infographic       /404  404
