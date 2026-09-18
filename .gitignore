@@ -40,6 +40,7 @@ content/ads.json
 content/links.json
 content/backlinks.json
 content/outreach.json
+content/reviews.json
 content/security/*.json
 content/security/*.txt
 content/logs/*.json
