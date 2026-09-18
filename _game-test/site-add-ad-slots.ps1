@@ -39,6 +39,11 @@ $bottom = @'
 '@
 $css = '  <link rel="stylesheet" href="/ads.css?v=1" />'
 
+# Страницы сайта хранят переводы строк CRLF: приводим блоки к тому же виду, иначе
+# вставка и удаление не совпадают байт-в-байт и в разметке копятся пустые строки.
+$top    = ($top    -replace "`r?`n", "`r`n")
+$bottom = ($bottom -replace "`r?`n", "`r`n")
+
 $changed = 0; $skipped = 0
 foreach ($rel in $pages) {
     $file = Join-Path $root $rel
@@ -51,10 +56,17 @@ foreach ($rel in $pages) {
     $new = $text
 
     if ($Remove) {
-        # Убираем ровно те блоки, что вставляли, вместе с переводом строки, который добавляла вставка.
-        $new = $new.Replace("`r`n" + $top.TrimEnd("`r", "`n"), '')
-        $new = $new.Replace($bottom.TrimEnd("`r", "`n") + "`r`n", '')
-        $new = [regex]::Replace($new, '(?m)^\s*<link rel="stylesheet" href="/ads\.css\?v=1" />\r?\n', '')
+        # Надёжный путь: вернуть страницу из копии, которую скрипт сделал перед вставкой.
+        $safe = $rel -replace '[\\/]', '-'
+        $cand = Get-ChildItem $backDir -Filter ($safe + '.*.bak') -ErrorAction SilentlyContinue |
+                Sort-Object LastWriteTime -Descending | Select-Object -First 1
+        if ($cand) { $new = [System.IO.File]::ReadAllText($cand.FullName) }
+        else {
+            # Копии нет — убираем ровно те блоки, что вставляли, вместе с переводом строки вставки.
+            $new = $new.Replace("`r`n" + $top.TrimEnd("`r", "`n"), '')
+            $new = $new.Replace($bottom.TrimEnd("`r", "`n") + "`r`n", '')
+            $new = [regex]::Replace($new, '(?m)^\s*<link rel="stylesheet" href="/ads\.css\?v=1" />\r?\n', '')
+        }
     } else {
         # верхний слот: в конец маркера ads-top, если он есть, иначе после шапки
         if ($new.Contains('<!--/SLOT:ads-top-->')) {
