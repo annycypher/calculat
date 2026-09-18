@@ -250,7 +250,7 @@ function reviews_page_render(array $list = array()): array {
     }
     $site  = rtrim((string)$shell['site_url'], '/');
     $url   = $site . reviews_page_url();
-    $title = 'Отзывы о CalcDoc';
+    $title = 'Отзывы';                  /* h1 на странице — «Отзывы о CalcDoc», а в <title> не дублируем название сайта */
     $stats = reviews_stats();
 
     $desc = count($list) > 0

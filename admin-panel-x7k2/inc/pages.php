@@ -66,9 +66,13 @@ function slot_apply(string $html, string $slot, string $markup): array {
     $indent = '';
     if (preg_match('/^[ \t]*/', (string)substr($html, $lineStart, $pos - $lineStart), $im)) { $indent = (string)$im[0]; }
 
+    /* Хвост «\r» последней строки области сохраняем: без него в файлах сайта после каждого вывода
+       оставалась строка с одним LF, и панель зря переписывала страницу при каждом обновлении. */
+    $tail = ($lineEnd > $lineStart && substr($html, $lineEnd - 1, 1) === "\r") ? "\r" : '';
+
     $new = $indent . $open . $nl;
     if ($markup !== '') { $new .= $indent . str_replace($nl, $nl . $indent, $markup) . $nl; }
-    $new .= $indent . $close;
+    $new .= $indent . $close . $tail;
 
     $old = substr($html, $lineStart, $lineEnd - $lineStart);
     if ($old === $new) { return array('html' => $html, 'changed' => false); }

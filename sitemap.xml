@@ -24,7 +24,13 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-  <url>
+    <url>
+    <loc>https://calc-doc.ru/reviews/</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+<url>
     <loc>https://calc-doc.ru/blog/neustoyka-alimenty/</loc>
     <lastmod>2026-09-16</lastmod>
     <changefreq>monthly</changefreq>
