@@ -47,7 +47,7 @@ function panel_sections(): array {
         array('file' => 'backup.php',      'title' => 'Бэкапы',       'group' => 'Сервис',       'icon' => '⛁', 'ready' => true,  'hint' => 'копии сайта'),
         array('file' => 'users.php',       'title' => 'Пользователи', 'group' => 'Сервис',       'icon' => '☺', 'ready' => true,  'hint' => 'доступы и роли'),
         array('file' => 'log.php',         'title' => 'Журнал',       'group' => 'Сервис',       'icon' => '☰', 'ready' => false, 'hint' => 'кто что делал — фаза 9'),
-        array('file' => 'settings.php',    'title' => 'Настройки',    'group' => 'Сервис',       'icon' => '⚙', 'ready' => false, 'hint' => 'адрес сайта, счётчики — фаза 11'),
+        array('file' => 'settings.php',    'title' => 'Настройки',    'group' => 'Сервис',       'icon' => '⚙', 'ready' => true,  'hint' => 'Метрика, техобслуживание, отзывы'),
         array('file' => 'contact.php',     'title' => 'Связаться',    'group' => 'Сервис',       'icon' => '✉', 'ready' => false, 'hint' => 'письма и реквизиты — фаза 12'),
     );
 }

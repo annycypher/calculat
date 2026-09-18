@@ -82,7 +82,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         $word = trim((string)($_POST['word'] ?? ''));
         $list = array();
         foreach (reviews_blacklist() as $w) { if (mb_strtolower((string)$w) !== mb_strtolower($word)) { $list[] = $w; } }
-        reviews_save(reviews_data()['items'], $list);
+        settings_blacklist_save($list);   /* с шага 6.3 список живёт в настройках */
         log_action('Отзывы: слово убрано из чёрного списка', $word);
         flash('Из чёрного списка убрано: ' . $word . '.');
     } elseif ($op === 'render') {

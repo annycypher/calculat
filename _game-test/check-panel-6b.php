@@ -14,7 +14,9 @@ declare(strict_types=1);
 define('SITE', dirname(__DIR__));
 
 require SITE . '/admin-panel-x7k2/inc/config.php';
-require SITE . '/admin-panel-x7k2/inc/stats.php';   /* движок чтения счётчика (шаг 6.2) */
+require SITE . '/admin-panel-x7k2/inc/stats.php';     /* движок чтения счётчика (шаг 6.2) */
+require SITE . '/admin-panel-x7k2/inc/settings.php';  /* настройки сайта (шаг 6.3) */
+require SITE . '/admin-panel-x7k2/inc/reviews.php';   /* чтобы проверить общий чёрный список отзывов */
 
 $lines  = array(); $ok = 0; $fail = 0; $n = 0;
 $report = isset($argv[1]) ? (string)$argv[1] : '';
@@ -57,17 +59,31 @@ $todayFile = DATA . '/' . date('Y-m-d') . '.json';
 $knownFile = DATA . '/known.json';
 $usersFile = SITE . '/content/users.json';
 $actsFile  = SITE . '/content/logs/actions.json';
+$setFile   = SITE . '/content/settings.json';
 $back = array();
-foreach (array($todayFile, $knownFile, $usersFile, $actsFile) as $f) {
+foreach (array($todayFile, $knownFile, $usersFile, $actsFile, $setFile) as $f) {
     $back[$f] = is_file($f) ? (string)file_get_contents($f) : null;
 }
 $synth = array();   /* синтетические дни для раздела «Аналитика» — тест их уберёт */
 
-register_shutdown_function(function () use ($back, &$synth) {
+/* Страницы сайта: раздел 7 вписывает в них счётчик Метрики и уведомление — вернём байт-в-байт. */
+$siteBack = array();
+foreach (site_pages_list() as $rel) {
+    $siteBack[(string)$rel] = (string)@file_get_contents(site_page_file((string)$rel));
+}
+$bkDir    = BACKUP_DIR . '/files';
+$bkBefore = array();
+foreach ((array)glob($bkDir . '/*') as $bf) { if (is_file((string)$bf)) { $bkBefore[] = basename((string)$bf); } }
+
+register_shutdown_function(function () use ($back, &$synth, $siteBack, $bkDir, $bkBefore) {
     foreach ($back as $f => $content) {
         if ($content !== null) { @file_put_contents($f, $content); } else { @unlink($f); }
     }
     foreach ($synth as $f) { @unlink($f); }
+    foreach ($siteBack as $rel => $html) { @file_put_contents(site_page_file((string)$rel), (string)$html); }
+    foreach ((array)glob($bkDir . '/*') as $bf) {
+        if (is_file((string)$bf) && !in_array(basename((string)$bf), $bkBefore, true)) { @unlink((string)$bf); }
+    }
 });
 
 /** Быстро прочитать файл дня (или пустоту). */
@@ -343,11 +359,100 @@ check('есть ссылка на отчёт «Трафик без денег»'
 check('карточка «счётчик пуст» не показывается, когда данные есть', !has($r['b'], 'data-has="0"'));
 check('в меню панели ссылка «Аналитика» рабочая', has($r['b'], 'analytics.php'));
 
-/* ── 6. Уборка за собой ── */
+/* ── 6. Настройки (6.3): Метрика, техобслуживание, бренд, чёрный список ── */
 say('');
-say('6. Уборка за собой');
+say('6. Настройки: счётчик Метрики, уведомление, чёрный список отзывов');
+
+$demoPage = '/calculators/finance/vat/';
+$demoFile = site_page_file($demoPage);
+$form = array('op' => 'save', 'brand' => 'CalcDoc', 'tg' => '', 'socials' => '',
+              'hours_from' => '', 'hours_to' => '', 'metrika' => '',
+              'maintenance_text' => '', 'blacklist' => '');
+
+$r = ph($PURL . '/settings.php');
+check('раздел «Настройки» открывается', $r['s'] === 200, 'код ' . $r['s']);
+
+/* Заведомо неверные значения не сохраняем. */
+$bad = $form; $bad['csrf'] = pcsrf($r['b']); $bad['tg'] = 'не-ссылка'; $bad['metrika'] = '12345678';
+$r = ph($PURL . '/settings.php', $bad);
+check('неправильная ссылка на Telegram отклонена', $r['s'] === 302 && (string)settings_get('metrika', '') === '',
+    'метрика после ошибки: «' . (string)settings_get('metrika', '') . '»');
+
+/* Правильное сохранение: номер Метрики, режим техобслуживания, бренд, канал, часы, чёрный список. */
+$r = ph($PURL . '/settings.php');
+$good = $form;
+$good['csrf'] = pcsrf($r['b']);
+$good['tg'] = 'calc_doc_ru';
+$good['socials'] = 'ВКонтакте | https://vk.com/calc-doc';
+$good['hours_from'] = '08:00';
+$good['hours_to'] = '22:00';
+$good['metrika'] = '12345678';
+$good['maintenance_on'] = '1';
+$good['maintenance_text'] = 'Скоро вернёмся: считаем налоги';
+$good['blacklist'] = "casino\nпроверка6b";
+$r = ph($PURL . '/settings.php', $good);
+check('настройки сохранены (редирект)', $r['s'] === 302, 'код ' . $r['s']);
+$hours = (array)settings_get('login_hours');
+check('движок видит сохранённое',
+    (string)settings_get('brand') === 'CalcDoc' && (string)settings_get('metrika') === '12345678'
+    && (string)settings_get('tg') === 'https://t.me/calc_doc_ru'
+    && count((array)settings_get('socials')) === 1);
+check('часы входа и чёрный список записаны',
+    (string)($hours['from'] ?? '') === '08:00' && (string)($hours['to'] ?? '') === '22:00'
+    && in_array('проверка6b', (array)settings_get('blacklist'), true));
+
+$st = settings_site_state();
+check('счётчик Метрики встал на все страницы',
+    (int)$st['metrika'] === (int)$st['pages'] && (int)$st['pages'] > 50,
+    'страниц ' . (int)$st['pages'] . ', со счётчиком ' . (int)$st['metrika']);
+check('уведомление тоже встало на все страницы (на главной — после <body>)',
+    (int)$st['notice'] === (int)$st['pages'], 'страниц с уведомлением: ' . (int)$st['notice']);
+$demo = (string)file_get_contents($demoFile);
+check('сниппет с нашим номером стоит в конце <head>',
+    has($demo, '<!--SETTINGS:metrika-->') && has($demo, 'ym(12345678, "init"')
+    && strpos($demo, 'mc.yandex.ru/metrika/tag.js') < strpos($demo, '</head>'));
+check('уведомление с брендом, текстом и ссылкой стоит сразу после <main>',
+    has($demo, '<!--SETTINGS:notice-->') && has($demo, 'CalcDoc обновляется')
+    && has($demo, 'Скоро вернёмся: считаем налоги') && has($demo, 'https://t.me/calc_doc_ru')
+    && strpos($demo, '<main>') < strpos($demo, 'site-notice'));
+$r2 = req(SITEURL . $demoPage);
+check('страница сайта отдаёт сниппет и уведомление по HTTP',
+    has($r2['b'], 'ym(12345678, "init"') && has($r2['b'], 'data-notice="maintenance"'));
+
+$idle = settings_render_site();
+check('повторный вывод настроек ничего не переписывает',
+    (int)$idle['metrika'] === 0 && (int)$idle['notice'] === 0,
+    'счётчик ' . (int)$idle['metrika'] . ', уведомление ' . (int)$idle['notice']);
+
+check('чёрный список отзывов берётся из настроек', in_array('проверка6b', reviews_blacklist(), true));
+reviews_blacklist_add('казино-6b');
+check('слово из раздела «Отзывы» попало в настройки',
+    in_array('казино-6b', (array)settings_get('blacklist'), true));
+check('приём отзывов отклоняет слова из списка настроек',
+    empty(reviews_add(array('name' => 'Тест', 'text' => 'Заходите в казино-6b, там всё честно'))['ok']));
+
+/* Сняли номер и выключили режим — блоки уходят со страниц. */
+$r = ph($PURL . '/settings.php');
+$off = $form; $off['csrf'] = pcsrf($r['b']);
+$r = ph($PURL . '/settings.php', $off);
+$maint = (array)settings_get('maintenance');
+check('снятие счётчика и выключение режима сохранены',
+    $r['s'] === 302 && (string)settings_get('metrika') === '' && empty($maint['on']));
+$st = settings_site_state();
+check('счётчик и уведомление убраны со всех страниц',
+    (int)$st['metrika'] === 0 && (int)$st['notice'] === 0);
+$demo = (string)file_get_contents($demoFile);
+check('на странице не осталось ни сниппета, ни маркеров',
+    !has($demo, 'mc.yandex.ru') && !has($demo, '<!--SETTINGS:') && !has($demo, 'site-notice'));
+check('страница НДС жива после всех правок', has($demo, '</html>') && has($demo, 'Оставить отзыв'));
+
+/* ── 7. Уборка за собой ── */
+say('');
+say('7. Уборка за собой');
 check('проверки идут с чистого листа (данные владельца вернёт выход)', is_file($todayFile) || is_file($knownFile));
 check('синтетические дни убираются на выходе', count($synth) === 3);
+check('страницы сайта тоже вернутся на выходе', count($siteBack) > 50,
+    'сохранено страниц: ' . count($siteBack));
 
 say('');
 say('ИТОГ: проверок ' . ($ok + $fail) . ', успешно ' . $ok . ', провалов ' . $fail . ($fail > 0 ? ' ⚠' : ' ✅'));

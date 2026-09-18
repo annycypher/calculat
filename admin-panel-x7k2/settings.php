@@ -1,0 +1,224 @@
+<?php
+/* settings.php — «Настройки» (шаг 6.3 задания MASTER-FINAL.md).
+
+   Что здесь есть:
+     • название сайта (бренд) и Telegram-канал — нужны для уведомлений и подписей в блоках панели;
+     • соцсети — строки «название | адрес»;
+     • номер счётчика Яндекс.Метрики: задали — панель сама ставит официальный сниппет на все страницы
+       (в конец <head>, управляемым блоком), стёрли — убирает со всех страниц;
+     • режим «сайт обновляется»: уведомление появляется сразу после <main> на всех страницах;
+     • обычные часы входа в панель (пригодятся фазе безопасности — алертам);
+     • чёрный список слов для отзывов: с этого шага он живёт здесь, а раздел «Отзывы» пишет сюда же.
+
+   Важно: пока номер Метрики пуст, на сайте нет ни одной внешней зависимости — требование закрытого режима
+   (сайт не открываем до команды «ОТКРЫВАЕМ САЙТ»). Менять настройки может только администратор.
+*/
+
+declare(strict_types=1);
+
+require __DIR__ . '/inc/config.php';
+require __DIR__ . '/inc/auth.php';
+require __DIR__ . '/inc/ui.php';
+require __DIR__ . '/inc/settings.php';
+
+panel_session_start();
+ensure_guards();
+require_login();
+panel_require('settings', 'раздел «Настройки»');
+
+/* ── Сохранение и вывод на сайт ── */
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
+    csrf_check();
+    $op = (string)($_POST['op'] ?? '');
+
+    if (!is_admin()) {
+        flash('Менять настройки может только администратор.', 'error');
+    } elseif ($op === 'save') {
+        $parsed = settings_from_form($_POST);
+        if (!$parsed['ok']) {
+            flash($parsed['error'], 'error');
+        } else {
+            settings_save_all($parsed['values']);
+            log_action('Настройки сохранены');
+            flash('Настройки сохранены.');
+            /* Счётчик Метрики и уведомление выводим на сайт сразу, отдельного нажатия не требуем. */
+            $r = settings_render_site();
+            if ($r['ok']) {
+                flash('На сайт выведено: страниц со счётчиком Метрики — ' . (int)$r['metrika']
+                    . ', с уведомлением о техобслуживании — ' . (int)$r['notice'] . '.');
+            } else {
+                flash('Настройки сохранены, но сайт обновить не вышло: ' . $r['error'], 'error');
+            }
+        }
+    } elseif ($op === 'render') {
+        $r = settings_render_site();
+        if ($r['ok']) {
+            log_action('Настройки: вывод на сайт обновлён вручную');
+            flash('Вывод обновлён: страниц со счётчиком Метрики — ' . (int)$r['metrika']
+                . ', с уведомлением — ' . (int)$r['notice'] . ' (всего страниц ' . (int)$r['pages'] . ').');
+        } else {
+            flash('Не всё получилось: ' . $r['error'], 'error');
+        }
+    } else {
+        flash('Форма пришла без понятного действия — ничего не менял.', 'error');
+    }
+
+    header('Location: ' . panel_url('settings.php'));
+    exit;
+}
+
+/* ── Что показываем ── */
+$cur   = settings_all();
+$state = settings_site_state();
+$canEdit = is_admin();
+
+$socialsText = '';
+foreach ((array)$cur['socials'] as $s) {
+    $line = ((string)$s['title'] !== '' ? (string)$s['title'] . ' | ' : '') . (string)$s['url'];
+    $socialsText .= ($socialsText !== '' ? "\n" : '') . $line;
+}
+$blackText = implode("\n", (array)$cur['blacklist']);
+
+panel_page_start('Настройки', 'Счётчик Метрики, уведомление о техобслуживании, контакты и чёрный список отзывов', 'settings.php');
+?>
+
+<?php if (!$canEdit) { ?>
+      <div class="flash flash-err">Вы вошли как редактор: смотреть настройки можно, а менять их — только администратору.</div>
+<?php } ?>
+
+<?php card_start('Что сейчас на сайте', 'Счётчик Метрики и уведомление панель вписывает в страницы сама', (int)$state['metrika'] > 0 || (int)$state['notice'] > 0 ? 'ok' : ''); ?>
+      <div class="settings-state" data-pages="<?php echo (int)$state['pages']; ?>"
+           data-metrika="<?php echo (int)$state['metrika']; ?>" data-notice="<?php echo (int)$state['notice']; ?>"
+           data-metrika-set="<?php echo $state['metrika_set'] ? 1 : 0; ?>"
+           data-notice-on="<?php echo $state['notice_on'] ? 1 : 0; ?>"></div>
+      <table class="table">
+        <tr><th>Что</th><th>Сейчас</th></tr>
+        <tr>
+          <td>Номер счётчика Метрики</td>
+          <td><?php echo $state['metrika_set']
+                ? 'задан: <strong>' . h((string)$cur['metrika']) . '</strong>'
+                : 'не задан — счётчика на сайте нет, и внешних зависимостей тоже'; ?></td>
+        </tr>
+        <tr>
+          <td>Счётчик стоит на страницах</td>
+          <td><?php echo (int)$state['metrika'] > 0
+                ? 'на <strong>' . (int)$state['metrika'] . '</strong> из ' . (int)$state['pages'] . ' страниц'
+                : 'ни на одной странице'; ?>
+              <?php echo (string)$state['metrika_at'] !== ''
+                ? ' <span class="hint">выведен ' . h((string)$state['metrika_at']) . '</span>' : ''; ?></td>
+        </tr>
+        <tr>
+          <td>Режим «сайт обновляется»</td>
+          <td><?php echo $state['notice_on'] ? '<strong>включён</strong>' : 'выключен'; ?></td>
+        </tr>
+        <tr>
+          <td>Уведомление на страницах</td>
+          <td><?php echo (int)$state['notice'] > 0
+                ? 'на <strong>' . (int)$state['notice'] . '</strong> страницах'
+                : 'нигде не показывается'; ?>
+              <?php echo (string)$state['notice_at'] !== ''
+                ? ' <span class="hint">выведено ' . h((string)$state['notice_at']) . '</span>' : ''; ?></td>
+        </tr>
+      </table>
+      <div class="btn-row" style="margin-top:14px">
+        <form method="post" action="<?php echo h(panel_url('settings.php')); ?>">
+          <?php echo csrf_field(); ?>
+          <input type="hidden" name="op" value="render" />
+          <button class="btn ghost" type="submit"<?php echo $canEdit ? '' : ' disabled'; ?>>Обновить вывод на сайт</button>
+        </form>
+        <a class="btn ghost" href="/" target="_blank" rel="noopener">Открыть сайт</a>
+      </div>
+      <div class="field-hint">После «Сохранить» панель обновляет сайт сама; кнопка нужна, если вы правили файлы
+        сайта вручную. Номер Метрики пуст, а режим выключен — панель убирает оба блока со страниц
+        (прежние файлы остаются в копиях <code>backups/files/</code>).</div>
+<?php card_end(); ?>
+
+<form method="post" action="<?php echo h(panel_url('settings.php')); ?>">
+  <?php echo csrf_field(); ?>
+  <input type="hidden" name="op" value="save" />
+
+<?php card_start('Бренд, канал и обычные часы входа', 'Эти значения панель использует в уведомлении и в своих блоках'); ?>
+      <label for="s-brand">Название сайта (бренд)</label>
+      <input type="text" id="s-brand" name="brand" maxlength="40" value="<?php echo h((string)$cur['brand']); ?>" />
+
+      <label for="s-tg">Telegram-канал</label>
+      <input type="text" id="s-tg" name="tg" placeholder="https://t.me/vash_kanal" value="<?php echo h((string)$cur['tg']); ?>" />
+      <div class="field-hint">Если канал задан, ссылка на него появится в уведомлении о техобслуживании.</div>
+
+      <label for="s-socials">Соцсети — по строке «название | адрес»</label>
+      <textarea id="s-socials" name="socials" rows="3" placeholder="ВКонтакте | https://vk.com/calc-doc"><?php echo h($socialsText); ?></textarea>
+
+      <label for="s-from">Обычные часы входа в панель</label>
+      <div class="btn-row">
+        <input type="time" id="s-from" name="hours_from" value="<?php echo h((string)$cur['login_hours']['from']); ?>" />
+        <span>—</span>
+        <input type="time" id="s-to" name="hours_to" value="<?php echo h((string)$cur['login_hours']['to']); ?>" />
+      </div>
+      <div class="field-hint">Заполнять не обязательно. Эти часы будет использовать фаза безопасности:
+        вход в другое время панель отметит как подозрительный и покажет в напоминаниях.</div>
+<?php card_end(); ?>
+
+<?php card_start('Яндекс.Метрика', 'Официальный сниппет: панель сама ставит его на все страницы', $state['metrika_set'] ? 'ok' : ''); ?>
+      <label for="s-metrika">Номер счётчика</label>
+      <input type="text" id="s-metrika" name="metrika" inputmode="numeric" maxlength="12"
+             placeholder="например 12345678" value="<?php echo h((string)$cur['metrika']); ?>" />
+      <div class="field-hint">Номер — только цифры, его видно в кабинете Метрики. Пустое поле значит «счётчика нет»:
+        пока номер не задан, сайт не тянет ни одного внешнего файла — это важно в закрытом режиме.
+        Сниппет встаёт в конец <code>&lt;head&gt;</code> каждой страницы управляемым блоком, и его легко убрать:
+        стёрли номер — панель сняла сниппет со всех страниц.</div>
+<?php card_end(); ?>
+
+<?php card_start('Техобслуживание', 'Честно предупредить посетителей, что сайт обновляется', $state['notice_on'] ? 'warn' : ''); ?>
+      <label style="display:flex;gap:10px;align-items:center">
+        <input type="checkbox" name="maintenance_on" value="1"<?php echo $state['notice_on'] ? ' checked' : ''; ?> />
+        <span>Показывать уведомление о техобслуживании на всех страницах</span>
+      </label>
+      <label for="s-mtext">Текст уведомления</label>
+      <input type="text" id="s-mtext" name="maintenance_text" maxlength="300"
+             placeholder="Сайт обновляется: часть страниц может открываться с перебоями"
+             value="<?php echo h((string)($cur['maintenance']['text'] ?? '')); ?>" />
+      <div class="field-hint">Уведомление — полоска сразу после начала страницы, на всех страницах сайта.
+        Это не блокировка доступа: страницы продолжают открываться, мы просто предупреждаем.
+        Если текст пуст, панель покажет своё стандартное сообщение.</div>
+<?php card_end(); ?>
+
+      <div class="btn-row" style="margin-top:16px">
+        <button class="btn primary" type="submit"<?php echo $canEdit ? '' : ' disabled'; ?>>Сохранить</button>
+      </div>
+</form>
+
+<?php card_start('Чёрный список отзывов', 'Слова и фразы, по которым отзывы не принимаются (с шага 6.3 список живёт здесь)'); ?>
+      <form method="post" action="<?php echo h(panel_url('settings.php')); ?>">
+        <?php echo csrf_field(); ?>
+        <input type="hidden" name="op" value="save" />
+        <label for="s-black">По слову или фразе в строке</label>
+        <textarea id="s-black" name="blacklist" rows="6" placeholder="казино&#10;заработок"><?php echo h($blackText); ?></textarea>
+        <div class="btn-row">
+          <button class="btn primary" type="submit"<?php echo $canEdit ? '' : ' disabled'; ?>>Сохранить список</button>
+        </div>
+        <div class="field-hint">Кнопка «Спам» в разделе «Отзывы» добавляет сюда сигнатуру (три первых значимых слова) —
+          похожие отзывы больше не примутся. Слова короче трёх знаков не берём, самая длинная фраза — 60 знаков.</div>
+      </form>
+<?php card_end(); ?>
+
+<?php card_start('Как это работает', 'Коротко, что панель делает с этими настройками'); ?>
+      <table class="table">
+        <tr><th>Настройка</th><th>Что делает панель</th></tr>
+        <tr><td>Номер Метрики</td>
+            <td>ставит официальный сниппет в конец <code>&lt;head&gt;</code> каждой страницы; стёрли номер — убирает</td></tr>
+        <tr><td>Техобслуживание</td>
+            <td>вставляет полоску-уведомление сразу после <code>&lt;main&gt;</code> на каждой странице; выключили — убирает</td></tr>
+        <tr><td>Бренд и Telegram</td><td>подставляются в уведомление; бренд панель использует в своих подписях</td></tr>
+        <tr><td>Соцсети</td>
+            <td>хранятся в настройках — пригодятся для подвала сайта и медиакита (скажете — добавим кнопкой)</td></tr>
+        <tr><td>Обычные часы входа</td>
+            <td>сохраняются; алерты «вход не в обычное время» включим в фазе безопасности</td></tr>
+        <tr><td>Чёрный список отзывов</td>
+            <td>по нему приём отзывов отклоняет текст; список общий с разделом «Отзывы»</td></tr>
+      </table>
+      <div class="field-hint">Менять настройки может только администратор панели. Все записи идут через
+        <code>file_write_safe()</code>: прежняя версия файла сайта остаётся в <code>backups/files/</code>,
+        поэтому любую правку можно посмотреть и откатить.</div>
+<?php card_end(); ?>
+
+<?php panel_page_end(); ?>

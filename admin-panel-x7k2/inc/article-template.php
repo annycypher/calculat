@@ -100,7 +100,9 @@ function article_shell(): array {
         'ok' => true, 'error' => '',
         'head_open'   => substr($html, 0, $pTitle),
         'head_assets' => substr($html, $pAssets, $pLd - $pAssets),
-        'body_open'   => substr($html, $pHead + 7, $pHeader - ($pHead + 7)),
+        /* Закрывающий </head> возвращаем в начало этого куска: раньше он не попадал в собранную страницу,
+           и у статей (а потом и у страницы отзывов) голова оставалась незакрытой. */
+        'body_open'   => '</head>' . substr($html, $pHead + 7, $pHeader - ($pHead + 7)),
         'header'      => substr($html, $pHeader, $pHEnd - $pHeader + 9),
         'tail'        => substr($html, $pMEnd),
         'donor'       => str_replace('\\', '/', substr(str_replace('\\', '/', $file), strlen($root) + 1)),

@@ -19,7 +19,9 @@ if (isset($_SERVER['SCRIPT_FILENAME']) && realpath((string)$_SERVER['SCRIPT_FILE
     exit;
 }
 
-/* Сколько минут держим лимит «один отзыв с одного посетителя». */
+require_once __DIR__ . '/settings.php';   /* с шага 6.3 чёрный список отзывов живёт в настройках */
+
+/** Сколько минут держим лимит «один отзыв с одного посетителя». */
 const REVIEWS_RATE_MINUTES = 10;
 /* Длина имени и текста — из задания. */
 const REVIEWS_NAME_MIN  = 2;
@@ -55,14 +57,12 @@ function reviews_data(): array {
     return array('version' => 1, 'items' => $out);
 }
 
-/** Записать реестр отзывов (чёрный список сохраняем вместе с ним). */
+/** Записать реестр отзывов. Ключ blacklist оставляем только для совместимости: если его передали
+    явно (старый код), запишем — иначе чёрный список живёт в настройках (шаг 6.3). */
 function reviews_save(array $items, ?array $blacklist = null): bool {
-    $black = $blacklist === null ? reviews_blacklist() : $blacklist;
-    return json_write(reviews_file(), array(
-        'version'   => 1,
-        'items'     => array_values($items),
-        'blacklist' => array_values($black),
-    ));
+    $data = array('version' => 1, 'items' => array_values($items));
+    if ($blacklist !== null) { $data['blacklist'] = array_values($blacklist); }
+    return json_write(reviews_file(), $data);
 }
 
 /** Отзыв в полном виде: старый файл и дыры не ломают панель. */
@@ -94,26 +94,31 @@ function reviews_ip_hash_request(): string {
     return reviews_ip_hash((string)($_SERVER['REMOTE_ADDR'] ?? ''));
 }
 
-/** Чёрный список слов и фраз (пока в движке; в фазе 6 переедет в настройки). */
+/** Чёрный список слов и фраз. С шага 6.3 он живёт в настройках панели (раздел «Настройки»),
+    а раздел «Отзывы» и приёмник пишут туда же. Слова, добавленные раньше, переносим один раз. */
 function reviews_blacklist(): array {
-    $data  = json_read(reviews_file(), array('version' => 1));
-    $words = (isset($data['blacklist']) && is_array($data['blacklist'])) ? $data['blacklist'] : array();
-    $out   = array();
-    foreach ($words as $w) {
+    $list = settings_blacklist();
+    if (count($list) > 0) { return $list; }
+
+    $data   = json_read(reviews_file(), array('version' => 1));
+    $legacy = (isset($data['blacklist']) && is_array($data['blacklist'])) ? $data['blacklist'] : array();
+    $words  = array();
+    foreach ($legacy as $w) {
         $w = trim((string)$w);
-        if ($w !== '') { $out[] = $w; }
+        if ($w !== '') { $words[] = $w; }
     }
-    return $out;
+    if (count($words) > 0) { settings_blacklist_save($words); }   /* одноразовый перенос, ничего не теряем */
+    return $words;
 }
 
-/** Добавить слово или фразу в чёрный список (сигнатуру спама). */
+/** Добавить слово или фразу в чёрный список (сигнатуру спама). Пишем в настройки. */
 function reviews_blacklist_add(string $word): bool {
     $word = trim($word);
     if (mb_strlen($word) < 3) { return false; }
     $list = reviews_blacklist();
-    foreach ($list as $w) { if (mb_strtolower($w) === mb_strtolower($word)) { return true; } }
+    foreach ($list as $w) { if (mb_strtolower((string)$w) === mb_strtolower($word)) { return true; } }
     $list[] = $word;
-    return reviews_save(reviews_data()['items'], $list);
+    return settings_blacklist_save($list);
 }
 
 /** Сигнатура спама: первые три значимых слова текста — её и добавим в чёрный список. */

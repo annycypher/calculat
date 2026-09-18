@@ -79,8 +79,9 @@ function login_as(string $login, string $password): bool {
 
 /* ── Файлы, которые тест трогает: возвращаем как было ── */
 $dataPaths = array(
-    'reviews.json' => SITE . '/content/reviews.json',
-    'users.json'   => SITE . '/content/users.json',
+    'reviews.json'  => SITE . '/content/reviews.json',
+    'settings.json' => SITE . '/content/settings.json',
+    'users.json'    => SITE . '/content/users.json',
 );
 $dataBacks = array();
 foreach ($dataPaths as $f => $p) { $dataBacks[$f] = is_file($p) ? (string)file_get_contents($p) : null; }
@@ -125,7 +126,8 @@ say('');
 
 /* ── 1. Движок: правила приёма (5.1) ── */
 say('1. Движок отзывов: правила приёма');
-reviews_save(array(), array());   /* чистый старт для проверок */
+reviews_save(array());
+settings_blacklist_save(array());   /* с шага 6.3 чёрный список живёт в настройках — чистим и его */
 check('файл отзывов начат с нуля', count(reviews_data()['items']) === 0 && count(reviews_blacklist()) === 0);
 
 $good = reviews_add(array('name' => 'Анна', 'text' => 'Считала отпускные — цифры совпали с бухгалтерией, спасибо.',
@@ -173,7 +175,8 @@ check('звёзды рисуются как на сайте', reviews_stars(4) =
 /* ── 2. Приёмник api/reviews.php: отзыв с сайта (5.1) ── */
 say('');
 say('2. Приёмник отзывов с сайта (api/reviews.php)');
-reviews_save(array(), array());   /* перед проверкой приёмника — снова чисто и без чёрного списка */
+reviews_save(array());
+settings_blacklist_save(array());   /* перед проверкой приёмника — снова чисто и без чёрного списка */
 const SITEURL = 'http://127.0.0.1:8097';
 
 $r = http(SITEURL . '/api/reviews.php');
@@ -295,7 +298,8 @@ check('после удаления видно пустые состояния',
 /* ── 5. Спам, чёрный список и защита форм (5.1, 5.2) ── */
 say('');
 say('5. Спам, чёрный список и защита формы');
-reviews_save(array(), array());
+reviews_save(array());
+settings_blacklist_save(array());
 $spamItem = reviews_add(array('name' => 'Спамер',
     'text' => 'Заработок от 100000 рублей в месяц без вложений, пишите нам'));
 $spamId = (string)$spamItem['item']['id'];
