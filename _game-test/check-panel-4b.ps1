@@ -21,6 +21,11 @@ $log    = Join-Path $env:TEMP 'calcdoc-panel-4b-server.log'
 $port   = 8096
 
 if (-not (Test-Path $shots)) { New-Item -ItemType Directory -Path $shots | Out-Null }
+
+# Журнал входов панели (content\security\logins.json) — живые данные владельца: сервер и тест его пишут,
+# поэтому сохраняем файл до прогона и возвращаем после. Не было файла — убираем следы теста.
+$loginsPath = Join-Path $root 'content\security\logins.json'
+$loginsBak  = if (Test-Path $loginsPath) { [System.IO.File]::ReadAllBytes($loginsPath) } else { $null }
 if (-not (Test-Path $php))   { Write-Host "Не найден php.exe: $php"; exit 2 }
 
 $srv = Start-Process -FilePath $php -ArgumentList @('-S', "127.0.0.1:$port", '-t', $root) `
@@ -35,4 +40,8 @@ try {
 
 Write-Host ''
 Write-Host "Код возврата: $code    Отчёт: $report    Лог сервера: $log"
+# возвращаем журнал входов панели как было (или убираем, если его не было)
+if ($null -ne $loginsBak) { [System.IO.File]::WriteAllBytes($loginsPath, $loginsBak) }
+else { Remove-Item $loginsPath -Force -ErrorAction SilentlyContinue }
+
 exit $code

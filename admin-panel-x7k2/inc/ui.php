@@ -48,6 +48,7 @@ function panel_sections(): array {
         array('file' => 'users.php',       'title' => 'Пользователи', 'group' => 'Сервис',       'icon' => '☺', 'ready' => true,  'hint' => 'доступы и роли'),
         array('file' => 'log.php',         'title' => 'Журнал',       'group' => 'Сервис',       'icon' => '☰', 'ready' => false, 'hint' => 'кто что делал — фаза 9'),
         array('file' => 'settings.php',    'title' => 'Настройки',    'group' => 'Сервис',       'icon' => '⚙', 'ready' => true,  'hint' => 'Метрика, техобслуживание, отзывы'),
+        array('file' => 'security.php',    'title' => 'Безопасность', 'group' => 'Сервис',       'icon' => '⚿', 'ready' => true,  'hint' => 'пароль, журнал входов, устройства', 'admin' => true),
         array('file' => 'contact.php',     'title' => 'Связаться',    'group' => 'Сервис',       'icon' => '✉', 'ready' => false, 'hint' => 'письма и реквизиты — фаза 12'),
     );
 }
@@ -166,6 +167,7 @@ function panel_page_start(string $title, string $subtitle = '', string $active =
       <div class="nav-group">
         <span class="nav-group-title"><?php echo h($group); ?></span>
 <?php   foreach ($items as $s) {
+          if (!empty($s['admin']) && !is_admin()) { continue; }   // раздел только для администратора
           if ($s['ready']) { ?>
         <a class="nav-item<?php echo $active === $s['file'] ? ' active' : ''; ?>" href="<?php echo h(panel_url($s['file'])); ?>"><span class="nav-ico" aria-hidden="true"><?php echo h($s['icon']); ?></span><?php echo h($s['title']); ?></a>
 <?php     } else { ?>

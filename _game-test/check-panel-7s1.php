@@ -80,6 +80,12 @@ register_shutdown_function(function () use ($back) {
     }
 });
 
+/** Начать с чистого журнала (и записей, и устройств): так числа в проверках не зависят
+    от прежних прогонов. Список устройств чистим намеренно — проверки считают устройства точно. */
+function journal_reset(): void {
+    security_log_write(array('version' => 1, 'logins' => array(), 'devices' => array()));
+}
+
 $UA_PC  = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
 $UA_MOB = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1';
 $UA_YB  = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 YaBrowser/24.1.0.0 Safari/537.36';
@@ -93,7 +99,7 @@ say('');
 say('0. Подготовка панели и первые записи журнала');
 $jar = '';
 @unlink(USERS_FILE);
-security_log_clear();
+journal_reset();
 $r = ph(PURL . '/login.php');
 $r = ph(PURL . '/login.php', array('csrf' => pcsrf($r['b']), 'action' => 'install', 'install_key' => INSTALL_KEY,
       'login' => 'admin', 'password' => 'Test-Faz-7!', 'password2' => 'Test-Faz-7!'),
@@ -138,7 +144,7 @@ check('пустой User-Agent — «неизвестное устройство
 /* ── 2. Запись входа, счётчик неудач, знакомые устройства ── */
 say('');
 say('2. Запись входа, счётчик неудач, знакомые устройства');
-security_log_clear();
+journal_reset();
 log_login('admin', false, 'неверный пароль', $UA_PC);
 $log = login_log();
 check('неудачная попытка записана',
@@ -168,7 +174,7 @@ check('оба устройства собраны в список с имена�
 /* ── 3. Чистка и лимиты ── */
 say('');
 say('3. Чистка журнала: 100 записей, 90 дней, 180 дней для устройств');
-security_log_clear();
+journal_reset();
 for ($i = 0; $i < 105; $i++) { log_login('admin', $i % 2 === 0, 'проверка лимита ' . $i, $UA_PC); }
 $all = security_log_read();
 check('журнал хранит последние 100 записей',

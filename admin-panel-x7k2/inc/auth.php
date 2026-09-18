@@ -10,6 +10,7 @@
      current_user() / is_admin() — кто вошёл и что ему можно
      csrf_field() / csrf_check() — защита форм от подделки запроса
      login_attempt() / logout()  — вход и выход
+     session_version_bump()      — закрыть все другие сессии пользователя (смена пароля, шаг 7.2)
      flash() / flashes()         — одноразовые сообщения («сохранено», «ошибка»)
 
    Безопасность входа: bcrypt (password_hash / password_verify), регенерация ID сессии,
@@ -50,6 +51,17 @@ function panel_session_start(): void {
     if (isset($_SESSION['last_seen']) && (time() - (int)$_SESSION['last_seen']) > 43200) {
         panel_logout_session();
     }
+
+    /* Сброс чужих сессий (шаг 7.2): в сессии хранится версия сессий пользователя. Смена пароля
+       и кнопка «Завершить все другие сессии» поднимают версию — все прежние сессии гаснут
+       при первом же обращении к панели, а та, из которой меняли пароль, продолжает работать. */
+    if (isset($_SESSION['user']['login'])) {
+        $ver = session_version((string)$_SESSION['user']['login']);
+        if ($ver !== '' && (string)($_SESSION['user']['sv'] ?? '') !== $ver) {
+            session_kick('Сессия закрыта: пароль изменён или вход завершён с другого устройства. Войдите заново.');
+        }
+    }
+
     $_SESSION['last_seen'] = time();
 }
 
@@ -292,8 +304,51 @@ function login_user(array $user): void {
         'name'  => (string)(isset($user['name']) && $user['name'] !== '' ? $user['name'] : $user['login']),
         'role'  => (string)(isset($user['role']) ? $user['role'] : 'editor'),
         'since' => date('Y-m-d H:i:s'),
+        'sv'    => session_version((string)$user['login']),   // версия сессий: см. session_version_bump()
     );
     user_update((string)$user['login'], array('last_login' => date('Y-m-d H:i:s')));
+}
+
+// ─────────────── версия сессий: сброс чужих сессий (шаг 7.2) ───────────────
+
+/** Версия сессий пользователя — случайная строка в его записи. Сессия действительна, только пока
+    версия в ней совпадает с версией в файле. */
+function session_version(string $login): string {
+    $user = user_find($login);
+    if ($user === null) { return ''; }
+    $ver = isset($user['session_version']) ? trim((string)$user['session_version']) : '';
+    if ($ver === '') {
+        $ver = bin2hex(random_bytes(8));
+        user_update($login, array('session_version' => $ver));
+    }
+    return $ver;
+}
+
+/** Поднять версию: все сессии пользователя, кроме текущей, гаснут при следующем обращении.
+    Возвращает новую версию ('' — пользователя нет). */
+function session_version_bump(string $login): string {
+    if (user_find($login) === null) { return ''; }
+    $ver = bin2hex(random_bytes(8));
+    user_update($login, array('session_version' => $ver));
+    if (isset($_SESSION['user']['login']) && (string)$_SESSION['user']['login'] === $login) {
+        $_SESSION['user']['sv'] = $ver;      // текущая сессия продолжает работать
+    }
+    return $ver;
+}
+
+/** Сколько сессий «закрыто» поднятием версии — для понятного сообщения. */
+function session_version_note(): string {
+    return 'Все другие сессии этого пользователя закрыты: их попросят войти заново.';
+}
+
+/** Погасить текущую сессию и показать причину на странице входа. */
+function session_kick(string $reason): void {
+    panel_logout_session();
+    session_name(SESSION_NAME);
+    session_start();
+    $_SESSION['id_born']   = time();
+    $_SESSION['last_seen'] = time();
+    $_SESSION['flash'][]   = array('text' => $reason, 'type' => 'error');
 }
 
 /** Тихо очистить сессию (истёк срок бездействия, смена пользователя). */
@@ -325,12 +380,13 @@ function is_admin(): bool {
 /** Что можно роли. Владелец 18.09.2026 разрешил редактору всё, кроме удаления статей:
     разделы «Перелинковка», «Аутрич», «Пользователи», «Настройки» и восстановление копий
     редактору открыты (в протоколе фазы 1.3 было «редактор без users, settings, ссылок/аутрича» —
-    это решение владельца). */
+    это решение владельца). Раздел «Безопасность» (шаг 7.2) — **только администратору**: там смена
+    пароля владельца, журнал входов и доверенные устройства. */
 function role_can(string $action): bool {
     $u = current_user();
     if ($u === null) { return false; }
     if (($u['role'] ?? '') === 'admin') { return true; }
-    $adminOnly = array('article_delete');
+    $adminOnly = array('article_delete', 'security');
     return !in_array($action, $adminOnly, true);
 }
 

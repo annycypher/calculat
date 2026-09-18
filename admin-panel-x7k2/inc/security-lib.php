@@ -121,9 +121,12 @@ function security_device_set_known(string $device, bool $known): bool {
     return $done ? security_log_write($all) : false;
 }
 
-/** Полностью очистить журнал (кнопка «Очистить журнал» в разделе «Безопасность»). */
+/** Очистить журнал входов. Список устройств остаётся: он нужен, чтобы узнавать свои устройства
+    и показывать алерты «это новое устройство» — это не история входов, а пометки устройств. */
 function security_log_clear(): bool {
-    return security_log_write(array('version' => 1, 'logins' => array(), 'devices' => array()));
+    $all = security_log_read();
+    $all['logins'] = array();
+    return security_log_write($all);
 }
 
 /** Записать вход — успешный или нет. Возвращает записанную строку журнала.
@@ -223,4 +226,103 @@ function is_odd_hour(?int $hour = null): bool {
 
     if ($from < $to) { return $now < $from || $now >= $to; }   // обычный день: 07:00–23:00
     return $now < $from && $now >= $to;                        // окно через полночь: 22:00–06:00
+}
+
+/* ───────────── пароль панели: требования, сила, смена (шаг 7.2) ───────────── */
+
+/** Минимальная длина пароля панели. Требование фазы 7: не короче 12 знаков.
+    (У новых пользователей в разделе «Пользователи» пока PASSWORD_MIN = 8 — там своя форма.) */
+const SECURITY_PASSWORD_MIN = 12;
+
+/** Пароли и «хвосты», которые встречаются в списках для подбора. Такие не принимаем. */
+function security_popular_passwords(): array {
+    return array('123456', '1234567', '12345678', '123456789', '1234567890', 'password', 'passw0rd',
+        'qwerty', 'qwerty123', 'qwertyuiop', 'qazwsx', '1q2w3e4r', '1qaz2wsx', 'abc123', 'iloveyou',
+        'admin', 'administrator', 'letmein', 'welcome', 'monkey', 'dragon', 'sunshine', 'football',
+        'baseball', 'superman', 'master', 'пароль', 'йцукен', 'привет', 'calcdoc', 'calc-doc',
+        '000000', '111111', '222222', '123123', '654321');
+}
+
+/** Что не так с новым паролем ('' — годится).
+    $login — логин владельца, $old — текущий пароль: их повторять нельзя. */
+function security_password_problem(string $password, string $login = '', string $old = ''): string {
+    if (mb_strlen($password) < SECURITY_PASSWORD_MIN) {
+        return 'Пароль короче ' . SECURITY_PASSWORD_MIN . ' знаков — такой подбирается программами за часы.';
+    }
+    if (!preg_match('/\d/u', $password)) { return 'Добавьте в пароль хотя бы одну цифру.'; }
+    if (!preg_match('/[A-Za-zА-Яа-я]/u', $password)) { return 'Добавьте в пароль хотя бы одну букву.'; }
+
+    $low = mb_strtolower($password);
+    if ($old !== '' && $password === $old) { return 'Новый пароль совпадает со старым — придумайте другой.'; }
+    if ($login !== '' && mb_strlen($login) >= 3 && mb_strpos($low, mb_strtolower($login)) !== false) {
+        return 'В пароле есть ваш логин — такие пароли подбирают в первую очередь.';
+    }
+    foreach (security_popular_passwords() as $bad) {
+        if (mb_strpos($low, $bad) !== false) {
+            return 'Пароль слишком простой: в нём есть «' . $bad . '» — как раз из списков для подбора.';
+        }
+    }
+    return '';
+}
+
+/** Насколько пароль крепкий: [score 0–4, word, tone (ok|warn|err), hint].
+    Считаем длину и разные группы символов — это честная оценка, без «магии». */
+function security_password_strength(string $password): array {
+    $len     = mb_strlen($password);
+    $classes = 0;
+    if (preg_match('/[a-zа-я]/u', $password))            { $classes++; }
+    if (preg_match('/[A-ZА-Я]/u', $password))            { $classes++; }
+    if (preg_match('/\d/u', $password))                  { $classes++; }
+    if (preg_match('/[^\p{L}\p{N}]/u', $password) === 1) { $classes++; }
+
+    $score = 0;                                        // 0 — совсем пусто, 4 — крепкий
+    if ($len >= 8)  { $score++; }
+    if ($len >= SECURITY_PASSWORD_MIN) { $score++; }
+    if ($len >= 18) { $score++; }
+    if ($classes >= 3) { $score++; }
+    if ($score > 4) { $score = 4; }
+
+    $words = array('пустой', 'очень слабый', 'слабый', 'средний', 'крепкий');
+    $tones = array('err', 'err', 'err', 'warn', 'ok');
+    $hints = array(
+        'err'  => 'Панель такой пароль не примет: нужно ' . SECURITY_PASSWORD_MIN . '+ знаков, буквы и цифры.',
+        'warn' => 'Панель примет, но крепче — длиннее и с разными символами.',
+        'ok'   => 'Хороший пароль: длина и разные символы.',
+    );
+    $tone = $tones[$score];
+    return array('score' => $score, 'word' => $words[$score], 'tone' => $tone, 'hint' => $hints[$tone]);
+}
+
+/** Смена пароля пользователя: bcrypt, закрытие чужих сессий, запись в журнал действий
+    и авто-отметка задачи «смена пароля» в напоминаниях. '' — получилось, иначе текст ошибки. */
+function security_change_password(string $login, string $new): string {
+    $user = user_find($login);
+    if ($user === null) { return 'Пользователь не найден.'; }
+
+    $problem = security_password_problem($new, $login);
+    if ($problem !== '') { return $problem; }
+    if (!user_update($login, array('pass_hash' => password_hash($new, PASSWORD_DEFAULT)))) {
+        return 'Не получилось сохранить пароль: проверьте права на папку content/.';
+    }
+    if (function_exists('session_version_bump')) { session_version_bump($login); }   // чужие сессии гаснут
+    log_action('Смена пароля', 'раздел «Безопасность»', $login);
+    security_mark_password_reminder();
+    return '';
+}
+
+/** Завершить все другие сессии пользователя (кнопка в разделе «Безопасность»). */
+function security_end_other_sessions(string $login): bool {
+    if (!function_exists('session_version_bump') || session_version_bump($login) === '') { return false; }
+    log_action('Завершены все другие сессии', 'раздел «Безопасность»', $login);
+    return true;
+}
+
+/** АВТО-отметка задачи «Смена пароля» в напоминаниях (движок — шаг 7.5).
+    Пока раздела «Напоминания» нет — честно вернём false и смене пароля не помешаем. */
+function security_mark_password_reminder(): bool {
+    $lib = __DIR__ . '/reminders-lib.php';
+    if (!is_file($lib)) { return false; }
+    require_once $lib;
+    if (!function_exists('reminder_mark_done')) { return false; }
+    return (bool)reminder_mark_done('password_change');
 }

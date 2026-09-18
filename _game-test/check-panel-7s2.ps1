@@ -1,15 +1,13 @@
-# check-panel-5b.ps1 — функциональный тест фазы 5 (задание MASTER-FINAL.md, «Отзывы» 5.1–5.2).
+# check-panel-7s2.ps1 — функциональный тест фазы 7, шаг 7.2 (задание MASTER-FINAL.md).
 #
 # Что делает:
-#   1) поднимает локальный PHP-сервер на корень сайта (127.0.0.1:8097);
-#   2) запускает проверки _game-test\check-panel-5b.php;
-#   3) гасит сервер и сохраняет отчёт в ..\shots\panel-5b.txt.
+#   1) поднимает локальный PHP-сервер на корень сайта (127.0.0.1:8089);
+#   2) запускает проверки _game-test\check-panel-7s2.php;
+#   3) гасит сервер и сохраняет отчёт в ..\shots\panel-7s2.txt.
 #
-# Запуск: powershell -NoProfile -ExecutionPolicy Bypass -File _game-test\check-panel-5b.ps1
-# Тест работает со своим файлом content\reviews.json и своим пользователем: в конце возвращает
-# content\reviews.json, content\users.json, лог действий и прежние версии файлов.
-# Раздел 6 печатает отзывы в слоты страниц сайта и собирает страницу /reviews/, после чего
-# все страницы сайта, sitemap.xml, копии в backups/files/ и сама /reviews/ возвращаются как было.
+# Запуск: powershell -NoProfile -ExecutionPolicy Bypass -File _game-test\check-panel-7s2.ps1
+# Тест создаёт своего администратора и редактора, меняет пароль, часы входа и журнал входов —
+# всё это он возвращает байт-в-байт на выходе: данные владельца не портятся.
 # Важно: тесты нельзя запускать параллельно — они делят content/users.json (см. PROGRESS.md).
 
 $ErrorActionPreference = 'Stop'
@@ -18,9 +16,9 @@ $ErrorActionPreference = 'Stop'
 $php    = 'C:\Users\krs3d\AppData\Local\Microsoft\WinGet\Packages\PHP.PHP.8.4_Microsoft.Winget.Source_8wekyb3d8bbwe\php.exe'
 $root   = Split-Path -Parent $PSScriptRoot                        # ...\calc_docs (корень сайта)
 $shots  = Join-Path (Split-Path -Parent $root) 'shots'
-$report = Join-Path $shots 'panel-5b.txt'
-$log    = Join-Path $env:TEMP 'calcdoc-panel-5b-server.log'
-$port   = 8097
+$report = Join-Path $shots 'panel-7s2.txt'
+$log    = Join-Path $env:TEMP 'calcdoc-panel-7s2-server.log'
+$port   = 8089
 
 if (-not (Test-Path $shots)) { New-Item -ItemType Directory -Path $shots | Out-Null }
 
@@ -34,7 +32,7 @@ $srv = Start-Process -FilePath $php -ArgumentList @('-S', "127.0.0.1:$port", '-t
        -PassThru -WindowStyle Hidden -RedirectStandardError $log
 Start-Sleep -Seconds 2
 try {
-    & $php (Join-Path $PSScriptRoot 'check-panel-5b.php') $report
+    & $php (Join-Path $PSScriptRoot 'check-panel-7s2.php') $report
     $code = $LASTEXITCODE
 } finally {
     if ($srv -and -not $srv.HasExited) { Stop-Process -Id $srv.Id -Force }
