@@ -51,7 +51,9 @@ foreach ($rel in $pages) {
     $new = $text
 
     if ($Remove) {
-        $new = [regex]::Replace($new, '(?s)<!--SLOT:ads-ad-(top|bottom)-->\r?\n.*?<!--/SLOT:ads-ad-\1-->\r?\n', '')
+        # Убираем ровно те блоки, что вставляли, вместе с переводом строки, который добавляла вставка.
+        $new = $new.Replace("`r`n" + $top.TrimEnd("`r", "`n"), '')
+        $new = $new.Replace($bottom.TrimEnd("`r", "`n") + "`r`n", '')
         $new = [regex]::Replace($new, '(?m)^\s*<link rel="stylesheet" href="/ads\.css\?v=1" />\r?\n', '')
     } else {
         # верхний слот: в конец маркера ads-top, если он есть, иначе после шапки

@@ -45,6 +45,7 @@ function settings_defaults(): array {
         'email'       => 'info@calc-doc.ru',
         'metrika'     => '',
         'tg'          => '',
+        'ads_enabled' => false,   /* глобальный выключатель рекламы (шаг 9.4): по умолчанию выключено */
         'socials'     => array(),
         'blacklist'   => array(),
         'maintenance' => array('on' => false, 'text' => ''),
@@ -63,6 +64,8 @@ function settings_all(): array {
     foreach (array('brand', 'email', 'metrika', 'tg', 'metrika_at', 'notice_at') as $k) {
         if (isset($data[$k]) && is_string($data[$k])) { $out[$k] = $data[$k]; }
     }
+    /* Глобальный выключатель рекламы (шаг 9.4): логическое значение, поэтому отдельно. */
+    if (array_key_exists('ads_enabled', $data)) { $out['ads_enabled'] = !empty($data['ads_enabled']); }
     if (isset($data['socials']) && is_array($data['socials'])) {
         $list = array();
         foreach ($data['socials'] as $s) {
@@ -180,6 +183,11 @@ function settings_from_form(array $in): array {
     $maintOn = array_key_exists('maintenance_text', $in) || array_key_exists('maintenance_on', $in)
         ? !empty($in['maintenance_on']) : !empty($values['maintenance']['on']);
     $values['maintenance'] = array('on' => $maintOn, 'text' => $maintTx);
+
+    /* Глобальный выключатель рекламы (шаг 9.4): пока выключен — слоты на страницах скрыты,
+       и код блоков не показывается даже если он есть в разметке. */
+    $values['ads_enabled'] = array_key_exists('ads_enabled', $in)
+        ? !empty($in['ads_enabled']) : !empty($values['ads_enabled']);
 
     $from = array_key_exists('hours_from', $in) ? trim((string)$in['hours_from']) : (string)$values['login_hours']['from'];
     $to   = array_key_exists('hours_to', $in) ? trim((string)$in['hours_to']) : (string)$values['login_hours']['to'];
@@ -349,6 +357,13 @@ function settings_tg_html(): string {
     return $out;
 }
 
+/** Глобальный выключатель рекламы (шаг 9.4): включён — на страницах показываются слоты.
+    Флаг ставится на <html data-ads="on"> скриптом ads.js, а сам переключатель живёт в настройках. */
+function settings_ads_html(): string {
+    if (empty(settings_get('ads_enabled', false))) { return ''; }
+    return '<script>window.CALCDOC_ADS = true;   /* реклама включена в панели (шаг 9.4) */</script>';
+}
+
 /** Что сейчас на сайте: сколько страниц, где стоит счётчик Метрики и уведомление. */
 function settings_site_state(): array {
     $pages = 0; $metrika = 0; $notice = 0; $tg = 0;
@@ -382,7 +397,8 @@ function settings_render_site(): array {
     $mk     = settings_metrika_html();
     $notice = settings_notice_html();
     $tg     = settings_tg_html();
-    $pages  = 0; $mkDone = 0; $ntDone = 0; $tgDone = 0;
+    $ads    = settings_ads_html();
+    $pages  = 0; $mkDone = 0; $ntDone = 0; $tgDone = 0; $adsDone = 0;
     $notes  = array();
 
     foreach (site_pages_list() as $rel) {
@@ -430,6 +446,15 @@ function settings_render_site(): array {
         }
         $tgChanged = ($fresh !== $tgStart);
 
+        /* Выключатель рекламы (шаг 9.4): включён — на страницах появляется флаг для js/ads.js. */
+        $adsStart = $fresh;
+        for ($pass = 0; $pass < 2; $pass++) {
+            $r4 = settings_block($fresh, 'ads', $ads, '</head>', false);
+            if (empty($r4['changed'])) { break; }
+            $fresh = (string)$r4['html'];
+        }
+        $adsChanged = ($fresh !== $adsStart);
+
         if ($fresh === $html) { continue; }
 
         $w = file_write_safe($file, $fresh);
@@ -437,6 +462,7 @@ function settings_render_site(): array {
         if ($mkChanged) { $mkDone++; }
         if ($ntChanged) { $ntDone++; }
         if ($tgChanged) { $tgDone++; }
+        if ($adsChanged) { $adsDone++; }
     }
 
     /* Отметим в настройках, когда выводили и что именно стоит на сайте. */
@@ -445,9 +471,10 @@ function settings_render_site(): array {
     $all['notice_at']  = ($notice !== '') ? date('Y-m-d H:i') : '';
     settings_save_all($all);
 
-    if (function_exists('log_action') && ($mkDone > 0 || $ntDone > 0 || $tgDone > 0)) {
+    if (function_exists('log_action') && ($mkDone > 0 || $ntDone > 0 || $tgDone > 0 || $adsDone > 0)) {
         log_action('Настройки выведены на сайт',
-            'страниц со счётчиком Метрики: ' . $mkDone . ', с уведомлением: ' . $ntDone . ', с иконкой Telegram: ' . $tgDone);
+            'страниц со счётчиком Метрики: ' . $mkDone . ', с уведомлением: ' . $ntDone
+            . ', с иконкой Telegram: ' . $tgDone . ', с включённой рекламой: ' . $adsDone);
     }
 
     return array(
@@ -457,6 +484,7 @@ function settings_render_site(): array {
         'metrika' => $mkDone,
         'notice'  => $ntDone,
         'tg'      => $tgDone,
+        'ads'     => $adsDone,
         'notes'   => $notes,
     );
 }

@@ -175,6 +175,18 @@ panel_page_start('Настройки', 'Счётчик Метрики, увед�
         стёрли номер — панель сняла сниппет со всех страниц.</div>
 <?php card_end(); ?>
 
+<?php card_start('Реклама на страницах', 'Показывать рекламные блоки (слоты уже готовы и пусты)', !empty($cur['ads_enabled']) ? 'warn' : ''); ?>
+      <label style="display:flex;gap:10px;align-items:center">
+        <input type="checkbox" name="ads_enabled" value="1"<?php echo !empty($cur['ads_enabled']) ? ' checked' : ''; ?> />
+        <span>Разрешить показ рекламных блоков на страницах сайта</span>
+      </label>
+      <div class="hint" style="margin-top:8px">Пока галочка снята, рекламных блоков на сайте нет вообще:
+        слоты скрыты (<code>display:none</code>), а страница не «прыгает» при загрузке, потому что место
+        под блоки зарезервировано заранее. Сами блоки и их тексты — в разделе
+        <a href="<?php echo h(panel_url('ads.php')); ?>">Рекламные блоки</a>,
+        медиакит для рекламодателя — в разделе <a href="<?php echo h(panel_url('media-kit.php')); ?>">Медиакит</a>.</div>
+<?php card_end(); ?>
+
 <?php card_start('Техобслуживание', 'Честно предупредить посетителей, что сайт обновляется', $state['notice_on'] ? 'warn' : ''); ?>
       <label style="display:flex;gap:10px;align-items:center">
         <input type="checkbox" name="maintenance_on" value="1"<?php echo $state['notice_on'] ? ' checked' : ''; ?> />

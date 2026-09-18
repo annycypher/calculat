@@ -36,13 +36,14 @@ function panel_sections(): array {
 
         array('file' => 'banners.php',     'title' => 'Баннеры',      'group' => 'Реклама',      'icon' => '▣', 'ready' => true,  'hint' => 'слоты и картинки'),
         array('file' => 'ads.php',         'title' => 'Рекламные блоки','group' => 'Реклама',    'icon' => '◲', 'ready' => true,  'hint' => 'РСЯ, AdSense, свой HTML'),
+        array('file' => 'media-kit.php',   'title' => 'Медиакит',     'group' => 'Реклама',      'icon' => '⎙', 'ready' => true,  'hint' => 'одностраничник для рекламодателя'),
         array('file' => 'reviews.php',     'title' => 'Отзывы',       'group' => 'Реклама',      'icon' => '★', 'ready' => true,  'hint' => 'очередь модерации'),
 
         array('file' => 'seo-center.php',  'title' => 'SEO-центр',    'group' => 'Продвижение',  'icon' => '◎', 'ready' => true,  'hint' => 'оценка страниц по критериям поиска'),
         array('file' => 'links.php',       'title' => 'Перелинковка', 'group' => 'Продвижение',  'icon' => '⤳', 'ready' => true,  'hint' => 'граф внутренних ссылок, сироты и битые'),
         array('file' => 'backlinks.php',   'title' => 'Бэклинки',     'group' => 'Продвижение',  'icon' => '⇠', 'ready' => true,  'hint' => 'реестр внешних ссылок, график роста'),
         array('file' => 'outreach.php',    'title' => 'Аутрич',       'group' => 'Продвижение',  'icon' => '↗', 'ready' => true,  'hint' => 'доска внешних контактов'),
-        array('file' => 'popular.php',     'title' => 'Популярное',   'group' => 'Продвижение',  'icon' => '☆', 'ready' => false, 'hint' => 'рейтинг страниц — фаза 9'),
+        array('file' => 'popular.php',     'title' => 'Популярное',   'group' => 'Продвижение',  'icon' => '☆', 'ready' => true,  'hint' => 'топ страниц для /popular/'),
 
         array('file' => 'backup.php',      'title' => 'Бэкапы',       'group' => 'Сервис',       'icon' => '⛁', 'ready' => true,  'hint' => 'копии сайта'),
         array('file' => 'users.php',       'title' => 'Пользователи', 'group' => 'Сервис',       'icon' => '☺', 'ready' => true,  'hint' => 'доступы и роли'),

@@ -132,7 +132,55 @@ $same = 0;
 foreach ($pagesBack as $f => $content) { if ((string)file_get_contents($f) === $content) { $same++; } }
 check('страницы вернулись ровно к исходному виду', $same === count($pagesBack), 'совпало: ' . $same);
 
-/* ── 4. RSS ── */
+/* ── 3б. Выключатель рекламы и слоты (9.4) ── */
+say('');
+say('3b. Реклама: выключатель, слоты, липучка');
+$vals = settings_all();
+$vals['ads_enabled'] = false;
+settings_save_all($vals);
+settings_render_site();
+$adsOff = 0;
+foreach ($pagesBack as $f => $_) { if (has((string)file_get_contents($f), 'CALCDOC_ADS')) { $adsOff++; } }
+check('выключено — флага рекламы на страницах нет', $adsOff === 0, 'страниц с флагом: ' . $adsOff);
+
+$vals = settings_from_form(array('ads_enabled' => '1'));
+settings_save_all($vals['values']);
+$render = settings_render_site();
+$adsOn = 0;
+foreach ($pagesBack as $f => $_) { if (has((string)file_get_contents($f), 'window.CALCDOC_ADS = true')) { $adsOn++; } }
+check('включено — флаг появился на всех страницах', $adsOn === count($pagesBack),
+    'страниц с флагом: ' . $adsOn . '; вывод: ' . json_encode($render, JSON_UNESCAPED_UNICODE));
+check('настройка выключателя сохраняется и читается обратно', !empty(settings_all()['ads_enabled']));
+
+$vals = settings_all();
+$vals['ads_enabled'] = false;
+settings_save_all($vals);
+settings_render_site();
+$restored = 0;
+foreach ($pagesBack as $f => $content) { if ((string)file_get_contents($f) === $content) { $restored++; } }
+check('после выключения страницы вернулись как были', $restored === count($pagesBack), 'совпало: ' . $restored);
+
+$adsCss = file_get('ads.css');
+check('место под рекламу занято заранее: 100 / 250 / 280 px (CLS = 0)',
+    has($adsCss, 'min-height: 100px') && has($adsCss, 'min-height: 250px')
+    && has($adsCss, 'min-height: 280px') && has($adsCss, 'height: 100px'));
+check('пустые слоты не видны вовсе', has($adsCss, '[data-ad-slot] { display: none; }'));
+check('липучка показывается после 30 % прокрутки', has(file_get('js/ads.js'), 'SCROLL_SHARE = 0.3'));
+check('скрипт рекламы подключён на всех страницах', has(file_get('js/ui.js'), "import '/js/ads.js"));
+
+$prio = array('/', '/calculators/finance/mortgage/', '/calculators/finance/deposit/',
+              '/calculators/finance/credit/', '/calculators/finance/vat/');
+$okPrio = 0;
+foreach ($prio as $p) {
+    $h = file_get(rtrim($p, '/') . '/index.html');
+    if (substr_count($h, 'data-ad-slot="ad-top"') === 1 && substr_count($h, 'data-ad-slot="ad-bottom"') === 1
+        && has($h, '/ads.css')) { $okPrio++; }
+}
+check('слоты сверху и снизу стоят ровно на 5 приоритетных страницах', $okPrio === 5, 'страниц: ' . $okPrio);
+check('лимит «не больше двух блоков» и «понимаю риск» живут в панели',
+    has(file_get('admin-panel-x7k2/ads.php'), 'ADS_PAGE_LIMIT')
+    && has(file_get('admin-panel-x7k2/ads.php'), 'риск'));
+
 say('');
 say('4. Лента статей (9.2)');
 $blog = file_get('blog/index.html');
@@ -181,6 +229,63 @@ foreach (array('blog/otpusknye/index.html', 'blog/nalogovy-vychet-kvartira/index
 }
 check('на всех статьях есть заголовок и строка «Обновлено» (к ней встают кнопки)', $art === 3,
     'статей: ' . $art . ' ' . implode(', ', $artWhy));
+
+/* ── 6. Медиакит (9.6) ── */
+say('');
+say('6. Медиакит: настоящие числа, форматы, PDF');
+require SITE . '/admin-panel-x7k2/inc/stats.php';
+require SITE . '/admin-panel-x7k2/inc/media-kit-lib.php';
+
+$statsDir = SITE . '/api/data';
+$dayFile  = $statsDir . '/' . date('Y-m-d') . '.json';
+$mkBack   = array(
+    $dayFile        => is_file($dayFile) ? (string)file_get_contents($dayFile) : null,
+    mediakit_file() => is_file(mediakit_file()) ? (string)file_get_contents(mediakit_file()) : null,
+);
+register_shutdown_function(function () use ($mkBack) {
+    foreach ($mkBack as $f => $c) { if ($c !== null) { @file_put_contents($f, $c); } else { @unlink($f); } }
+});
+
+if (!is_dir($statsDir)) { mkdir($statsDir, 0755, true); }
+file_put_contents($dayFile, json_encode(array(
+    'hits'     => 9,
+    'pages'    => array('/calculators/finance/mortgage/' => 5, '/blog/otpusknye/' => 4),
+    'sources'  => array('search' => 6, 'direct' => 3),
+    'devices'  => array('mobile' => 5, 'desktop' => 4),
+    'visitors' => array('aa' => 1, 'bb' => 1, 'cc' => 1),
+), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+
+$res = mediakit_snapshot();
+$d   = (array)$res['snapshot']['data'];
+check('снимок чисел сохранён', !empty($res['ok']) && is_file(mediakit_file()));
+check('просмотры из счётчика попали в снимок', (int)$d['hits'] >= 9, 'просмотров: ' . (int)$d['hits']);
+check('визиты посчитаны по посетителям', (int)$d['visits'] >= 3, 'визитов: ' . (int)$d['visits']);
+check('доля переходов из поиска посчитана', (float)$d['search_share'] > 0, (string)$d['search_share']);
+$topPages = array_column((array)$d['top'], 'page');
+check('топ страниц попал в снимок', in_array('/calculators/finance/mortgage/', $topPages, true),
+    implode(', ', $topPages));
+check('устройства подписаны по-русски', count((array)$d['devices']) === 2 && (string)$d['devices'][0]['title'] !== '');
+check('инструменты посчитаны по файлам сайта',
+    (int)$res['snapshot']['tools']['calc'] >= 20 && (int)$res['snapshot']['tools']['gen'] === 6,
+    json_encode($res['snapshot']['tools'], JSON_UNESCAPED_UNICODE));
+check('форматы без выдуманных цен',
+    count((array)$res['snapshot']['types']) >= 4
+    && !has(json_encode($res['snapshot']['types'], JSON_UNESCAPED_UNICODE), '₽'));
+
+$mk = file_get('admin-panel-x7k2/media-kit.php');
+check('на странице есть кнопки «Обновить данные» и «Медиакит (PDF)»',
+    has($mk, 'Медиакит (PDF)') && has($mk, 'value="refresh"'));
+check('PDF собирается библиотекой с сайта, без внешних сервисов',
+    has($mk, '/libs/jspdf.umd.min.js') && !has($mk, 'cdn.'));
+check('числа подписаны честно: свой счётчик, без выдуманных цен',
+    has($mk, 'роботы не считаются') && has($mk, 'Цены — по запросу'));
+check('медиакит есть в меню панели', has(file_get('admin-panel-x7k2/inc/ui.php'), "'media-kit.php'"));
+check('раздел «Популярное» в панели больше не «скоро»',
+    has(file_get('admin-panel-x7k2/inc/ui.php'), "'popular.php'")
+    && has(file_get('admin-panel-x7k2/popular.php'), 'Пересобрать список'));
+check('выключатель рекламы есть в настройках, по умолчанию выключен',
+    has(file_get('admin-panel-x7k2/settings.php'), 'name="ads_enabled"')
+    && has(file_get('admin-panel-x7k2/inc/settings.php'), "'ads_enabled' => false"));
 
 /* ── Итог ── */
 say('');
