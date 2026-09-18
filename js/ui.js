@@ -2,6 +2,8 @@ let SEARCH = [], POPULAR = [];
 
 // ui.js — общие UI-функции для всех страниц CalcDoc
 // Тема, кнопка «Установить» (PWA), панель действий.
+import '/js/print-result.js?v=1';   // «🖨 Распечатать результат» на страницах с результатом (шаг 8.2)
+import '/js/share-params.js?v=1';   // «Поделиться с параметрами» на ипотеке, вкладах и кредите (шаг 8.3)
 
 const themeToggle = document.getElementById('themeToggle');
 const installBtn = document.getElementById('installBtn');
@@ -167,7 +169,7 @@ function initSearch() {
   if (!actions) return;
   if (document.querySelector('.search-wrap')) return; // поиск уже есть — не дублируем
   actions.insertAdjacentHTML('beforebegin',
-    '<div class="search-wrap"><input type="search" id="siteSearch" class="search-input" placeholder="Поиск…" title="Поиск по сайту" autocomplete="off" aria-label="Поиск по сайту"><div class="search-dropdown" id="searchDrop" hidden></div></div>');
+    '<div class="search-wrap"><input type="search" id="siteSearch" class="search-input" placeholder="Поиск…" title="Поиск по сайту — Ctrl+K" autocomplete="off" aria-label="Поиск по сайту"><div class="search-dropdown" id="searchDrop" hidden></div></div>');
   const input = document.getElementById('siteSearch');
   const drop = document.getElementById('searchDrop');
   if (!input || !drop) return;
@@ -186,6 +188,15 @@ function initSearch() {
     if (e.key === 'Escape') close();
   });
   document.addEventListener('click', (e) => { if (!e.target.closest('.search-wrap')) close(); });
+  /* Ctrl+K (и ⌘K) — фокус в поиске с любой страницы; Esc — закрыть (шаг 8.5) */
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+      e.preventDefault();
+      input.focus();
+      input.select();
+      if (input.value.trim()) input.dispatchEvent(new Event('input'));
+    }
+  });
 }
 
 // ─── «Популярное» на главной: маленькие кнопки без эмодзи ───

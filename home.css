@@ -372,3 +372,17 @@
 /* Контраст мелочей в светлой теме: почти белая искра и обводка цифр шагов */
 :root[data-theme="light"] [fill="#f1eef9"]{fill:#7c3aed}
 :root[data-theme="light"] .step-num{-webkit-text-stroke-color:rgba(109,40,217,.45)}
+
+/* «Инструмент дня» (шаг 8.1): стеклянная полоса над тремя инструментами */
+.tool-of-day{display:flex;align-items:center;gap:12px;margin:18px 0 0;padding:12px 16px;border-radius:16px}
+.tool-of-day:empty{display:none}
+.tool-of-day .tod-star{font-size:18px;line-height:1;flex:0 0 auto}
+.tool-of-day .tod-copy{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;min-width:0}
+.tool-of-day .tod-copy b{font-size:12.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--vio,#a78bfa)}
+.tool-of-day .tod-copy a{font-weight:700;font-size:15.5px}
+.tool-of-day .tod-desc{font-size:13.5px;color:var(--text-muted,#9a92b0)}
+@media (max-width:520px){
+  .tool-of-day{align-items:flex-start}
+  .tool-of-day .tod-copy{display:block}
+  .tool-of-day .tod-desc{display:block;margin-top:4px}
+}
