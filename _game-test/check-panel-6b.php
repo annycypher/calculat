@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 define('SITE', dirname(__DIR__));
 
+require SITE . '/admin-panel-x7k2/inc/config.php';
+require SITE . '/admin-panel-x7k2/inc/stats.php';   /* движок чтения счётчика (шаг 6.2) */
+
 $lines  = array(); $ok = 0; $fail = 0; $n = 0;
 $report = isset($argv[1]) ? (string)$argv[1] : '';
 
@@ -52,13 +55,19 @@ function req(string $url, array $headers = array()): array {
 /* ── Файлы счётчика: тест возвращает их как было (это живые данные владельца) ── */
 $todayFile = DATA . '/' . date('Y-m-d') . '.json';
 $knownFile = DATA . '/known.json';
+$usersFile = SITE . '/content/users.json';
+$actsFile  = SITE . '/content/logs/actions.json';
 $back = array();
-foreach (array($todayFile, $knownFile) as $f) { $back[$f] = is_file($f) ? (string)file_get_contents($f) : null; }
+foreach (array($todayFile, $knownFile, $usersFile, $actsFile) as $f) {
+    $back[$f] = is_file($f) ? (string)file_get_contents($f) : null;
+}
+$synth = array();   /* синтетические дни для раздела «Аналитика» — тест их уберёт */
 
-register_shutdown_function(function () use ($back) {
+register_shutdown_function(function () use ($back, &$synth) {
     foreach ($back as $f => $content) {
         if ($content !== null) { @file_put_contents($f, $content); } else { @unlink($f); }
     }
+    foreach ($synth as $f) { @unlink($f); }
 });
 
 /** Быстро прочитать файл дня (или пустоту). */
@@ -194,10 +203,151 @@ check('счётчик подключён на всех страницах сай
 check('счётчик cookie не ставит и закрыт от поисковиков', $r['cookie'] === false && $r['noindex'] === true);
 check('User-Agent в файле дня не хранится', !has((string)json_encode(day()), 'Mozilla'));
 
-/* ── 5. Уборка за собой ── */
+/* ── 5. Раздел «Аналитика» (6.2): периоды, график, топ, источники, устройства ── */
 say('');
-say('5. Уборка за собой');
+say('5. Раздел «Аналитика»: считает те же числа, что и счётчик');
+
+$PANEL = SITE . '/admin-panel-x7k2';
+$KEY   = preg_match("/INSTALL_KEY\s*=\s*'([^']+)'/", (string)file_get_contents($PANEL . '/inc/config.php'), $m) ? $m[1] : '';
+$jar   = '';
+
+/** Запрос к панели с сохранением сессии (как браузер). */
+function ph(string $url, ?array $post = null): array {
+    global $jar;
+    $head = array();
+    if ($post !== null) { $head[] = 'Content-Type: application/x-www-form-urlencoded'; }
+    if ($jar !== '') { $head[] = 'Cookie: ' . $jar; }
+    $ctx = stream_context_create(array('http' => array(
+        'method' => $post === null ? 'GET' : 'POST', 'header' => implode("\r\n", $head),
+        'content' => $post === null ? '' : http_build_query($post),
+        'ignore_errors' => true, 'follow_location' => 0, 'timeout' => 60,
+    )));
+    $body = @file_get_contents($url, false, $ctx);
+    $status = 0;
+    foreach ((array)($http_response_header ?? array()) as $i => $line) {
+        if ($i === 0 && preg_match('#^HTTP/\S+\s+(\d{3})#', $line, $m)) { $status = (int)$m[1]; }
+        if (stripos($line, 'Set-Cookie:') === 0) { $c = trim(substr($line, 11)); $sp = strpos($c, ';'); $jar = $sp === false ? $c : substr($c, 0, $sp); }
+    }
+    return array('s' => $status, 'b' => (string)$body);
+}
+function pcsrf(string $body): string {
+    return preg_match('/name="csrf"\s+value="([^"]+)"/', $body, $m) ? (string)$m[1] : '';
+}
+
+$PURL = SITEURL . '/admin-panel-x7k2';
+@unlink($usersFile);
+$r = ph($PURL . '/login.php');
+$r = ph($PURL . '/login.php', array('csrf' => pcsrf($r['b']), 'action' => 'install', 'install_key' => $KEY,
+      'login' => 'admin', 'password' => 'Test-Faz-6!', 'password2' => 'Test-Faz-6!'));
+check('панель установлена для теста', $r['s'] === 302, 'код ' . $r['s']);
+$jar = '';
+$r = ph($PURL . '/login.php');
+$r = ph($PURL . '/login.php', array('csrf' => pcsrf($r['b']), 'action' => 'login',
+      'login' => 'admin', 'password' => 'Test-Faz-6!'));
+check('вход администратором выполнен', $r['s'] === 302, 'код ' . $r['s']);
+
+/* Синтетические дни: три суток подряд с известными числами — проверяем, что аналитика сложит их верно.
+   Сегодняшний файл могло создать само тестирование выше, поэтому начинаем раздел с чистого листа. */
+@unlink($todayFile);
+$before30 = stats_period(30);
+$plan = array(
+    array('ago' => 2, 'hits' => 100, 'vis' => 10, 'new' => 8, 'ret' => 2,
+          'src' => array('search' => 6, 'direct' => 3, 'internal' => 1),
+          'dev' => array('desktop' => 7, 'mobile' => 3), 'refs' => array('yandex.ru' => 6),
+          'pages' => array('/calculators/proba-6b/' => 60, '/blog/' => 40)),
+    array('ago' => 1, 'hits' => 50, 'vis' => 5, 'new' => 4, 'ret' => 1,
+          'src' => array('search' => 2, 'direct' => 2, 'social' => 1),
+          'dev' => array('desktop' => 3, 'mobile' => 2), 'refs' => array('yandex.ru' => 2, 'vk.com' => 1),
+          'pages' => array('/calculators/proba-6b/' => 30, '/calculators/finance/vat/' => 20)),
+    array('ago' => 0, 'hits' => 20, 'vis' => 2, 'new' => 2, 'ret' => 0,
+          'src' => array('search' => 1, 'direct' => 1),
+          'dev' => array('mobile' => 2), 'refs' => array('yandex.ru' => 1),
+          'pages' => array('/calculators/proba-6b/' => 10)),
+);
+foreach ($plan as $p) {
+    $date = date('Y-m-d', strtotime('-' . (int)$p['ago'] . ' days'));
+    $file = DATA . '/' . $date . '.json';
+    $vis  = array();
+    for ($i = 0; $i < (int)$p['vis']; $i++) { $vis[sprintf('%016x', $i + 1)] = 1; }
+    $json = array('hits' => (int)$p['hits'], 'salt' => 'test6b', 'visitors' => $vis,
+                  'pages' => $p['pages'], 'sources' => $p['src'], 'devices' => $p['dev'],
+                  'refs' => $p['refs'], 'newcomers' => (int)$p['new'], 'returning' => (int)$p['ret']);
+    file_put_contents($file, json_encode($json, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+    $synth[] = $file;
+}
+check('синтетические дни записаны (тест их уберёт)', count($synth) === 3 && is_file($synth[0]));
+
+$after30 = stats_period(30);
+check('просмотры за 30 дней сложились ровно (+170)',
+    (int)$after30['hits'] - (int)$before30['hits'] === 170,
+    'прибавка ' . ((int)$after30['hits'] - (int)$before30['hits']));
+check('посетители, новые и вернувшиеся: +17 / +14 / +3',
+    (int)$after30['visits'] - (int)$before30['visits'] === 17
+    && (int)$after30['newcomers'] - (int)$before30['newcomers'] === 14
+    && (int)$after30['returning'] - (int)$before30['returning'] === 3);
+$srcDelta = array();
+foreach ($after30['sources'] as $k => $cnt) { $srcDelta[$k] = (int)$cnt - (int)($before30['sources'][$k] ?? 0); }
+check('источники: из поиска 9, прямых 6, переходы по сайту 1, соцсети 1',
+    (int)($srcDelta['search'] ?? 0) === 9 && (int)($srcDelta['direct'] ?? 0) === 6
+    && (int)($srcDelta['internal'] ?? 0) === 1 && (int)($srcDelta['social'] ?? 0) === 1);
+$devDelta = array();
+foreach ($after30['devices'] as $k => $cnt) { $devDelta[$k] = (int)$cnt - (int)($before30['devices'][$k] ?? 0); }
+check('устройства: компьютеры 10, телефоны 7',
+    (int)($devDelta['desktop'] ?? 0) === 10 && (int)($devDelta['mobile'] ?? 0) === 7);
+check('домены-источники: yandex.ru 9, vk.com 1',
+    (int)($after30['refs']['yandex.ru'] ?? 0) - (int)($before30['refs']['yandex.ru'] ?? 0) === 9
+    && (int)($after30['refs']['vk.com'] ?? 0) - (int)($before30['refs']['vk.com'] ?? 0) === 1);
+
+$top = stats_top_pages($after30, 15);
+check('в топе от 3 до 15 строк', count($top) <= 15 && count($top) >= 3, 'строк: ' . count($top));
+check('первая страница топа — проба со 100 просмотрами',
+    (string)$top[0]['page'] === '/calculators/proba-6b/' && (int)$top[0]['views'] === 100,
+    'первая: ' . (string)($top[0]['page'] ?? '') . ' (' . (int)($top[0]['views'] ?? 0) . ')');
+check('доля первой страницы посчитана', (float)$top[0]['share'] > 0);
+
+$week = stats_period(7);
+$realSearch = 0; $realAll = 0;
+$realFile = DATA . '/2026-09-15.json';
+if (is_file($realFile)) {
+    $rj = json_decode((string)file_get_contents($realFile), true);
+    $rs = is_array($rj) ? (array)($rj['sources'] ?? array()) : array();
+    $realSearch = (int)($rs['search'] ?? 0);
+    $realAll    = (int)array_sum($rs);
+}
+$wantShare = round(($realSearch + 9) * 100 / max(1, $realAll + 17), 1);
+check('доля переходов из поиска за 7 дней посчитана верно',
+    abs(stats_search_share($week) - $wantShare) < 0.05,
+    'вышло ' . stats_search_share($week) . '%, ожидали ' . $wantShare . '%');
+check('серия графика — ровно 30 дней, наши дни на месте',
+    count($after30['series']) === 30
+    && (int)$after30['series'][date('Y-m-d', strtotime('-2 days'))]['hits'] === 100);
+
+/* Страница раздела по HTTP */
+$r = ph($PURL . '/analytics.php');
+check('раздел «Аналитика» открывается', $r['s'] === 200, 'код ' . $r['s']);
+check('страница показывает те же числа, что и движок',
+    has($r['b'], 'data-month-hits="' . (int)$after30['hits'] . '"')
+    && has($r['b'], 'data-week-hits="' . (int)$week['hits'] . '"'));
+check('график — 30 полосок', has($r['b'], 'class="an-chart"') && has($r['b'], 'data-days="30"')
+    && substr_count($r['b'], 'class="an-bar"') === 30);
+check('в графике видны наши дни (100 и 50 просмотров)',
+    has($r['b'], 'data-hits="100"') && has($r['b'], 'data-hits="50"'));
+check('топ страниц показывает пробу',
+    has($r['b'], 'class="stats-top"') && has($r['b'], '/calculators/proba-6b/'));
+check('источники показывают долю из поиска',
+    has($r['b'], 'data-search-share="' . h((string)stats_search_share($after30)) . '"'));
+check('устройства посчитаны и выведены',
+    has($r['b'], 'class="stats-devices"') && has($r['b'], 'data-all="' . (int)array_sum($after30['devices']) . '"'));
+check('есть ссылка на отчёт «Трафик без денег»',
+    has($r['b'], 'ads.php') && has($r['b'], 'Трафик без денег'));
+check('карточка «счётчик пуст» не показывается, когда данные есть', !has($r['b'], 'data-has="0"'));
+check('в меню панели ссылка «Аналитика» рабочая', has($r['b'], 'analytics.php'));
+
+/* ── 6. Уборка за собой ── */
+say('');
+say('6. Уборка за собой');
 check('проверки идут с чистого листа (данные владельца вернёт выход)', is_file($todayFile) || is_file($knownFile));
+check('синтетические дни убираются на выходе', count($synth) === 3);
 
 say('');
 say('ИТОГ: проверок ' . ($ok + $fail) . ', успешно ' . $ok . ', провалов ' . $fail . ($fail > 0 ? ' ⚠' : ' ✅'));

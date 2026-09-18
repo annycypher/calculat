@@ -25,7 +25,7 @@ if (isset($_SERVER['SCRIPT_FILENAME']) && realpath((string)$_SERVER['SCRIPT_FILE
 function panel_sections(): array {
     return array(
         array('file' => 'dashboard.php',   'title' => 'Дашборд',      'group' => 'Обзор',        'icon' => '▤', 'ready' => true,  'hint' => 'сводка по сайту'),
-        array('file' => 'analytics.php',   'title' => 'Аналитика',    'group' => 'Обзор',        'icon' => '△', 'ready' => false, 'hint' => 'посещения, источники — фаза 8'),
+        array('file' => 'analytics.php',   'title' => 'Аналитика',    'group' => 'Обзор',        'icon' => '△', 'ready' => true,  'hint' => 'просмотры, источники'),
 
         array('file' => 'articles.php',   'title' => 'Статьи',       'group' => 'Контент',      'icon' => '✎', 'ready' => true,  'hint' => 'черновики и редактор статьи'),
         array('file' => 'media.php',       'title' => 'Медиа-файлы',  'group' => 'Контент',      'icon' => '▨', 'ready' => true,  'hint' => 'картинки сайта'),
