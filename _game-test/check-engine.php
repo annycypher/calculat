@@ -80,6 +80,18 @@ check('шаблон: подстановка значения', port_render(array
 check('шаблон: значение экранируется', port_render(array('x' => '<b>зло</b>'), '{{x}}') === '&lt;b&gt;зло&lt;/b&gt;');
 check('шаблон: незнакомый плейсхолдер исчезает', port_render(array(), 'Итог: {{нет_такого}}конец.') === 'Итог: конец.');
 
+/* ── Шаг 1.2: оформление генераторов в styles.css ── */
+$css = (string)@file_get_contents(SITE . '/styles.css');
+check('раскладка генератора: форма слева, документ справа',
+    has($css, '.gen-grid') && has($css, 'minmax(0, 2fr) minmax(0, 1fr)'));
+check('на телефоне колонки складываются в столбик', has($css, '.gen-grid { grid-template-columns: 1fr; }'));
+check('предпросмотр — белая бумага A4 с полями и прокруткой',
+    has($css, '.gen-preview') && has($css, 'background: #fff') && has($css, 'max-height: 70vh')
+    && has($css, 'Times New Roman') && has($css, 'overflow: auto'));
+check('пустой предпросмотр подсказывает, что делать', has($css, '.gen-preview:empty::before'));
+check('кнопки действий в ряд и на всю ширину на телефоне',
+    has($css, '.gen-actions') && has($css, '.gen-actions .btn { width: 100%; }'));
+
 say('');
 say('Проверок: ' . $n . ', пройдено: ' . $ok . ', провалено: ' . $fail);
 
