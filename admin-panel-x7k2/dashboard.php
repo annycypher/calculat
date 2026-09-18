@@ -22,6 +22,7 @@ require __DIR__ . '/inc/backlinks.php';
 require __DIR__ . '/inc/reviews.php';   /* счётчик «Отзывы на модерации» считаем движком отзывов: он знает формат файла */
 require __DIR__ . '/inc/security-lib.php';   /* алерты безопасности: новое устройство, часы, подбор пароля, robots (шаг 7.3) */
 require __DIR__ . '/inc/reminders-lib.php';  /* виджет «Напоминания» на дашборде (шаг 7.6) */
+require __DIR__ . '/inc/popular.php';        /* список «Популярное» для /popular/ (шаг 8.4) */
 
 panel_session_start();
 ensure_guards();
@@ -72,6 +73,17 @@ if ($autoBackup['ran']) {
             . (int)$autoBackup['files'] . ' файлов, ' . human_size($autoBackup['size']) . '.');
     } else {
         flash('Автоматическая копия не получилась: ' . $autoBackup['error'] . ' Проверьте раздел «Бэкапы».', 'error');
+    }
+}
+
+/* Список «Популярное» для страницы /popular/: собираем раз в сутки при первом входе в панель
+   (шаг 8.4) — отдельный cron на хостинге не нужен. */
+$popularRun = popular_lazy_build();
+if ($popularRun['ran']) {
+    if ($popularRun['error'] === '') {
+        flash('Список «Популярное» обновлён: страниц в топе — ' . (int)$popularRun['count'] . '.');
+    } else {
+        flash('Список «Популярное» обновить не удалось: ' . $popularRun['error'], 'error');
     }
 }
 

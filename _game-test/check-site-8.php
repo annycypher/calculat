@@ -13,6 +13,10 @@ declare(strict_types=1);
 
 define('SITE', dirname(__DIR__));
 
+/* Для проверок сборки «Популярного» подключаем движок панели (шаг 8.4). */
+require SITE . '/admin-panel-x7k2/inc/config.php';
+require SITE . '/admin-panel-x7k2/inc/popular.php';
+
 const SITEURL = 'http://127.0.0.1:8084';
 
 $lines = array(); $ok = 0; $fail = 0; $n = 0;
@@ -187,6 +191,79 @@ check('копирование в буфер с запасным способом
     has($sp, 'navigator.clipboard') && has($sp, "execCommand('copy')"));
 check('после копирования показывается короткое сообщение',
     has($sp, 'function toast') && has($sp, 'скопирована'));
+
+/* ── 7. Популярное: список, страница, сборка ── */
+say('');
+say('7. /popular/ и топ-10 за неделю');
+$statsDir = SITE . '/api/data';
+$files = array(popular_file(), SITE . '/content/logs/actions.json');
+foreach ((array)glob($statsDir . '/*.json') as $f) { $files[] = (string)$f; }
+$back = array();
+foreach ($files as $f) { $back[$f] = is_file($f) ? (string)file_get_contents($f) : null; }
+$dayFile = $statsDir . '/' . date('Y-m-d') . '.json';
+$back[$dayFile] = is_file($dayFile) ? (string)file_get_contents($dayFile) : null;
+register_shutdown_function(function () use ($back) {
+    foreach ($back as $f => $content) {
+        if ($content !== null) { @file_put_contents($f, $content); } else { @unlink($f); }
+    }
+});
+
+$resp = req('/popular/');
+check('страница /popular/ открывается', $resp['s'] === 200, 'код ' . $resp['s']);
+check('на странице есть заголовок и список',
+    has($resp['b'], 'Популярное на сайте') && has($resp['b'], 'id="popularList"'));
+check('есть статичный запас инструментов (если счётчик ещё пуст)',
+    has($resp['b'], '/calculators/finance/mortgage/') && has($resp['b'], '/calculators/finance/deposit/'));
+check('скрипт страницы подключён', has($resp['b'], '/js/popular-page.js'));
+check('подвал страницы без дублей и с разделом «Популярное»',
+    substr_count($resp['b'], '<body') === 1 && has($resp['b'], 'href="/popular/">Популярное</a>'));
+check('страница есть в карте сайта', has(file_get('sitemap.xml'), 'https://calc-doc.ru/popular/'));
+
+$all = array();
+$it = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(SITE, FilesystemIterator::SKIP_DOTS));
+foreach ($it as $f) {
+    $p = $f->getPathname();
+    if ($f->isFile() && substr($p, -5) === '.html' && !preg_match('#\\\\(admin-panel|_archive|_backup|_game-test)\\\\#', $p)) { $all[] = $p; }
+}
+$noFoot = 0;
+foreach ($all as $p) { if (mb_strpos((string)file_get_contents($p), 'href="/popular/">Популярное</a>') === false) { $noFoot++; } }
+check('ссылка «Популярное» в подвале всех страниц сайта', count($all) >= 50 && $noFoot === 0,
+    'страниц: ' . count($all) . ', без ссылки: ' . $noFoot);
+
+/* Сборка списка: подкладываем синтетический день и смотрим, что попадёт в топ. */
+if (!is_dir($statsDir)) { mkdir($statsDir, 0755, true); }
+file_put_contents($dayFile, json_encode(array(
+    'hits' => 24,
+    'pages' => array(
+        '/calculators/finance/mortgage/'    => 7,
+        '/blog/otpusknye/'                  => 3,
+        '/admin-panel-x7k2/dashboard.php'   => 9,
+        '/api/stats.php'                    => 5,
+    ),
+), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+
+$res = popular_build();
+$data = popular_data();
+check('сборка прошла и файл записан', $res['ok'] && is_file(popular_file()) && $res['count'] === 2,
+    'страниц в топе: ' . $res['count']);
+check('первое место — самая популярная страница сайта', (string)$data['top'][0]['page'] === '/calculators/finance/mortgage/'
+    && (int)$data['top'][0]['hits'] === 7, json_encode($data['top'][0] ?? array(), JSON_UNESCAPED_UNICODE));
+check('второе место — статья', (string)$data['top'][1]['page'] === '/blog/otpusknye/');
+check('панель и api в топ не попадают',
+    !has(json_encode($data, JSON_UNESCAPED_UNICODE), 'admin-panel') && !has(json_encode($data, JSON_UNESCAPED_UNICODE), '/api/'));
+check('название страницы берётся из <title> и без хвоста «| CalcDoc»',
+    has((string)$data['top'][0]['title'], 'Ипотечный') && !has((string)$data['top'][0]['title'], 'CalcDoc'),
+    (string)$data['top'][0]['title']);
+check('в файле отмечено, за какие дни считали и когда собрали',
+    count((array)$data['days']) === 1 && strpos((string)$data['built_at'], date('Y-m-d')) === 0);
+check('за 7 дней старые дни не считаются', !in_array(date('Y-m-d', (int)strtotime('-20 day')), (array)$data['days'], true));
+
+$lazy = popular_lazy_build();
+check('повторно за сутки список не собирается', $lazy['ran'] === false, json_encode($lazy, JSON_UNESCAPED_UNICODE));
+
+$json = req('/popular.json');
+check('страница может прочитать список по адресу /popular.json',
+    $json['s'] === 200 && is_array(json_decode($json['b'], true)) && isset(json_decode($json['b'], true)['top']));
 
 /* ── Итог ── */
 say('');

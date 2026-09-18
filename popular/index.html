@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Контакты — CalcDoc</title>
-  <meta name="description" content="Как связаться с командой CalcDoc: форма обратной связи и почта info@calc-doc.ru. Сообщения об ошибках, предложения по инструментам, сотрудничество." />
-  <link rel="canonical" href="https://calc-doc.ru/contact/" />
+    <title>Популярное на сайте — CalcDoc</title>
+  <meta name="description" content="Что чаще всего открывают на CalcDoc: популярные калькуляторы, генераторы и статьи за неделю." />
+  <link rel="canonical" href="https://calc-doc.ru/popular/" />
   <meta name="robots" content="index, follow" />
-  <meta property="og:title" content="Контакты" />
-  <meta property="og:description" content="Как связаться с командой CalcDoc: форма обратной связи и почта info@calc-doc.ru. Сообщения об ошибках, предложения по инструментам, сотрудничество." />
+  <meta property="og:title" content="Популярное на сайте" />
+  <meta property="og:description" content="Популярные калькуляторы, генераторы и статьи CalcDoc за неделю." />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="CalcDoc" />
-  <meta property="og:url" content="https://calc-doc.ru/contact/" />
+  <meta property="og:url" content="https://calc-doc.ru/popular/" />
   <meta name="twitter:card" content="summary" />
 <link rel="manifest" href="/manifest.webmanifest" />
   <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
@@ -92,55 +92,35 @@
       </button>
     </div>
   </header>
-  <main>
-    <div class="container tool-hero">
-      <nav class="breadcrumbs"><a href="/">Главная</a> / Контакты</nav>
-      <h1>Контакты</h1>
-      <p class="tool-meta">Проект ведёт небольшая команда энтузиастов: пишите через форму или на почту.</p>
+    <main>
+    <div class="container" style="padding:26px 0 10px">
+      <nav aria-label="Хлебные крошки" style="font-size:14px;color:var(--text-muted);margin-bottom:6px">
+        <a href="/">Главная</a> <span aria-hidden="true">·</span> Популярное
+      </nav>
+      <h1>Популярное на сайте</h1>
+      <p style="max-width:780px">Что чаще всего открывают на CalcDoc за последние 7 дней. Список считает
+        собственный счётчик сайта: без cookie, без слежки и без сторонних сервисов — роботов он не считает.</p>
+      <section style="max-width:780px;margin:18px 0 8px;padding:18px;border:1px solid var(--border);border-radius:var(--radius);background:var(--card-bg)">
+        <ol id="popularList" style="margin:0;padding-left:22px;line-height:1.9">
+          <li><a href="/calculators/finance/mortgage/">Ипотечный калькулятор</a></li>
+          <li><a href="/calculators/finance/deposit/">Калькулятор вкладов</a></li>
+          <li><a href="/calculators/finance/credit/">Кредитный калькулятор</a></li>
+          <li><a href="/calculators/finance/ndfl/">Калькулятор НДФЛ</a></li>
+          <li><a href="/calculators/finance/vat/">Калькулятор НДС</a></li>
+          <li><a href="/calculators/construction/wallpaper/">Калькулятор обоев</a></li>
+          <li><a href="/generators/">Генераторы документов</a></li>
+        </ol>
+        <p id="popularNote" style="margin:12px 0 0;font-size:13px;color:var(--text-muted)">Пока показаны самые
+          востребованные инструменты: список по данным счётчика обновится, когда наберётся статистика
+          (панель собирает его раз в сутки).</p>
+      </section>
+      <p style="display:flex;gap:12px;flex-wrap:wrap;margin-top:14px">
+        <a class="btn btn-glass" href="/calculators/">Все калькуляторы</a>
+        <a class="btn btn-glass" href="/generators/">Генераторы документов</a>
+        <a class="btn btn-glass" href="/blog/">Статьи и инструкции</a>
+      </p>
     </div>
-
-    <div class="container section">
-      <div class="prose">
-        <h2>Написать нам</h2>
-        <p>Сообщения об ошибках, предложения по инструментам, сотрудничество и реклама — всё сюда.
-          Почта проекта: <a href="mailto:info@calc-doc.ru">info@calc-doc.ru</a>.</p>
-        <p>CalcDoc не является юридической или налоговой консультацией: расчёты и документы носят справочный
-          характер. По конкретным налоговым ситуациям лучше обратиться к бухгалтеру или юристу — мы такую помощь
-          не оказываем и не выдаём за неё обычные расчёты.</p>
-
-        <form method="post" action="/api/contact.php" data-contact-form
-              style="max-width:760px;margin:8px 0 4px;padding:18px;border:1px solid var(--border);border-radius:var(--radius);background:var(--card-bg)">
-          <input type="hidden" name="page" value="/contact/" />
-          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
-            <label for="contact-website">Не заполняйте это поле</label>
-            <input type="text" id="contact-website" name="website" value="" tabindex="-1" autocomplete="off" />
-          </div>
-          <label for="contact-name">Ваше имя</label>
-          <input type="text" id="contact-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
-          <label for="contact-email">Почта для ответа</label>
-          <input type="email" id="contact-email" name="email" required maxlength="80" autocomplete="email" placeholder="imya@example.ru" />
-          <label for="contact-text">Сообщение</label>
-          <textarea id="contact-text" name="text" required minlength="10" maxlength="2000" rows="5" style="width:100%"></textarea>
-          <label style="display:flex;gap:10px;align-items:flex-start;margin-top:12px;font-size:14px">
-            <input type="checkbox" name="consent" value="1" required style="margin-top:3px" />
-            <span>Согласен(на) с <a href="/privacy.html">политикой конфиденциальности</a>: почта нужна только для ответа,
-              в рассылки не попадает.</span>
-          </label>
-          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
-            <button data-metric-goal="сообщение" type="submit">Отправить сообщение</button>
-            <span data-contact-note style="font-size:13px;color:var(--text-muted)">Ответим на указанную почту.</span>
-          </div>
-        </form>
-        <script src="/js/contact.js?v=1" defer></script>
-
-        <h2>Что происходит с сообщением</h2>
-        <p>Сообщение уходит письмом на почту проекта и сохраняется в панели — так оно не потеряется, даже если
-          почтовый сервер задумается. Почту мы используем только для ответа: в рассылки не добавляем и третьим
-          лицам не передаём (подробности — в <a href="/privacy.html">политике конфиденциальности</a>).</p>
-        <p>Если пишете об ошибке, добавьте, пожалуйста, адрес страницы и что именно получилось: так мы поправим
-          быстрее. Спасибо, что помогаете делать проект лучше.</p>
-      </div>
-    </div>
+    <script type="module" src="/js/popular-page.js?v=1"></script>
   </main>
 
   <footer class="site-footer">
