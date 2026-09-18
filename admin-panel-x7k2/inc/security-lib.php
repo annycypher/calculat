@@ -353,6 +353,305 @@ function security_alerts(?string $robotsFile = null): array {
     return $out;
 }
 
+/* ───────────── имя папки панели (шаг 7.4) ───────────── */
+
+/** Слова, по которым адрес панели пробуют в первую очередь. */
+function security_folder_words(): array {
+    return array('admin', 'administrator', 'adm', 'panel', 'wp', 'wp-admin', 'wpadmin', 'cms', 'backend',
+        'back-end', 'login', 'manager', 'control', 'controlpanel', 'cp', 'dashboard', 'siteadmin', 'site',
+        'secure', 'security', 'office', 'cabinet', 'kabinet', 'upravlenie', 'root', 'calcdoc', 'calc', 'doc',
+        'adminpanel', 'paneladmin', 'adminka', 'adminarea');
+}
+
+/** Как называется папка панели сейчас. */
+function security_folder_name(): string {
+    return basename((string)PANEL_DIR);
+}
+
+/** Есть ли в имени случайная часть: буквы, которые остаются после вычитания частых слов.
+    «panel123» — нет (остаются только цифры), «x7k2» и «admin-panel-x7k2» — да. */
+function security_folder_random_part(string $name): bool {
+    $rest = str_replace('-', '', mb_strtolower($name));
+    foreach (security_folder_words() as $w) { $rest = str_replace($w, '', $rest); }
+    return (preg_match('/[a-z]/', $rest) === 1 && mb_strlen($rest) >= 3);
+}
+
+/** Насколько нынешнее (или заданное) имя папки легко угадать.
+    Уровни: err — собрано из частых слов, warn — слова есть, но спасает случайный хвост,
+    ok — случайное имя без частых слов. */
+function security_folder_verdict(?string $name = null): array {
+    $name    = $name !== null ? $name : security_folder_name();
+    $low     = mb_strtolower($name);
+    $words   = security_folder_words();
+    $solid   = in_array($low, $words, true) || in_array(str_replace('-', '', $low), $words, true);
+    $rand    = security_folder_random_part($name);
+    $hasWord = false;
+    foreach ((array)preg_split('/[^a-z0-9]+/', $low) as $t) {
+        if ((string)$t !== '' && in_array((string)$t, $words, true)) { $hasWord = true; }
+    }
+
+    if ($solid) {
+        return array('name' => $name, 'level' => 'err', 'word' => 'легко угадать', 'tone' => 'err',
+            'why' => 'Имя «' . $name . '» — известное: такие адреса пробуют первыми (admin, panel, wp-admin, cms, login…).');
+    }
+    if (!$rand) {
+        return array('name' => $name, 'level' => 'err', 'word' => 'легко угадать', 'tone' => 'err',
+            'why' => 'В имени «' . $name . '» нет случайной части: только слова и короткие цифры — его подберут. '
+                . 'Добавьте 3–4 случайных знака, например x7k2.');
+    }
+    if ($hasWord) {
+        return array('name' => $name, 'level' => 'warn', 'word' => 'спасает случайный хвост', 'tone' => 'warn',
+            'why' => 'В имени «' . $name . '» есть частые слова, но случайная часть делает перебор бессмысленным. '
+                . 'Если хотите крепче — уберите слова совсем: например x7k2qz9 или parol-84kd.');
+    }
+    return array('name' => $name, 'level' => 'ok', 'word' => 'нестандартное ✓', 'tone' => 'ok',
+        'why' => 'В имени «' . $name . '» есть случайная часть и нет частых слов — перебором такой адрес не находят.');
+}
+
+/** Что не так с новым именем папки ('' — годится). */
+function security_folder_name_problem(string $newName): string {
+    $name = mb_strtolower(trim($newName));
+    if ($name === '') { return 'Придумайте новое имя папки.'; }
+    if (preg_match('/^[a-z0-9-]+$/', $name) !== 1) {
+        return 'В имени папки — только латинские буквы, цифры и дефис (например parol-x7k2).';
+    }
+    if (in_array($name, security_folder_words(), true) || in_array(str_replace('-', '', $name), security_folder_words(), true)) {
+        return 'Имя «' . $name . '» слишком известное — его пробуют первым. Придумайте своё.';
+    }
+    if (mb_strlen($name) < 6) { return 'Имя короче 6 знаков — такое легко перебрать.'; }
+    if (mb_strlen($name) > 40) { return 'Имя длиннее 40 знаков — адрес будет неудобным.'; }
+    if (substr($name, 0, 1) === '-' || substr($name, -1) === '-' || strpos($name, '--') !== false) {
+        return 'Дефис не должен стоять в начале, в конце или идти подряд.';
+    }
+    if ($name === mb_strtolower(security_folder_name())) { return 'Это нынешнее имя папки — придумайте другое.'; }
+    if (!security_folder_random_part($name)) {
+        return 'В имени нет случайной части (только слова и короткие цифры) — добавьте 3–4 случайных знака, например x7k2.';
+    }
+    return '';
+}
+
+/* ───────────── переименование папки панели (шаг 7.4) ───────────── */
+
+/** Новое правило robots.txt вместо старого: «Disallow: /старое/» → «Disallow: /новое/».
+    Нет ни того, ни другого — дописываем блок, как в шаге 7.3. Копия файла уходит в backups/files/.
+    Возвращает ['ok','error','changed','backup']. */
+function security_robots_replace_rule(string $oldRule, string $newRule): array {
+    require_once __DIR__ . '/publish.php';
+    $out     = array('ok' => true, 'error' => '', 'changed' => false, 'backup' => '');
+    $path    = SITE_ROOT . '/robots.txt';
+    $text    = is_file($path) ? (string)@file_get_contents($path) : '';
+    $oldLine = 'Disallow: ' . rtrim($oldRule, '/') . '/';
+    $newLine = 'Disallow: ' . rtrim($newRule, '/') . '/';
+
+    if (strpos($text, $oldLine) !== false) {
+        $new = str_replace($oldLine, $newLine, $text);
+    } elseif (strpos($text, $newLine) !== false) {
+        return $out;                                           // правило для нового имени уже есть
+    } else {
+        if (trim($text) !== '' && substr($text, -1) !== "\n") { $text .= "\n"; }
+        $new = $text . "\n# Панель управления: закрываем от поисковых систем (правило добавила панель "
+             . date('d.m.Y') . ").\nUser-agent: *\n" . $newLine . "\n";
+    }
+    $res = file_write_safe($path, $new);
+    if (!$res['ok']) { $out['ok'] = false; $out['error'] = (string)$res['error']; return $out; }
+    $out['changed'] = true;
+    $out['backup']  = (string)$res['backup'];
+    return $out;
+}
+
+/** Полный адрес входа в панель — для показа владельцу (по текущему запросу: и локально, и на сайте). */
+function security_folder_url(string $name): string {
+    $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $host   = (string)($_SERVER['HTTP_HOST'] ?? 'calc-doc.ru');
+    return $scheme . '://' . $host . '/' . $name . '/';
+}
+
+/** Переименовать папку панели и поправить адрес в inc/config.php и правило в robots.txt (шаг 7.4).
+    Порядок: проверка имени → robots.txt → переименование папки → config.php (при сбое — откат).
+    ВАЖНО: после успеха PANEL_DIR в этом же запросе уже устарел — страница, вызвавшая функцию,
+    должна сразу показать новый адрес и завершиться.
+    Возвращает ['ok','error','old_name','new_name','url','backup','steps']. */
+function security_folder_rename(string $newName): array {
+    require_once __DIR__ . '/publish.php';
+    $out = array('ok' => false, 'error' => '', 'old_name' => security_folder_name(), 'new_name' => '',
+                 'url' => '', 'backup' => '', 'steps' => array());
+
+    $problem = security_folder_name_problem($newName);
+    if ($problem !== '') { $out['error'] = $problem; return $out; }
+
+    $newName = mb_strtolower(trim($newName));
+    $parent  = dirname((string)PANEL_DIR);
+    $newDir  = $parent . '/' . $newName;
+    if (is_dir($newDir)) {
+        $out['error'] = 'Папка «' . $newName . '» на сайте уже есть — выберите другое имя.';
+        return $out;
+    }
+
+    /* 1. robots.txt: правило для новой папки (прежний файл — в backups/files/). */
+    $rb = security_robots_replace_rule('/' . $out['old_name'] . '/', '/' . $newName . '/');
+    if (!$rb['ok']) { $out['error'] = 'Не получилось поправить robots.txt: ' . $rb['error']; return $out; }
+    $out['backup']  = (string)$rb['backup'];
+    $out['steps'][] = $rb['changed'] ? 'robots.txt: правило папки обновлено' : 'robots.txt: правило уже подходило';
+
+    /* 2. Переименование: если можно — сразу; если папку держит веб-сервер (так бывает на Windows
+       с встроенным сервером) — откладываем на отдельный процесс, который сработает после ответа. */
+    if (@rename((string)PANEL_DIR, $newDir)) {
+        $cfgRes = security_folder_patch_config($newDir, $newName);
+        if (!$cfgRes['ok']) {
+            @rename($newDir, (string)PANEL_DIR);
+            $out['error'] = 'Не получилось поправить адрес в inc/config.php — вернул прежнее имя папки.';
+            return $out;
+        }
+        $out['steps'][] = 'папка: ' . $out['old_name'] . ' → ' . $newName;
+        $out['steps'][] = 'inc/config.php: адрес панели → /' . $newName;
+        $out['mode']    = 'direct';
+        security_folder_plan_done();                        // прежний план больше не нужен
+    } else {
+        /* На встроенном сервере Windows папку не отпускают вообще: сервер держит открытым файл запроса,
+           пока сам работает. В этом случае честно показываем ручные шаги (на хостинге с Linux
+           переименование проходит сразу и кнопка работает сама). */
+        if (PHP_SAPI === 'cli-server') {
+            $out['mode']  = 'manual';
+            $out['error'] = 'На вашем компьютере панель работает через встроенный сервер, а он не отпускает '
+                . 'папку: Windows не даёт переименовать её, пока сервер работает. На хостинге кнопка сработает '
+                . 'сама, а здесь — два ручных шага. ' . security_folder_manual_steps($out['old_name'], $newName);
+            log_action('Панель: переименование вручную', $out['old_name'] . ' → ' . $newName
+                . ' (встроенный сервер не отпускает папку)', '');
+            return $out;
+        }
+        $plan = security_folder_plan_write($out['old_name'], $newName, $parent);
+        if ($plan['ok'] && security_folder_spawn_helper($plan['helper'])) {
+            $out['steps'][] = 'папка: ' . $out['old_name'] . ' → ' . $newName . ' (сразу после ответа)';
+            $out['steps'][] = 'inc/config.php: адрес панели → /' . $newName . ' (там же)';
+            $out['mode']    = 'deferred';
+        } else {
+            $out['mode']  = 'manual';
+            $out['error'] = 'Папку не получилось переименовать автоматически. '
+                . security_folder_manual_steps($out['old_name'], $newName);
+            log_action('Панель: переименование вручную', $out['old_name'] . ' → ' . $newName
+                . ' (автоматически не вышло)', '');
+            return $out;
+        }
+    }
+
+    $out['ok']       = true;
+    $out['new_name'] = $newName;
+    $out['url']      = security_folder_url($newName);
+    log_action('Панель переименована', $out['old_name'] . ' → ' . $newName
+        . ' (' . $out['mode'] . ', ' . $out['url'] . ')', '');
+    return $out;
+}
+
+/** Поправить адрес панели в inc/config.php (файл уже по новому пути). */
+function security_folder_patch_config(string $dir, string $name): array {
+    $cfg  = rtrim($dir, '/\\') . '/inc/config.php';
+    $text = (string)@file_get_contents($cfg);
+    $new  = (string)preg_replace("/define\\('PANEL_URL',\\s*'[^']*'\\);/",
+        "define('PANEL_URL',   '/" . $name . "');", $text, 1, $cnt);
+    if ($cnt !== 1) { return array('ok' => false, 'error' => 'в inc/config.php не нашлась строка PANEL_URL'); }
+    if (@file_put_contents($cfg, $new) === false) { return array('ok' => false, 'error' => 'нет прав на запись inc/config.php'); }
+    return array('ok' => true, 'error' => '');
+}
+
+/** Ручные шаги — на случай, когда переименовать автоматически не вышло. */
+function security_folder_manual_steps(string $oldName, string $newName): string {
+    return 'Сделайте это вручную: 1) переименуйте папку «' . $oldName . '» в «' . $newName . '»; '
+        . '2) в файле ' . $newName . '/inc/config.php замените строку define(\'PANEL_URL\', \'/' . $oldName . '\'); '
+        . 'на define(\'PANEL_URL\', \'/' . $newName . '\'); '
+        . '3) в robots.txt замените «Disallow: /' . $oldName . '/» на «Disallow: /' . $newName . '/».';
+}
+
+/* ───────────── отложенное переименование: план и помощник ───────────── */
+
+/** Файл с планом переименования: по нему панель понимает, что происходит. */
+function security_folder_plan_file(): string {
+    return CONTENT_DIR . '/security/rename-plan.json';
+}
+
+/** План переименования (пусто — плана нет). */
+function security_folder_plan(): array {
+    $f = security_folder_plan_file();
+    if (!is_file($f)) { return array(); }
+    $d = json_decode((string)@file_get_contents($f), true);
+    return is_array($d) ? $d : array();
+}
+
+/** Убрать план (переименование прошло обычным путём или уже не нужно). */
+function security_folder_plan_done(): void {
+    @unlink(security_folder_plan_file());
+}
+
+/** Состояние для страницы «Безопасность»: идёт ли переименование, получилось ли, что делать. */
+function security_folder_plan_note(): array {
+    $plan = security_folder_plan();
+    if (count($plan) === 0) { return array('state' => 'none', 'text' => ''); }
+    $name = (string)($plan['name'] ?? '');
+    $old  = (string)($plan['old'] ?? '');
+    if (is_dir($old)) {
+        if (($plan['ok'] ?? null) === false) {
+            return array('state' => 'failed', 'text' => 'Переименование в «' . $name . '» не завершилось: '
+                . (string)($plan['error'] ?? 'причина неизвестна') . '. '
+                . security_folder_manual_steps(basename($old), $name));
+        }
+        return array('state' => 'pending', 'text' => 'Переименование в «' . $name
+            . '» идёт: панель делает это сразу после ответа. Подождите пару секунд и обновите страницу.');
+    }
+    security_folder_plan_done();                            // старой папки нет — план отработал
+    return array('state' => 'done', 'text' => 'Переименование в «' . $name . '» прошло успешно.');
+}
+
+/** Записать план и собрать файл-помощник для отложенного переименования. */
+function security_folder_plan_write(string $oldName, string $newName, string $parent): array {
+    $helper = rtrim((string)sys_get_temp_dir(), '/\\') . '/calcdoc-rename-' . bin2hex(random_bytes(4)) . '.php';
+    $plan   = array(
+        'old'      => $parent . '/' . $oldName,
+        'new'      => $parent . '/' . $newName,
+        'name'     => $newName,
+        'at'       => date('Y-m-d H:i:s'),
+        'login'    => isset($_SESSION['user']['login']) ? (string)$_SESSION['user']['login'] : '',
+        'ok'       => null,
+        'error'    => '',
+        'finished' => '',
+    );
+    if (!json_write(security_folder_plan_file(), $plan)) { return array('ok' => false, 'helper' => ''); }
+
+    $code = "<?php\n"
+        . "/* Помощник отложенного переименования панели: его пишет панель и удаляет сразу после работы. */\n"
+        . "date_default_timezone_set('Europe/Moscow');\n"
+        . "usleep(1500000);\n"
+        . "\$planFile = " . var_export(security_folder_plan_file(), true) . ";\n"
+        . "\$d = json_decode((string)@file_get_contents(\$planFile), true);\n"
+        . "if (!is_array(\$d)) { exit; }\n"
+        . "\$old = (string)\$d['old']; \$new = (string)\$d['new']; \$name = (string)\$d['name'];\n"
+        . "\$ok = @rename(\$old, \$new);\n"
+        . "\$error = \$ok ? '' : 'папка занята — попробуйте ещё раз';\n"
+        . "if (\$ok) {\n"
+        . "    \$cfg  = \$new . '/inc/config.php';\n"
+        . "    \$text = (string)@file_get_contents(\$cfg);\n"
+        . "    \$newText = (string)preg_replace(\"/define\\\\('PANEL_URL',\\\\s*'[^']*'\\\\);/u\",\n"
+        . "        \"define('PANEL_URL',   '/\" . \$name . \"');\", \$text, 1, \$cnt);\n"
+        . "    if (\$cnt !== 1 || @file_put_contents(\$cfg, \$newText) === false) {\n"
+        . "        @rename(\$new, \$old); \$ok = false; \$error = 'inc/config.php не поправился';\n"
+        . "    }\n"
+        . "}\n"
+        . "\$d['ok'] = \$ok; \$d['error'] = \$error; \$d['finished'] = date('Y-m-d H:i:s');\n"
+        . "@file_put_contents(\$planFile, json_encode(\$d, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));\n"
+        . "@unlink(__FILE__);\n";
+    if (@file_put_contents($helper, $code) === false) { return array('ok' => false, 'helper' => ''); }
+    return array('ok' => true, 'helper' => $helper);
+}
+
+/** Запустить помощника отдельным процессом и не ждать его: pclose не зовём, чтобы он жил после ответа. */
+function security_folder_spawn_helper(string $helper): bool {
+    if ($helper === '' || !function_exists('popen')) { return false; }
+    $isWin = (DIRECTORY_SEPARATOR === '\\');
+    $cmd = $isWin
+        ? 'start /B "" ' . escapeshellarg(PHP_BINARY) . ' ' . escapeshellarg($helper)
+        : escapeshellarg(PHP_BINARY) . ' ' . escapeshellarg($helper) . ' > /dev/null 2>&1 &';
+    $h = @popen($cmd, 'r');
+    return is_resource($h);
+}
+
 /** Очистить журнал входов. Список устройств остаётся: он нужен, чтобы узнавать свои устройства
     и показывать алерты «это новое устройство» — это не история входов, а пометки устройств. */
 function security_log_clear(): bool {

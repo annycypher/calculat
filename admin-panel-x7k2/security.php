@@ -31,6 +31,44 @@ panel_require('security', 'раздел «Безопасность»');
 $me      = current_user();
 $meLogin = (string)$me['login'];
 $confirm = (string)($_GET['confirm'] ?? '');
+$renameAsk = '';                             // новое имя папки, ждущее второго подтверждения (шаг 7.4)
+
+/** Экран после переименования панели: страница собирается сама, без общего вида панели —
+    он искал бы стили по старому пути, которого уже нет. */
+function sec_folder_done_page(array $res): void {
+    $url  = (string)$res['url'];
+    $name = (string)$res['new_name'];
+    echo '<!DOCTYPE html><html lang="ru" data-theme="dark"><head><meta charset="utf-8">'
+       . '<meta name="viewport" content="width=device-width, initial-scale=1">'
+       . '<meta name="robots" content="noindex, nofollow"><title>Панель переименована — CalcDoc</title>'
+       . '<style>body{margin:0;background:#0b0913;color:#f1eef9;font:16px/1.6 Manrope,Arial,sans-serif;'
+       . 'display:grid;place-items:center;min-height:100vh;padding:24px}'
+       . '.card{max-width:640px;width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);'
+       . 'border-radius:18px;padding:26px}h1{font-size:20px;margin:0 0 12px}'
+       . 'a.login{display:block;margin:14px 0;padding:16px;border-radius:14px;background:rgba(167,139,250,.14);'
+       . 'border:1px solid rgba(167,139,250,.4);color:#cbb8ff;font-size:20px;word-break:break-all;text-decoration:none;font-weight:600}'
+       . 'ul{margin:0 0 14px;padding-left:20px;color:#cfc9de}.mut{color:#9a92b0;font-size:14px}'
+       . 'code{color:#6fd3f2}</style></head><body><div class="card">'
+       . '<h1>Готово: панель переименована</h1>'
+       . '<p>Новый адрес входа — сохраните его в закладки:</p>'
+       . '<a class="login" href="' . h($url) . '">' . h($url) . '</a><ul>';
+    foreach ((array)$res['steps'] as $s) { echo '<li>' . h((string)$s) . '</li>'; }
+    echo '</ul>'
+       . '<p class="mut">Папка «' . h((string)$res['old_name']) . '» теперь называется «' . h($name)
+       . '», адрес панели в <code>inc/config.php</code> и правило в <code>robots.txt</code> поправлены, '
+       . 'копия прежнего robots.txt — в <code>backups/files/' . h((string)$res['backup']) . '</code>.</p>';
+    if ((string)($res['mode'] ?? '') === 'deferred') {
+        echo '<p class="mut">Переименование папки завершится в течение пары секунд: панель делает это сразу '
+           . 'после ответа (так нужно, потому что веб-сервер держит открытым запрошенный файл — это особенно '
+           . 'заметно на Windows). Если новый адрес ещё не отвечает, подождите 5 секунд и обновите страницу.</p>';
+    }
+    echo '<p class="mut">Старый адрес больше не открывается — это и было целью. Войти нужно заново: '
+       . 'сессия панели привязана к прежнему адресу.</p>'
+       . '<p class="mut">Если что-то пойдёт не так, откройте новый адрес ещё раз: в журнале действий '
+       . 'осталась запись «Панель переименована».</p>'
+       . '</div></body></html>';
+    exit;
+}
 
 /* ───────────────────────── обработка форм ───────────────────────── */
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
@@ -93,6 +131,25 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         log_action('Очищен журнал входов', 'было записей: ' . $n, $meLogin);
         flash('Журнал входов очищен (было записей: ' . $n . '). Список устройств сохранён.');
 
+    /* Имя папки панели: первый шаг — предупреждение, второй — само переименование (шаг 7.4). */
+    } elseif ($action === 'folder_rename') {
+        $new = (string)($_POST['new_name'] ?? '');
+        if ((string)($_POST['confirm'] ?? '') !== '1') {
+            $problem = security_folder_name_problem($new);
+            if ($problem !== '') {
+                flash($problem, 'error');
+            } else {
+                $renameAsk = mb_strtolower(trim($new));     // покажем карточку с подтверждением
+            }
+        } else {
+            $res = security_folder_rename($new);
+            if (!$res['ok']) {
+                flash((string)$res['error'], 'error');
+            } else {
+                sec_folder_done_page($res);                 // панель уже по новому адресу — показываем его и выходим
+            }
+        }
+
     /* Обычные часы входа — то же поле, что и в разделе «Настройки». */
     } elseif ($action === 'hours') {
         $res = settings_from_form(array(
@@ -117,6 +174,8 @@ $devices  = security_devices();
 $hours    = security_login_hours();
 $isOddNow = is_odd_hour();
 $fails    = failed_attempts_today();
+$folder   = security_folder_verdict();
+$planNote = security_folder_plan_note();
 $known    = 0;
 foreach ($devices as $d) { if (!empty($d['known'])) { $known++; } }
 
@@ -266,6 +325,53 @@ stat_card('Обычные часы входа', $hours['from'] . '–' . $hours[
         считать его своим: при входе с него на дашборде появится проверка «Это были вы?». Кнопка «Доверять снова»
         и ответ «Да, это я» на дашборде помечают устройство подтверждённым, и панель больше о нём не спрашивает.</p>
 <?php } ?>
+<?php card_end(); ?>
+
+<?php card_start('Имя папки панели', 'Чем нестандартнее адрес, тем меньше шансов, что панель найдут перебором'); ?>
+      <div class="sec-folder" data-name="<?php echo h((string)$folder['name']); ?>" data-level="<?php echo h((string)$folder['level']); ?>"></div>
+      <p class="hint" style="margin:0 0 12px">Сейчас панель лежит в папке <code><?php echo h((string)$folder['name']); ?></code> —
+        <?php echo badge((string)$folder['word'], (string)$folder['tone']); ?>
+        <?php echo h((string)$folder['why']); ?></p>
+
+<?php if ($planNote['state'] !== 'none') { ?>
+      <div class="flash <?php echo $planNote['state'] === 'failed' ? 'flash-err' : 'flash-ok'; ?>" style="margin:0 0 12px"><?php echo h((string)$planNote['text']); ?></div>
+<?php } ?>
+
+<?php if ($renameAsk !== '') { ?>
+      <div class="flash flash-err" style="margin:0 0 14px">
+        Переименовать панель в «<strong><?php echo h($renameAsk); ?></strong>»? Что произойдёт сразу:
+        <ul style="margin:8px 0 0;padding-left:20px">
+          <li>папка панели переименуется — <strong>старый адрес перестанет открываться</strong>;</li>
+          <li>адрес панели в <code>inc/config.php</code> поправится автоматически;</li>
+          <li>правило в <code>robots.txt</code> заменится на новое (копия прежнего файла — в <code>backups/files/</code>);</li>
+          <li>войти нужно будет заново по новому адресу: сессия привязана к прежнему.</li>
+        </ul>
+      </div>
+      <div class="btn-row" style="margin:0 0 16px">
+        <form method="post" action="<?php echo h(panel_url('security.php')); ?>" style="margin:0">
+          <?php echo csrf_field(); ?>
+          <input type="hidden" name="action" value="folder_rename" />
+          <input type="hidden" name="new_name" value="<?php echo h($renameAsk); ?>" />
+          <input type="hidden" name="confirm" value="1" />
+          <button class="btn primary" style="background:linear-gradient(135deg,#ff8f98,#ffb3a7);color:#2a0d12" type="submit">Да, переименовать панель</button>
+        </form>
+        <a class="btn ghost" href="<?php echo h(panel_url('security.php')); ?>">Отмена</a>
+      </div>
+<?php } ?>
+
+      <form method="post" action="<?php echo h(panel_url('security.php')); ?>">
+        <?php echo csrf_field(); ?>
+        <input type="hidden" name="action" value="folder_rename" />
+        <label for="folder_new">Новое имя папки (латиница, цифры, дефис)</label>
+        <input type="text" id="folder_new" name="new_name" value="" placeholder="parol-x7k2" required autocomplete="off" />
+        <div class="field-hint">От 6 до 40 знаков и обязательно со случайной частью: «admin», «panel», «wp-admin»,
+          «cms», «login» и подобные имена панель не примет. Дефис — не в начале, не в конце и не подряд.
+          Пример хорошего имени: <code>x7k2qz9</code> или <code>parol-84kd</code>.</div>
+        <div class="btn-row" style="margin-top:14px"><button class="btn ghost" type="submit">Проверить и переименовать панель…</button></div>
+      </form>
+      <p class="field-hint" style="margin:12px 0 0">Действие в два шага: сначала панель покажет, что именно изменится,
+        и попросит подтверждение, и только потом переименует. Перед этим стоит сделать копию сайта — раздел «Бэкапы».</p>
+
 <?php card_end(); ?>
 
 <?php card_start('Обычные часы входа', 'Это те же часы, что и в разделе «Настройки», — меняются в одном месте'); ?>
