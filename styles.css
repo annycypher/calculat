@@ -182,7 +182,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .footer-nav a:hover { color: var(--text); }
 /* Колонка ссылок в подвале (фаза C2 «Полезные статьи»): те же .footer-nav / .foot-links,
    но в столбик. Своих цветов и размеров модификатор не задаёт — оформление берётся
-   у ссылок родительского класса. */
+   у ссылок родительского класса.
+   18.09.2026 колонка свёрнута в одну ссылку «Статьи и инструкции» в ряду «Разделы сайта»
+   (решение владельца, _game-test\site-simplify-footer-articles.ps1), поэтому сейчас
+   .footer-col на страницах не используется — правила оставлены на случай возврата. */
 .footer-col { flex-direction: column; align-items: flex-start; gap: 8px; }
 .footer-col .eyebrow { margin: 0 0 4px; }
 

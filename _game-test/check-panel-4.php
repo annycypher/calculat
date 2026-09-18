@@ -224,12 +224,14 @@ check('FAQPage: четыре вопроса, текст без тегов',
 check('в статье нет лишних скриптов', count_str($page, '<script') === 4, 'скриптов: ' . count_str($page, '<script'));
 
 say('');
-say('7. Текст образца не протекает в новую статью (в подвале сайта ссылка на образец — это норма)');
+say('7. Текст образца не протекает в новую статью (подвал берётся у образца — это норма)');
 check('в тексте статьи нет заголовка образца', strpos($main, 'Как рассчитать отпускные') === false);
 check('в тексте статьи нет куска текста образца', strpos($main, 'Практический вывод простой') === false);
 check('в тексте статьи нет ссылки на образец', strpos($main, '/blog/otpusknye/') === false);
-check('подвал сайта при этом унаследован (со своими ссылками)',
-      strpos($page, 'footer-col') !== false && strpos($page, '/blog/otpusknye/') !== false);
+check('подвал унаследован: колонки «Полезные статьи» нет, есть строка «Статьи и инструкции» в ряду «Разделы сайта»',
+      strpos($page, 'footer-col') === false
+      && strpos($page, '<a href="/blog/">Статьи и инструкции</a>') !== false
+      && strpos($page, '<a href="/reviews/">Отзывы</a>') !== false);
 
 say('');
 say('8. Проверка по SEO и живое изменение полей');
@@ -560,6 +562,11 @@ foreach (array($hubFile, $smFile, $rssFile) as $src) {
         @copy($src, $safeDir . '/' . str_replace('/', '__', substr($src, strlen(SITE) + 1)));
     }
 }
+/* Сколько адресов в карте сайта до публикации. Считаем от него, а не от жёсткого числа:
+   18.09.2026 на сайте появились /contact/ и /advertise/, и прежние 50/49 в проверках ниже
+   стали падать, хотя панель работала верно. */
+$smBase = substr_count((string)@file_get_contents($smFile), '<url>');
+
 $backupsBefore = array_map('basename', (array)glob($backupDir . '/*'));
 check('тест запомнил исходные файлы сайта', is_file($safeDir . '/blog__index.html') && is_file($safeDir . '/sitemap.xml'));
 
@@ -602,7 +609,7 @@ check('адрес добавлен в sitemap.xml с датой статьи',
 check('в sitemap.xml нет дублей адреса',
       substr_count($smXml, '<loc>https://calc-doc.ru/blog/' . $pubSlug . '/</loc>') === 1);
 check('sitemap.xml остаётся XML',
-      strpos($smXml, '<?xml') === 0 && substr_count($smXml, '<url>') === 50,
+      strpos($smXml, '<?xml') === 0 && substr_count($smXml, '<url>') === $smBase + 1,
       'url: ' . substr_count($smXml, '<url>'));
 
 check('лента /rss.xml собрана', is_file($rssFile));
@@ -693,7 +700,7 @@ check('карточка ушла из списка блога',
       'карточек: ' . substr_count($hubHtml, 'class="card" href="/blog/'));
 $smXml = (string)@file_get_contents($smFile);
 check('адрес ушёл из sitemap.xml',
-      strpos($smXml, $pubSlug) === false && substr_count($smXml, '<url>') === 49,
+      strpos($smXml, $pubSlug) === false && substr_count($smXml, '<url>') === $smBase,
       'url: ' . substr_count($smXml, '<url>'));
 $rssXml = (string)@file_get_contents($rssFile);
 check('лента пересобрана без статьи',
