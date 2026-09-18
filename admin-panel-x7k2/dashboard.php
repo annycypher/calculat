@@ -16,6 +16,7 @@ require __DIR__ . '/inc/config.php';
 require __DIR__ . '/inc/auth.php';
 require __DIR__ . '/inc/ui.php';
 require __DIR__ . '/inc/backup.php';
+require __DIR__ . '/inc/outreach.php';
 
 panel_session_start();
 ensure_guards();
@@ -60,6 +61,12 @@ $blogCount = 0;
 foreach ((array)glob(SITE_ROOT . '/blog/*', GLOB_ONLYDIR) as $dir) { if (is_file($dir . '/index.html')) { $blogCount++; } }
 foreach ((array)glob(SITE_ROOT . '/blog/*.html') as $file) { if (basename($file) !== 'index.html') { $blogCount++; } }
 
+/* ── аутрич: напоминания о карточках, которые молчат дольше недели (шаг 4.4 задания) ── */
+$outItems  = outreach_data()['items'];
+$outStats  = outreach_stats($outItems);
+$outRemind = outreach_reminders($outItems);
+$outTone   = count($outRemind) > 0 ? 'warn' : 'ok';
+
 /* ── резервные копии: список, свежесть, тон предупреждения ── */
 $backups = array();
 foreach ((array)glob(BACKUP_DIR . '/*.zip') as $zip) {
@@ -103,6 +110,40 @@ panel_page_start('Дашборд', 'Что есть на сайте сейчас
 <?php stat_card('Файлы медиа', (string)$mediaCount, $mediaCount > 0 ? human_size($mediaSize) : 'загрузка картинок — фаза 3'); ?>
 <?php stat_card('Пользователи панели', (string)$usersCount, 'доступы и роли — фаза 1.3'); ?>
       </div>
+
+<?php card_start('Аутрич', 'Внешние контакты: кому написали, что ответили и где поставили ссылку', $outTone); ?>
+      <div class="outreach-widget" data-remind="<?php echo count($outRemind); ?>"
+           data-total="<?php echo (int)$outStats['total']; ?>" data-in-work="<?php echo (int)$outStats['in_work']; ?>"
+           data-placed="<?php echo (int)$outStats['placed']; ?>" data-week-sent="<?php echo (int)$outStats['week_sent']; ?>"
+           data-week-limit="<?php echo (int)$outStats['week_limit']; ?>"></div>
+<?php if (count($outRemind) > 0) { ?>
+      <p class="hint" style="margin:0 0 12px">Пора напомнить о себе: карточек без движения дольше
+        <?php echo (int)OUTREACH_REMIND_DAYS; ?> дней — <strong><?php echo count($outRemind); ?></strong>. Ближайшие:</p>
+      <table class="table">
+        <tr><th>Цель</th><th>Этап</th><th>Молчит</th></tr>
+<?php foreach (array_slice($outRemind, 0, 3) as $r) { ?>
+        <tr>
+          <td><?php echo h((string)$r['goal']); ?></td>
+          <td><?php echo h(outreach_stage_word((string)$r['stage'])); ?></td>
+          <td><?php echo badge((int)$r['days'] . ' дн.', 'warn'); ?></td>
+        </tr>
+<?php } ?>
+      </table>
+<?php if (count($outRemind) > 3) { ?>
+      <p class="hint" style="margin:8px 0 0">И ещё <?php echo count($outRemind) - 3; ?> — открывайте доску.</p>
+<?php } ?>
+<?php } elseif ((int)$outStats['total'] > 0) { ?>
+      <p class="hint" style="margin:0 0 12px">Доска в порядке: напоминать не о ком. В работе
+        <strong><?php echo (int)$outStats['in_work']; ?></strong>, поставлено ссылок
+        <strong><?php echo (int)$outStats['placed']; ?></strong>, отправлено за
+        <?php echo (int)OUTREACH_REMIND_DAYS; ?> дней — <strong><?php echo (int)$outStats['week_sent']; ?></strong>
+        из <?php echo (int)$outStats['week_limit']; ?>.</p>
+<?php } else { ?>
+      <p class="hint" style="margin:0 0 12px">Доска аутрича пока пуста. Заведите первую карточку — панель напомнит,
+        если ответа нет дольше <?php echo (int)OUTREACH_REMIND_DAYS; ?> дней, и подскажет формулировки писем.</p>
+<?php } ?>
+      <div class="btn-row"><a class="btn ghost" href="<?php echo h(panel_url('outreach.php')); ?>">Открыть доску аутрича</a></div>
+<?php card_end(); ?>
 
 <?php card_start('Резервные копии', 'Копия сайта перед правками — ваша страховка', $backupTone); ?>
       <p class="hint" style="margin:0 0 12px"><?php echo h($backupText); ?></p>
