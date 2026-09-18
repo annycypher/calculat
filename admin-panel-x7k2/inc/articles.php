@@ -23,10 +23,13 @@ function articles_file(): string {
     return CONTENT_DIR . '/articles.json';
 }
 
-/** Все черновики, свежие сверху. */
-function articles_all(): array {
+/** Все черновики, свежие сверху. Корзина по умолчанию не показывается (шаг 13.1). */
+function articles_all(bool $withTrash = false): array {
     $data = json_read(articles_file(), array('version' => 1, 'articles' => array()));
     $list = (isset($data['articles']) && is_array($data['articles'])) ? $data['articles'] : array();
+    if (!$withTrash) {
+        $list = array_filter($list, function ($a) { return empty($a['deleted_at']); });
+    }
     usort($list, function ($a, $b) {
         return strcmp((string)($b['modified'] ?? ''), (string)($a['modified'] ?? ''));
     });
@@ -221,21 +224,9 @@ function articles_put(array $fields, string $id = ''): array {
     return array('ok' => true, 'id' => $id, 'error' => '');
 }
 
-/** Удалить черновик. ['ok','error'] */
+/** Удалить черновик. С шага 13.1 это мягкое удаление: статья уезжает в корзину. */
 function articles_delete(string $id): array {
-    $list = array();
-    $gone = false;
-    foreach (articles_all()['articles'] as $a) {
-        if ((string)($a['id'] ?? '') === $id) { $gone = true; continue; }
-        $list[] = $a;
-    }
-    if (!$gone) {
-        return array('ok' => false, 'error' => 'Такого черновика нет — возможно, его уже удалили.');
-    }
-    if (!articles_save_all($list)) {
-        return array('ok' => false, 'error' => 'Не получилось сохранить файл черновиков.');
-    }
-    return array('ok' => true, 'error' => '');
+    return articles_to_trash($id);
 }
 
 /** Сколько слов в статье (для списка и панели «Умное SEO»). */
@@ -306,3 +297,118 @@ function articles_mark_draft(string $id): bool {
 }
 
 
+
+
+/* ─────── корзина (шаг 13.1): мягкое удаление, восстановление, окончательное удаление ─────── */
+
+/** Удалённые статьи, свежие сверху. */
+function articles_trash(): array {
+    $list = array();
+    foreach (articles_all(true)['articles'] as $a) {
+        if (!empty($a['deleted_at'])) { $list[] = $a; }
+    }
+    usort($list, function ($a, $b) {
+        return strcmp((string)($b['deleted_at'] ?? ''), (string)($a['deleted_at'] ?? ''));
+    });
+    return $list;
+}
+
+/** Убрать статью в корзину. Опубликованную сразу снимаем с сайта (карточка, карта, лента). */
+function articles_to_trash(string $id): array {
+    $list = articles_all(true)['articles'];
+    $found = false; $wasPublished = false; $fields = array();
+    foreach ($list as $i => $a) {
+        if ((string)($a['id'] ?? '') !== $id) { continue; }
+        $list[$i]['deleted_at'] = date('Y-m-d H:i:s');
+        $found = true;
+        $wasPublished = articles_is_published($a);
+        $fields = (array)($a['fields'] ?? array());
+        break;
+    }
+    if (!$found) { return array('ok' => false, 'error' => 'Такой статьи нет — возможно, её уже удалили.'); }
+    if (!articles_save_all($list)) { return array('ok' => false, 'error' => 'Не получилось сохранить файл статей.'); }
+
+    $note = '';
+    if ($wasPublished && function_exists('article_unpublish')) {
+        $r = article_unpublish($fields, $id);
+        $note = !empty($r['ok']) ? ' Статья снята с сайта.' : ' Снять с сайта не получилось: ' . (string)($r['error'] ?? '');
+    }
+    if (function_exists('log_action')) {
+        log_action('Статья в корзине', 'id: ' . $id . ($wasPublished ? ' (была опубликована)' : ''), '');
+    }
+    return array('ok' => true, 'error' => '', 'note' => $note, 'published' => $wasPublished);
+}
+
+/** Вернуть статью из корзины. Опубликованную возвращаем на сайт. */
+function articles_restore(string $id): array {
+    $list = articles_all(true)['articles'];
+    $found = false; $published = false; $fields = array();
+    foreach ($list as $i => $a) {
+        if ((string)($a['id'] ?? '') !== $id) { continue; }
+        unset($list[$i]['deleted_at']);
+        $list[$i]['modified'] = date('Y-m-d H:i:s');
+        $found = true;
+        $published = articles_is_published($a);
+        $fields = (array)($a['fields'] ?? array());
+        break;
+    }
+    if (!$found) { return array('ok' => false, 'error' => 'В корзине такой статьи нет.'); }
+    if (!articles_save_all($list)) { return array('ok' => false, 'error' => 'Не получилось сохранить файл статей.'); }
+
+    $note = '';
+    if ($published && function_exists('article_publish')) {
+        $r = article_publish($fields, $id);
+        $note = !empty($r['ok']) ? ' Статья снова на сайте.' : ' Вернуть на сайт не получилось: ' . (string)($r['error'] ?? '');
+    }
+    if (function_exists('log_action')) { log_action('Статья возвращена из корзины', 'id: ' . $id, ''); }
+    return array('ok' => true, 'error' => '', 'note' => $note);
+}
+
+/** Удалить навсегда — только то, что уже в корзине. */
+function articles_purge(string $id): array {
+    $list = articles_all(true)['articles'];
+    $out = array(); $gone = false; $trashed = false;
+    foreach ($list as $a) {
+        if ((string)($a['id'] ?? '') === $id) { $gone = true; $trashed = !empty($a['deleted_at']); continue; }
+        $out[] = $a;
+    }
+    if (!$gone)    { return array('ok' => false, 'error' => 'Такой статьи нет.'); }
+    if (!$trashed) { return array('ok' => false, 'error' => 'Сначала уберите статью в корзину — чтобы не потерять случайно.'); }
+    if (!articles_save_all($out)) { return array('ok' => false, 'error' => 'Не получилось сохранить файл статей.'); }
+    if (function_exists('log_action')) { log_action('Статья удалена навсегда', 'id: ' . $id, ''); }
+    return array('ok' => true, 'error' => '');
+}
+
+/** Очистить корзину: сколько статей удалено окончательно. */
+function articles_empty_trash(): int {
+    $list = articles_all(true)['articles'];
+    $out = array(); $n = 0;
+    foreach ($list as $a) {
+        if (!empty($a['deleted_at'])) { $n++; continue; }
+        $out[] = $a;
+    }
+    if ($n > 0) {
+        articles_save_all($out);
+        if (function_exists('log_action')) { log_action('Корзина очищена', 'удалено статей: ' . $n, ''); }
+    }
+    return $n;
+}
+
+/** Автоочистка: что лежит в корзине дольше $days дней — удаляем окончательно. */
+function articles_trash_auto_clean(int $days = 30): int {
+    $limit = strtotime('-' . max(1, $days) . ' day');
+    $list  = articles_all(true)['articles'];
+    $out   = array(); $n = 0;
+    foreach ($list as $a) {
+        $d = (string)($a['deleted_at'] ?? '');
+        if ($d !== '' && strtotime($d) !== false && strtotime($d) < $limit) { $n++; continue; }
+        $out[] = $a;
+    }
+    if ($n > 0) {
+        articles_save_all($out);
+        if (function_exists('log_action')) {
+            log_action('Корзина очищена по сроку', 'удалено статей: ' . $n . ' (старше ' . $days . ' дней)', '');
+        }
+    }
+    return $n;
+}
