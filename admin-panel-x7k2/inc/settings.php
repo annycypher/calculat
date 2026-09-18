@@ -42,6 +42,7 @@ function settings_file(): string {
 function settings_defaults(): array {
     return array(
         'brand'       => SETTINGS_BRAND_DEFAULT,
+        'email'       => 'info@calc-doc.ru',
         'metrika'     => '',
         'tg'          => '',
         'socials'     => array(),
@@ -59,7 +60,7 @@ function settings_all(): array {
     if (!is_array($data)) { $data = array(); }
     $out = settings_defaults();
 
-    foreach (array('brand', 'metrika', 'tg', 'metrika_at', 'notice_at') as $k) {
+    foreach (array('brand', 'email', 'metrika', 'tg', 'metrika_at', 'notice_at') as $k) {
         if (isset($data[$k]) && is_string($data[$k])) { $out[$k] = $data[$k]; }
     }
     if (isset($data['socials']) && is_array($data['socials'])) {
@@ -121,6 +122,12 @@ function settings_from_form(array $in): array {
     $brand = trim((string)($in['brand'] ?? $values['brand']));
     if (mb_strlen($brand) < 2 || mb_strlen($brand) > 40) { $error = 'Название сайта — от 2 до 40 знаков.'; }
     $values['brand'] = $brand;
+
+    $email = array_key_exists('email', $in) ? trim((string)$in['email']) : (string)$values['email'];
+    if ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = 'Почта для писем с формы: проверьте адрес — например, info@calc-doc.ru.';
+    }
+    $values['email'] = $email;
 
     $metrika = array_key_exists('metrika', $in) ? trim((string)$in['metrika']) : (string)$values['metrika'];
     if ($metrika !== '' && !preg_match('/^\d{5,12}$/', $metrika)) {

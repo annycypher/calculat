@@ -42,6 +42,7 @@ content/backlinks.json
 content/outreach.json
 content/reviews.json
 content/settings.json
+content/messages.json
 content/security/*.json
 content/security/*.txt
 content/logs/*.json

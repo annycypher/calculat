@@ -17,6 +17,7 @@ require SITE . '/admin-panel-x7k2/inc/config.php';
 require SITE . '/admin-panel-x7k2/inc/stats.php';     /* движок чтения счётчика (шаг 6.2) */
 require SITE . '/admin-panel-x7k2/inc/settings.php';  /* настройки сайта (шаг 6.3) */
 require SITE . '/admin-panel-x7k2/inc/reviews.php';   /* чтобы проверить общий чёрный список отзывов */
+require SITE . '/admin-panel-x7k2/inc/contact.php';   /* контактная форма (шаг 6.4) */
 
 $lines  = array(); $ok = 0; $fail = 0; $n = 0;
 $report = isset($argv[1]) ? (string)$argv[1] : '';
@@ -34,6 +35,23 @@ function check(string $name, bool $pass, string $extra = ''): void {
 }
 
 function has(string $hay, string $needle): bool { return mb_strpos($hay, $needle) !== false; }
+
+/** POST с заголовками — для проверки контактной формы (имя, honeypot, согласие). */
+function post(string $url, array $fields, array $headers = array()): array {
+    $head = array('Content-Type: application/x-www-form-urlencoded');
+    foreach ($headers as $k => $v) { $head[] = $k . ': ' . $v; }
+    $ctx = stream_context_create(array('http' => array(
+        'method' => 'POST', 'header' => implode("\r\n", $head),
+        'content' => http_build_query($fields), 'ignore_errors' => true,
+        'follow_location' => 0, 'timeout' => 30,
+    )));
+    $body = @file_get_contents($url, false, $ctx);
+    $status = 0;
+    foreach ((array)($http_response_header ?? array()) as $i => $line) {
+        if ($i === 0 && preg_match('#^HTTP/\S+\s+(\d{3})#', $line, $m)) { $status = (int)$m[1]; }
+    }
+    return array('s' => $status, 'b' => (string)$body);
+}
 
 /** Запрос к счётчику с нужными заголовками (User-Agent, Referer, X-Forwarded-For). */
 function req(string $url, array $headers = array()): array {
@@ -60,8 +78,9 @@ $knownFile = DATA . '/known.json';
 $usersFile = SITE . '/content/users.json';
 $actsFile  = SITE . '/content/logs/actions.json';
 $setFile   = SITE . '/content/settings.json';
+$msgFile   = SITE . '/content/messages.json';
 $back = array();
-foreach (array($todayFile, $knownFile, $usersFile, $actsFile, $setFile) as $f) {
+foreach (array($todayFile, $knownFile, $usersFile, $actsFile, $setFile, $msgFile) as $f) {
     $back[$f] = is_file($f) ? (string)file_get_contents($f) : null;
 }
 $synth = array();   /* синтетические дни для раздела «Аналитика» — тест их уберёт */
@@ -446,9 +465,62 @@ check('на странице не осталось ни сниппета, ни �
     !has($demo, 'mc.yandex.ru') && !has($demo, '<!--SETTINGS:') && !has($demo, 'site-notice'));
 check('страница НДС жива после всех правок', has($demo, '</html>') && has($demo, 'Оставить отзыв'));
 
-/* ── 7. Уборка за собой ── */
+/* ── 7. Страницы «Контакты» и «Реклама» + форма (6.4) ── */
 say('');
-say('7. Уборка за собой');
+say('7. Контакты, реклама и контактная форма');
+@unlink($msgFile);
+
+$r = req(SITEURL . '/contact/');
+check('страница «Контакты» открывается', $r['s'] === 200, 'код ' . $r['s']);
+check('на ней есть форма, honeypot, согласие и скрипт',
+    has($r['b'], 'data-contact-form') && has($r['b'], 'name="website"') && has($r['b'], 'name="consent"')
+    && has($r['b'], '/js/contact.js') && has($r['b'], 'политикой конфиденциальности'));
+check('на странице есть почта проекта и легенда без реквизитов',
+    has($r['b'], 'info@calc-doc.ru') && !has($r['b'], 'ИНН') && !has($r['b'], '[ФИО'));
+$r = req(SITEURL . '/advertise/');
+check('страница «Реклама» открывается', $r['s'] === 200, 'код ' . $r['s']);
+check('на ней есть форматы, правила и контакт',
+    has($r['b'], 'Реклама и сотрудничество') && has($r['b'], 'Чего не будет') && has($r['b'], 'info@calc-doc.ru'));
+
+/* Приёмник: что не принимаем */
+$api = SITEURL . '/api/contact.php';
+$r = req($api);
+check('GET отклонён понятным текстом', has($r['b'], '"ok":false') && has($r['b'], 'только с формы'));
+$base = array('name' => 'Проверка', 'email' => 'test@example.ru', 'text' => 'Сообщение для проверки формы контактов', 'consent' => '1');
+$bad = $base; $bad['website'] = 'http://bot.example';
+$r = post($api, $bad, array('X-Forwarded-For' => '10.20.0.1'));
+check('honeypot не пускает автоматику', has($r['b'], '"ok":false'));
+$bad = $base; unset($bad['consent']);
+$r = post($api, $bad, array('X-Forwarded-For' => '10.20.0.2'));
+check('без галочки согласия не принимаем', has($r['b'], '"ok":false') && has($r['b'], 'согласия'));
+$bad = $base; $bad['text'] = 'мало';
+$r = post($api, $bad, array('X-Forwarded-For' => '10.20.0.3'));
+check('короткое сообщение отклонено', has($r['b'], '"ok":false') && has($r['b'], 'короткое'));
+$bad = $base; $bad['email'] = 'не-почта';
+$r = post($api, $bad, array('X-Forwarded-For' => '10.20.0.4'));
+check('неправильная почта отклонена', has($r['b'], '"ok":false') && has($r['b'], 'почту'));
+
+/* Принимаем нормальное сообщение */
+$r = post($api, $base + array('page' => '/contact/'),
+    array('User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/124.0', 'X-Forwarded-For' => '10.21.0.5'));
+check('нормальное сообщение принято', has($r['b'], '"ok":true') && has($r['b'], 'Спасибо'), substr($r['b'], 0, 120));
+$msgs = contact_all();
+check('сообщение сохранено (панель его покажет)', count($msgs) === 1
+    && (string)$msgs[0]['name'] === 'Проверка' && has((string)$msgs[0]['text'], 'проверки формы контактов'));
+check('IP в записи нет — только короткий хеш',
+    (string)$msgs[0]['ip_hash'] !== '' && !has((string)json_encode($msgs), '10.21.0.5'));
+$r = post($api, $base, array('User-Agent' => 'Mozilla/5.0 (Windows NT 10.0) Chrome/124.0',
+                             'X-Forwarded-For' => '10.21.0.5'));
+check('повторное сообщение отбито лимитом', has($r['b'], '"ok":false') && has($r['b'], 'минут'));
+
+$r = ph($PURL . '/settings.php');
+check('панель показывает сообщение с формы', has($r['b'], 'contact-messages') && has($r['b'], 'data-count="1"')
+    && has($r['b'], 'Проверка'));
+check('адрес для писем по умолчанию — почта проекта', (string)contact_email() === 'info@calc-doc.ru');
+
+/* ── 8. Уборка за собой ── */
+say('');
+say('8. Уборка за собой');
 check('проверки идут с чистого листа (данные владельца вернёт выход)', is_file($todayFile) || is_file($knownFile));
 check('синтетические дни убираются на выходе', count($synth) === 3);
 check('страницы сайта тоже вернутся на выходе', count($siteBack) > 50,

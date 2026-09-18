@@ -20,6 +20,7 @@ require __DIR__ . '/inc/config.php';
 require __DIR__ . '/inc/auth.php';
 require __DIR__ . '/inc/ui.php';
 require __DIR__ . '/inc/settings.php';
+require __DIR__ . '/inc/contact.php';   /* сообщения с контактной формы (шаг 6.4) */
 
 panel_session_start();
 ensure_guards();
@@ -141,6 +142,12 @@ panel_page_start('Настройки', 'Счётчик Метрики, увед�
       <label for="s-brand">Название сайта (бренд)</label>
       <input type="text" id="s-brand" name="brand" maxlength="40" value="<?php echo h((string)$cur['brand']); ?>" />
 
+      <label for="s-email">Почта для писем с формы</label>
+      <input type="email" id="s-email" name="email" maxlength="80" placeholder="info@calc-doc.ru"
+             value="<?php echo h((string)($cur['email'] ?? '')); ?>" />
+      <div class="field-hint">На этот адрес уходит письмо, когда посетитель пишет через форму на странице
+        «Контакты». Сообщения всё равно сохраняются в панели — ничего не потеряется, даже если почта молчит.</div>
+
       <label for="s-tg">Telegram-канал</label>
       <input type="text" id="s-tg" name="tg" placeholder="https://t.me/vash_kanal" value="<?php echo h((string)$cur['tg']); ?>" />
       <div class="field-hint">Если канал задан, ссылка на него появится в уведомлении о техобслуживании.</div>
@@ -199,6 +206,32 @@ panel_page_start('Настройки', 'Счётчик Метрики, увед�
         <div class="field-hint">Кнопка «Спам» в разделе «Отзывы» добавляет сюда сигнатуру (три первых значимых слова) —
           похожие отзывы больше не примутся. Слова короче трёх знаков не берём, самая длинная фраза — 60 знаков.</div>
       </form>
+<?php card_end(); ?>
+
+<?php $messages = contact_all(); ?>
+<?php card_start('Сообщения с формы', 'Что пришло со страницы «Контакты» — письма и сообщения не теряются', count($messages) > 0 ? 'ok' : ''); ?>
+      <div class="contact-messages" data-count="<?php echo count($messages); ?>"
+           data-mail="<?php echo h(contact_email()); ?>"></div>
+<?php if (count($messages) === 0) { ?>
+      <p class="empty">Сообщений пока нет. Как только кто-то напишет через форму на странице «Контакты»,
+        сообщение появится здесь, а на почту <?php echo h(contact_email()); ?> уйдёт письмо.</p>
+<?php } else { ?>
+      <table class="table">
+        <tr><th>Когда</th><th>Имя</th><th>Почта для ответа</th><th>Сообщение</th><th>Письмо</th></tr>
+<?php   foreach (array_slice($messages, 0, 10) as $m) { ?>
+        <tr>
+          <td class="nowrap"><?php echo h(ago((string)$m['at'])); ?></td>
+          <td><?php echo h((string)$m['name']); ?></td>
+          <td><a href="mailto:<?php echo h((string)$m['email']); ?>"><?php echo h((string)$m['email']); ?></a></td>
+          <td><?php echo nl2br(h((string)$m['text'])); ?></td>
+          <td><?php echo !empty($m['mailed']) ? 'ушло' : '<span class="hint">в панели</span>'; ?></td>
+        </tr>
+<?php   } ?>
+      </table>
+      <div class="field-hint">Показываем последние 10 сообщений, всего сейчас — <?php echo count($messages); ?>.
+        Письма уходят на адрес из настроек выше; если почта на хостинге не настроена, сообщение просто
+        останется здесь.</div>
+<?php } ?>
 <?php card_end(); ?>
 
 <?php card_start('Как это работает', 'Коротко, что панель делает с этими настройками'); ?>
