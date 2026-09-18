@@ -354,11 +354,14 @@ $r = http(BASE . '/users.php', array('csrf' => csrf($r['b']), 'action' => 'creat
 logout_now();
 check('редактор вошёл', login_as('redaktor', 'Editor-Links-1!'));
 $r = http(BASE . '/links.php');
-check('редактору «Перелинковка» закрыта (403)', $r['s'] === 403, 'код ' . $r['s']);
+check('редактору «Перелинковка» открыта (решение владельца 18.09.2026)', $r['s'] === 200, 'код ' . $r['s']);
+check('редактор видит список сирот', has($r['b'], 'Сироты'));
 $r = http(BASE . '/dashboard.php');
 check('редактор работает как обычно (дашборд открыт)', $r['s'] === 200, 'код ' . $r['s']);
 $r = http(BASE . '/seo-center.php');
 check('SEO-центр редактору по-прежнему открыт', $r['s'] === 200, 'код ' . $r['s']);
+$r = http(BASE . '/users.php');
+check('«Пользователи» редактору по-прежнему закрыты (403)', $r['s'] === 403, 'код ' . $r['s']);
 logout_now();
 check('администратор входит снова', login_as('admin', 'Test-Links-1!'));
 

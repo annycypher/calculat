@@ -322,12 +322,14 @@ function is_admin(): bool {
     return $u !== null && ($u['role'] ?? '') === 'admin';
 }
 
-/** Что можно роли. Редактору нельзя: пользователи, настройки, восстановление копий и удаление статей. */
+/** Что можно роли. Редактору нельзя: пользователи, настройки, восстановление копий и удаление статей.
+    Ссылочные работы (разделы «Перелинковка» и «Аутрич») владелец 18.09.2026 разрешил и редактору —
+    в протоколе фазы 1.3 было иначе, это решение владельца. */
 function role_can(string $action): bool {
     $u = current_user();
     if ($u === null) { return false; }
     if (($u['role'] ?? '') === 'admin') { return true; }
-    $adminOnly = array('users', 'settings', 'backup_restore', 'article_delete', 'links', 'outreach');
+    $adminOnly = array('users', 'settings', 'backup_restore', 'article_delete');
     return !in_array($action, $adminOnly, true);
 }
 
