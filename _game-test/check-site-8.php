@@ -158,6 +158,16 @@ check('страниц с результатом не меньше 20', $withResu
 check('у каждой страницы с результатом подключён print.css', count($noLink) === 0, 'без ссылки: ' . implode(', ', $noLink));
 check('ссылка на print.css ровно одна', $double === 0, 'дублей: ' . $double);
 check('в генераторах своя кнопка «Скачать в PDF» сохранена', has(file_get('generators/report/index.html'), 'id="printBtn"'));
+/* Печать документа генератора: CSS обязан показывать блок .print-area сам, без пометки скриптом.
+   Иначе при старом ui.js из кэша браузера на печать уходил пустой лист (исправлено 18.09.2026). */
+check('print.css печатает документ генератора по классу .print-area, а не только по пометке скрипта',
+    has($css, '.print-area, .print-area *') && has($css, '.print-area, .print-doc'));
+$genAreas = 0;
+foreach (array('contract', 'invoice', 'leave-request', 'power-of-attorney', 'report', 'resume') as $g) {
+    $html = file_get('generators/' . $g . '/index.html');
+    if (has($html, 'class="print-area"') && has($html, 'print.css')) { $genAreas++; }
+}
+check('у всех шести генераторов есть блок печати и подключён print.css', $genAreas === 6, 'готово: ' . $genAreas);
 
 /* ── 6. Поделиться с параметрами ── */
 say('');

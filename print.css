@@ -31,14 +31,21 @@
 
   /* Прячем всё, кроме блока результата: так на лист не попадают шапка, меню, реклама,
      SEO-блоки, подвал и фоновые картинки — при любой вёрстке страницы. */
+  /* Печатаем блок результата. Показываем и по пометке скрипта (data-print="area"),
+     и просто по классу .print-area: у генераторов документов этот класс стоит в вёрстке,
+     и если браузер отдал старый ui.js из кэша, скрипт область не помечает — тогда без этой
+     строки на бумагу уходил пустой лист (ошибка, исправлено 18.09.2026). */
   body * { visibility: hidden !important; background-image: none !important; box-shadow: none !important; }
-  [data-print="area"], [data-print="area"] * { visibility: visible !important; }
-  [data-print="area"] {
+  [data-print="area"], [data-print="area"] *,
+  .print-area, .print-area *,
+  .print-doc, .print-doc * { visibility: visible !important; }
+  [data-print="area"], .print-area, .print-doc {
     display: block !important; position: absolute !important; left: 0; top: 0;
-    width: 100% !important; margin: 0 !important; padding: 0 !important;
+    width: 100% !important; height: auto !important; max-height: none !important; overflow: visible !important;
+    margin: 0 !important; padding: 0 !important;
     background: #fff !important; color: #111 !important; border: 0 !important;
   }
-  [data-print="area"] * { color: #111 !important; border-color: #d0d0d0 !important; }
+  [data-print="area"] *, .print-area *, .print-doc * { color: #111 !important; border-color: #d0d0d0 !important; }
 
   /* То, что не должно печататься: кнопки, подсказки об интерфейсе, реклама. */
   .no-print, [data-print="btn"], .ad-slot, .ad-top, .ad-bottom, .search-wrap, .site-search,
