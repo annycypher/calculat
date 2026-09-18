@@ -40,6 +40,7 @@ function panel_sections(): array {
 
         array('file' => 'seo-center.php',  'title' => 'SEO-центр',    'group' => 'Продвижение',  'icon' => '◎', 'ready' => true,  'hint' => 'оценка страниц по критериям поиска'),
         array('file' => 'links.php',       'title' => 'Перелинковка', 'group' => 'Продвижение',  'icon' => '⤳', 'ready' => true,  'hint' => 'граф внутренних ссылок, сироты и битые'),
+        array('file' => 'backlinks.php',   'title' => 'Бэклинки',     'group' => 'Продвижение',  'icon' => '⇠', 'ready' => true,  'hint' => 'реестр внешних ссылок, график роста'),
         array('file' => 'outreach.php',    'title' => 'Аутрич',       'group' => 'Продвижение',  'icon' => '↗', 'ready' => false, 'hint' => 'внешние ссылки — фаза 7-Б'),
         array('file' => 'popular.php',     'title' => 'Популярное',   'group' => 'Продвижение',  'icon' => '☆', 'ready' => false, 'hint' => 'рейтинг страниц — фаза 9'),
 
