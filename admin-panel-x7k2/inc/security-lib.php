@@ -111,14 +111,246 @@ function is_known_device(?string $userAgent = null): bool {
     return false;
 }
 
-/** Отметить устройство доверенным или отозванным (шаг 7.2: кнопка «Отозвать»). */
+/** Отметить устройство доверенным или отозванным (шаг 7.2: кнопка «Отозвать»).
+    Доверенное устройство сразу считаем подтверждённым: владелец нажал кнопку сам (шаг 7.3). */
 function security_device_set_known(string $device, bool $known): bool {
     $all  = security_log_read();
     $done = false;
     foreach ($all['devices'] as $i => $row) {
-        if ((string)($row['device'] ?? '') === $device) { $all['devices'][$i]['known'] = $known; $done = true; }
+        if ((string)($row['device'] ?? '') === $device) {
+            $all['devices'][$i]['known']     = $known;
+            $all['devices'][$i]['confirmed'] = $known;
+            $all['devices'][$i]['stranger']  = false;
+            $done = true;
+        }
     }
     return $done ? security_log_write($all) : false;
+}
+
+/** Строка устройства из журнала (null — такого устройства нет). */
+function security_device_row(string $device): ?array {
+    foreach (security_log_read()['devices'] as $row) {
+        if ((string)($row['device'] ?? '') === $device) { return $row; }
+    }
+    return null;
+}
+
+/** «Да, это я»: устройство доверенное и подтверждённое — панель больше не спрашивает. */
+function security_device_confirm(string $device): bool {
+    $all  = security_log_read();
+    $done = false;
+    foreach ($all['devices'] as $i => $row) {
+        if ((string)($row['device'] ?? '') === $device) {
+            $all['devices'][$i]['known']     = true;
+            $all['devices'][$i]['confirmed'] = true;
+            $all['devices'][$i]['stranger']  = false;
+            $done = true;
+        }
+    }
+    if (!$done || !security_log_write($all)) { return false; }
+    log_action('Устройство подтверждено владельцем', $device, '');
+    return true;
+}
+
+/** «Нет, это не я»: доверие снимаем, помечаем устройство чужим — панель держит красный экран
+    с инструкцией, пока владелец не скажет «это всё-таки я». */
+function security_device_mark_stranger(string $device): bool {
+    $all  = security_log_read();
+    $done = false;
+    foreach ($all['devices'] as $i => $row) {
+        if ((string)($row['device'] ?? '') === $device) {
+            $all['devices'][$i]['known']     = false;
+            $all['devices'][$i]['confirmed'] = false;
+            $all['devices'][$i]['stranger']  = true;
+            $done = true;
+        }
+    }
+    if (!$done || !security_log_write($all)) { return false; }
+    log_action('Устройство отмечено как чужое', $device, '');
+    return true;
+}
+
+/** Устройства, которые владелец отметил как чужие («Нет, это не я»): свежие сверху.
+    Пока такие есть, дашборд держит красный экран с инструкцией. */
+function security_stranger_devices(): array {
+    $out = array();
+    foreach (security_devices() as $row) {
+        if (empty($row['stranger'])) { continue; }
+        $out[] = array(
+            'device'    => (string)($row['device'] ?? ''),
+            'label'     => (string)($row['label'] ?? 'неизвестное устройство'),
+            'last_seen' => (string)($row['last_seen'] ?? ''),
+            'logins'    => (int)($row['logins'] ?? 0),
+        );
+    }
+    return $out;
+}
+
+/** Устройства, с которых вход был успешным, но владелец их ещё не подтвердил: для алерта
+    «Это были вы?» (шаг 7.3). Свежие сверху. Записи, сделанные до шага 7.3, считаются
+    неподтверждёнными: одна проверка владельцу — и они «свои». */
+function security_unconfirmed_devices(): array {
+    $all = security_log_read();
+    $out = array();
+    foreach ($all['devices'] as $row) {
+        if (empty($row['known']) || !empty($row['confirmed'])) { continue; }
+        $dev  = (string)($row['device'] ?? '');
+        $last = '';
+        foreach ($all['logins'] as $l) {
+            if (!empty($l['ok']) && (string)($l['device'] ?? '') === $dev && (string)$l['ts'] > $last) {
+                $last = (string)$l['ts'];
+            }
+        }
+        $out[] = array(
+            'device'     => $dev,
+            'label'      => (string)($row['label'] ?? 'неизвестное устройство'),
+            'last_ok'    => $last,
+            'first_seen' => (string)($row['first_seen'] ?? ''),
+            'last_seen'  => (string)($row['last_seen'] ?? ''),
+            'logins'     => (int)($row['logins'] ?? 0),
+        );
+    }
+    usort($out, function ($a, $b) { return strcmp((string)$b['last_ok'], (string)$a['last_ok']); });
+    return $out;
+}
+
+/* ───────────── роботы и папка панели (шаг 7.3) ───────────── */
+
+/** Правило для robots.txt, которым панель закрыта от роботов. */
+function security_robots_rule(): string {
+    return rtrim(PANEL_URL, '/') . '/';
+}
+
+/** Закрыта ли папка панели от роботов по robots.txt.
+    Правила читаем целиком, без разбора групп User-agent — для этого вопроса так достаточно.
+    $file — подставить другой файл (нужно тестам); по умолчанию robots.txt сайта.
+    Возвращает ['file','closed','how','panel_rule']. */
+function security_robots_state(?string $file = null): array {
+    $path = $file !== null ? $file : (SITE_ROOT . '/robots.txt');
+    $out  = array('file' => is_file($path), 'closed' => false, 'how' => 'правила для папки панели нет', 'panel_rule' => false);
+    if (!$out['file']) {
+        $out['how'] = 'файла robots.txt на сайте нет';
+        return $out;
+    }
+    $panel       = rtrim(PANEL_URL, '/');
+    $allDisallow = false;
+    $allowAll    = false;
+    foreach ((array)preg_split('/\r?\n/', (string)@file_get_contents($path)) as $line) {
+        $line = trim((string)preg_replace('/#.*$/', '', (string)$line));
+        if ($line === '') { continue; }
+        if (preg_match('#^Disallow:\s*(.*)$#i', $line, $m)) {
+            $v = trim($m[1]);
+            if ($v === '') { continue; }                                  // пустое значение = всё разрешено
+            if ($v === '/' || $v === '*') { $allDisallow = true; }
+            if (rtrim($v, '/') === $panel) { $out['panel_rule'] = true; }
+        } elseif (preg_match('#^Allow:\s*(.*)$#i', $line, $m)) {
+            $v = trim($m[1]);
+            if ($v === '/' || $v === '') { $allowAll = true; }
+        }
+    }
+    if ($out['panel_rule']) {
+        $out['closed'] = true;
+        $out['how']    = 'есть правило Disallow: ' . security_robots_rule();
+    } elseif ($allDisallow && !$allowAll) {
+        $out['closed'] = true;
+        $out['how']    = 'весь сайт закрыт правилом Disallow: /';
+    }
+    return $out;
+}
+
+/** Починить robots.txt: дописать правило для папки панели. Прежний файл уходит в backups/files/.
+    Возвращает ['ok','error','changed','already','backup']. */
+function security_robots_fix(?string $file = null): array {
+    require_once __DIR__ . '/publish.php';                    // file_write_safe(): запись с копией
+    $path  = $file !== null ? $file : (SITE_ROOT . '/robots.txt');
+    $state = security_robots_state($path);
+    if ($state['closed']) {
+        return array('ok' => true, 'error' => '', 'changed' => false, 'already' => true, 'backup' => '');
+    }
+    $text = $state['file'] ? (string)@file_get_contents($path) : '';
+    if (trim($text) !== '' && substr($text, -1) !== "\n") { $text .= "\n"; }
+    $block = "\n# Панель управления: закрываем от поисковых систем (правило добавила панель "
+           . date('d.m.Y') . ").\nUser-agent: *\nDisallow: " . security_robots_rule() . "\n";
+    $res = file_write_safe($path, $text . $block);
+    if (!$res['ok']) {
+        return array('ok' => false, 'error' => (string)$res['error'], 'changed' => false, 'already' => false, 'backup' => '');
+    }
+    log_action('robots.txt: закрыта папка панели', 'правило Disallow: ' . security_robots_rule(), '');
+    return array('ok' => true, 'error' => '', 'changed' => true, 'already' => false, 'backup' => (string)$res['backup']);
+}
+
+/* ───────────── алерты для дашборда (шаг 7.3) ───────────── */
+
+/** Все алерты дашборда: сначала красные, потом жёлтые. Каждый — массив:
+    kind (device|hour|brute|robots), tone (err|warn), title, text и данные для кнопок. */
+function security_alerts(?string $robotsFile = null): array {
+    $out = array();
+
+    /* Новое устройство: вход был успешным, но владелец устройство не подтверждал. */
+    $new = security_unconfirmed_devices();
+    if (count($new) > 0) {
+        $d = $new[0];
+        $out[] = array(
+            'kind'   => 'device', 'tone' => 'err',
+            'title'  => 'Новый вход: это были вы?',
+            'device' => (string)$d['device'], 'label' => (string)$d['label'],
+            'when'   => (string)$d['last_ok'], 'more' => count($new) - 1,
+            'text'   => 'Панель увидела удачный вход с устройства, которое вы не подтверждали: '
+                . $d['label'] . ' (' . (string)$d['last_ok'] . '). Если это были вы — нажмите «Да, это я»: '
+                . 'панель запомнит устройство и больше спрашивать не будет. Если нет — нажмите «Нет, это не я»: '
+                . 'появится короткая инструкция, что делать дальше.',
+        );
+    }
+
+    /* Вход вне «обычных часов»: самый свежий удачный вход за сегодня вне окна. */
+    $today = date('Y-m-d');
+    $odd   = null;
+    foreach (security_log_read()['logins'] as $l) {
+        if (empty($l['ok']) || strpos((string)($l['ts'] ?? ''), $today) !== 0) { continue; }
+        if (!is_odd_hour((int)date('G', (int)strtotime((string)$l['ts'])))) { continue; }
+        if ($odd === null || (string)$l['ts'] > (string)$odd['ts']) { $odd = $l; }
+    }
+    if ($odd !== null) {
+        $h = security_login_hours();
+        $out[] = array(
+            'kind' => 'hour', 'tone' => 'warn', 'title' => 'Вход в необычное время',
+            'when' => (string)$odd['ts'], 'label' => (string)($odd['label'] ?? ''),
+            'text' => 'Сегодня был удачный вход в ' . date('H:i', (int)strtotime((string)$odd['ts']))
+                . ' с устройства «' . (string)($odd['label'] ?? '') . '», а обычные часы входа у вас '
+                . $h['from'] . '–' . $h['to'] . '. Если это были вы — делать ничего не нужно; если нет — '
+                . 'смените пароль в разделе «Безопасность».',
+        );
+    }
+
+    /* Подбор пароля: пять и больше неудач за сутки. */
+    $fails = failed_attempts_today();
+    if ($fails >= 5) {
+        $out[] = array(
+            'kind' => 'brute', 'tone' => 'err', 'title' => 'Похоже на подбор пароля',
+            'count' => $fails,
+            'text' => 'Сегодня ' . $fails . ' неудачных попыток входа. После ' . LOGIN_MAX_FAILS
+                . ' неудач подряд вход с этого адреса закрывается на ' . LOGIN_BLOCK_MIN . ' мин, но лучше '
+                . 'сменить пароль на длинный и не повторять его на других сайтах. Время и устройства попыток — в журнале.',
+        );
+    }
+
+    /* Папка панели открыта для роботов. */
+    $robots = security_robots_state($robotsFile);
+    if (!$robots['closed']) {
+        $out[] = array(
+            'kind' => 'robots', 'tone' => 'warn', 'title' => 'Папка панели открыта для поисковых роботов',
+            'how'  => (string)$robots['how'],
+            'text' => 'В robots.txt нет запрета для ' . security_robots_rule() . ' (' . $robots['how']
+                . '). Сама панель показывает страницы с noindex и требует пароль, но лучше закрыть папку и в robots.txt. '
+                . 'Кнопка ниже допишет правило, а прежний файл уйдёт в backups/files/.',
+        );
+    }
+
+    usort($out, function ($a, $b) {                     // красные выше жёлтых, внутри — порядок сбора
+        $w = array('err' => 0, 'warn' => 1);
+        return ($w[$a['tone']] ?? 2) <=> ($w[$b['tone']] ?? 2);
+    });
+    return $out;
 }
 
 /** Очистить журнал входов. Список устройств остаётся: он нужен, чтобы узнавать свои устройства

@@ -245,9 +245,11 @@ stat_card('Обычные часы входа', $hours['from'] . '–' . $hours[
           <td><?php echo h($last !== '' ? date('d.m.Y H:i', (int)strtotime($last)) : '—'); ?><br />
               <span class="field-hint" style="margin:0"><?php echo h(ago($last)); ?></span></td>
           <td><?php echo (int)($d['logins'] ?? 0); ?></td>
-          <td><?php echo $trust
-              ? badge('доверенное', 'ok')
-              : badge('не доверенное', 'warn'); ?></td>
+          <td><?php
+              $conf = !empty($d['confirmed']);
+              if ($trust && $conf) { echo badge('доверенное', 'ok'); }
+              elseif ($trust)      { echo badge('ждёт подтверждения', 'warn'); }
+              else                 { echo badge('не доверенное', 'warn'); } ?></td>
           <td>
             <form method="post" action="<?php echo h(panel_url('security.php')); ?>" style="margin:0">
               <?php echo csrf_field(); ?>
@@ -261,8 +263,8 @@ stat_card('Обычные часы входа', $hours['from'] . '–' . $hours[
 <?php   } ?>
       </table>
       <p class="field-hint" style="margin:12px 0 0">Отзыв не блокирует вход с устройства — панель просто перестаёт
-        считать его своим. При следующем входе с него появится проверка «Это были вы?» (появится в шаге 7.3),
-        а в журнале вход останется с пометкой «не доверенное».</p>
+        считать его своим: при входе с него на дашборде появится проверка «Это были вы?». Кнопка «Доверять снова»
+        и ответ «Да, это я» на дашборде помечают устройство подтверждённым, и панель больше о нём не спрашивает.</p>
 <?php } ?>
 <?php card_end(); ?>
 

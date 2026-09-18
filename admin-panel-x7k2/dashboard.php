@@ -20,10 +20,47 @@ require __DIR__ . '/inc/outreach.php';
 require __DIR__ . '/inc/links.php';
 require __DIR__ . '/inc/backlinks.php';
 require __DIR__ . '/inc/reviews.php';   /* счётчик «Отзывы на модерации» считаем движком отзывов: он знает формат файла */
+require __DIR__ . '/inc/security-lib.php';   /* алерты безопасности: новое устройство, часы, подбор пароля, robots (шаг 7.3) */
 
 panel_session_start();
 ensure_guards();
 require_login();
+
+/* ── алерты безопасности (шаг 7.3): ответы владельца на плашки сверху.
+      Служебная информация о входах — только администратору, поэтому и плашки, и ответы на них
+      редактору недоступны. ── */
+$secStranger = false;                        // «Нет, это не я» → покажем красный экран с инструкцией
+$secStranger = false;                        // «Нет, это не я» → держим красный экран с инструкцией
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && is_admin()) {
+    csrf_check();
+    $action = (string)($_POST['action'] ?? '');
+    $device = (string)($_POST['device'] ?? '');
+    $dRow   = $device !== '' ? security_device_row($device) : null;
+
+    if ($action === 'sec_device_yes') {
+        if ($dRow !== null && security_device_confirm($device)) {
+            flash('Спасибо! Устройство «' . (string)$dRow['label'] . '» подтверждено — панель больше не будет о нём спрашивать.');
+        } else {
+            flash('Не нашёл такое устройство в журнале входов — обновите страницу.', 'error');
+        }
+    } elseif ($action === 'sec_device_no') {
+        if ($dRow !== null && security_device_mark_stranger($device)) {
+            flash('Отметил устройство «' . (string)$dRow['label'] . '» как чужое. Ниже — что делать.', 'error');
+        } else {
+            flash('Не нашёл такое устройство в журнале входов — обновите страницу.', 'error');
+        }
+    } elseif ($action === 'sec_robots_fix') {
+        $fix = security_robots_fix();
+        if (!$fix['ok']) {
+            flash('Не получилось поправить robots.txt: ' . (string)$fix['error'], 'error');
+        } elseif (!empty($fix['already'])) {
+            flash('В robots.txt уже есть запрет для папки панели — менять ничего не пришлось.');
+        } else {
+            flash('Готово: в robots.txt добавлено правило «Disallow: ' . security_robots_rule()
+                . '». Копия прежнего файла — в backups/files/' . (string)$fix['backup'] . '.');
+        }
+    }
+}
 
 /* Ленивый автозапуск копии: зашли в панель — проверили, не старше ли последняя копия 4 суток.
    Копию делает сама панель, поэтому здесь достаточно одной строки (подробности — в inc/backup.php). */
@@ -113,7 +150,96 @@ $byFile = array();
 foreach (panel_sections() as $s) { $byFile[$s['file']] = $s; }
 
 panel_page_start('Дашборд', 'Что есть на сайте сейчас и что происходило в панели', 'dashboard.php');
+
+/* ── плашки безопасности сверху (шаг 7.3): красные — требуют ответа, жёлтые — к сведению ── */
+$secStrangers = is_admin() ? security_stranger_devices() : array();
+$secStranger  = count($secStrangers) > 0;
+$secAlerts = is_admin() ? security_alerts() : array();
+$secErr    = 0;
+$secWarn   = 0;
+foreach ($secAlerts as $a) { if ($a['tone'] === 'err') { $secErr++; } else { $secWarn++; } }
 ?>
+      <div class="sec-alerts" data-count="<?php echo count($secAlerts); ?>" data-err="<?php echo $secErr; ?>" data-warn="<?php echo $secWarn; ?>" data-strangers="<?php echo count($secStrangers); ?>"></div>
+<?php if ($secStranger) { ?>
+<?php card_start('Что делать: вход с чужого устройства', 'Четыре шага по порядку — каждый занимает минуту', 'err'); ?>
+      <p class="hint" style="margin:0 0 12px">Вы отметили как чужие устройства:
+        <?php foreach ($secStrangers as $s) { ?>
+        <strong><?php echo h((string)$s['label']); ?></strong>
+        (метка <code><?php echo h((string)$s['device']); ?></code>, последний раз
+        <?php echo h((string)$s['last_seen']); ?>)<?php echo $s === end($secStrangers) ? '.' : ','; ?>
+        <?php } ?>
+        Этот экран держится, пока вы не скажете «это был я» — кнопка внизу.</p>
+      <ol style="margin:0 0 14px;padding-left:20px;color:var(--txt)">
+        <li>Смените пароль панели — кнопка ниже. Все другие сессии панель закроет сразу.</li>
+        <li>Закройте чужие сессии ещё раз отдельной кнопкой — на случай, если что-то осталось.</li>
+        <li>Посмотрите журнал входов: время, устройство, метка адреса. Так видно, когда был чужой вход.</li>
+        <li>Проверьте, не появилось ли лишнего на сайте: правки видны в журнале действий на этом же дашборде
+            и в разделах «Статьи», «Настройки», «Реклама».</li>
+      </ol>
+      <div class="btn-row">
+        <a class="btn primary" href="<?php echo h(panel_url('security.php')); ?>">Сменить пароль</a>
+        <form method="post" action="<?php echo h(panel_url('security.php')); ?>" style="margin:0">
+          <?php echo csrf_field(); ?>
+          <input type="hidden" name="action" value="end_sessions" />
+          <button class="btn ghost" type="submit">Завершить все другие сессии</button>
+        </form>
+        <a class="btn ghost" href="<?php echo h(panel_url('security.php')); ?>">Открыть журнал входов</a>
+        <form method="post" action="<?php echo h(panel_url('dashboard.php')); ?>" style="margin:0">
+          <?php echo csrf_field(); ?>
+          <input type="hidden" name="action" value="sec_device_yes" />
+          <input type="hidden" name="device" value="<?php echo h((string)$secStrangers[0]['device']); ?>" />
+          <button class="btn ghost" type="submit">Это был я — убрать предупреждение</button>
+        </form>
+      </div>
+      <p class="field-hint" style="margin:12px 0 0">Совет на будущее: включите двухфакторную защиту на хостинге
+        (SpaceWeb: cp.sweb.ru → «Безопасность») — с украденным паролем в панель всё равно не войдут.
+        Подробная инструкция «что делать, если это не я» появится в документе ADMIN-GUIDE (шаг 15.1),
+        короткая версия — выше.</p>
+<?php card_end(); ?>
+<?php } ?>
+<?php foreach ($secAlerts as $a) { ?>
+<?php card_start((string)$a['title'], '', (string)$a['tone']); ?>
+      <p class="hint" style="margin:0 0 12px"><?php echo h((string)$a['text']); ?></p>
+<?php   if ($a['kind'] === 'device') { ?>
+      <div class="btn-row">
+        <form method="post" action="<?php echo h(panel_url('dashboard.php')); ?>" style="margin:0">
+          <?php echo csrf_field(); ?>
+          <input type="hidden" name="action" value="sec_device_yes" />
+          <input type="hidden" name="device" value="<?php echo h((string)$a['device']); ?>" />
+          <button class="btn primary" type="submit">Да, это я — доверить устройство</button>
+        </form>
+        <form method="post" action="<?php echo h(panel_url('dashboard.php')); ?>" style="margin:0">
+          <?php echo csrf_field(); ?>
+          <input type="hidden" name="action" value="sec_device_no" />
+          <input type="hidden" name="device" value="<?php echo h((string)$a['device']); ?>" />
+          <button class="btn ghost" type="submit">Нет, это не я</button>
+        </form>
+        <a class="btn ghost" href="<?php echo h(panel_url('security.php')); ?>">Открыть журнал входов</a>
+      </div>
+      <p class="field-hint" style="margin:12px 0 0">Метка устройства: <code><?php echo h((string)$a['device']); ?></code>.
+<?php     if ((int)$a['more'] > 0) { ?>
+        Ещё неподтверждённых устройств: <?php echo (int)$a['more']; ?> — они в разделе «Безопасность».
+<?php     } else { ?>
+        Других неподтверждённых устройств нет.
+<?php     } ?>
+      </p>
+<?php   } elseif ($a['kind'] === 'robots') { ?>
+      <div class="btn-row">
+        <form method="post" action="<?php echo h(panel_url('dashboard.php')); ?>" style="margin:0">
+          <?php echo csrf_field(); ?>
+          <input type="hidden" name="action" value="sec_robots_fix" />
+          <button class="btn primary" type="submit">Закрыть папку панели от роботов</button>
+        </form>
+        <a class="btn ghost" href="/robots.txt" target="_blank" rel="noopener">Посмотреть robots.txt ↗</a>
+      </div>
+      <p class="field-hint" style="margin:12px 0 0">Кнопка допишет в robots.txt отдельный блок с правилом
+        <code>Disallow: <?php echo h(security_robots_rule()); ?></code> — дальше его видят все поисковые роботы,
+        а прежняя версия файла остаётся в backups/files/.</p>
+<?php   } else { ?>
+      <div class="btn-row"><a class="btn ghost" href="<?php echo h(panel_url('security.php')); ?>">Открыть раздел «Безопасность»</a></div>
+<?php   } ?>
+<?php card_end(); ?>
+<?php } ?>
 
       <div class="stats">
 <?php stat_card('Страниц в sitemap.xml', (string)$pageCount, 'адреса сайта для поисковиков'); ?>
