@@ -269,6 +269,12 @@ $r = http(BASE . '/article-template.php?preview=1');
 check('и предпросмотр редактору отдаётся', $r['s'] === 200 && strpos($r['b'], '<h1>') !== false, 'код ' . $r['s']);
 logout_now();
 
+/* Дата документа в тестовых данных — фиксированная, не «сегодня».
+   Раньше здесь стояло число текущего дня (17.09.2026): проверка sitemap ниже ждала
+   date('Y-m-d'), и на следующий день тест падал, хотя панель работала верно.
+   Теперь и форма, и проверка берут одну и ту же дату — тест не зависит от календаря. */
+define('DOC_DATE', '2026-09-17');
+
 /* Данные в том виде, в каком их отправляет форма редактора */
 function article_form_post(array $over = array()): array {
     $base = array(
@@ -281,8 +287,8 @@ function article_form_post(array $over = array()): array {
         'keywords'       => 'расчёт отпускных, проверка расчёта, средний дневной заработок',
         'excerpt'        => 'Как за пять минут проверить расчёт отпускных и найти ошибку.',
         'author'         => 'CalcDoc',
-        'date_published' => '2026-09-17',
-        'date_modified'  => '2026-09-17',
+        'date_published' => DOC_DATE,
+        'date_modified'  => DOC_DATE,
         'image'          => '',
         'intro'          => 'Отпускные легко проверить самому: достаточно знать две формулы и посмотреть, какие периоды исключили из расчёта.',
         'cta'            => 'Проверьте свою сумму в калькуляторе отпускных.',
@@ -590,9 +596,9 @@ check('старые статьи в списке остались', substr_count
       'карточек: ' . substr_count($hubHtml, 'class="card" href="/blog/'));
 
 $smXml = (string)@file_get_contents($smFile);
-check('адрес добавлен в sitemap.xml с датой',
+check('адрес добавлен в sitemap.xml с датой статьи',
       strpos($smXml, '<loc>https://calc-doc.ru/blog/' . $pubSlug . '/</loc>') !== false
-      && strpos($smXml, '<lastmod>' . date('Y-m-d') . '</lastmod>') !== false);
+      && strpos($smXml, '<lastmod>' . DOC_DATE . '</lastmod>') !== false);
 check('в sitemap.xml нет дублей адреса',
       substr_count($smXml, '<loc>https://calc-doc.ru/blog/' . $pubSlug . '/</loc>') === 1);
 check('sitemap.xml остаётся XML',
