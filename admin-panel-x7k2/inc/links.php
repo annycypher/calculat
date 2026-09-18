@@ -75,17 +75,37 @@ function links_first_para(DOMDocument $doc): string {
     return '';
 }
 
-/** Значимые слова страницы (title, H1, первый абзац) — по ним панель ищет смежные страницы.
-    Слова приводятся к основам («отпускные» и «отпускных» — одно слово), максимум 40. */
-function links_page_words(string $title, string $h1, string $para): array {
+/** Значимые слова страницы: заголовок (title + keywords), H1, подзаголовки H2 и первый абзац.
+    Так панель ищет смежные страницы для перелинковки (шаг 7-Б.2). Храним целые слова
+    (чтобы показывать владельцу по-человечески), а сравниваем по основам — «отпускные» и «отпускных»
+    считаются одним словом (см. links_word_stems / links_shared_words). */
+function links_page_words(string $head, string $para): array {
     $stop = seo_stop_words();
     $out  = array();
-    foreach (seo_tokens($title . ' ' . $h1 . ' ' . $para) as $word) {
+    foreach (seo_tokens($head . ' ' . $para) as $word) {
         $word = trim((string)$word, '-');
         if (mb_strlen($word) < 4 || in_array($word, $stop, true)) { continue; }
-        $out[seo_stem($word)] = true;
+        $stem = seo_stem($word);
+        if (!isset($out[$stem])) { $out[$stem] = $word; }   // одно слово на основу
     }
-    return array_slice(array_keys($out), 0, 40);
+    return array_slice(array_values($out), 0, 60);
+}
+
+/** Основы слов страницы: по ним панель ищет пересечение тем. */
+function links_word_stems(array $words): array {
+    $out = array();
+    foreach ($words as $w) { $out[] = seo_stem((string)$w); }
+    return $out;
+}
+
+/** Общие слова двух страниц (сравнение по основам) — «пересечение тем» для подсказок. */
+function links_shared_words(array $a, array $b): array {
+    $stems = links_word_stems($b);
+    $out   = array();
+    foreach ($a as $w) {
+        if (in_array(seo_stem((string)$w), $stems, true)) { $out[] = (string)$w; }
+    }
+    return $out;
 }
 
 /** Ссылки одной страницы. $known — известные адреса сайта: по ним видно, что ссылка битая.
@@ -110,6 +130,16 @@ function links_page_links(string $rel, string $html, array $known = array()): ar
     if ($h1s->length > 0) {
         $out['h1'] = trim((string)preg_replace('/\s+/u', ' ', (string)$h1s->item(0)->textContent));
     }
+
+    /* Для подсказок о перелинковке (шаг 7-Б.2) берём ещё keywords и подзаголовки H2. */
+    $keywords = '';
+    foreach ($doc->getElementsByTagName('meta') as $meta) {
+        if (strtolower((string)$meta->getAttribute('name')) === 'keywords') {
+            $keywords = (string)$meta->getAttribute('content');
+            break;
+        }
+    }
+    $h2s = seo_tag_texts($doc, 'h2');
 
     $text = array(); $nav = array(); $all = array(); $ext = array(); $broken = array();
     foreach ($doc->getElementsByTagName('a') as $a) {
@@ -138,7 +168,12 @@ function links_page_links(string $rel, string $html, array $known = array()): ar
         if (links_is_nav($a)) { $nav[$path] = true; continue; }
 
         $anchor = links_anchor_text($a);
-        $text[$path . "\n" . $anchor] = array('to' => $path, 'anchor' => $anchor);
+        /* Одна и та же ссылка может стоять на странице несколько раз (переспам анкора).
+           В графе храним уникальные пары «адрес + подпись», но помним, сколько раз подпись
+           повторилась: на этом числе строится предупреждение о переспаме (links_anchor_used). */
+        $key = $path . "\n" . $anchor;
+        if (!isset($text[$key])) { $text[$key] = array('to' => $path, 'anchor' => $anchor, 'count' => 0); }
+        $text[$key]['count']++;
         if (count($known) > 0 && !in_array($path, $known, true)) { $broken[$path] = $anchor; }
     }
 
@@ -147,7 +182,8 @@ function links_page_links(string $rel, string $html, array $known = array()): ar
     $out['all']  = array_keys($all);
     $out['ext']  = $ext;
     foreach ($broken as $to => $anchor) { $out['broken'][] = array('to' => (string)$to, 'anchor' => (string)$anchor); }
-    $out['words'] = links_page_words($out['title'], $out['h1'], links_first_para($doc));
+    $head = $out['title'] . ' ' . $keywords . ' ' . $out['h1'] . ' ' . implode(' ', $h2s);
+    $out['words'] = links_page_words($head, links_first_para($doc));
     return $out;
 }
 /* ───────────────────────── скан графа ссылок ───────────────────────── */
@@ -174,7 +210,8 @@ function links_scan(array $only = array()): array {
     $edges  = array();
     foreach ($parsed as $rel => $p) {
         foreach ((array)$p['text'] as $l) {
-            $edges[] = array('from' => $rel, 'to' => (string)$l['to'], 'anchor' => (string)$l['anchor']);
+            $edges[] = array('from' => $rel, 'to' => (string)$l['to'], 'anchor' => (string)$l['anchor'],
+                             'count' => max(1, (int)($l['count'] ?? 1)));
             if ((string)$l['to'] !== $rel) { $inText[(string)$l['to']][$rel] = true; }
         }
         foreach ((array)$p['all'] as $to) {
@@ -346,7 +383,7 @@ function links_related(array $scan, string $rel, int $limit = 3, array $exclude 
         $other = (string)($r['rel'] ?? '');
         if ($other === '' || $other === $rel || in_array($other, $exclude, true)) { continue; }
         if (!empty($r['service'])) { continue; }
-        $shared = array_values(array_intersect($self, (array)($r['words'] ?? array())));
+        $shared = links_shared_words($self, (array)($r['words'] ?? array()));
         if (count($shared) < 2) { continue; }
         $out[] = array('rel' => $other, 'title' => (string)($r['title'] ?? ''),
                        'h1' => (string)($r['h1'] ?? ''), 'shared' => count($shared));
@@ -356,4 +393,128 @@ function links_related(array $scan, string $rel, int $limit = 3, array $exclude 
         return $d !== 0 ? $d : strcmp((string)$a['rel'], (string)$b['rel']);
     });
     return array_slice($out, 0, max(1, $limit));
+}
+
+/* ───────────────── редактор перелинковки (шаг 7-Б.2) ───────────────── */
+
+/** Варианты анкора для ссылки на страницу (первый — рекомендуемый): H1 до двоеточия,
+    ключ из title, короткий title. Дубликаты убираем: одинаковые подписи поисковики не любят. */
+function links_anchor_variants(array $row, int $limit = 3): array {
+    $out = array();
+    $h1  = trim((string)($row['h1'] ?? ''));
+    if ($h1 !== '') {
+        $parts = (array)preg_split('/[:—–|]/u', $h1, 2, PREG_SPLIT_NO_EMPTY);
+        $out[] = mb_substr(trim((string)($parts[0] ?? '')), 0, 60);
+    }
+    $key = seo_keyword_from((string)($row['title'] ?? ''));
+    if ($key !== '') { $out[] = mb_substr($key, 0, 60); }
+    $title = trim((string)($row['title'] ?? ''));
+    if ($title !== '') {
+        $short = (array)preg_split('/[:—–|]/u', $title, 2, PREG_SPLIT_NO_EMPTY);
+        $out[] = mb_substr(trim((string)($short[0] ?? '')), 0, 60);
+    }
+    $out = array_values(array_unique(array_filter($out, function ($s) { return trim((string)$s) !== ''; })));
+    return array_slice($out, 0, max(1, $limit));
+}
+
+/** Анкор, который панель предлагает по умолчанию: первый вариант (обычно H1 до двоеточия). */
+function links_anchor_for(array $row): string {
+    $variants = links_anchor_variants($row, 1);
+    return count($variants) > 0 ? (string)$variants[0] : (string)($row['rel'] ?? '');
+}
+
+/** Готовый HTML-чип для вставки в текст страницы: <a href="/адрес/">Анкор</a>. */
+function links_chip(string $rel, string $anchor): string {
+    return '<a href="' . $rel . '">' . $anchor . '</a>';
+}
+
+/** Переспам анкоров: одинаковые подписи ссылок в текстах страниц.
+    По каждой подписи: сколько раз встречается, на сколько разных страниц ведёт и с каких страниц стоит.
+    «Подозрительная» — если подпись повторяется от трёх раз и ведёт на разные страницы:
+    так обычно и выглядит переоптимизация («подробнее», «читать далее»).
+    Подписи сравниваем без учёта регистра и «ё» (seo_norm): для поисковика «Подробнее» и «подробнее» одно.
+    В таблице показываем тот вид, который встретился первым. */
+function links_anchor_stats(array $scan): array {
+    $by = array();
+    foreach ((array)($scan['edges'] ?? array()) as $e) {
+        $raw = trim((string)($e['anchor'] ?? ''));
+        if ($raw === '') { continue; }
+        $key = seo_norm($raw);
+        if ($key === '') { continue; }
+        if (!isset($by[$key])) { $by[$key] = array('anchor' => $raw, 'count' => 0, 'targets' => array(), 'from' => array()); }
+        $by[$key]['count']++;
+        $by[$key]['targets'][(string)$e['to']] = true;
+        $by[$key]['from'][(string)$e['from']] = true;
+    }
+    $out = array();
+    foreach ($by as $info) {
+        $targets = count((array)$info['targets']);
+        $count   = (int)$info['count'];
+        $out[] = array('anchor' => (string)$info['anchor'], 'count' => $count, 'targets' => $targets,
+                       'from' => count((array)$info['from']),
+                       'suspect' => $count >= 3 && $targets >= 2);
+    }
+    usort($out, function ($a, $b) {
+        $d = (int)$b['count'] - (int)$a['count'];
+        return $d !== 0 ? $d : strcmp((string)$a['anchor'], (string)$b['anchor']);
+    });
+    return $out;
+}
+
+/** Сколько раз такая подпись уже стоит именно на эту страницу — предупреждение о переспаме.
+    Повторы одной и той же ссылки на странице считаются все (у каждой записи графа своё «count»).
+    Сравнение без учёта регистра: «Проверка расчёта» и «проверка расчёта» — одна подпись. */
+function links_anchor_used(array $scan, string $rel, string $anchor): int {
+    $want = seo_norm($anchor);
+    if ($want === '') { return 0; }
+    $n = 0;
+    foreach ((array)($scan['edges'] ?? array()) as $e) {
+        if ((string)$e['to'] === $rel && seo_norm((string)$e['anchor']) === $want) {
+            $n += max(1, (int)($e['count'] ?? 1));
+        }
+    }
+    return $n;
+}
+
+/** Предложения перелинковки для страницы: 5–10 тематически близких страниц, которые могут
+    на неё сослаться. Близость — по общим словам title, keywords, H1 и H2 (протокол 7-Б.2).
+    Уже ссылающиеся страницы и служебные не предлагаем: повторять их незачем. */
+function links_suggest(array $scan, string $rel, int $limit = 10, array $exclude = array()): array {
+    $rows   = (array)($scan['pages'] ?? array());
+    $target = array();
+    foreach ($rows as $r) {
+        if ((string)($r['rel'] ?? '') === $rel) { $target = $r; break; }
+    }
+    if (count($target) === 0) { return array(); }
+
+    $anchors = links_anchor_variants($target, 3);
+    $anchor  = count($anchors) > 0 ? (string)$anchors[0] : $rel;
+    $already = array_merge((array)($target['in_pages'] ?? array()), $exclude);
+    $used    = links_anchor_used($scan, $rel, $anchor);
+
+    $out = array();
+    foreach ($rows as $r) {
+        $other = (string)($r['rel'] ?? '');
+        if ($other === '' || $other === $rel || in_array($other, $already, true) || !empty($r['service'])) { continue; }
+        $shared = links_shared_words((array)($target['words'] ?? array()), (array)($r['words'] ?? array()));
+        if (count($shared) < 2) { continue; }
+        $out[] = array(
+            'rel'          => $other,
+            'title'        => (string)($r['title'] ?? ''),
+            'h1'           => (string)($r['h1'] ?? ''),
+            'in_text'      => (int)($r['in_text'] ?? 0),
+            'shared'       => count($shared),
+            'shared_words' => array_slice($shared, 0, 8),
+            'anchor'       => $anchor,
+            'anchors'      => $anchors,
+            'html'         => links_chip($other, $anchor),
+            'anchor_used'  => $used,
+        );
+    }
+    usort($out, function ($a, $b) {
+        $d = (int)$b['shared'] - (int)$a['shared'];
+        if ($d !== 0) { return $d; }
+        return (int)$b['in_text'] - (int)$a['in_text'];
+    });
+    return array_slice($out, 0, max(5, min(10, $limit)));
 }

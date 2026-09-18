@@ -63,6 +63,27 @@ $extBad  = $has ? links_ext_problems($scan) : array();
 /* Списки бывают длинными: показываем первые 25 строк, дальше кнопка «Показать все». */
 $cut = function (array $rows) use ($showAll) { return $showAll ? $rows : array_slice($rows, 0, 25); };
 
+/* Редактор перелинковки (шаг 7-Б.2): выбранная страница и подсказки «откуда поставить ссылку». */
+$pagesList = site_pages_list();
+$sugRel    = isset($_GET['rel']) ? trim((string)$_GET['rel']) : '';
+if ($sugRel !== '' && !in_array($sugRel, $pagesList, true)) { $sugRel = ''; }
+$suggest     = ($has && $sugRel !== '') ? links_suggest($scan, $sugRel, 10) : array();
+$sugRow      = ($has && $sugRel !== '') ? links_scan_find($scan, $sugRel) : array();
+$anchorStats = $has ? links_anchor_stats($scan) : array();
+$anchorUses  = array(); $anchorSuspect = array();
+foreach ($anchorStats as $st) {
+    $anchorKey = seo_norm((string)$st['anchor']);      // подписи сравниваем без учёта регистра и «ё»
+    $anchorUses[$anchorKey] = (int)$st['count'];
+    if (!empty($st['suspect'])) { $anchorSuspect[] = $anchorKey; }
+}
+
+/* Подписи страниц для выпадающего списка: сразу видно, сколько ссылок на страницу из текста. */
+$pageOptions = array();
+foreach ($pagesList as $p) {
+    $pRow = $has ? links_scan_find($scan, $p) : array();
+    $pageOptions[$p] = $p . ($has ? ' · из текста: ' . (int)($pRow['in_text'] ?? 0) : '');
+}
+
 panel_page_start('Перелинковка', 'Внутренние ссылки: кто на кого ссылается и чего не хватает', 'links.php');
 ?>
 <?php card_start('Сканер внутренних ссылок', 'Панель читает страницы сайта и строит граф — файлы при этом не меняются'); ?>
@@ -136,6 +157,78 @@ panel_page_start('Перелинковка', 'Внутренние ссылки:
         <tr><td>Среднее входящих ссылок</td><td><strong><?php echo h((string)($summary['avg_in'] ?? 0)); ?></strong></td>
           <td><span class="hint">по <?php echo (int)($summary['scanned'] ?? 0); ?> страницам; ссылку страницы на саму себя не считаем</span></td></tr>
       </table>
+<?php card_end(); ?>
+
+<a id="suggest"></a>
+<?php card_start('Предложить перелинковку', 'Выберите страницу — панель подскажет, с каких близких по теме страниц логично поставить на неё ссылку'); ?>
+      <form method="get" action="<?php echo h(panel_url('links.php')); ?>">
+        <div class="btn-row">
+          <select name="rel" style="min-width:340px">
+<?php foreach ($pageOptions as $rel => $label) { ?>
+            <option value="<?php echo h((string)$rel); ?>"<?php echo $rel === $sugRel ? ' selected' : ''; ?>><?php echo h((string)$label); ?></option>
+<?php } ?>
+          </select>
+          <button class="btn primary" type="submit">Предложить перелинковку</button>
+        </div>
+      </form>
+      <div class="field-hint">Панель ищет страницы по пересечению слов в title, keywords, H1 и подзаголовках H2,
+        показывает 5–10 тех, с которых ссылки на выбранную ещё нет, и даёт готовый HTML-чип для вставки в текст.</div>
+<?php if ($sugRel === '') { ?>
+      <p class="field-warn">⚠ Страница не выбрана — выберите её в списке выше и нажмите «Предложить перелинковку».</p>
+<?php } else { ?>
+      <p style="margin:12px 0 10px">Страница <code><?php echo h($sugRel); ?></code>:
+        <?php echo badge('входящих из текста: ' . (int)($sugRow['in_text'] ?? 0), (int)($sugRow['in_text'] ?? 0) <= LINKS_ORPHAN_MAX ? 'err' : 'ok'); ?>
+        <?php echo badge('страниц со ссылками: ' . (int)($sugRow['in_all'] ?? 0), 'mut'); ?>
+        <?php echo badge('отдаёт сама: ' . (int)($sugRow['out_text'] ?? 0) . ' в тексте', 'mut'); ?></p>
+<?php   if (count($suggest) === 0) { ?>
+      <p style="margin:0"><?php echo badge('Подсказок нет', 'warn'); ?> Похожих страниц без ссылки на эту панель не нашла:
+        либо ссылку уже поставили все близкие страницы, либо по теме пока мало материалов.</p>
+<?php   } else { ?>
+      <p style="margin:0 0 10px">Нашлось подсказок: <strong><?php echo count($suggest); ?></strong>.
+        Берите верхние: там больше всего общих слов.</p>
+      <table class="table">
+        <tr><th>Откуда поставить ссылку</th><th>Общие слова</th><th>Готовый HTML и копирование</th></tr>
+<?php     foreach ($suggest as $i => $row) {
+            $fieldId = 'link-chip-' . (int)$i; ?>
+        <tr>
+          <td><code><?php echo h((string)$row['rel']); ?></code>
+            <div class="hint"><?php echo h(mb_substr((string)$row['h1'], 0, 70)); ?></div>
+            <div class="hint"><a href="<?php echo h((string)$row['rel']); ?>" target="_blank" rel="noopener">открыть страницу ↗</a></div></td>
+          <td><?php echo badge((string)(int)$row['shared'], 'ok'); ?>
+            <div class="hint"><?php echo h(implode(', ', (array)$row['shared_words'])); ?></div></td>
+          <td>
+            <textarea class="media-snippet" id="<?php echo h($fieldId); ?>" readonly rows="2"><?php echo h((string)$row['html']); ?></textarea>
+            <div class="btn-row">
+              <button class="btn ghost copy-btn" type="button" data-for="<?php echo h($fieldId); ?>">Скопировать HTML</button>
+            </div>
+            <div class="hint">Варианты анкора:
+<?php       $alts = array();
+            foreach ((array)$row['anchors'] as $a) { $alts[] = '<code>' . h((string)$a) . '</code>'; }
+            echo implode(' · ', $alts); ?></div>
+<?php       if ((int)$row['anchor_used'] >= 3) { ?>
+            <div class="field-warn">⚠ Анкор «<?php echo h((string)$row['anchor']); ?>» уже <?php echo (int)$row['anchor_used']; ?> раза
+              ведёт на эту страницу — поисковики могут счесть это переспамом. Возьмите другой вариант из списка выше.</div>
+<?php       } elseif (in_array(seo_norm((string)$row['anchor']), $anchorSuspect, true)) { ?>
+            <div class="field-warn">⚠ Такой анкор уже часто встречается на сайте
+              (<?php echo (int)($anchorUses[seo_norm((string)$row['anchor'])] ?? 0); ?> раз) — сформулируйте иначе:
+              одинаковые подписи ссылок ведут к переоптимизации.</div>
+<?php       } ?>
+          </td>
+        </tr>
+<?php     } ?>
+      </table>
+      <div class="field-hint">Как пользоваться: откройте страницу-донор в «Статьях», добавьте абзац по теме и вставьте в него
+        скопированный HTML. Работает не «читайте также», а ссылка по смыслу внутри предложения.</div>
+<?php   } ?>
+      <form method="post" action="<?php echo h(panel_url('links.php#suggest')); ?>" style="margin-top:12px">
+        <?php echo csrf_field(); ?>
+        <input type="hidden" name="op" value="scan" />
+        <div class="btn-row">
+          <button class="btn ghost" type="submit">Пересканировать</button>
+        </div>
+      </form>
+      <div class="field-hint">«Пересканировать» — перечитать страницы сайта заново: подсказки обновятся, если ссылки уже поставлены.</div>
+<?php } ?>
 <?php card_end(); ?>
 <a id="orphans"></a>
 <?php card_start('Сироты: 0–1 ссылка из текста', 'О таких страницах роботы узнают только из карты сайта — их стоит упомянуть в тексте', count($orphans) > 0 ? 'err' : 'ok'); ?>
@@ -256,6 +349,37 @@ panel_page_start('Перелинковка', 'Внутренние ссылки:
         Панель сама страницы не правит — они меняются только по вашей команде.</div>
 <?php } ?>
 <?php card_end(); ?>
+
+<a id="anchors"></a>
+<?php card_start('Переспам анкоров', 'Одинаковые подписи ссылок — так поисковики видят переоптимизацию', count($anchorSuspect) > 0 ? 'warn' : 'ok'); ?>
+<?php if (count($anchorStats) === 0) { ?>
+      <p style="margin:0"><span class="hint">Ссылок в тексте пока нет — собирать нечего.</span></p>
+<?php } else { ?>
+      <p style="margin:0 0 10px"><?php if (count($anchorSuspect) === 0) { echo badge('Анкоры разнообразные', 'ok'); }
+        else { echo badge('Подозрительных подписей: ' . count($anchorSuspect), 'warn'); } ?>
+        Всего разных подписей ссылок в текстах: <strong><?php echo count($anchorStats); ?></strong>.</p>
+      <table class="table">
+        <tr><th>Подпись ссылки</th><th>Сколько раз</th><th>Ведёт на страниц</th><th>Со скольких страниц</th></tr>
+<?php   foreach ($cut($anchorStats) as $row) { ?>
+        <tr>
+          <td><?php if ((string)$row['anchor'] !== '') { echo h((string)$row['anchor']); }
+                    else { ?><span class="hint">без подписи</span><?php } ?></td>
+          <td><?php echo badge((string)(int)$row['count'], !empty($row['suspect']) ? 'warn' : 'mut'); ?></td>
+          <td><?php echo (int)$row['targets']; ?></td>
+          <td><?php echo (int)$row['from']; ?></td>
+        </tr>
+<?php   } ?>
+      </table>
+<?php   if (!$showAll && count($anchorStats) > 25) { ?>
+      <div class="field-hint">Показаны первые 25 из <?php echo count($anchorStats); ?>.
+        <a href="<?php echo h(panel_url('links.php?all=1#anchors')); ?>">Показать все</a></div>
+<?php   } ?>
+      <div class="field-hint">Подозрительными панель считает подписи, которые повторяются от трёх раз и ведут на разные страницы:
+        «подробнее», «читать далее», «смотрите здесь». Такие ссылки стоит переписать осмысленными словами — именно они
+        объясняют поисковику, о чём страница, на которую ведут. В редакторе перелинковки панель предупреждает,
+        если предложенный анкор уже приелся.</div>
+<?php } ?>
+<?php card_end(); ?>
 <a id="ext"></a>
 <?php card_start('Внешние ссылки без noopener', 'Ссылка открывается в новой вкладке: без rel="noopener" чужая страница получает доступ к нашей', count($extBad) > 0 ? 'warn' : 'ok'); ?>
 <?php if (count($extBad) === 0) { ?>
@@ -294,10 +418,30 @@ panel_page_start('Перелинковка', 'Внутренние ссылки:
         <tr><td>Топ</td><td>4 ссылки и больше — страницы, о которых чаще всего пишут другие.</td></tr>
         <tr><td>Битый адрес</td><td>Внутренняя ссылка на страницу, которой на сайте нет.</td></tr>
         <tr><td>Внешняя без noopener</td><td>Чужая ссылка с <code>target="_blank"</code> и без <code>rel="noopener"</code>.</td></tr>
+        <tr><td>Переспам анкоров</td><td>Одна и та же подпись ссылки ведёт на разные страницы (от трёх раз) —
+          поисковики читают это как переоптимизацию, поэтому панель предлагает разные варианты анкора.</td></tr>
       </table>
       <div class="field-hint">Скан читает файлы страниц напрямую и ничего в них не записывает.
         Снимок графа лежит в <code>content/links.json</code> — открывается сразу, без повторного скана.
-        Предложения, какой именно анкор поставить, появятся в шаге 7-Б.2: там же будет готовый HTML-чип для вставки.</div>
+        Готовые подсказки и HTML-чипы для вставки — в карточке «Предложить перелинковку» выше.</div>
 <?php card_end(); ?>
+
+<script>
+document.addEventListener('click', function (event) {
+  var btn = event.target && event.target.closest ? event.target.closest('.copy-btn') : null;
+  if (!btn) { return; }
+  var field = document.getElementById(btn.getAttribute('data-for'));
+  if (!field) { return; }
+  field.focus(); field.select();
+  var done = false;
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(field.value); done = true; }
+    else { done = document.execCommand('copy'); }
+  } catch (err) { done = false; }
+  var old = btn.textContent;
+  btn.textContent = done ? 'Скопировано' : 'Нажмите Ctrl+C';
+  setTimeout(function () { btn.textContent = old; }, 1800);
+});
+</script>
 <?php } ?>
 <?php panel_page_end(); ?>

@@ -178,9 +178,13 @@ check('у внешней ссылки видно, что нет noopener',
 check('у внешней ссылки с rel=noopener флаг стоит', $p['ext'][1]['noopener'] === true);
 check('подпись ссылки-картинки взята из alt',
       in_array('Про проект', array_map(function ($l) { return (string)$l['anchor']; }, (array)$p['text']), true));
+/* С шага 7-Б.2 слова страницы хранятся целыми (их показывает владельцу панель), а сравниваются
+   по основам (links_word_stems). Поэтому и здесь проверяем основу, а не само слово. */
 check('слова страницы собраны из title, H1 и абзаца',
-      count((array)$p['words']) >= 5 && in_array('перел', (array)$p['words'], true),
-      'слов: ' . count((array)$p['words']));
+      count((array)$p['words']) >= 5
+      && in_array('перел', links_word_stems((array)$p['words']), true),
+      'слов: ' . count((array)$p['words'])
+      . ' (' . implode(', ', array_slice((array)$p['words'], 0, 6)) . '…)');
 check('служебные слова-шум в слова страницы не попали', !in_array('для', (array)$p['words'], true));
 check('пустая страница разбирается без ошибок', links_page_links('/x/', '')['rel'] === '/x/');
 check('чужой домен — не наш (внешняя ссылка)', links_is_external('https://example.com/x') === true);
