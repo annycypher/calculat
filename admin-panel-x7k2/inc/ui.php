@@ -49,6 +49,7 @@ function panel_sections(): array {
         array('file' => 'log.php',         'title' => 'Журнал',       'group' => 'Сервис',       'icon' => '☰', 'ready' => false, 'hint' => 'кто что делал — фаза 9'),
         array('file' => 'settings.php',    'title' => 'Настройки',    'group' => 'Сервис',       'icon' => '⚙', 'ready' => true,  'hint' => 'Метрика, техобслуживание, отзывы'),
         array('file' => 'security.php',    'title' => 'Безопасность', 'group' => 'Сервис',       'icon' => '⚿', 'ready' => true,  'hint' => 'пароль, журнал входов, устройства', 'admin' => true),
+        array('file' => 'reminders.php',   'title' => 'Напоминания',  'group' => 'Сервис',       'icon' => '◷', 'ready' => true,  'hint' => 'регулярные задачи владельца'),
         array('file' => 'contact.php',     'title' => 'Связаться',    'group' => 'Сервис',       'icon' => '✉', 'ready' => false, 'hint' => 'письма и реквизиты — фаза 12'),
     );
 }

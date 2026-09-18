@@ -43,6 +43,10 @@ content/outreach.json
 content/reviews.json
 content/settings.json
 content/messages.json
+content/reminders.json
+
+# Загрузки владельца через раздел «Медиа-файлы»: рабочие картинки сайта, в git не нужны
+media/uploads/
 content/security/*.json
 content/security/*.txt
 content/logs/*.json
