@@ -37,6 +37,7 @@ content/media.json
 content/articles.json
 content/banners.json
 content/ads.json
+content/links.json
 content/security/*.json
 content/security/*.txt
 content/logs/*.json
