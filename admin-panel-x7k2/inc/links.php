@@ -358,8 +358,21 @@ function links_top(array $scan, int $limit = 10, bool $withService = false): arr
 }
 
 /** Битые ссылки из снимка (адрес → страницы, где он стоит). */
+/** Битые ссылки. Перед выводом ещё раз проверяем по диску: скан помечает как битые любые адреса
+    без страницы-каталога, а живые файлы вроде /rss.xml тоже существуют — их из отчёта убираем. */
 function links_broken(array $scan): array {
-    return (array)($scan['broken'] ?? array());
+    $out = array();
+    foreach ((array)($scan['broken'] ?? array()) as $key => $row) {
+        $to = is_array($row) ? (string)($row['to'] ?? '') : (string)$row;
+        if ($to !== '') {
+            $base = rtrim($to, '/');
+            if (is_file(SITE_ROOT . $to) || is_dir(SITE_ROOT . $base) || is_file(SITE_ROOT . $base . '/index.html')) {
+                continue;   /* адрес на месте — значит ссылка живая */
+            }
+        }
+        if (is_array($row)) { $out[$key] = $row; } else { $out[] = $row; }
+    }
+    return $out;
 }
 
 /** Внешние ссылки, открывающиеся в новой вкладке без noopener. */

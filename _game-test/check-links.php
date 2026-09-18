@@ -93,23 +93,14 @@ check('готовый кусок ссылки собирается и содер
 /* ── 3. Здоровье ссылок ── */
 say('');
 say('3. Битые и внешние ссылки');
-/* Находка сценария: сканер считает битой ссылку на /rss.xml, хотя файл ленты существует —
-   он проверяет только страницы-каталоги с index.html. Поэтому проверяем главное: битых ссылок
-   на реально отсутствующие файлы нет, а ложное срабатывание называем вслух. */
+/* Находка сценария (исправлена): раньше в битые попадала ссылка на /rss.xml, хотя файл ленты
+   существует — скан помечает как битые адреса без страницы-каталога. Теперь отчёт проверяет
+   файл на диске, а тест требует, чтобы битых не было вовсе. */
 $broken = links_broken($back);
-$realBroken = array();
-foreach ($broken as $row) {
-    $to = is_array($row) ? (string)($row['to'] ?? '') : (string)$row;
-    $path = SITE . $to;
-    if ($to !== '' && (is_file($path) || is_file(SITE . rtrim($to, '/') . '/index.html'))) { continue; }
-    $realBroken[] = $to;
-}
-check('битых ссылок на несуществующие файлы нет', count($realBroken) === 0,
-    count($realBroken) . ' — ' . implode(', ', array_slice($realBroken, 0, 3)));
-check('ложное срабатывание только на существующий файл (например ленту RSS)',
-    count($broken) - count($realBroken) === count($broken) - count($realBroken)
-    && (count($broken) === 0 || has(json_encode($broken, JSON_UNESCAPED_UNICODE), '/rss.xml')),
-    'сканер назвал битыми: ' . substr(json_encode($broken, JSON_UNESCAPED_UNICODE), 0, 200));
+check('битых ссылок в отчёте нет', count($broken) === 0,
+    count($broken) . ' — ' . substr(json_encode(array_slice((array)$broken, 0, 2), JSON_UNESCAPED_UNICODE), 0, 200));
+check('ссылка на существующий файл (лента RSS) живой',
+    is_file(SITE . '/rss.xml') && !has(json_encode($broken, JSON_UNESCAPED_UNICODE), '/rss.xml'));
 $ext = links_ext_problems($back);
 check('с внешними ссылками проблем нет', count($ext) === 0,
     'проблем: ' . count($ext) . ' — ' . substr(json_encode(array_slice($ext, 0, 2), JSON_UNESCAPED_UNICODE), 0, 200));
