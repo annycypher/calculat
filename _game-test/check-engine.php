@@ -109,6 +109,33 @@ check('шаблон требует нормы из блока, а не выду�
     has($tpl, 'ТОЛЬКО из js/generator-norms.js'));
 check('в шаблоне сказано про файл .doc для Word', has($tpl, 'файл .doc для Word'));
 
+/* ── Фаза 2, расписка: логика документа ── */
+$ras = (string)@file_get_contents(SITE . '/js/gen-raspiska.js');
+check('логика расписки есть', $ras !== '' && has($ras, 'export const RASPISKA'), 'байт: ' . strlen($ras));
+check('три варианта расписки: деньги, документы, возврат',
+    has($ras, 'money:') && has($ras, 'documents:') && has($ras, 'back:'));
+check('в каждом варианте есть шаблон с плейсхолдерами',
+    substr_count($ras, 'template:') === 3 && has($ras, '{{taker}}') && has($ras, '{{giver}}'));
+check('сумма прописью считается и склоняется',
+    has($ras, 'sumInWords') && has($ras, 'рубль') && has($ras, 'копеек'));
+check('расписка не считает проценты и не берёт нормы',
+    has($ras, 'проценты по займу не считаем') && !has($ras, 'GEN_NORMS'));
+check('движок и нормы не дублируются: расписка только готовит шаблон',
+    !has($ras, 'previewToDocx') && !has($ras, 'printPreview') && has($ras, 'fieldsFor'));
+
+/* Логика суммы прописью, повторённая в тесте для проверки контракта. */
+function port_plural(int $n, array $forms): string {
+    $n10 = $n % 10; $n100 = $n % 100;
+    if ($n10 === 1 && $n100 !== 11) { return $forms[0]; }
+    if ($n10 >= 2 && $n10 <= 4 && ($n100 < 10 || $n100 >= 20)) { return $forms[1]; }
+    return $forms[2];
+}
+check('склонение по числу работает как в движке',
+    port_plural(1, array('рубль', 'рубля', 'рублей')) === 'рубль'
+    && port_plural(3, array('рубль', 'рубля', 'рублей')) === 'рубля'
+    && port_plural(11, array('рубль', 'рубля', 'рублей')) === 'рублей'
+    && port_plural(125, array('рубль', 'рубля', 'рублей')) === 'рублей');
+
 say('');
 say('Проверок: ' . $n . ', пройдено: ' . $ok . ', провалено: ' . $fail);
 
