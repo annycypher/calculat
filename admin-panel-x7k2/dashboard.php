@@ -21,6 +21,7 @@ require __DIR__ . '/inc/links.php';
 require __DIR__ . '/inc/backlinks.php';
 require __DIR__ . '/inc/reviews.php';   /* счётчик «Отзывы на модерации» считаем движком отзывов: он знает формат файла */
 require __DIR__ . '/inc/security-lib.php';   /* алерты безопасности: новое устройство, часы, подбор пароля, robots (шаг 7.3) */
+require __DIR__ . '/inc/reminders-lib.php';  /* виджет «Напоминания» на дашборде (шаг 7.6) */
 
 panel_session_start();
 ensure_guards();
@@ -155,6 +156,7 @@ panel_page_start('Дашборд', 'Что есть на сайте сейчас
 $secStrangers = is_admin() ? security_stranger_devices() : array();
 $secStranger  = count($secStrangers) > 0;
 $secAlerts = is_admin() ? security_alerts() : array();
+$secShown  = security_alerts_limited($secAlerts, 5);   // плашек на дашборде — не больше пяти (шаг 7.6)
 $secErr    = 0;
 $secWarn   = 0;
 foreach ($secAlerts as $a) { if ($a['tone'] === 'err') { $secErr++; } else { $secWarn++; } }
@@ -197,7 +199,7 @@ foreach ($secAlerts as $a) { if ($a['tone'] === 'err') { $secErr++; } else { $se
         короткая версия — выше.</p>
 <?php card_end(); ?>
 <?php } ?>
-<?php foreach ($secAlerts as $a) { ?>
+<?php foreach ($secShown['shown'] as $a) { ?>
 <?php card_start((string)$a['title'], '', (string)$a['tone']); ?>
       <p class="hint" style="margin:0 0 12px"><?php echo h((string)$a['text']); ?></p>
 <?php   if ($a['kind'] === 'device') { ?>
@@ -238,6 +240,78 @@ foreach ($secAlerts as $a) { if ($a['tone'] === 'err') { $secErr++; } else { $se
 <?php   } else { ?>
       <div class="btn-row"><a class="btn ghost" href="<?php echo h(panel_url('security.php')); ?>">Открыть раздел «Безопасность»</a></div>
 <?php   } ?>
+<?php card_end(); ?>
+<?php } ?>
+
+<?php
+/* ── виджеты дашборда (шаг 7.6): «📌 Напоминания» и «🛡 Безопасность» ── */
+$remGroups  = reminders_groups();
+$remSummary = reminders_summary();
+$remUrgent  = count($remGroups['overdue']) > 0 ? $remGroups['overdue'] : $remGroups['due'];   // уже по возрастанию срока
+$remTone    = $remSummary['overdue'] > 0 ? 'err' : ($remSummary['due'] > 0 ? 'warn' : 'ok');
+$remNext    = (string)$remSummary['next'];
+$guardTone  = count($secAlerts) === 0 ? 'ok' : ($secErr > 0 ? 'err' : 'warn');
+$secLast    = is_admin() ? security_last_login() : null;
+$secNewDev  = is_admin() ? count(security_devices_new(7)) : 0;
+$secFails   = is_admin() ? security_fails_days(7) : 0;
+$backupWord = $lastBackup === null ? 'копий пока нет' : 'сделана ' . $backupDays . ' дн. назад (' . $lastBackup['name'] . ')';
+?>
+<?php if ((int)$secShown['more'] > 0) { ?>
+      <p class="field-hint" style="margin:0 0 14px">И ещё алертов: <?php echo (int)$secShown['more']; ?> —
+        они ждут в разделе «Безопасность».</p>
+<?php } ?>
+
+<?php card_start('📌 Напоминания', 'Регулярные задачи владельца: просроченные и ближайшие', $remTone); ?>
+      <div class="dash-reminders" data-overdue="<?php echo (int)$remSummary['overdue']; ?>"
+           data-due="<?php echo (int)$remSummary['due']; ?>" data-soon="<?php echo (int)$remSummary['soon']; ?>"
+           data-done="<?php echo (int)$remSummary['done']; ?>" data-urgent="<?php echo count($remUrgent); ?>"></div>
+<?php if (count($remUrgent) > 0) { ?>
+      <p class="hint" style="margin:0 0 10px"><?php echo $remSummary['overdue'] > 0
+          ? 'Просрочено: <strong>' . (int)$remSummary['overdue'] . '</strong>. Самое срочное:'
+          : 'Пора сделать: <strong>' . (int)$remSummary['due'] . '</strong>. Начните с:'; ?></p>
+      <table class="table">
+        <tr><th>Задача</th><th>Срок</th><th>Категория</th></tr>
+<?php   foreach (array_slice($remUrgent, 0, 3) as $t) { ?>
+        <tr>
+          <td><?php echo h((string)$t['title']); ?></td>
+          <td><?php echo h(reminders_date_ru((string)$t['due_at'])); ?></td>
+          <td><?php echo h(reminders_category_word((string)$t['category'])); ?></td>
+        </tr>
+<?php   } ?>
+      </table>
+<?php   if (count($remUrgent) > 3) { ?>
+      <p class="field-hint" style="margin:8px 0 0">И ещё <?php echo count($remUrgent) - 3; ?> задач ждут внимания
+        (всего на дашборде показаны три).</p>
+<?php   } ?>
+<?php } else { ?>
+      <p class="hint" style="margin:0">Порядок: сейчас ничего не горит<?php
+        echo $remNext !== '' ? '. Ближайшее — ' . h($remNext) : '. Следующих задач нет.'; ?></p>
+<?php } ?>
+      <div class="btn-row" style="margin-top:12px">
+        <a class="btn ghost" href="<?php echo h(panel_url('reminders.php')); ?>">Открыть «Напоминания»</a>
+      </div>
+
+<?php card_end(); ?>
+
+<?php if (is_admin()) { ?>
+<?php card_start('🛡 Безопасность', 'Входы, устройства и копия сайта', $guardTone); ?>
+      <div class="dash-guard" data-alerts="<?php echo count($secAlerts); ?>" data-err="<?php echo (int)$secErr; ?>"
+           data-warn="<?php echo (int)$secWarn; ?>" data-new-devices="<?php echo (int)$secNewDev; ?>"
+           data-fails-week="<?php echo (int)$secFails; ?>"
+           data-backup-days="<?php echo $lastBackup === null ? '-1' : (int)$backupDays; ?>"></div>
+      <table class="table">
+        <tr><td>Что настораживает</td><td><?php echo count($secAlerts) === 0
+            ? 'ничего: журнал входов чист' : (int)count($secAlerts) . ' — плашки на дашборде выше'; ?></td></tr>
+        <tr><td>Последний вход</td><td><?php echo $secLast === null
+            ? 'входов пока не было' : h((string)$secLast['ts']) . ' · ' . h((string)($secLast['label'] ?? '')); ?></td></tr>
+        <tr><td>Новых устройств за 7 дней</td><td><?php echo (int)$secNewDev; ?></td></tr>
+        <tr><td>Неудачных входов за 7 дней</td><td><?php echo (int)$secFails; ?></td></tr>
+        <tr><td>Копия сайта</td><td><?php echo h($backupWord); ?></td></tr>
+      </table>
+      <div class="btn-row" style="margin-top:12px">
+        <a class="btn ghost" href="<?php echo h(panel_url('security.php')); ?>">Открыть «Безопасность»</a>
+      </div>
+
 <?php card_end(); ?>
 <?php } ?>
 

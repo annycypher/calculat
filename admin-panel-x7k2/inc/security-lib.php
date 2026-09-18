@@ -353,6 +353,45 @@ function security_alerts(?string $robotsFile = null): array {
     return $out;
 }
 
+/** Алерты с ограничением по числу плашек (шаг 7.6): больше пяти не показываем.
+    Возвращает ['shown' => первые $limit, 'more' => сколько осталось]. */
+function security_alerts_limited(array $alerts, int $limit = 5): array {
+    $limit = max(1, $limit);
+    if (count($alerts) <= $limit) { return array('shown' => $alerts, 'more' => 0); }
+    return array('shown' => array_slice($alerts, 0, $limit), 'more' => count($alerts) - $limit);
+}
+
+/** Последний удачный вход (null — входов ещё не было). Нужен виджету «Безопасность». */
+function security_last_login(): ?array {
+    $logins = security_log_read()['logins'];
+    foreach (array_reverse($logins) as $row) {
+        if (!empty($row['ok'])) { return $row; }
+    }
+    return null;
+}
+
+/** Устройства, которые впервые появились за последние $days дней. */
+function security_devices_new(int $days = 7, ?string $today = null): array {
+    $today = $today !== null ? $today : date('Y-m-d');
+    $from  = date('Y-m-d', (int)strtotime($today) - max(1, $days) * 86400);
+    $out   = array();
+    foreach (security_devices() as $row) {
+        if ((string)($row['first_seen'] ?? '') !== '' && (string)$row['first_seen'] >= $from) { $out[] = $row; }
+    }
+    return $out;
+}
+
+/** Сколько неудачных входов было за последние $days дней. */
+function security_fails_days(int $days = 7, ?string $today = null): int {
+    $today = $today !== null ? $today : date('Y-m-d');
+    $from  = date('Y-m-d', (int)strtotime($today) - max(1, $days) * 86400);
+    $n = 0;
+    foreach (security_log_read()['logins'] as $row) {
+        if (empty($row['ok']) && (string)($row['ts'] ?? '') >= $from) { $n++; }
+    }
+    return $n;
+}
+
 /* ───────────── имя папки панели (шаг 7.4) ───────────── */
 
 /** Слова, по которым адрес панели пробуют в первую очередь. */
