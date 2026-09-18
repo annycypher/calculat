@@ -6,8 +6,10 @@
 #   3) гасит сервер и сохраняет отчёт в ..\shots\panel-5b.txt.
 #
 # Запуск: powershell -NoProfile -ExecutionPolicy Bypass -File _game-test\check-panel-5b.ps1
-# Тест работает со своим файлом content\reviews.json и своим пользователем:
-# в конце возвращает content\reviews.json, content\users.json и лог действий как было.
+# Тест работает со своим файлом content\reviews.json и своим пользователем: в конце возвращает
+# content\reviews.json, content\users.json, лог действий и прежние версии файлов.
+# Раздел 6 печатает отзывы в слоты страниц сайта и собирает страницу /reviews/, после чего
+# все страницы сайта, sitemap.xml, копии в backups/files/ и сама /reviews/ возвращаются как было.
 # Важно: тесты нельзя запускать параллельно — они делят content/users.json (см. PROGRESS.md).
 
 $ErrorActionPreference = 'Stop'

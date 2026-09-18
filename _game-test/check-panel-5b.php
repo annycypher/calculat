@@ -23,6 +23,7 @@ define('PANEL', SITE . '/admin-panel-x7k2');
 
 require PANEL . '/inc/config.php';
 require PANEL . '/inc/reviews.php';
+require PANEL . '/inc/reviews-site.php';
 
 $lines  = array(); $ok = 0; $fail = 0; $n = 0;
 $report = isset($argv[1]) ? (string)$argv[1] : '';
@@ -86,9 +87,36 @@ foreach ($dataPaths as $f => $p) { $dataBacks[$f] = is_file($p) ? (string)file_g
 $actionsFile = SITE . '/content/logs/actions.json';
 $actionsBack = is_file($actionsFile) ? (string)file_get_contents($actionsFile) : null;
 
-register_shutdown_function(function () use ($dataPaths, $dataBacks, $actionsFile, $actionsBack) {
+/* Страницы сайта со слотом отзывов, карта сайта и страница /reviews/ — тест возвращает их байт-в-байт:
+   раздел 6 печатает отзывы в слоты 48 страниц и собирает страницу /reviews/. */
+$slotBacks = array();
+foreach (reviews_slot_pages() as $rel) { $slotBacks[(string)$rel] = (string)@file_get_contents(site_page_file((string)$rel)); }
+$sitemapFile = SITE_ROOT . '/sitemap.xml';
+$sitemapBack = is_file($sitemapFile) ? (string)file_get_contents($sitemapFile) : null;
+$pageFile    = reviews_page_file();
+$pageBack    = is_file($pageFile) ? (string)file_get_contents($pageFile) : null;
+
+/* Копии файлов, которые сделает панель при выводе отзывов: тест уберёт только свои. */
+$backupDir    = BACKUP_DIR . '/files';
+$backupBefore = array();
+foreach ((array)glob($backupDir . '/*') as $bf) { if (is_file((string)$bf)) { $backupBefore[] = basename((string)$bf); } }
+
+register_shutdown_function(function () use ($dataPaths, $dataBacks, $actionsFile, $actionsBack,
+    $slotBacks, $sitemapFile, $sitemapBack, $pageFile, $pageBack, $backupDir, $backupBefore) {
     foreach ($dataPaths as $f => $p) { if ($dataBacks[$f] !== null) { @file_put_contents($p, $dataBacks[$f]); } else { @unlink($p); } }
     if ($actionsBack !== null) { @file_put_contents($actionsFile, $actionsBack); } else { @unlink($actionsFile); }
+    foreach ($slotBacks as $rel => $html) { @file_put_contents(site_page_file((string)$rel), (string)$html); }
+    if ($sitemapBack !== null) { @file_put_contents($sitemapFile, $sitemapBack); }
+    if ($pageBack !== null) {
+        @file_put_contents($pageFile, $pageBack);
+    } else {
+        @unlink($pageFile);
+        $dir = dirname($pageFile);
+        if (is_dir($dir)) { @rmdir($dir); }
+    }
+    foreach ((array)glob($backupDir . '/*') as $bf) {
+        if (is_file((string)$bf) && !in_array(basename((string)$bf), $backupBefore, true)) { @unlink((string)$bf); }
+    }
 });
 
 say('Функциональный тест фазы 5 — «Отзывы» (шаги 5.1–5.2)');
@@ -308,10 +336,141 @@ check('страница сайта готова к выводу отзывов (
 $r = http(BASE . '/reviews.php', array('op' => 'publish', 'id' => $pId));   /* без токена */
 check('POST без токена статус не поменял', (string)reviews_find($pId)['status'] === 'pending');
 
-/* ── 6. Уборка за собой ── */
+/* ── 6. Вывод отзывов на сайт: блок в слоте, страница /reviews/, разметка (5.3) ── */
 say('');
-say('6. Уборка за собой');
-check('тестовый отзыв убран из файла', reviews_delete($pId) && count(reviews_find($pId)) === 0);
+say('6. Вывод отзывов на сайт: блок на страницах и страница /reviews/');
+reviews_save(array(), array());
+
+/* Пять опубликованных отзывов (в блок попадут четыре свежих) и один скрытый — его нигде быть не должно. */
+$siteIn = array(
+    array('name' => 'Ольга',   'text' => 'Считала декретные — панель показала те же цифры, что и бухгалтерия.', 'rating' => '5', 'page' => '/calculators/finance/maternity/'),
+    array('name' => 'Сергей',  'text' => 'НДС считаю каждый квартал, минус одна таблица в Excel.', 'rating' => '4', 'page' => '/calculators/taxes/vat/'),
+    array('name' => 'Марина',  'text' => 'Проценты по вкладу наконец сходятся с банковскими расчётами.', 'rating' => '5', 'page' => '/calculators/finance/deposit/'),
+    array('name' => 'Дмитрий', 'text' => 'Ипотечный калькулятор помог понять, что переплата меньше, чем думал.', 'rating' => '3', 'page' => '/calculators/finance/mortgage/'),
+    array('name' => 'Алексей', 'text' => 'Пользуюсь бесплатно, оценку ставить не стал — просто спасибо.', 'rating' => '0', 'page' => '/calculators/'),
+);
+$madeIds = array();
+foreach ($siteIn as $in) {
+    $res = reviews_add($in, '');
+    if (!empty($res['ok'])) {
+        $madeIds[] = (string)$res['item']['id'];
+        reviews_set_status((string)$res['item']['id'], 'published');
+    }
+}
+$hiddenId = '';
+$hiddenRes = reviews_add(array('name' => 'Скрытый',
+    'text' => 'Этого отзыва на сайте быть не должно — он скрыт модератором.', 'rating' => '1', 'page' => '/calculators/'), '');
+if (!empty($hiddenRes['ok'])) {
+    $hiddenId = (string)$hiddenRes['item']['id'];
+    reviews_set_status($hiddenId, 'hidden');
+}
+check('пять отзывов опубликованы и один скрыт', count($madeIds) === 5 && $hiddenId !== '');
+
+$render = reviews_render_site();
+check('вывод на сайт прошёл без замечаний', !empty($render['ok']), (string)$render['error']);
+check('блок вписан во все страницы со слотом', (int)$render['changed'] > 40,
+    'обновлено страниц: ' . (int)$render['changed']);
+check('страница /reviews/ собрана', !empty($render['page']) && is_file(reviews_page_file()));
+check('адрес страницы появился в карте сайта', (string)$render['sitemap'] !== '', (string)$render['sitemap']);
+
+/* Блок на странице калькулятора */
+$r = http(SITEURL . '/calculators/finance/vat/');
+check('страница отдаёт блок отзывов', has($r['b'], 'class="reviews-block"'));
+check('в блоке четыре свежих отзыва из пяти', has($r['b'], 'data-count="4"') && has($r['b'], 'data-total="5"'));
+check('в блоке ровно четыре карточки', substr_count($r['b'], 'class="review"') === 4);
+check('сказано, что показаны свежие, и есть ссылка на все',
+    has($r['b'], 'Показаны 4 свежих из 5') && has($r['b'], 'href="/reviews/"'));
+check('средняя оценка в блоке честная (по оценённым)',
+    has($r['b'], 'Средняя оценка') && has($r['b'], 'data-average="4.3"') && has($r['b'], 'по 4 отзывам'));
+check('скрытый отзыв на страницу не попал',
+    !has($r['b'], 'Этого отзыва на сайте быть не должно') && !has($r['b'], '>Скрытый<'));
+check('слот и форма отзыва на странице целы',
+    has($r['b'], '<!--SLOT:reviews-->') && has($r['b'], '<!--/SLOT:reviews-->')
+    && has($r['b'], 'Публикуется после проверки'));
+
+/* Страница со всеми отзывами */
+$r = http(SITEURL . '/reviews/');
+check('страница /reviews/ открывается', $r['s'] === 200, 'код ' . $r['s']);
+check('на странице все пять опубликованных отзывов', substr_count($r['b'], 'class="review"') === 5);
+check('скрытого отзыва на странице нет', !has($r['b'], 'Этого отзыва на сайте быть не должно'));
+check('шапка, подвал и стили сайта на месте',
+    has($r['b'], '<header') && has($r['b'], '</html>') && has($r['b'], '/styles.css'));
+check('канонический адрес страницы — /reviews/',
+    has($r['b'], 'rel="canonical"') && has($r['b'], 'https://calc-doc.ru/reviews/"'));
+check('видно, с какой страницы пришёл каждый отзыв', has($r['b'], 'Отзыв оставлен на странице'));
+
+/* Разметка для поисковиков */
+check('разметка JSON-LD на странице есть',
+    has($r['b'], 'application/ld+json') && has($r['b'], '"@type": "Service"'));
+check('средний балл отдан поисковикам только от трёх оценок',
+    has($r['b'], '"AggregateRating"') && has($r['b'], '"ratingValue": 4.3') && has($r['b'], '"reviewCount": 4'));
+check('все отзывы перечислены в разметке', substr_count($r['b'], '"@type": "Review"') === 5);
+check('у отзыва без оценки звёзд в разметке нет', substr_count($r['b'], '"reviewRating"') === 4);
+
+/* Честность: на двух оценках средний балл поисковикам не отдаём */
+reviews_set_status($madeIds[0], 'hidden');
+reviews_set_status($madeIds[1], 'hidden');
+reviews_render_site();
+$r = http(SITEURL . '/reviews/');
+check('на двух оценках среднего балла в разметке нет',
+    !has($r['b'], '"AggregateRating"') && has($r['b'], '"@type": "Review"'));
+check('отзывы при этом остаются на странице', substr_count($r['b'], 'class="review"') === 3);
+reviews_set_status($madeIds[0], 'published');
+reviews_set_status($madeIds[1], 'published');
+reviews_render_site();
+check('после возврата отзывов средний балл снова в разметке',
+    has((string)@file_get_contents(reviews_page_file()), '"AggregateRating"'));
+
+/* Повторный вывод без изменений ничего не переписывает */
+$renderIdle = reviews_render_site();
+check('повторный вывод: страницы зря не переписываются',
+    (int)$renderIdle['changed'] === 0 && empty($renderIdle['page']), 'страниц: ' . (int)$renderIdle['changed']);
+
+/* Карточка «Что на сайте» в панели */
+$r = http(BASE . '/reviews.php');
+check('карточка «Что на сайте» видит блок, страницу и разметку', has($r['b'], 'reviews-site')
+    && attr($r['b'], 'data-published') === 5 && attr($r['b'], 'data-block') === 4
+    && attr($r['b'], 'data-page') === 1 && attr($r['b'], 'data-jsonld') === 1 && attr($r['b'], 'data-sitemap') === 1);
+check('карточка говорит, на скольких страницах стоит блок',
+    attr($r['b'], 'data-filled') > 40 && attr($r['b'], 'data-empty') === 0
+    && has($r['b'], 'свежих отзыва') && has($r['b'], 'из 5 опубликованных'));
+check('в карточке есть кнопка обновления вывода',
+    has($r['b'], 'Обновить вывод отзывов') && has($r['b'], 'value="render"'));
+$tok = csrf($r['b']);
+$rPost = http(BASE . '/reviews.php', array('csrf' => $tok, 'op' => 'render'));
+check('кнопка «Обновить вывод отзывов» работает', $rPost['s'] === 302, 'код ' . $rPost['s']);
+$r = http(BASE . '/reviews.php');
+check('панель отчиталась, что вывод обновлён',
+    has($r['b'], 'Вывод обновлён') || has($r['b'], 'Сайт обновлён'));
+
+/* Решение модератора сразу видно посетителям */
+$tok = csrf($r['b']);
+http(BASE . '/reviews.php', array('csrf' => $tok, 'op' => 'hide', 'id' => $madeIds[0]));
+$r = http(SITEURL . '/calculators/finance/vat/');
+check('скрытый в панели отзыв сразу ушёл с сайта',
+    has($r['b'], 'data-total="4"') && !has($r['b'], 'data-total="5"'));
+$r = http(SITEURL . '/reviews/');
+check('и со страницы /reviews/ тоже', substr_count($r['b'], 'class="review"') === 4);
+
+/* Опубликованных не осталось — блок со страниц уходит, страница честно объясняет пустоту */
+foreach ($madeIds as $rid) { reviews_set_status($rid, 'hidden'); }
+$renderEmpty = reviews_render_site();
+check('без опубликованных отзывов блок снимается со страниц', (int)$renderEmpty['changed'] > 40,
+    'страниц: ' . (int)$renderEmpty['changed']);
+$r = http(SITEURL . '/calculators/finance/vat/');
+check('слот остался на месте, а блока нет',
+    has($r['b'], '<!--SLOT:reviews-->') && !has($r['b'], 'class="reviews-block"'));
+$r = http(SITEURL . '/reviews/');
+check('страница /reviews/ объясняет, что отзывов пока нет',
+    $r['s'] === 200 && has($r['b'], 'Опубликованных отзывов пока нет') && !has($r['b'], '"AggregateRating"'));
+check('адрес страницы в карте сайта остался',
+    preg_match('#<loc>[^<]*/reviews/</loc>#', (string)@file_get_contents(SITE_ROOT . '/sitemap.xml')) === 1);
+
+/* ── 7. Уборка за собой ── */
+say('');
+say('7. Уборка за собой');
+foreach (array_merge($madeIds, array($hiddenId, $pId)) as $rid) { reviews_delete((string)$rid); }
+check('тестовые отзывы убраны из файла', count(reviews_find($pId)) === 0 && count(reviews_find($hiddenId)) === 0);
 check('файл отзывов читается как JSON', is_array(json_read($dataPaths['reviews.json'], array())));
 check('в файле не осталось лишних отзывов', count(reviews_data()['items']) === 0,
     'осталось: ' . count(reviews_data()['items']));

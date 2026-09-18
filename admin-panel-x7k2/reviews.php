@@ -18,6 +18,7 @@ require __DIR__ . '/inc/config.php';
 require __DIR__ . '/inc/auth.php';
 require __DIR__ . '/inc/ui.php';
 require __DIR__ . '/inc/reviews.php';
+require __DIR__ . '/inc/reviews-site.php';   /* вывод отзывов на сайт: блок в слот, страница /reviews/, sitemap */
 
 panel_session_start();
 ensure_guards();
@@ -84,8 +85,30 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         reviews_save(reviews_data()['items'], $list);
         log_action('Отзывы: слово убрано из чёрного списка', $word);
         flash('Из чёрного списка убрано: ' . $word . '.');
+    } elseif ($op === 'render') {
+        $site = reviews_render_site();
+        if ($site['ok']) {
+            log_action('Отзывы: вывод на сайт обновлён вручную');
+            flash('Вывод обновлён: страниц с блоком — ' . (int)$site['changed'] . ' из ' . (int)$site['pages']
+                . ', страница /reviews/ ' . ($site['page'] ? 'перезаписана' : 'без изменений')
+                . ($site['sitemap'] !== '' ? ', sitemap.xml: ' . $site['sitemap'] : '') . '.');
+        } else {
+            flash('Отзывы сохранены, но сайт обновить не вышло: ' . $site['error'], 'error');
+        }
     } else {
         flash('Форма пришла без понятного действия — ничего не менял.', 'error');
+    }
+
+    /* Решение модератора сразу видно посетителям: блок в слоте на страницах и страница /reviews/.
+       Обновляем после любого решения — вывод пишет только то, что действительно изменилось. */
+    if (in_array($op, array('publish', 'hide', 'pending', 'spam', 'delete', 'update'), true)) {
+        $site = reviews_render_site();
+        if ($site['ok']) {
+            flash('Сайт обновлён: страниц с блоком отзывов — ' . (int)$site['changed']
+                . ', страница /reviews/ ' . ($site['page'] ? 'перезаписана' : 'без изменений') . '.');
+        } else {
+            flash('Отзывы сохранены, но сайт обновить не вышло: ' . $site['error'], 'error');
+        }
     }
 
     header('Location: ' . panel_url('reviews.php'));
@@ -99,6 +122,7 @@ $public   = reviews_by_status('published');
 $hidden   = reviews_by_status('hidden');
 $spam     = reviews_by_status('spam');
 $black    = reviews_blacklist();
+$siteInfo = reviews_site_state();   /* что сейчас на сайте: блок в слоте, страница /reviews/, разметка, sitemap */
 $edit     = isset($_GET['id']) ? reviews_find((string)$_GET['id']) : array();
 $confirm  = count($edit) > 0 && isset($_GET['del']) && $_GET['del'] === '1';
 
@@ -125,6 +149,70 @@ panel_page_start('Отзывы', 'Ничего не появляется на с
                 <span class="hint"><?php echo (int)$stats['rating_cnt'] > 0 ? 'по ' . (int)$stats['rating_cnt'] . ' отзыв.' : 'оценок пока нет'; ?></span></td>
             <td>считаем только опубликованные отзывы с оценкой — выдуманных чисел не показываем</td></tr>
       </table>
+<?php card_end(); ?>
+
+<?php card_start('Что на сайте', 'Посетители видят только опубликованные отзывы — и только в этих двух местах'); ?>
+      <div class="reviews-site" data-published="<?php echo (int)$siteInfo['published']; ?>"
+           data-pages="<?php echo (int)$siteInfo['pages']; ?>" data-filled="<?php echo (int)$siteInfo['filled']; ?>"
+           data-empty="<?php echo (int)$siteInfo['empty']; ?>" data-block="<?php echo (int)$siteInfo['block']; ?>"
+           data-page="<?php echo empty($siteInfo['page']) ? 0 : 1; ?>"
+           data-jsonld="<?php echo empty($siteInfo['jsonld']) ? 0 : 1; ?>"
+           data-sitemap="<?php echo empty($siteInfo['in_sitemap']) ? 0 : 1; ?>"></div>
+      <table class="table">
+        <tr><th>Где</th><th>Что сейчас</th></tr>
+        <tr>
+          <td>Блок «Отзывы пользователей»<br /><span class="hint">слот SLOT:reviews — под текстом страницы, над формой отзыва</span></td>
+          <td><?php if ((int)$siteInfo['block'] > 0) { ?>
+              В блоке <strong><?php echo (int)$siteInfo['block']; ?></strong>
+              <?php echo (int)$siteInfo['block'] === 1 ? 'свежий отзыв' : 'свежих отзыва'; ?>
+              из <?php echo (int)$siteInfo['published']; ?> опубликованных. Блок стоит на
+              <strong><?php echo (int)$siteInfo['filled']; ?></strong>
+              <?php echo (int)$siteInfo['filled'] === 1 ? 'странице' : 'страницах'; ?><?php
+              echo (int)$siteInfo['empty'] > 0 ? ', на ' . (int)$siteInfo['empty'] . ' — пусто.' : '.'; ?>
+              <?php } else { ?>
+              Пусто: опубликованных отзывов нет, поэтому слот ничего не показывает — ни блоков, ни ссылок.
+              <?php } ?></td>
+        </tr>
+        <tr>
+          <td>Страница «Все отзывы»<br /><span class="hint">/reviews/ — её видят люди и поисковики</span></td>
+          <td><?php if (!empty($siteInfo['page'])) { ?>
+              Собрана и обновлена <?php echo h((string)$siteInfo['page_at']); ?>
+              (<?php echo h(human_size((int)$siteInfo['page_size'])); ?>). Шапка, меню и подвал — как у статей сайта.
+              <?php } else { ?>
+              Ещё не собрана — нажмите «Обновить вывод отзывов».
+              <?php } ?></td>
+        </tr>
+        <tr>
+          <td>Разметка для поисковиков<br /><span class="hint">JSON-LD: отзывы и средняя оценка</span></td>
+          <td><?php if (!empty($siteInfo['jsonld'])) { ?>
+              Есть: средний балл <strong><?php echo h(reviews_rating_text((float)$siteInfo['average'])); ?> из 5</strong>
+              по <?php echo (int)$siteInfo['rated']; ?> <?php echo h(reviews_word_rated((int)$siteInfo['rated'])); ?>.
+              <?php } elseif (!empty($siteInfo['rating_ok'])) { ?>
+              Ещё нет — нажмите «Обновить вывод отзывов».
+              <?php } else { ?>
+              Средний балл не показываем: нужны хотя бы <?php echo (int)REVIEWS_MIN_RATED; ?>
+              <?php echo h(reviews_word_rated((int)REVIEWS_MIN_RATED)); ?> с оценкой, а сейчас их
+              <?php echo (int)$siteInfo['rated']; ?>. Сами отзывы в разметке есть — врать поисковикам
+              про рейтинг на одной-двух оценках не будем.
+              <?php } ?></td>
+        </tr>
+        <tr>
+          <td>Адрес в sitemap.xml</td>
+          <td><?php echo !empty($siteInfo['in_sitemap']) ? 'Есть — страница попадёт в обход поисковиков.' : 'Появится при первом обновлении вывода.'; ?></td>
+        </tr>
+      </table>
+      <div class="btn-row" style="margin-top:14px">
+        <form method="post" action="<?php echo h(panel_url('reviews.php')); ?>">
+          <?php echo csrf_field(); ?>
+          <input type="hidden" name="op" value="render" />
+          <button class="btn primary" type="submit">Обновить вывод отзывов</button>
+        </form>
+        <a class="btn ghost" href="<?php echo h(reviews_page_url()); ?>" target="_blank" rel="noopener">Открыть /reviews/</a>
+      </div>
+      <div class="field-hint">Вывод обновляется сам после каждого решения модератора: опубликовали, скрыли, поправили
+        или удалили отзыв — блок на страницах и страница /reviews/ пересобираются, прежние файлы уходят в копии
+        (<code>backups/files/</code>). Кнопка нужна, если вы правили файлы сайта вручную. Разметку для поисковиков
+        ставим только на /reviews/: рейтинг не должен дублироваться на полусотне страниц — так советуют и поисковики.</div>
 <?php card_end(); ?>
 
 <?php card_start('Очередь модерации', 'Проверьте текст, потом решайте: опубликовать, отредактировать или в спам', (int)$stats['pending'] > 0 ? 'warn' : 'ok'); ?>
