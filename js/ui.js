@@ -26,10 +26,10 @@ const installBtn = document.getElementById('installBtn');
 function getTheme() {
   const saved = localStorage.getItem('calcdoc-theme');
   if (saved === 'light' || saved === 'dark') return saved;
-  // Новая главная — тёмная по умолчанию (data-home-dark на <html>):
-  // иначе на светлой ОС тёмный дизайн открывался бы в светлом варианте.
-  if (document.documentElement.hasAttribute('data-home-dark')) return 'dark';
-  return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+  // Светлая тема — основная для сайта (решение владельца, 18.09.2026).
+  // Её видят все, у кого нет сохранённого выбора; тёмная остаётся кнопкой темы.
+  // Настройка системы больше не решает за посетителя: сайт выглядит одинаково у всех.
+  return 'light';
 }
 function applyTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
