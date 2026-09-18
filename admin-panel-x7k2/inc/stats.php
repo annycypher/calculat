@@ -179,3 +179,67 @@ function stats_search_share(array $period): float {
 function stats_percent(int $part, int $all): float {
     return $all > 0 ? round($part * 100 / $all, 1) : 0;
 }
+
+/** Цели Метрики: что за разметка стоит на кнопках сайта (шаг 6.4).
+    Значения атрибутов — те, что реально в HTML: data-metric-goal="…". */
+function metric_goals_list(): array {
+    return array(
+        'расчёт'    => array(
+            'title' => 'Главное действие инструмента',
+            'where' => '«Рассчитать» в 21 калькуляторе, «Создать …» в 6 генераторах документов, '
+                     . '«Конвертировать в Excel», «Конвертировать в Word», «Перевести», «Запросить API» в конвертерах',
+        ),
+        'qr'        => array(
+            'title' => 'Получен QR-код',
+            'where' => '«Создать QR» и «Скачать» на главной; «Обновить QR-код» и «Скачать PNG/JPG/SVG» в генераторе QR-кодов',
+        ),
+        'pdf'       => array(
+            'title' => 'Скачан документ в PDF',
+            'where' => '«🖨️ Скачать в PDF» в шести генераторах документов',
+        ),
+        'отзыв'     => array(
+            'title' => 'Отправлен отзыв',
+            'where' => 'кнопка «Отправить отзыв» в форме отзыва на страницах сайта',
+        ),
+        'сообщение' => array(
+            'title' => 'Сообщение с формы связи',
+            'where' => 'страница «Контакты», кнопка «Отправить сообщение»',
+        ),
+    );
+}
+
+/** Живой скан страниц сайта: сколько кнопок размечено и на скольких страницах.
+    Возвращает ['goals' => [ключ => ['buttons' => N, 'pages' => [адреса]]], 'pages' => N, 'empty' => [без целей]].
+    Ничего не пишет: только читает страницы. */
+function metric_goals_scan(): array {
+    require_once __DIR__ . '/pages.php';
+
+    $goals = metric_goals_list();
+    $found = array();
+    foreach (array_keys($goals) as $key) {
+        $found['goals'][$key] = array('buttons' => 0, 'pages' => array());
+    }
+    $found['pages'] = 0;
+    $found['empty'] = array();
+    $found['foreign'] = array();
+
+    foreach (site_pages_list() as $rel) {
+        $file = site_page_file($rel);
+        if (!is_file($file)) { continue; }
+        $html = (string)@file_get_contents($file);
+        $found['pages']++;
+
+        $here = array();
+        if (preg_match_all('/data-metric-goal="([^"]*)"/u', $html, $m)) {
+            foreach ((array)$m[1] as $val) {
+                if (!isset($goals[$val])) { $found['foreign'][(string)$val] = true; continue; }
+                $found['goals'][$val]['buttons']++;
+                $here[$val] = true;
+            }
+        }
+        if (count($here) === 0) { $found['empty'][] = $rel; continue; }
+        foreach (array_keys($here) as $val) { $found['goals'][$val]['pages'][] = $rel; }
+    }
+
+    return $found;
+}

@@ -171,7 +171,7 @@
               <label for="conclusion">Выводы</label>
               <textarea id="conclusion" rows="3" placeholder="Итоги, выводы, рекомендации…">Показатели в норме, требуется дальнейший мониторинг.</textarea>
             </div>
-            <button class="btn btn-primary" type="submit" style="width:100%">Создать отчёт</button>
+            <button data-metric-goal="расчёт" class="btn btn-primary" type="submit" style="width:100%">Создать отчёт</button>
           </form>
         </div>
 
@@ -181,7 +181,7 @@
               <p class="tool-meta" style="margin:0">Здесь появится ваш отчёт.</p>
             </div>
           </div>
-          <button class="btn btn-primary no-print" id="printBtn" disabled style="width:100%;margin-top:16px">🖨️ Скачать в PDF</button>
+          <button data-metric-goal="pdf" class="btn btn-primary no-print" id="printBtn" disabled style="width:100%;margin-top:16px">🖨️ Скачать в PDF</button>
           <p class="hint no-print" id="printHint" hidden>В окне печати выберите «Сохранить как PDF».</p>
         </div>
       </div>
@@ -315,7 +315,7 @@
             <label><input type="radio" name="rating" value="1" /> ★</label>
           </fieldset>
           <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
-            <button type="submit">Отправить отзыв</button>
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
             <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
           </div>
         </form>

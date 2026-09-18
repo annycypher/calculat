@@ -156,7 +156,7 @@
             <label for="fileUrl">Или добавьте ссылку</label>
             <input type="text" id="fileUrl" name="fileUrl" placeholder="https://example.com/doc.pdf" inputmode="url" />
           </div>
-          <button class="btn btn-primary" type="submit" style="width:100%">Конвертировать в Word</button>
+          <button data-metric-goal="расчёт" class="btn btn-primary" type="submit" style="width:100%">Конвертировать в Word</button>
         </form>
       </div>
       <div class="form-card" style="margin-top:20px">
@@ -295,7 +295,7 @@
             <label><input type="radio" name="rating" value="1" /> ★</label>
           </fieldset>
           <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
-            <button type="submit">Отправить отзыв</button>
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
             <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
           </div>
         </form>

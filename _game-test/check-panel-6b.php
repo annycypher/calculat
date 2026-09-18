@@ -18,6 +18,7 @@ require SITE . '/admin-panel-x7k2/inc/stats.php';     /* движок чтени
 require SITE . '/admin-panel-x7k2/inc/settings.php';  /* настройки сайта (шаг 6.3) */
 require SITE . '/admin-panel-x7k2/inc/reviews.php';   /* чтобы проверить общий чёрный список отзывов */
 require SITE . '/admin-panel-x7k2/inc/contact.php';   /* контактная форма (шаг 6.4) */
+require_once SITE . '/admin-panel-x7k2/inc/pages.php'; /* site_pages_list(), site_page_file() — сверка разметки целей */
 
 $lines  = array(); $ok = 0; $fail = 0; $n = 0;
 $report = isset($argv[1]) ? (string)$argv[1] : '';
@@ -518,9 +519,74 @@ check('панель показывает сообщение с формы', has(
     && has($r['b'], 'Проверка'));
 check('адрес для писем по умолчанию — почта проекта', (string)contact_email() === 'info@calc-doc.ru');
 
-/* ── 8. Уборка за собой ── */
+/* ── 8. Цели Метрики: кнопки размечены data-metric-goal (6.4) ── */
 say('');
-say('8. Уборка за собой');
+say('8. Цели Метрики на кнопках сайта');
+
+$calcHtml = (string)@file_get_contents(SITE . '/calculators/finance/mortgage/index.html');
+check('калькулятор размечен: кнопка расчёта и кнопка отзыва',
+    has($calcHtml, '<button data-metric-goal="расчёт" class="btn btn-primary" type="submit"')
+    && has($calcHtml, '<button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>'));
+$genHtml = (string)@file_get_contents(SITE . '/generators/invoice/index.html');
+check('генератор размечен: создание документа и скачивание PDF',
+    has($genHtml, 'data-metric-goal="расчёт"') && has($genHtml, '<button data-metric-goal="pdf"')
+    && has($genHtml, 'id="printBtn"'));
+$qrHtml = (string)@file_get_contents(SITE . '/converters/qr-generator/index.html');
+check('QR-генератор размечен: получение и скачивание кода',
+    has($qrHtml, '<button data-metric-goal="qr" class="btn btn-primary" type="submit"')
+    && substr_count($qrHtml, 'data-metric-goal="qr"') === 5,
+    'атрибутов qr: ' . substr_count($qrHtml, 'data-metric-goal="qr"'));
+$cHtml = (string)@file_get_contents(SITE . '/contact/index.html');
+check('страница «Контакты» размечена: отправка сообщения',
+    has($cHtml, '<button data-metric-goal="сообщение" type="submit">Отправить сообщение</button>'));
+$pHtml = (string)@file_get_contents(SITE . '/privacy.html');
+check('служебные страницы разметки не получили (считать нечего)', !has($pHtml, 'data-metric-goal'));
+
+/* Сколько разметки лежит в файлах сайта — считаем сами и сверяем с панелью */
+$rawCounts = array();
+foreach ((array)site_pages_list() as $rel) {
+    $f = site_page_file($rel);
+    if (!is_file($f)) { continue; }
+    $h = (string)@file_get_contents($f);
+    if (preg_match_all('/data-metric-goal="([^"]*)"/u', $h, $mm)) {
+        foreach ((array)$mm[1] as $v) { $rawCounts[(string)$v] = (int)($rawCounts[(string)$v] ?? 0) + 1; }
+    }
+}
+$scan = metric_goals_scan();
+check('панель видит ровно ту разметку, что стоит в файлах сайта',
+    (int)$scan['goals']['расчёт']['buttons'] === (int)($rawCounts['расчёт'] ?? 0)
+    && (int)$scan['goals']['qr']['buttons'] === (int)($rawCounts['qr'] ?? 0)
+    && (int)$scan['goals']['pdf']['buttons'] === (int)($rawCounts['pdf'] ?? 0)
+    && (int)$scan['goals']['отзыв']['buttons'] === (int)($rawCounts['отзыв'] ?? 0)
+    && (int)$scan['goals']['сообщение']['buttons'] === (int)($rawCounts['сообщение'] ?? 0),
+    'панель: ' . (int)$scan['goals']['расчёт']['buttons'] . '/' . (int)$scan['goals']['qr']['buttons'] . '/'
+    . (int)$scan['goals']['pdf']['buttons'] . '/' . (int)$scan['goals']['отзыв']['buttons']);
+check('все страницы сайта попадают в скан, а не только знакомые',
+    (int)$scan['pages'] >= 50, 'страниц: ' . (int)$scan['pages']);
+check('разметка стоит на всех калькуляторах, генераторах и формах',
+    (int)($rawCounts['расчёт'] ?? 0) >= 30 && (int)($rawCounts['отзыв'] ?? 0) >= 45
+    && (int)($rawCounts['pdf'] ?? 0) >= 6 && (int)($rawCounts['qr'] ?? 0) >= 6,
+    'расчёт ' . (int)($rawCounts['расчёт'] ?? 0) . ', отзыв ' . (int)($rawCounts['отзыв'] ?? 0)
+    . ', pdf ' . (int)($rawCounts['pdf'] ?? 0) . ', qr ' . (int)($rawCounts['qr'] ?? 0));
+check('чужой (незнакомой) разметки на сайте нет', count((array)$scan['foreign']) === 0,
+    'незнакомых значений: ' . count((array)$scan['foreign']));
+check('страницы без кнопок-результатов названы честно',
+    in_array('/advertise/', (array)$scan['empty'], true) && in_array('/reviews/', (array)$scan['empty'], true));
+
+$r = ph($PURL . '/analytics.php');
+check('раздел «Аналитика» показывает таблицу целей и подсказку по Метрике',
+    has($r['b'], 'Цели для Метрики') && substr_count($r['b'], 'data-metric-goal') >= 6
+    && has($r['b'], '[data-metric-goal=') && has($r['b'], 'Клик по кнопке')
+    && has($r['b'], 'reachGoal'), 'код ' . $r['s']);
+check('в таблице целей стоят числа из живого скана',
+    has($r['b'], '<strong>' . (int)$scan['goals']['расчёт']['buttons'] . '</strong> на <strong>'
+        . count((array)$scan['goals']['расчёт']['pages']) . '</strong> стр.')
+    && has($r['b'], '<strong>' . (int)$scan['goals']['отзыв']['buttons'] . '</strong> на <strong>'
+        . count((array)$scan['goals']['отзыв']['pages']) . '</strong> стр.'));
+
+/* ── 9. Уборка за собой ── */
+say('');
+say('9. Уборка за собой');
 check('проверки идут с чистого листа (данные владельца вернёт выход)', is_file($todayFile) || is_file($knownFile));
 check('синтетические дни убираются на выходе', count($synth) === 3);
 check('страницы сайта тоже вернутся на выходе', count($siteBack) > 50,

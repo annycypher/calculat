@@ -175,6 +175,44 @@ foreach ($month['series'] as $s) { $maxHits = max($maxHits, (int)$s['hits']); }
 
 <?php } ?>
 
+<?php
+$goals     = metric_goals_scan();
+$goalsDefs = metric_goals_list();
+?>
+<?php card_start('Цели для Метрики', 'Что уже размечено на кнопках сайта и как завести это в отчёте Яндекса'); ?>
+      <table class="table">
+        <tr><th>Разметка в HTML</th><th>Что значит</th><th>Где кнопка</th><th>Сколько на сайте</th></tr>
+<?php foreach ($goalsDefs as $key => $g) {
+        $gButtons = (int)$goals['goals'][$key]['buttons'];
+        $gPages   = count((array)$goals['goals'][$key]['pages']);
+?>
+        <tr>
+          <td><code>data-metric-goal="<?php echo h((string)$key); ?>"</code></td>
+          <td><?php echo h((string)$g['title']); ?></td>
+          <td><?php echo h((string)$g['where']); ?></td>
+          <td><strong><?php echo $gButtons; ?></strong> на <strong><?php echo $gPages; ?></strong> стр.</td>
+        </tr>
+<?php } ?>
+      </table>
+      <div class="field-hint">Проверено по <?php echo (int)$goals['pages']; ?> страницам сайта — здесь показано то,
+        что реально стоит в HTML. У кнопок-утилит (тема, установка приложения, звук в играх, «Добавить позицию»,
+        «Сбросить», звёзды в отзывах) разметки нет: это не действия-результаты.</div>
+<?php if (count($goals['empty']) > 0) { ?>
+      <div class="field-hint">Страницы без размеченных кнопок (это нормально):
+        <?php echo h(implode(', ', (array)$goals['empty'])); ?>.</div>
+<?php } ?>
+      <h3 style="margin:18px 0 8px;font-size:15px">Как завести цель в Метрике</h3>
+      <ol style="margin:0;padding-left:22px">
+        <li>Метрика → «Цели» → «Добавить цель» → тип <strong>«Клик по кнопке»</strong>.</li>
+        <li>Условие — элемент: выберите нужную кнопку на сайте мышью или впишите селектор вида
+            <code>[data-metric-goal="pdf"]</code>.</li>
+        <li>Назовите цель по-человечески («Скачали PDF») и сохраните — статистика появится через несколько минут.</li>
+      </ol>
+      <div class="field-hint">Сам атрибут счётчик Метрики не читает: это наша разметка, по которой кнопку легко найти
+        и выбрать. Если понадобится цель типа «Целевое событие», событие должен отправлять код
+        (<code>ym(ID, 'reachGoal', 'имя')</code>) — скажите, добавим.</div>
+<?php card_end(); ?>
+
 <?php card_start('Как считает счётчик', 'Коротко: что он знает, а что не знает совсем'); ?>
       <table class="table">
         <tr><th>Что</th><th>Как</th></tr>

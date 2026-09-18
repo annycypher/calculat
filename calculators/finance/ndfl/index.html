@@ -149,7 +149,7 @@
               <input type="number" id="iis" inputmode="decimal" min="0" step="any" placeholder="0" value="0" />
               <span class="hint">Инвестиционный вычет: до 400 000 ₽ в год.</span>
             </div>
-            <button class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+            <button data-metric-goal="расчёт" class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
           </form>
         </div>
         <div class="form-card">
@@ -310,7 +310,7 @@
             <label><input type="radio" name="rating" value="1" /> ★</label>
           </fieldset>
           <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
-            <button type="submit">Отправить отзыв</button>
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
             <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
           </div>
         </form>
