@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор НДС — выделить и начислить 20% | CalcDoc</title>
+  <meta name="description" content="Калькулятор НДС: начислить НДС 20% и 10% сверху или выделить налог из суммы. Формулы, база без НДС и сумма с налогом — с примерами расчёта." />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/finance/vat/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Калькулятор НДС — CalcDoc" />
+  <meta property="og:description" content="Начислите НДС сверху или выделите налог из суммы по ставкам 20%, 10% и 0%." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/calculators/finance/vat/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/fonts/fonts.css?v=36" />
+  <link rel="stylesheet" href="/styles.css?v=36" />
+  <link rel="stylesheet" href="/seo-article.css?v=36" />
+  <link rel="stylesheet" href="/header.css?v=36" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Калькулятор НДС",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Калькуляторы", "item": "https://calc-doc.ru/calculators/" },
+      { "@type": "ListItem", "position": 3, "name": "Финансы и налоги", "item": "https://calc-doc.ru/calculators/finance/" },
+      { "@type": "ListItem", "position": 4, "name": "НДС", "item": "https://calc-doc.ru/calculators/finance/vat/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Как начислить НДС на сумму?", "acceptedAnswer": { "@type": "Answer", "text": "НДС = сумма × ставка ÷ 100, а итог с налогом = сумма + НДС. Для 100 000 ₽ при ставке 20% налог составит 20 000 ₽, итоговая сумма — 120 000 ₽. При льготной ставке 10% те же 100 000 ₽ дают налог 10 000 ₽ и итог 110 000 ₽." } },
+      { "@type": "Question", "name": "Как выделить НДС из суммы?", "acceptedAnswer": { "@type": "Answer", "text": "НДС = сумма × ставка ÷ (100 + ставка). Из 120 000 ₽ при ставке 20% налог равен 20 000 ₽, а база без НДС — 100 000 ₽. Из 110 000 ₽ при ставке 10% налог составит 10 000 ₽, база — 100 000 ₽. Делить на ставку «в лоб» нельзя — получится завышенная сумма налога." } },
+      { "@type": "Question", "name": "Как проверить, что НДС выделен правильно?", "acceptedAnswer": { "@type": "Answer", "text": "Сложите базу и налог — должна получиться исходная сумма с НДС. Второй способ: разделите сумму с НДС на 1,2 при ставке 20% или на 1,1 при 10% — получите базу. Если расхождение есть, скорее всего в документе указана другая ставка или сумма округлена." } },
+      { "@type": "Question", "name": "Как округлять НДС?", "acceptedAnswer": { "@type": "Answer", "text": "Налог считают в рублях и копейках и округляют по обычным правилам арифметики — до двух знаков после запятой. Это предусмотрено правилами заполнения счетов-фактур: расхождение на копейку в документе выглядит как ошибка, поэтому итог проверяют сложением базы и налога." } },
+      { "@type": "Question", "name": "Входит ли НДС в цену товара в магазине?", "acceptedAnswer": { "@type": "Answer", "text": "Да. В розничных ценах, на витринах и в чеках НДС уже включён в стоимость — покупатель видит сумму с налогом. Продавец показывает выделенный НДС в кассовом чеке отдельной строкой, если этого требует режим налогообложения и оборудование." } },
+      { "@type": "Question", "name": "Нужно ли считать НДС при продаже физическому лицу?", "acceptedAnswer": { "@type": "Answer", "text": "Если продавец — плательщик НДС, налог начисляется независимо от того, кто покупатель: организация, ИП или обычный человек. Разница только в оформлении: организации нужен счёт-фактура с выделенной суммой налога, а физлицу достаточно чека или договора с ценой, включающей НДС." } },
+      { "@type": "Question", "name": "Какие ставки НДС действуют в 2026 году?", "acceptedAnswer": { "@type": "Answer", "text": "Основные — 20% и 10%, а также 0% для экспорта и отдельных операций. Организации и ИП на УСН вместо общих ставок могут применять специальные: 5% при доходе до 250 млн ₽ и 7% при доходе от 250 до 450 млн ₽. Если доход за год не превысил 60 млн ₽, НДС не платят вообще — достаточно уведомления об освобождении. Спецставки считают сверху от базы, вычет входного налога при них не применяется." } },
+      { "@type": "Question", "name": "Как посчитать НДС по ставке 5% или 7%?", "acceptedAnswer": { "@type": "Answer", "text": "Так же, как по основной ставке: НДС = база × ставка ÷ 100. Например, 200 000 ₽ по ставке 5% дают 10 000 ₽ налога, по ставке 7% — 14 000 ₽. Если сумма уже включает налог по спецставке, его выделяют делением на 105 или 107: из 105 000 ₽ при 5% налог равен 5 000 ₽, база — 100 000 ₽. В калькуляторе этих ставок нет, поэтому такие суммы считайте по этим формулам." } }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="/print.css?v=36" media="print" />
+  <link rel="stylesheet" href="/ads.css?v=36" />
+</head>
+<body>
+    <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/calculators/">Калькуляторы</a> / <a href="/calculators/finance/">Финансы и налоги</a> / НДС</nav>
+      <h1>Калькулятор НДС</h1>
+      <p class="tool-meta">Начислите НДС на сумму или выделите НДС из суммы. Данные не отправляются на сервер.</p>
+      <p class="calc-note">Расчёты носят справочный характер.</p>
+    </div>
+
+    <!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+<!--SLOT:ads-ad-top-->
+<div class="ad-slot-box ad-top" data-ad-slot="ad-top" aria-label="Рекламный блок"></div>
+<!--/SLOT:ads-ad-top-->
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="vatForm">
+            <div class="field">
+              <label for="amount">Сумма (₽)</label>
+              <input type="number" id="amount" inputmode="decimal" min="0" step="any" placeholder="например 100000" required value="100000" />
+            </div>
+            <div class="field">
+              <label for="target">Действие</label>
+              <select id="target">
+                <option value="add">Начислить НДС (цена + НДС)</option>
+                <option value="extract">Выделить НДС (сумма уже с НДС)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="rate">Ставка</label>
+              <select id="rate">
+                <option value="20">20% — основная</option>
+                <option value="10">10% — льготная</option>
+                <option value="0">0%</option>
+              </select>
+            </div>
+            <button data-metric-goal="расчёт" class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container section">
+    <!--SLOT:banner-after-tool-->
+    <!--/SLOT:banner-after-tool-->
+    <!--SLOT:ads-after-tool-->
+    <!--/SLOT:ads-after-tool-->
+      <div class="prose">
+        <span class="eyebrow">Расчёт НДС</span>
+        <h2>Калькулятор НДС: начислить налог сверху и выделить из суммы</h2>
+        <p class="tool-meta">Обновлено: 16 сентября 2026</p>
+        <p>Калькулятор НДС решает две практические задачи: <strong>начислить</strong> НДС на цену без налога и <strong>выделить</strong> НДС из суммы, где налог уже включён. Достаточно ввести сумму, выбрать действие и ставку — 20% (основная), 10% (льготная) или 0%.</p>
+        <p>Расчёт идёт в браузере, данные не отправляются на сервер. Результат виден сразу: база без налога, сумма НДС и итог с налогом — удобно для счёта, счёта-фактуры, договора или проверки акта поставщика.</p>
+
+        <span class="eyebrow">Инструкция</span>
+        <h2>Как посчитать НДС онлайн</h2>
+        <p>Работа с калькулятором занимает три шага:</p>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span><strong>Введите сумму</strong> — цену без НДС или сумму с налогом, в зависимости от задачи</span></div>
+          <div class="seo-step"><b>2</b><span><strong>Выберите действие</strong> — «начислить» (цена + НДС) или «выделить» (сумма уже с НДС)</span></div>
+          <div class="seo-step"><b>3</b><span><strong>Укажите ставку</strong> — 20%, 10% или 0% по операции</span></div>
+        </div>
+        <p>После нажатия «Рассчитать» появятся три числа: база без НДС, сам налог и сумма с НДС. Так удобно проверять счёт поставщика: если выделенный налог не совпадает с паспортным, где-то ошибка в ставке или в базе.</p>
+
+        <span class="eyebrow">Формула</span>
+        <h2>Формулы НДС: начислить и выделить</h2>
+        <p>Если известна цена без налога, НДС считают «сверху»:</p>
+        <div class="seo-formula">НДС = Сумма × Ставка ÷ 100&nbsp;&nbsp;→&nbsp;&nbsp;Итог = Сумма + НДС</div>
+        <p>Если сумма уже включает НДС, налог «вытягивают» из неё — делить нужно на ставку плюс сто процентов:</p>
+        <div class="seo-formula">НДС = Сумма × Ставка ÷ (100 + Ставка)&nbsp;&nbsp;→&nbsp;&nbsp;База = Сумма − НДС</div>
+        <p><strong>Пример.</strong> Цена 100 000 ₽ без НДС: при 20% налог составит 20 000 ₽ и итог — 120 000 ₽; при 10% — 10 000 ₽ и 110 000 ₽. Обратная задача: из 120 000 ₽ с НДС 20% налог равен 20 000 ₽, база — 100 000 ₽.</p>
+        <table class="seo-table">
+          <thead><tr><th>Задача</th><th>Сумма</th><th>Ставка</th><th>НДС</th><th>Итог / база</th></tr></thead>
+          <tbody>
+            <tr><td>Начислить</td><td>100 000 ₽</td><td>20%</td><td>20 000 ₽</td><td>120 000 ₽</td></tr>
+            <tr><td>Начислить</td><td>100 000 ₽</td><td>10%</td><td>10 000 ₽</td><td>110 000 ₽</td></tr>
+            <tr><td>Начислить</td><td>100 000 ₽</td><td>0%</td><td>0 ₽</td><td>100 000 ₽</td></tr>
+            <tr><td>Выделить</td><td>120 000 ₽</td><td>20%</td><td>20 000 ₽</td><td>100 000 ₽</td></tr>
+            <tr><td>Выделить</td><td>110 000 ₽</td><td>10%</td><td>10 000 ₽</td><td>100 000 ₽</td></tr>
+          </tbody>
+        </table>
+        <p class="hint">Проверка на калькуляторе: делите сумму с НДС на 1,2 при ставке 20% или на 1,1 при 10% — получите базу без налога.</p>
+
+        <span class="eyebrow">Ставки</span>
+        <h2>Какие ставки НДС применяются</h2>
+        <ul>
+          <li><strong>20%</strong> — основная ставка для большинства товаров, работ и услуг.</li>
+          <li><strong>10%</strong> — льготная: продукты питания, детские товары, книги, лекарства и ряд медицинских изделий из перечней Правительства.</li>
+          <li><strong>0%</strong> — экспорт, международные перевозки и отдельные операции, по которым нужно подтверждать право на нулевую ставку.</li>
+        </ul>
+        <p class="note"><strong>Важно:</strong> организации и ИП на УСН при определённом уровне дохода применяют отдельные ставки 5% и 7%. В калькуляторе их нет — порядок расчёта такой же, но сумму налога придётся считать вручную по формулам выше. Ставку всегда берите из главы 21 НК РФ и из условий договора.</p>
+
+        <span class="eyebrow">Практика</span>
+        <h2>Когда НДС начисляют, а когда выделяют</h2>
+        <p>Выбор режима зависит от того, что известно: цена без налога или сумма, которую платит покупатель.</p>
+        <ul>
+          <li><strong>Начисляют</strong> — когда выставляете счёт на оплату или счёт-фактуру от цены без НДС: в документе отдельно указывают базу, ставку, сумму налога и итог.</li>
+          <li><strong>Выделяют</strong> — когда в договоре или чеке указана сумма «в том числе НДС» и нужно понять, сколько налога внутри для вычета или отчёта.</li>
+        </ul>
+        <p>Практическое правило: типовые цены, витрины и чеки всегда включают НДС, а документы между организациями чаще формируются «плюс НДС сверху» — это и определяет, какой режим калькулятора выбрать.</p>
+
+        <span class="eyebrow">УСН и спецставки</span>
+        <h2>Ставки 5% и 7%, УСН и счёт-фактура</h2>
+        <p>Калькулятор считает налог по основным ставкам — 20%, 10% и 0%. Отдельный случай — <strong>специальные ставки 5% и 7%</strong>, которые организации и ИП на УСН применяют вместо общих:</p>
+        <ul>
+          <li><strong>5%</strong> — если доход за год не превышает 250 млн ₽;</li>
+          <li><strong>7%</strong> — если доход от 250 до 450 млн ₽;</li>
+          <li>при доходе до 60 млн ₽ НДС платить не нужно: вместо этого подают уведомление об освобождении.</li>
+        </ul>
+        <p>Спецставка считается «сверху» от базы: НДС = база × 5% (или 7%). Если цена уже включает налог по спецставке, его выделяют делением на 105 или 107: из 105 000 ₽ при 5% налог равен 5 000 ₽ и база 100 000 ₽, из 107 000 ₽ при 7% — 7 000 ₽ и 100 000 ₽. Входной НДС при спецставках к вычету не принимают — это цена пониженной ставки. В калькуляторе этих ставок нет, поэтому такие суммы считайте по формулам, а 20%, 10% и 0% — в полях выше.</p>
+        <p><strong>Счёт-фактура.</strong> НДС показывают в счёте-фактуре или УПД: отдельно база, ставка и сумма налога. Покупатель принимает налог к вычету именно по этому документу, поэтому при 20% и 10% важно верно указать базу и итог: ошибка в ставке означает либо переплату налога, либо отказ в вычете.</p>
+
+    <!--SLOT:banner-mid-->
+    <!--/SLOT:banner-mid-->
+    <!--SLOT:ads-mid-->
+    <!--/SLOT:ads-mid-->
+        <span class="eyebrow">Вопросы и ответы</span>
+        <h2>Частые вопросы о расчёте НДС</h2>
+
+        <details class="seo-faq">
+          <summary>Как начислить НДС на сумму?</summary>
+          <div class="seo-faq-b"><p>НДС = сумма × ставка ÷ 100, а итог с налогом = сумма + НДС. Для 100 000 ₽ при ставке 20% налог составит 20 000 ₽, итоговая сумма — 120 000 ₽. При льготной ставке 10% те же 100 000 ₽ дают налог 10 000 ₽ и итог 110 000 ₽.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Как выделить НДС из суммы?</summary>
+          <div class="seo-faq-b"><p>НДС = сумма × ставка ÷ (100 + ставка). Из 120 000 ₽ при ставке 20% налог равен 20 000 ₽, а база без НДС — 100 000 ₽. Из 110 000 ₽ при ставке 10% налог составит 10 000 ₽, база — 100 000 ₽. Делить на ставку «в лоб» нельзя — получится завышенная сумма налога.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Как проверить, что НДС выделен правильно?</summary>
+          <div class="seo-faq-b"><p>Сложите базу и налог — должна получиться исходная сумма с НДС. Второй способ: разделите сумму с НДС на 1,2 при ставке 20% или на 1,1 при 10% — получите базу. Если расхождение есть, скорее всего в документе указана другая ставка или сумма округлена.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Как округлять НДС?</summary>
+          <div class="seo-faq-b"><p>Налог считают в рублях и копейках и округляют по обычным правилам арифметики — до двух знаков после запятой. Это предусмотрено правилами заполнения счетов-фактур: расхождение на копейку в документе выглядит как ошибка, поэтому итог проверяют сложением базы и налога.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Входит ли НДС в цену товара в магазине?</summary>
+          <div class="seo-faq-b"><p>Да. В розничных ценах, на витринах и в чеках НДС уже включён в стоимость — покупатель видит сумму с налогом. Продавец показывает выделенный НДС в кассовом чеке отдельной строкой, если этого требует режим налогообложения и оборудование.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Нужно ли считать НДС при продаже физическому лицу?</summary>
+          <div class="seo-faq-b"><p>Если продавец — плательщик НДС, налог начисляется независимо от того, кто покупатель: организация, ИП или обычный человек. Разница только в оформлении: организации нужен счёт-фактура с выделенной суммой налога, а физлицу достаточно чека или договора с ценой, включающей НДС.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Какие ставки НДС действуют в 2026 году?</summary>
+          <div class="seo-faq-b"><p>Основные — 20% и 10%, а также 0% для экспорта и отдельных операций. Организации и ИП на УСН вместо общих ставок могут применять специальные: 5% при доходе до 250 млн ₽ и 7% при доходе от 250 до 450 млн ₽. Если доход за год не превысил 60 млн ₽, НДС не платят вообще — достаточно уведомления об освобождении. Спецставки считают сверху от базы, вычет входного налога при них не применяется.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Как посчитать НДС по ставке 5% или 7%?</summary>
+          <div class="seo-faq-b"><p>Так же, как по основной ставке: НДС = база × ставка ÷ 100. Например, 200 000 ₽ по ставке 5% дают 10 000 ₽ налога, по ставке 7% — 14 000 ₽. Если сумма уже включает налог по спецставке, его выделяют делением на 105 или 107: из 105 000 ₽ при 5% налог равен 5 000 ₽, база — 100 000 ₽. В калькуляторе этих ставок нет, поэтому такие суммы считайте по этим формулам.</p></div>
+        </details>
+
+        <p class="calc-note">Расчёты носят справочный характер и не являются налоговой консультацией. Ставку и порядок расчёта уточняйте по главе 21 НК РФ и условиям договора. Данные калькулятора не покидают ваш браузер.</p>
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/calculators/finance/tax-freelancer/">НПД для самозанятых</a>
+          <a href="/calculators/finance/ip-insurance/">Взносы ИП за себя</a>
+          <a href="/calculators/finance/ndfl/">НДФЛ и налоговые вычеты</a>
+          <a href="/calculators/finance/penalty/">Калькулятор пени</a>
+        </div>
+      </div>
+    </div>
+    <!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/calculators/finance/vat/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/calculators/finance/vat/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=36" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+  </main>
+
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  <!--SLOT:ads-ad-bottom-->
+<div class="ad-slot-box ad-bottom" data-ad-slot="ad-bottom" aria-label="Рекламный блок"></div>
+<!--/SLOT:ads-ad-bottom-->
+
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=36"></script>
+  <script type="module" src="/js/calc-vat.js?v=36"></script>
+</body>
+
+</html>
+
+
+

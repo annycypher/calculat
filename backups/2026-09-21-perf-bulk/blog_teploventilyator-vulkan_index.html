@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Тепловентилятор для цеха — расчёт мощности и электрики по теплопотерям | CalcDoc</title>
+  <meta name="description" content="Расчёт тепловентилятора для цеха и ангара: теплопотери по объёму и утеплению, подбор мощности и числа аппаратов, электрика — ток, кабель, автомат на 380 В. С примером для цеха 20×12×6." />
+  <link rel="canonical" href="https://calc-doc.ru/blog/teploventilyator-vulkan/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Тепловентилятор для цеха — расчёт мощности по теплопотерям — CalcDoc" />
+  <meta property="og:description" content="Расчёт тепловентилятора для цеха и ангара: теплопотери по объёму и утеплению, подбор мощности и числа аппаратов, электрика — ток, кабель, автомат на 380 В. С примером для цеха 20×12×6." />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/blog/teploventilyator-vulkan/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/fonts/fonts.css?v=36" />
+  <link rel="stylesheet" href="/styles.css?v=36" />
+  <link rel="stylesheet" href="/seo-article.css?v=36" />
+  <link rel="stylesheet" href="/header.css?v=36" />
+  <meta name="theme-color" content="#6d5dfc" />
+    >
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Тепловентилятор для цеха — расчёт мощности по теплопотерям",
+    "description": "Расчёт тепловентилятора для цеха и ангара: теплопотери по объёму и утеплению, подбор мощности и числа аппаратов, электрика — ток, кабель, автомат на 380 В. С примером для цеха 20×12×6.",
+    "url": "https://calc-doc.ru/blog/teploventilyator-vulkan/",
+    "datePublished": "2026-09-21",
+    "dateModified": "2026-09-21",
+    "inLanguage": "ru",
+    "author": { "@type": "Organization", "name": "CalcDoc", "url": "https://calc-doc.ru/" },
+    "publisher": { "@type": "Organization", "name": "CalcDoc", "url": "https://calc-doc.ru/" },
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://calc-doc.ru/blog/teploventilyator-vulkan/" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Статьи", "item": "https://calc-doc.ru/blog/" },
+      { "@type": "ListItem", "position": 3, "name": "Тепловентилятор для цеха", "item": "https://calc-doc.ru/blog/teploventilyator-vulkan/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Что такое пит тепловентилятора?", "acceptedAnswer": { "@type": "Answer", "text": "Ступень мощности ТЭНа. Аппарат 30 кВт с тремя питами работает на 10, 20 или 30 кВт — каскадное включение сглаживает пусковые токи и позволяет точное регулирование температуры термостатом." } },
+      { "@type": "Question", "name": "Сколько тепловентиляторов нужно на ангар 50 × 30 метров?", "acceptedAnswer": { "@type": "Answer", "text": "По правилу зон струи: аппараты вдоль длинной стены с шагом 20–25 метров, направленные поперёк. Для ангара 1500 м² — 3–4 аппарата по 30–45 кВт с учётом высоты и утепления." } },
+      { "@type": "Question", "name": "Какой кабель на тепловентилятор 30 кВт?", "acceptedAnswer": { "@type": "Answer", "text": "Ток 45 А на 380 В. Медный кабель от 10 мм² по фазе, автомат 63 А характеристики C. Кабель защищает автомат, не наоборот." } },
+      { "@type": "Question", "name": "Почему нельзя 220 В для мощного аппарата?", "acceptedAnswer": { "@type": "Answer", "text": "Ток 30 кВт на однофазной сети — 136 А: кабель 50 мм² меди, выделенная линия, согласование с энергосбытом. Трёхфазное 380 В — 45 А тем же аппаратом: стандартное решение." } }
+    ]
+  }
+  </script>
+</head>
+<header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+<main>
+  <div class="container tool-hero">
+    <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/blog/">Статьи</a> / Тепловентилятор для цеха</nav>
+    <h1>Тепловентилятор для цеха — расчёт мощности по теплопотерям</h1>
+    <p class="tool-meta">Обновлено: 21 сентября 2026</p>
+  </div>
+
+  <div class="container section">
+    <div class="prose">
+>
+      <p>Тепловентилятор серии «Вулкан» и аналоги (Тепломаш, Ballu BHP, Тропик) — стандарт отопления цехов, СТО и складов: быстрый прогрев, отсутствие дымохода, работа от электросети. Типовая ошибка покупки — выбор «по площади, метраж на глаз» без расчёта теплопотерь: итог — либо вечный холод при мощности вдвое меньше нужной, либо выбитый автомат при подключении 30 кВт в сеть 220 В.</p>
+
+      <h2>Формула теплопотерь помещения</h2>
+      <p><strong>Q (ограждения) = V × k × (T внутренняя − T наружная) ÷ 860</strong></p>
+      <p>V — объём помещения в м³, k — коэффициент теплопотерь ограждений: 0,6–0,9 — современное утепление, 0,85 — кирпичный цех со старым утеплением, 1,3 и выше — металлический ангар без утепления, ΔT — разница температур.</p>
+      <p>Вторая составляющая — нагрев приточного воздуха при вентиляции:</p>
+      <p><strong>Q (вентиляция) = L × 0,3 × ΔT ÷ 860</strong></p>
+      <p>L — воздухообмен в м³/ч, 0,3 — объёмная теплоёмкость воздуха. Сумма двух статей плюс запас на инфильтрацию через ворота и щели — расчётная мощность отопления. Базовый запас — 20%, а коэффициент типа помещения его усиливает или ослабляет: для цеха 0,85 (то есть 17%), для ангара 1,15 (23%), для павильона 0,8 (16%).</p>
+
+      <h2>Пример: цех 20 × 12 × 6 метров</h2>
+      <p>Объём 1440 м³. Утепление среднее, k = 0,85. ΔT = 15 − (−25) = 40 °C. Ограждения: 1440 × 0,85 × 40 ÷ 860 = 57 кВт. Вентиляция 2 крата: 2880 м³/ч × 0,3 × 40 ÷ 860 = 40 кВт. Сумма с запасом на инфильтрацию — около 114 кВт: 56,9 + 40,2 = 97,1 кВт плюс 17% для цеха (базовые 20% × 0,85).</p>
+      <p>Вывод примера: один аппарат не справится — требуется каскад из двух-трёх тепловентиляторов суммарной мощностью 90–120 кВт либо комбинация с водяным отоплением.</p>
+
+      <h2>Подбор числа аппаратов и питов</h2>
+      <p><strong>Пит</strong> — ступень мощности ТЭНа. Аппарат 30 кВт с тремя питами работает на 10, 20 или 30 кВт — плавный набор температуры без просадок сети. Типовой ряд: 5, 10, 15, 30, 45, 60 кВт на аппарат.</p>
+      <p><strong>Правило зон:</strong> аппарат эффективно прогревает сектор 15–30 метров по длине струи. Цех длиной 40 метров — минимум два аппарата в противоположных концах; один в центре — перегрев центра и холодные торцы.</p>
+      <p><strong>Резерв:</strong> каскад из трёх аппаратов по две трети требуемой мощности каждый — при отказе одного оставшиеся два держат 66% тепла, цех не размораживается.</p>
+
+      <h2>Электрика — раздел, где ошибаются чаще всего</h2>
+      <p>Аппараты свыше 7 кВт — только трёхфазное питание 380 В. Однофазная сеть 220 В физически не позволяет подключить больше: ток 30-киловаттного аппарата на 220 В — 136 А, кабель сечением 50 мм² меди — нереалистично.</p>
+      <p>Расчёт тока на 380 В: <strong>I = P ÷ (√3 × 380)</strong>. У ТЭНов коэффициент мощности равен единице, поправок на cosφ нет. Аппарат 30 кВт — ток 45 А; 60 кВт — 91 А.</p>
+      <p>Кабель — медь, сечение по току: 45 А — от 10 мм², 91 А — от 35 мм², скрытая прокладка, трасса до 30 метров. Алюминий — сечение в полтора раза больше.</p>
+      <p>Автомат защищает кабель, а не аппарат: его номинал не больше длительно допустимого тока кабеля. Аппарат 30 кВт — кабель 10 мм², автомат 63 А; аппарат 60 кВт — кабель 35 мм², автомат 100 А.</p>
+      <p>Пусковые токи ТЭНов умеренные (нихром — не компрессор), но одновременное включение всех питов даёт пик — автомат характеристики C справляется, характеристики B — может отработать ложно.</p>
+
+      <p><a href="/calculators/engineering/vulkan/">Расчёт теплопотерь вашего цеха, подбор комбинации аппаратов с числом питов и полной электрикой — калькулятор тепловентилятора →</a></p>
+
+      <h2>Сравнение: электрический тепловентилятор против дизельной пушки</h2>
+      <p><strong>Электрический:</strong> нет выхлопа — работа в закрытом помещении легальна, нет топлива и заправок, управление термостатом точное. Минусы — зависимость от выделенной мощности и стоимость киловатта.</p>
+      <p><strong>Дизель прямого нагрева:</strong> дёшев в покупке, мощный, но выхлоп — только для проветриваемых объектов и открытых площадок. Непрямого нагрева (с дымоходом) — дороже втрое, требует монтажа.</p>
+      <p><strong>Критерий выбора:</strong> есть выделенные 380 В и объект отапливается постоянно — электрический тепловентилятор. Объект временный или мощности нет — дизель непрямого нагрева.</p>
+
+      <h2>Ошибки расстановки</h2>
+      <p><strong>Струя в потолок.</strong> Тёплый воздух должен двигаться вдоль рабочей зоны: аппарат на высоте 2–4 метра, наклон вниз 15–30 градусов. Направленный в потолок поток — перегрев кровли и холодный пол.</p>
+      <p><strong>Один аппарат в центре длинного цеха.</strong> Струя 15–30 метров — торцы на расстоянии 40 метров не прогреваются. Размещение — вдоль длинной стены с направлением вдоль помещения.</p>
+      <p><strong>Всасывание рядом с воротами.</strong> Аппарат у открытых ворот гонит холодный воздух через ТЭН — снижение мощности и работа на пределе. Отступ от ворот — минимум 5 метров.</p>
+
+      <h2>Частые вопросы</h2>
+      <details class="seo-faq">
+        <summary>Что такое пит тепловентилятора?</summary>
+        <div class="seo-faq-b"><p>Ступень мощности ТЭНа. Аппарат 30 кВт с тремя питами работает на 10, 20 или 30 кВт — каскадное включение сглаживает пусковые токи и позволяет точное регулирование температуры термостатом.</p></div>
+      </details>
+      <details class="seo-faq">
+        <summary>Сколько тепловентиляторов нужно на ангар 50 × 30 метров?</summary>
+        <div class="seo-faq-b"><p>По правилу зон струи: аппараты вдоль длинной стены с шагом 20–25 метров, направленные поперёк. Для ангара 1500 м² — 3–4 аппарата по 30–45 кВт с учётом высоты и утепления.</p></div>
+      </details>
+      <details class="seo-faq">
+        <summary>Какой кабель на тепловентилятор 30 кВт?</summary>
+        <div class="seo-faq-b"><p>Ток 45 А на 380 В. Медный кабель от 10 мм² по фазе, автомат 63 А характеристики C. Кабель защищает автомат, не наоборот.</p></div>
+      </details>
+      <details class="seo-faq">
+        <summary>Почему нельзя 220 В для мощного аппарата?</summary>
+        <div class="seo-faq-b"><p>Ток 30 кВт на однофазной сети — 136 А: кабель 50 мм² меди, выделенная линия, согласование с энергосбытом. Трёхфазное 380 В — 45 А тем же аппаратом: стандартное решение.</p></div>
+      </details>
+
+      <p><a href="/calculators/engineering/vulkan/">Калькулятор тепловентилятора</a> · <a href="/calculators/engineering/gidrostrelka/">Гидрострелка</a> · <a href="/calculators/engineering/otoplenie-obem/">Объём системы отопления</a></p>
+    </div>
+  </div>
+
+<div class="container section">
+        <div class="prose">
+          <h2>Читайте также</h2>
+          <p><a href="/blog/gidrostrelka-raschet/">Гидрострелка: расчёт диаметра</a> · <a href="/blog/moshchnost-kotla-raschet/">Мощность котла</a> · <a href="/blog/cirkulyacionnyy-nasos-podbor/">Циркуляционный насос</a></p>
+        </div>
+      </div>
+
+
+<section class="reviews" id="reviews-form" data-page="/blog/teploventilyator-vulkan/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/blog/teploventilyator-vulkan/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+  <script src="/js/reviews.js?v=36" defer></script>
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+<script type="module" src="/js/ui.js?v=36"></script>
+</body>
+</html>

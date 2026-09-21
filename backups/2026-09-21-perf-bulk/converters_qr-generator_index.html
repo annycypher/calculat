@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Генератор QR-кода — PNG, JPG, SVG | CalcDoc</title>
+  <meta name="description" content="Генератор QR-кода онлайн: ссылка, текст, Wi-Fi или контакты, уровни коррекции L–H, размеры и цвета, скачивание в PNG, JPG и SVG." />
+  <link rel="canonical" href="https://calc-doc.ru/converters/qr-generator/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Генератор QR-кода — CalcDoc" />
+  <meta property="og:description" content="Создайте QR-код с нужным размером и цветами и скачайте в PNG, JPG или SVG." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/converters/qr-generator/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/fonts/fonts.css?v=36" />
+  <link rel="stylesheet" href="/styles.css?v=36" />
+  <link rel="stylesheet" href="/seo-article.css?v=36" />
+  <link rel="stylesheet" href="/header.css?v=36" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"SoftwareApplication", "name":"Генератор QR-кода", "applicationCategory":"UtilitiesApplication", "operatingSystem":"Web", "offers":{ "@type":"Offer","price":"0","priceCurrency":"RUB" } }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Конвертеры","item":"https://calc-doc.ru/converters/" }, { "@type":"ListItem","position":3,"name":"QR-код","item":"https://calc-doc.ru/converters/qr-generator/" } ] }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Как скачать QR-код?", "acceptedAnswer": { "@type": "Answer", "text": "Введите ссылку или текст, при необходимости поправьте размер, поля и цвета, затем нажмите нужный формат — «PNG», «JPG» или «SVG». Файл сразу скачается на устройство, а данные останутся в браузере: они не отправляются на сервер." } },
+      { "@type": "Question", "name": "Что выбрать: PNG, JPG или SVG?", "acceptedAnswer": { "@type": "Answer", "text": "PNG — универсальный растровый формат для сайта и обычной печати. JPG — самый лёгкий, подойдёт для документов и соцсетей. SVG — векторный: его можно увеличить до размера баннера без потери резкости, поэтому для типографии и дизайна выбирайте его." } },
+      { "@type": "Question", "name": "Какой уровень коррекции ошибок выбрать?", "acceptedAnswer": { "@type": "Answer", "text": "Для короткой ссылки достаточно L — матрица будет реже. Для наклеек, витрин и упаковки берите Q: он восстанавливает до 25% повреждений, что важно для мятых или частично заклеенных поверхностей. H — если внутрь кода вставляют логотип или код печатают мелко." } },
+      { "@type": "Question", "name": "Можно ли сделать цветной QR-код?", "acceptedAnswer": { "@type": "Answer", "text": "Да, генератор позволяет задать цвет кода и фона. Правило одно: контраст должен оставаться высоким, тёмный цвет — на светлом фоне. Инвертированный код (светлые модули на тёмном) читается хуже, а на глянцевой печати блики могут полностью его «сломать»." } },
+      { "@type": "Question", "name": "Почему QR-код не считывается?", "acceptedAnswer": { "@type": "Answer", "text": "Основные причины: слишком маленький размер, отсутствие тихой зоны, низкий контраст, размытая печать или повреждённая поверхность. Добавьте поля по краям, увеличьте сторону минимум до 2 × 2 см, повысьте контраст и проверьте код двумя разными приложениями." } },
+      { "@type": "Question", "name": "Можно ли закодировать ссылку на оплату или Wi-Fi?", "acceptedAnswer": { "@type": "Answer", "text": "Да. Для гостевого Wi-Fi подойдёт строка вида WIFI:T:WPA;S:ИмяСети;P:пароль;; — телефон подключится к сети без ввода пароля. Для оплаты кодируйте платёжную ссылку банка; помните, что QR-код не защищает данные: любой, кто видит код, видит и закодированный текст." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+    <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/converters/">Конвертеры</a> / QR-код</nav>
+      <h1>Генератор QR-кода</h1>
+      <p class="tool-meta">Создайте QR-код из текста или ссылки и скачайте в PNG, JPG или SVG. Данные не отправляются на сервер.</p>
+    </div>
+
+    <!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="qrForm" novalidate>
+            <div class="field">
+              <label for="text">Текст или ссылка</label>
+              <textarea id="text" rows="3" placeholder="https://calc-doc.ru/" required>https://calc-doc.ru/</textarea>
+            </div>
+            <div class="field">
+              <label for="ecc">Уровень коррекции</label>
+              <select id="ecc">
+                <option value="L">L — до 7% повреждений</option>
+                <option value="M" selected>M — до 15%</option>
+                <option value="Q">Q — до 25%</option>
+                <option value="H">H — до 30%</option>
+              </select>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="size">Размер (px)</label>
+                <input type="number" id="size" inputmode="numeric" min="100" max="2000" step="10" value="300" />
+              </div>
+              <div class="field">
+                <label for="margin">Поля (модулей)</label>
+                <input type="number" id="margin" inputmode="numeric" min="0" max="16" step="1" value="4" />
+                <span class="hint">«Тихая зона» по краям.</span>
+              </div>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="fg">Цвет модулей</label>
+                <input type="color" id="fg" value="#000000" />
+              </div>
+              <div class="field">
+                <label for="bg">Цвет фона</label>
+                <input type="color" id="bg" value="#ffffff" />
+              </div>
+            </div>
+            <button data-metric-goal="qr" class="btn btn-primary" type="submit" style="width:100%">Обновить QR-код</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="preview" style="margin-top:0;text-align:center">
+            <p style="margin:0;color:var(--text-muted)">Введите текст и нажмите «Обновить QR-код».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section no-print" id="qrDownload" style="display:none;padding-top:0">
+      <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap">
+        <button data-metric-goal="qr" class="btn btn-primary" id="dlPng">Скачать PNG</button>
+        <button data-metric-goal="qr" class="btn btn-ghost" id="dlJpg">Скачать JPG</button>
+        <button data-metric-goal="qr" class="btn btn-ghost" id="dlSvg">Скачать SVG</button>
+        <button data-metric-goal="qr" class="btn btn-ghost" id="copySvg">Скопировать SVG</button>
+      </div>
+    </div>
+
+    <div class="container section">
+    <!--SLOT:banner-after-tool-->
+    <!--/SLOT:banner-after-tool-->
+    <!--SLOT:ads-after-tool-->
+    <!--/SLOT:ads-after-tool-->
+      <div class="prose">
+        <span class="eyebrow">QR-код</span>
+        <h2>Генератор QR-кода: PNG, JPG и SVG без регистрации</h2>
+        <p class="tool-meta">Обновлено: 16 сентября 2026</p>
+        <p>Генератор создаёт <strong>QR-код из ссылки или текста</strong> и отдаёт готовый файл в трёх форматах: PNG, JPG и SVG. Можно настроить уровень коррекции ошибок, размер в пикселях, «тихую зону» по краям и цвета — код перерисовывается сразу, как только меняются настройки.</p>
+        <p>Библиотека построения кода лежит локально и работает в браузере: содержимое QR (ссылка, пароль Wi-Fi, контакты) не отправляется на сервер. Это важно, если вы кодируете приватные данные.</p>
+
+        <span class="eyebrow">Инструкция</span>
+        <h2>Как сделать QR-код</h2>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span><strong>Введите содержимое</strong> — ссылку, текст, телефон или строку Wi-Fi</span></div>
+          <div class="seo-step"><b>2</b><span><strong>Настройте вид</strong> — уровень коррекции, размер, поля, цвета</span></div>
+          <div class="seo-step"><b>3</b><span><strong>Проверьте на телефоне</strong> — отсканируйте код прямо с экрана</span></div>
+          <div class="seo-step"><b>4</b><span><strong>Скачайте файл</strong> — PNG, JPG или SVG кнопкой справа</span></div>
+        </div>
+        <p>Всегда сканируйте результат перед печатью: QR-код с плохим контрастом или слишком мелкий модуль читается не с каждого телефона, а исправлять тираж дороже, чем проверить экран.</p>
+
+        <span class="eyebrow">Форматы</span>
+        <h2>Что выбрать: PNG, JPG или SVG</h2>
+        <table class="seo-table">
+          <thead><tr><th>Формат</th><th>Когда подходит</th></tr></thead>
+          <tbody>
+            <tr><td>PNG</td><td>Для сайта, презентаций и печати: чёткие края, фон заливается цветом из настроек</td></tr>
+            <tr><td>JPG</td><td>Для документов, соцсетей и вложений: файл лёгкий, но при сильном сжатии края могут «мылиться»</td></tr>
+            <tr><td>SVG</td><td>Для типографии и дизайна: вектор масштабируется без потери качества, годится для любого размера печати</td></tr>
+          </tbody>
+        </table>
+        <p class="hint">Размер задаётся в пикселях (от 100 до 2000). Для печати важен не столько размер файла, сколько физический размер кода: чтобы его уверенно читали с 20–30 см, сторона должна быть не меньше 2 × 2 см.</p>
+
+        <span class="eyebrow">Содержимое</span>
+        <h2>Что можно закодировать</h2>
+        <ul>
+          <li><strong>Ссылку на сайт</strong> — самый частый случай: страница товара, меню, отзыв, анкета.</li>
+          <li><strong>Wi-Fi для гостей</strong> — строка вида <code>WIFI:T:WPA;S:ИмяСети;P:пароль;;</code> подключает телефон к сети без ввода пароля.</li>
+          <li><strong>Контакты (vCard)</strong> — ФИО, телефон, почта: сканирование добавляет контакт в адресную книгу.</li>
+          <li><strong>Телефон или e-mail</strong> — строки <code>tel:+7…</code> и <code>mailto:…</code> открывают звонок или письмо.</li>
+          <li><strong>Текст и реквизиты</strong> — короткая инструкция, номер заказа, данные для оплаты.</li>
+        </ul>
+        <p class="note"><strong>Важно про кириллицу:</strong> текст на русском кодируется в байтовом режиме и читается современными приложениями, но для максимальной совместимости в ссылках используйте латиницу — тогда код останется коротким и его матрица будет крупнее.</p>
+
+        <span class="eyebrow">Настройки</span>
+        <h2>Уровень коррекции, поля и цвета</h2>
+        <table class="seo-table">
+          <thead><tr><th>Уровень</th><th>Восстанавливает</th><th>Когда выбирать</th></tr></thead>
+          <tbody>
+            <tr><td>L</td><td>до 7% повреждений</td><td>Короткая ссылка и максимум свободного места</td></tr>
+            <tr><td>M</td><td>до 15% повреждений</td><td>Универсальный вариант для большинства задач</td></tr>
+            <tr><td>Q</td><td>до 25% повреждений</td><td>Печать на витрине, наклейке, упаковке</td></tr>
+            <tr><td>H</td><td>до 30% повреждений</td><td>Код с логотипом внутри, мелкая печать, сложные условия</td></tr>
+          </tbody>
+        </table>
+        <ul>
+          <li><strong>Тихая зона (margin).</strong> Светлое поле по периметру кода: сканеры используют его, чтобы найти границы. Меньше 2 модулей ставить не стоит, стандарт предполагает 4.</li>
+          <li><strong>Цвета.</strong> Тёмный код на светлом фоне читается всегда; инверсия (светлый код на тёмном) распознаётся хуже. Контраст должен быть высоким.</li>
+          <li><strong>Проверка.</strong> Протестируйте код двумя разными приложениями и посмотрите на него «издалека» — так вы поймаете проблемы с масштабом до печати.</li>
+        </ul>
+
+    <!--SLOT:banner-mid-->
+    <!--/SLOT:banner-mid-->
+    <!--SLOT:ads-mid-->
+    <!--/SLOT:ads-mid-->
+        <span class="eyebrow">Вопросы и ответы</span>
+        <h2>Частые вопросы о QR-кодах</h2>
+
+        <details class="seo-faq">
+          <summary>Как скачать QR-код?</summary>
+          <div class="seo-faq-b"><p>Введите ссылку или текст, при необходимости поправьте размер, поля и цвета, затем нажмите нужный формат — «PNG», «JPG» или «SVG». Файл сразу скачается на устройство, а данные останутся в браузере: они не отправляются на сервер.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Что выбрать: PNG, JPG или SVG?</summary>
+          <div class="seo-faq-b"><p>PNG — универсальный растровый формат для сайта и обычной печати. JPG — самый лёгкий, подойдёт для документов и соцсетей. SVG — векторный: его можно увеличить до размера баннера без потери резкости, поэтому для типографии и дизайна выбирайте его.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Какой уровень коррекции ошибок выбрать?</summary>
+          <div class="seo-faq-b"><p>Для короткой ссылки достаточно L — матрица будет реже. Для наклеек, витрин и упаковки берите Q: он восстанавливает до 25% повреждений, что важно для мятых или частично заклеенных поверхностей. H — если внутрь кода вставляют логотип или код печатают мелко.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Можно ли сделать цветной QR-код?</summary>
+          <div class="seo-faq-b"><p>Да, генератор позволяет задать цвет кода и фона. Правило одно: контраст должен оставаться высоким, тёмный цвет — на светлом фоне. Инвертированный код (светлые модули на тёмном) читается хуже, а на глянцевой печати блики могут полностью его «сломать».</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Почему QR-код не считывается?</summary>
+          <div class="seo-faq-b"><p>Основные причины: слишком маленький размер, отсутствие тихой зоны, низкий контраст, размытая печать или повреждённая поверхность. Добавьте поля по краям, увеличьте сторону минимум до 2 × 2 см, повысьте контраст и проверьте код двумя разными приложениями.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Можно ли закодировать ссылку на оплату или Wi-Fi?</summary>
+          <div class="seo-faq-b"><p>Да. Для гостевого Wi-Fi подойдёт строка вида WIFI:T:WPA;S:ИмяСети;P:пароль;; — телефон подключится к сети без ввода пароля. Для оплаты кодируйте платёжную ссылку банка; помните, что QR-код не защищает данные: любой, кто видит код, видит и закодированный текст.</p></div>
+        </details>
+
+        <p class="calc-note">QR-код строится локально в браузере, введённые данные не отправляются на сервер. Перед печатью проверьте код на разных телефонах и в разных приложениях. Данные не покидают ваше устройство.</p>
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/generators/invoice/">Счёт на оплату с QR</a>
+          <a href="/converters/image-converter/">Сжатие изображений</a>
+          <a href="/converters/seo-translit/">SEO-транслит</a>
+          <a href="/converters/dadata/">DaData-конструктор</a>
+        </div>
+      </div>
+    </div>
+    <!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/converters/qr-generator/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/converters/qr-generator/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=36" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+        <a href="/games/">Игры</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=36"></script>
+  <script type="module" src="/js/convert-qr.js?v=36"></script>
+</body>
+</html>
+
+
+
+

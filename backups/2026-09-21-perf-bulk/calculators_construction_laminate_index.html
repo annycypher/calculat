@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор ламината и линолеума | CalcDoc</title>
+  <meta name="description" content="Калькулятор ламината и линолеума онлайн: доски и упаковки по площади и размеру доски, полосы и погонные метры для линолеума. С запасом 5–15%." />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/construction/laminate/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Калькулятор ламината и линолеума — CalcDoc" />
+  <meta property="og:description" content="Рассчитайте упаковки ламината или погонные метры линолеума с запасом." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/calculators/construction/laminate/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/fonts/fonts.css?v=36" />
+  <link rel="stylesheet" href="/styles.css?v=36" />
+  <link rel="stylesheet" href="/seo-article.css?v=36" />
+  <link rel="stylesheet" href="/header.css?v=36" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Калькулятор ламината и линолеума",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Калькуляторы", "item": "https://calc-doc.ru/calculators/" },
+      { "@type": "ListItem", "position": 3, "name": "Стройка и ремонт", "item": "https://calc-doc.ru/calculators/construction/" },
+      { "@type": "ListItem", "position": 4, "name": "Ламинат и линолеум", "item": "https://calc-doc.ru/calculators/construction/laminate/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Сколько упаковок ламината нужно на 20 м²?", "acceptedAnswer": { "@type": "Answer", "text": "При доске 1285 × 192 мм и 8 досках в упаковке нужно 86 досок, то есть 11 упаковок с запасом 5%. Если запас 10% — 90 досок и 12 упаковок, при диагональной укладке с запасом 15% — 94 доски и те же 12 упаковок. Одну упаковку стоит оставить на ремонт." } },
+      { "@type": "Question", "name": "Какой запас ламината нужен при укладке?", "acceptedAnswer": { "@type": "Answer", "text": "При прямой укладке достаточно 5%, при диагональной, «ёлочке» и квадратами — 10–15%. Запас компенсирует подрезку у стен, обход труб и ошибки раскладки. Докупить упаковку из другой партии сложно: оттенок и фаска могут отличаться." } },
+      { "@type": "Question", "name": "Как рассчитать линолеум на комнату?", "acceptedAnswer": { "@type": "Answer", "text": "Разделите ширину комнаты на ширину рулона и округлите вверх — получится число полос. Затем умножьте полосы на длину комнаты. Для комнаты 5 × 4 м и рулона 2 м: 4 ÷ 2 = 2 полосы, 2 × 5 = 10 погонных метров. Рулон 4 м даст одну полосу и всего 5 метров, но должен быть в наличии нужной ширины." } },
+      { "@type": "Question", "name": "В каком направлении укладывать ламинат?", "acceptedAnswer": { "@type": "Answer", "text": "Доски кладут вдоль луча света от окна: швы меньше заметны, а помещение кажется длиннее. В узкой длинной комнате покрытие укладывают по длине — так визуально расширяются стены. При «ёлочке» и квадратах направление задаёт рисунок, поэтому запас увеличивают." } },
+      { "@type": "Question", "name": "Сколько подложки и плинтуса нужно купить?", "acceptedAnswer": { "@type": "Answer", "text": "Подложку берут по площади комнаты с запасом 5%: на 20 м² это 21 м², то есть два рулона по 10–15 м² в зависимости от ширины. Плинтус — по периметру минус дверные проёмы плюс 5–10%: для комнаты 4 × 5 м это (18 − 0,9) × 1,05 = 18 м, то есть 8 хлыстов по 2,5 м." } },
+      { "@type": "Question", "name": "Можно ли укладывать ламинат на тёплый пол?", "acceptedAnswer": { "@type": "Answer", "text": "Можно, но не каждый: нужна маркировка о совместимости с тёплым полом и ограничение по температуре поверхности — обычно до 27–28 °C. Упаковки перед укладкой выдерживают в комнате 24–48 часов, а между покрытием и стенами оставляют зазор 8–10 мм, который закрывают плинтусом." } }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="/print.css?v=36" media="print" />
+</head>
+<body>
+    <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/calculators/">Калькуляторы</a> / <a href="/calculators/construction/">Стройка и ремонт</a> / Ламинат и линолеум</nav>
+      <h1>Калькулятор ламината и линолеума</h1>
+      <p class="tool-meta">Сколько упаковок ламината или погонных метров линолеума нужно на комнату. Данные не отправляются на сервер.</p>
+      <p class="calc-note">Расчёты носят справочный характер.</p>
+    </div>
+
+    <!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="laminateForm">
+            <div class="row2">
+              <div class="field">
+                <label for="length">Длина комнаты (м)</label>
+                <input type="number" id="length" inputmode="decimal" min="0" step="any" placeholder="например 5" required value="5" />
+              </div>
+              <div class="field">
+                <label for="width">Ширина комнаты (м)</label>
+                <input type="number" id="width" inputmode="decimal" min="0" step="any" placeholder="например 4" required value="4" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="material">Материал</label>
+              <select id="material">
+                <option value="laminate">Ламинат</option>
+                <option value="linoleum">Линолеум</option>
+              </select>
+            </div>
+            <div id="lamFields" class="field-group">
+              <div class="row3">
+                <div class="field">
+                  <label for="boardL">Длина доски (мм)</label>
+                  <input type="number" id="boardL" inputmode="decimal" min="0" step="any" placeholder="1285" required value="1285" />
+                </div>
+                <div class="field">
+                  <label for="boardW">Ширина доски (мм)</label>
+                  <input type="number" id="boardW" inputmode="decimal" min="0" step="any" placeholder="192" required value="192" />
+                </div>
+                <div class="field">
+                  <label for="perPack">Досок в упаковке</label>
+                  <input type="number" id="perPack" inputmode="numeric" min="1" step="1" placeholder="8" required value="8" />
+                </div>
+              </div>
+            </div>
+            <div id="linoFields" class="field-group" style="display:none">
+              <div class="field">
+                <label for="rollW">Ширина рулона (м)</label>
+                <input type="number" id="rollW" inputmode="decimal" min="0" step="any" placeholder="2" required value="2" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="reserve">Запас (%)</label>
+              <input type="number" id="reserve" inputmode="decimal" min="0" max="30" step="any" placeholder="5" required value="5" />
+            </div>
+            <button data-metric-goal="расчёт" class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+    <!--SLOT:banner-after-tool-->
+    <!--/SLOT:banner-after-tool-->
+    <!--SLOT:ads-after-tool-->
+    <!--/SLOT:ads-after-tool-->
+      <div class="prose">
+        <span class="eyebrow">Расчёт ламината</span>
+        <h2>Калькулятор ламината и линолеума: упаковки и погонные метры</h2>
+        <p class="tool-meta">Обновлено: 16 сентября 2026</p>
+        <p>Калькулятор считает два разных покрытия. Для <strong>ламината</strong> — сколько досок и упаковок нужно на комнату, с учётом размера доски, количества в упаковке и запаса. Для <strong>линолеума</strong> — сколько полос ляжет по ширине комнаты и сколько погонных метров покупать.</p>
+        <p>Расчёт идёт в браузере, размеры комнаты не отправляются на сервер. Так удобно сравнить варианты в магазине: один и тот же метраж ламината продают упаковками разной комплектации.</p>
+
+        <span class="eyebrow">Инструкция</span>
+        <h2>Как рассчитать ламинат или линолеум</h2>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span><strong>Размеры комнаты</strong> — длина и ширина в метрах</span></div>
+          <div class="seo-step"><b>2</b><span><strong>Материал</strong> — ламинат (по доскам) или линолеум (по рулонам)</span></div>
+          <div class="seo-step"><b>3</b><span><strong>Параметры покрытия</strong> — размер доски в мм и число в упаковке либо ширина рулона</span></div>
+          <div class="seo-step"><b>4</b><span><strong>Запас</strong> — 5% при прямой укладке, 10–15% при диагональной</span></div>
+        </div>
+        <p>Для ламината результат — доски и упаковки, для линолеума — полосы и погонные метры. Плинтус, подложку и порожки считают отдельно: они не входят ни в упаковки, ни в погонные метры покрытия.</p>
+
+        <span class="eyebrow">Формула</span>
+        <h2>Формулы расчёта покрытия</h2>
+        <div class="seo-formula">Досок = Площадь комнаты × (1 + Запас) ÷ Площадь доски&nbsp;&nbsp;→&nbsp;&nbsp;Упаковок = Досок ÷ Досок в упаковке</div>
+        <div class="seo-formula">Полос = Ширина комнаты ÷ Ширина рулона&nbsp;&nbsp;→&nbsp;&nbsp;Погонных метров = Полос × Длина комнаты</div>
+        <p>Площадь доски считается в метрах: миллиметры делят на 1000. Стандартная доска 1285 × 192 мм — это 0,2467 м², а упаковка из 8 досок закрывает примерно 1,97 м².</p>
+        <table class="seo-table">
+          <thead><tr><th>Комната</th><th>Площадь</th><th>Досок (запас 5%)</th><th>Упаковок по 8 шт</th></tr></thead>
+          <tbody>
+            <tr><td>3 × 5 м</td><td>15 м²</td><td>64 шт</td><td>8 уп</td></tr>
+            <tr><td>4 × 5 м</td><td>20 м²</td><td>86 шт</td><td>11 уп</td></tr>
+            <tr><td>5 × 6 м</td><td>30 м²</td><td>128 шт</td><td>16 уп</td></tr>
+          </tbody>
+        </table>
+        <p class="hint">Калькулятор округляет доски и упаковки вверх: докупать одну упаковку из другой партии рискованно — оттенок и фаска могут отличаться.</p>
+
+        <span class="eyebrow">Пример</span>
+        <h2>Примеры: комната 20 м² и линолеум</h2>
+        <p>Комната 5 × 4 м, ламинат 1285 × 192 мм, 8 досок в упаковке, запас 5%:</p>
+        <ul>
+          <li>Площадь комнаты — <strong>20 м²</strong>, площадь доски — 0,2467 м².</li>
+          <li>Досок с запасом — 20 × 1,05 ÷ 0,2467 = 85,1, калькулятор покажет <strong>86 шт</strong>.</li>
+          <li>Упаковок — 86 ÷ 8 = 10,75, то есть <strong>11 упаковок</strong>.</li>
+          <li>С запасом 10% — 90 досок и 12 упаковок, с диагональной укладкой 15% — 94 доски и 12 упаковок.</li>
+        </ul>
+        <p>Линолеум в той же комнате: ширина комнаты 4 м. Рулон 2 м — 2 полосы по 5 м, то есть <strong>10 погонных метров</strong>. Рулон 3,5 м тоже даёт 2 полосы и 10 метров, но больше обрезков. Рулон 4 м — одна полоса и всего 5 погонных метров, зато ширина должна быть в наличии.</p>
+
+        <span class="eyebrow">Что влияет</span>
+        <h2>Что меняет расход покрытия</h2>
+        <ul>
+          <li><strong>Способ укладки.</strong> Прямая укладка вдоль стены — запас 5%; диагональная, «ёлочка» и квадратами — 10–15% из-за подрезки по краям.</li>
+          <li><strong>Геометрия комнаты.</strong> Ниши, выступы и несимметричные углы увеличивают подрезку: ламинат удобнее укладывать от длинной стены целыми досками.</li>
+          <li><strong>Направление света.</strong> Доски располагают вдоль луча света от окна — швы менее заметны, а комната выглядит длиннее.</li>
+          <li><strong>Подложка и плинтус.</strong> Подложку берут по площади комнаты с запасом 5%, плинтус — по периметру минус дверные проёмы, плюс 5–10% на подрезку.</li>
+          <li><strong>Тёплый пол и адаптация.</strong> Для тёплого пола подходит не каждый ламинат — нужна маркировка; упаковки перед укладкой выдерживают в комнате 24–48 часов.</li>
+        </ul>
+    <!--SLOT:banner-mid-->
+    <!--/SLOT:banner-mid-->
+    <!--SLOT:ads-mid-->
+    <!--/SLOT:ads-mid-->
+        <span class="eyebrow">Вопросы и ответы</span>
+        <h2>Частые вопросы о ламинате и линолеуме</h2>
+
+        <details class="seo-faq">
+          <summary>Сколько упаковок ламината нужно на 20 м²?</summary>
+          <div class="seo-faq-b"><p>При доске 1285 × 192 мм и 8 досках в упаковке нужно 86 досок, то есть 11 упаковок с запасом 5%. Если запас 10% — 90 досок и 12 упаковок, при диагональной укладке с запасом 15% — 94 доски и те же 12 упаковок. Одну упаковку стоит оставить на ремонт.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Какой запас ламината нужен при укладке?</summary>
+          <div class="seo-faq-b"><p>При прямой укладке достаточно 5%, при диагональной, «ёлочке» и квадратами — 10–15%. Запас компенсирует подрезку у стен, обход труб и ошибки раскладки. Докупить упаковку из другой партии сложно: оттенок и фаска могут отличаться.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Как рассчитать линолеум на комнату?</summary>
+          <div class="seo-faq-b"><p>Разделите ширину комнаты на ширину рулона и округлите вверх — получится число полос. Затем умножьте полосы на длину комнаты. Для комнаты 5 × 4 м и рулона 2 м: 4 ÷ 2 = 2 полосы, 2 × 5 = 10 погонных метров. Рулон 4 м даст одну полосу и всего 5 метров, но должен быть в наличии нужной ширины.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>В каком направлении укладывать ламинат?</summary>
+          <div class="seo-faq-b"><p>Доски кладут вдоль луча света от окна: швы меньше заметны, а помещение кажется длиннее. В узкой длинной комнате покрытие укладывают по длине — так визуально расширяются стены. При «ёлочке» и квадратах направление задаёт рисунок, поэтому запас увеличивают.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Сколько подложки и плинтуса нужно купить?</summary>
+          <div class="seo-faq-b"><p>Подложку берут по площади комнаты с запасом 5%: на 20 м² это 21 м², то есть два рулона по 10–15 м² в зависимости от ширины. Плинтус — по периметру минус дверные проёмы плюс 5–10%: для комнаты 4 × 5 м это (18 − 0,9) × 1,05 = 18 м, то есть 8 хлыстов по 2,5 м.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Можно ли укладывать ламинат на тёплый пол?</summary>
+          <div class="seo-faq-b"><p>Можно, но не каждый: нужна маркировка о совместимости с тёплым полом и ограничение по температуре поверхности — обычно до 27–28 °C. Упаковки перед укладкой выдерживают в комнате 24–48 часов, а между покрытием и стенами оставляют зазор 8–10 мм, который закрывают плинтусом.</p></div>
+        </details>
+
+        <p class="calc-note">Расчёты носят справочный характер: фактический расход зависит от раскладки, геометрии комнаты и параметров конкретной коллекции. Проверяйте площадь упаковки на этикетке. Данные калькулятора не покидают ваш браузер.</p>
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/calculators/construction/tile/">Калькулятор плитки</a>
+          <a href="/calculators/construction/plaster/">Штукатурка и стяжка</a>
+          <a href="/calculators/construction/wallpaper/">Калькулятор обоев</a>
+          <a href="/calculators/construction/paint/">Краска и грунтовка</a>
+        </div>
+      </div>
+    </div>
+    <!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/calculators/construction/laminate/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/calculators/construction/laminate/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=36" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=36"></script>
+  <script type="module" src="/js/calc-laminate.js?v=36"></script>
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор краски — расход на комнату | CalcDoc</title>
+  <meta name="description" content="Калькулятор краски и грунтовки онлайн: объём по площади, слоям и расходу, количество банок по объёму тары. Нормы расхода и примеры расчёта." />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/construction/paint/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Калькулятор краски и грунтовки — CalcDoc" />
+  <meta property="og:description" content="Посчитайте объём краски и количество банок по площади, слоям и расходу." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/calculators/construction/paint/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/fonts/fonts.css?v=36" />
+  <link rel="stylesheet" href="/styles.css?v=36" />
+  <link rel="stylesheet" href="/seo-article.css?v=36" />
+  <link rel="stylesheet" href="/header.css?v=36" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Калькулятор краски и грунтовки",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Калькуляторы", "item": "https://calc-doc.ru/calculators/" },
+      { "@type": "ListItem", "position": 3, "name": "Стройка и ремонт", "item": "https://calc-doc.ru/calculators/construction/" },
+      { "@type": "ListItem", "position": 4, "name": "Краска и грунтовка", "item": "https://calc-doc.ru/calculators/construction/paint/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Сколько краски нужно на 1 м² в один слой?", "acceptedAnswer": { "@type": "Answer", "text": "Водоэмульсионная и латексная краска уходит примерно 120–150 мл на 1 м², акриловая фасадная — 150–200 мл, эмаль по дереву и металлу — 110–130 мл, грунтовка — 100–150 мл. Первый слой всегда расходуется больше: поверхность впитывает часть состава." } },
+      { "@type": "Question", "name": "Сколько краски уйдёт на стену 27 м²?", "acceptedAnswer": { "@type": "Answer", "text": "При расходе 150 мл/м² один слой — 4,05 л, два слоя — 8,1 л. В банках по 0,9 л это 5 и 9 штук соответственно, в банках по 5 л — 1 и 2 банки. Грунтовка с расходом 100 мл/м² в один слой даст 2,7 л, то есть 3 банки по 0,9 л." } },
+      { "@type": "Question", "name": "Сколько слоёв краски нужно наносить?", "acceptedAnswer": { "@type": "Answer", "text": "Обычно два слоя: первый грунтует и выравнивает цвет, второй закрывает пропуски. При смене тёмного цвета на светлый может понадобиться третий слой, особенно для ярких колеров. Между слоями выдерживают время высыхания с банки — обычно 2–6 часов." } },
+      { "@type": "Question", "name": "Нужна ли грунтовка и экономит ли она краску?", "acceptedAnswer": { "@type": "Answer", "text": "Нужна: грунт обеспыливает поверхность, улучшает сцепление и снижает впитываемость. На пористых основаниях это экономит до 15–20% краски и позволяет обойтись двумя слоями вместо трёх. Для гладкого бетона берут бетонконтакт, для сильновпитывающих стен — грунт глубокого проникновения." } },
+      { "@type": "Question", "name": "Как посчитать краску на потолок?", "acceptedAnswer": { "@type": "Answer", "text": "Так же, как на стены: площадь потолка (длина × ширина) умножают на число слоёв и расход. Потолок 20 м² в два слоя при расходе 150 мл/м² — это 6 л краски: 7 банок по 0,9 л либо 2 банки по 3 л. Потолки чаще красят матовой краской с меньшим расходом." } },
+      { "@type": "Question", "name": "Можно ли смешивать краску из разных банок?", "acceptedAnswer": { "@type": "Answer", "text": "Да, если это одна марка и один цвет: перелейте весь объём в одну ёмкость и перемешайте — так оттенок будет одинаковым на всей стене. Докупленную позже банку колеруют по той же рецептуре, иначе возможна заметная разница на свету." } }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="/print.css?v=36" media="print" />
+</head>
+<body>
+    <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/calculators/">Калькуляторы</a> / <a href="/calculators/construction/">Стройка и ремонт</a> / Краска и грунтовка</nav>
+      <h1>Калькулятор краски и грунтовки</h1>
+      <p class="tool-meta">Сколько краски или грунтовки нужно на поверхность и сколько банок купить. Данные не отправляются на сервер.</p>
+      <p class="calc-note">Расчёты носят справочный характер.</p>
+    </div>
+
+    <!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="paintForm">
+            <div class="field">
+              <label for="material">Материал</label>
+              <select id="material">
+                <option value="paint">Краска</option>
+                <option value="primer">Грунтовка</option>
+              </select>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="length">Длина поверхности (м)</label>
+                <input type="number" id="length" inputmode="decimal" min="0" step="any" placeholder="например 10" required value="10" />
+              </div>
+              <div class="field">
+                <label for="height">Высота поверхности (м)</label>
+                <input type="number" id="height" inputmode="decimal" min="0" step="any" placeholder="например 2.7" required value="2.7" />
+              </div>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="coats">Слоёв</label>
+                <input type="number" id="coats" inputmode="numeric" min="1" max="5" step="1" placeholder="1" required value="1" />
+              </div>
+              <div class="field">
+                <label for="rate">Расход (мл/м² · 1 слой)</label>
+                <input type="number" id="rate" inputmode="decimal" min="0" step="any" placeholder="150" required value="150" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="canL">Объём банки (л)</label>
+              <input type="number" id="canL" inputmode="decimal" min="0" step="any" placeholder="0.9" required value="0.9" />
+            </div>
+            <button data-metric-goal="расчёт" class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+    <!--SLOT:banner-after-tool-->
+    <!--/SLOT:banner-after-tool-->
+    <!--SLOT:ads-after-tool-->
+    <!--/SLOT:ads-after-tool-->
+      <div class="prose">
+        <span class="eyebrow">Расчёт краски</span>
+        <h2>Калькулятор краски: сколько литров и банок нужно на стены</h2>
+        <p class="tool-meta">Обновлено: 16 сентября 2026</p>
+        <p>Калькулятор краски считает <strong>объём краски или грунтовки</strong> по площади поверхности, числу слоёв и расходу на упаковке, а затем переводит литры в банки. Так проще не покупать лишнюю банку и не остаться с окрашенной наполовину стеной.</p>
+        <p>Расчёт идёт в браузере: размеры комнаты не отправляются на сервер. Если нужно сравнить две линейки краски, посчитайте обе — разница в расходе на 30–50 мл/м² на 40 м² даёт целую банку.</p>
+
+        <span class="eyebrow">Инструкция</span>
+        <h2>Как рассчитать краску для стен и потолка</h2>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span><strong>Материал</strong> — краска или грунтовка: расход по умолчанию подставляется под тип</span></div>
+          <div class="seo-step"><b>2</b><span><strong>Размеры</strong> — длина поверхности и её высота (для потолка — ширина на длину)</span></div>
+          <div class="seo-step"><b>3</b><span><strong>Слоёв</strong> — обычно 2 для краски и 1 для грунтовки</span></div>
+          <div class="seo-step"><b>4</b><span><strong>Расход и банка</strong> — значения с упаковки: мл/м² на слой и объём банки</span></div>
+        </div>
+        <p>Результат — площадь поверхности, литры с учётом слоёв и количество банок. Окна и двери калькулятор не вычитает: посчитайте их площадь и вычтите из площади стены заранее либо считайте участки по отдельности.</p>
+
+        <span class="eyebrow">Формула</span>
+        <h2>Формула расчёта краски</h2>
+        <div class="seo-formula">Литры = Площадь × Слоёв × Расход (мл/м²) ÷ 1000</div>
+        <div class="seo-formula">Банок = Литры ÷ Объём банки</div>
+        <p>Ориентировочный расход по типам составов — точное значение всегда указано на банке:</p>
+        <table class="seo-table">
+          <thead><tr><th>Состав</th><th>Расход на 1 слой</th></tr></thead>
+          <tbody>
+            <tr><td>Водоэмульсионная и латексная краска</td><td>120–150 мл/м²</td></tr>
+            <tr><td>Акриловая фасадная краска</td><td>150–200 мл/м²</td></tr>
+            <tr><td>Эмаль по дереву и металлу</td><td>110–130 мл/м²</td></tr>
+            <tr><td>Грунтовка глубокого проникновения</td><td>100–150 мл/м²</td></tr>
+          </tbody>
+        </table>
+        <p class="hint">Второй раз краска уходит экономнее первого: основание уже впитало часть состава. Если красите по свежей штукатурке или гипсокартону без грунтовки, расход первого слоя вырастет на 20–30%.</p>
+
+        <span class="eyebrow">Пример</span>
+        <h2>Пример расчёта: стена 10 × 2,7 м</h2>
+        <p>Площадь стены — 27 м², краска с расходом 150 мл/м², банка 0,9 л:</p>
+        <ul>
+          <li>Один слой — 27 × 150 ÷ 1000 = 4,05 л, то есть <strong>5 банок</strong> по 0,9 л.</li>
+          <li>Два слоя — 8,1 л, то есть <strong>9 банок</strong> по 0,9 л.</li>
+          <li>Грунтовка с расходом 100 мл/м² в один слой — 2,7 л, то есть <strong>3 банки</strong>.</li>
+          <li>Если брать банки по 5 л, на два слоя хватит 2 банки (10 л против 8,1 л).</li>
+        </ul>
+        <p>Потолок площадью 20 м² в два слоя тем же расходом даёт 6 л — 7 банок по 0,9 л или 2 банки по 3 л. Разные объёмы банок означают разную цену за литр: посчитайте стоимость литра, а не банки.</p>
+
+        <span class="eyebrow">Что влияет</span>
+        <h2>Что меняет расход краски</h2>
+        <ul>
+          <li><strong>Тип поверхности.</strong> Гладкая штукатурка впитывает меньше, чем гипсокартон, дерево или бетон. Пористые и свежие основания требуют грунтовки — без неё краска уходит заметно быстрее.</li>
+          <li><strong>Цвет.</strong> При смене тёмного цвета на светлый может понадобиться три слоя: пигмент проступает через первые два. Яркие колеры укрывают хуже белых.</li>
+          <li><strong>Инструмент.</strong> Валик с коротким ворсом расходует состав экономнее кисти, а краскопульт даёт самый тонкий слой, но часть краски уходит в туман — работает с опытом и защитой.</li>
+          <li><strong>Разбавление.</strong> Не разбавляйте краску «на глаз»: вода снижает укрывистость, и вместо экономии получается третий слой.</li>
+          <li><strong>Колеровка.</strong> Колеруйте весь объём сразу в одной ёмкости: доведённая партия не совпадёт по оттенку с докупленной.</li>
+        </ul>
+    <!--SLOT:banner-mid-->
+    <!--/SLOT:banner-mid-->
+    <!--SLOT:ads-mid-->
+    <!--/SLOT:ads-mid-->
+        <span class="eyebrow">Вопросы и ответы</span>
+        <h2>Частые вопросы о расчёте краски</h2>
+
+        <details class="seo-faq">
+          <summary>Сколько краски нужно на 1 м² в один слой?</summary>
+          <div class="seo-faq-b"><p>Водоэмульсионная и латексная краска уходит примерно 120–150 мл на 1 м², акриловая фасадная — 150–200 мл, эмаль по дереву и металлу — 110–130 мл, грунтовка — 100–150 мл. Первый слой всегда расходуется больше: поверхность впитывает часть состава.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Сколько краски уйдёт на стену 27 м²?</summary>
+          <div class="seo-faq-b"><p>При расходе 150 мл/м² один слой — 4,05 л, два слоя — 8,1 л. В банках по 0,9 л это 5 и 9 штук соответственно, в банках по 5 л — 1 и 2 банки. Грунтовка с расходом 100 мл/м² в один слой даст 2,7 л, то есть 3 банки по 0,9 л.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Сколько слоёв краски нужно наносить?</summary>
+          <div class="seo-faq-b"><p>Обычно два слоя: первый грунтует и выравнивает цвет, второй закрывает пропуски. При смене тёмного цвета на светлый может понадобиться третий слой, особенно для ярких колеров. Между слоями выдерживают время высыхания с банки — обычно 2–6 часов.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Нужна ли грунтовка и экономит ли она краску?</summary>
+          <div class="seo-faq-b"><p>Нужна: грунт обеспыливает поверхность, улучшает сцепление и снижает впитываемость. На пористых основаниях это экономит до 15–20% краски и позволяет обойтись двумя слоями вместо трёх. Для гладкого бетона берут бетонконтакт, для сильновпитывающих стен — грунт глубокого проникновения.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Как посчитать краску на потолок?</summary>
+          <div class="seo-faq-b"><p>Так же, как на стены: площадь потолка (длина × ширина) умножают на число слоёв и расход. Потолок 20 м² в два слоя при расходе 150 мл/м² — это 6 л краски: 7 банок по 0,9 л либо 2 банки по 3 л. Потолки чаще красят матовой краской с меньшим расходом.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Можно ли смешивать краску из разных банок?</summary>
+          <div class="seo-faq-b"><p>Да, если это одна марка и один цвет: перелейте весь объём в одну ёмкость и перемешайте — так оттенок будет одинаковым на всей стене. Докупленную позже банку колеруют по той же рецептуре, иначе возможна заметная разница на свету.</p></div>
+        </details>
+
+        <p class="calc-note">Расчёты носят справочный характер: фактический расход зависит от впитываемости основания, инструмента и укрывистости краски. Уточняйте норму на банке. Данные калькулятора не покидают ваш браузер.</p>
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/calculators/construction/wallpaper/">Калькулятор обоев</a>
+          <a href="/calculators/construction/plaster/">Штукатурка и стяжка</a>
+          <a href="/calculators/construction/tile/">Калькулятор плитки</a>
+          <a href="/calculators/construction/laminate/">Ламинат и линолеум</a>
+        </div>
+      </div>
+    </div>
+    <!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/calculators/construction/paint/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/calculators/construction/paint/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=36" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=36"></script>
+  <script type="module" src="/js/calc-paint.js?v=36"></script>
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSV в Excel — конвертер онлайн | CalcDoc</title>
+  <meta name="description" content="Конвертер CSV в Excel онлайн: разделители и кодировки определяются автоматически, файл XLSX скачивается сразу. Обработка в браузере, без загрузки на сервер." />
+  <link rel="canonical" href="https://calc-doc.ru/converters/csv-to-xlsx/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Конвертер CSV в Excel — CalcDoc" />
+  <meta property="og:description" content="Переведите CSV в XLSX в браузере: разделители определяются автоматически." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/converters/csv-to-xlsx/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/fonts/fonts.css?v=36" />
+  <link rel="stylesheet" href="/styles.css?v=36" />
+  <link rel="stylesheet" href="/seo-article.css?v=36" />
+  <link rel="stylesheet" href="/header.css?v=36" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Конвертер CSV в Excel",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Конвертеры", "item": "https://calc-doc.ru/converters/" },
+      { "@type": "ListItem", "position": 3, "name": "CSV → Excel", "item": "https://calc-doc.ru/converters/csv-to-xlsx/" }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Как бесплатно перевести CSV в Excel?", "acceptedAnswer": { "@type": "Answer", "text": "Выберите CSV-файл в конвертере, нажмите «Конвертировать в Excel» и скачайте готовый converted.xlsx. Разделитель определяется автоматически, регистрация и установка программ не нужны, файл не отправляется на сервер — вся обработка идёт в браузере." } },
+      { "@type": "Question", "name": "Почему кириллица отображается «крякозябрами»?", "acceptedAnswer": { "@type": "Answer", "text": "Так бывает при несовпадении кодировок: Excel часто сохраняет CSV в Windows-1251, а некоторые сервисы ждут UTF-8. Пересохраните файл в UTF-8 (в Excel: «Сохранить как» → «CSV UTF-8») и повторите конвертацию — текст отобразится корректно." } },
+      { "@type": "Question", "name": "Какие разделители поддерживает конвертер?", "acceptedAnswer": { "@type": "Answer", "text": "Запятую, точку с запятой и табуляцию. Тип разделителя определяется автоматически по содержимому файла, поэтому выгрузки из российских систем (обычно с «;») и международных сервисов (с «,») обрабатываются без ручных настроек." } },
+      { "@type": "Question", "name": "Откроется ли полученный файл в Google Таблицах?", "acceptedAnswer": { "@type": "Answer", "text": "Да, XLSX понимают Google Таблицы, LibreOffice, Яндекс Документы, «Мой офис» и мобильные приложения Excel. Формулы в CSV не переносятся — их не было в исходнике, но структура листов, строки и колонки сохраняются полностью." } },
+      { "@type": "Question", "name": "Что делать с артикулами и ИНН, где теряются нули?", "acceptedAnswer": { "@type": "Answer", "text": "В CSV нет типов данных, и таблица решает сама, число перед ней или текст. Для колонок с ведущими нулями и длинными кодами задайте текстовый формат до ввода данных: тогда 00123 и 12-значный ИНН останутся в исходном виде, без округления и научной записи." } },
+      { "@type": "Question", "name": "Есть ли ограничение по размеру CSV-файла?", "acceptedAnswer": { "@type": "Answer", "text": "Жёсткого лимита нет: файл читается на вашем устройстве, поэтому ограничение — доступная память браузера. Выгрузки в десятки мегабайт обрабатываются, но требуют времени; если вкладка «подвисает», закройте лишние приложения и повторите попытку." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+    <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/converters/">Конвертеры</a> / CSV → Excel</nav>
+      <h1>Конвертер CSV в Excel</h1>
+      <p class="tool-meta">Загрузите CSV-файл и скачайте готовый .xlsx. Файл не покидает ваше устройство.</p>
+    </div>
+
+    <!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+    <div class="container section no-print">
+      <div class="form-card">
+        <form id="csvForm">
+          <div class="field">
+            <label for="file">CSV-файл</label>
+            <input type="file" id="file" name="file" accept=".csv,text/csv" required />
+            <span class="hint">Таблица с разделителями (запятая, точка с запятой, табуляция).</span>
+          </div>
+          <button data-metric-goal="расчёт" class="btn btn-primary" type="submit" style="width:100%">Конвертировать в Excel</button>
+        </form>
+      </div>
+      <div class="form-card" style="margin-top:20px">
+        <h3>Результат</h3>
+        <div id="output" class="result-box" style="margin-top:0">
+          <p style="margin:0;color:var(--text-muted)">Выберите CSV-файл и нажмите «Конвертировать».</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+    <!--SLOT:banner-after-tool-->
+    <!--/SLOT:banner-after-tool-->
+    <!--SLOT:ads-after-tool-->
+    <!--/SLOT:ads-after-tool-->
+      <div class="prose">
+        <span class="eyebrow">Конвертация таблиц</span>
+        <h2>Конвертер CSV в Excel: получить XLSX из CSV-файла</h2>
+        <p class="tool-meta">Обновлено: 16 сентября 2026</p>
+        <p>Конвертер превращает <strong>CSV в книгу Excel (.xlsx)</strong>: выберите файл, нажмите «Конвертировать в Excel» — браузер прочитает таблицу и сразу отдаст готовый файл. Библиотека для работы с таблицами загружается на ваше устройство, а сам файл никуда не отправляется.</p>
+        <p>Сервис выручает, когда выгрузка из банка, 1С, маркетплейса или CRM приходит «сырым» текстом, а нужен нормальный файл: с колонками, форматами и возможностью строить сводные таблицы.</p>
+
+        <span class="eyebrow">Инструкция</span>
+        <h2>Как перевести CSV в Excel</h2>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span><strong>Выберите CSV-файл</strong> — кнопкой на странице; файл остаётся у вас</span></div>
+          <div class="seo-step"><b>2</b><span><strong>Нажмите «Конвертировать в Excel»</strong> — разделители определяются автоматически</span></div>
+          <div class="seo-step"><b>3</b><span><strong>Скачайте converted.xlsx</strong> — файл появится в папке загрузок</span></div>
+        </div>
+        <p>Открыть результат можно в Excel, LibreOffice, Google Таблицах или Яндекс Документах — формат универсальный, листы сохраняются так, как они были в источнике.</p>
+
+        <span class="eyebrow">Что поддерживается</span>
+        <h2>Разделители, кодировки и форматы</h2>
+        <table class="seo-table">
+          <thead><tr><th>Параметр</th><th>Что поддерживает конвертер</th></tr></thead>
+          <tbody>
+            <tr><td>Разделитель</td><td>Запятая, точка с запятой, табуляция — определяется автоматически</td></tr>
+            <tr><td>Кодировка</td><td>UTF-8 (рекомендуется), а также однобайтовые кодировки при чтении</td></tr>
+            <tr><td>Результат</td><td>Файл <strong>converted.xlsx</strong> со всеми листами исходной таблицы</td></tr>
+            <tr><td>Размер файла</td><td>Жёсткого лимита нет: ограничение — память устройства и время обработки</td></tr>
+            <tr><td>Где работает</td><td>Любой современный браузер, в том числе на телефоне</td></tr>
+          </tbody>
+        </table>
+        <p class="hint">CSV — это просто текст: в нём нет типов данных, формул и оформления. XLSX хранит значения, форматы и несколько листов, поэтому после конвертации удобно сортировать данные, делать сводные таблицы и строить графики.</p>
+
+        <span class="eyebrow">Примеры</span>
+        <h2>Когда это нужно на практике</h2>
+        <ul>
+          <li><strong>Выгрузка из банка.</strong> Платёжный реестр приходит в CSV — переведите в XLSX и составьте сводку расходов за месяц.</li>
+          <li><strong>Прайс поставщика.</strong> Колонки с артикулами и ценами удобнее проверять в таблице с фильтрами, чем в текстовом файле.</li>
+          <li><strong>Отчёты маркетплейсов и рекламных кабинетов.</strong> Данные в CSV конвертируются в XLSX и объединяются с другими выгрузками по артикулу или дате.</li>
+          <li><strong>Экспорт из CRM и Google Таблиц.</strong> Файл из выгрузки открывается в локальном Excel без «импорта текста» и лишних шагов мастера.</li>
+        </ul>
+
+        <span class="eyebrow">Ошибки и нюансы</span>
+        <h2>Что учесть при конвертации CSV</h2>
+        <ul>
+          <li><strong>Кодировка.</strong> Если вместо русских букв «крякозябры», файл сохранён не в UTF-8 (Excel часто пишет CSV в Windows-1251). Пересохраните его в UTF-8 и повторите конвертацию.</li>
+          <li><strong>Разделитель внутри значения.</strong> Кавычки защищают запятые внутри текста; если файл сделан «вручную» и кавычек нет, колонки могут разъехаться.</li>
+          <li><strong>Ведущие нули.</strong> Артикулы вида 00123 и ИНН длиннее 11 символов теряют вид, если таблица трактует их как числа. После конвертации задайте текстовый формат для таких колонок.</li>
+          <li><strong>Даты.</strong> Формат ДД.ММ.ГГГГ Excel может распознать как текст или как дату — проверьте колонку перед анализом и при необходимости переформатируйте.</li>
+          <li><strong>Переносы строк в ячейках.</strong> Многострочные адреса иногда разбивают строку таблицы: такое лучше сначала почистить в редакторе.</li>
+        </ul>
+    <!--SLOT:banner-mid-->
+    <!--/SLOT:banner-mid-->
+    <!--SLOT:ads-mid-->
+    <!--/SLOT:ads-mid-->
+        <span class="eyebrow">Вопросы и ответы</span>
+        <h2>Частые вопросы о переводе CSV в Excel</h2>
+
+        <details class="seo-faq">
+          <summary>Как бесплатно перевести CSV в Excel?</summary>
+          <div class="seo-faq-b"><p>Выберите CSV-файл в конвертере, нажмите «Конвертировать в Excel» и скачайте готовый converted.xlsx. Разделитель определяется автоматически, регистрация и установка программ не нужны, файл не отправляется на сервер — вся обработка идёт в браузере.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Почему кириллица отображается «крякозябрами»?</summary>
+          <div class="seo-faq-b"><p>Так бывает при несовпадении кодировок: Excel часто сохраняет CSV в Windows-1251, а некоторые сервисы ждут UTF-8. Пересохраните файл в UTF-8 (в Excel: «Сохранить как» → «CSV UTF-8») и повторите конвертацию — текст отобразится корректно.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Какие разделители поддерживает конвертер?</summary>
+          <div class="seo-faq-b"><p>Запятую, точку с запятой и табуляцию. Тип разделителя определяется автоматически по содержимому файла, поэтому выгрузки из российских систем (обычно с «;») и международных сервисов (с «,») обрабатываются без ручных настроек.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Откроется ли полученный файл в Google Таблицах?</summary>
+          <div class="seo-faq-b"><p>Да, XLSX понимают Google Таблицы, LibreOffice, Яндекс Документы, «Мой офис» и мобильные приложения Excel. Формулы в CSV не переносятся — их не было в исходнике, но структура листов, строки и колонки сохраняются полностью.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Что делать с артикулами и ИНН, где теряются нули?</summary>
+          <div class="seo-faq-b"><p>В CSV нет типов данных, и таблица решает сама, число перед ней или текст. Для колонок с ведущими нулями и длинными кодами задайте текстовый формат до ввода данных: тогда 00123 и 12-значный ИНН останутся в исходном виде, без округления и научной записи.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Есть ли ограничение по размеру CSV-файла?</summary>
+          <div class="seo-faq-b"><p>Жёсткого лимита нет: файл читается на вашем устройстве, поэтому ограничение — доступная память браузера. Выгрузки в десятки мегабайт обрабатываются, но требуют времени; если вкладка «подвисает», закройте лишние приложения и повторите попытку.</p></div>
+        </details>
+
+        <p class="calc-note">Файл обрабатывается локально в браузере и не передаётся на сервер. Форматирование исходной таблицы зависит от программы, в которой создан CSV, — проверьте колонки с кодами и датами перед расчётами. Данные не покидают ваше устройство.</p>
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/converters/pdf-to-word/">PDF в Word</a>
+          <a href="/converters/image-converter/">Сжатие изображений</a>
+          <a href="/converters/seo-translit/">SEO-транслит</a>
+          <a href="/generators/invoice/">Счёт на оплату</a>
+        </div>
+      </div>
+    </div>
+    <!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/converters/csv-to-xlsx/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/converters/csv-to-xlsx/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=36" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=36"></script>
+  <script type="module" src="/js/convert-csv-xlsx.js?v=36"></script>
+</body>
+</html>
+
+
+
+
+

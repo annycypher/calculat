@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Инженерные расчёты — отопление, гидравлика, электрика | CalcDoc</title>
+  <meta name="description" content="Инженерные расчёты: объём системы отопления, гидрострелка и теплообменник, тепловентилятор «Вулкан». Считайте до покупки — бесплатно, в браузере." />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/engineering/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Инженерные расчёты — CalcDoc" />
+  <meta property="og:description" content="Объём системы отопления, гидрострелка и теплообменник, тепловентилятор «Вулкан»: расчёт в браузере." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/calculators/engineering/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/fonts/fonts.css?v=36" />
+  <link rel="stylesheet" href="/styles.css?v=36" />
+  <link rel="stylesheet" href="/seo-article.css?v=36" />
+  <link rel="stylesheet" href="/header.css?v=36" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Инженерные расчёты",
+    "url": "https://calc-doc.ru/calculators/engineering/",
+    "description": "Инженерные калькуляторы: объём системы отопления, гидрострелка и теплообменник, тепловентилятор «Вулкан» для дома и цеха. Расчёт в браузере, бесплатно."
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Калькуляторы", "item": "https://calc-doc.ru/calculators/" },
+      { "@type": "ListItem", "position": 3, "name": "Инженерные расчёты", "item": "https://calc-doc.ru/calculators/engineering/" }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Зачем считать объём системы отопления до покупки?", "acceptedAnswer": { "@type": "Answer", "text": "От объёма теплоносителя зависят мощность котла, объём расширительного бака и количество воды для заполнения системы. Ошибка в расчёте оборачивается частым включением котла, шумом в трубах и перерасходом топлива." } },
+      { "@type": "Question", "name": "Что даёт расчёт гидрострелки и теплообменника?", "acceptedAnswer": { "@type": "Answer", "text": "Гидрострелка развязывает контуры: котловой и отопительный перестают мешать друг другу по расходу и температуре. Калькулятор подбирает её диаметр по мощности и разнице температур, а для теплообменника считает число пластин по тепловой нагрузке." } },
+      { "@type": "Question", "name": "Почему для тепловентилятора нужен расчёт электрики?", "acceptedAnswer": { "@type": "Answer", "text": "Мощность задаёт ток: например, 60 кВт — это около 91 А, отсюда сечение кабеля (25 мм²) и номинал автомата (100 А). Без расчёта линия перегревается, а автомат срабатывает на пуске." } }
+    ]
+  }
+</script>
+</head>
+<body>
+    <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/calculators/">Калькуляторы</a> / Инженерные расчёты</nav>
+      <h1>Инженерные расчёты</h1>
+      <p class="tool-meta">Отопление, гидравлика, электрика: считай до покупки. Объём системы отопления, гидрострелка и теплообменник, подбор тепловентилятора — данные остаются в вашем браузере.</p>
+      <p class="calc-note">Расчёты носят справочный характер.</p>
+    </div>
+
+    <!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+    <div class="container section">
+      <div class="grid">
+        <a class="card" href="/calculators/engineering/otoplenie-obem/">
+          <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="3" y="6.5" width="18" height="9.5" rx="1.5"/><path class="ci-b" d="M6.6 6.5v9.5M10 6.5v9.5M13.4 6.5v9.5M16.8 6.5v9.5"/><path class="ci-b" d="M3 11.2h18M3 16v2.6M21 16v2.6"/><path class="ci-fa" d="M6.6 16h3v2.6h-3z"/></svg></span>
+          <h3>Объём системы отопления</h3>
+          <p>Радиаторы, трубы, котёл и тёплый пол: литры теплоносителя, расширительный бак и вода на заполнение.</p>
+        </a>
+        <a class="card" href="/calculators/engineering/gidrostrelka/">
+          <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="9" y="2.5" width="6" height="19" rx="1.5"/><path class="ci-b" d="M3 7.5h6M3 16.5h6M15 7.5h6M15 16.5h6"/><path class="ci-fa" d="M10.5 5h3v4.5h-3z"/></svg></span>
+          <h3>Гидрострелка и теплообменник</h3>
+          <p>Диаметр гидрострелки по мощности и расходу, подбор пластинчатого теплообменника.</p>
+        </a>
+        <a class="card" href="/calculators/engineering/vulkan/">
+          <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="3" y="4.5" width="18" height="11" rx="2"/><circle class="ci-b" cx="12" cy="10" r="3.2"/><path class="ci-b" d="M7 19.5q2-1.5 4 0t4 0 4 0"/><path class="ci-fa" d="M11 8.4h2v3.2h-2z"/></svg></span>
+          <h3>Тепловентилятор «Вулкан»</h3>
+          <p>Теплопотери цеха, подбор по питам и электрика: ток, кабель, автомат.</p>
+        </a>
+        <!-- Место под будущие калькуляторы категории: новая карточка добавляется сюда
+             по шаблону выше — a.card с адресом готовой страницы, внутри span.card-icon
+             со SVG-плиткой (классы ci-a / ci-b / ci-fa) и заголовок h3 с описанием.
+             Пустых ссылок не оставляем: карточка появляется вместе со страницей. -->
+      </div>
+      <p class="hint" style="margin-top:24px">Расчёты раздела появляются по очереди: сначала объём системы отопления, затем гидрострелка с теплообменником и подбор тепловентилятора. Карточка ведёт на страницу, как только она готова.</p>
+    </div>
+    <div class="container section">
+    <!--SLOT:banner-after-tool-->
+    <!--/SLOT:banner-after-tool-->
+    <!--SLOT:ads-after-tool-->
+    <!--/SLOT:ads-after-tool-->
+      <div class="prose">
+        <span class="eyebrow">Инженерные расчёты</span>
+        <h2>Инженерные расчёты: что считать до покупки</h2>
+        <p class="tool-meta">Обновлено: 21 сентября 2026</p>
+        <p>Инженерная часть дома — отопление, гидравлика, электрика — стоит дорого, а ошибки в ней видны не сразу: их показывает первый мороз, шум в трубах или сработавший автомат. Здесь собраны расчёты, которые делают <strong>до</strong> покупки оборудования, чтобы не переплатить за лишнюю мощность и не остаться с недогретым домом.</p>
+        <p><strong>Объём системы отопления.</strong> Первый расчёт отвечает на вопрос, который обычно выясняется уже после монтажа: сколько теплоносителя в системе. Считаются секции радиаторов, объём труб по диаметрам и длинам, вода в котле и в трубах тёплого пола. Итог — литры в системе, объём расширительного бака с запасом и количество воды для первого заполнения: с этой цифрой понятно, сколько покупать антифриза и чем заполнять контур.</p>
+        <p><strong>Гидрострелка и теплообменник.</strong> Второй инструмент про гидравлику: когда в системе несколько контуров со своими насосами, они начинают мешать друг другу — расход в одном падает, температура «плывёт». Гидрострелка развязывает котловой и отопительный контуры; калькулятор подбирает её диаметр по мощности, разнице температур и расходу и переводит результат в реальные типоразмеры. Второй режим — подбор пластинчатого теплообменника: по тепловой нагрузке и температурам считается требуемая поверхность и число пластин.</p>
+        <p><strong>Тепловентилятор «Вулкан».</strong> Третий расчёт — для цеха, склада, гаража и других помещений, куда не провести воду. Считаются теплопотери ограждающих конструкций с учётом вентиляции, подбирается модель по питам с покрытием 100–135% от расчётной мощности, а затем считается электрика: ток, сечение кабеля и номинал автомата. Именно эта часть чаще всего остаётся «на глаз» — и линия греется.</p>
+        <p><strong>Почему это считают заранее.</strong> Ошибка в инженерке всегда дороже самого расчёта: маленький расширительный бак срывает предохранительный клапан, заниженный диаметр гидрострелки даёт шум и неравномерный прогрев, кабель, выбранный «на глаз», греется и выбивает автомат. Переделать готовую систему почти всегда дороже, чем потратить десять минут на цифры до заказа оборудования.</p>
+        <p>Все расчёты идут в браузере: параметры дома, мощности и размеры не отправляются на сервер и остаются у вас. Справочные значения — объёмы секций и труб, коэффициент расширения теплоносителя, типоразмеры теплообменников и питы тепловентиляторов — собраны в одном месте внутри каждого калькулятора и помечены датой актуальности.</p>
+        <p>Начните с того, что важнее сейчас: посчитать объём системы перед покупкой котла, развязать контуры гидрострелкой или подобрать обогрев для цеха вместе с электрикой. Результат можно скопировать, распечатать или отправить ссылкой с уже подставленными параметрами.</p>
+        <p class="calc-note">Расчёты носят справочный характер: итоговые параметры уточняйте в проекте, у производителя оборудования или у профильного инженера.</p>
+
+        <h2>Частые вопросы об инженерных расчётах</h2>
+        <details class="seo-faq">
+          <summary>Зачем считать объём системы отопления до покупки?</summary>
+          <div class="seo-faq-b"><p>От объёма теплоносителя зависят мощность котла, объём расширительного бака и количество воды для заполнения системы. Ошибка в расчёте оборачивается частым включением котла, шумом в трубах и перерасходом топлива.</p></div>
+        </details>
+        <details class="seo-faq">
+          <summary>Что даёт расчёт гидрострелки и теплообменника?</summary>
+          <div class="seo-faq-b"><p>Гидрострелка развязывает контуры: котловой и отопительный перестают мешать друг другу по расходу и температуре. Калькулятор подбирает её диаметр по мощности и разнице температур, а для теплообменника считает число пластин по тепловой нагрузке.</p></div>
+        </details>
+        <details class="seo-faq">
+          <summary>Почему для тепловентилятора нужен расчёт электрики?</summary>
+          <div class="seo-faq-b"><p>Мощность задаёт ток: например, 60 кВт — это около 91 А, отсюда сечение кабеля (25 мм²) и номинал автомата (100 А). Без расчёта линия перегревается, а автомат срабатывает на пуске.</p></div>
+        </details>
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/calculators/">Все калькуляторы</a>
+          <a href="/calculators/construction/">Ремонт и строительство</a>
+          <a href="/generators/contract/">Договор подряда</a>
+          <a href="/generators/invoice/">Счёт на оплату</a>
+          <a href="/blog/">Статьи и инструкции</a>
+        </div>
+      </div>
+    </div>
+
+    <!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/calculators/engineering/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/calculators/engineering/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=36" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=36"></script>
+</body>
+</html>
+
+
+
+

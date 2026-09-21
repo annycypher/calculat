@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Генератор договора — шаблоны с выгрузкой в PDF | CalcDoc</title>
+  <meta name="description" content="Генератор договора оказания услуг: заполните стороны, предмет, цену и срок — готовый договор сохраняется в PDF. Данные не отправляются на сервер." />
+  <link rel="canonical" href="https://calc-doc.ru/generators/contract/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Генератор договора оказания услуг — CalcDoc" />
+  <meta property="og:description" content="Соберите договор услуг по своим данным и скачайте его в PDF." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/generators/contract/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/fonts/fonts.css?v=36" />
+  <link rel="stylesheet" href="/styles.css?v=36" />
+  <link rel="stylesheet" href="/seo-article.css?v=36" />
+  <link rel="stylesheet" href="/header.css?v=36" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Генератор договора",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Генераторы", "item": "https://calc-doc.ru/generators/" },
+      { "@type": "ListItem", "position": 3, "name": "Договор", "item": "https://calc-doc.ru/generators/contract/" }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Нужно ли заверять договор оказания услуг у нотариуса?", "acceptedAnswer": { "@type": "Answer", "text": "Нет. Договор между гражданами, ИП или организациями достаточно заключить в простой письменной форме: нотариальное удостоверение для услуг законом не требуется. Нотариус нужен для других документов — например, доверенностей на сделки с недвижимостью или на распоряжение правами." } },
+      { "@type": "Question", "name": "Что обязательно указать в договоре оказания услуг?", "acceptedAnswer": { "@type": "Answer", "text": "Предмет — какие именно услуги и какой результат; срок оказания; стоимость и порядок оплаты; данные сторон с реквизитами; строки для подписей. Чем конкретнее предмет, тем проще подтвердить исполнение и взыскать оплату, если заказчик отказывается платить." } },
+      { "@type": "Question", "name": "Можно ли заключить договор с самозанятым?", "acceptedAnswer": { "@type": "Answer", "text": "Да, и это удобно: заказчик не платит страховые взносы и не удерживает НДФЛ, если исполнитель применяет НПД. Обязательно проверьте статус самозанятого в приложении «Мой налог» и получайте чек по каждой оплате — без чека расходы могут не признать, а у заказчика появятся налоговые риски." } },
+      { "@type": "Question", "name": "Нужен ли акт оказанных услуг?", "acceptedAnswer": { "@type": "Answer", "text": "Практически всегда да: акт подтверждает, что услуги оказаны и приняты без замечаний, и именно он закрывает сделку для бухгалтерии. Можно сразу включить в договор условие, что акт составляется по форме из приложения, а услуги считаются принятыми, если заказчик не направил мотивированный отказ." } },
+      { "@type": "Question", "name": "Действителен ли PDF без «живых» подписей?", "acceptedAnswer": { "@type": "Answer", "text": "Как макет — да, им удобно обмениваться и согласовывать правки. Как доказательство — слабее: юридическую силу документу придают подписи сторон или электронная подпись. Для обычной сделки распечатайте два экземпляра, подпишите оба и оставьте по одному каждой стороне." } },
+      { "@type": "Question", "name": "Можно ли расторгнуть договор досрочно?", "acceptedAnswer": { "@type": "Answer", "text": "Да. Заказчик вправе отказаться от договора в любой момент, оплатив исполнителю фактически понесённые расходы (ст. 782 ГК РФ). Исполнитель тоже может отказаться, но тогда он обязан полностью возместить заказчику убытки. Условия и сроки уведомления лучше прописать в договоре заранее." } }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="/print.css?v=36" media="print" />
+</head>
+<body>
+    <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/generators/">Генераторы</a> / Договор</nav>
+      <h1>Генератор договора</h1>
+      <p class="tool-meta">Заполните поля — и получите готовый договор оказания услуг, который можно скачать в PDF.</p>
+    </div>
+
+    <!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="contractForm">
+            <div class="row2">
+              <div class="field">
+                <label for="city">Город</label>
+                <input type="text" id="city" name="city" placeholder="Москва" required value="Москва" />
+              </div>
+              <div class="field">
+                <label for="date">Дата</label>
+                <input type="text" id="date" name="date" placeholder="15 августа 2026 г." required value="15 августа 2026 г." />
+              </div>
+            </div>
+            <div class="field">
+              <label for="execName">Исполнитель (ФИО / организация)</label>
+              <input type="text" id="execName" name="execName" placeholder="ИП Иванов Иван Иванович" required />
+            </div>
+            <div class="field">
+              <label for="execDetails">Реквизиты / паспорт исполнителя</label>
+              <input type="text" id="execDetails" name="execDetails" placeholder="ИНН 7701234567, р/с …, паспорт…" />
+            </div>
+            <div class="field">
+              <label for="clientName">Заказчик (ФИО / организация)</label>
+              <input type="text" id="clientName" name="clientName" placeholder="ООО «Ромашка» / Петров Пётр" required />
+            </div>
+            <div class="field">
+              <label for="clientDetails">Реквизиты / паспорт заказчика</label>
+              <input type="text" id="clientDetails" name="clientDetails" placeholder="ИНН …, адрес…" />
+            </div>
+            <div class="field">
+              <label for="subject">Предмет договора (какие услуги)</label>
+              <textarea id="subject" name="subject" rows="3" placeholder="разработка сайта, консультации, дизайн…" required></textarea>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="price">Стоимость услуг (₽)</label>
+                <input type="number" id="price" name="price" inputmode="decimal" min="0" step="any" placeholder="50000" required value="50000" />
+              </div>
+              <div class="field">
+                <label for="term">Срок оказания</label>
+                <input type="text" id="term" name="term" placeholder="30 дней" required value="30 дней" />
+              </div>
+            </div>
+            <button data-metric-goal="расчёт" class="btn btn-primary" type="submit" style="width:100%">Создать договор</button>
+          </form>
+        </div>
+
+        <div>
+          <div class="form-card" id="previewCard">
+            <div class="print-area" id="printArea">
+              <p class="tool-meta" style="margin:0">Здесь появится текст договора.</p>
+            </div>
+          </div>
+          <button data-metric-goal="pdf" class="btn btn-primary no-print" id="printBtn" disabled style="width:100%;margin-top:16px">🖨️ Скачать в PDF</button>
+          <p class="hint no-print" id="printHint" hidden>В окне печати выберите «Сохранить как PDF».</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+    <!--SLOT:banner-after-tool-->
+    <!--/SLOT:banner-after-tool-->
+    <!--SLOT:ads-after-tool-->
+    <!--/SLOT:ads-after-tool-->
+      <div class="prose">
+        <span class="eyebrow">Договор</span>
+        <h2>Генератор договора оказания услуг: шаблон и PDF за минуту</h2>
+        <p class="tool-meta">Обновлено: 16 сентября 2026</p>
+        <p>Генератор собирает <strong>договор оказания услуг</strong> по вашим данным: стороны, предмет, стоимость, срок и реквизиты. Готовый текст появляется рядом с формой, а кнопка «Скачать в PDF» открывает печать — выбираете принтер «Сохранить как PDF» и получаете документ для подписи.</p>
+        <p>Всё происходит в браузере: паспортные данные и реквизиты не отправляются на сервер. Шаблон подходит для разовых услуг — ремонт, репетиторство, дизайн, консультации, перевозка, разработка сайта.</p>
+
+        <span class="eyebrow">Инструкция</span>
+        <h2>Как составить договор онлайн</h2>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span><strong>Город и дата</strong> — место заключения и дата договора</span></div>
+          <div class="seo-step"><b>2</b><span><strong>Стороны</strong> — исполнитель и заказчик с реквизитами</span></div>
+          <div class="seo-step"><b>3</b><span><strong>Условия</strong> — предмет услуг, цена и срок оказания</span></div>
+          <div class="seo-step"><b>4</b><span><strong>Скачать в PDF</strong> и распечатать в двух экземплярах — по одному для каждой стороны</span></div>
+        </div>
+        <p>Проверьте готовый текст на экране: если формулировка предмета или реквизиты неточны, вернитесь в поля и создайте документ заново — пересобрать договор быстрее, чем править PDF.</p>
+
+        <span class="eyebrow">Что должно быть</span>
+        <h2>Обязательные условия договора оказания услуг</h2>
+        <table class="seo-table">
+          <thead><tr><th>Условие</th><th>Что писать</th></tr></thead>
+          <tbody>
+            <tr><td>Предмет</td><td>Конкретные услуги: состав работ, объём, результат</td></tr>
+            <tr><td>Срок</td><td>Даты начала и окончания или срок «в течение 10 рабочих дней»</td></tr>
+            <tr><td>Цена</td><td>Сумма, порядок и срок оплаты, аванс при необходимости</td></tr>
+            <tr><td>Стороны</td><td>ФИО или наименование, ИНН, адрес, паспортные данные для физлиц</td></tr>
+            <tr><td>Подписи</td><td>Строки для подписей обеих сторон и расшифровки</td></tr>
+          </tbody>
+        </table>
+        <p class="hint">Предмет договора — главное условие: чем конкретнее описаны услуги, тем проще доказать их исполнение. Вместо «оказание консультационных услуг» пишите «разработка логотипа: 3 варианта, финальные файлы в AI и PNG».</p>
+
+        <span class="eyebrow">Примеры</span>
+        <h2>Кому подойдёт этот шаблон</h2>
+        <ul>
+          <li><strong>Самозанятый и заказчик-физлицо.</strong> Ремонт квартиры, репетиторство, ремонт техники — договор фиксирует объём, цену и срок.</li>
+          <li><strong>ИП и небольшая компания.</strong> Разовые услуги: настройка рекламы, бухгалтерия на аутсорсе, дизайн, разработка.</li>
+          <li><strong>Фрилансер и агентство.</strong> Основа для сделки до выпуска акта: договор + акт = подтверждение расходов у заказчика.</li>
+          <li><strong>Услуги между гражданами.</strong> Перевозка, разовые работы по дому, услуги по уходу: письменная форма защищает обе стороны.</li>
+        </ul>
+
+        <span class="eyebrow">Нюансы</span>
+        <h2>Что важно помнить о договоре услуг</h2>
+        <ul>
+          <li><strong>Возмездное оказание услуг регулируется главой 39 ГК РФ.</strong> Для отдельных видов (перевозка, хранение, поручение) действуют свои главы — проверьте, что ваш случай не требует особой формы.</li>
+          <li><strong>Заказчик может отказаться от договора</strong> в любой момент, оплатив исполнителю фактически понесённые расходы; исполнитель — тоже, но с полным возмещением убытков (ст. 782 ГК РФ).</li>
+          <li><strong>Исполнитель-самозанятый</strong> освобождает заказчика от страховых взносов, но за каждую оплату нужен чек из приложения «Мой налог» — иначе расходы могут не признать.</li>
+          <li><strong>Исполнитель-физлицо без статуса ИП</strong> означает, что заказчик становится налоговым агентом: он удерживает НДФЛ и перечисляет его в бюджет.</li>
+          <li><strong>Признаки трудовых отношений недопустимы.</strong> Режим работы, должность в штатном расписании, ежемесячная одинаковая оплата за «процесс» — риски переквалификации договора в трудовой.</li>
+          <li><strong>PDF-версия — это макет.</strong> Юридическую силу документу придают подписи сторон или электронная подпись, а не сам файл.</li>
+        </ul>
+    <!--SLOT:banner-mid-->
+    <!--/SLOT:banner-mid-->
+    <!--SLOT:ads-mid-->
+    <!--/SLOT:ads-mid-->
+        <span class="eyebrow">Вопросы и ответы</span>
+        <h2>Частые вопросы о договоре оказания услуг</h2>
+
+        <details class="seo-faq">
+          <summary>Нужно ли заверять договор оказания услуг у нотариуса?</summary>
+          <div class="seo-faq-b"><p>Нет. Договор между гражданами, ИП или организациями достаточно заключить в простой письменной форме: нотариальное удостоверение для услуг законом не требуется. Нотариус нужен для других документов — например, доверенностей на сделки с недвижимостью или на распоряжение правами.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Что обязательно указать в договоре оказания услуг?</summary>
+          <div class="seo-faq-b"><p>Предмет — какие именно услуги и какой результат; срок оказания; стоимость и порядок оплаты; данные сторон с реквизитами; строки для подписей. Чем конкретнее предмет, тем проще подтвердить исполнение и взыскать оплату, если заказчик отказывается платить.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Можно ли заключить договор с самозанятым?</summary>
+          <div class="seo-faq-b"><p>Да, и это удобно: заказчик не платит страховые взносы и не удерживает НДФЛ, если исполнитель применяет НПД. Обязательно проверьте статус самозанятого в приложении «Мой налог» и получайте чек по каждой оплате — без чека расходы могут не признать, а у заказчика появятся налоговые риски.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Нужен ли акт оказанных услуг?</summary>
+          <div class="seo-faq-b"><p>Практически всегда да: акт подтверждает, что услуги оказаны и приняты без замечаний, и именно он закрывает сделку для бухгалтерии. Можно сразу включить в договор условие, что акт составляется по форме из приложения, а услуги считаются принятыми, если заказчик не направил мотивированный отказ.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Действителен ли PDF без «живых» подписей?</summary>
+          <div class="seo-faq-b"><p>Как макет — да, им удобно обмениваться и согласовывать правки. Как доказательство — слабее: юридическую силу документу придают подписи сторон или электронная подпись. Для обычной сделки распечатайте два экземпляра, подпишите оба и оставьте по одному каждой стороне.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Можно ли расторгнуть договор досрочно?</summary>
+          <div class="seo-faq-b"><p>Да. Заказчик вправе отказаться от договора в любой момент, оплатив исполнителю фактически понесённые расходы (ст. 782 ГК РФ). Исполнитель тоже может отказаться, но тогда он обязан полностью возместить заказчику убытки. Условия и сроки уведомления лучше прописать в договоре заранее.</p></div>
+        </details>
+
+        <p class="calc-note">Шаблон носит справочный характер и не заменяет юридическую консультацию: условия сделки, налоги сторон и требования к конкретному виду услуг уточняйте по ГК РФ и у юриста. Данные формы не покидают ваш браузер.</p>
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/generators/invoice/">Счёт на оплату</a>
+          <a href="/generators/report/">PDF-отчёт</a>
+          <a href="/generators/power-of-attorney/">Доверенность</a>
+          <a href="/calculators/finance/tax-freelancer/">НПД для самозанятых</a>
+        </div>
+      </div>
+    </div>
+    <!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/generators/contract/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/generators/contract/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=36" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=36"></script>
+  <script type="module" src="/js/gen-contract.js?v=36"></script>
+</body>
+</html>
+
+
+
+
+

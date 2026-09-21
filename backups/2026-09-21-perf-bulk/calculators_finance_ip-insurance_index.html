@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Взносы ИП — фиксированные и 1% свыше 300 000 | CalcDoc</title>
+  <meta name="description" content="Расчёт страховых взносов ИП за себя: фиксированная часть плюс 1% с дохода свыше 300 000 ₽. Формула, лимиты, примеры и сроки уплаты взносов." />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/finance/ip-insurance/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Взносы ИП за себя — CalcDoc" />
+  <meta property="og:description" content="Фиксированные взносы плюс 1% с дохода свыше 300 000 ₽ за год." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/calculators/finance/ip-insurance/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/fonts/fonts.css?v=36" />
+  <link rel="stylesheet" href="/styles.css?v=36" />
+  <link rel="stylesheet" href="/seo-article.css?v=36" />
+  <link rel="stylesheet" href="/header.css?v=36" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"SoftwareApplication", "name":"Калькулятор взносов ИП", "applicationCategory":"FinanceApplication", "operatingSystem":"Web", "offers":{ "@type":"Offer","price":"0","priceCurrency":"RUB" } }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Калькуляторы","item":"https://calc-doc.ru/calculators/" }, { "@type":"ListItem","position":3,"name":"Финансы и налоги","item":"https://calc-doc.ru/calculators/finance/" }, { "@type":"ListItem","position":4,"name":"Взносы ИП","item":"https://calc-doc.ru/calculators/finance/ip-insurance/" } ] }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Сколько взносов платит ИП за себя в год?", "acceptedAnswer": { "@type": "Answer", "text": "Фиксированную сумму за год (пенсионные плюс медицинские) и дополнительно 1% с дохода, превысившего 300 000 ₽. При фиксированной части 53 658 ₽ и доходе 1 200 000 ₽ итог составит 62 658 ₽ за год. Точную фиксированную сумму смотрите в нормах на текущий год." } },
+      { "@type": "Question", "name": "Как считается 1% с дохода свыше 300 000 ₽?", "acceptedAnswer": { "@type": "Answer", "text": "От дохода вычитают 300 000 ₽ и умножают остаток на 1%. При доходе 800 000 ₽ доплата составит 5 000 ₽. Если доход меньше лимита или равен ему, дополнительная часть не начисляется. По пенсионным взносам есть максимальный предел доплаты." } },
+      { "@type": "Question", "name": "Что будет, если не заплатить взносы вовремя?", "acceptedAnswer": { "@type": "Answer", "text": "На сумму долга начнут начислять пени за каждый день просрочки, а налоговый орган выставит требование об уплате. Если долг не погасить, его взыщут со счёта или из других средств. Пени считаются по ключевой ставке — их размер можно оценить в отдельном калькуляторе." } },
+      { "@type": "Question", "name": "Нужно ли платить взносы, если доход нулевой?", "acceptedAnswer": { "@type": "Answer", "text": "Да, фиксированную часть платят даже при отсутствии дохода и приостановленной деятельности — обязанность возникает с момента регистрации ИП. Освобождение возможно только в отдельных случаях, например при уходе за ребёнком или службе в армии, если подано заявление и есть подтверждающие документы." } },
+      { "@type": "Question", "name": "Можно ли уменьшить налог на сумму взносов?", "acceptedAnswer": { "@type": "Answer", "text": "На УСН «доходы» и патенте — да: ИП без работников уменьшает налог на всю сумму уплаченных за себя взносов, поэтому платежи выгодно делать поквартально. На УСН «доходы минус расходы» взносы включают в расходы. На НПД уменьшить налог нельзя — взносы там не платят." } },
+      { "@type": "Question", "name": "Можно ли платить взносы частями?", "acceptedAnswer": { "@type": "Answer", "text": "Да, фиксированную часть можно перечислять любыми суммами в течение года, главное — закрыть её до крайнего срока. Дополнительный 1% удобно считать после закрытия года, когда известен итоговый доход. Платить частями выгодно, если вы уменьшаете на взносы налог по УСН или патенту." } }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="/print.css?v=36" media="print" />
+</head>
+<body>
+    <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/calculators/">Калькуляторы</a> / <a href="/calculators/finance/">Финансы и налоги</a> / Взносы ИП</nav>
+      <h1>Калькулятор взносов ИП</h1>
+      <p class="tool-meta">Страховые взносы за себя: фиксированные платежи и 1% с дохода сверх лимита. Данные не отправляются на сервер.</p>
+      <p class="calc-note">Расчёты носят справочный характер.</p>
+    </div>
+
+    <!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="ipForm">
+            <div class="field">
+              <label for="income">Доход за год (₽)</label>
+              <input type="number" id="income" inputmode="decimal" min="0" step="any" placeholder="например 800000" required value="800000" />
+            </div>
+            <div class="field">
+              <label for="fixed">Фиксированные взносы за год (₽)</label>
+              <input type="number" id="fixed" inputmode="decimal" min="0" step="any" placeholder="53658" required value="53658" />
+              <span class="hint">Пенсионные + медицинские. Значение зависит от года.</span>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="limit">Лимит дохода (₽)</label>
+                <input type="number" id="limit" inputmode="decimal" min="0" step="any" placeholder="300000" required value="300000" />
+              </div>
+              <div class="field">
+                <label for="rate">Доп. ставка (%)</label>
+                <input type="number" id="rate" inputmode="decimal" min="0" step="any" placeholder="1" required value="1" />
+              </div>
+            </div>
+            <button data-metric-goal="расчёт" class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+    <!--SLOT:banner-after-tool-->
+    <!--/SLOT:banner-after-tool-->
+    <!--SLOT:ads-after-tool-->
+    <!--/SLOT:ads-after-tool-->
+      <div class="prose">
+        <span class="eyebrow">Взносы ИП</span>
+        <h2>Калькулятор взносов ИП за себя: фиксированные платежи и 1% с дохода</h2>
+        <p class="tool-meta">Обновлено: 16 сентября 2026</p>
+        <p>ИП платит страховые взносы за себя даже без работников и даже без дохода: <strong>фиксированную часть</strong> (пенсионные и медицинские взносы) и дополнительный <strong>1% с дохода свыше 300 000 ₽</strong>. Калькулятор считает годовой итог по вашим числам.</p>
+        <p>Суммы фиксированных взносов и лимит дохода меняются по годам, поэтому они вынесены в поля: подставьте актуальные значения — расчёт останется корректным. Данные не отправляются на сервер.</p>
+
+        <span class="eyebrow">Инструкция</span>
+        <h2>Как рассчитать взносы ИП за год</h2>
+        <p>Четыре поля — и вы видите, сколько заплатить в этом году:</p>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span><strong>Доход за год</strong> — то, что учитывается на вашем режиме налогообложения</span></div>
+          <div class="seo-step"><b>2</b><span><strong>Фиксированные взносы</strong> — пенсионные плюс медицинские за год</span></div>
+          <div class="seo-step"><b>3</b><span><strong>Лимит дохода</strong> — 300 000 ₽, с превышения берётся доп. ставка</span></div>
+          <div class="seo-step"><b>4</b><span><strong>Доп. ставка</strong> — 1%, если иное не установлено на год</span></div>
+        </div>
+        <p>Результат показывает фиксированную часть, дополнительный процент и итоговую сумму взносов за год. Если доход меньше лимита, доплаты не будет — останется только фиксированная часть.</p>
+
+        <span class="eyebrow">Формула</span>
+        <h2>Формула расчёта взносов ИП</h2>
+        <div class="seo-formula">Взносы = Фиксированная часть + (Доход − 300 000 ₽) × 1%</div>
+        <p>Вторая часть считается только с превышения лимита и только если доход больше 300 000 ₽. По пенсионной части действует максимум — доплата сверх него не начисляется.</p>
+        <p><strong>Пример.</strong> Доход 800 000 ₽ за год и фиксированные взносы 53 658 ₽: 1% считается с 500 000 ₽ и равен 5 000 ₽, итого 58 658 ₽. При доходе 1 200 000 ₽ доплата составит 9 000 ₽, а всего — 62 658 ₽.</p>
+        <table class="seo-table">
+          <thead><tr><th>Доход за год</th><th>1% с превышения</th><th>Итого взносов</th></tr></thead>
+          <tbody>
+            <tr><td>300 000 ₽</td><td>0 ₽</td><td>53 658 ₽</td></tr>
+            <tr><td>500 000 ₽</td><td>2 000 ₽</td><td>55 658 ₽</td></tr>
+            <tr><td>800 000 ₽</td><td>5 000 ₽</td><td>58 658 ₽</td></tr>
+            <tr><td>1 200 000 ₽</td><td>9 000 ₽</td><td>62 658 ₽</td></tr>
+            <tr><td>2 000 000 ₽</td><td>17 000 ₽</td><td>70 658 ₽</td></tr>
+          </tbody>
+        </table>
+        <p class="hint">Фиксированная часть — 53 658 ₽ за год. Значения по вашему году подставьте в поля калькулятора.</p>
+
+        <span class="eyebrow">Сроки</span>
+        <h2>Когда и как платить взносы ИП</h2>
+        <ul>
+          <li><strong>Фиксированная часть</strong> — до 28 декабря текущего года. Платить можно одной суммой или частями: квартальные платежи удобнее, если вы уменьшаете на них налог.</li>
+          <li><strong>1% с дохода свыше 300 000 ₽</strong> — до 1 июля следующего года: за прошлый год доплату закрывают уже в новом календарном году.</li>
+          <li><strong>Куда платить</strong> — на единый налоговый счёт: сумма уходит одним платежом с указанием ИНН, ФНС сама распределяет её по взносам.</li>
+        </ul>
+        <p>Чтобы не считать вручную, пополняйте ЕНС заранее: удобно держать на счёте сумму взносов, тогда списания проходят без просрочек и пеней.</p>
+
+        <span class="eyebrow">Экономия</span>
+        <h2>Как уменьшить налог на взносы</h2>
+        <p>Взносы за себя — не просто расход: на большинстве режимов на них уменьшают налог.</p>
+        <ul>
+          <li><strong>УСН «доходы» и патент</strong> — ИП без работников уменьшает налог на всю сумму уплаченных взносов, вплоть до нуля. Именно поэтому квартальные платежи выгоднее: налог снижается уже в текущем периоде.</li>
+          <li><strong>УСН «доходы минус расходы»</strong> — взносы включаются в расходы и уменьшают налоговую базу.</li>
+          <li><strong>НПД</strong> — взносы на этот режим не влияют: самозанятый их не платит и налог на них не уменьшает.</li>
+        </ul>
+        <p class="note"><strong>Важно:</strong> фиксированную часть платят даже при нулевом доходе или приостановленной деятельности. При совмещении режимов доход для расчёта 1% суммируется по всем видам деятельности, а взносы учитываются в том периоде, когда фактически уплачены.</p>
+
+    <!--SLOT:banner-mid-->
+    <!--/SLOT:banner-mid-->
+    <!--SLOT:ads-mid-->
+    <!--/SLOT:ads-mid-->
+        <span class="eyebrow">Вопросы и ответы</span>
+        <h2>Частые вопросы о взносах ИП</h2>
+
+        <details class="seo-faq">
+          <summary>Сколько взносов платит ИП за себя в год?</summary>
+          <div class="seo-faq-b"><p>Фиксированную сумму за год (пенсионные плюс медицинские) и дополнительно 1% с дохода, превысившего 300 000 ₽. При фиксированной части 53 658 ₽ и доходе 1 200 000 ₽ итог составит 62 658 ₽ за год. Точную фиксированную сумму смотрите в нормах на текущий год.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Как считается 1% с дохода свыше 300 000 ₽?</summary>
+          <div class="seo-faq-b"><p>От дохода вычитают 300 000 ₽ и умножают остаток на 1%. При доходе 800 000 ₽ доплата составит 5 000 ₽. Если доход меньше лимита или равен ему, дополнительная часть не начисляется. По пенсионным взносам есть максимальный предел доплаты.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Что будет, если не заплатить взносы вовремя?</summary>
+          <div class="seo-faq-b"><p>На сумму долга начнут начислять пени за каждый день просрочки, а налоговый орган выставит требование об уплате. Если долг не погасить, его взыщут со счёта или из других средств. Пени считаются по ключевой ставке — их размер можно оценить в отдельном калькуляторе.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Нужно ли платить взносы, если доход нулевой?</summary>
+          <div class="seo-faq-b"><p>Да, фиксированную часть платят даже при отсутствии дохода и приостановленной деятельности — обязанность возникает с момента регистрации ИП. Освобождение возможно только в отдельных случаях, например при уходе за ребёнком или службе в армии, если подано заявление и есть подтверждающие документы.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Можно ли уменьшить налог на сумму взносов?</summary>
+          <div class="seo-faq-b"><p>На УСН «доходы» и патенте — да: ИП без работников уменьшает налог на всю сумму уплаченных за себя взносов, поэтому платежи выгодно делать поквартально. На УСН «доходы минус расходы» взносы включают в расходы. На НПД уменьшить налог нельзя — взносы там не платят.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Можно ли платить взносы частями?</summary>
+          <div class="seo-faq-b"><p>Да, фиксированную часть можно перечислять любыми суммами в течение года, главное — закрыть её до крайнего срока. Дополнительный 1% удобно считать после закрытия года, когда известен итоговый доход. Платить частями выгодно, если вы уменьшаете на взносы налог по УСН или патенту.</p></div>
+        </details>
+
+        <p class="calc-note">Расчёты носят справочный характер и не являются налоговой консультацией. Фиксированные суммы взносов, лимиты и сроки уточняйте в НК РФ и на сайте ФНС на текущий год. Данные калькулятора не покидают ваш браузер.</p>
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/calculators/finance/tax-freelancer/">НПД для самозанятых</a>
+          <a href="/calculators/finance/vat/">Калькулятор НДС</a>
+          <a href="/calculators/finance/ndfl/">НДФЛ и налоговые вычеты</a>
+          <a href="/calculators/finance/penalty/">Калькулятор пени</a>
+        </div>
+      </div>
+    </div>
+    <!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/calculators/finance/ip-insurance/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/calculators/finance/ip-insurance/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=36" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=36"></script>
+  <script type="module" src="/js/calc-ip-insurance.js?v=36"></script>
+</body>
+</html>
+
+
+
+

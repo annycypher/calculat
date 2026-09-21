@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор штукатурки — расход на м2 | CalcDoc</title>
+  <meta name="description" content="Калькулятор расхода штукатурки, стяжки и наливного пола: килограммы и мешки по площади, толщине слоя и норме расхода. Примеры для стен и пола." />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/construction/plaster/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Расход штукатурки и стяжки — CalcDoc" />
+  <meta property="og:description" content="Рассчитайте килограммы и мешки смеси по площади и толщине слоя." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/calculators/construction/plaster/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/fonts/fonts.css?v=36" />
+  <link rel="stylesheet" href="/styles.css?v=36" />
+  <link rel="stylesheet" href="/seo-article.css?v=36" />
+  <link rel="stylesheet" href="/header.css?v=36" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Калькулятор штукатурки и стяжки",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Калькуляторы", "item": "https://calc-doc.ru/calculators/" },
+      { "@type": "ListItem", "position": 3, "name": "Стройка и ремонт", "item": "https://calc-doc.ru/calculators/construction/" },
+      { "@type": "ListItem", "position": 4, "name": "Штукатурка и стяжка", "item": "https://calc-doc.ru/calculators/construction/plaster/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Как рассчитать расход штукатурки на стену?", "acceptedAnswer": { "@type": "Answer", "text": "Площадь умножьте на среднюю толщину слоя в миллиметрах и на расход смеси с упаковки. Стена 20 м² со слоем 10 мм и цементной штукатуркой 1,7 кг/м²·мм потребует 340 кг смеси, то есть 12 мешков по 30 кг. Гипсовой смеси с расходом 0,9 кг/м²·мм уйдёт 180 кг — 6 мешков." } },
+      { "@type": "Question", "name": "Какой расход смеси на 1 мм слоя?", "acceptedAnswer": { "@type": "Answer", "text": "Гипсовая штукатурка — 0,8–0,9 кг на 1 м², цементная — 1,5–2 кг, декоративная — 1,5–3 кг, цементно-песчаная стяжка — 1,8–2,2 кг, наливной пол — 1,6–1,8 кг. Разброс связан с плотностью смеси и наполнителем: точную норму производитель печатает на мешке." } },
+      { "@type": "Question", "name": "Как определить среднюю толщину, если стены кривые?", "acceptedAnswer": { "@type": "Answer", "text": "Выставьте маяки и замерьте отклонение основания от них в пяти-шести точках по высоте и длине стены. Сложите значения и разделите на число замеров: при отклонениях 5, 10, 15, 20 и 25 мм средняя толщина составит 15 мм. Именно её вводят в калькулятор." } },
+      { "@type": "Question", "name": "Сколько мешков штукатурки нужно на 20 м²?", "acceptedAnswer": { "@type": "Answer", "text": "Зависит от толщины. При слое 10 мм и расходе 1,7 кг/м²·мм нужно 340 кг — 12 мешков по 30 кг. Гипсовой смеси хватит 6 мешков по 30 кг. При слое 20 мм количество удваивается: 24 и 12 мешков соответственно, поэтому кривизну стен оценивают до закупки." } },
+      { "@type": "Question", "name": "Сколько воды нужно на мешок и сколько выйдет раствора?", "acceptedAnswer": { "@type": "Answer", "text": "На мешок 30 кг добавляют примерно 15–18 л воды: точную норму указывает производитель, при отклонении меняются прочность и удобство работы. Готового раствора из мешка выходит 25–27 литров. Гипсовый раствор пригоден 30–40 минут, цементный — около часа." } },
+      { "@type": "Question", "name": "Нужна ли грунтовка и армирующая сетка?", "acceptedAnswer": { "@type": "Answer", "text": "Грунтовка обязательна: она обеспыливает основание и обеспечивает сцепление — для гладкого бетона берут бетонконтакт. Сетку закладывают при слое толще 30 мм и на стыках разных материалов (кирпич и бетон, газобетон и монолит), иначе на границе появляются трещины." } }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="/print.css?v=36" media="print" />
+</head>
+<body>
+    <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/calculators/">Калькуляторы</a> / <a href="/calculators/construction/">Стройка и ремонт</a> / Штукатурка и стяжка</nav>
+      <h1>Калькулятор штукатурки и стяжки</h1>
+      <p class="tool-meta">Сколько сухой смеси и мешков нужно на штукатурку или стяжку. Данные не отправляются на сервер.</p>
+      <p class="calc-note">Расчёты носят справочный характер.</p>
+    </div>
+
+    <!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="plasterForm">
+            <div class="field">
+              <label for="area">Площадь поверхности (м²)</label>
+              <input type="number" id="area" inputmode="decimal" min="0" step="any" placeholder="например 20" required value="20" />
+              <span class="hint">Для стен — сумма стен минус окна и двери; для пола — длина × ширина.</span>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="thick">Толщина слоя (мм)</label>
+                <input type="number" id="thick" inputmode="decimal" min="0" step="any" placeholder="10" required value="10" />
+              </div>
+              <div class="field">
+                <label for="rate">Расход (кг/м²·мм)</label>
+                <input type="number" id="rate" inputmode="decimal" min="0" step="any" placeholder="1.7" required value="1.7" />
+                <span class="hint">Обычно 1,5–2 кг на м² при 1 мм.</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="bagW">Вес мешка (кг)</label>
+              <input type="number" id="bagW" inputmode="decimal" min="0" step="any" placeholder="30" required value="30" />
+            </div>
+            <button data-metric-goal="расчёт" class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+    <!--SLOT:banner-after-tool-->
+    <!--/SLOT:banner-after-tool-->
+    <!--SLOT:ads-after-tool-->
+    <!--/SLOT:ads-after-tool-->
+      <div class="prose">
+        <span class="eyebrow">Расчёт штукатурки</span>
+        <h2>Калькулятор штукатурки и стяжки: сколько мешков смеси нужно</h2>
+        <p class="tool-meta">Обновлено: 16 сентября 2026</p>
+        <p>Калькулятор штукатурки считает <strong>килограммы и мешки сухой смеси</strong> по площади, толщине слоя и расходу. Тот же расчёт подходит для стяжки и наливного пола — меняется только норма расхода.</p>
+        <p>Расчёт идёт в браузере, размеры помещения не отправляются на сервер. Это удобно перед закупкой: мешок штукатурки весит 30 кг, и ошибка в один мешок на слой — это лишний рейс в магазин.</p>
+
+        <span class="eyebrow">Инструкция</span>
+        <h2>Как рассчитать расход штукатурки</h2>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span><strong>Площадь</strong> — площадь стены или пола в м², без окон и дверей</span></div>
+          <div class="seo-step"><b>2</b><span><strong>Толщина слоя</strong> — в мм: для стен это средняя толщина, для стяжки — проектная</span></div>
+          <div class="seo-step"><b>3</b><span><strong>Расход</strong> — кг на 1 м² при слое 1 мм, значение с упаковки</span></div>
+          <div class="seo-step"><b>4</b><span><strong>Вес мешка</strong> — 25, 30 или 50 кг, как фасует производитель</span></div>
+        </div>
+        <p>После расчёта видно количество смеси в килограммах, примерный объём в кубометрах и число мешков. Мешки округляются вверх, поэтому один-два мешка всегда остаются «на добор» — по стенам с кривизной это норма.</p>
+
+        <span class="eyebrow">Формула</span>
+        <h2>Формула расчёта штукатурки и стяжки</h2>
+        <div class="seo-formula">Смесь (кг) = Площадь × Толщина (мм) × Расход (кг/м²·мм)</div>
+        <div class="seo-formula">Мешков = Смесь ÷ Вес мешка</div>
+        <p>Нормы расхода по типам смесей — ориентир, точное значение указано на мешке:</p>
+        <table class="seo-table">
+          <thead><tr><th>Смесь</th><th>Расход на 1 мм слоя</th></tr></thead>
+          <tbody>
+            <tr><td>Гипсовая штукатурка</td><td>0,8–0,9 кг/м²</td></tr>
+            <tr><td>Цементная штукатурка</td><td>1,5–2 кг/м²</td></tr>
+            <tr><td>Декоративная штукатурка</td><td>1,5–3 кг/м²</td></tr>
+            <tr><td>Цементно-песчаная стяжка</td><td>1,8–2,2 кг/м²</td></tr>
+            <tr><td>Наливной пол</td><td>1,6–1,8 кг/м²</td></tr>
+          </tbody>
+        </table>
+        <p class="hint">Толщина в калькуляторе — не «толщина по маяку», а средняя по стене. Замерьте отклонения в пяти точках, сложите и разделите на пять: при отклонениях 5, 10, 15, 20 и 25 мм средняя будет 15 мм.</p>
+
+        <span class="eyebrow">Пример</span>
+        <h2>Примеры: штукатурка стен и стяжка пола</h2>
+        <p>Стена 20 м², средний слой 10 мм, цементная штукатурка с расходом 1,7 кг/м²·мм, мешки по 30 кг:</p>
+        <ul>
+          <li>Смесь — 20 × 10 × 1,7 = <strong>340 кг</strong>, это около 0,17 м³ раствора.</li>
+          <li>Мешков — 340 ÷ 30 = 11,3, калькулятор покажет <strong>12 мешков</strong>.</li>
+          <li>Гипсовая штукатурка с расходом 0,9 кг/м²·мм даст 180 кг, то есть <strong>6 мешков</strong>.</li>
+        </ul>
+        <p>Стяжка в комнате 20 м² толщиной 50 мм с расходом 2 кг/м²·мм: 20 × 50 × 2 = 2 000 кг — это 67 мешков по 30 кг или 40 мешков по 50 кг. Крупная фасовка дешевле за килограмм, но её тяжелее поднимать на этаж.</p>
+
+        <span class="eyebrow">Что влияет</span>
+        <h2>Что меняет расход смеси</h2>
+        <ul>
+          <li><strong>Кривизна основания.</strong> Главный фактор: чем больше перепад, тем толще средний слой. По кирпичной кладке слой 20–30 мм, по ровному бетону хватает 5–10 мм.</li>
+          <li><strong>Тип смеси.</strong> Гипсовые штукатурки лёгкие и дают меньший расход, цементные прочнее и тяжелее — на 1 мм уходит примерно вдвое больше килограммов.</li>
+          <li><strong>Потери при работе.</strong> 5–10% смеси остаётся на инструменте, бортах и в отходах: этот запас уже заложен в округление мешков вверх.</li>
+          <li><strong>Основание.</strong> Гладкий бетон грунтуют бетонконтактом, сильновпитывающие поверхности — грунтом глубокого проникновения: без этого слой отслоится.</li>
+          <li><strong>Армирование.</strong> При слое больше 30 мм в штукатурку закладывают сетку — она расходом смеси не считается, но её покупают отдельно по площади.</li>
+        </ul>
+    <!--SLOT:banner-mid-->
+    <!--/SLOT:banner-mid-->
+    <!--SLOT:ads-mid-->
+    <!--/SLOT:ads-mid-->
+        <span class="eyebrow">Вопросы и ответы</span>
+        <h2>Частые вопросы о расходе штукатурки</h2>
+
+        <details class="seo-faq">
+          <summary>Как рассчитать расход штукатурки на стену?</summary>
+          <div class="seo-faq-b"><p>Площадь умножьте на среднюю толщину слоя в миллиметрах и на расход смеси с упаковки. Стена 20 м² со слоем 10 мм и цементной штукатуркой 1,7 кг/м²·мм потребует 340 кг смеси, то есть 12 мешков по 30 кг. Гипсовой смеси с расходом 0,9 кг/м²·мм уйдёт 180 кг — 6 мешков.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Какой расход смеси на 1 мм слоя?</summary>
+          <div class="seo-faq-b"><p>Гипсовая штукатурка — 0,8–0,9 кг на 1 м², цементная — 1,5–2 кг, декоративная — 1,5–3 кг, цементно-песчаная стяжка — 1,8–2,2 кг, наливной пол — 1,6–1,8 кг. Разброс связан с плотностью смеси и наполнителем: точную норму производитель печатает на мешке.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Как определить среднюю толщину, если стены кривые?</summary>
+          <div class="seo-faq-b"><p>Выставьте маяки и замерьте отклонение основания от них в пяти-шести точках по высоте и длине стены. Сложите значения и разделите на число замеров: при отклонениях 5, 10, 15, 20 и 25 мм средняя толщина составит 15 мм. Именно её вводят в калькулятор.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Сколько мешков штукатурки нужно на 20 м²?</summary>
+          <div class="seo-faq-b"><p>Зависит от толщины. При слое 10 мм и расходе 1,7 кг/м²·мм нужно 340 кг — 12 мешков по 30 кг. Гипсовой смеси хватит 6 мешков по 30 кг. При слое 20 мм количество удваивается: 24 и 12 мешков соответственно, поэтому кривизну стен оценивают до закупки.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Сколько воды нужно на мешок и сколько выйдет раствора?</summary>
+          <div class="seo-faq-b"><p>На мешок 30 кг добавляют примерно 15–18 л воды: точную норму указывает производитель, при отклонении меняются прочность и удобство работы. Готового раствора из мешка выходит 25–27 литров. Гипсовый раствор пригоден 30–40 минут, цементный — около часа.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Нужна ли грунтовка и армирующая сетка?</summary>
+          <div class="seo-faq-b"><p>Грунтовка обязательна: она обеспыливает основание и обеспечивает сцепление — для гладкого бетона берут бетонконтакт. Сетку закладывают при слое толще 30 мм и на стыках разных материалов (кирпич и бетон, газобетон и монолит), иначе на границе появляются трещины.</p></div>
+        </details>
+
+        <p class="calc-note">Расчёты носят справочный характер: фактический расход зависит от кривизны основания, потерь при замесе и нормы конкретного производителя. Толщину и марку смеси уточняйте по проекту. Данные калькулятора не покидают ваш браузер.</p>
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/calculators/construction/paint/">Краска и грунтовка</a>
+          <a href="/calculators/construction/tile/">Калькулятор плитки</a>
+          <a href="/calculators/construction/brick/">Калькулятор кирпича</a>
+          <a href="/calculators/construction/laminate/">Ламинат и линолеум</a>
+        </div>
+      </div>
+    </div>
+    <!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/calculators/construction/plaster/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/calculators/construction/plaster/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=36" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=36"></script>
+  <script type="module" src="/js/calc-plaster.js?v=36"></script>
+</body>
+</html>
+
+
+
+
+

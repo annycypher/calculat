@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор НДФЛ и налоговых вычетов онлайн | CalcDoc</title>
+  <meta name="description" content="Калькулятор НДФЛ 13% и вычетов: имущественный при покупке жилья (до 260 000 ₽) и инвестиционный по ИИС (до 52 000 ₽), лимиты и примеры расчёта." />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/finance/ndfl/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="НДФЛ и налоговые вычеты — CalcDoc" />
+  <meta property="og:description" content="Посчитайте НДФЛ за год и сумму возврата по имущественному и инвестиционному вычету." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/calculators/finance/ndfl/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/fonts/fonts.css?v=36" />
+  <link rel="stylesheet" href="/styles.css?v=36" />
+  <link rel="stylesheet" href="/seo-article.css?v=36" />
+  <link rel="stylesheet" href="/header.css?v=36" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"SoftwareApplication", "name":"Калькулятор НДФЛ и вычетов", "applicationCategory":"FinanceApplication", "operatingSystem":"Web", "offers":{ "@type":"Offer","price":"0","priceCurrency":"RUB" } }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Калькуляторы","item":"https://calc-doc.ru/calculators/" }, { "@type":"ListItem","position":3,"name":"Финансы и налоги","item":"https://calc-doc.ru/calculators/finance/" }, { "@type":"ListItem","position":4,"name":"НДФЛ и вычеты","item":"https://calc-doc.ru/calculators/finance/ndfl/" } ] }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Какой максимальный возврат по имущественному вычету?", "acceptedAnswer": { "@type": "Answer", "text": "С расходов на покупку жилья до 2 000 000 ₽ возвращается 13%, то есть максимум 260 000 ₽. Если жильё куплено в ипотеку, отдельно учитываются уплаченные проценты — по ним лимит 3 000 000 ₽ и возврат до 390 000 ₽. Калькулятор считает только основной вычет по стоимости жилья." } },
+      { "@type": "Question", "name": "Сколько вернут по взносам на ИИС?", "acceptedAnswer": { "@type": "Answer", "text": "По ИИС с вычетом на взносы (тип А) возвращают 13% от суммы пополнений за год, но не более 400 000 ₽ взносов, то есть до 52 000 ₽ в год. Важно, чтобы был уплачен НДФЛ: возврат не может превысить налог, перечисленный в бюджет за год." } },
+      { "@type": "Question", "name": "Что делать, если НДФЛ меньше суммы вычетов?", "acceptedAnswer": { "@type": "Answer", "text": "Вернут только уплаченный налог, а неиспользованная часть вычета перейдёт на следующие годы. Поэтому крупные вычеты удобно выбирать несколько лет подряд: пока есть облагаемый доход, остаток «сгорать» не будет. Калькулятор показывает итог с учётом этого ограничения." } },
+      { "@type": "Question", "name": "Как быстро возвращают деньги после подачи заявления?", "acceptedAnswer": { "@type": "Answer", "text": "По декларации ФНС проводит камеральную проверку — обычно до трёх месяцев, затем в течение месяца перечисляет деньги на счёт. По упрощённому порядку через личный кабинет сроки короче: проверка занимает около месяца. Точные сроки смотрите в личном кабинете ФНС." } },
+      { "@type": "Question", "name": "Можно ли получить вычет сразу за несколько лет?", "acceptedAnswer": { "@type": "Answer", "text": "Да, если вы не пользовались вычетом раньше. Подать декларации можно за три года, предшествующих обращению: за каждый год вернётся НДФЛ, уплаченный в этом году, но не больше остатка вычета. Дальше остаток переносится на будущие годы, пока не будет выбран полностью." } },
+      { "@type": "Question", "name": "Нужно ли платить налог с возвращённого НДФЛ?", "acceptedAnswer": { "@type": "Answer", "text": "Нет. Возврат налога — это не новый доход, а возврат ранее удержанного НДФЛ, поэтому он не облагается налогом и не указывается в декларации как доход. Ограничение только одно: сумма возврата за год не может превышать уплаченный за тот же год налог." } },
+      { "@type": "Question", "name": "Какая ставка НДФЛ действует в 2026 году?", "acceptedAnswer": { "@type": "Answer", "text": "По прогрессивной шкале: 13% с дохода до 2,4 млн ₽, 15% — с части от 2,4 до 5 млн ₽, 18% — от 5 до 20 млн ₽, 20% — от 20 до 50 млн ₽ и 22% — свыше 50 млн ₽. Повышенная ставка применяется только к сумме, попавшей в ступень. Например, с дохода 3 000 000 ₽ налог равен 402 000 ₽: 312 000 ₽ по 13% и 90 000 ₽ по 15%." } },
+      { "@type": "Question", "name": "Как учитывать стандартные вычеты на детей?", "acceptedAnswer": { "@type": "Answer", "text": "Стандартный вычет уменьшает доход до расчёта налога: 1 400 ₽ в месяц на первого ребёнка, 2 800 ₽ на второго, 6 000 ₽ на третьего и каждого следующего, 12 000 ₽ — на ребёнка-инвалида. Право действует, пока доход с начала года не превысил 450 000 ₽. Вычет экономит 13% от своей суммы, поэтому в калькуляторе удобно указать доход уже за вычетом этих сумм." } }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="/print.css?v=36" media="print" />
+</head>
+<body>
+    <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/calculators/">Калькуляторы</a> / <a href="/calculators/finance/">Финансы и налоги</a> / НДФЛ и вычеты</nav>
+      <h1>Калькулятор НДФЛ и вычетов</h1>
+      <p class="tool-meta">Сколько налога удержано и сколько можно вернуть по имущественному и инвестиционному вычету. Данные не отправляются на сервер.</p>
+      <p class="calc-note">Расчёты носят справочный характер.</p>
+    </div>
+
+    <!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="ndflForm">
+            <div class="field">
+              <label for="income">Доход за год (₽)</label>
+              <input type="number" id="income" inputmode="decimal" min="0" step="any" placeholder="например 1200000" required value="1200000" />
+            </div>
+            <div class="field">
+              <label for="housing">Расходы на жильё (₽)</label>
+              <input type="number" id="housing" inputmode="decimal" min="0" step="any" placeholder="0" value="0" />
+              <span class="hint">Имущественный вычет: до 2 000 000 ₽.</span>
+            </div>
+            <div class="field">
+              <label for="iis">Взнос на ИИС (₽)</label>
+              <input type="number" id="iis" inputmode="decimal" min="0" step="any" placeholder="0" value="0" />
+              <span class="hint">Инвестиционный вычет: до 400 000 ₽ в год.</span>
+            </div>
+            <button data-metric-goal="расчёт" class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+    <!--SLOT:banner-after-tool-->
+    <!--/SLOT:banner-after-tool-->
+    <!--SLOT:ads-after-tool-->
+    <!--/SLOT:ads-after-tool-->
+      <div class="prose">
+        <span class="eyebrow">НДФЛ и вычеты</span>
+        <h2>Калькулятор НДФЛ и налоговых вычетов: сколько вернут из бюджета</h2>
+        <p class="tool-meta">Обновлено: 16 сентября 2026</p>
+        <p>Калькулятор НДФЛ и вычетов считает сразу три вещи: <strong>налог с дохода за год</strong>, сумму возврата по имущественному вычету при покупке жилья и возврат по взносам на ИИС, а также итог — сколько реально вернёт налоговая с учётом уплаченного НДФЛ.</p>
+        <p>Данные не отправляются на сервер. Так удобно прикинуть, сколько денег вернётся из бюджета в этом году и стоит ли подавать декларацию сразу за несколько лет.</p>
+
+        <span class="eyebrow">Инструкция</span>
+        <h2>Как посчитать НДФЛ и вычет</h2>
+        <p>Заполните три поля — по желанию можно оставить расходы и взносы нулевыми:</p>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span><strong>Доход за год</strong> — зарплата и другие доходы, облагаемые НДФЛ 13%</span></div>
+          <div class="seo-step"><b>2</b><span><strong>Расходы на жильё</strong> — стоимость квартиры или дома, но не больше 2 000 000 ₽</span></div>
+          <div class="seo-step"><b>3</b><span><strong>Взнос на ИИС</strong> — пополнения индивидуального инвестиционного счёта за год</span></div>
+        </div>
+        <p>Результат показывает НДФЛ за год, возврат по каждому вычету и итоговую сумму к возврату. Она не может быть больше уплаченного за год налога — остаток переносится на следующие годы.</p>
+
+        <span class="eyebrow">Формула</span>
+        <h2>Формулы расчёта НДФЛ и вычетов</h2>
+        <div class="seo-formula">НДФЛ = Доход за год × 13%</div>
+        <div class="seo-formula">Возврат = 13% × min(Расходы на жильё; 2 000 000 ₽) + 13% × min(Взнос на ИИС; 400 000 ₽)</div>
+        <p>Итог ограничен суммой уплаченного НДФЛ: нельзя вернуть больше налога, чем перечислено в бюджет за год.</p>
+        <p><strong>Пример.</strong> Доход 1 200 000 ₽ в год — НДФЛ 156 000 ₽. Расходы на жильё 2 000 000 ₽ дают право на возврат 260 000 ₽, взнос на ИИС 400 000 ₽ — ещё на 52 000 ₽. Итого вычеты 312 000 ₽, но вернуть в этом году получится 156 000 ₽ — остальное перенесётся на следующие годы. При доходе 2 400 000 ₽ НДФЛ равен 312 000 ₽, и вычеты возвращаются полностью.</p>
+        <table class="seo-table">
+          <thead><tr><th>Вычет</th><th>Лимит расходов</th><th>Максимум к возврату</th></tr></thead>
+          <tbody>
+            <tr><td>Имущественный при покупке жилья</td><td>2 000 000 ₽</td><td>260 000 ₽</td></tr>
+            <tr><td>Инвестиционный по ИИС</td><td>400 000 ₽ в год</td><td>52 000 ₽ в год</td></tr>
+            <tr><td>Социальные (лечение, обучение)</td><td>150 000 ₽ в год</td><td>19 500 ₽ в год</td></tr>
+          </tbody>
+        </table>
+        <p class="hint">Калькулятор считает имущественный и инвестиционный вычеты. Социальные вычеты считаются по той же логике, но лимит у них общий на год.</p>
+
+        <span class="eyebrow">Ставки НДФЛ</span>
+        <h2>Прогрессивная шкала НДФЛ</h2>
+        <p>С 2025 года НДФЛ с зарплаты и большинства других доходов считают по прогрессивной шкале: чем выше годовой доход, тем больше ставка. Повышенная ставка применяется <strong>не ко всей сумме</strong>, а только к части, попавшей в следующую ступень, поэтому налог растёт плавно.</p>
+        <table class="seo-table">
+          <thead><tr><th>Годовой доход</th><th>Ставка</th></tr></thead>
+          <tbody>
+            <tr><td>до 2 400 000 ₽</td><td>13%</td></tr>
+            <tr><td>от 2 400 000 до 5 000 000 ₽</td><td>15%</td></tr>
+            <tr><td>от 5 000 000 до 20 000 000 ₽</td><td>18%</td></tr>
+            <tr><td>от 20 000 000 до 50 000 000 ₽</td><td>20%</td></tr>
+            <tr><td>свыше 50 000 000 ₽</td><td>22%</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Пример.</strong> Доход 3 000 000 ₽ за год: 2 400 000 ₽ облагаются по 13% — это 312 000 ₽, а оставшиеся 600 000 ₽ по 15% — ещё 90 000 ₽. Итого НДФЛ 402 000 ₽, то есть примерно 13,4% от дохода. При доходе 6 000 000 ₽ налог составит 882 000 ₽.</p>
+        <p>Калькулятор выше считает по базовой ставке 13% — этого достаточно, если доход не выше 2,4 млн ₽ в год или нужно быстро оценить возврат по вычетам. Для высоких доходов сложите налог по ступеням из таблицы и сравните с результатом калькулятора.</p>
+        <p class="hint">Для дивидендов, доходов нерезидентов и выплат участникам СВО действуют свои ставки и пороги — уточняйте их по главе 23 НК РФ.</p>
+
+        <span class="eyebrow">Как получить</span>
+        <h2>Как получить налоговый вычет</h2>
+        <p>Есть два рабочих способа — их можно совмещать по годам.</p>
+        <ul>
+          <li><strong>Через работодателя</strong> — в текущем году: налоговая подтверждает право на вычет, и НДФЛ перестают удерживать из зарплаты, пока вычет не выбран. Деньги приходят ежемесячно «в составе» зарплаты.</li>
+          <li><strong>Через декларацию 3-НДФЛ</strong> — за прошлые годы: возврат приходит одной суммой на счёт. Удобнее подавать через личный кабинет ФНС, тогда большинство данных подставляется автоматически.</li>
+        </ul>
+        <p>Если за год вычет не выбран полностью, остаток переносится на следующие годы — заявление и подтверждение права на вычет обычно оформляют один раз.</p>
+        <p class="note"><strong>Важно:</strong> ставка НДФЛ зависит от размера дохода: 13% действует до 2,4 млн ₽ в год, дальше применяется прогрессивная шкала. Калькулятор считает по базовым 13%, поэтому для доходов выше этого порога итог будет нижней границей, а сумма вычета — неизменной: лимиты вычетов фиксированы.</p>
+
+    <!--SLOT:banner-mid-->
+    <!--/SLOT:banner-mid-->
+    <!--SLOT:ads-mid-->
+    <!--/SLOT:ads-mid-->
+        <span class="eyebrow">Вопросы и ответы</span>
+        <h2>Частые вопросы о НДФЛ и вычетах</h2>
+
+        <details class="seo-faq">
+          <summary>Какой максимальный возврат по имущественному вычету?</summary>
+          <div class="seo-faq-b"><p>С расходов на покупку жилья до 2 000 000 ₽ возвращается 13%, то есть максимум 260 000 ₽. Если жильё куплено в ипотеку, отдельно учитываются уплаченные проценты — по ним лимит 3 000 000 ₽ и возврат до 390 000 ₽. Калькулятор считает только основной вычет по стоимости жилья.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Сколько вернут по взносам на ИИС?</summary>
+          <div class="seo-faq-b"><p>По ИИС с вычетом на взносы (тип А) возвращают 13% от суммы пополнений за год, но не более 400 000 ₽ взносов, то есть до 52 000 ₽ в год. Важно, чтобы был уплачен НДФЛ: возврат не может превысить налог, перечисленный в бюджет за год.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Что делать, если НДФЛ меньше суммы вычетов?</summary>
+          <div class="seo-faq-b"><p>Вернут только уплаченный налог, а неиспользованная часть вычета перейдёт на следующие годы. Поэтому крупные вычеты удобно выбирать несколько лет подряд: пока есть облагаемый доход, остаток «сгорать» не будет. Калькулятор показывает итог с учётом этого ограничения.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Как быстро возвращают деньги после подачи заявления?</summary>
+          <div class="seo-faq-b"><p>По декларации ФНС проводит камеральную проверку — обычно до трёх месяцев, затем в течение месяца перечисляет деньги на счёт. По упрощённому порядку через личный кабинет сроки короче: проверка занимает около месяца. Точные сроки смотрите в личном кабинете ФНС.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Можно ли получить вычет сразу за несколько лет?</summary>
+          <div class="seo-faq-b"><p>Да, если вы не пользовались вычетом раньше. Подать декларации можно за три года, предшествующих обращению: за каждый год вернётся НДФЛ, уплаченный в этом году, но не больше остатка вычета. Дальше остаток переносится на будущие годы, пока не будет выбран полностью.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Нужно ли платить налог с возвращённого НДФЛ?</summary>
+          <div class="seo-faq-b"><p>Нет. Возврат налога — это не новый доход, а возврат ранее удержанного НДФЛ, поэтому он не облагается налогом и не указывается в декларации как доход. Ограничение только одно: сумма возврата за год не может превышать уплаченный за тот же год налог.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Какая ставка НДФЛ действует в 2026 году?</summary>
+          <div class="seo-faq-b"><p>По прогрессивной шкале: 13% с дохода до 2,4 млн ₽, 15% — с части от 2,4 до 5 млн ₽, 18% — от 5 до 20 млн ₽, 20% — от 20 до 50 млн ₽ и 22% — свыше 50 млн ₽. Повышенная ставка применяется только к сумме, попавшей в ступень. Например, с дохода 3 000 000 ₽ налог равен 402 000 ₽: 312 000 ₽ по 13% и 90 000 ₽ по 15%.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Как учитывать стандартные вычеты на детей?</summary>
+          <div class="seo-faq-b"><p>Стандартный вычет уменьшает доход до расчёта налога: 1 400 ₽ в месяц на первого ребёнка, 2 800 ₽ на второго, 6 000 ₽ на третьего и каждого следующего, 12 000 ₽ — на ребёнка-инвалида. Право действует, пока доход с начала года не превысил 450 000 ₽. Вычет экономит 13% от своей суммы, поэтому в калькуляторе удобно указать доход уже за вычетом этих сумм.</p></div>
+        </details>
+
+        <p class="calc-note">Расчёты носят справочный характер и не являются налоговой консультацией. Лимиты вычетов, ставки и порядок получения уточняйте в НК РФ и личном кабинете ФНС. Данные калькулятора не покидают ваш браузер.</p>
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/calculators/finance/mortgage/">Ипотечный калькулятор</a>
+          <a href="/calculators/finance/tax-freelancer/">НПД для самозанятых</a>
+          <a href="/calculators/finance/ip-insurance/">Взносы ИП за себя</a>
+          <a href="/calculators/finance/vat/">Калькулятор НДС</a>
+        </div>
+      </div>
+    </div>
+    <!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/calculators/finance/ndfl/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/calculators/finance/ndfl/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=36" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=36"></script>
+  <script type="module" src="/js/calc-ndfl.js?v=36"></script>
+</body>
+</html>
+
+
+
+

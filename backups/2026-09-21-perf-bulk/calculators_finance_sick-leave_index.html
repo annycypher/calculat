@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор больничного — оплата по стажу | CalcDoc</title>
+  <meta name="description" content="Калькулятор больничного листа: средний дневной заработок за два года, процент по стажу (60%, 80%, 100%) и сумма пособия по нетрудоспособности." />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/finance/sick-leave/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Калькулятор больничного — CalcDoc" />
+  <meta property="og:description" content="Рассчитайте средний дневной заработок и пособие по больничному с учётом стажа." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/calculators/finance/sick-leave/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/fonts/fonts.css?v=36" />
+  <link rel="stylesheet" href="/styles.css?v=36" />
+  <link rel="stylesheet" href="/seo-article.css?v=36" />
+  <link rel="stylesheet" href="/header.css?v=36" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"SoftwareApplication", "name":"Калькулятор больничного", "applicationCategory":"FinanceApplication", "operatingSystem":"Web", "offers":{ "@type":"Offer","price":"0","priceCurrency":"RUB" } }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Калькуляторы","item":"https://calc-doc.ru/calculators/" }, { "@type":"ListItem","position":3,"name":"Финансы и налоги","item":"https://calc-doc.ru/calculators/finance/" }, { "@type":"ListItem","position":4,"name":"Больничный","item":"https://calc-doc.ru/calculators/finance/sick-leave/" } ] }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Как рассчитывается больничный в 2026 году?", "acceptedAnswer": { "@type": "Answer", "text": "Доход за два предыдущих календарных года делят на 730 и получают средний дневной заработок. Его проверяют по минимуму (МРОТ × 24 ÷ 730) и максимуму (предельная база взносов), затем умножают на число дней больничного и процент по стажу. Калькулятор делает те же шаги." } },
+      { "@type": "Question", "name": "Какой процент от зарплаты платят по больничному?", "acceptedAnswer": { "@type": "Answer", "text": "Зависит от страхового стажа: 8 лет и более — 100% среднего заработка, от 5 до 8 лет — 80%, до 5 лет — 60%. Стаж считают по трудовой книжке и договорам, по которым платили взносы. Процент применяется ко всей сумме пособия." } },
+      { "@type": "Question", "name": "Кто платит больничный — работодатель или фонд?", "acceptedAnswer": { "@type": "Answer", "text": "Первые три дня нетрудоспособности оплачивает работодатель за свой счёт, с четвёртого дня пособие платит СФР. Работник получает всю сумму сразу: фонд перечисляет свою часть в ближайшую дату выплаты зарплаты, отдельного заявления не требуется." } },
+      { "@type": "Question", "name": "Что если доход за два года превышает лимит?", "acceptedAnswer": { "@type": "Answer", "text": "Тогда в расчёт берётся не ваш фактический заработок, а максимальный средний дневной — он привязан к предельной базе страховых взносов за соответствующие годы. Именно поэтому при высокой зарплате пособие растёт не пропорционально доходу: сверху действует потолок." } },
+      { "@type": "Question", "name": "Как считают больничный при стаже меньше полугода?", "acceptedAnswer": { "@type": "Answer", "text": "Пособие выплачивают, но с ограничением: за полный месяц оно не может превышать МРОТ с учётом районного коэффициента. То есть месячный заработок, рассчитанный по больничному, «упирается» в минимальный размер оплаты труда. Калькулятор подставляет МРОТ — обновите его под актуальный год." } },
+      { "@type": "Question", "name": "Входят ли премии и отпускные в расчёт больничного?", "acceptedAnswer": { "@type": "Answer", "text": "Да, если с этих выплат уплачены страховые взносы: зарплата, премии, отпускные и другие выплаты по трудовому договору учитываются. Не входят выплаты, взносами не облагаемые, — государственные пособия, компенсации и часть материальной помощи. Сумма за два года всегда делится на 730." } },
+      { "@type": "Question", "name": "Как оплачивают больничный по уходу за ребёнком?", "acceptedAnswer": { "@type": "Answer", "text": "При уходе за ребёнком до 7 лет пособие платят в размере 100% среднего заработка независимо от страхового стажа, но не более 60 календарных дней в году. По ребёнку от 7 до 15 лет оплачивают до 10 календарных дней по каждому случаю, процент зависит от стажа. Листок оформляют на того члена семьи, кто фактически ухаживает за ребёнком." } },
+      { "@type": "Question", "name": "Можно ли получить больничный на двух работах?", "acceptedAnswer": { "@type": "Answer", "text": "Да. Если сотрудник занят у нескольких работодателей и у каждого из них отработал два года и более, пособие назначают по каждому месту работы — со «своим» доходом и стажем. Если у части работодателей стаж меньше, пособие платит один из них по выбору работника, но в расчёт берут заработок у всех работодателей за два года." } }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="/print.css?v=36" media="print" />
+</head>
+<body>
+    <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/calculators/">Калькуляторы</a> / <a href="/calculators/finance/">Финансы и налоги</a> / Больничный</nav>
+      <h1>Калькулятор больничного</h1>
+      <p class="tool-meta">Пособие по временной нетрудоспособности по доходу за два года, стажу и числу дней. Данные не отправляются на сервер.</p>
+      <p class="calc-note">Расчёты носят справочный характер.</p>
+    </div>
+
+    <!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="sickLeaveForm">
+            <div class="field">
+              <label for="income">Доход за 2 года (₽)</label>
+              <input type="number" id="income" inputmode="decimal" min="0" step="any" placeholder="например 840000" required value="840000" />
+              <span class="hint">Зарплата за два календарных года до болезни.</span>
+            </div>
+            <div class="field">
+              <label for="days">Дней больничного</label>
+              <input type="number" id="days" inputmode="numeric" min="1" step="1" placeholder="10" required value="10" />
+            </div>
+            <div class="field">
+              <label for="tenure">Стаж</label>
+              <select id="tenure">
+                <option value="100">8 лет и более — 100%</option>
+                <option value="80">5–8 лет — 80%</option>
+                <option value="60">до 5 лет — 60%</option>
+              </select>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="mrot">МРОТ (₽)</label>
+                <input type="number" id="mrot" inputmode="decimal" min="0" step="any" placeholder="22440" required value="22440" />
+              </div>
+              <div class="field">
+                <label for="maxDaily">Макс. дневной (₽)</label>
+                <input type="number" id="maxDaily" inputmode="decimal" min="0" step="any" placeholder="5674.77" required value="5674.77" />
+              </div>
+            </div>
+            <button data-metric-goal="расчёт" class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+    <!--SLOT:banner-after-tool-->
+    <!--/SLOT:banner-after-tool-->
+    <!--SLOT:ads-after-tool-->
+    <!--/SLOT:ads-after-tool-->
+      <div class="prose">
+        <span class="eyebrow">Расчёт больничного</span>
+        <h2>Калькулятор больничного: расчёт пособия по временной нетрудоспособности</h2>
+        <p class="tool-meta">Обновлено: 16 сентября 2026</p>
+        <p>Калькулятор больничного считает <strong>пособие по временной нетрудоспособности</strong>: средний дневной заработок за два года, процент по страховому стажу и итоговую сумму к выплате за дни болезни. Учитываются ограничения — минимум по МРОТ и максимальный дневной заработок.</p>
+        <p>Расчёт идёт в браузере: доход за два года и лимиты не отправляются на сервер. Результат — ориентир: точную сумму назначает СФР по электронному листку нетрудоспособности, но сверить порядок цифр полезно заранее.</p>
+
+        <span class="eyebrow">Инструкция</span>
+        <h2>Как рассчитать пособие по больничному</h2>
+        <p>Заполните поля — они соответствуют данным, которые использует фонд:</p>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span><strong>Доход за 2 года</strong> — вся зарплата и премии, с которых платили взносы</span></div>
+          <div class="seo-step"><b>2</b><span><strong>Дней больничного</strong> — число дней по листку нетрудоспособности</span></div>
+          <div class="seo-step"><b>3</b><span><strong>Стаж</strong> — 8 лет и более дают 100%, 5–8 лет — 80%, до 5 лет — 60%</span></div>
+          <div class="seo-step"><b>4</b><span><strong>МРОТ и макс. дневной</strong> — нижняя и верхняя границы среднего дневного заработка</span></div>
+        </div>
+        <p>Нажмите «Рассчитать» — увидите средний дневной заработок с учётом ограничений, процент по стажу, дни и сумму пособия. Если доход небольшой, сработает минимум по МРОТ; если очень высокий — лимит базы взносов.</p>
+
+        <span class="eyebrow">Формула</span>
+        <h2>Формула расчёта больничного</h2>
+        <div class="seo-formula">Средний дневной = Доход за 2 года ÷ 730</div>
+        <div class="seo-formula">Пособие = Средний дневной × Дни больничного × % по стажу</div>
+        <p>Средний дневной заработок сначала сравнивают с минимумом по МРОТ и максимумом из предельной базы взносов, и только потом умножают на дни и процент по стажу.</p>
+        <p><strong>Пример.</strong> Доход за два года 840 000 ₽: 840 000 ÷ 730 = 1 150,68 ₽ в день. Больничный 10 дней при стаже 8+ лет даёт 11 506,85 ₽; при стаже 5–8 лет — 9 205,48 ₽; при стаже до 5 лет — 6 904,11 ₽.</p>
+        <table class="seo-table">
+          <thead><tr><th>Страховой стаж</th><th>Процент пособия</th><th>Пособие за 10 дней</th></tr></thead>
+          <tbody>
+            <tr><td>8 лет и более</td><td>100%</td><td>11 506,85 ₽</td></tr>
+            <tr><td>5–8 лет</td><td>80%</td><td>9 205,48 ₽</td></tr>
+            <tr><td>до 5 лет</td><td>60%</td><td>6 904,11 ₽</td></tr>
+          </tbody>
+        </table>
+        <p class="hint">Доход за два года — 840 000 ₽, 10 дней больничного. Минимум по МРОТ 22 440 ₽ даёт 737,75 ₽ в день.</p>
+
+        <span class="eyebrow">Лимиты и правила</span>
+        <h2>Что влияет на размер пособия</h2>
+        <ul>
+          <li><strong>Страховой стаж</strong> — главный множитель: 100% при 8 годах и более, 80% при 5–8 годах, 60% при стаже до 5 лет.</li>
+          <li><strong>Доход за два календарных года</strong>, предшествующих болезни. Делителем всегда остаётся 730 дней, даже если были периоды отпусков и больничных.</li>
+          <li><strong>Минимум по МРОТ.</strong> Пособие за полный месяц не может быть ниже МРОТ — калькулятор сравнивает средний дневной с 24 × МРОТ ÷ 730.</li>
+          <li><strong>Максимум по предельной базе взносов.</strong> Сверху средний дневной ограничен значением, которое зависит от года: в калькуляторе подставлен ориентир, его нужно обновлять под актуальный год.</li>
+          <li><strong>Нарушение режима и неполная ставка.</strong> При нарушении режима пособие считают по МРОТ, а при работе на полставки — пропорционально ставке.</li>
+        </ul>
+        <p class="note"><strong>Важно:</strong> первые три дня больничного оплачивает работодатель, остальные — СФР. Листок оформляют в электронном виде, фонд назначает пособие в течение 10 рабочих дней, а перечисляет деньги в ближайшую дату выплаты зарплаты.</p>
+
+        <span class="eyebrow">Особые случаи</span>
+        <h2>Уход за ребёнком, совместители и травма</h2>
+        <p>Не всегда размер пособия зависит от стажа: в части случаев процент всегда максимальный или меняются сами правила.</p>
+        <ul>
+          <li><strong>Уход за больным ребёнком до 7 лет</strong> — 100% среднего заработка независимо от стажа, но не более 60 календарных дней в году по всем таким больничным.</li>
+          <li><strong>Ребёнок от 7 до 15 лет</strong> — до 10 календарных дней по каждому случаю, процент считается по стажу.</li>
+          <li><strong>Производственная травма и профзаболевание</strong> — 100% среднего заработка независимо от стажа, пособие платит СФР.</li>
+          <li><strong>Стаж меньше 6 месяцев</strong> — пособие за полный месяц не выше МРОТ с районным коэффициентом.</li>
+          <li><strong>Совместители</strong> — если у работодателя отработано два года и более, пособие платят все работодатели; при меньшем стаже — один по выбору сотрудника.</li>
+        </ul>
+        <p class="hint">Как считать в калькуляторе: для ухода за ребёнком до 7 лет и для пособия по травме поставьте стаж «8 лет и более» — получите 100%. Ограничение по МРОТ калькулятор учитывает отдельным полем, поэтому для короткого стажа проверьте, что сумма не ниже минимума.</p>
+
+    <!--SLOT:banner-mid-->
+    <!--/SLOT:banner-mid-->
+    <!--SLOT:ads-mid-->
+    <!--/SLOT:ads-mid-->
+        <span class="eyebrow">Вопросы и ответы</span>
+        <h2>Частые вопросы о больничном</h2>
+
+        <details class="seo-faq">
+          <summary>Как рассчитывается больничный в 2026 году?</summary>
+          <div class="seo-faq-b"><p>Доход за два предыдущих календарных года делят на 730 и получают средний дневной заработок. Его проверяют по минимуму (МРОТ × 24 ÷ 730) и максимуму (предельная база взносов), затем умножают на число дней больничного и процент по стажу. Калькулятор делает те же шаги.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Какой процент от зарплаты платят по больничному?</summary>
+          <div class="seo-faq-b"><p>Зависит от страхового стажа: 8 лет и более — 100% среднего заработка, от 5 до 8 лет — 80%, до 5 лет — 60%. Стаж считают по трудовой книжке и договорам, по которым платили взносы. Процент применяется ко всей сумме пособия.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Кто платит больничный — работодатель или фонд?</summary>
+          <div class="seo-faq-b"><p>Первые три дня нетрудоспособности оплачивает работодатель за свой счёт, с четвёртого дня пособие платит СФР. Работник получает всю сумму сразу: фонд перечисляет свою часть в ближайшую дату выплаты зарплаты, отдельного заявления не требуется.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Что если доход за два года превышает лимит?</summary>
+          <div class="seo-faq-b"><p>Тогда в расчёт берётся не ваш фактический заработок, а максимальный средний дневной — он привязан к предельной базе страховых взносов за соответствующие годы. Именно поэтому при высокой зарплате пособие растёт не пропорционально доходу: сверху действует потолок.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Как считают больничный при стаже меньше полугода?</summary>
+          <div class="seo-faq-b"><p>Пособие выплачивают, но с ограничением: за полный месяц оно не может превышать МРОТ с учётом районного коэффициента. То есть месячный заработок, рассчитанный по больничному, «упирается» в минимальный размер оплаты труда. Калькулятор подставляет МРОТ — обновите его под актуальный год.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Входят ли премии и отпускные в расчёт больничного?</summary>
+          <div class="seo-faq-b"><p>Да, если с этих выплат уплачены страховые взносы: зарплата, премии, отпускные и другие выплаты по трудовому договору учитываются. Не входят выплаты, взносами не облагаемые, — государственные пособия, компенсации и часть материальной помощи. Сумма за два года всегда делится на 730.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Как оплачивают больничный по уходу за ребёнком?</summary>
+          <div class="seo-faq-b"><p>При уходе за ребёнком до 7 лет пособие платят в размере 100% среднего заработка независимо от страхового стажа, но не более 60 календарных дней в году. По ребёнку от 7 до 15 лет оплачивают до 10 календарных дней по каждому случаю, процент зависит от стажа. Листок оформляют на того члена семьи, кто фактически ухаживает за ребёнком.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Можно ли получить больничный на двух работах?</summary>
+          <div class="seo-faq-b"><p>Да. Если сотрудник занят у нескольких работодателей и у каждого из них отработал два года и более, пособие назначают по каждому месту работы — со «своим» доходом и стажем. Если у части работодателей стаж меньше, пособие платит один из них по выбору работника, но в расчёт берут заработок у всех работодателей за два года.</p></div>
+        </details>
+
+        <p class="calc-note">Расчёты носят справочный характер и не заменяют расчёт фонда: пособие назначает СФР по данным о ваших выплатах. МРОТ, предельную базу и лимиты уточняйте на текущий год. Данные калькулятора не покидают ваш браузер.</p>
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/calculators/finance/average-earnings/">Средний заработок</a>
+          <a href="/calculators/finance/vacation-pay/">Калькулятор отпускных</a>
+          <a href="/calculators/finance/maternity/">Калькулятор декретных</a>
+          <a href="/calculators/finance/salary-delay/">Задержка зарплаты</a>
+        </div>
+      </div>
+    </div>
+    <!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/calculators/finance/sick-leave/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/calculators/finance/sick-leave/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=36" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=36"></script>
+  <script type="module" src="/js/calc-sick-leave.js?v=36"></script>
+</body>
+</html>
+
+
+
+

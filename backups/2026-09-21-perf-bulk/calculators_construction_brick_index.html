@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор кирпича на дом — расход на кладку | CalcDoc</title>
+  <meta name="description" content="Калькулятор кирпича онлайн: количество по площади, высоте и толщине кладки — в полкирпича, один, полтора и два, с запасом на бой и подрезку." />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/construction/brick/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Калькулятор кирпича на кладку — CalcDoc" />
+  <meta property="og:description" content="Рассчитайте количество кирпича по площади и толщине кладки с запасом на бой." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/calculators/construction/brick/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/fonts/fonts.css?v=36" />
+  <link rel="stylesheet" href="/styles.css?v=36" />
+  <link rel="stylesheet" href="/seo-article.css?v=36" />
+  <link rel="stylesheet" href="/header.css?v=36" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Калькулятор кирпича",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Калькуляторы", "item": "https://calc-doc.ru/calculators/" },
+      { "@type": "ListItem", "position": 3, "name": "Стройка и ремонт", "item": "https://calc-doc.ru/calculators/construction/" },
+      { "@type": "ListItem", "position": 4, "name": "Кирпич", "item": "https://calc-doc.ru/calculators/construction/brick/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Сколько кирпича в 1 м² кладки?", "acceptedAnswer": { "@type": "Answer", "text": "С учётом растворных швов: около 51 штуки в полкирпича, 102 — в один кирпич, 153 — в полтора и 204 — в два кирпича. Значения даны для одинарного кирпича 250 × 120 × 65 мм; полуторного потребуется примерно на треть меньше по количеству." } },
+      { "@type": "Question", "name": "Сколько кирпича нужно на дом 8 на 10 метров?", "acceptedAnswer": { "@type": "Answer", "text": "При периметре 36 м и высоте кладки 3 м площадь стен — 108 м². В полтора кирпича это 16 524 штуки, с запасом 10% — 18 177. В один кирпич — 11 016 и 12 118 штук соответственно. Фронтоны, внутренние стены и цоколь считают отдельно и прибавляют к результату." } },
+      { "@type": "Question", "name": "Сколько кирпича в поддоне и сколько он весит?", "acceptedAnswer": { "@type": "Answer", "text": "На поддоне обычно от 250 до 400 штук — зависит от формата и производителя. Одинарный полнотелый кирпич весит около 3,5 кг, пустотелый — около 2,5 кг, поэтому поддон выходит от 0,6 до 1,4 тонны. Заказывайте с учётом грузоподъёмности машины и места на площадке." } },
+      { "@type": "Question", "name": "Нужно ли вычитать окна и двери из площади кладки?", "acceptedAnswer": { "@type": "Answer", "text": "Да, иначе получится заметный перерасход. На доме 8 × 10 м окна и двери занимают обычно 12–18 м² — при кладке в полтора кирпича это 1 800–2 800 штук. Посчитайте проёмы отдельно, вычтите их площадь из площади стен либо считайте кладку участками и суммируйте результаты." } },
+      { "@type": "Question", "name": "Сколько раствора понадобится на кладку?", "acceptedAnswer": { "@type": "Answer", "text": "На 1 м³ кладки уходит примерно 0,2–0,25 м³ раствора. Кладка в полтора кирпича — это 380 мм толщины, то есть 0,38 м³ кладки на каждый квадратный метр: для 108 м² получится около 41 м³ кладки и 8–10 м³ раствора. Марку раствора обычно берут М75–М100 для стен." } },
+      { "@type": "Question", "name": "Какой кирпич выбрать для наружных стен?", "acceptedAnswer": { "@type": "Answer", "text": "Для наружных стен чаще берут пустотелый кирпич: он легче и лучше держит тепло. Полнотелый нужен для фундамента, цоколя и печей — там важнее прочность и морозостойкость. Для несущих стен достаточно марки М100–М150: более высокая марка удорожает кладку без практической пользы." } }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="/print.css?v=36" media="print" />
+</head>
+<body>
+    <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/calculators/">Калькуляторы</a> / <a href="/calculators/construction/">Стройка и ремонт</a> / Кирпич</nav>
+      <h1>Калькулятор кирпича</h1>
+      <p class="tool-meta">Рассчитайте количество кирпича для кладки стен по площади и толщине. Данные не отправляются на сервер.</p>
+      <p class="calc-note">Расчёты носят справочный характер.</p>
+    </div>
+
+    <!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="brickForm">
+            <div class="field">
+              <label for="length">Длина стены (м)</label>
+              <input type="number" id="length" inputmode="decimal" min="0" step="any" placeholder="например 10" required value="10" />
+            </div>
+            <div class="field">
+              <label for="height">Высота стены (м)</label>
+              <input type="number" id="height" inputmode="decimal" min="0" step="any" placeholder="например 3" required value="3" />
+            </div>
+            <div class="field">
+              <label for="thickness">Толщина кладки</label>
+              <select id="thickness">
+                <option value="0.5">В полкирпича</option>
+                <option value="1">В один кирпич</option>
+                <option value="1.5">В полтора кирпича</option>
+                <option value="2">В два кирпича</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="reserve">Запас (%)</label>
+              <input type="number" id="reserve" inputmode="decimal" min="0" max="50" step="any" placeholder="например 10" required value="10" />
+            </div>
+            <button data-metric-goal="расчёт" class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container section">
+    <!--SLOT:banner-after-tool-->
+    <!--/SLOT:banner-after-tool-->
+    <!--SLOT:ads-after-tool-->
+    <!--/SLOT:ads-after-tool-->
+      <div class="prose">
+        <span class="eyebrow">Расчёт кирпича</span>
+        <h2>Калькулятор кирпича: сколько кирпича нужно на стену и дом</h2>
+        <p class="tool-meta">Обновлено: 16 сентября 2026</p>
+        <p>Калькулятор кирпича считает <strong>количество кирпича для кладки стен</strong> по длине, высоте и толщине кладки — с запасом на бой и подрезку. Результат: площадь кладки, кирпич без запаса и итог, который нужно заказать у поставщика.</p>
+        <p>Расчёт идёт в браузере, размеры дома никуда не отправляются. Это удобно перед закупкой: одна цифра вместо пересчёта «на глаз» и лишних поддонов на площадке.</p>
+
+        <span class="eyebrow">Инструкция</span>
+        <h2>Как посчитать кирпич на кладку</h2>
+        <p>Нужны четыре значения — все есть в проекте или измеряются рулеткой:</p>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span><strong>Длина стены</strong> — для дома это сумма длин всех стен, в метрах</span></div>
+          <div class="seo-step"><b>2</b><span><strong>Высота стены</strong> — от верха фундамента до верха кладки</span></div>
+          <div class="seo-step"><b>3</b><span><strong>Толщина кладки</strong> — в полкирпича, в один, в полтора или в два</span></div>
+          <div class="seo-step"><b>4</b><span><strong>Запас</strong> — обычно 5–10% на бой и подрезку</span></div>
+        </div>
+        <p>После нажатия «Рассчитать» видно площадь кладки, количество кирпича без запаса и итог с запасом. Окна и двери калькулятор не вычитает: посчитайте проёмы отдельно и вычтите их площадь из общей, либо считайте кладку участками.</p>
+
+        <span class="eyebrow">Формула</span>
+        <h2>Формула расчёта кирпича</h2>
+        <div class="seo-formula">Площадь = Длина × Высота&nbsp;&nbsp;→&nbsp;&nbsp;Кирпич = Площадь × Кирпичей на 1 м² × (1 + Запас)</div>
+        <p>Количество кирпича на квадратный метр зависит только от толщины кладки — значения учитывают растворные швы:</p>
+        <table class="seo-table">
+          <thead><tr><th>Толщина кладки</th><th>Кирпичей на 1 м²</th><th>На 30 м² кладки</th></tr></thead>
+          <tbody>
+            <tr><td>В полкирпича</td><td>51</td><td>1 530 шт</td></tr>
+            <tr><td>В один кирпич</td><td>102</td><td>3 060 шт</td></tr>
+            <tr><td>В полтора кирпича</td><td>153</td><td>4 590 шт</td></tr>
+            <tr><td>В два кирпича</td><td>204</td><td>6 120 шт</td></tr>
+          </tbody>
+        </table>
+        <p class="hint">Калькулятор округляет результат вверх до целого кирпича, поэтому итог может быть на одну штуку больше, чем при обычном умножении на бумаге.</p>
+
+        <span class="eyebrow">Пример</span>
+        <h2>Сколько кирпича нужно на дом</h2>
+        <p>Дом 8 × 10 м, высота кладки 3 м, кладка в полтора кирпича, запас 10%:</p>
+        <ul>
+          <li>Периметр наружных стен — (8 + 10) × 2 = <strong>36 м</strong>.</li>
+          <li>Площадь кладки — 36 × 3 = <strong>108 м²</strong>.</li>
+          <li>Кирпич без запаса — 108 × 153 = <strong>16 524 шт</strong>.</li>
+          <li>С запасом 10% калькулятор покажет <strong>18 177 шт</strong>.</li>
+        </ul>
+        <p>Для кладки в один кирпич тот же дом потребует 108 × 102 = 11 016 шт, а с запасом — 12 118 шт. Разница между «в один» и «в полтора кирпича» — почти 6 000 штук, поэтому толщину кладки выбирают до закупки, а не после.</p>
+        <p>В расчёт не входят: фронтоны, внутренние несущие стены, цоколь и подвал, а также бой при разгрузке. Их считают отдельными участками и складывают с основным объёмом.</p>
+
+        <span class="eyebrow">Что влияет</span>
+        <h2>Что меняет расход кирпича</h2>
+        <ul>
+          <li><strong>Формат кирпича.</strong> Одинарный — 250 × 120 × 65 мм, полуторный — 250 × 120 × 88 мм, двойной — 250 × 120 × 138 мм. Чем крупнее формат, тем меньше штук: полуторного кирпича на 1 м² нужно примерно на треть меньше, чем одинарного.</li>
+          <li><strong>Толщина шва.</strong> Калькулятор считает «нормальный» шов 10–12 мм. При более толстом растворе кирпича уйдёт меньше, но упадёт прочность кладки.</li>
+          <li><strong>Тип кладки.</strong> Ложковая, цепная, многорядная и декоративная кладки дают разный процент подрезки: сложные узоры увеличивают запас.</li>
+          <li><strong>Пустотелый или полнотелый.</strong> На количество штук это не влияет, но меняет вес: пустотелый легче, поэтому из него чаще кладут наружные стены многоэтажек.</li>
+          <li><strong>Запас.</strong> 5% — для простой кладки из качественного кирпича, 10% — для рядового и сложных участков, до 15% — для декоративных элементов и арок.</li>
+        </ul>
+    <!--SLOT:banner-mid-->
+    <!--/SLOT:banner-mid-->
+    <!--SLOT:ads-mid-->
+    <!--/SLOT:ads-mid-->
+        <span class="eyebrow">Вопросы и ответы</span>
+        <h2>Частые вопросы о расчёте кирпича</h2>
+
+        <details class="seo-faq">
+          <summary>Сколько кирпича в 1 м² кладки?</summary>
+          <div class="seo-faq-b"><p>С учётом растворных швов: около 51 штуки в полкирпича, 102 — в один кирпич, 153 — в полтора и 204 — в два кирпича. Значения даны для одинарного кирпича 250 × 120 × 65 мм; полуторного потребуется примерно на треть меньше по количеству.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Сколько кирпича нужно на дом 8 на 10 метров?</summary>
+          <div class="seo-faq-b"><p>При периметре 36 м и высоте кладки 3 м площадь стен — 108 м². В полтора кирпича это 16 524 штуки, с запасом 10% — 18 177. В один кирпич — 11 016 и 12 118 штук соответственно. Фронтоны, внутренние стены и цоколь считают отдельно и прибавляют к результату.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Сколько кирпича в поддоне и сколько он весит?</summary>
+          <div class="seo-faq-b"><p>На поддоне обычно от 250 до 400 штук — зависит от формата и производителя. Одинарный полнотелый кирпич весит около 3,5 кг, пустотелый — около 2,5 кг, поэтому поддон выходит от 0,6 до 1,4 тонны. Заказывайте с учётом грузоподъёмности машины и места на площадке.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Нужно ли вычитать окна и двери из площади кладки?</summary>
+          <div class="seo-faq-b"><p>Да, иначе получится заметный перерасход. На доме 8 × 10 м окна и двери занимают обычно 12–18 м² — при кладке в полтора кирпича это 1 800–2 800 штук. Посчитайте проёмы отдельно, вычтите их площадь из площади стен либо считайте кладку участками и суммируйте результаты.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Сколько раствора понадобится на кладку?</summary>
+          <div class="seo-faq-b"><p>На 1 м³ кладки уходит примерно 0,2–0,25 м³ раствора. Кладка в полтора кирпича — это 380 мм толщины, то есть 0,38 м³ кладки на каждый квадратный метр: для 108 м² получится около 41 м³ кладки и 8–10 м³ раствора. Марку раствора обычно берут М75–М100 для стен.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Какой кирпич выбрать для наружных стен?</summary>
+          <div class="seo-faq-b"><p>Для наружных стен чаще берут пустотелый кирпич: он легче и лучше держит тепло. Полнотелый нужен для фундамента, цоколя и печей — там важнее прочность и морозостойкость. Для несущих стен достаточно марки М100–М150: более высокая марка удорожает кладку без практической пользы.</p></div>
+        </details>
+
+        <p class="calc-note">Расчёты носят справочный характер: фактический расход зависит от толщины шва, формата кирпича и сложности кладки. Точные объёмы уточняйте по проекту и у поставщика. Данные калькулятора не покидают ваш браузер.</p>
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/calculators/construction/plaster/">Штукатурка и стяжка</a>
+          <a href="/calculators/construction/tile/">Калькулятор плитки</a>
+          <a href="/calculators/construction/wallpaper/">Калькулятор обоев</a>
+          <a href="/calculators/construction/laminate/">Ламинат и линолеум</a>
+        </div>
+      </div>
+    </div>
+    <!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/calculators/construction/brick/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/calculators/construction/brick/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=36" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=36"></script>
+  <script type="module" src="/js/calc-brick.js?v=36"></script>
+</body>
+
+</html>
+
+
+

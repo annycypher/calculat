@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Конвертеры файлов | CalcDoc</title>
+  <meta name="description" content="Конвертеры онлайн: CSV в Excel, PDF в Word, сжатие изображений, QR-код, SEO-транслит и DaData. Файлы обрабатываются в браузере, без загрузки на сервер." />
+  <link rel="canonical" href="https://calc-doc.ru/converters/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Конвертеры онлайн — CalcDoc" />
+  <meta property="og:description" content="CSV в Excel, PDF в Word, сжатие изображений, QR-код, транслит и DaData." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/converters/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/fonts/fonts.css?v=36" />
+  <link rel="stylesheet" href="/styles.css?v=36" />
+  <link rel="stylesheet" href="/seo-article.css?v=36" />
+  <link rel="stylesheet" href="/header.css?v=36" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"CollectionPage", "name":"Конвертеры", "url":"https://calc-doc.ru/converters/", "description":"Бесплатные онлайн-конвертеры файлов, изображений и данных." }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Конвертеры","item":"https://calc-doc.ru/converters/" } ] }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Конвертеры бесплатные и без регистрации?", "acceptedAnswer": { "@type": "Answer", "text": "Да. Все инструменты раздела бесплатны, регистрация и подтверждение почты не нужны, количество конвертаций не ограничено. Достаточно открыть страницу, выбрать файл и скачать результат." } },
+      { "@type": "Question", "name": "Файлы загружаются на ваш сервер?", "acceptedAnswer": { "@type": "Answer", "text": "Нет. CSV, картинки и QR обрабатываются в браузере: файл читается локально и никуда не отправляется. Исключения два: распознавание текста в PDF (OCR) подгружает из интернета только модель распознавания, а DaData-конструктор лишь собирает текст запроса к внешнему API, который выполняете вы." } },
+      { "@type": "Question", "name": "Есть ли ограничения по размеру файла?", "acceptedAnswer": { "@type": "Answer", "text": "Жёсткого лимита нет: ограничение — память браузера и время обработки. Большие CSV и многостраничные PDF обрабатываются дольше, а сжатие изображений принимает до 30 файлов за партию — можно обрабатывать их по очереди." } },
+      { "@type": "Question", "name": "Какие форматы поддерживаются?", "acceptedAnswer": { "@type": "Answer", "text": "CSV переводится в XLSX, PDF — в DOCX (сканы сохраняются изображениями или распознаются). Изображения: JPG и JPEG остаются JPG, PNG, GIF и BMP превращаются в WEBP. QR-код скачивается в PNG, JPG или SVG, а SEO-транслит и DaData работают с текстом и запросами." } },
+      { "@type": "Question", "name": "Можно ли пользоваться конвертерами на телефоне?", "acceptedAnswer": { "@type": "Answer", "text": "Да, страницы адаптированы под мобильные экраны, и скачивание файлов работает в мобильных браузерах. Для больших PDF и таблиц удобнее компьютер: обработка идёт в памяти браузера, и на телефоне она занимает больше времени." } },
+      { "@type": "Question", "name": "Что делать, если после конвертации «съехала» вёрстка?", "acceptedAnswer": { "@type": "Answer", "text": "Это особенность форматов: PDF хранит текст по координатам, а не блоками, поэтому таблицы и колонки переносятся приближённо. Поправьте структуру в Word вручную или перенесите данные через таблицу: CSV в Excel, затем вставка в документ. Для сканов включите OCR и проверьте распознанный текст." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / Конвертеры</nav>
+      <h1>Конвертеры</h1>
+      <p class="tool-meta">Таблицы, документы, изображения, QR-коды и служебные данные. Файлы обрабатываются прямо в браузере — на сервер ничего не загружается.</p>
+    </div>
+
+    <!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+    <div class="container section">
+      <h2 class="section-title">Инструменты</h2>
+      <div class="grid">
+        <a class="card" href="/converters/csv-to-xlsx/"><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="3" y="4" width="9.5" height="16" rx="1.5"/><path class="ci-a" d="M3 9.5h9.5M3 15h9.5"/><path class="ci-b" d="M14.5 12h6M17.5 9l3 3-3 3"/></svg></span><h3>CSV → Excel</h3><p>Convert CSV в XLSX с выбором разделителя и кодировки.</p></a>
+        <a class="card" href="/converters/pdf-to-word/"><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="3" y="4.5" width="11" height="15" rx="2"/><path class="ci-b" d="M6 9h5M6 12.5h5"/><path class="ci-b" d="M16 8.5v7M13.6 11l2.4-2.5 2.4 2.5M13.6 13l2.4 2.5 2.4-2.5"/></svg></span><h3>PDF → Word</h3><p>Распознавание текста и выгрузка в DOCX.</p></a>
+        <a class="card" href="/converters/image-converter/"><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="3" y="4.5" width="18" height="15" rx="2"/><circle class="ci-fa" cx="8.5" cy="9" r="1.8"/><path class="ci-b" d="M4.2 17.5l4.8-4.8 3.4 3.4 3.4-3.4 4 4"/></svg></span><h3>Изображения</h3><p>Сжатие, смена формата и размера картинок.</p></a>
+        <a class="card" href="/converters/qr-generator/"><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="3" y="3" width="7" height="7" rx="1"/><rect class="ci-a" x="14" y="3" width="7" height="7" rx="1"/><rect class="ci-a" x="3" y="14" width="7" height="7" rx="1"/><rect class="ci-fa" x="5.4" y="5.4" width="2.2" height="2.2" rx="0.6"/><rect class="ci-fa" x="16.4" y="5.4" width="2.2" height="2.2" rx="0.6"/><rect class="ci-fa" x="5.4" y="16.4" width="2.2" height="2.2" rx="0.6"/><rect class="ci-fb" x="14" y="14" width="3" height="3" rx="0.6"/><rect class="ci-fb" x="18" y="17.5" width="3" height="3.5" rx="0.6"/></svg></span><h3>QR-код</h3><p>QR для ссылки, текста или визитки — со скачиванием.</p></a>
+        <a class="card" href="/converters/seo-translit/"><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path class="ci-a" d="M3 8.5h12M11.5 5l3.5 3.5-3.5 3.5"/><path class="ci-b" d="M21 15.5H9M12.5 12L9 15.5l3.5 3.5"/></svg></span><h3>SEO-транслит</h3><p>Русские заголовки в латинские URL.</p></a>
+        <a class="card" href="/converters/dadata/"><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle class="ci-fa" cx="10.5" cy="10.5" r="6"/><path class="ci-a" d="M15 15l5 5"/><path class="ci-b" d="M8 9h5M8 12h3"/></svg></span><h3>DaData-конструктор</h3><p>Сборка строк адреса, ФИО и телефона по стандарту.</p></a>
+      </div>
+    </div>
+    <div class="container section">
+    <!--SLOT:banner-after-tool-->
+    <!--/SLOT:banner-after-tool-->
+    <!--SLOT:ads-after-tool-->
+    <!--/SLOT:ads-after-tool-->
+      <div class="prose">
+        <span class="eyebrow">Конвертеры</span>
+        <h2>Конвертеры онлайн: CSV в Excel, PDF в Word, изображения, QR</h2>
+        <p class="tool-meta">Обновлено: 16 сентября 2026</p>
+        <p>Шесть конвертеров закрывают рутинные задачи с файлами: <strong>CSV в Excel, PDF в Word, сжатие изображений, генератор QR-кода, SEO-транслит и конструктор запросов DaData</strong>. Отдельная установка программ не нужна — всё работает в браузере.</p>
+        <p>Главное отличие от большинства онлайн-сервисов: файлы не загружаются на сервер. Таблицы, документы и фотографии обрабатываются на вашем устройстве, поэтому выгрузки из банка, договоры и личные фото остаются приватными.</p>
+
+        <span class="eyebrow">Инструменты</span>
+        <h2>Что делает каждый конвертер</h2>
+        <table class="seo-table">
+          <thead><tr><th>Инструмент</th><th>Задача</th><th>Результат</th></tr></thead>
+          <tbody>
+            <tr><td>CSV в Excel</td><td>Открыть выгрузку в таблице</td><td>Файл XLSX</td></tr>
+            <tr><td>PDF в Word</td><td>Править текст документа</td><td>Файл DOCX, сканы — изображения или OCR</td></tr>
+            <tr><td>Сжатие изображений</td><td>Уменьшить вес фото до 30 файлов</td><td>JPG или WEBP</td></tr>
+            <tr><td>QR-код</td><td>Ссылка, текст, Wi-Fi, контакты</td><td>PNG, JPG или SVG</td></tr>
+            <tr><td>SEO-транслит</td><td>Русский текст в латиницу для URL и домена</td><td>Slug или домен</td></tr>
+            <tr><td>DaData-конструктор</td><td>Собрать запрос к Suggest API</td><td>JSON и готовая curl-команда</td></tr>
+          </tbody>
+        </table>
+        <p class="hint">Самые частые сценарии: выгрузку из банка или CRM перевести в нормальную таблицу, полученный PDF-договор открыть в Word для правок, а фотографии товара — сжать перед загрузкой на сайт.</p>
+
+        <span class="eyebrow">Приватность</span>
+        <h2>Где обрабатываются ваши файлы</h2>
+        <ul>
+          <li><strong>Локально, без отправки на сервер:</strong> CSV в Excel, сжатие изображений, QR-код, SEO-транслит. Библиотеки загружаются на устройство, работа идёт в браузере.</li>
+          <li><strong>Локально с внешним движком:</strong> распознавание текста в PDF (OCR) скачивает только модель распознавания — сам документ остаётся у вас.</li>
+          <li><strong>Запрос к внешнему API:</strong> DaData-конструктор формирует текст запроса, а обращение к сервису выполняете вы своим токеном — поэтому он и вынесен отдельно.</li>
+        </ul>
+    <!--SLOT:banner-mid-->
+    <!--/SLOT:banner-mid-->
+    <!--SLOT:ads-mid-->
+    <!--/SLOT:ads-mid-->
+        <span class="eyebrow">Вопросы и ответы</span>
+        <h2>Частые вопросы о конвертерах</h2>
+
+        <details class="seo-faq">
+          <summary>Конвертеры бесплатные и без регистрации?</summary>
+          <div class="seo-faq-b"><p>Да. Все инструменты раздела бесплатны, регистрация и подтверждение почты не нужны, количество конвертаций не ограничено. Достаточно открыть страницу, выбрать файл и скачать результат.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Файлы загружаются на ваш сервер?</summary>
+          <div class="seo-faq-b"><p>Нет. CSV, картинки и QR обрабатываются в браузере: файл читается локально и никуда не отправляется. Исключения два: распознавание текста в PDF (OCR) подгружает из интернета только модель распознавания, а DaData-конструктор лишь собирает текст запроса к внешнему API, который выполняете вы.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Есть ли ограничения по размеру файла?</summary>
+          <div class="seo-faq-b"><p>Жёсткого лимита нет: ограничение — память браузера и время обработки. Большие CSV и многостраничные PDF обрабатываются дольше, а сжатие изображений принимает до 30 файлов за партию — можно обрабатывать их по очереди.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Какие форматы поддерживаются?</summary>
+          <div class="seo-faq-b"><p>CSV переводится в XLSX, PDF — в DOCX (сканы сохраняются изображениями или распознаются). Изображения: JPG и JPEG остаются JPG, PNG, GIF и BMP превращаются в WEBP. QR-код скачивается в PNG, JPG или SVG, а SEO-транслит и DaData работают с текстом и запросами.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Можно ли пользоваться конвертерами на телефоне?</summary>
+          <div class="seo-faq-b"><p>Да, страницы адаптированы под мобильные экраны, и скачивание файлов работает в мобильных браузерах. Для больших PDF и таблиц удобнее компьютер: обработка идёт в памяти браузера, и на телефоне она занимает больше времени.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Что делать, если после конвертации «съехала» вёрстка?</summary>
+          <div class="seo-faq-b"><p>Это особенность форматов: PDF хранит текст по координатам, а не блоками, поэтому таблицы и колонки переносятся приближённо. Поправьте структуру в Word вручную или перенесите данные через таблицу: CSV в Excel, затем вставка в документ. Для сканов включите OCR и проверьте распознанный текст.</p></div>
+        </details>
+
+        <p class="calc-note">Конвертация выполняется локально в браузере, файлы не передаются на сервер. Результат зависит от исходного файла: проверяйте кодировку таблиц, вёрстку документов и качество сжатых изображений. Данные не покидают ваше устройство.</p>
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/converters/csv-to-xlsx/">CSV в Excel</a>
+          <a href="/converters/pdf-to-word/">PDF в Word</a>
+          <a href="/converters/image-converter/">Сжатие изображений</a>
+          <a href="/converters/qr-generator/">Генератор QR-кода</a>
+        </div>
+      </div>
+    </div>
+
+    <!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/converters/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/converters/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=36" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=36"></script>
+</body>
+</html>
+
+
+
+
