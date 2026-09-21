@@ -10,7 +10,7 @@
 //
 // Версия: меняем строку VERSION при выпуске — старый кэш удаляется сам в activate.
 
-const VERSION = 'calcdoc-2026-09-20-14';
+const VERSION = 'calcdoc-2026-09-20-16';
 const OFFLINE = '/offline.html';
 
 /* Оболочка: то, без чего сайт не открыть. Версии (?v=) не указываем — реальные запросы
@@ -18,8 +18,7 @@ const OFFLINE = '/offline.html';
 const SHELL = [
   '/', OFFLINE, '/manifest.webmanifest', '/favicon.ico',
   '/icons/icon.svg', '/icons/icon-192.png', '/icons/icon-512.png',
-  '/bundle.css', '/styles.css', '/home.css', '/header.css', '/seo-article.css',
-  '/games.css', '/print.css', '/ads.css', '/og-cover.png',
+  '/bundle.css', '/home.css', '/games.css', '/print.css', '/og-cover.png',
   '/js/ui.js', '/js/home.js', '/js/tool-of-day.js', '/js/print-result.js',
   '/js/share-params.js', '/js/share.js', '/js/ads.js', '/js/popular-page.js',
   '/js/search-index.js', '/js/search-results.js'
