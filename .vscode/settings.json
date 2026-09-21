@@ -1,0 +1,25 @@
+{
+  // Производительность: в проекте есть файлы-гиганты (libs/pdf.worker.min.js — 1 МБ в 22 строках,
+  // backups/*.zip — 2,5 МБ, bundle.css — 44 КБ одной строкой). Из-за них VS Code уходил в пик по CPU.
+  "files.watcherExclude": {
+    "**/backups/**": true,
+    "**/_backup/**": true,
+    "**/_archive/**": true,
+    "**/_game-test/**": true,
+    "**/.git/**": true
+  },
+  "search.exclude": {
+    "**/backups/**": true,
+    "**/_backup/**": true,
+    "**/_archive/**": true,
+    "**/*.min.js": true,
+    "**/libs/**": true,
+    "**/bundle.css": true
+  },
+  "files.associations": { "bundle.css": "plaintext" },
+  "editor.minimap.enabled": false,
+  "editor.largeFileOptimizations": true,
+  "editor.maxTokenizationLineLength": 2000,
+  "files.maxMemoryForLargeFilesMB": 4096,
+  "typescript.disableAutomaticTypeAcquisition": true
+}
