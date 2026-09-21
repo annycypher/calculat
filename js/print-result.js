@@ -26,7 +26,7 @@ function ensureCss() {
   if (document.querySelector('link[href^="/print.css"]')) return;
   const link = document.createElement('link');
   link.rel = 'stylesheet';
-  link.href = '/print.css?v=37';
+  link.href = '/print.css?v=38';
   document.head.appendChild(link);
 }
 

@@ -19,3 +19,22 @@
   html:not([data-theme='light']) .calc-note, html:not([data-theme='light']) .prose p,
   html:not([data-theme='light']) .prose li, html:not([data-theme='light']) .lead { color: #c9cce4 !important; }
 }
+/* Тёмная тема, правка 2 (21.09.2026): текст всех инструментов — абзацы, списки, ячейки таблиц,
+   легенды и подсказки. Первая правка закрывала отдельные классы; на инженерных страницах часть
+   текста размечена иначе (.legend, безымянные абзацы) и оставалась тусклой. Теперь цвет задан
+   по тегам, поэтому не зависит от классов страницы. */
+[data-theme='dark'] p, [data-theme='dark'] li, [data-theme='dark'] dd, [data-theme='dark'] dt,
+[data-theme='dark'] td, [data-theme='dark'] th, [data-theme='dark'] label, [data-theme='dark'] small,
+[data-theme='dark'] .legend, [data-theme='dark'] .legend *, [data-theme='dark'] .calc-note,
+[data-theme='dark'] .hint, [data-theme='dark'] .field .hint { color: #d7d9ec !important; }
+[data-theme='dark'] h1, [data-theme='dark'] h2, [data-theme='dark'] h3, [data-theme='dark'] h4,
+[data-theme='dark'] strong, [data-theme='dark'] b, [data-theme='dark'] summary { color: #ffffff !important; }
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) p, html:not([data-theme='light']) li, html:not([data-theme='light']) dt,
+  html:not([data-theme='light']) dd, html:not([data-theme='light']) td, html:not([data-theme='light']) th,
+  html:not([data-theme='light']) label, html:not([data-theme='light']) small,
+  html:not([data-theme='light']) .legend, html:not([data-theme='light']) .legend *,
+  html:not([data-theme='light']) .calc-note, html:not([data-theme='light']) .hint { color: #d7d9ec !important; }
+  html:not([data-theme='light']) h1, html:not([data-theme='light']) h2, html:not([data-theme='light']) h3,
+  html:not([data-theme='light']) h4, html:not([data-theme='light']) strong, html:not([data-theme='light']) b { color: #ffffff !important; }
+}
