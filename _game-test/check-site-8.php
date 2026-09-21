@@ -58,7 +58,7 @@ check('главная открывается', $home['s'] === 200 && has($home['
 check('на главной есть контейнер карточки', has($home['b'], 'id="toolOfDay"'));
 check('карточка стоит выше трёх инструментов',
     mb_strpos($home['b'], 'id="toolOfDay"') < mb_strpos($home['b'], 'id="demo"'));
-check('скрипт подключён один раз', substr_count($home['b'], '/js/tool-of-day.js?v=1') === 1);
+check('скрипт подключён один раз', preg_match_all('#/js/tool-of-day\.js\?v=\d+#', $home['b']) === 1);   /* версия ресурсов общая и меняется при выпуске — сверяем путь, а не число */
 check('стили карточки на месте', has(file_get('home.css'), '.tool-of-day'));
 
 $js = file_get('js/tool-of-day.js');
@@ -236,6 +236,7 @@ foreach ($it as $f) {
     if (!$f->isFile() || substr($p, -5) !== '.html') { continue; }
     if (preg_match('#\\\\(admin-panel|_archive|_backup|backups|_game-test|sweb-migration)\\\\#', $p)) { continue; }
     if ($f->getFilename() === 'offline.html') { continue; }   /* офлайн-страница без подвала — так и задумано */
+  if (substr($f->getFilename(), 0, 1) === '_') { continue; } /* служебные заготовки (_template.html) — не страницы сайта */
     $all[] = $p;
 }
 $noFoot = 0;

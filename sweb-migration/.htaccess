@@ -34,9 +34,9 @@ AddDefaultCharset UTF-8
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresByType text/html                     "access plus 0 seconds"
-  ExpiresByType text/css                      "access plus 7 days"
-  ExpiresByType application/javascript        "access plus 7 days"
-  ExpiresByType font/woff2                    "access plus 30 days"
+  ExpiresByType text/css                      "access plus 1 year"
+  ExpiresByType application/javascript        "access plus 1 year"
+  ExpiresByType font/woff2                    "access plus 1 year"
   ExpiresByType image/svg+xml                 "access plus 14 days"
   ExpiresByType image/jpeg                    "access plus 14 days"
   ExpiresByType image/png                     "access plus 14 days"
@@ -56,15 +56,26 @@ AddDefaultCharset UTF-8
   Header always set Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), publickey-credentials-get=()"
   Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' blob: https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' blob: https://cdn.jsdelivr.net https://tessdata.projectnaptha.com; worker-src 'self' blob: https://cdn.jsdelivr.net; object-src 'none'; frame-ancestors 'none'; base-uri 'self'"
 
-  # Правила кэша из _headers + новые ресурсы (home.css, шрифты)
+  # Правила кэша из _headers + новые ресурсы (home.css, шрифты).
+  # Правка 21.09.2026 (шаг PageSpeed): сроки хранения CSS, JS и шрифтов подняты до года.
+  # Причина: ссылки на стили и скрипты версионируются (?v=31 и дальше), при выпуске адрес
+  # меняется — держать файл в кэше долго безопасно, а браузер перестаёт ходить за ним на
+  # каждом заходе. Раньше было 7 дней у CSS/JS и шрифтов, поэтому повторные заходы
+  # перезапрашивали статику. Картинки не версионируются — у них 30 дней: если картинку
+  # заменили, лучше поменять имя файла, иначе месяц будет отдаваться старая.
+  # На будущее: у шрифтов версии в имени файла нет — при замене шрифта называйте файл
+  # по-новому (например manrope-400-cyr-v2.woff2), иначе год кэша отдаст старый шрифт.
   <FilesMatch "\.(js|mjs)$">
-    Header set Cache-Control "public, max-age=604800"
-  </FilesMatch>
-  <FilesMatch "\.(woff2|jpg|jpeg|png|svg|ico)$">
-    Header set Cache-Control "public, max-age=604800"
+    Header set Cache-Control "public, max-age=31536000"
   </FilesMatch>
   <FilesMatch "\.css$">
-    Header set Cache-Control "public, max-age=86400"
+    Header set Cache-Control "public, max-age=31536000"
+  </FilesMatch>
+  <FilesMatch "\.woff2$">
+    Header set Cache-Control "public, max-age=31536000"
+  </FilesMatch>
+  <FilesMatch "\.(jpg|jpeg|png|svg|ico)$">
+    Header set Cache-Control "public, max-age=2592000"
   </FilesMatch>
   <FilesMatch "\.html$">
     Header set Cache-Control "public, max-age=0, must-revalidate"
@@ -139,7 +150,12 @@ RedirectMatch 301 ^/calculators/construction/(?!index)([a-z0-9-]+)\.html$ https:
 # они увели бы живой /generators/... на адреса, которых больше нет.
 RedirectMatch 301 ^/files/([a-z0-9-]+)\.html$ https://calc-doc.ru/generators/$1/
 RedirectMatch 301 ^/files/([a-z0-9-]+)/?$ https://calc-doc.ru/generators/$1/
+# политика конфиденциальности: файл переехал в папку (20.09.2026)
+RedirectMatch 301 ^/privacy\.html$ https://calc-doc.ru/privacy/
 RedirectMatch 301 ^/files/?$ https://calc-doc.ru/generators/
+# расписка переехала в категорию «Автомобильные» (19.09.2026).
+# Правило держим и дальше: это страховка от внешних ссылок, старых закладок и индекса.
+RedirectMatch 301 ^/generators/raspiska/?$ https://calc-doc.ru/generators/auto/raspiska/
 # конвертеры и игры
 RedirectMatch 301 ^/converters/(?!index)([a-z0-9-]+)\.html$ https://calc-doc.ru/converters/$1/
 RedirectMatch 301 ^/games/(?!index)([a-z0-9-]+)\.html$ https://calc-doc.ru/games/$1/

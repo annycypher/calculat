@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Проба картинки «Поделиться» — CalcDoc</title>
+  <style>
+    body { margin: 0; background: #202020; }
+    img { display: block; width: 1080px; height: 1080px; }
+  </style>
+</head>
+<body>
+  <!-- Служебная страница для проверки PNG-карточки (шаг 10.2). На сайт не уходит.
+       Как работает: в скрытом iframe открывается настоящая страница калькулятора с
+       параметрами в адресе (она сама считает результат), мы подменяем canvas.toBlob
+       и ловим готовую карточку 1080×1080, а затем показываем её здесь — остаётся снять
+       снимок экрана и посмотреть глазами. Запуск: см. отчёт ОТЧЁТ-15.md, §1.1. -->
+  <img id="out" alt="карточка" />
+  <pre id="log" style="color:#eee;font:14px monospace"></pre>
+
+  <script>
+    const log = (m) => { document.getElementById('log').textContent += m + '\n'; };
+    /* Какую страницу проверяем: ?page=/calculators/finance/deposit/
+       (по умолчанию — кредит). Параметры разные у каждой страницы, подставляем их сами. */
+    const PRESETS = {
+      '/calculators/finance/credit/': '?sum=1000000&rate=21&term=60',
+      '/calculators/finance/deposit/': '?initial=500000&rate=16&months=24&topup=10000',
+      '/calculators/finance/mortgage/': '?price=6000000&down=1200000&years=20&rate=16'
+    };
+    const page = new URLSearchParams(location.search).get('page') || '/calculators/finance/credit/';
+    const f = document.createElement('iframe');
+    f.style.cssText = 'width:1280px;height:1000px;border:0;position:absolute;left:-9999px;top:0';
+    f.src = page + (PRESETS[page] || '');
+    document.body.appendChild(f);
+
+    f.addEventListener('load', () => {
+      const w = f.contentWindow;
+      const d = f.contentDocument;
+      log('iframe загружен, адрес: ' + w.location.pathname + w.location.search);
+      const rows = d.querySelectorAll('#result .item');
+      log('строк результата в #result: ' + rows.length);
+      log('текст результата: ' + (d.querySelector('#result') ? d.querySelector('#result').textContent.trim().slice(0, 120) : 'нет #result'));
+      /* Числовая проверка наложения текста на QR — без «на глаз».
+         Внутри карточки текст лиловый (#9a92b0 / #7d7694 / #cfc9e4): у него заметный
+         разлёт каналов. У самого QR всё нейтральное (чёрные модули на белом), у фона
+         разлёт тоже небольшой. Поэтому «пиксель текста» = разлёт каналов > 20 и яркость > 90. */
+      const scan = (canvas, x0, x1, y0, y1, skip) => {
+        const img = canvas.getContext('2d').getImageData(0, 0, 1080, 1080).data;
+        let n = 0, maxX = -1;
+        for (let y = y0; y <= y1; y++) {
+          for (let x = x0; x <= x1; x++) {
+            /* skip = [x0, x1, y0, y1] — прямоугольник, который проверять не надо
+               (например, наша собственная подпись «Открыть расчёт» над кодом). */
+            if (skip && x >= skip[0] && x <= skip[1] && y >= skip[2] && y <= skip[3]) { continue; }
+            const i = (y * 1080 + x) * 4;
+            const r = img[i], g = img[i + 1], b = img[i + 2];
+            if (Math.max(r, g, b) - Math.min(r, g, b) > 20 && Math.max(r, g, b) > 90) {
+              n++;
+              if (x > maxX) { maxX = x; }
+            }
+          }
+        }
+        return { n: n, maxX: maxX };
+      };
+
+      const check = (canvas) => {
+        const qr = scan(canvas, 750, 1010, 750, 1010);
+        const foot = scan(canvas, 70, 1010, 980, 1035);
+        const par = scan(canvas, 750, 1010, 800, 845);
+        const row3 = scan(canvas, 750, 1010, 660, 760, [770, 990, 690, 750]);
+        log('наложение в полосе QR (x/y 750…1010): ' + qr.n + ' пикс. текста (норма 0)');
+        log('параметры в полосе QR: ' + par.n + ' пикс. (норма 0)');
+        log('третья строка результата в полосе QR: ' + row3.n + ' пикс. (норма 0)');
+        log('правый край нижних подписей: x=' + foot.maxX + ' (QR начинается с x=750)');
+      };
+
+      const orig = w.HTMLCanvasElement.prototype.toBlob;
+      w.HTMLCanvasElement.prototype.toBlob = function (cb, type) {
+        log('toBlob вызван: ' + this.width + 'x' + this.height + ', ' + type);
+        if (this.width === 1080 && this.height === 1080) {
+          const src = this.toDataURL(type || 'image/png');
+          document.getElementById('out').src = src;
+          log('картинка получена, символов: ' + src.length);
+          if (type !== 'image/jpeg') { check(this); }
+        }
+        return orig.call(this, cb, type);
+      };
+      const btn = d.querySelector('[data-share="png"]');
+      log('кнопка «Поделиться картинкой»: ' + (btn ? 'есть' : 'НЕТ'));
+      /* Сначала считаем: на странице расчёт запускает нажатие «Рассчитать» (параметры из адреса
+         только заполняют поля). Затем — кнопка картинки. */
+      const submit = d.querySelector('form button[type="submit"]');
+      if (submit) { submit.click(); }
+      setTimeout(() => {
+        log('после расчёта строк в #result: ' + d.querySelectorAll('#result .item').length);
+        if (btn) { btn.click(); }
+      }, 900);
+      setTimeout(() => {
+        log('тост на странице: ' + (d.getElementById('shareToast') ? d.getElementById('shareToast').textContent : 'нет'));
+      }, 5000);
+    });
+  </script>
+
+</body>
+</html>

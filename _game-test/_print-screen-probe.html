@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<title>Зонд: экранная часть печати после переноса правил</title>
+<style>body{font:14px/1.5 monospace;background:#111;color:#eee;margin:16px}iframe{border:0;width:1100px;height:800px;background:#fff}</style>
+</head>
+<body>
+<!-- Проверяет то, что нельзя увидеть в разметке: видны ли на экране служебные строки
+     результата (должны быть скрыты) и оформлена ли кнопка печати. Правила переехали
+     из print.css в styles.css, а сам print.css теперь подключается с media="print".
+     Открывать только через локальный сервер сайта (нужен доступ к странице в iframe). -->
+<iframe id="f" src="/calculators/auto/fuel/"></iframe>
+<pre id="out">ожидание загрузки страницы…</pre>
+<script>
+(function () {
+  var f = document.getElementById('f'), out = document.getElementById('out');
+
+  function probe() {
+    var res = [];
+    try {
+      var d = f.contentDocument, w = f.contentWindow;
+      var stamp = d.querySelector('[data-print="stamp"]');
+      var head  = d.querySelector('[data-print="head"]');
+      var btn   = d.querySelector('[data-print="btn"]') || d.querySelector('#printBtn');
+      var link   = d.querySelector('link[href^="/print.css"]');
+
+      res.push('stamp.display=' + (stamp ? w.getComputedStyle(stamp).display : 'НЕТ ЭЛЕМЕНТА'));
+      res.push('head.display=' + (head ? w.getComputedStyle(head).display : 'НЕТ ЭЛЕМЕНТА'));
+      res.push('кнопка печати: ' + (btn
+        ? (btn.id ? '#' + btn.id : '[data-print=btn]') + ' radius=' + w.getComputedStyle(btn).borderRadius +
+          ' padding=' + w.getComputedStyle(btn).padding + ' cursor=' + w.getComputedStyle(btn).cursor
+        : 'НЕТ ЭЛЕМЕНТА'));
+      res.push('ссылка print.css media=' + (link ? link.getAttribute('media') : 'НЕТ ССЫЛКИ'));
+
+      var ents = w.performance.getEntriesByType('resource');
+      function rb(part) {
+        var hits = ents.filter(function (e) { return (e.name || '').indexOf(part) >= 0; });
+        if (!hits.length) { return 'нет записи'; }
+        return hits.map(function (e) {
+          return (e.name.split('/').pop()) + ': ' + (e.renderBlockingStatus || 'свойство отсутствует') +
+                 ', старт ' + Math.round(e.startTime) + ' мс, длина ' + Math.round(e.duration) + ' мс';
+        }).join('; ');
+      }
+      res.push('блокировка print.css — ' + rb('/print.css'));
+      res.push('для сравнения styles.css — ' + rb('/styles.css'));
+      res.push('результат расчёта виден: ' + (d.querySelector('#result') ? w.getComputedStyle(d.querySelector('#result')).display !== 'none' : 'нет #result'));
+    } catch (e) {
+      res.push('ОШИБКА: ' + e.message);
+    }
+    out.textContent = 'RESULT ' + res.join(' | ');
+  }
+
+  f.addEventListener('load', function () { setTimeout(probe, 700); });
+  setTimeout(function () { if (out.textContent.indexOf('RESULT') < 0) { probe(); } }, 4000);
+})();
+</script>
+</body>
+</html>

@@ -129,7 +129,7 @@ $r = ph(PURL . '/login.php', array('csrf' => pcsrf($r['b']), 'action' => 'instal
       array('User-Agent' => $UA_PC, 'X-Forwarded-For' => '10.95.0.9'));
 check('панель установлена для теста', $r['s'] === 302, 'код ' . $r['s']);
 check('вход администратора выполнен', panel_login('admin', PASS, 'a', $UA_PC) === 302);
-check('стартовый набор напоминаний завёлся', count(reminders_items()) === 22);
+check('стартовый набор напоминаний завёлся', count(reminders_items()) === 23);
 
 /* ── 1. Виджет «Напоминания»: срочное сверху, только три строки ── */
 say('');

@@ -231,6 +231,10 @@ foreach ($it as $f) {
     if (!$f->isFile() || strtolower($f->getExtension()) !== 'html') { continue; }
     $rel = str_replace('\\', '/', substr($f->getPathname(), strlen($root) + 1));
     if (in_array(explode('/', $rel)[0], $skip, true)) { continue; }
+    /* offline.html показывается без сети — счётчика на ней нет и быть не должно;
+       панель в «Настройках» её тоже пропускает. 20.09.2026: страница попадала в проверку
+       и «страниц 60, со счётчиком 59» считалось провалом, хотя всё было верно. */
+    if ($rel === 'offline.html') { continue; }
     $pages[] = $rel;
     if (strpos((string)@file_get_contents($f->getPathname()), '/js/ui.js') !== false) { $withUI++; }
 }
@@ -478,10 +482,7 @@ check('на ней есть форма, honeypot, согласие и скрип
     && has($r['b'], '/js/contact.js') && has($r['b'], 'политикой конфиденциальности'));
 check('на странице есть почта проекта и легенда без реквизитов',
     has($r['b'], 'info@calc-doc.ru') && !has($r['b'], 'ИНН') && !has($r['b'], '[ФИО'));
-$r = req(SITEURL . '/advertise/');
-check('страница «Реклама» открывается', $r['s'] === 200, 'код ' . $r['s']);
-check('на ней есть форматы, правила и контакт',
-    has($r['b'], 'Реклама и сотрудничество') && has($r['b'], 'Чего не будет') && has($r['b'], 'info@calc-doc.ru'));
+/* Страница «Реклама» убрана 20.09.2026 по заданию владельца — проверки ушли вместе с ней. */
 
 /* Приёмник: что не принимаем */
 $api = SITEURL . '/api/contact.php';
@@ -539,7 +540,7 @@ check('QR-генератор размечен: получение и скачи�
 $cHtml = (string)@file_get_contents(SITE . '/contact/index.html');
 check('страница «Контакты» размечена: отправка сообщения',
     has($cHtml, '<button data-metric-goal="сообщение" type="submit">Отправить сообщение</button>'));
-$pHtml = (string)@file_get_contents(SITE . '/privacy.html');
+$pHtml = (string)@file_get_contents(SITE . '/privacy/index.html');
 check('служебные страницы разметки не получили (считать нечего)', !has($pHtml, 'data-metric-goal'));
 
 /* Сколько разметки лежит в файлах сайта — считаем сами и сверяем с панелью */
@@ -571,7 +572,7 @@ check('разметка стоит на всех калькуляторах, г�
 check('чужой (незнакомой) разметки на сайте нет', count((array)$scan['foreign']) === 0,
     'незнакомых значений: ' . count((array)$scan['foreign']));
 check('страницы без кнопок-результатов названы честно',
-    in_array('/advertise/', (array)$scan['empty'], true) && in_array('/reviews/', (array)$scan['empty'], true));
+    in_array('/reviews/', (array)$scan['empty'], true));
 
 $r = ph($PURL . '/analytics.php');
 check('раздел «Аналитика» показывает таблицу целей и подсказку по Метрике',

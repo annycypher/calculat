@@ -20,6 +20,13 @@ const SITEURL = 'http://127.0.0.1:8091';
 define('SITE', dirname(__DIR__));
 define('PANEL', SITE . '/admin-panel-x7k2');
 
+/* Сколько статей и карточек уже есть на сайте и в ленте на момент запуска. Тест сравнивает
+   с этими числами, а не с «тремя»: статьи, добавленные владельцем, не должны ломать
+   проверку «на сайте ничего не создано» (импорт статей 20.09.2026 — как раз такой случай). */
+$blogPages = count((array)glob(SITE . '/blog/*/index.html'));
+$hubCards  = substr_count((string)@file_get_contents(SITE . '/blog/index.html'), 'class="card" href="/blog/');
+$rssItems  = $hubCards;   /* лента собирается из карточек блога: файла до первого выпуска может не быть */
+
 $lines = array();
 $ok = 0; $fail = 0; $n = 0;
 $jar = '';
@@ -221,7 +228,7 @@ check('FAQPage: четыре вопроса, текст без тегов',
       isset($ld[2]['@type'], $ld[2]['mainEntity']) && $ld[2]['@type'] === 'FAQPage'
       && count($ld[2]['mainEntity']) === 4
       && strpos((string)$ld[2]['mainEntity'][0]['acceptedAnswer']['text'], '<') === false);
-check('в статье нет лишних скриптов', count_str($page, '<script') === 4, 'скриптов: ' . count_str($page, '<script'));
+check('в статье нет лишних скриптов', count_str($page, '<script') === 5, 'скриптов: ' . count_str($page, '<script'));
 
 say('');
 say('7. Текст образца не протекает в новую статью (подвал берётся у образца — это норма)');
@@ -252,8 +259,8 @@ check('адрес из кириллицы превратился в латини
 say('');
 say('9. На сайте ничего не создано (публикация — шаг 4.3)');
 check('файла статьи нет', !is_file($demoFile));
-check('в блоге по-прежнему три статьи',
-      count((array)glob(SITE . '/blog/*/index.html')) === 3, 'статей: ' . count((array)glob(SITE . '/blog/*/index.html')));
+check('в блоге по-прежнему ' . $blogPages . ' статьи',
+      count((array)glob(SITE . '/blog/*/index.html')) === $blogPages, 'статей: ' . count((array)glob(SITE . '/blog/*/index.html')));
 check('в sitemap.xml тестовой статьи нет',
       strpos((string)@file_get_contents(SITE . '/sitemap.xml'), $demoSlug) === false);
 
@@ -312,6 +319,19 @@ function article_form_post(array $over = array()): array {
 say('');
 say('11. Редактор статей (шаг 4.2a)');
 $draftsFile = SITE . '/content/articles.json';
+/* В хранилище панели могут быть настоящие статьи (импорт из /blog/ 20.09.2026). Перед тестом
+   откладываем файл во временную папку и возвращаем его в конце: раньше тест просто удалял
+   хранилище, и живые записи владельца пропадали. */
+$draftsSaved = sys_get_temp_dir() . '/check-panel-4-articles-' . getmypid() . '.json';
+$draftsHad   = is_file($draftsFile);
+if ($draftsHad) { @copy($draftsFile, $draftsSaved); }
+register_shutdown_function(function () use ($draftsFile, $draftsSaved, $draftsHad) {
+    if ($draftsHad) {
+        if (is_file($draftsSaved)) { @copy($draftsSaved, $draftsFile); @unlink($draftsSaved); }
+    } else {
+        @unlink($draftsFile);
+    }
+});
 @unlink($draftsFile);
 check('администратор вошёл для проверки редактора', login_as('owner', 'Secret123'));
 
@@ -409,7 +429,12 @@ check('перед удалением спрашивают подтвержден
 $r = http(BASE . '/articles.php', array('csrf' => $csrf, 'op' => 'delete', 'id' => $savedId));
 check('удаление принято (редирект)', $r['s'] === 302, 'код ' . $r['s']);
 $drafts = json_decode((string)@file_get_contents($draftsFile), true);
-check('черновиков больше нет', count((array)($drafts['articles'] ?? array())) === 0);
+/* С шага 13.1 удаление мягкое: запись уходит в корзину (deleted_at), и в живом списке панели
+   её уже нет — статус при этом остаётся прежним. Поэтому проверяем живой список, а не сырой файл. */
+$liveDrafts  = array_filter((array)($drafts['articles'] ?? array()), function ($a) { return empty($a['deleted_at']); });
+$trashedCnt  = count((array)($drafts['articles'] ?? array())) - count($liveDrafts);
+check('черновик ушёл в корзину (в живом списке его нет)', count($liveDrafts) === 0 && $trashedCnt === 1,
+      'живых: ' . count($liveDrafts) . ', в корзине: ' . $trashedCnt . ', id теста: ' . $savedId);
 
 say('');
 say('11-Б. Картинки из медиа и сниппет Яндекса (шаг 4.2b)');
@@ -538,8 +563,8 @@ say('');
 say('12. Редактор ничего не публикует на сайт (публикация — шаг 4.3)');
 check('файла статьи на сайте нет',
       !is_file(SITE . '/blog/kak-proverit-raschet-otpusknyh-tri-shaga/index.html'));
-check('в блоге на сайте по-прежнему три статьи',
-      count((array)glob(SITE . '/blog/*/index.html')) === 3,
+check('в блоге на сайте по-прежнему ' . $blogPages . ' статьи',
+      count((array)glob(SITE . '/blog/*/index.html')) === $blogPages,
       'статей: ' . count((array)glob(SITE . '/blog/*/index.html')));
 check('в sitemap.xml новой статьи нет',
       strpos((string)@file_get_contents(SITE . '/sitemap.xml'), 'kak-proverit') === false);
@@ -563,7 +588,7 @@ foreach (array($hubFile, $smFile, $rssFile) as $src) {
     }
 }
 /* Сколько адресов в карте сайта до публикации. Считаем от него, а не от жёсткого числа:
-   18.09.2026 на сайте появились /contact/ и /advertise/, и прежние 50/49 в проверках ниже
+   18.09.2026 на сайте появились /contact/ и /advertise/ (страницу /advertise/ убрали 20.09.2026), и прежние 50/49 в проверках ниже
    стали падать, хотя панель работала верно. */
 $smBase = substr_count((string)@file_get_contents($smFile), '<url>');
 
@@ -599,7 +624,7 @@ check('карточка статьи появилась в списке /blog/',
 check('карточка стоит первой в списке',
       strpos($hubHtml, 'href="/blog/' . $pubSlug . '/"') < strpos($hubHtml, 'href="/blog/otpusknye/"'),
       'позиции: ' . strpos($hubHtml, 'href="/blog/' . $pubSlug . '/"') . ' и ' . strpos($hubHtml, 'href="/blog/otpusknye/"'));
-check('старые статьи в списке остались', substr_count($hubHtml, 'class="card" href="/blog/') === 4,
+check('старые статьи в списке остались', substr_count($hubHtml, 'class="card" href="/blog/') === $hubCards + 1,
       'карточек: ' . substr_count($hubHtml, 'class="card" href="/blog/'));
 
 $smXml = (string)@file_get_contents($smFile);
@@ -616,7 +641,7 @@ check('лента /rss.xml собрана', is_file($rssFile));
 $rssXml = (string)@file_get_contents($rssFile);
 check('в ленте есть новая статья и старые',
       strpos($rssXml, '<title>Как проверить расчёт отпускных: три шага</title>') !== false
-      && substr_count($rssXml, '<item>') === 4 && strpos($rssXml, 'Как рассчитать отпускные') !== false,
+      && substr_count($rssXml, '<item>') === $rssItems + 1 && strpos($rssXml, 'Как рассчитать отпускные') !== false,
       'статей в ленте: ' . substr_count($rssXml, '<item>'));
 
 $drafts = json_decode((string)@file_get_contents($draftsFile), true);
@@ -696,7 +721,7 @@ check('статьи по этому адресу больше нет (на хо�
       'код ' . $r['s']);
 $hubHtml = (string)@file_get_contents($hubFile);
 check('карточка ушла из списка блога',
-      strpos($hubHtml, $pubSlug) === false && substr_count($hubHtml, 'class="card" href="/blog/') === 3,
+      strpos($hubHtml, $pubSlug) === false && substr_count($hubHtml, 'class="card" href="/blog/') === $hubCards,
       'карточек: ' . substr_count($hubHtml, 'class="card" href="/blog/'));
 $smXml = (string)@file_get_contents($smFile);
 check('адрес ушёл из sitemap.xml',
@@ -704,7 +729,7 @@ check('адрес ушёл из sitemap.xml',
       'url: ' . substr_count($smXml, '<url>'));
 $rssXml = (string)@file_get_contents($rssFile);
 check('лента пересобрана без статьи',
-      strpos($rssXml, $pubSlug) === false && substr_count($rssXml, '<item>') === 3,
+      strpos($rssXml, $pubSlug) === false && substr_count($rssXml, '<item>') === $rssItems,
       'статей в ленте: ' . substr_count($rssXml, '<item>'));
 $drafts = json_decode((string)@file_get_contents($draftsFile), true);
 check('статья вернулась в статус черновика', (string)($drafts['articles'][0]['status'] ?? '') === 'draft');
@@ -724,7 +749,9 @@ $csrf = csrf($r['b']);
 $r = http(BASE . '/articles.php', array('csrf' => $csrf, 'op' => 'delete', 'full' => '1', 'id' => $bId));
 check('удаление принято (редирект)', $r['s'] === 302, 'код ' . $r['s']);
 $drafts = json_decode((string)@file_get_contents($draftsFile), true);
-check('запись удалена из панели', count((array)($drafts['articles'] ?? array())) === 0);
+$liveB = array_filter((array)($drafts['articles'] ?? array()), function ($a) { return empty($a['deleted_at']); });
+check('запись убрана из панели (лежит в корзине)', count(array_filter($liveB, function ($a) use ($bId) { return (string)($a['id'] ?? '') === (string)$bId; })) === 0,
+      'живых: ' . count($liveB) . ', id теста: ' . $bId . ', всего записей: ' . count((array)($drafts['articles'] ?? array())));
 
 say('');
 say('14. Уборка за тестом');
@@ -748,8 +775,8 @@ check('файлы сайта возвращены в исходное состо
       && (!$rssExisted ? !is_file($rssFile) : true));
 check('тестовые копии файлов убраны из backups/files',
       count(array_diff(array_map('basename', (array)glob($backupDir . '/*')), $backupsBefore)) === 0);
-check('страница блога снова показывает три статьи',
-      substr_count((string)@file_get_contents($hubFile), 'class="card" href="/blog/') === 3,
+check('страница блога снова показывает ' . $hubCards . ' карточек',
+      substr_count((string)@file_get_contents($hubFile), 'class="card" href="/blog/') === $hubCards,
       'карточек: ' . substr_count((string)@file_get_contents($hubFile), 'class="card" href="/blog/'));
 @unlink($draftsFile);
 foreach ((array)glob(SITE . '/media/uploads/tests-media-*') as $mediaTmp) { @unlink($mediaTmp); }
@@ -770,7 +797,7 @@ check('тестовые картинки и черновик убраны',
 if ($hadUsers) { @rename($usersBak, SITE . '/content/users.json'); }
 check('служебные файлы теста убраны', !is_file($usersBak));
 check('новых статей на сайте не появилось',
-      count((array)glob(SITE . '/blog/*/index.html')) === 3 && !is_file($demoFile));
+      count((array)glob(SITE . '/blog/*/index.html')) === $blogPages && !is_file($demoFile));
 check($hadUsers ? 'ваш файл пользователей возвращён' : 'панель оставлена ненастроенной',
       $hadUsers ? is_file(SITE . '/content/users.json') : !is_file(SITE . '/content/users.json'));
 check('страницы сайта не тронуты (index.html на месте)', is_file(SITE . '/index.html'));

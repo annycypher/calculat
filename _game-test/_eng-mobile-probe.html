@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><title>Зонд ширины 360px</title>
+<style>body{font:13px/1.45 monospace;background:#111;color:#eee;margin:12px}iframe{width:360px;height:1500px;border:0;background:#fff}</style>
+</head><body>
+<pre id="out">ожидание…</pre>
+<iframe id="f1" src="/calculators/engineering/"></iframe>
+<iframe id="f2" src="/calculators/auto/"></iframe>
+<script>
+function check(w, label) {
+  var d = w.document, res = [];
+  var de = d.documentElement;
+  res.push(label + ': scrollWidth=' + de.scrollWidth + ', clientWidth=' + de.clientWidth + ' -> ' + (de.scrollWidth > de.clientWidth + 1 ? 'ЕСТЬ ПЕРЕПОЛНЕНИЕ' : 'ок'));
+  res.push('   фон body: ' + w.getComputedStyle(d.body).backgroundColor + '; тема: ' + (d.documentElement.getAttribute('data-theme') || 'нет'));
+  var wide = [];
+  d.querySelectorAll('body *').forEach(function (el) {
+    var r0 = el.getBoundingClientRect();
+    if (r0.right > 362 && r0.width > 40) {
+      wide.push(el.tagName.toLowerCase() + (typeof el.className === 'string' && el.className ? '.' + el.className.split(' ')[0] : '') + '(' + Math.round(r0.right) + ')');
+    }
+  });
+  res.push('   выходят за 360px: ' + (wide.length ? wide.slice(0, 8).join(', ') : 'нет'));
+  return res.join('\n');
+}
+var n = 0, out = document.getElementById('out'), f1 = document.getElementById('f1'), f2 = document.getElementById('f2');
+function done() { n++; if (n === 2) { out.textContent = 'RESULT' + '\n' + check(f1.contentWindow, 'ИНЖЕНЕРНЫЙ ХАБ') + '\n' + check(f2.contentWindow, 'АВТО-ХАБ для сравнения'); } }
+f1.addEventListener('load', done); f2.addEventListener('load', done);
+setTimeout(function () { if (out.textContent.indexOf('RESULT') < 0) { done(); done(); } }, 5000);
+</script>
+</body></html>

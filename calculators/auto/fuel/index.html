@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор расхода топлива на 100 км онлайн | CalcDoc</title>
+  <meta name="description" content="Калькулятор расхода топлива считает литры на 100 км, стоимость поездки и траты на бензин за год. Шесть режимов расчёта, всё в браузере — бесплатно." />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/auto/fuel/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Калькулятор расхода топлива: 6 режимов — CalcDoc" />
+  <meta property="og:description" content="Посчитайте расход топлива на 100 км, стоимость поездки и годовые траты на бензин — по своим цифрам, без регистрации." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/calculators/auto/fuel/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <style>
+      /* @font-face инлайном вместо /fonts/fonts.css: убирает цепочку HTML → CSS → woff2 (Lighthouse: 937 мс). Начертаний девять — все сохранены. */
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+    </style>
+    <link rel="preload" href="/fonts/manrope-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/unbounded-600-lat.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/bundle.css?v=36" />
+    <link rel="stylesheet" href="/print.css?v=36" media="print" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"SoftwareApplication", "name":"Калькулятор расхода топлива", "applicationCategory":"UtilitiesApplication", "operatingSystem":"Web", "offers":{ "@type":"Offer","price":"0","priceCurrency":"RUB" } }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Калькуляторы","item":"https://calc-doc.ru/calculators/" }, { "@type":"ListItem","position":3,"name":"Авто","item":"https://calc-doc.ru/calculators/auto/" }, { "@type":"ListItem","position":4,"name":"Расход топлива","item":"https://calc-doc.ru/calculators/auto/fuel/" } ] }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Как правильно замерить расход топлива?", "acceptedAnswer": { "@type": "Answer", "text": "Метод полного бака: заправьтесь до отсечки, обнулите счётчик суточного пробега, ездите как обычно, а затем снова залейте до отсечки на той же колонке. Литры из чека разделите на пройденные километры и умножьте на 100 — получите расход на 100 км. Чем длиннее замер (хотя бы 300–500 км), тем точнее результат." } },
+      { "@type": "Question", "name": "Почему бортовой компьютер показывает другой расход?", "acceptedAnswer": { "@type": "Answer", "text": "Бортовой компьютер считает топливо по времени открытия форсунок и не знает фактического объёма заливки, поэтому чаще всего занижает расход. Проверяется это за один бак: посчитайте литры по чекам на тот же пробег в режиме «БК и чеки». Отклонение до 5% — норма, больше — экрану лучше не верить." } },
+      { "@type": "Question", "name": "Почему зимой расход выше?", "acceptedAnswer": { "@type": "Answer", "text": "Зимой добавляются прогрев двигателя на месте, более плотное холодное топливо, загустевшее масло в агрегатах, зимние шины с высоким сопротивлением качению и пробуксовки на снегу. В сумме это даёт рост расхода на 10–30% в зависимости от мороза, маршрута и стиля езды." } },
+      { "@type": "Question", "name": "Что такое смешанный цикл?", "acceptedAnswer": { "@type": "Answer", "text": "Это средний расход по методике замера, где часть пробега приходится на городской цикл, а часть — на загородный. Заводская цифра смешанного цикла нужна для сравнения: если ваш средневзвешенный расход выше паспортного на 10–15%, это обычная разница, а расхождение вдвое — признак неисправности или ошибки в замере." } },
+      { "@type": "Question", "name": "Как снизить расход топлива?", "acceptedAnswer": { "@type": "Answer", "text": "Начните с бесплатного: проверьте давление в шинах, уберите багажник с крыши, выгрузите лишний груз и поменяйте стиль езды — плавные разгоны и постоянная скорость дают самый большой эффект. Дальше по влиянию: воздушный фильтр, свечи, исправный термостат и шины по сезону." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+    <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+        <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/calculators/">Калькуляторы</a> / <a href="/calculators/auto/">Авто</a> / Расход топлива</nav>
+      <h1>Калькулятор расхода топлива</h1>
+      <p class="tool-meta">Посчитайте расход на 100 км, стоимость поездки и траты на топливо за год. Шесть режимов, данные не отправляются на сервер.</p>
+      <p class="calc-note">Расчёты носят справочный характер.</p>
+    </div>
+<!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+<!--SLOT:ads-ad-top-->
+<div class="ad-slot-box ad-top" data-ad-slot="ad-top" aria-label="Рекламный блок"></div>
+<!--/SLOT:ads-ad-top-->
+
+        <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <div class="auto-modes" role="tablist" aria-label="Режим расчёта">
+            <button type="button" class="auto-mode is-on" role="tab" aria-selected="true" data-mode="1">Замер расхода</button>
+            <button type="button" class="auto-mode" role="tab" aria-selected="false" data-mode="2">Стоимость поездки</button>
+            <button type="button" class="auto-mode" role="tab" aria-selected="false" data-mode="3">До и после</button>
+            <button type="button" class="auto-mode" role="tab" aria-selected="false" data-mode="4">Город и трасса</button>
+            <button type="button" class="auto-mode" role="tab" aria-selected="false" data-mode="5">БК и чеки</button>
+            <button type="button" class="auto-mode" role="tab" aria-selected="false" data-mode="6">Годовой прогноз</button>
+          </div>
+
+          <div class="auto-pane" data-pane="1">
+            <div class="row2">
+              <div class="field">
+                <label for="m1-km">Пробег по счётчику (км)</label>
+                <input type="number" id="m1-km" inputmode="decimal" min="0" step="any" value="450" />
+              </div>
+              <div class="field">
+                <label for="m1-l">Израсходовано (л)</label>
+                <input type="number" id="m1-l" inputmode="decimal" min="0" step="any" value="36" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="m1-price">Цена топлива (₽ за литр)</label>
+              <input type="number" id="m1-price" inputmode="decimal" min="0" step="any" />
+              <div class="hint">Подставьте цену со своей АЗС — в пустое поле подставится справочная средняя цена (АИ-92 — 69,06 ₽, АИ-95 — 75,39 ₽, ДТ — 81,77 ₽, пропан — 40,94 ₽; данные на 21.09.2026 — Росстат и сводка цен АЗС).</div>
+            </div>
+          </div>
+
+          <div class="auto-pane" data-pane="2" hidden>
+            <div class="row2">
+              <div class="field">
+                <label for="m2-dist">Расстояние (км)</label>
+                <input type="number" id="m2-dist" inputmode="decimal" min="0" step="any" value="450" />
+              </div>
+              <div class="field">
+                <label for="m2-cons">Расход (л/100 км)</label>
+                <input type="number" id="m2-cons" inputmode="decimal" min="0" step="any" value="8" />
+              </div>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="m2-fuel">Тип топлива</label>
+                <select id="m2-fuel">
+                  <option value="ai92">АИ-92</option>
+                  <option value="ai95" selected>АИ-95</option>
+                  <option value="ai98">АИ-98</option>
+                  <option value="dt">ДТ</option>
+                  <option value="gas">Газ (пропан)</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="m2-price">Цена литра (₽)</label>
+                <input type="number" id="m2-price" inputmode="decimal" min="0" step="any" />
+              </div>
+            </div>
+          </div>
+
+          <div class="auto-pane" data-pane="3" hidden>
+            <div class="row2">
+              <div class="field">
+                <label for="m3-before">Расход «до» (л/100 км)</label>
+                <input type="number" id="m3-before" inputmode="decimal" min="0" step="any" value="8" />
+              </div>
+              <div class="field">
+                <label for="m3-after">Расход «после» (л/100 км)</label>
+                <input type="number" id="m3-after" inputmode="decimal" min="0" step="any" value="7" />
+              </div>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="m3-year">Годовой пробег (км)</label>
+                <input type="number" id="m3-year" inputmode="numeric" min="0" step="any" value="20000" />
+              </div>
+              <div class="field">
+                <label for="m3-price">Цена литра (₽)</label>
+                <input type="number" id="m3-price" inputmode="decimal" min="0" step="any" />
+              </div>
+            </div>
+          </div>
+<div class="auto-pane" data-pane="4" hidden>
+            <div class="row2">
+              <div class="field">
+                <label for="m4-city">Расход в городе (л/100 км)</label>
+                <input type="number" id="m4-city" inputmode="decimal" min="0" step="any" value="10" />
+              </div>
+              <div class="field">
+                <label for="m4-road">Расход на трассе (л/100 км)</label>
+                <input type="number" id="m4-road" inputmode="decimal" min="0" step="any" value="6.5" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="m4-share">Доля городского пробега (сдвиньте ползунок)</label>
+              <input type="range" id="m4-share" min="0" max="100" step="5" value="60" />
+            </div>
+            <div class="field">
+              <label for="m4-mix">Смешанный цикл по паспорту (л/100 км)</label>
+              <input type="number" id="m4-mix" inputmode="decimal" min="0" step="any" value="8.5" />
+              <div class="hint">Необязательно: нужен только для сравнения с заводской нормой.</div>
+            </div>
+          </div>
+
+          <div class="auto-pane" data-pane="5" hidden>
+            <div class="row2">
+              <div class="field">
+                <label for="m5-bk">Расход по бортовому компьютеру (л/100 км)</label>
+                <input type="number" id="m5-bk" inputmode="decimal" min="0" step="any" value="7.4" />
+              </div>
+              <div class="field">
+                <label for="m5-km">Пробег за замер (км)</label>
+                <input type="number" id="m5-km" inputmode="decimal" min="0" step="any" value="500" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="m5-qty">Залито по чекам (л)</label>
+              <input type="number" id="m5-qty" inputmode="decimal" min="0" step="any" value="40" />
+              <div class="hint">Метод полного бака: от отсечки до отсечки, без доливок между замерами.</div>
+            </div>
+          </div>
+
+          <div class="auto-pane" data-pane="6" hidden>
+            <div class="row2">
+              <div class="field">
+                <label for="m6-cons">Расход (л/100 км)</label>
+                <input type="number" id="m6-cons" inputmode="decimal" min="0" step="any" value="8" />
+              </div>
+              <div class="field">
+                <label for="m6-year">Годовой пробег (км)</label>
+                <input type="number" id="m6-year" inputmode="numeric" min="0" step="any" value="20000" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="m6-price">Цена литра (₽)</label>
+              <input type="number" id="m6-price" inputmode="decimal" min="0" step="any" />
+            </div>
+          </div>
+
+          <div class="auto-btns">
+            <button type="button" class="btn btn-glass" id="fuelCopy">📋 Скопировать</button>
+            <button type="button" class="btn btn-glass" id="fuelShare">🔗 Скопировать ссылку с моими цифрами</button>
+            <button type="button" class="btn btn-glass" id="fuelPrint" data-print="btn">🖨 Распечатать результат</button>
+          </div>
+          <p class="calc-note" style="margin-top:12px">Цена литра вводится вами: в пустое поле подставляется справочная средняя цена из CONFIG — АИ-92 69,06 ₽, АИ-95 75,39 ₽, ДТ 81,77 ₽, пропан 40,94 ₽ (данные на 21.09.2026: Росстат и сводка цен АЗС).</p>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" data-print="area" style="margin-top:0"></div>
+        <div class="acts" style="margin-top:14px">
+          <button class="btn" type="button" data-print="btn">🖨 Печать</button>
+          <button class="btn" type="button" data-print="btn" title="В диалоге печати выберите «Сохранить как PDF»">⬇ Скачать PDF</button>
+        </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+    <!--SLOT:banner-after-tool-->
+    <!--/SLOT:banner-after-tool-->
+    <!--SLOT:ads-after-tool-->
+    <!--/SLOT:ads-after-tool-->
+      <div class="prose">
+        <span class="eyebrow">Расход топлива</span>
+        <h2>Калькулятор расхода топлива: литры на 100 км, стоимость поездки и траты за год</h2>
+        <p class="tool-meta">Обновлено: 20 сентября 2026</p>
+        <p>Калькулятор расхода топлива считает, сколько литров машина забирает на 100 км, во сколько обходится конкретная поездка и сколько денег уходит на бензин за месяц и за год. Расчёт идёт по вашим цифрам — пробег по счётчику, литры по чеку, цена на колонке — и обновляется сразу, как только меняется любое поле.</p>
+        <p>Внутри шесть режимов: замер расхода по чекам, стоимость маршрута, сравнение «до и после» ремонта или смены стиля езды, средневзвешенный городской и трассовый цикл, проверка бортового компьютера и годовой прогноз. Считает браузер: ни пробег, ни цены никуда не отправляются, регистрация не нужна.</p>
+
+        <span class="eyebrow">Инструкция</span>
+        <h2>Как посчитать расход топлива онлайн</h2>
+        <p>Пять шагов — и вы видите свои цифры, а не средние по стране:</p>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span><strong>Выберите режим</strong> — табы над формой: замер, поездка, «до и после», город и трасса, БК и чеки, годовой прогноз</span></div>
+          <div class="seo-step"><b>2</b><span><strong>Заполните поля своими числами</strong>: для замера расхода нужны пробег по счётчику и литры по чеку</span></div>
+          <div class="seo-step"><b>3</b><span><strong>Вставьте цену литра</strong> — она у каждого своя: зависит от региона, сети АЗС и скидки по карте</span></div>
+          <div class="seo-step"><b>4</b><span><strong>Смотрите крупную цифру</strong> и разбивку под ней: пробег, литры, расход, стоимость километра</span></div>
+          <div class="seo-step"><b>5</b><span><strong>Сохраните результат</strong>: «Скопировать» отдаёт сводку текстом, «Распечатать результат» — лист с расчётом, ссылка с параметрами открывает те же цифры у другого человека</span></div>
+        </div>
+
+        <span class="eyebrow">Формула</span>
+        <h2>Формула расчёта расхода топлива</h2>
+        <div class="seo-formula">Расход (л/100 км) = литры ÷ километры × 100</div>
+        <p>Литры (L) — сколько топлива ушло на замер: по чеку или по показаниям заправки. Километры (S) — сколько машина проехала на этих литрах. Множитель 100 приводит результат к привычной величине «на сто километров», с которой сравнивают паспорт и борт компьютера.</p>
+        <p>Обратные расчёты, которые делает калькулятор: <strong>литры = расстояние × расход ÷ 100</strong>; <strong>стоимость поездки = литры × цена литра</strong>; <strong>стоимость 1 км = расход × цена литра ÷ 100</strong>. Проверить любую цифру можно на калькуляторе телефона: формулы те же, округление отображается до сотых.</p>
+
+        <span class="eyebrow">Точный замер</span>
+        <h2>Как измерить расход точно: метод полного бака</h2>
+        <p>Самый честный способ не требует оборудования — только чек и одометр:</p>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span>Заправьтесь <strong>до отсечки</strong> пистолета и запишите пробег</span></div>
+          <div class="seo-step"><b>2</b><span>Обнулите суточный счётчик и ездите как обычно — минимум 300–500 км, лучше целый бак</span></div>
+          <div class="seo-step"><b>3</b><span>Снова залейте <strong>до отсечки на той же колонке</strong> и сохраните чек: литры из него — расход на пройденные километры</span></div>
+          <div class="seo-step"><b>4</b><span>Разделите литры на километры и умножьте на 100 — в режиме «Замер расхода» это считается само</span></div>
+          <div class="seo-step"><b>5</b><span>Повторите замер 2–3 раза: разовый результат зависит от пробок и погоды, среднее по трём бакам уже устойчиво</span></div>
+        </div>
+        <p>Датчику уровня в баке верить не стоит: «остаток до заправки» — оценка по поплавку, а не измерение. Расхождение в 5–15% между приборкой и чеком — обычное дело, поэтому режим «БК и чеки» сравнивает два расчёта и прямо говорит, насколько врёт экран.</p>
+        <span class="eyebrow">Нюансы</span>
+        <h2>Почему паспортный расход ниже реального</h2>
+        <div class="seo-two">
+          <div class="seo-opt">
+            <h3>Замер на стенде</h3>
+            <p>Заводские цифры снимают на беговых барабанах: ровная «дорога», постоянная скорость, тёплый воздух, топливо без зимних присадок. Такого маршрута в городе не бывает, поэтому норма служит точкой отсчёта, а не обещанием.</p>
+          </div>
+          <div class="seo-opt">
+            <h3>Пустая машина</h3>
+            <p>Норма считается без пассажиров, багажа и кондиционера. Каждая сотня килограммов и включённый климат добавляют литры, поэтому реальный городской цикл почти всегда выше лабораторного.</p>
+          </div>
+        </div>
+
+        <span class="eyebrow">Сезон</span>
+        <h2>Почему зимой расход вырастает на 10–30%</h2>
+        <p>Зимой расход растёт не из-за одного фактора: двигатель дольше выходит на рабочую температуру и греется на месте, холодное топливо плотнее, масло в агрегатах гуще, зимние шины катятся тяжелее, а на снегу и льду появляется пробуксовка. Меньше всего разница заметна на длинной трассе в мягкую зиму, больше всего — в мороз и на коротких городских поездках, где прогрев занимает половину времени работы двигателя.</p>
+
+        <span class="eyebrow">Причины</span>
+        <h2>Топ-12 причин повышенного расхода</h2>
+        <p>Список отсортирован по силе влияния: сверху то, что даёт больше всего литров. Оценки ориентировочные — точную цифру для своей машины показывает замер в первом режиме.</p>
+        <table class="seo-table">
+          <thead><tr><th>Причина</th><th>Влияние</th><th>Что делать</th></tr></thead>
+          <tbody>
+            <tr><td>Зимний режим: прогревы, плотное топливо, зимние шины</td><td>+10–30%</td><td>Сократить прогрев на месте, убрать лишний вес</td></tr>
+            <tr><td>Пробки: работа на месте и рваный темп</td><td>+10–25% в городе</td><td>Сдвинуть маршрут вне пика</td></tr>
+            <tr><td>Агрессивная езда: резкие разгоны и торможения</td><td>+10–20%</td><td>Ровный газ, разгон без «тапки в пол»</td></tr>
+            <tr><td>Багажник или бокс на крыше</td><td>+10–20%</td><td>Снимать, когда не нужен</td></tr>
+            <tr><td>Кондиционер и климат-контроль</td><td>+5–15% в городе</td><td>Реже включать на малых скоростях</td></tr>
+            <tr><td>Пропуски зажигания: свечи, катушки, датчики</td><td>+5–15%</td><td>Диагностика и замена по регламенту</td></tr>
+            <tr><td>Термостат: двигатель не выходит на рабочую температуру</td><td>+5–15%</td><td>Проверить прогрев по приборке</td></tr>
+            <tr><td>Забитый воздушный фильтр</td><td>+3–10%</td><td>Менять каждые 10–15 тыс. км</td></tr>
+            <tr><td>Низкое давление в шинах</td><td>+2–5%</td><td>Проверять раз в месяц, «на холодную»</td></tr>
+            <tr><td>Изношенные шины и неверный размер</td><td>+2–5%</td><td>Шины по сезону и по паспорту</td></tr>
+            <tr><td>Лишний груз в багажнике (каждые 100 кг)</td><td>+1–3%</td><td>Выгрузить то, что не нужно</td></tr>
+            <tr><td>Поджатые суппорты, подшипники, «тормозящее» колесо</td><td>до +5–10%</td><td>Проверить нагрев дисков после поездки</td></tr>
+          </tbody>
+        </table>
+
+        <span class="eyebrow">Пример</span>
+        <h2>Пример расчёта: 450 км на 36 литрах</h2>
+        <p>Сверено с калькулятором на этой странице. Вы заправились до отсечки, обнулили суточный счётчик, проехали 450 км и на той же колонке влезло 36 л. Считаем в трёх режимах:</p>
+        <div class="seo-formula">36 л ÷ 450 км × 100 = 8,00 л / 100 км</div>
+        <ul>
+          <li><strong>Замер расхода (450 км, 36 л)</strong> — 8,00 л/100 км; при цене 58 ₽ за литр километр пути стоит 4,64 ₽.</li>
+          <li><strong>Стоимость поездки (450 км, 8 л/100 км, 58 ₽)</strong> — нужно 36 л, то есть 2 088 ₽ в одну сторону и 4 176 ₽ туда и обратно.</li>
+          <li><strong>До и после (было 8 л, стало 7 л, 20 000 км в год, 58 ₽)</strong> — улучшение на 12,5%, экономия 200 л в год, то есть 11 600 ₽ в год.</li>
+        </ul>
+        <p>Цену литра подставьте свою: она меняется от региона к региону и от сети к сети. В формуле важна только она — остальные цифры берутся из вашего замера.</p>
+
+        <span class="eyebrow">Вопросы</span>
+        <h2>Частые вопросы о расходе топлива</h2>
+        <details class="seo-faq">
+          <summary>Как правильно замерить расход топлива?</summary>
+          <div class="seo-faq-b"><p>Метод полного бака: заправьтесь до отсечки, обнулите счётчик суточного пробега, ездите как обычно, а затем снова залейте до отсечки на той же колонке. Литры из чека разделите на пройденные километры и умножьте на 100 — получите расход на 100 км. Чем длиннее замер (хотя бы 300–500 км), тем точнее результат.</p></div>
+        </details>
+        <details class="seo-faq">
+          <summary>Почему бортовой компьютер показывает другой расход?</summary>
+          <div class="seo-faq-b"><p>Бортовой компьютер считает топливо по времени открытия форсунок и не знает фактического объёма заливки, поэтому чаще всего занижает расход. Проверяется это за один бак: посчитайте литры по чекам на тот же пробег в режиме «БК и чеки». Отклонение до 5% — норма, больше — экрану лучше не верить.</p></div>
+        </details>
+        <details class="seo-faq">
+          <summary>Почему зимой расход выше?</summary>
+          <div class="seo-faq-b"><p>Зимой добавляются прогрев двигателя на месте, более плотное холодное топливо, загустевшее масло в агрегатах, зимние шины с высоким сопротивлением качению и пробуксовки на снегу. В сумме это даёт рост расхода на 10–30% в зависимости от мороза, маршрута и стиля езды.</p></div>
+        </details>
+        <details class="seo-faq">
+          <summary>Что такое смешанный цикл?</summary>
+          <div class="seo-faq-b"><p>Это средний расход по методике замера, где часть пробега приходится на городской цикл, а часть — на загородный. Заводская цифра смешанного цикла нужна для сравнения: если ваш средневзвешенный расход выше паспортного на 10–15%, это обычная разница, а расхождение вдвое — признак неисправности или ошибки в замере.</p></div>
+        </details>
+        <details class="seo-faq">
+          <summary>Как снизить расход топлива?</summary>
+          <div class="seo-faq-b"><p>Начните с бесплатного: проверьте давление в шинах, уберите багажник с крыши, выгрузите лишний груз и поменяйте стиль езды — плавные разгоны и постоянная скорость дают самый большой эффект. Дальше по влиянию: воздушный фильтр, свечи, исправный термостат и шины по сезону.</p></div>
+        </details>
+
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/calculators/auto/ownership/">Стоимость владения автомобилем</a>
+          <a href="/calculators/auto/">Авто-калькуляторы</a>
+          <a href="/blog/avto-rashod-topliva/">Как рассчитать расход топлива</a>
+        </div>
+        <p class="calc-note">Расчёты носят справочный характер и не заменяют консультацию специалиста. Цену топлива вводите свою: справочные средние цены (АИ-92 69,06, АИ-95 75,39, ДТ 81,77, пропан 40,94 ₽) взяты из открытых источников на 21.09.2026 и в CONFIG помечены как справочные. Данные калькулятора не покидают ваш браузер.</p>
+      </div>
+    </div>
+    <!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/calculators/auto/fuel/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/calculators/auto/fuel/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=36" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+  </main>
+
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  <!--SLOT:ads-ad-bottom-->
+<div class="ad-slot-box ad-bottom" data-ad-slot="ad-bottom" aria-label="Рекламный блок"></div>
+<!--/SLOT:ads-ad-bottom-->
+
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=36"></script>
+  <script type="module" src="/js/calc-fuel.js?v=36"></script>
+</body>
+</html>
+
+
+
+

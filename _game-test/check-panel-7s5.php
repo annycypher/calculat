@@ -2,7 +2,7 @@
 /* check-panel-7s5.php — функциональный тест фазы 7, шага 7.5 (раздел «Напоминания»).
 
    Что проверяем:
-     • стартовый набор: 22 задачи (18 обычных + 4 сезонные), у каждой название, пояснение и «как сделать»,
+     • стартовый набор: 23 задачи (19 обычных + 4 сезонные), у каждой название, пояснение и «как сделать»,
        категория и период из списка; задача «смена пароля» существует и помечена как полугодовая;
      • состояния по датам: weekly сегодня → «выполнено», 8 дней назад → «просрочено», 7 дней назад → «пора»,
        3 дня назад → «скоро»; разовая не сделана → «пора», сделана → «выполнено»; сезонная спрашивается
@@ -129,9 +129,9 @@ say('0. Стартовый набор задач');
 @unlink(reminders_file());
 $items = reminders_items();
 check('файл напоминаний завёлся сам', is_file(reminders_file()));
-check('в стартовом наборе 22 задачи (18 обычных + 4 сезонные)', count($items) === 22, 'задач: ' . count($items));
+check('в стартовом наборе 23 задачи (19 обычных + 4 сезонные)', count($items) === 23, 'задач: ' . count($items));
 
-$need = array('login_journal', 'twofa_spaceweb', 'passwords_manager', 'password_change', 'php_version',
+$need = array('login_journal', 'twofa_spaceweb', 'passwords_manager', 'password_change', 'php_version', 'site_copy',
     'domain_deadline', 'seo_scan', 'orphans_pages', 'traffic_no_money', 'reviews_moderation',
     'backlinks_webmaster', 'outreach_letters', 'positions', 'article_update', 'calc_numbers',
     'broken_links_check', 'rsa_income', 'original_texts',
@@ -158,8 +158,8 @@ check('задача «смена пароля» — полугодовая и с
 
 $byCat = array();
 foreach ($items as $t) { $byCat[(string)$t['category']] = (int)($byCat[(string)$t['category']] ?? 0) + 1; }
-check('категории: безопасность 5, продвижение 8, контент 7, деньги 2',
-    ($byCat['security'] ?? 0) === 5 && ($byCat['seo'] ?? 0) === 8 && ($byCat['content'] ?? 0) === 7 && ($byCat['money'] ?? 0) === 2,
+check('категории: безопасность 6, продвижение 8, контент 7, деньги 2',
+    ($byCat['security'] ?? 0) === 6 && ($byCat['seo'] ?? 0) === 8 && ($byCat['content'] ?? 0) === 7 && ($byCat['money'] ?? 0) === 2,
     json_encode($byCat, JSON_UNESCAPED_UNICODE));
 
 /* ── 1. Состояния по датам ── */
@@ -205,7 +205,7 @@ check('вход администратора выполнен', panel_login('adm
 $r = ph(PURL . '/reminders.php');
 $tok = pcsrf($r['b']);
 check('страница открывается', $r['s'] === 200 && has($r['b'], 'Напоминания'), 'код ' . $r['s']);
-check('виджет видит все 22 задачи', (int)attr($r['b'], 'sec-reminders', 'total') === 22,
+check('виджет видит все 23 задачи', (int)attr($r['b'], 'sec-reminders', 'total') === 23,
     attr($r['b'], 'sec-reminders', 'total'));
 check('группа «Пора» на месте', has($r['b'], 'Пора —'));
 check('пустые группы не рисуются (а «Скоро» появляется, когда есть такие задачи)',

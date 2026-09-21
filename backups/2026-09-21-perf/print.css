@@ -1,0 +1,90 @@
+/* print.css — печать ТОЛЬКО результата (шаг 8.2).
+   Один файл на все калькуляторы и генераторы. Подключается ссылкой в <head> С АТРИБУТОМ
+   media="print" (21.09.2026): печать нужна редко, а файл весит 7,5 КБ. Так он больше не в
+   критическом пути отрисовки — браузер тянет его в фоне с самым низким приоритетом и
+   применяет только при печати (в логе Chrome: было HIGHEST, стало IDLE/LOWEST).
+   Дополнительно ставится скриптом js/print-result.js — на случай, если страницу забыли обновить.
+
+   Как это работает:
+     • на экране видно только кнопку «🖨 Распечатать результат» и ничего лишнего;
+     • js/print-result.js помечает блок результата (data-print="area") и размечает путь к нему
+       (data-print-path="1" на предках) — по этой разметке лишнее убирается ИЗ ПОТОКА;
+     • над результатом печатается название инструмента (data-print="head"),
+       под результатом — строка «дата · CalcDoc · дисклеймер» (data-print="stamp");
+     • кнопки печати и служебные элементы (.no-print) не попадают на бумагу;
+     • фон принудительно белый, текст тёмный — так читаемо на любом принтере.
+
+   Правка 20.09.2026 (владелец: «печатаются пустые листы, 6 листов вместо одного»). Было две причины:
+     1) лишнее пряталось через visibility — скрытое так продолжает занимать место, страница
+        оставалась длинной, и на бумагу уходили пустые листы (у калькуляторов 5–7);
+     2) блок инструмента лежит внутри контейнера с классом no-print, а он гасился целиком —
+        поэтому на листах не было вообще ничего.
+   Теперь лишнее убирается из потока (display:none) по разметке пути, а контейнер no-print,
+   если он на пути к результату, снова показывается. */
+
+/* ── на экране этих правил больше нет ──
+   Экранная часть (служебные строки результата скрыты, кнопка «Распечатать результат»
+   оформлена) переехала в styles.css 21.09.2026. Причина: файл теперь подключается
+   ссылкой с media="print" и выпадает из критического пути отрисовки — браузер берёт
+   его в фоне с самым низким приоритетом и применяет только к печати. А тем правилам
+   нужно работать именно на экране, поэтому их место — в styles.css. Здесь только печать. */
+
+/* ── на бумаге ── */
+@page { margin: 14mm; }
+
+@media print {
+  html, body { background: #fff !important; color: #111 !important; height: auto !important; margin: 0 !important; padding: 0 !important; }
+
+  /* Всё, что не ведёт к блоку результата, убираем из потока: иначе скрытые, но занимающие
+     место блоки дают пустые листы. Разметку пути ставит js/print-result.js. */
+  [data-print-path="1"] > *:not([data-print-path="1"]):not([data-print="area"]):not(.print-area):not(.print-doc) {
+    display: none !important;
+  }
+
+  /* Важно: в styles.css есть свой @media print с правилом «.no-print { display:none !important }»,
+     а блок инструмента как раз помечен no-print. Поэтому контейнер, который ведёт к результату,
+     показываем явно — иначе вместе с ним пропадает и результат (из-за этого и были пустые листы). */
+  [data-print-path="1"].no-print { display: block !important; }
+
+  /* Запасной путь и защита «не навреди»: скрываем лишнее ТОЛЬКО если на странице размечена
+     область результата (признак — data-print-path на <html>). Если скрипт область не нашёл
+     (страница без результата, окно печати генераторов со своим документом), печатаем как есть:
+     лучше напечатать страницу целиком, чем пустой лист. */
+  html[data-print-path="1"] body * { visibility: hidden !important; background-image: none !important; box-shadow: none !important; }
+  /* Показ области результата: вес селекторов выше, чем у скрывающего правила выше
+     (иначе «скрыть» побеждает «показать» — на этом и терялся результат). */
+  html[data-print-path="1"] [data-print="area"], html[data-print-path="1"] [data-print="area"] *,
+  html[data-print-path="1"] .print-area,     html[data-print-path="1"] .print-area *,
+  html[data-print-path="1"] .print-doc,      html[data-print-path="1"] .print-doc *,
+  [data-print="area"], [data-print="area"] *,
+  .print-area, .print-area *,
+  .print-doc, .print-doc * { visibility: visible !important; }
+  [data-print="area"], .print-area, .print-doc {
+    display: block !important; position: static !important; width: 100% !important; height: auto !important;
+    max-height: none !important; overflow: visible !important; margin: 0 !important; padding: 0 !important;
+    background: #fff !important; color: #111 !important; border: 0 !important;
+  }
+  [data-print="area"] *, .print-area *, .print-doc * { color: #111 !important; border-color: #d0d0d0 !important; }
+
+  /* То, что не должно печататься: кнопки, подсказки об интерфейсе, реклама.
+     Контейнер с no-print, оказавшийся на пути к результату, — исключение: иначе вместе
+     с ним пропадёт и сам результат. */
+  .no-print:not([data-print-path="1"]), [data-print="btn"], .ad-slot, .ad-top, .ad-bottom, .search-wrap, .site-search,
+  button, .btn, .chips, .tabs, .reviews-form { display: none !important; }
+
+  /* Заголовок инструмента над результатом и подпись под ним (вес тот же, что у показа области). */
+  html[data-print-path="1"] [data-print="head"],
+  [data-print="head"] {
+    display: block !important; visibility: visible !important;
+    margin: 0 0 10px; font-size: 17px; font-weight: 700; color: #111 !important;
+  }
+  html[data-print-path="1"] [data-print="stamp"],
+  [data-print="stamp"] {
+    display: block !important; visibility: visible !important;
+    margin-top: 14px; padding-top: 8px; border-top: 1px solid #d0d0d0;
+    font-size: 11.5px; line-height: 1.45; color: #555 !important;
+  }
+
+  a { text-decoration: none !important; color: #111 !important; }
+  .result-box, .result-list, .print-area { background: #fff !important; color: #111 !important; }
+}

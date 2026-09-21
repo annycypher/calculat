@@ -2,7 +2,7 @@
 #
 # Что делает:
 #   • в 52 страницах с типовым подвалом добавляет в колонку «Служебные страницы» пункты
-#     <a href="/contact/">Контакты</a> и <a href="/advertise/">Реклама</a> сразу после «О проекте»;
+#     <a href="/contact/">Контакты</a> сразу после «О проекте» (ссылка «Реклама» убрана 20.09.2026 — страницы /advertise/ больше нет);
 #   • на главной странице подвал другой — там ссылки встают в нижний список перед «Конфиденциальностью»;
 #   • перед каждой правкой кладёт копию файла в backups\files\<дата_время>__<путь>;
 #   • повторный запуск ничего не меняет (идемпотентность), -Remove убирает ссылки обратно.
@@ -21,7 +21,7 @@ $stamp     = Get-Date -Format 'yyyy-MM-dd_HH-mm-ss'
 $backupDir = Join-Path $root 'backups\files'
 $report    = Join-Path $env:TEMP ('calcdoc-contact-footer-' + (Get-Date -Format 'HHmmss') + '.txt')
 $skipDirs  = @('admin-panel-x7k2', '_archive', '_backup', 'backups', 'content', 'media', '_game-test', 'sweb-migration', 'node_modules', 'js', 'libs', 'api')
-$links     = @('<a href="/contact/">Контакты</a>', '<a href="/advertise/">Реклама</a>')
+$links     = @('<a href="/contact/">Контакты</a>')
 
 $blockRe   = [regex]'(?s)<nav class="footer-nav" aria-label="Служебные страницы">.*?</nav>'
 $anchorRe  = [regex]'(?m)^([ \t]*)<a href="/about/">О проекте</a>[ \t]*(?=\r?$)'

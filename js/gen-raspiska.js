@@ -73,7 +73,9 @@ export const RASPISKA = {
       return words + ' ' + rubEnd + ' ' + String(kop).padStart(2, '0') + ' '
         + RASPISKA.plural(kop, ['копейка', 'копейки', 'копеек']);
     }
-    return words + ' ' + rubEnd;
+    // Копейки печатаем всегда, даже нулевые: в документах принято «… рублей 00 копеек».
+    return words + ' ' + rubEnd + ' ' + String(kop).padStart(2, '0') + ' '
+      + RASPISKA.plural(kop, ['копейка', 'копейки', 'копеек']);
   },
 
   /** Окончание по числу: 1 рубль, 2 рубля, 5 рублей. */

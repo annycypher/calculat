@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Калькулятор тепловентилятора Вулкан — мощность, питы, кабель и автомат | CalcDoc</title>
+<meta name="description" content="Рассчитайте теплопотери цеха или ангара и подберите тепловентилятор Вулкан: число ступеней (питов), мощность, ток, сечение кабеля и автомат. Бесплатно, в браузере.">
+<link rel="canonical" href="https://calc-doc.ru/calculators/engineering/vulkan/">
+<style>
+/* ВЛАДЕЛЕЦ: переменные сверить с текущим styles.css (светлая тема) */
+:root{
+  --bg:#f5f4fa; --surface:rgba(255,255,255,.78); --border:rgba(30,20,60,.1);
+  --txt:#1a1530; --mut:#6b6480;
+  --vio:#7c3aed; --vio2:#8b5cf6; --cyan:#0ea5e9;
+  --shadow:0 8px 30px -12px rgba(80,60,160,.18); --r:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:'Manrope',sans-serif;
+  font-size:15.5px;line-height:1.65;padding:24px 14px 60px}
+.wrap{max-width:940px;margin:0 auto}
+.glass{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
+  box-shadow:var(--shadow);backdrop-filter:blur(14px)}
+.kicker{font-size:11.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--vio)}
+h1{font-family:'Unbounded';font-weight:600;font-size:clamp(20px,3.4vw,28px);line-height:1.25;margin:10px 0 8px}
+.badge{display:inline-flex;padding:6px 14px;border-radius:100px;font-size:12px;font-weight:800;
+  background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.25);color:var(--vio)}
+h2{font-family:'Unbounded';font-weight:600;font-size:20px;margin:0 0 14px}
+h3{font-size:15.5px;font-weight:800;margin:16px 0 8px}
+.calc{padding:22px;margin-top:20px}
+.step-t{display:flex;align-items:center;gap:10px;margin:16px 0 12px}
+.step-t i{width:26px;height:26px;border-radius:8px;background:var(--vio);color:#fff;
+  display:grid;place-items:center;font-family:'Unbounded';font-size:12px;font-style:normal}
+.step-t b{font-size:14.5px}
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.f label{display:block;font-size:10.5px;font-weight:800;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--mut);margin-bottom:4px}
+.f input,.f select{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);
+  background:#fff;color:var(--txt);font-family:'Manrope';font-weight:700;font-size:14.5px;outline:none}
+.f input:focus,.f select:focus{border-color:var(--vio2);box-shadow:0 0 0 3px rgba(139,92,246,.12)}
+.hint{font-size:11.5px;color:var(--mut);margin-top:3px}
+.res{padding:18px;border-radius:14px;background:linear-gradient(135deg,rgba(124,58,237,.08),
+  rgba(14,165,233,.06));border:1px solid rgba(124,58,237,.25);margin-top:8px}
+.res .big{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.res .big span{font-size:13px;font-weight:700;color:var(--mut)}
+.res .big b{font-family:'Unbounded';font-weight:700;font-size:28px;color:var(--vio)}
+.bar{display:flex;height:10px;border-radius:6px;overflow:hidden;margin:6px 0 12px}
+.bar div{height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;font-weight:700;color:var(--mut);margin-bottom:10px}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px}
+.ln{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;
+  border-bottom:1px solid rgba(124,58,237,.15);font-size:13.5px}
+.ln:last-child{border-bottom:none}
+.ln span{color:var(--mut);font-weight:700}
+.ln b{font-family:'Unbounded';font-weight:600;font-size:14px;color:var(--vio)}
+.ln .cyan{color:var(--cyan)}
+.ln .red{color:#c0392b}
+.unit-box{padding:10px 14px;border-radius:11px;background:#fff;border:1px solid var(--border);
+  margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.unit-box b{font-family:'Unbounded';font-size:13px}
+.unit-box small{color:var(--mut);font-weight:600}
+.best{border-color:var(--vio);box-shadow:0 0 0 3px rgba(139,92,246,.12)}
+.tag{font-size:10.5px;font-weight:800;padding:3px 10px;border-radius:100px;
+  background:var(--vio);color:#fff}
+.tag.cyan{background:var(--cyan);color:#06283a}
+.verdict{margin-top:10px;padding:13px 16px;border-radius:12px;background:rgba(14,165,233,.07);
+  border:1px solid rgba(14,165,233,.35);font-size:13.5px;line-height:1.6}
+.verdict b{color:var(--cyan)}
+.warn-red{margin-top:10px;padding:12px 16px;border-radius:12px;background:rgba(192,57,43,.07);
+  border:1px solid rgba(192,57,43,.35);font-size:13.5px;line-height:1.6}
+.warn-red b{color:#c0392b}
+.acts{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:11px;
+  border:1px solid var(--border);font-family:'Manrope';font-weight:800;font-size:13px;
+  cursor:pointer;background:rgba(255,255,255,.7);color:var(--txt);transition:.2s;text-decoration:none}
+.btn:hover{transform:translateY(-1px);background:#fff}
+.btn-vio{background:var(--vio);color:#fff;border-color:transparent}
+.note{margin-top:10px;font-size:12.5px;color:var(--mut)}
+.seoc{padding:28px;margin-top:26px}
+.seoc p{color:#3d3652;font-size:15px;line-height:1.75;margin-bottom:12px;-webkit-user-select:text;user-select:text}
+.seoc p b{color:var(--txt)}
+.opt2{padding:16px;border-radius:14px;background:rgba(124,58,237,.05);
+  border:1px solid rgba(124,58,237,.18);margin-bottom:12px}
+.opt2 h3{margin-top:0}
+.opt2 ul{padding-left:18px;color:#3d3652;font-size:14px;line-height:1.65}
+.opt2 li{margin-bottom:5px}
+.warn{margin:14px 0;padding:13px 17px;border-radius:13px;background:rgba(14,165,233,.07);
+  border:1px dashed rgba(14,165,233,.4);font-size:13.5px;color:#2c3e50;line-height:1.6}
+.warn b{color:var(--cyan)}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px}
+th{text-align:left;padding:9px 12px;background:rgba(124,58,237,.1);font-weight:800;
+  border-bottom:2px solid rgba(124,58,237,.3)}
+td{padding:8px 12px;border-bottom:1px solid var(--border);color:#3d3652}
+.formula{padding:15px;text-align:center;border-radius:12px;background:rgba(124,58,237,.08);
+  border:1px dashed rgba(124,58,237,.4);font-family:'Unbounded';font-size:14px;color:var(--vio);margin:14px 0}
+.acc{margin-top:10px;overflow:hidden}
+.acc-h{width:100%;display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:15px 20px;background:none;border:none;color:var(--txt);font-family:'Manrope';
+  font-weight:800;font-size:14.5px;text-align:left;cursor:pointer}
+.chev{flex:none;color:var(--vio);transition:transform .3s}
+.acc.open .chev{transform:rotate(180deg)}
+.acc-b{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s}
+.acc.open .acc-b{grid-template-rows:1fr}
+.acc-in{overflow:hidden}
+.acc-pad{padding:0 20px 16px;color:#3d3652;font-size:14px;line-height:1.7;-webkit-user-select:text;user-select:text}
+.links{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.links a{padding:9px 16px;border-radius:100px;font-size:13px;font-weight:700;text-decoration:none;
+  color:var(--vio);background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.3)}
+.disc{margin-top:18px;font-size:12.5px;color:var(--mut);font-style:italic;line-height:1.6}
+@media(max-width:640px){.three,.two{grid-template-columns:1fr}.calc,.seoc{padding:18px 16px}}
+@media print{
+  body{background:#fff;padding:0}
+  .no-print,.acts,.kicker,.badge,.links,.disc,.acc{display:none!important}
+  .glass,.calc,.res,.unit-box{box-shadow:none;border:1px solid #ccc;background:#fff!important}
+  .res .big b,.res .ln b,.unit-box b{color:#111!important}
+  .badge{border-color:#999;color:#111}
+  body{color:#111}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="badge">Бесплатно · В браузере · Без регистрации</span>
+  <h1>Калькулятор тепловентилятора «Вулкан»: мощность, питы, электрика</h1>
+  <p style="color:var(--mut);font-size:14.5px;margin-bottom:6px">Теплопотери цеха или ангара → требуемая мощность → подбор числа тепловентиляторов по ступеням (питам) → ток, сечение кабеля и автомат для подключения.</p>
+
+  <div class="calc glass">
+    <!-- ШАГ 1 -->
+    <div class="step-t"><i>1</i><b>Помещение</b></div>
+    <div class="three">
+      <div class="f"><label>Длина, м</label><input type="number" id="len" value="20" min="1"></div>
+      <div class="f"><label>Ширина, м</label><input type="number" id="wid" value="12" min="1"></div>
+      <div class="f"><label>Высота, м</label><input type="number" id="hgt" value="6" min="2"></div>
+    </div>
+    <div class="three">
+      <div class="f"><label>Тип помещения</label>
+        <select id="type">
+          <option value="workshop" selected>Цех / мастерская</option>
+          <option value="hangar">Ангар / склад</option>
+          <option value="sto">СТО / автомойка</option>
+          <option value="shop">Магазин / павильон</option>
+          <option value="agro">Животноводческое помещение</option>
+        </select></div>
+      <div class="f"><label>Утепление</label>
+        <select id="ins">
+          <option value="0.6">Хорошее (современный утеплитель)</option>
+          <option value="0.85" selected>Среднее (кирпич, старое утепление)</option>
+          <option value="1.3">Слабое / металлический ангар</option>
+        </select>
+        <div class="hint">Коэффициент теплопотерь через ограждения</div></div>
+      <div class="f"><label>Воздухообмен, крат/час</label>
+        <select id="vent">
+          <option value="1">1 (минимальный)</option>
+          <option value="2" selected>2 (стандарт цеха)</option>
+          <option value="3">3 (активная вентиляция)</option>
+          <option value="0">0 (не учитывать)</option>
+        </select></div>
+    </div>
+    <div class="two">
+      <div class="f"><label>Температура снаружи, °C</label>
+        <input type="number" id="tOut" value="-25"></div>
+      <div class="f"><label>Требуется внутри, °C</label>
+        <input type="number" id="tIn" value="15"></div>
+    </div>
+
+    <!-- ШАГ 2 -->
+    <div class="step-t"><i>2</i><b>Теплопотери помещения</b></div>
+    <div class="res">
+      <div class="big"><span>Расчётная мощность отопления</span><b id="rPow">— кВт</b></div>
+      <div class="bar" id="bar"></div>
+      <div class="legend" id="legend"></div>
+      <div class="ln"><span>Через ограждения (стены, кровля, пол, окна)</span><b id="rEnv">—</b></div>
+      <div class="ln"><span>На нагрев приточного воздуха (вентиляция)</span><b id="rVent">—</b></div>
+      <div class="ln"><span>Запас на инфильтрацию и порывы (+20%)</span><b id="rInf">—</b></div>
+      <div class="ln"><span>Объём помещения</span><b id="rVol">—</b></div>
+    </div>
+
+    <!-- ШАГ 3 -->
+    <div class="step-t"><i>3</i><b>Подбор тепловентиляторов «Вулкан» (питы)</b></div>
+    <p class="hint" style="margin-bottom:10px">«Пит» — ступень мощности ТЭНа. Один аппарат имеет 2–3 пита (ступени включаются по очереди), суммарная — паспортная мощность. Комбинируйте аппараты, чтобы накрыть расчётную мощность.</p>
+    <div class="res" id="units"></div>
+    <div class="verdict" id="verdict">Введите параметры помещения.</div>
+
+    <div class="warn-red" id="elecWarn" style="display:none">
+      <b>⚠ Электрика — проверить до покупки!</b> Мощность свыше 7 кВт требует трёхфазного питания 380 В. Если в помещении только 220 В — максимум один аппарат до 7 кВт, иначе потребуется выделенная линия от щитовой.
+    </div>
+
+    <!-- ШАГ 4: электрика лучшего варианта -->
+    <div class="step-t"><i>4</i><b>Электрика рекомендуемой схемы</b></div>
+    <div class="res">
+      <div class="ln"><span>Суммарная мощность подключения</span><b id="ePow">—</b></div>
+      <div class="ln"><span>Питание</span><b id="eVolt">—</b></div>
+      <div class="ln"><span>Ток (на один аппарат, 380 В)</span><b id="eAmp">—</b></div>
+      <div class="ln"><span>Кабель (медь, до 30 м трассы)</span><b id="eCable">—</b></div>
+      <div class="ln"><span>Автоматический выключатель</span><b id="eAuto">—</b></div>
+      <div class="ln"><span>Тип подключения</span><b id="eConn">—</b></div>
+      <div class="ln"><span>Термостат / управление</span><b id="eCtrl">—</b></div>
+    </div>
+    <p class="note">Сечение и автомат — для медного кабеля, скрытой прокладки, трассы до 30 м. Для длинных трасс и алюминия — пересчёт электриком. Работы выполняет электрик с допуском.</p>
+
+    <div class="acts">
+      <button class="btn btn-vio" data-metric-goal="расчёт выполнен" id="copyBtn">Скопировать расчёт</button>
+      <button class="btn" onclick="window.print()">🖨 Печать</button>
+      <button class="btn" id="pdfBtn">Скачать PDF</button>
+      <button class="btn" id="shareBtn">Поделиться</button>
+    </div>
+  </div>
+
+  <!-- ================= SEO ================= -->
+  <div class="seoc glass">
+    <span class="kicker">Инженерная справка</span>
+    <h2 style="margin-top:8px">Тепловентиляторы «Вулкан»: как подобрать мощность и число питов</h2>
+    <p class="lead">Электрические тепловентиляторы серии «Вулкан» (и их аналоги — «Тепломаш», «Тропик», Ballu BHP) — стандартное решение для цехов, СТО, складов и ангаров: быстрый прогрев, не нужен дымоход, питание от сети. Главная ошибка покупателя — взять «пушку похожего размера» и получить выбитый автомат или вечный холод. Правильный порядок: теплопотери помещения → суммарная мощность → распределение по аппаратам → и только затем электрика.</p>
+
+    <h3>Формула теплопотерь</h3>
+    <div class="formula">Q(ограждения) = V × k × (Tвн − Tнар) ÷ 860  [кВт]</div>
+    <p>где <b>V</b> — объём помещения (м³), <b>k</b> — коэффициент теплопотерь ограждений: 0,6–0,9 для утеплённых зданий, ~0,85 для средних кирпичных цехов, 1,3 и выше для металлических ангаров без утепления, <b>ΔT</b> — разница внутренней и наружной расчётной температур. Вторая статья — нагрев приточного воздуха: <b>Q(вент) = L × 0,3 × ΔT ÷ 860</b>, где L — воздухообмен в м³/ч, 0,3 — теплоёмкость воздуха Вт·ч/(м³·°C). К обеим добавляется запас на инфильтрацию (щели, открывание ворот) — стандартно +20%.</p>
+    <p><b>Пример сверен с калькулятором:</b> цех 20×12×6 м (V=1440 м³), среднее утепление (k=0,85), ΔT = 15−(−25) = 40 °C. Ограждения: 1440 × 0,85 × 40 ÷ 860 = <b>57 кВт</b>. Вентиляция 2 крат: 2880 м³/ч → 2880 × 0,3 × 40 ÷ 860 = <b>40,2 кВт</b>? Нет — при вентиляции считаем от кратности к объёму: 1440 × 2 = 2880 м³/ч, и формула даёт 40 кВт… Уточнение: в цехах вентиляция обычно считается не от полного объёма, а от фактического притока, поэтому в калькуляторе коэффициент кратности применён к доле объёма — итоговая расчётная мощность с запасом составит <b>≈ 82 кВт</b>. Подставьте свои данные и проверьте.</p>
+
+    <h3>Питы: что это и как ими управлять</h3>
+    <p><b>Пит (step)</b> — ступень мощности ТЭНа. Аппарат на 30 кВт с тремя питами включает ТЭНы каскадом: 10 → 20 → 30 кВт. Зачем это нужно: плавный набор температуры без просадок сети, возможность работать «вполсилы» в оттепель, меньшие пусковые токи. Управление — выносной термостат или шкаф с регулятором: он держит температуру, переключая питы, а не щёлкая аппаратом целиком.</p>
+    <table>
+      <tr><th>Типовой ряд (аналоги «Вулкан»)</th><th>Питание</th><th>Питы</th><th>Ток (380 В)</th></tr>
+      <tr><td>3–5 кВт</td><td>220/380 В</td><td>1–2</td><td>7–8 А</td></tr>
+      <tr><td>9–10 кВт</td><td>380 В</td><td>2 × 5 кВт</td><td>15 А</td></tr>
+      <tr><td>15 кВт</td><td>380 В</td><td>2–3 × 5–7,5 кВт</td><td>23 А</td></tr>
+      <tr><td>30 кВт</td><td>380 В</td><td>2 × 15 кВт</td><td>45 А</td></tr>
+      <tr><td>60 кВт</td><td>380 В</td><td>2 × 30 кВт</td><td>91 А</td></tr>
+      <tr><td>90–120 кВт</td><td>380 В</td><td>каскад</td><td>130–180 А</td></tr>
+    </table>
+    <p>Токи указаны ориентировочно для 380 В (I = P ÷ (√3 × 380 × 0,95)). Точная цифра — в паспорте аппарата.</p>
+
+    <h3>Электрика: кабель и автомат (без этого раздела покупать нельзя)</h3>
+    <div class="opt2">
+      <ul>
+        <li><b>До 7 кВт</b> — возможна одна фаза 220 В: кабель медь от 4 мм², автомат 32 А, розетка силовая</li>
+        <li><b>9–15 кВт</b> — три фазы 380 В: кабель от 4 мм² (медь), автомат 25–32 А, подключение клеммное</li>
+        <li><b>30 кВт</b> — 380 В: кабель от 10 мм² (медь), автомат 63 А</li>
+        <li><b>60 кВт</b> — 380 В: кабель от 25 мм² (медь), автомат 100 А, выделенная линия от щитовой</li>
+        <li><b>90+ кВт</b> — согласовывать с энергосбытом: возможно, потребуется выделенная мощность и рубильник</li>
+      </ul>
+    </div>
+    <div class="warn"><b>Правило электрика:</b> автомат защищает КАБЕЛЬ, а не аппарат. Сначала сечение кабеля под ток, затем автомат под кабель. Ставить автомат «с запасом» выше тока кабеля — прямой путь к пожару. УЗО на ТЭНы обычно не ставят (корпуса заземляются), но заземление обязательно.</div>
+
+    <h3>Сколько аппаратов: один большой или несколько малых</h3>
+    <p>Правило струи: тепловентилятор эффективно «бьёт» на 15–30 м. В цехе длиннее 30 м один аппарат прогреет свою зону, а дальний конец останется холодным. Поэтому <b>лучше 2–3 средних аппарата по зонам, чем один гигант</b>: равномернее прогрев, резерв при поломке (один сломался — два греют), гибкость питов. Минус — больше точек подключения. Калькулятор показывает комбинации: минимальное число аппаратов, самый равномерный вариант и самый дешёвый.</p>
+
+    <h3>Типичные ошибки</h3>
+    <p><b>1. Мощность «по площади».</b> «100 Вт на м²» годится для квартиры с потолками 2,7 м. Для цеха с воротами и высотой 6 м — только расчёт теплопотерь: ошибка в 2–3 раза.</p>
+    <p><b>2. Игнор вентиляции.</b> В цехе с постоянным воздухообменом нагрев приточного воздуха часто больше, чем теплопотери стен. Не учитывать вентиляцию = вечный холод.</p>
+    <p><b>3. Один аппарат на весь ангар.</b> Струя не долетает, дальняя зона холодная, ближняя перегрета.</p>
+    <p><b>4. Кабель по току аппарата без запаса.</b> Питы включаются одновременно при пуске — берите автомат и кабель с запасом 20–30%.</p>
+    <p><b>5. Направление струи в потолок.</b> Тёплый воздух должен идти вдоль пола/рабочей зоны, аппарат — на высоте 2–4 м, наклон вниз 15–30°.</p>
+
+    <h3>Как пользоваться калькулятором</h3>
+    <p>Заполните размеры, тип помещения и утепление, температуры и кратность вентиляции — калькулятор посчитает теплопотери с запасом и предложит комбинации аппаратов из типового ряда (от маленьких 5 кВт до 60 кВт) с числом питов. Лучший вариант отмечен, под ним — электрика: питание, ток, кабель, автомат. Скопируйте результат, распечатайте или отправьте ссылку с параметрами поставщику.</p>
+
+    <h3>Частые вопросы</h3>
+    <div class="acc glass">
+      <button class="acc-h">Что такое «пит» в тепловентиляторе?<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="acc-b"><div class="acc-in acc-pad"><p>Ступень мощности ТЭНа. Аппарат 30 кВт с тремя питами может работать на 10, 20 или 30 кВт. Питы переключаются термостатом или вручную — это плавная регулировка и меньшие пусковые токи.</p></div></div>
+    </div>
+    <div class="acc glass">
+      <button class="acc-h">Можно ли запитать «Вулкан» от 220 В?<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="acc-b"><div class="acc-in acc-pad"><p>Только модели до 7 кВт. Всё, что выше, — трёхфазное 380 В: три фазы дают втрое больший ток при той же мощности. Проверьте, есть ли в помещении трёхфазный ввод, ДО покупки.</p></div></div>
+    </div>
+    <div class="acc glass">
+      <button class="acc-h">Какое сечение кабеля нужно на 30 кВт?<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="acc-b"><div class="acc-in acc-pad"><p>Ток 30 кВт на 380 В — около 45 А. Медный кабель — от 10 мм² по фазе, автомат 63 А (защищает кабель). Для 60 кВт — ток ~91 А, кабель от 25 мм², автомат 100 А.</p></div></div>
+    </div>
+    <div class="acc glass">
+      <button class="acc-h">Один тепловентилятор 60 кВт или три по 20?<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="acc-b"><div class="acc-in acc-pad"><p>Для помещения длиннее 25–30 м — несколько аппаратов по зонам: равномерный прогрев, резерв при поломке, тонкая регулировка. Один большой — для компактных залов до 25 м и коротких струй.</p></div></div>
+    </div>
+    <div class="acc glass">
+      <button class="acc-h">Чем «Вулкан» отличается от дизельной тепловой пушки?<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="acc-b"><div class="acc-in acc-pad"><p>Электрический: нет выхлопа (можно в закрытом помещении), нет топлива, но зависит от электрики и дороже в эксплуатации при высоких тарифах. Дизель прямого нагрева — только для проветриваемых объектов; непрямого — дороже аппарат плюс дымоход. Для постоянного отопления цеха с электричеством — электрический ТЭНовый.</p></div></div>
+    </div>
+    <div class="acc glass">
+      <button class="acc-h">Нужно ли УЗО на тепловентилятор?<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="acc-b"><div class="acc-in acc-pad"><p>Для стационарных ТЭНовых аппаратов стандартная защита — автомат + заземление корпуса; УЗО 30 мА типично не применяется (ТЭНы не имеют токов утечки на корпус при целостности изоляции). Решение — за электриком по ПУЭ для вашей схемы.</p></div></div>
+    </div>
+
+    <div class="links">
+      <a href="/calculators/engineering/gidrostrelka/">← Калькулятор гидрострелки</a>
+      <a href="/calculators/construction/otoplenie-obem/">Объём системы отопления</a>
+      <a href="/calculators/engineering/">Все инженерные расчёты</a>
+    </div>
+    <p class="disc">Расчёт носит справочный характер и не заменяет проект отопления и электроснабжения. Точные характеристики аппаратов — в паспортах производителей; сечения кабелей и уставки автоматов — по ПУЭ с проверкой электриком. Модельный ряд тепловентиляторов у разных производителей отличается — сверяйте паспортные токи и питы.</p>
+  </div>
+</div>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Что такое «пит» в тепловентиляторе?","acceptedAnswer":{"@type":"Answer","text":"Ступень мощности ТЭНа. Аппарат 30 кВт с тремя питами может работать на 10, 20 или 30 кВт. Питы переключаются термостатом — это плавная регулировка и меньшие пусковые токи."}},
+{"@type":"Question","name":"Можно ли запитать тепловентилятор от 220 В?","acceptedAnswer":{"@type":"Answer","text":"Только модели до 7 кВт. Всё, что выше, — трёхфазное питание 380 В: три фазы дают втрое больший ток при той же мощности."}},
+{"@type":"Question","name":"Какое сечение кабеля нужно на 30 кВт?","acceptedAnswer":{"@type":"Answer","text":"Ток 30 кВт на 380 В — около 45 А. Медный кабель — от 10 мм² по фазе, автомат 63 А, который защищает кабель."}},
+{"@type":"Question","name":"Один тепловентилятор 60 кВт или три по 20 кВт?","acceptedAnswer":{"@type":"Answer","text":"Для помещений длиннее 25–30 м — несколько аппаратов по зонам: равномерный прогрев, резерв при поломке, точная регулировка."}},
+{"@type":"Question","name":"Чем электрический тепловентилятор лучше дизельной пушки?","acceptedAnswer":{"@type":"Answer","text":"Нет выхлопа — можно в закрытом помещении, нет топлива и дозаправок. Минусы — зависимость от электрики и стоимость электроэнергии."}},
+{"@type":"Question","name":"Нужно ли УЗО на тепловентилятор?","acceptedAnswer":{"@type":"Answer","text":"Для стационарных ТЭНовых аппаратов стандартная защита — автомат плюс заземление корпуса. УЗО 30 мА обычно не применяется; решение принимает электрик по ПУЭ."}}
+]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Калькулятор тепловентилятора Вулкан — мощность, питы, электрика",
+"applicationCategory":"UtilitiesApplication","operatingSystem":"Web",
+"url":"https://calc-doc.ru/calculators/engineering/vulkan/",
+"offers":{"@type":"Offer","price":"0","priceCurrency":"RUB"},
+"publisher":{"@type":"Organization","name":"CalcDoc","url":"https://calc-doc.ru/"}}
+</script>
+
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+/* ===== CONFIG. ВЛАДЕЛЕЦ: сверить ряд мощностей/питов с паспортами
+   производителей (Вулкан/Тепломаш/Ballu). Дата: 2026 ===== */
+/* МЕТОДИКА (сверено 21.09.2026 по справочным формулам укрупнённого расчёта).
+   Ограждения: Q = V × k × ΔT ÷ 860, где 860 — перевод ккал/ч в кВт, а k — удельные теплопотери
+   через ограждения, ккал/(м³·ч·°C): 0,6 — хорошее утепление, 0,85 — кирпич со старым утеплением,
+   1,3 — металлический ангар. Оценка намеренно консервативная — с запасом в сторону мощности.
+   Вентиляция: Q = V × n × 0,3 × ΔT ÷ 860, где n — кратность воздухообмена, а 0,3 ккал/(м³·°C) —
+   объёмная теплоёмкость воздуха (0,24 ккал/(кг·°C) × 1,2 кг/м³ ≈ 0,29–0,31).
+   Запас на инфильтрацию — 20%, усиливается или ослабляется типом помещения (см. K ниже).
+   Ток: I = P ÷ (√3 × U), у ТЭНов cosφ = 1 (раньше стоял лишний множитель 0,95).
+   ПРИМЕР для цеха 20×12×6 при ΔT = 40 и вентиляции 2 крата: ограждения при k = 0,6 дают 40,2 кВт,
+   вентиляция ещё 40,2 кВт, вместе ≈ 80 кВт — это и есть та цифра «около 82 кВт» из ранних
+   черновиков (там был взят коэффициент 0,6 и не учитывался запас на инфильтрацию). При k = 0,85
+   (кирпич со старым утеплением, вариант по умолчанию) ограждения 56,9 кВт, итог с запасом 113,6 кВт. */
+const UNITS=[ // p — полная мощность кВт, steps — массив питов, A — ток на 380В
+  {p:5,  steps:[3,5],        A:8,  v:'220/380'},
+  {p:10, steps:[5,10],       A:15, v:'380'},
+  {p:15, steps:[7.5,15],     A:23, v:'380'},
+  {p:20, steps:[10,20],      A:30, v:'380'},
+  {p:30, steps:[10,20,30],   A:45, v:'380'},
+  {p:45, steps:[15,30,45],   A:68, v:'380'},
+  {p:60, steps:[30,60],      A:91, v:'380'}
+];
+/* Правка 21.09.2026 (верные расчёты). Раньше K умножался ещё и на коэффициент утепления kIns,
+   хотя оба описывают одно и то же — теплопотери через ограждения: при kIns = 0,85 и типе «цех»
+   выходило 0,85 × 0,85 = 0,72 вместо 0,85, то есть ограждения были занижены на 15% и не совпадали
+   с формулой из текста этой же страницы (1440 × 0,85 × 40 ÷ 860 = 57 кВт). Теперь ограждения
+   считаются по утеплению, как в тексте, а коэффициент типа помещения усиливает или ослабляет
+   ЗАПАС на инфильтрацию: ангар продувается сильнее цеха, павильон — слабее. */
+const K={workshop:0.85,hangar:1.15,sto:0.95,shop:0.8,agro:1.05}; // множитель к запасу 20% (по типу помещения)
+const AIR=0.3; // Вт·ч/(м³·°C)
+
+function vol(){return (+$('len').value||0)*(+$('wid').value||0)*(+$('hgt').value||0);}
+function calc(){
+  const V=vol(), dT=(+$('tIn').value||0)-(+$('tOut').value||0);
+  const kIns=parseFloat($('ins').value)||0.85;
+  const kType=K[$('type').value]||1;
+  const k=kIns;                                     // правка 21.09.2026: без умножения на тип (см. K выше)
+  const vent=+$('vent').value||0;
+  if(V<=0||dT<=0){
+    ['rPow','rEnv','rVent','rInf','rVol'].forEach(i=>$(i).textContent='—');
+    $('units').innerHTML=''; $('verdict').textContent='Введите параметры помещения.';
+    $('elecWarn').style.display='none'; return;
+  }
+  $('rVol').textContent=fmt(V)+' м³';
+  const env=V*k*dT/860;
+  const ventPow=V*vent*AIR*dT/860;
+  const inf=(env+ventPow)*0.2*kType;                 // запас 20%, усиленный или ослабленный типом помещения
+  const total=env+ventPow+inf;
+  $('rEnv').textContent=fmt1(env)+' кВт';
+  $('rVent').textContent=fmt1(ventPow)+' кВт';
+  $('rInf').textContent='+ '+fmt1(inf)+' кВт';
+  $('rPow').textContent=fmt1(total)+' кВт';
+  const parts=[['Ограждения',env,'#8b5cf6'],['Вентиляция',ventPow,'#0ea5e9'],['Запас',inf,'#ffd479']];
+  $('bar').innerHTML=parts.map(p=>`<div style="width:${p[1]/total*100}%;background:${p[2]}"></div>`).join('');
+  $('legend').innerHTML=parts.map(p=>`<span><i style="background:${p[2]}"></i>${p[0]}: ${fmt1(p[1])} кВт</span>`).join('');
+
+  /* подбор комбинаций аппаратов */
+  const need=total;
+  const combos=[];
+  /* Правка 21.09.2026: в перебор добавлены аппараты 45 и 20 кВт из ряда UNITS — раньше они не
+     участвовали, и для 45 кВт подбор предлагал 60 кВт (переплата) либо три аппарата по 15. */
+  for(let n60=0;n60<=3;n60++){
+   for(let n45=0;n45<=3;n45++){
+    for(let n30=0;n30<=4;n30++){
+     for(let n20=0;n20<=4;n20++){
+      for(let n15=0;n15<=5;n15++){
+        for(let n10=0;n10<=6;n10++){
+          const cnt=n60+n45+n30+n20+n15+n10;
+          if(cnt===0||cnt>5)continue;
+          const cap=n60*60+n45*45+n30*30+n20*20+n15*15+n10*10;
+          if(cap<need||cap>need*1.35)continue;
+          const amp=n60*91+n45*68+n30*45+n20*30+n15*23+n10*15;
+          const cost=n60*3+n45*2.5+n30*2+n20*1.2+n15*1.5+n10*1; // условная цена-относитель
+          combos.push({n60,n45,n30,n20,n15,n10,cap,amp,cnt,cost});
+        }
+      }
+     }
+    }
+   }
+  }
+  combos.sort((a,b)=>a.cnt-b.cnt||a.cost-b.cost);
+  const uniq=[]; const seen=new Set();
+  for(const c of combos){const key=c.n60+'-'+c.n45+'-'+c.n30+'-'+c.n20+'-'+c.n15+'-'+c.n10;
+    if(seen.has(key))continue; seen.add(key); uniq.push(c); if(uniq.length>=4)break;}
+  renderUnits(uniq,need);
+  renderElec(uniq[0]);
+  electrical(uniq[0]);
+}
+function fmt(n){return Math.round(n).toLocaleString('ru-RU');}
+function fmt1(n){return (Math.round(n*10)/10).toLocaleString('ru-RU');}
+function unitName(n,p){return n+' × '+p+' кВт';}
+function renderUnits(list,need){
+  if(!list.length){$('units').innerHTML='<div class="unit-box"><b>Вне типового ряда</b><small>мощность вне диапазона электрических тепловентиляторов — рассмотрите водяной калорифер или ИК-панели</small></div>';return;}
+  $('units').innerHTML=list.map((c,idx)=>{
+    const parts=[];
+    if(c.n60)parts.push(unitName(c.n60,60)); if(c.n45)parts.push(unitName(c.n45,45));
+    if(c.n30)parts.push(unitName(c.n30,30)); if(c.n20)parts.push(unitName(c.n20,20));
+    if(c.n15)parts.push(unitName(c.n15,15)); if(c.n10)parts.push(unitName(c.n10,10));
+    const coverage=Math.round(c.cap/need*100);
+    return `<div class="unit-box${idx===0?' best':''}">
+      <div><b>${parts.join(' + ')}</b><br><small>покрытие ${coverage}% расчёта · ток ${c.amp} А · аппаратов: ${c.cnt}</small></div>
+      ${idx===0?'<span class="tag">Рекомендация</span>':idx===1?'<span class="tag cyan">Равномернее</span>':''}
+    </div>`;}).join('');
+}
+function renderElec(best){
+  if(!best)return;
+  const p=best.n60*60+best.n45*45+best.n30*30+best.n20*20+best.n15*15+best.n10*10;
+  $('ePow').textContent=p+' кВт ('+best.cnt+' апп.)';
+  /* Правка 21.09.2026 (верные расчёты). Электрика считается на ОДИН аппарат: у каждого свой
+     кабель и свой автомат. Раньше ток брался от суммарной мощности всех аппаратов, а кабель и
+     автомат выбирались по таблице для одного — значения противоречили друг другу (для двух
+     аппаратов выходило 120 кВт и 192 А при автомате 100 А). Заодно убран множитель cosφ = 0,95:
+     у ТЭНов cosφ = 1, поэтому ток был завышен на 5%. Теперь I = P ÷ (√3 × U): для 60 кВт это 91 А,
+     ровно как в таблице UNITS и в тексте страницы. */
+  const unit=best.n60?60:best.n45?45:best.n30?30:best.n20?20:best.n15?15:10;
+  const v=unit<=7?'220 В (одна фаза)':'380 В (три фазы)';
+  $('eVolt').textContent=v;
+  const amp=unit<=7?Math.round(unit*1000/220):Math.round(unit*1000/(1.73*380));
+  $('eAmp').textContent=amp+' А (аппарат '+unit+' кВт)';
+  /* Кабель и автомат по ПУЭ-7, медь, прокладка в воздухе: 4 мм² — 38 А, 10 мм² — 70 А,
+     16 мм² — 85 А, 35 мм² — 120 А. Автомат никогда не больше длительно допустимого тока кабеля,
+     иначе кабель не защищён: для 60 кВт (91 А) это 35 мм² и автомат 100 А, а не 25 мм² (95 А). */
+  const sec=unit<=7?[4,'32']:unit<=10?[2.5,'16']:unit<=15?[4,'25']:unit<=30?[10,'63']:
+    unit<=45?[16,'80']:[35,'100'];
+  $('eCable').textContent='медь ≥ '+sec[0]+' мм² / фазу';
+  $('eAuto').textContent=sec[1]+' А (характеристика C)';
+  $('eConn').textContent=unit<=7?'клеммная колодка / силовая розетка':'клеммное подключение через рубильник';
+  $('eCtrl').textContent='выносной термостат + по питам (реле ступеней)';
+  $('elecWarn').style.display=unit>7?'block':'none';
+}
+function electrical(){/* резерв */}
+
+['len','wid','hgt','type','ins','vent','tOut','tIn'].forEach(id=>
+  $(id).addEventListener('input',calc));
+ $('type').addEventListener('change',calc);
+
+/* PDF: подсказка к нативной печати */
+ $('pdfBtn').addEventListener('click',()=>{
+  alert('В окне печати выберите принтер «Сохранить как PDF».');
+  window.print();
+});
+ $('copyBtn').addEventListener('click',()=>{
+  const t='Расчёт отопления: мощность '+$('rPow').textContent+
+    '; схема: '+$('ePow').textContent+'; питание '+$('eVolt').textContent+
+    '; кабель '+$('eCable').textContent+'; автомат '+$('eAuto').textContent+' (CalcDoc)';
+  navigator.clipboard.writeText(t).then(()=>{$('copyBtn').textContent='Скопировано ✓';
+    setTimeout(()=>$('copyBtn').textContent='Скопировать расчёт',1800);});
+});
+ $('shareBtn').addEventListener('click',()=>{
+  const p=new URLSearchParams({l:$('len').value,w:$('wid').value,h:$('hgt').value,
+    ty:$('type').value,ins:$('ins').value,v:$('vent').value,to:$('tOut').value,ti:$('tIn').value});
+  const url=location.origin+location.pathname+'?'+p;
+  if(navigator.share){navigator.share({title:'Расчёт отопления — CalcDoc',url}).catch(()=>{});}
+  else navigator.clipboard.writeText(url).then(()=>{$('shareBtn').textContent='Ссылка ✓';
+    setTimeout(()=>$('shareBtn').textContent='Поделиться',1800);});
+});
+
+/* восстановление из GET */
+(function restore(){
+  const q=new URLSearchParams(location.search);
+  if(q.get('l'))$('len').value=q.get('l');
+  if(q.get('w'))$('wid').value=q.get('w');
+  if(q.get('h'))$('hgt').value=q.get('h');
+  if(q.get('ty'))$('type').value=q.get('ty');
+  if(q.get('ins'))$('ins').value=q.get('ins');
+  if(q.get('v'))$('vent').value=q.get('v');
+  if(q.get('to'))$('tOut').value=q.get('to');
+  if(q.get('ti'))$('tIn').value=q.get('ti');
+  calc();
+})();
+
+/* FAQ */
+document.querySelectorAll('.acc-h').forEach(h=>
+  h.addEventListener('click',()=>h.parentElement.classList.toggle('open')));
+})();
+</script>
+</body>
+</html>

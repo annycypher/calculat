@@ -79,7 +79,7 @@ function reminders_file(): string {
     return CONTENT_DIR . '/reminders.json';
 }
 
-/** Стартовый набор: 18 обычных задач и 4 сезонные (приходят в свой месяц). */
+/** Стартовый набор: 19 обычных задач и 4 сезонные (приходят в свой месяц). */
 function reminders_starter(): array {
     return array(
         array('id' => 'login_journal', 'title' => 'Проверить журнал входов', 'category' => 'security', 'period' => 'weekly',
@@ -97,6 +97,9 @@ function reminders_starter(): array {
         array('id' => 'php_version', 'title' => 'Проверить версию PHP', 'category' => 'security', 'period' => 'yearly',
             'desc' => 'Старая версия PHP — слабое место хостинга.',
             'howto' => 'SpaceWeb → раздел хостинга → версия PHP: посмотрите, поддерживается ли она ещё, и переключитесь на актуальную (8.2–8.4). После переключения откройте панель и сайт — всё должно работать как обычно.'),
+        array('id' => 'site_copy', 'title' => 'Скачать свежую копию сайта себе', 'category' => 'security', 'period' => 'monthly',
+            'desc' => 'Копия на сервере не спасает, если проблема у хостинга — свежий архив должен лежать у вас.',
+            'howto' => 'Панель → «Бэкапы» → «Копия сейчас», затем «Скачать» и положить архив в надёжное место (облако или внешний диск). Раз в месяц достаточно; перед важными правками — дополнительно.'),
         array('id' => 'domain_deadline', 'title' => 'Продлить домен calc-doc.ru', 'category' => 'money', 'period' => 'yearly',
             'desc' => 'Забыть про домен — потерять сайт и позиции.',
             'howto' => 'Панель регистратора (SpaceWeb): проверьте дату окончания домена и включите авто-продление. Запишите дату в задачу, чтобы не гадать.'),
@@ -151,6 +154,17 @@ function reminders_starter(): array {
     );
 }
 
+/** Задачи, которые появились позже стартового набора: их дописываем в уже работающую панель
+    (с меткой в файле — см. reminders_items()). Сейчас это только «скачать копию сайта». */
+function reminders_seed_list(): array
+{
+    return array(
+        array('id' => 'site_copy', 'title' => 'Скачать свежую копию сайта себе', 'category' => 'security', 'period' => 'monthly',
+            'desc' => 'Копия на сервере не спасает, если проблема у хостинга — свежий архив должен лежать у вас.',
+            'howto' => 'Панель → «Бэкапы» → «Копия сейчас», затем «Скачать» и положить архив в надёжное место (облако или внешний диск). Раз в месяц достаточно; перед важными правками — дополнительно.'),
+    );
+}
+
 /* ───────────── чтение, запись, стартовый набор ───────────── */
 
 /** Привести задачу к известному виду: файл и стартовый набор читаются одинаково. */
@@ -175,10 +189,16 @@ function reminders_normalize(array $t): array {
     );
 }
 
-function reminders_save(array $items): bool {
+function reminders_save(array $items, ?array $seeded = null): bool {
+    /* Метку «какие задачи уже подмешивали» храним рядом с задачами: иначе после любой
+       правки (галочка «сделано») метка терялась бы и задача возвращалась бы снова. */
+    if ($seeded === null) {
+        $prev   = json_read(reminders_file(), array());
+        $seeded = (isset($prev['seeded']) && is_array($prev['seeded'])) ? $prev['seeded'] : array();
+    }
     $out = array();
     foreach ($items as $t) { $out[] = reminders_normalize((array)$t); }
-    return json_write(reminders_file(), array('version' => 1, 'items' => $out));
+    return json_write(reminders_file(), array('version' => 1, 'items' => $out, 'seeded' => $seeded));
 }
 
 /** Все задачи. Файла нет или он пуст — заводим стартовый набор и сохраняем. */
@@ -191,7 +211,26 @@ function reminders_items(): array {
                 'last_done' => '', 'postponed_to' => '', 'created' => date('Y-m-d')));
         }
         reminders_save($items);
+        return $items;
     }
+
+    /* В уже работающую панель дописываем задачи, которые появились позже стартового набора
+       (сейчас — «скачать копию сайта»). Метка о дописанных задачах хранится в самом файле
+       («seeded»), поэтому удалённая или скрытая владельцем задача не вернётся. */
+    $data   = json_read(reminders_file(), array());
+    $seeded = (isset($data['seeded']) && is_array($data['seeded'])) ? $data['seeded'] : array();
+    $have   = array();
+    foreach ($items as $t) { $have[(string)($t['id'] ?? '')] = true; }
+    $added  = false;
+    foreach (reminders_seed_list() as $t) {
+        $tid = (string)($t['id'] ?? '');
+        if ($tid === '' || isset($have[$tid]) || !empty($seeded[$tid])) { continue; }
+        $items[]      = reminders_normalize($t + array('own' => false, 'hidden' => false,
+            'last_done' => '', 'postponed_to' => '', 'created' => date('Y-m-d')));
+        $seeded[$tid] = date('Y-m-d');
+        $added        = true;
+    }
+    if ($added) { reminders_save($items, $seeded); }
     return $items;
 }
 

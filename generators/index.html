@@ -21,10 +21,10 @@
   <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="/fonts/fonts.css?v=20" />
-  <link rel="stylesheet" href="/styles.css?v=20" />
-  <link rel="stylesheet" href="/seo-article.css?v=20" />
-  <link rel="stylesheet" href="/header.css?v=20" />
+  <link rel="stylesheet" href="/fonts/fonts.css?v=36" />
+  <link rel="stylesheet" href="/styles.css?v=36" />
+  <link rel="stylesheet" href="/seo-article.css?v=36" />
+  <link rel="stylesheet" href="/header.css?v=36" />
   <meta name="theme-color" content="#6d5dfc" />
   <script type="application/ld+json">
   { "@context":"https://schema.org", "@type":"CollectionPage", "name":"Генераторы документов", "url":"https://calc-doc.ru/generators/", "description":"Бесплатные генераторы документов: договор, счёт, заявление, доверенность, отчёт, резюме." }
@@ -66,6 +66,7 @@
           <div class="nav-panel" id="navCalc">
             <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
             <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
             <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
             <a class="nav-all" href="/calculators/">Все калькуляторы</a>
           </div>
@@ -74,6 +75,8 @@
           <a class="nav-link" href="/generators/">Генераторы</a>
           <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
           <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
             <a href="/generators/contract/">Договор</a>
             <a href="/generators/invoice/">Счёт на оплату</a>
             <a href="/generators/leave-request/">Заявление на отпуск</a>
@@ -130,7 +133,11 @@
     <!--SLOT:ads-top-->
     <!--/SLOT:ads-top-->
     <div class="container section">
-      <h2 class="section-title">Инструменты</h2>
+      <h2 class="section-title">Разделы</h2>
+      <div class="grid">
+        <a class="card" href="/generators/auto/"><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path class="ci-a" d="M4 14l1.6-5.4A2 2 0 0 1 7.5 7h9a2 2 0 0 1 1.9 1.6L20 14"/><path class="ci-a" d="M4 14h16v4.5H4z"/><circle class="ci-fa" cx="7.5" cy="18.5" r="1.8"/><circle class="ci-fa" cx="16.5" cy="18.5" r="1.8"/><path class="ci-b" d="M6.5 11.5h11"/></svg></span><h3>Автомобильные</h3><p>Документы для сделок с машиной: расписка, аванс, залог.</p></a>
+      </div>
+      <h2 class="section-title" style="margin-top:32px">Инструменты</h2>
       <div class="grid">
         <a class="card" href="/generators/contract/"><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="4.5" y="5" width="15" height="16" rx="2"/><rect class="ci-fa" x="9" y="2.8" width="6" height="4" rx="1.5"/><path class="ci-b" d="M8 12h8M8 15.5h8"/><path class="ci-fb" d="M7.5 18.6c1.5-1.8 3-1.8 4.5 0s3 1.8 4.5 0"/></svg></span><h3>Договор</h3><p>Договор оказания услуг или подряда под ваши условия.</p></a>
         <a class="card" href="/generators/invoice/"><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="4.5" y="3" width="15" height="18" rx="2"/><path class="ci-b" d="M8 7.5h8M8 11h8M8 14.5h5"/><path class="ci-fb" d="M7 18.5h6"/><path class="ci-b" d="M16 16.6v4M14.6 17.9h2.8M14.6 19.3h2.8"/></svg></span><h3>Счёт на оплату</h3><p>Счёт с реквизитами, позициями и суммой прописью.</p></a>
@@ -138,6 +145,7 @@
         <a class="card" href="/generators/power-of-attorney/"><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="4.5" y="3" width="15" height="18" rx="2"/><path class="ci-b" d="M8 8h8M8 11h8"/><path class="ci-b" d="M7 17c1.4-2 2.8-2 4.2 0"/><circle class="ci-fa" cx="16.5" cy="17.5" r="3.2"/><path class="ci-b" d="M15.4 17.5l.9.9 2-2"/></svg></span><h3>Доверенность</h3><p>Простая письменная доверенность на действия и получение.</p></a>
         <a class="card" href="/generators/report/"><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="4.5" y="3" width="15" height="18" rx="2"/><path class="ci-b" d="M7 6.5h10"/><rect class="ci-fb" x="7.5" y="14" width="2.6" height="4.5" rx="0.6"/><rect class="ci-fa" x="11" y="11" width="2.6" height="7.5" rx="0.6"/><rect class="ci-fb" x="14.5" y="8" width="2.6" height="10.5" rx="0.6"/></svg></span><h3>Отчёт</h3><p>PDF-отчёт с таблицей и итогами — для отчётности и презентаций.</p></a>
         <a class="card" href="/generators/resume/"><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-a" x="4.5" y="3" width="15" height="18" rx="2"/><circle class="ci-b" cx="9" cy="8.5" r="2"/><path class="ci-b" d="M5.8 14.8a3.3 3.3 0 0 1 6.4 0"/><path class="ci-fb" d="M13.5 7.5h4M13.5 10.5h4M6.5 17.5h11"/></svg></span><h3>Резюме</h3><p>Аккуратное резюме на одну-две страницы.</p></a>
+        <a class="card" href="/generators/auto/raspiska/"><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path class="ci-a" d="M6 3.5h9.4L20 8v12.5H6z"/><path class="ci-b" d="M15.4 3.5V8H20"/><path class="ci-b" d="M9 12h6.5M9 15h4.5"/><circle class="ci-fa" cx="16.2" cy="17" r="2.5"/><path class="ci-b" d="M16.2 15.6v1.5l1 .8"/></svg></span><h3>Расписка о получении денег</h3><p>Займ, аванс, задаток — готовый текст за минуту.</p></a>
       </div>
     </div>
     <div class="container section">
@@ -256,7 +264,7 @@
           </div>
         </form>
       </section>
-      <script src="/js/reviews.js?v=1" defer></script>
+      <script src="/js/reviews.js?v=36" defer></script>
 <!--SLOT:ads-before-footer-->
     <!--/SLOT:ads-before-footer-->
   </main>
@@ -274,12 +282,15 @@
       <nav class="footer-nav" aria-label="Служебные страницы">
         <a href="/about/">О проекте</a>
         <a href="/contact/">Контакты</a>
-        <a href="/advertise/">Реклама</a>
-        <a href="/privacy.html">Конфиденциальность</a>
+        <a href="/privacy/">Конфиденциальность</a>
       </nav>
     </div>
   </footer>
 
-  <script type="module" src="/js/ui.js?v=20"></script>
+  <script type="module" src="/js/ui.js?v=36"></script>
 </body>
 </html>
+
+
+
+

@@ -508,7 +508,7 @@ function ads_traffic_nomoney(int $days = 30, int $limit = 20): array {
 
 /** Страницы, где рекламы не ставим: по решению в ADMIN-MARKERS.md это служебные страницы. */
 function ads_service_pages(): array {
-    return array('/privacy.html', '/search.html', '/404.html');
+    return array('/privacy/', '/search.html', '/404.html');
 }
 
 /** Сколько активных блоков выпадет на каждую страницу: ['/путь/' => ['count'=>N,'ads'=>[имена]]]. */
@@ -624,9 +624,9 @@ function ads_help_readiness(): array {
     $out[] = array('state' => 'manual', 'text' => 'Сайт открывается в интернете по своему адресу, с https',
         'note' => 'Сейчас сайт ещё не опубликован: заявку подают на работающий сайт. Публикация — только по команде «ОТКРЫВАЕМ САЙТ».');
 
-    $out[] = array('state' => $has('/privacy.html') ? 'done' : 'todo', 'text' => 'Страница политики конфиденциальности',
-        'note' => $has('/privacy.html')
-            ? 'Есть: /privacy.html — её спрашивают и Яндекс, и Google: реклама использует cookie.'
+    $out[] = array('state' => $has('/privacy/') ? 'done' : 'todo', 'text' => 'Страница политики конфиденциальности',
+        'note' => $has('/privacy/')
+            ? 'Есть: /privacy/ — её спрашивают и Яндекс, и Google: реклама использует cookie.'
             : 'Нужна: без неё площадки почти всегда отказывают. Скажите — сделаю.');
 
     $out[] = array('state' => $has('/about/') ? 'done' : 'todo', 'text' => 'Страница «О сайте»: что за проект и как с вами связаться',

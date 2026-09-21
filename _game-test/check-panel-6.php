@@ -122,7 +122,7 @@ if ($hadAds)   { @copy($adsFile, __DIR__ . '/ads.json.bak'); }
 @unlink(SITE . '/content/users.json');
 @unlink($adsFile);
 
-$sitePages  = array('index.html', 'blog/index.html', 'calculators/finance/vat/index.html', 'privacy.html');
+$sitePages  = array('index.html', 'blog/index.html', 'calculators/finance/vat/index.html', 'privacy/');
 $siteBefore = array();
 foreach ($sitePages as $rel) { $siteBefore[$rel] = md5((string)@file_get_contents(SITE . '/' . $rel)); }
 $backupFilesBefore = array_map('basename', (array)glob(SITE . '/backups/files/*'));
@@ -221,7 +221,7 @@ $row = ads_row($id);
 check('правила страниц сохранены', (array)($row['pages'] ?? array()) === array('/blog/*'));
 $r = http(BASE . '/ads.php');
 preg_match('/Страниц с рекламой: (\d+)/u', plain($r['b']), $pm);
-check('панель посчитала страницы показа: блог и три статьи', (int)($pm[1] ?? 0) === 4,
+check('панель посчитала страницы показа: блог и четыре статьи', (int)($pm[1] ?? 0) === 5,
       'страниц: ' . (int)($pm[1] ?? 0));
 
 $csrf = csrf(http(BASE . '/ads.php')['b']);
@@ -407,7 +407,7 @@ check('в блоге выведен блок, ограниченный стра�
       strpos($blog6, 'data-ad="' . $id . '"') !== false);
 check('у РСЯ-блока место по умолчанию 280 px', strpos($blog6, 'min-height:280px') !== false);
 check('служебные страницы рекламы не получили',
-      strpos((string)@file_get_contents(SITE . '/privacy.html'), 'class="ad-slot"') === false
+      strpos((string)@file_get_contents(SITE . '/privacy/'), 'class="ad-slot"') === false
       && strpos((string)@file_get_contents(SITE . '/search.html'), 'class="ad-slot"') === false);
 
 say('');
@@ -455,7 +455,7 @@ check('все страницы сайта возвращены как было',
       && (string)@file_get_contents($vatFile6) === $pagesBefore['calculators/finance/vat/index.html']
       && (string)@file_get_contents($blogFile6) === $pagesBefore['blog/index.html']);
 check('в снимке страницы рекламы не было (панель пишет только в слоты)',
-      strpos($pagesBefore['calculators/finance/vat/index.html'], 'ad-slot') === false);
+      strpos($pagesBefore['calculators/finance/vat/index.html'], 'class="ad-slot"') === false);
 check('копии страниц за тестом убраны',
       count(array_diff(array_map('basename', (array)glob(SITE . '/backups/files/*')), $backupFilesBefore2)) === 0);
 
@@ -494,7 +494,7 @@ if (!is_dir($dataDir)) { @mkdir($dataDir, 0755, true); }
 @file_put_contents($dataDir . '/' . $today . '.json', json_encode(array('hits' => 12, 'pages' => array(
     '/' => 100, '/calculators/finance/vat/' => 40, '/blog/otpusknye/' => 20, '/about/' => 5)), JSON_UNESCAPED_UNICODE));
 @file_put_contents($dataDir . '/' . $d2 . '.json', json_encode(array('hits' => 6, 'pages' => array(
-    '/calculators/finance/vat/' => 30, '/privacy.html' => 7)), JSON_UNESCAPED_UNICODE));
+    '/calculators/finance/vat/' => 30, '/privacy/' => 7)), JSON_UNESCAPED_UNICODE));
 @file_put_contents($dataDir . '/' . $d45 . '.json', json_encode(array('hits' => 1, 'pages' => array(
     '/about/' => 500)), JSON_UNESCAPED_UNICODE));
 
@@ -508,7 +508,7 @@ check('страница с рекламой (блог) в список не по
       substr_count($rep, '<td><code>/blog/otpusknye/</code></td>') === 0,
       'встреч: ' . substr_count($rep, '<td><code>/blog/otpusknye/</code></td>'));
 check('служебные страницы пропущены с пояснением',
-      substr_count($rep, '<td><code>/privacy.html</code></td>') === 0 && has($rep, 'служебных пропущено'));
+      substr_count($rep, '<td><code>/privacy/</code></td>') === 0 && has($rep, 'служебных пропущено'));
 check('старые данные (45 дней) не попали в 30-дневное окно', !has($rep, '>505<'));
 
 $r = http(BASE . '/ads.php?days=90');
@@ -631,7 +631,7 @@ check('инструкция предупреждает о мошенниках, 
       has($help['b'], 'подключение бесплатное'));
 check('есть список частых причин отказа', has($help['b'], 'Частые причины отказа') && has($help['b'], 'Мало содержимого'));
 check('чек-лист видит политику конфиденциальности сайта',
-      has($help['b'], 'Страница политики конфиденциальности') && has($help['b'], 'Есть: /privacy.html'));
+      has($help['b'], 'Страница политики конфиденциальности') && has($help['b'], 'Есть: /privacy/'));
 check('чек-лист видит robots.txt', has($help['b'], 'роботы и площадки видят сайт нормально'));
 check('чек-лист видит карту сайта', has($help['b'], 'Карта сайта sitemap.xml'));
 check('чек-лист считает страницы сайта и говорит, что их достаточно',

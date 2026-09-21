@@ -375,7 +375,7 @@ function article_publish(array $fields, string $id = ''): array {
         $put = articles_put($f, '');
         if ($put['ok']) { $id = $put['id']; } else { $notes[] = 'Черновик не сохранился: ' . $put['error']; }
     }
-    if ($id !== '') { articles_mark_published($id, $render['url']); }
+    if ($id !== '') { articles_mark_published($id, '/blog/' . (string)($f['slug'] ?? '') . '/'); }
 
     log_action('Статья опубликована', '/blog/' . $f['slug'] . '/ — страница, список, sitemap, лента');
 

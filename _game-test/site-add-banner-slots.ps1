@@ -28,7 +28,7 @@ $root = Split-Path -Parent $PSScriptRoot                     # ...\calc_docs (к
 $enc  = New-Object System.Text.UTF8Encoding($false)
 $dst  = Join-Path $root 'backups\files'
 $skipTop = @('_archive','_backup','backups','admin-panel-x7k2','_game-test','media','content','api','sweb-migration','libs','js','css','fonts')
-$skipRel = @('404.html','privacy.html','search.html')
+$skipRel = @('404.html','privacy/index.html','search.html')
 
 function Add-Pair([System.Collections.Generic.List[string]]$lines, [int]$at, [string]$slot) {
     $lines.Insert($at, '    <!--/SLOT:' + $slot + '-->')

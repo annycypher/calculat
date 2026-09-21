@@ -151,14 +151,17 @@ export const GenEngine = {
   },
 
   /** Собрать генератор: параметры из адреса, связи полей, предпросмотр и четыре кнопки.
-      Кнопки ищутся по data-gen-action: copy, doc, print, clear. */
+      Кнопки ищутся по data-gen-action: copy, doc, print, clear.
+      template и fields могут быть функциями — тогда они пересчитываются на каждый ввод
+      (нужно генераторам с вариантами, где шаблон зависит от выбранной radio-кнопки). */
   build(options = {}) {
     const opt = Object.assign({ template: '', fields: () => ({}), preview: '.gen-preview',
       filename: 'document', from: [], bind: [] }, options);
     const box = document.querySelector(opt.preview);
     const draw = () => {
       const fields = typeof opt.fields === 'function' ? opt.fields() : opt.fields;
-      const html = GenEngine.renderPreview(fields, opt.template);
+      const template = typeof opt.template === 'function' ? opt.template() : opt.template;
+      const html = GenEngine.renderPreview(fields, template);
       if (box) { box.innerHTML = html; }
       return html;
     };

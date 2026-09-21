@@ -477,7 +477,7 @@ check('подсказка «откуда сослаться» ведёт в ра
 check('для статьи подсказка — раздел блога',
       seo_scan_suggest_sources('/blog/otpusknye/', $scanLists) === array('/blog/'));
 check('для страницы верхнего уровня подсказок нет',
-      seo_scan_suggest_sources('/privacy.html', $scanLists) === array());
+      seo_scan_suggest_sources('/privacy/', $scanLists) === array());
 
 $fakeRow = function (string $rel, int $inlinks, int $days, bool $inMap, int $score = 70,
                      string $dupDesc = '', array $dupWith = array()): array {

@@ -298,6 +298,9 @@ function article_body(array $f): string {
     $out .= '      <p class="tool-meta">Обновлено: ' . h(article_russian_date($modified)) . "</p>\n";
     $out .= "    </div>\n\n";
     $out .= "    <!--SLOT:banner-top-->\n    <!--/SLOT:banner-top-->\n";
+    /* Рекламный слот после шапки статьи: на остальных страницах сайта он есть
+       (его ставит _game-test\site-add-ads-slots.ps1) — шаблон повторяет разметку. */
+    $out .= "    <!--SLOT:ads-top-->\n    <!--/SLOT:ads-top-->\n";
     $out .= "    <div class=\"container section\">\n";
     $out .= "      <div class=\"prose\">\n";
     if ($category !== '') { $out .= '        <span class="eyebrow">' . h($category) . "</span>\n"; }
@@ -310,6 +313,7 @@ function article_body(array $f): string {
     foreach ($blocks as $i => $b) {
         if (count($blocks) >= 3 && (int)$i === $cut) {
             $out .= "        <!--SLOT:banner-after-tool-->\n        <!--/SLOT:banner-after-tool-->\n";
+            $out .= "        <!--SLOT:ads-after-tool-->\n        <!--/SLOT:ads-after-tool-->\n";
         }
         $out .= article_block_html((array)$b);
     }
@@ -322,6 +326,7 @@ function article_body(array $f): string {
     }
     if (count($faq) > 0) {
         $out .= "\n        <!--SLOT:banner-mid-->\n        <!--/SLOT:banner-mid-->\n";
+        $out .= "    <!--SLOT:ads-mid-->\n    <!--/SLOT:ads-mid-->\n";
         $out .= "        <h2>Частые вопросы</h2>\n";
         foreach ($faq as $item) {
             $out .= "        <details class=\"seo-faq\">\n";
@@ -353,6 +358,70 @@ function article_body(array $f): string {
           . " и не покидают ваше устройство.</p>\n";
     $out .= "      </div>\n    </div>\n";
     $out .= "    <!--SLOT:banner-footer-->\n    <!--/SLOT:banner-footer-->\n";
+    /* Слот отзывов, форма отзыва и реклама перед подвалом — как на остальных страницах сайта. */
+    $out .= article_reviews_html(article_url($f));
+    $out .= "<!--SLOT:ads-before-footer-->\n    <!--/SLOT:ads-before-footer-->\n";
+    return $out;
+}
+
+/** Версия скрипта отзывов — берём из страницы-образца, чтобы не расходиться с выпуском. */
+function article_reviews_version(): string
+{
+    $file = article_donor_file();
+    if ($file === '') { return ''; }
+    $html = (string)@file_get_contents($file);
+    if (preg_match('#/js/reviews\.js(\?v=\d+)?#', $html, $m)) { return isset($m[1]) ? (string)$m[1] : ''; }
+    return '';
+}
+
+/** Режим индексации берём со страницы-образца: пока сайт закрыт от поисковиков, у всех
+    страниц стоит noindex, и новая статья из панели не должна выбиваться из ряда
+    (когда сайт открывают, образец меняется — статья получит index, follow). */
+function article_donor_robots(): string
+{
+    $file = article_donor_file();
+    if ($file === '') { return 'index, follow'; }
+    $html = (string)@file_get_contents($file);
+    if (preg_match('#<meta name="robots" content="([^"]*)"#', $html, $m)) { return $m[1]; }
+    return 'index, follow';
+}
+
+/** Блок «Оставить отзыв» и слот отзывов — та же разметка, что на остальных страницах сайта
+    (её добавляет _game-test\site-add-review-slots.ps1). Раньше шаблон её не писал, поэтому
+    статья, опубликованная из панели, оставалась без формы отзыва и без слота для отзывов;
+    и путь в форме был от страницы-образца — отзыв уходил бы не на ту страницу. */
+function article_reviews_html(string $url): string
+{
+    $out  = "          <!--SLOT:reviews-->\n          <!--/SLOT:reviews-->\n";
+    $out .= '      <section class="reviews" id="reviews-form" data-page="' . h($url) . '"'
+          . " style=\"max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)\">\n";
+    $out .= "        <h2 style=\"margin:0 0 6px;font-size:20px\">Оставить отзыв</h2>\n";
+    $out .= "        <p style=\"margin:0 0 14px;font-size:14px;color:#a9a4bb\">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>\n";
+    $out .= "        <form method=\"post\" action=\"/api/reviews.php\" data-reviews-form>\n";
+    $out .= '          <input type="hidden" name="page" value="' . h($url) . "\" />\n";
+    $out .= "          <div style=\"position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden\" aria-hidden=\"true\">\n";
+    $out .= "            <label for=\"reviews-website\">Не заполняйте это поле</label>\n";
+    $out .= "            <input type=\"text\" id=\"reviews-website\" name=\"website\" value=\"\" tabindex=\"-1\" autocomplete=\"off\" />\n";
+    $out .= "          </div>\n";
+    $out .= "          <label for=\"reviews-name\">Ваше имя</label>\n";
+    $out .= "          <input type=\"text\" id=\"reviews-name\" name=\"name\" required minlength=\"2\" maxlength=\"30\" autocomplete=\"name\" />\n";
+    $out .= "          <label for=\"reviews-text\">Комментарий</label>\n";
+    $out .= "          <textarea id=\"reviews-text\" name=\"text\" required minlength=\"10\" maxlength=\"1000\" rows=\"4\" style=\"width:100%\"></textarea>\n";
+    $out .= "          <fieldset style=\"border:0;margin:12px 0 0;padding:0\">\n";
+    $out .= "            <legend style=\"font-size:14px;color:#a9a4bb\">Оценка — по желанию</legend>\n";
+    foreach (array('0' => 'без оценки', '5' => '★★★★★', '4' => '★★★★', '3' => '★★★', '2' => '★★') as $val => $label) {
+        $out .= '            <label style="margin-right:12px"><input type="radio" name="rating" value="' . $val
+              . (((string)$val === '0') ? '" checked' : '"') . ' /> ' . $label . "</label>\n";
+    }
+    $out .= "            <label><input type=\"radio\" name=\"rating\" value=\"1\" /> ★</label>\n";
+    $out .= "          </fieldset>\n";
+    $out .= "          <div style=\"display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px\">\n";
+    $out .= "            <button data-metric-goal=\"отзыв\" type=\"submit\">Отправить отзыв</button>\n";
+    $out .= "            <span data-reviews-note style=\"font-size:13px;color:#a9a4bb\">Публикуется после проверки.</span>\n";
+    $out .= "          </div>\n";
+    $out .= "        </form>\n";
+    $out .= "      </section>\n";
+    $out .= '      <script src="/js/reviews.js' . article_reviews_version() . "\" defer></script>\n";
     return $out;
 }
 
@@ -379,14 +448,19 @@ function article_render(array $f): array {
     $pub     = (string)($f['date_published'] ?? date('Y-m-d'));
     $mod     = (string)($f['date_modified'] ?? $pub);
     $og      = (string)($f['image'] ?? '');
+    /* SEO-заголовок может отличаться от H1 (так сделаны две статьи сайта): отдельное поле.
+       Пусто — как раньше: «H1 — CalcDoc» в <title> и H1 в og:title. */
+    $seoTitle  = trim((string)($f['seo_title'] ?? ''));
+    $pageTitle = ($seoTitle !== '') ? $seoTitle : ($title . ' — CalcDoc');
+    $ogTitle   = ($seoTitle !== '') ? $seoTitle : $title;
 
     $html  = $shell['head_open'];
-    $html .= '  <title>' . h($title) . " — CalcDoc</title>\n";
+    $html .= '  <title>' . h($pageTitle) . "</title>\n";
     $html .= '  <meta name="description" content="' . h($desc) . "\" />\n";
     $html .= '  <link rel="canonical" href="' . h($url) . "\" />\n";
-    $html .= "  <meta name=\"robots\" content=\"index, follow\" />\n";
+    $html .= '  <meta name="robots" content="' . h(article_donor_robots()) . "\" />\n";
     if ($keys !== '') { $html .= '  <meta name="keywords" content="' . h($keys) . "\" />\n"; }
-    $html .= '  <meta property="og:title" content="' . h($title) . "\" />\n";
+    $html .= '  <meta property="og:title" content="' . h($ogTitle) . "\" />\n";
     $html .= '  <meta property="og:description" content="' . h($excerpt) . "\" />\n";
     $html .= "  <meta property=\"og:type\" content=\"article\" />\n";
     $html .= "  <meta property=\"og:site_name\" content=\"CalcDoc\" />\n";

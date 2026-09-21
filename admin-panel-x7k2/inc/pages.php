@@ -39,7 +39,7 @@ function pages_rule_match(array $rules, string $path): bool {
     return false;
 }
 
-/** Путь к файлу страницы сайта по её адресу («/», «/blog/», «/privacy.html»). */
+/** Путь к файлу страницы сайта по её адресу («/», «/blog/», «/privacy/»). */
 function site_page_file(string $rel): string {
     $rel = '/' . ltrim($rel, '/');
     if ($rel === '/') { return SITE_ROOT . '/index.html'; }

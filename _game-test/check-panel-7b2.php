@@ -96,7 +96,7 @@ function probe_page(string $title, string $desc, string $keywords, string $h1, s
          . '<meta name="description" content="' . $desc . '">'
          . '<meta name="keywords" content="' . $keywords . '">'
          . '</head><body><main><h1>' . $h1 . '</h1>' . $main . '</main>'
-         . '<footer><a href="/privacy.html">Конфиденциальность</a></footer></body></html>';
+         . '<footer><a href="/privacy/">Конфиденциальность</a></footer></body></html>';
 }
 $linksFile = SITE . '/content/links.json';
 $linksBack = is_file($linksFile) ? (string)file_get_contents($linksFile) : null;

@@ -232,7 +232,7 @@ function banners_meta_save(array $meta): bool {
     return json_write(banners_file(), $data);
 }
 
-/** Путь к файлу страницы сайта по её адресу («/», «/blog/», «/privacy.html»). */
+/** Путь к файлу страницы сайта по её адресу («/», «/blog/», «/privacy/»). */
 function banner_page_file(string $rel): string {
     return site_page_file($rel);
 }

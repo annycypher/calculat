@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор-проба печати — CalcDoc</title>
+  <link rel="stylesheet" href="/print.css?v=24" />
+</head>
+<body>
+  <header class="site-header"><p>Шапка сайта — на бумагу попадать не должна.</p></header>
+  <main>
+    <div class="container tool-hero"><h1>Калькулятор-проба</h1></div>
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card"><h3>Форма</h3><p>Поля формы — печатать не нужно.</p></div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result">
+            <div class="result-list">
+              <div class="item"><span>Средний дневной</span><span class="val">1 150,68 ₽</span></div>
+              <div class="item total"><span>Начислено</span><span class="val">11 506,80 ₽</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container section">
+      <div class="prose"><h2>SEO-текст</h2><p>Длинный текст страницы — на бумагу не попадает.</p></div>
+    </div>
+  </main>
+  <footer class="site-footer"><p>Подвал — печатать не нужно.</p></footer>
+  <script type="module" src="/js/print-result.js?v=24"></script>
+</body>
+</html>

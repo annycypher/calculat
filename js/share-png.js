@@ -13,6 +13,13 @@ import { loadChunkedScript } from '/js/chunkload.js?v=8';
 const SIZE     = 1080;
 const MAX_BYTES = 300 * 1024;
 
+/* Ширина текстовой колонки: QR стоит в правом нижнем углу (x = 750),
+   поэтому все строки слева держим короче этого края — иначе текст наезжает на код. */
+const COL_W    = 660;
+const QR_SIZE  = 260;
+const QR_X     = SIZE - 330;
+const QR_Y     = SIZE - 330;
+
 const PAGES = {
   '/calculators/finance/mortgage/': { title: 'Ипотека', fields: ['price', 'down', 'years', 'rate'],
     labels: { price: 'стоимость', down: 'взнос', years: 'лет', rate: '%' } },
@@ -112,6 +119,15 @@ function drawQr(ctx, qr, x, y, size) {
   }
 }
 
+/** Обрезает строку по ширине колонки: хвост заменяем на «…», чтобы текст не наезжал на QR. */
+function fitText(ctx, text, maxWidth) {
+  const s = String(text || '');
+  if (!s || ctx.measureText(s).width <= maxWidth) { return s; }
+  let out = s;
+  while (out.length > 1 && ctx.measureText(out + '…').width > maxWidth) { out = out.slice(0, -1); }
+  return out.replace(/[\s·]+$/, '') + '…';
+}
+
 /** Собираем карточку 1080×1080. */
 function draw(info, rows, qr) {
   const canvas = document.createElement('canvas');
@@ -153,10 +169,10 @@ function draw(info, rows, qr) {
   rows.forEach((row) => {
     ctx.fillStyle = '#9a92b0';
     ctx.font = '32px Inter, Arial, sans-serif';
-    ctx.fillText(row.k, 70, y);
+    ctx.fillText(fitText(ctx, row.k, COL_W), 70, y);
     ctx.fillStyle = '#f1eef9';
     ctx.font = 'bold 62px Inter, Arial, sans-serif';
-    ctx.fillText(row.v.length > 18 ? row.v.slice(0, 18) + '…' : row.v, 70, y + 66);
+    ctx.fillText(fitText(ctx, row.v, COL_W), 70, y + 66);
     y += 132;
   });
 
@@ -165,20 +181,25 @@ function draw(info, rows, qr) {
   if (params) {
     ctx.fillStyle = '#cfc9e4';
     ctx.font = '32px Inter, Arial, sans-serif';
-    ctx.fillText(params.length > 58 ? params.slice(0, 58) + '…' : params, 70, SIZE - 250);
+    ctx.fillText(fitText(ctx, params, COL_W), 70, SIZE - 250);
   }
 
-  /* QR со ссылкой на расчёт. */
+  /* QR со ссылкой на расчёт: подпись ставим над кодом — справа внизу рядом с кодом
+     длинные строки не помещаются и наезжали на него (дефект приёмки). */
   if (qr) {
-    drawQr(ctx, qr, SIZE - 330, SIZE - 330, 260);
+    drawQr(ctx, qr, QR_X, QR_Y, QR_SIZE);
     ctx.fillStyle = '#9a92b0';
     ctx.font = '26px Inter, Arial, sans-serif';
-    ctx.fillText('Открыть расчёт', SIZE - 320, SIZE - 96);
+    ctx.textAlign = 'center';
+    ctx.fillText('Открыть расчёт', QR_X + QR_SIZE / 2, QR_Y - 18);
+    ctx.textAlign = 'left';
   }
 
+  /* Подпись сайта — двумя короткими строками: обе заканчиваются левее QR (x = 750). */
   ctx.fillStyle = '#7d7694';
   ctx.font = '26px Inter, Arial, sans-serif';
-  ctx.fillText('calc-doc.ru · расчёт в браузере, данные не покидают устройство', 70, SIZE - 70);
+  ctx.fillText('calc-doc.ru · расчёт в браузере', 70, SIZE - 96);
+  ctx.fillText('данные не покидают устройство', 70, SIZE - 60);
   return canvas;
 }
 

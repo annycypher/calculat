@@ -21,10 +21,10 @@
   <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="/fonts/fonts.css?v=20" />
-  <link rel="stylesheet" href="/home.css?v=20" />
-  <link rel="stylesheet" href="/seo-article.css?v=20" />
-  <link rel="stylesheet" href="/header.css?v=20" />
+  <link rel="stylesheet" href="/fonts/fonts.css?v=36" />
+  <link rel="stylesheet" href="/home.css?v=36" />
+  <link rel="stylesheet" href="/seo-article.css?v=36" />
+  <link rel="stylesheet" href="/header.css?v=36" />
   <meta name="theme-color" content="#0b0913" />
   <script type="application/ld+json">
 {
@@ -55,7 +55,7 @@
     ]
   }
   </script>
-  <link rel="stylesheet" href="/ads.css?v=1" />
+  <link rel="stylesheet" href="/ads.css?v=36" />
 </head>
 <body>
 <div class="orbs" aria-hidden="true">
@@ -81,6 +81,7 @@
           <div class="nav-panel" id="navCalc">
             <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
             <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
             <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
             <a class="nav-all" href="/calculators/">Все калькуляторы</a>
           </div>
@@ -89,6 +90,8 @@
           <a class="nav-link" href="/generators/">Генераторы</a>
           <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
           <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
             <a href="/generators/contract/">Договор</a>
             <a href="/generators/invoice/">Счёт на оплату</a>
             <a href="/generators/leave-request/">Заявление на отпуск</a>
@@ -506,6 +509,16 @@
             <p>0,1% в день по ст. 115 СК РФ.</p>
           </a>
         </div>
+        <h3 class="cat-title">Авто</h3>
+        <div class="grid">
+          <a class="card" href="/calculators/auto/">
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path class="ci-a" d="M3 14l1.6-4.4A2 2 0 0 1 6.5 8h11a2 2 0 0 1 1.9 1.6L21 14v4h-2.5v-2h-13v2H3z"/><path class="ci-b" d="M5 14h14"/><circle class="ci-b" cx="7.5" cy="16" r="1"/><circle class="ci-b" cx="16.5" cy="16" r="1"/><path class="ci-fa" d="M8 10h2.5v2H8zM13.5 10H16v2h-2.5z"/></svg></span>
+            <h3>Авто-калькуляторы</h3>
+            <p>Расход топлива, стоимость владения, ОСАГО и таможенный расчёт — всё про машину.</p>
+          </a>
+        </div>
+
+
       </section>
 
       <!-- Сетка генераторов -->
@@ -594,7 +607,7 @@
           <h2 class="section-title">Что такое CalcDoc</h2>
           <p>CalcDoc — набор бесплатных онлайн-инструментов: калькуляторы финансовых и производственных показателей, а также генераторы готовых документов. Все расчёты выполняются мгновенно на вашем устройстве: данные не отправляются на сервер, поэтому можно работать даже без интернета после загрузки страницы.</p>
           <p>Каждый инструмент можно открыть как отдельное приложение — нажмите «Скачать на рабочий стол» в шапке, чтобы установить его как PWA.</p>
-          <div class="note">🔒 <strong>Мы не храним ваши личные данные.</strong> Все введённые значения обрабатываются только на вашем устройстве и не передаются на сервер. Подробнее — <a href="/privacy.html">в политике конфиденциальности</a>.</div>
+          <div class="note">🔒 <strong>Мы не храним ваши личные данные.</strong> Все введённые значения обрабатываются только на вашем устройстве и не передаются на сервер. Подробнее — <a href="/privacy/">в политике конфиденциальности</a>.</div>
           <h3>Почему это удобно</h3>
           <ul>
             <li>Без регистрации и без оплаты.</li>
@@ -732,8 +745,7 @@
         <a href="/reviews/">Отзывы</a>
         <a href="/popular/">Популярное</a>
         <a href="/contact/">Контакты</a>
-        <a href="/advertise/">Реклама</a>
-        <a href="/privacy.html">Конфиденциальность</a>
+        <a href="/privacy/">Конфиденциальность</a>
       </div>
     </div>
   </footer>
@@ -771,7 +783,7 @@
           </div>
         </form>
       </section>
-      <script src="/js/reviews.js?v=1" defer></script>
+      <script src="/js/reviews.js?v=36" defer></script>
 <!--SLOT:ads-before-footer-->
     <!--/SLOT:ads-before-footer-->
 </main>
@@ -787,8 +799,12 @@
 <!-- QR: локальная библиотека /libs/qrcode-generator.js (загружается вашим chunkload.js;
      ни CDN, ни сторонних сервисов — данные не покидают браузер) -->
 
-  <script type="module" src="/js/ui.js?v=20"></script>
-  <script type="module" src="/js/home.js?v=20"></script>
-  <script type="module" src="/js/tool-of-day.js?v=1"></script>
+  <script type="module" src="/js/ui.js?v=36"></script>
+  <script type="module" src="/js/home.js?v=36"></script>
+  <script type="module" src="/js/tool-of-day.js?v=36"></script>
 </body>
 </html>
+
+
+
+

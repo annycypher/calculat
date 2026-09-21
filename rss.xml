@@ -5,7 +5,84 @@
     <link>https://calc-doc.ru/blog/</link>
     <description>Разбираем бытовые расчёты по шагам: формула, пример с числами и калькулятор для проверки.</description>
     <language>ru-ru</language>
-    <lastBuildDate>Fri, 18 Sep 2026 16:15:32 +0300</lastBuildDate>
+    <lastBuildDate>Mon, 21 Sep 2026 14:11:47 +0300</lastBuildDate>
+    <item>
+      <title>Объём системы отопления — как рассчитать</title>
+      <link>https://calc-doc.ru/blog/obem-sistemy-otopleniya-raschet/</link>
+      <guid isPermaLink="true">https://calc-doc.ru/blog/obem-sistemy-otopleniya-raschet/</guid>
+      <pubDate>Mon, 21 Sep 2026 12:00:00 +0300</pubDate>
+      <description>Радиаторы, трубы, котёл и тёплый пол: таблицы объёмов, формула бака и пример на 112 литров.</description>
+    </item>
+    <item>
+      <title>Гидрострелка — расчёт диаметра по мощности котла</title>
+      <link>https://calc-doc.ru/blog/gidrostrelka-raschet/</link>
+      <guid isPermaLink="true">https://calc-doc.ru/blog/gidrostrelka-raschet/</guid>
+      <pubDate>Mon, 21 Sep 2026 12:00:00 +0300</pubDate>
+      <description>Формула через расход и скорость, таблица DN50–DN150 и ошибки монтажа, сводящие расчёт к нулю.</description>
+    </item>
+    <item>
+      <title>Тепловентилятор для цеха — расчёт мощности</title>
+      <link>https://calc-doc.ru/blog/teploventilyator-vulkan/</link>
+      <guid isPermaLink="true">https://calc-doc.ru/blog/teploventilyator-vulkan/</guid>
+      <pubDate>Mon, 21 Sep 2026 12:00:00 +0300</pubDate>
+      <description>Теплопотери по объёму, подбор по питам и электрика: ток, кабель, автомат на 380 В.</description>
+    </item>
+    <item>
+      <title>Расчёт мощности котла отопления</title>
+      <link>https://calc-doc.ru/blog/moshchnost-kotla-raschet/</link>
+      <guid isPermaLink="true">https://calc-doc.ru/blog/moshchnost-kotla-raschet/</guid>
+      <pubDate>Mon, 21 Sep 2026 12:00:00 +0300</pubDate>
+      <description>Три метода: по площади, по объёму и климату, по теплопотерям ограждений — с таблицей ориентиров.</description>
+    </item>
+    <item>
+      <title>Диаметр труб отопления — расчёт по расходу</title>
+      <link>https://calc-doc.ru/blog/diametr-trub-otopleniya-raschet/</link>
+      <guid isPermaLink="true">https://calc-doc.ru/blog/diametr-trub-otopleniya-raschet/</guid>
+      <pubDate>Mon, 21 Sep 2026 12:00:00 +0300</pubDate>
+      <description>Формула диаметра, таблица подбора DN по мощности участка и балансировка веток.</description>
+    </item>
+    <item>
+      <title>Расширительный бак — расчёт объёма и настройка</title>
+      <link>https://calc-doc.ru/blog/rasshiritelnyy-bak-podbor/</link>
+      <guid isPermaLink="true">https://calc-doc.ru/blog/rasshiritelnyy-bak-podbor/</guid>
+      <pubDate>Mon, 21 Sep 2026 12:00:00 +0300</pubDate>
+      <description>Формула объёма бака, настройка воздушной камеры и типовые ошибки установки.</description>
+    </item>
+    <item>
+      <title>Циркуляционный насос — расчёт напора и подбора</title>
+      <link>https://calc-doc.ru/blog/cirkulyacionnyy-nasos-podbor/</link>
+      <guid isPermaLink="true">https://calc-doc.ru/blog/cirkulyacionnyy-nasos-podbor/</guid>
+      <pubDate>Mon, 21 Sep 2026 12:00:00 +0300</pubDate>
+      <description>Расход по мощности котла, напор по сопротивлению и таблица ориентиров насосов.</description>
+    </item>
+    <item>
+      <title>Как правильно составить расписку о получении денег</title>
+      <link>https://calc-doc.ru/blog/kak-sostavit-raspisku/</link>
+      <guid isPermaLink="true">https://calc-doc.ru/blog/kak-sostavit-raspisku/</guid>
+      <pubDate>Sun, 20 Sep 2026 12:00:00 +0300</pubDate>
+      <description>Пошаговый разбор расписки: обязательные реквизиты, формулировки про сумму и срок, пени за просрочку и взыскание долга.</description>
+    </item>
+    <item>
+      <title>Как рассчитать расход топлива: точный метод</title>
+      <link>https://calc-doc.ru/blog/avto-rashod-topliva/</link>
+      <guid isPermaLink="true">https://calc-doc.ru/blog/avto-rashod-topliva/</guid>
+      <pubDate>Mon, 21 Sep 2026 12:00:00 +0300</pubDate>
+      <description>Метод полного бака по чекам, формула л/100 км и почему бортовой компьютер врёт.</description>
+    </item>
+    <item>
+      <title>Сколько стоит владеть автомобилем: полная смета</title>
+      <link>https://calc-doc.ru/blog/avto-vladenie/</link>
+      <guid isPermaLink="true">https://calc-doc.ru/blog/avto-vladenie/</guid>
+      <pubDate>Mon, 21 Sep 2026 12:00:00 +0300</pubDate>
+      <description>Топливо, страховка, ремонт и скрытая амортизация: годовая смета с цифрами и стоимость километра.</description>
+    </item>
+    <item>
+      <title>КБМ в ОСАГО: как копить скидку и не потерять её</title>
+      <link>https://calc-doc.ru/blog/avto-osago-kbm/</link>
+      <guid isPermaLink="true">https://calc-doc.ru/blog/avto-osago-kbm/</guid>
+      <pubDate>Mon, 21 Sep 2026 12:00:00 +0300</pubDate>
+      <description>Как копится бонус-малус, почему скидка пропадает и как проверить свой класс в базе РСА.</description>
+    </item>
     <item>
       <title>Как рассчитать отпускные: формула и примеры</title>
       <link>https://calc-doc.ru/blog/otpusknye/</link>

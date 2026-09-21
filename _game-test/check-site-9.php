@@ -266,7 +266,7 @@ check('топ страниц попал в снимок', in_array('/calculators
     implode(', ', $topPages));
 check('устройства подписаны по-русски', count((array)$d['devices']) === 2 && (string)$d['devices'][0]['title'] !== '');
 check('инструменты посчитаны по файлам сайта',
-    (int)$res['snapshot']['tools']['calc'] >= 20 && (int)$res['snapshot']['tools']['gen'] === 6,
+    (int)$res['snapshot']['tools']['calc'] >= 20 && (int)$res['snapshot']['tools']['gen'] >= 6,   /* генераторов стало больше (расписка, авто) — проверяем, что счётчик не отстаёт от файлов */
     json_encode($res['snapshot']['tools'], JSON_UNESCAPED_UNICODE));
 check('форматы без выдуманных цен',
     count((array)$res['snapshot']['types']) >= 4

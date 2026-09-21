@@ -53,6 +53,7 @@ function articles_find(string $id): array {
 function articles_blank(): array {
     return array(
         'title' => '', 'slug' => '', 'breadcrumb' => '', 'category' => '', 'description' => '',
+        'seo_title' => '',
         'keywords' => '', 'excerpt' => '', 'author' => 'CalcDoc',
         'date_published' => date('Y-m-d'), 'date_modified' => date('Y-m-d'),
         'image' => '', 'intro' => '',
@@ -85,7 +86,7 @@ function articles_block_types(): array {
 function articles_clean(array $in, bool $keepEmpty = true): array {
     $f = articles_blank();
 
-    foreach (array('title', 'category', 'breadcrumb', 'keywords', 'excerpt', 'author', 'image', 'intro', 'cta') as $k) {
+    foreach (array('title', 'seo_title', 'category', 'breadcrumb', 'keywords', 'excerpt', 'author', 'image', 'intro', 'cta') as $k) {
         $f[$k] = trim((string)($in[$k] ?? ''));
     }
     $f['description'] = trim((string)($in['description'] ?? ''));
@@ -123,13 +124,16 @@ function articles_clean(array $in, bool $keepEmpty = true): array {
             $block['items'] = $lines;
 
         } elseif ($type === 'two') {
-            $left  = array('title' => trim((string)($b['left_title'] ?? '')), 'items' => array());
-            $right = array('title' => trim((string)($b['right_title'] ?? '')), 'items' => array());
-            foreach ((array)($b['left_items'] ?? array()) as $line) {
+            /* Блок приходит в двух видах: из формы редактора (left_title/left_items) и уже
+               очищенным из хранилища (left/right). Второй вид принимаем как есть — иначе при
+               повторной очистке (сохранение или публикация) колонки обнулялись бы и блок исчезал. */
+            $left  = array('title' => trim((string)($b['left_title'] ?? (isset($b['left']['title']) ? $b['left']['title'] : ''))), 'items' => array());
+            $right = array('title' => trim((string)($b['right_title'] ?? (isset($b['right']['title']) ? $b['right']['title'] : ''))), 'items' => array());
+            foreach ((array)($b['left_items'] ?? (isset($b['left']['items']) ? $b['left']['items'] : array())) as $line) {
                 $line = trim((string)$line);
                 if ($line !== '') { $left['items'][] = $line; }
             }
-            foreach ((array)($b['right_items'] ?? array()) as $line) {
+            foreach ((array)($b['right_items'] ?? (isset($b['right']['items']) ? $b['right']['items'] : array())) as $line) {
                 $line = trim((string)$line);
                 if ($line !== '') { $right['items'][] = $line; }
             }
@@ -138,14 +142,31 @@ function articles_clean(array $in, bool $keepEmpty = true): array {
             $block['right'] = $right;
 
         } elseif ($type === 'table') {
+            /* Строки приходят либо строками «ячейка | ячейка» (форма редактора), либо готовыми
+               массивами ячеек (уже очищенное хранилище). Второй вид берём как есть — иначе при
+               повторной очистке в таблице появлялись бы ячейки со словом Array (дефект, найденный
+               тестом check-republish-imported.php 20.09.2026: публикация ломала таблицу). */
             $rows = array();
             foreach ((array)($b['rows'] ?? array()) as $line) {
+                if (is_array($line)) {
+                    $cells = array_map('trim', array_map('strval', $line));
+                    if (count(array_filter($cells, function ($c) { return $c !== ''; })) === 0) { continue; }
+                    $rows[] = $cells;
+                    continue;
+                }
                 $line = trim((string)$line);
                 if ($line === '') { continue; }
                 $rows[] = array_map('trim', explode('|', $line));
             }
             if (count($rows) === 0 && !$keepEmpty) { continue; }
-            $block['head'] = count($rows) > 0 ? array_shift($rows) : array();
+            /* Шапку берём готовой, если она уже есть, иначе — первую строку. */
+            $head = array();
+            if (isset($b['head']) && is_array($b['head']) && count($b['head']) > 0) {
+                $head = array_map('trim', array_map('strval', $b['head']));
+            } elseif (count($rows) > 0) {
+                $head = array_shift($rows);
+            }
+            $block['head'] = $head;
             $block['rows'] = $rows;
 
         } elseif ($type === 'image') {
@@ -268,7 +289,9 @@ function articles_mark_published(string $id, string $url = ''): bool {
     foreach ($list as $i => $a) {
         if ((string)($a['id'] ?? '') === $id) {
             $list[$i]['status']       = 'published';
-            $list[$i]['url']          = $url !== '' ? $url : (string)($a['url'] ?? '');
+            /* Адрес храним относительным, как у остальных записей: публикация передаёт полный адрес,
+               и в хранилище появлялась бы смесь «https://calc-doc.ru/...» и «/blog/...». */
+            $list[$i]['url']          = (string)preg_replace('#^https?://[^/]+#', '', $url !== '' ? $url : (string)($a['url'] ?? ''));
             $list[$i]['published_at'] = date('Y-m-d H:i:s');
             $list[$i]['modified']     = date('Y-m-d H:i:s');
             $ok = true;

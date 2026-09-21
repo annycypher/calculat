@@ -1,0 +1,272 @@
+/* header.css — единая шапка всего сайта: тот же вид, что на главной (тёмное стекло).
+   Раскладка и цвета перенесены из home.css один-в-один; цвета зафиксированы на самой шапке,
+   поэтому она не зависит от светлой/тёмной темы страницы: логотип, меню, панель категорий,
+   поиск и кнопки выглядят одинаково везде.
+   Подключается на всех страницах ПОСЛЕ styles.css/home.css.
+
+   Разметка одинакова на всех страницах:
+     <header class="app-header">
+       <div class="head-in|header-inner">
+         <a class="logo">…logo-mark + <b>Calc<span>Doc</span></b>…</a>
+         <nav class="main-nav" id="mainNav"> .nav-item > .nav-link + .nav-caret + .nav-panel … </nav>
+         <div class="head-cta header-actions">  (поиск вставляет js/ui.js + кнопки темы и PWA)  </div>
+         <button class="nav-burger" id="navBurger">…</button>
+       </div>
+     </header>
+   На главной у шапки есть id="header": она прозрачная над «героем» и становится стеклянной
+   при прокрутке (класс .scrolled вешает js/home.js) — как было. На остальных страницах
+   тёмное стекло включено сразу, потому что под шапкой светлый фон. */
+
+header.app-header {
+  /* палитра шапки (те же значения, что в home.css) */
+  --htxt: #f1eef9;
+  --hmut: #9a92b0;
+  --hvio: #a78bfa;
+  --hline: rgba(255, 255, 255, .11);
+  --hline-2: rgba(255, 255, 255, .22);
+  --hglass: rgba(255, 255, 255, .05);
+  --hglass-2: rgba(255, 255, 255, .08);
+
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(11, 9, 19, .72);
+  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--hline);
+  color: var(--htxt);
+  transition: background .3s, border-color .3s;
+}
+/* Главная: над тёмным «героем» шапка прозрачная, стекло включается при прокрутке. */
+header.app-header#header {
+  position: fixed; left: 0; right: 0;
+  background: transparent; border-bottom-color: transparent;
+}
+header.app-header#header.scrolled {
+  background: rgba(11, 9, 19, .72); border-bottom-color: var(--hline);
+}
+/* Светлая тема главной: над светлым фоном прозрачная шапка получает тёмную палитру —
+   иначе белый «Calc» в логотипе и светлые пункты меню сливаются с фоном (видно только
+   фиолетовый «Doc»). Как только шапка становится стеклянной (.scrolled — прокрутка),
+   палитра снова светлая: под ней тёмный фон, и текст должен быть светлым.
+   Панели категорий и выпадающий поиск — тёмное стекло на любой теме, поэтому внутри них
+   палитра возвращается к исходной. */
+:root[data-theme="light"] header.app-header#header:not(.scrolled) {
+  --htxt: #1b1533;
+  --hmut: #5c5573;
+  --hvio: #6d28d9;
+  --hline: rgba(30, 20, 60, .14);
+  --hline-2: rgba(30, 20, 60, .3);
+  --hglass: rgba(30, 20, 60, .05);
+  --hglass-2: rgba(30, 20, 60, .09);
+}
+:root[data-theme="light"] header.app-header#header:not(.scrolled) .nav-panel,
+:root[data-theme="light"] header.app-header#header:not(.scrolled) .search-dropdown {
+  --htxt: #f1eef9;
+  --hmut: #9a92b0;
+  --hvio: #a78bfa;
+  --hline: rgba(255, 255, 255, .11);
+  --hglass: rgba(255, 255, 255, .05);
+  --hglass-2: rgba(255, 255, 255, .08);
+}
+/* Поле поиска в светлой теме: лупа и placeholder тоже тёмные, иначе теряются на светлом. */
+:root[data-theme="light"] header.app-header#header:not(.scrolled) .search-input {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235c5573' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='6'/%3E%3Cpath d='M20.5 20.5 16 16'/%3E%3C/svg%3E");
+}
+:root[data-theme="light"] header.app-header#header:not(.scrolled) .search-input::placeholder {
+  color: rgba(92, 85, 115, .8);
+}
+
+/* Контейнер строки шапки: ширина и отступы как в .wrap на главной */
+header.app-header .head-in,
+header.app-header .header-inner {
+  display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: 0;
+  width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 24px; height: 76px;
+}
+
+/* ── Логотип ── */
+header.app-header .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--htxt); }
+header.app-header .logo-mark {
+  width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center;
+  background: rgba(139, 92, 246, .16); border: 1px solid rgba(167, 139, 250, .35); color: var(--hvio);
+}
+header.app-header .logo-mark svg { display: block; width: 20px; height: 20px; }
+header.app-header .logo b { font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: 19px; color: var(--htxt); }
+
+/* ── Меню с выпадающими категориями (тёмное стекло главной) ── */
+header.app-header .main-nav { display: flex; flex-wrap: nowrap; align-items: center; gap: 26px; margin-left: auto; }
+header.app-header .nav-item { position: relative; display: flex; align-items: center; }
+header.app-header .nav-link {
+  display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+  padding: 0; border-radius: 0; background: none;
+  color: var(--hmut); text-decoration: none; font-weight: 600; font-size: 14.5px; transition: color .2s;
+}
+header.app-header .nav-link:hover { color: var(--htxt); }
+header.app-header .main-nav a:hover { color: var(--htxt); background: none; }
+header.app-header .nav-item > .nav-link::after {
+  content: ''; width: 0; height: 0; margin-left: 1px;
+  border-left: 4px solid transparent; border-right: 4px solid transparent;
+  border-top: 5px solid currentColor; opacity: .5;
+  transition: transform .18s ease, opacity .18s ease;
+}
+header.app-header .nav-item:hover > .nav-link::after,
+header.app-header .nav-item:focus-within > .nav-link::after { transform: rotate(180deg); opacity: .9; }
+header.app-header .nav-item.is-active > .nav-link,
+header.app-header .main-nav a.active,
+header.app-header .main-nav a[aria-current="page"] { color: var(--hvio); background: none; font-weight: 600; }
+header.app-header .nav-item-plain > .nav-link::after { display: none; }
+header.app-header .nav-caret { display: none; }
+header.app-header .nav-caret svg { transition: transform .18s ease; }
+
+header.app-header .logo b span { color: var(--hvio); }
+
+header.app-header .nav-panel {
+  position: absolute; top: calc(100% + 14px); left: 0; z-index: 60;
+  display: none; min-width: 260px; padding: 10px;
+  background: rgba(17, 14, 30, .95); border: 1px solid var(--hline); border-radius: 16px;
+  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, .85);
+  -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+}
+/* Прозрачный «мостик» в зазоре над панелью: без него курсор теряет :hover и меню гаснет. */
+header.app-header .nav-panel::before { content: ''; position: absolute; left: 0; right: 0; top: -14px; height: 14px; }
+header.app-header .nav-item:hover > .nav-panel,
+header.app-header .nav-item:focus-within > .nav-panel,
+header.app-header .nav-item.open > .nav-panel { display: block; }
+header.app-header .nav-panel a {
+  display: flex; align-items: center; gap: 10px; padding: 11px 12px; border-radius: 12px;
+  color: var(--htxt); text-decoration: none; font-weight: 600; font-size: 14px; white-space: nowrap;
+}
+header.app-header .nav-panel a:hover { background: var(--hglass-2); color: var(--htxt); }
+header.app-header .nav-panel b { margin-left: auto; font-size: 13px; font-weight: 600; color: var(--hmut); }
+header.app-header .nav-panel .nav-soon {
+  margin-left: auto; padding: 1px 8px; font-size: 11.5px; color: var(--hmut);
+  border: 1px dashed var(--hline); border-radius: 999px;
+}
+header.app-header .nav-panel .nav-soon-item {
+  display: flex; align-items: center; gap: 10px; padding: 11px 12px; border-radius: 12px;
+  color: var(--hmut); font-size: 14px; font-weight: 600; cursor: default; white-space: nowrap;
+}
+header.app-header .nav-panel .nav-all {
+  margin-top: 6px; border-top: 1px solid var(--hline); border-radius: 0 0 12px 12px; color: var(--hvio);
+}
+
+/* ── Бургер, кнопки и поиск в строке шапки ── */
+header.app-header .nav-burger {
+  display: none; width: 44px; height: 44px; border-radius: 12px;
+  background: var(--hglass); border: 1px solid var(--hline); color: var(--htxt);
+  cursor: pointer; place-items: center;
+}
+header.app-header .nav-burger:hover { background: var(--hglass-2); }
+header.app-header .head-cta,
+header.app-header .header-actions { display: flex; align-items: center; gap: 12px; margin-left: 0; }
+header.app-header .icon-btn {
+  width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center;
+  background: var(--hglass); border: 1px solid var(--hline); color: var(--htxt);
+  font-size: 17px; line-height: 1; cursor: pointer;
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  transition: background .25s, border-color .25s, transform .25s;
+}
+header.app-header .icon-btn:hover { background: var(--hglass-2); border-color: var(--hline-2); transform: translateY(-2px); }
+
+header.app-header .search-wrap { position: relative; flex: 0 0 auto; }
+/* Поле поиска компактное (150 px вместо 190) и разворачивается до 190 при вводе:
+   в спокойном состоянии шапка занимает меньше места, а в работе поле не тесное.
+   Лупа нарисована фоном (data:-URI), поэтому разметку в js/ui.js менять не нужно,
+   а CSP уже разрешает data: для картинок (img-src 'self' data:). */
+header.app-header .search-input {
+  width: 150px; padding: 7px 12px 7px 30px; border-radius: 999px;
+  font-family: 'Manrope', sans-serif; font-size: 13px;
+  color: var(--htxt); border: 1px solid var(--hline); outline: none;
+  background-color: var(--hglass);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239a92b0' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='6'/%3E%3Cpath d='M20.5 20.5 16 16'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: 10px 50%; background-size: 14px 14px;
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  transition: width .2s, border-color .2s, box-shadow .2s, background-color .2s;
+}
+header.app-header .search-input::placeholder { color: rgba(154, 146, 176, .7); }
+header.app-header .search-input:focus {
+  width: 190px;
+  border-color: rgba(167, 139, 250, .55); box-shadow: 0 0 0 3px rgba(167, 139, 250, .14);
+  background-color: var(--hglass-2);
+}
+header.app-header .search-input:focus-visible { outline: none; }
+header.app-header .search-input::-webkit-search-cancel-button { -webkit-appearance: none; }
+header.app-header .search-dropdown {
+  position: absolute; top: calc(100% + 10px); right: 0; min-width: 300px; max-width: 90vw; padding: 6px; border-radius: 14px;
+  background: rgba(17, 13, 29, .92); border: 1px solid var(--hline);
+  box-shadow: 0 24px 48px -22px rgba(0, 0, 0, .75); overflow: visible; z-index: 60;
+  -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+}
+header.app-header .search-dropdown[hidden] { display: none; }
+header.app-header .search-dropdown a {
+  display: block; padding: 10px 12px; border: 0; border-radius: 10px; font-size: 14px;
+  color: var(--htxt); text-decoration: none; transition: background .15s, color .15s;
+}
+header.app-header .search-dropdown a:hover { background: var(--hglass-2); color: var(--hvio); }
+header.app-header .search-none { padding: 10px 12px; color: var(--hmut); font-size: 14px; }
+
+/* ── Узкая строка шапки: меню уезжает в панель под шапкой ──
+   Точка перехода 1024 px, а не 760: замеры в headless Chrome показали, что ниже ~1002 px
+   полное меню (~574 px) + поле поиска + кнопки не помещаются в строку и страница получала
+   горизонтальное переполнение — 112 px на 874 px, 42 px на 960 px, 2 px на 1000 px.
+   До 1024 px (брейкпоинт, который уже используется на сайте) показываем бургер,
+   поиск и кнопки переезжают в панель меню (js/ui.js → syncNavExtra, порог там же). */
+@media (max-width: 1024px) {
+  header.app-header .main-nav {
+    position: fixed; top: 76px; left: 16px; right: 16px; z-index: 60;
+    display: none; flex-direction: column; align-items: stretch; gap: 2px; padding: 14px;
+    border-radius: 18px;
+    background: rgba(17, 14, 30, .97); border: 1px solid var(--hline);
+    box-shadow: 0 24px 60px -24px rgba(0, 0, 0, .85);
+    max-height: calc(100vh - 100px); overflow-y: auto;
+    -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+  }
+  header.app-header .main-nav.open { display: flex; }
+  header.app-header .nav-burger { display: grid; }
+  header.app-header .nav-item { display: block; }
+  header.app-header .nav-item-plain > .nav-link { padding-right: 12px; }
+  header.app-header .nav-item > .nav-link { padding: 13px 44px 13px 12px; border-radius: 12px; }
+  header.app-header .nav-item > .nav-link::after { display: none; }
+  header.app-header .nav-caret {
+    display: grid; position: absolute; right: 6px; top: 8px; width: 36px; height: 36px; place-items: center;
+    border: 0; border-radius: 10px; background: transparent; color: var(--hmut); cursor: pointer;
+  }
+  header.app-header .nav-item.open > .nav-caret { color: var(--hvio); }
+  header.app-header .nav-item.open > .nav-caret svg { transform: rotate(180deg); }
+  header.app-header .nav-panel {
+    position: static; display: none; min-width: 0; margin: 0; padding: 0 0 4px 10px;
+    background: transparent; border: 0; box-shadow: none;
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+  }
+  header.app-header .nav-item.open > .nav-panel { display: block; }
+  /* Панель в потоке: «мостик» не нужен, он лёг бы на соседний пункт меню. */
+  header.app-header .nav-panel::before { display: none; }
+  header.app-header .nav-panel a { padding: 12px 10px; white-space: normal; }
+  header.app-header .nav-panel .nav-soon-item { white-space: normal; }
+  /* Поиск и кнопки шапки переезжают внутрь панели меню (переносит js/ui.js → syncNavExtra). */
+  header.app-header .main-nav .nav-extra {
+    display: flex; flex-direction: column; gap: 12px; margin-top: 12px; padding-top: 14px;
+    border-top: 1px solid var(--hline);
+  }
+  header.app-header .main-nav .nav-extra .search-wrap { display: block; flex: 0 0 auto; }
+  header.app-header .main-nav .nav-extra .search-input { width: 100%; }
+  header.app-header .main-nav .nav-extra .search-dropdown { left: 0; right: 0; min-width: 0; }
+  header.app-header .main-nav .nav-extra .head-cta,
+  header.app-header .main-nav .nav-extra .header-actions { display: flex; margin-left: 0; }
+  header.app-header .main-nav .nav-extra .head-cta .icon-btn,
+  header.app-header .main-nav .nav-extra .header-actions .icon-btn { display: grid; }
+}
+@media (max-width: 600px) {
+  header.app-header .head-cta .icon-btn,
+  header.app-header .header-actions .icon-btn { display: none; }
+}
+/* На широких экранах у меню есть запас (замер: 60–160 px), поэтому отделяем поиск
+   от последнего пункта «О проекте» просветом. Ниже 1101 px просвет не ставим:
+   там меню и поле идут впритык, и лишние 22 px увели бы контент в правый отступ. */
+@media (min-width: 1101px) { header.app-header .search-wrap { margin-left: 22px; } }
+@media (max-width: 1100px) {
+  header.app-header .search-input { width: 134px; }
+  header.app-header .search-input:focus { width: 170px; }
+}
+@media (max-width: 900px) {
+  header.app-header .search-input { width: 118px; }
+  header.app-header .search-input:focus { width: 152px; }
+}
+@media (max-width: 600px) { header.app-header .search-wrap { display: none; } }

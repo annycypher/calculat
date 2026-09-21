@@ -17,10 +17,10 @@
   <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="/fonts/fonts.css?v=20" />
-  <link rel="stylesheet" href="/styles.css?v=20" />
-  <link rel="stylesheet" href="/seo-article.css?v=20" />
-  <link rel="stylesheet" href="/header.css?v=20" />
+  <link rel="stylesheet" href="/fonts/fonts.css?v=36" />
+  <link rel="stylesheet" href="/styles.css?v=36" />
+  <link rel="stylesheet" href="/seo-article.css?v=36" />
+  <link rel="stylesheet" href="/header.css?v=36" />
   <meta name="theme-color" content="#6d5dfc" />
   </head>
 <body>
@@ -41,6 +41,7 @@
           <div class="nav-panel" id="navCalc">
             <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
             <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
             <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
             <a class="nav-all" href="/calculators/">Все калькуляторы</a>
           </div>
@@ -49,6 +50,8 @@
           <a class="nav-link" href="/generators/">Генераторы</a>
           <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
           <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
             <a href="/generators/contract/">Договор</a>
             <a href="/generators/invoice/">Счёт на оплату</a>
             <a href="/generators/leave-request/">Заявление на отпуск</a>
@@ -99,7 +102,11 @@
       <p class="tool-meta">Проект ведёт небольшая команда энтузиастов: пишите через форму или на почту.</p>
     </div>
 
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
     <div class="container section">
+    <!--SLOT:ads-after-tool-->
+    <!--/SLOT:ads-after-tool-->
       <div class="prose">
         <h2>Написать нам</h2>
         <p>Сообщения об ошибках, предложения по инструментам, сотрудничество и реклама — всё сюда.
@@ -123,7 +130,7 @@
           <textarea id="contact-text" name="text" required minlength="10" maxlength="2000" rows="5" style="width:100%"></textarea>
           <label style="display:flex;gap:10px;align-items:flex-start;margin-top:12px;font-size:14px">
             <input type="checkbox" name="consent" value="1" required style="margin-top:3px" />
-            <span>Согласен(на) с <a href="/privacy.html">политикой конфиденциальности</a>: почта нужна только для ответа,
+            <span>Согласен(на) с <a href="/privacy/">политикой конфиденциальности</a>: почта нужна только для ответа,
               в рассылки не попадает.</span>
           </label>
           <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
@@ -131,16 +138,51 @@
             <span data-contact-note style="font-size:13px;color:var(--text-muted)">Ответим на указанную почту.</span>
           </div>
         </form>
-        <script src="/js/contact.js?v=1" defer></script>
+        <script src="/js/contact.js?v=36" defer></script>
 
+    <!--SLOT:ads-mid-->
+    <!--/SLOT:ads-mid-->
         <h2>Что происходит с сообщением</h2>
         <p>Сообщение уходит письмом на почту проекта и сохраняется в панели — так оно не потеряется, даже если
           почтовый сервер задумается. Почту мы используем только для ответа: в рассылки не добавляем и третьим
-          лицам не передаём (подробности — в <a href="/privacy.html">политике конфиденциальности</a>).</p>
+          лицам не передаём (подробности — в <a href="/privacy/">политике конфиденциальности</a>).</p>
         <p>Если пишете об ошибке, добавьте, пожалуйста, адрес страницы и что именно получилось: так мы поправим
           быстрее. Спасибо, что помогаете делать проект лучше.</p>
       </div>
     </div>
+          <!--SLOT:reviews-->
+      <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/contact/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/contact/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=36" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
   </main>
 
   <footer class="site-footer">
@@ -156,12 +198,15 @@
       <nav class="footer-nav" aria-label="Служебные страницы">
         <a href="/about/">О проекте</a>
         <a href="/contact/">Контакты</a>
-        <a href="/advertise/">Реклама</a>
-        <a href="/privacy.html">Конфиденциальность</a>
+        <a href="/privacy/">Конфиденциальность</a>
       </nav>
     </div>
   </footer>
 
-  <script type="module" src="/js/ui.js?v=20"></script>
+  <script type="module" src="/js/ui.js?v=36"></script>
 </body>
 </html>
+
+
+
+

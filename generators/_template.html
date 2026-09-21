@@ -12,12 +12,12 @@
   <title>[КЛЮЧ] — [КОНКРЕТИКА] | CalcDoc</title>
   <meta name="description" content="[ОПИСАНИЕ 140–160 знаков]" />
   <link rel="canonical" href="https://calc-doc.ru/generators/[СЛАГ]/" />
-  <meta name="robots" content="index, follow" />
-  <link rel="stylesheet" href="/fonts/fonts.css?v=20" />
-  <link rel="stylesheet" href="/styles.css?v=20" />
-  <link rel="stylesheet" href="/seo-article.css?v=20" />
-  <link rel="stylesheet" href="/header.css?v=20" />
-  <link rel="stylesheet" href="/print.css?v=2" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="/fonts/fonts.css?v=36" />
+  <link rel="stylesheet" href="/styles.css?v=36" />
+  <link rel="stylesheet" href="/seo-article.css?v=36" />
+  <link rel="stylesheet" href="/header.css?v=36" />
+  <link rel="stylesheet" href="/print.css?v=36" media="print" />
 </head>
 <body>
   <!-- СЮДА: шапка сайта (header.site-header) из готовой страницы генератора -->
@@ -66,15 +66,48 @@
       <span class="kicker">[КЛЮЧ]</span>
       <!-- лид: h2 + 2 абзаца, ключ в первом абзаце -->
     </section>
+          <!--SLOT:reviews-->
+      <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/generators/_template.html" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/generators/_template.html" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=36" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
   </main>
 
   <!-- СЮДА: подвал сайта (footer.site-footer) из готовой страницы генератора -->
 
-  <script type="module" src="/js/ui.js?v=21"></script>
+  <script type="module" src="/js/ui.js?v=36"></script>
   <script type="module">
     // Пример сборки генератора на движке: шаблон документа с {{плейсхолдеры}}.
-    import { GenEngine } from '/js/generator-engine.js?v=1';
-    import { GEN_NORMS } from '/js/generator-norms.js?v=1';
+    import { GenEngine } from '/js/generator-engine.js?v=36';
+    import { GEN_NORMS } from '/js/generator-norms.js?v=36';
 
     const TEMPLATE = [
       '<h1>[НАЗВАНИЕ ДОКУМЕНТА]</h1>',

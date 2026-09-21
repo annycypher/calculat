@@ -597,6 +597,11 @@ panel_page_start('Статьи', 'Черновики, редактор стат�
       <div class="field-hint">Сейчас <?php echo (int)mb_strlen((string)($fields['title'] ?? '')); ?> знаков:
         хорошо 45–60. Главный ключ — ближе к началу.</div>
 
+      <label for="a-seo-title">Заголовок для поисковика (необязательно)</label>
+      <input type="text" id="a-seo-title" name="seo_title" value="<?php echo h((string)($fields['seo_title'] ?? '')); ?>" />
+      <div class="field-hint">Пусто — в &lt;title&gt; пойдёт «Заголовок статьи — CalcDoc». Заполнено — текст уйдёт как есть:
+        так у статей «Отпускные» и «Вычет за квартиру» заголовок в выдаче отличается от H1.</div>
+
       <label for="a-slug">Адрес статьи</label>
       <input type="text" id="a-slug" name="slug" value="<?php echo h((string)($fields['slug'] ?? '')); ?>" />
       <div class="field-hint">Латинские буквы, цифры и дефис. Оставите пустым — панель соберёт адрес из заголовка.

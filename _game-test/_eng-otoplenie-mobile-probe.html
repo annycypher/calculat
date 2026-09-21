@@ -1,0 +1,15 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><title>360px probe</title>
+<style>body{font:13px monospace;background:#111;color:#eee;margin:10px}iframe{width:360px;height:1400px;border:0;background:#fff}</style>
+</head><body><pre id="out">wait...</pre>
+<iframe id="f1" src="/calculators/engineering/otoplenie-obem/"></iframe>
+<iframe id="f2" src="/calculators/auto/fuel/"></iframe>
+<script>
+var out=document.getElementById("out"),f1=document.getElementById("f1"),f2=document.getElementById("f2"),n=0,NL=String.fromCharCode(10);
+function check(w,l){var d=w.document,de=d.documentElement;var r=[l+": scrollWidth="+de.scrollWidth+" clientWidth="+de.clientWidth+" -> "+(de.scrollWidth>de.clientWidth+1?"OVERFLOW":"ok")];
+r.push("   body bg="+w.getComputedStyle(d.body).backgroundColor+" theme="+(d.documentElement.getAttribute("data-theme")||"none"));
+var wide=[];d.querySelectorAll("body *").forEach(function(el){var b=el.getBoundingClientRect();if(b.right>362&&b.width>40){wide.push(el.tagName.toLowerCase()+"(right="+Math.round(b.right)+")");}});
+r.push("   beyond 360: "+(wide.length?wide.slice(0,6).join(", "):"none"));return r.join(NL);}
+function done(){n++;if(n===2){out.textContent="RESULT"+NL+check(f1.contentWindow,"OTOPLENIE")+NL+check(f2.contentWindow,"FUEL-reference");}}
+f1.addEventListener("load",done);f2.addEventListener("load",done);
+setTimeout(function(){if(out.textContent.indexOf("RESULT")<0){done();done();}},5000);
+</script></body></html>

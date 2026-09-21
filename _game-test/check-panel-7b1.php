@@ -149,10 +149,10 @@ $html = probe_page(
     . '<a href="https://example.org/" target="_blank" rel="noopener">пример с rel</a>.</p>'
     . '<p><a href="/about/"><img src="/img/logo.svg" alt="Про проект"></a></p>',
     '<a href="/calculators/">Калькуляторы</a><a href="/blog/otpusknye/">Статьи</a>',
-    '<a href="/privacy.html">Конфиденциальность</a>'
+    '<a href="/privacy/">Конфиденциальность</a>'
 );
 
-$known = array('/', '/about/', '/blog/', '/blog/otpusknye/', '/calculators/', '/calculators/finance/ndfl/', '/privacy.html');
+$known = array('/', '/about/', '/blog/', '/blog/otpusknye/', '/calculators/', '/calculators/finance/ndfl/', '/privacy/');
 $p = links_page_links('/blog/_links-probe-a/', $html, $known);
 
 $tos = array();
@@ -167,7 +167,7 @@ check('существующая ссылка битой не считается'
       !in_array('/blog/otpusknye/', array_map(function ($b) { return (string)$b['to']; }, (array)$p['broken']), true));
 check('ссылка из меню помечена навигационной', in_array('/calculators/', (array)$p['nav'], true)
       && !in_array('/calculators/', $tos, true));
-check('ссылка из подвала тоже навигационная', in_array('/privacy.html', (array)$p['nav'], true));
+check('ссылка из подвала тоже навигационная', in_array('/privacy/', (array)$p['nav'], true));
 check('навигационные ссылки входят в «все внутренние»', in_array('/calculators/', (array)$p['all'], true));
 check('якорь и почта ссылками не считаются',
       !in_array('#yakor', (array)$p['all'], true) && !in_array('mailto:test@example.com', (array)$p['all'], true));

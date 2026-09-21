@@ -28,7 +28,7 @@ $root = Split-Path -Parent $PSScriptRoot
 $enc  = New-Object System.Text.UTF8Encoding($false)
 $dst  = Join-Path $root 'backups\files'
 $skipTop = @('_archive','_backup','backups','admin-panel-x7k2','_game-test','media','content','api','sweb-migration','libs','js','css','fonts')
-$skipRel = @('404.html','privacy.html','search.html')
+$skipRel = @('404.html','privacy/index.html','search.html')
 
 $files = Get-ChildItem -Path $root -Recurse -File -Filter *.html | Where-Object {
     $rel = $_.FullName.Substring($root.Length + 1)

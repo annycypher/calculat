@@ -21,6 +21,20 @@
   (она в $dirs), а эти два файла лежат в корне сайта — без них у страниц не будет
   иконки вкладки и картинки в превью ссылки (проверено 16.09.2026).
 
+  Белый список дополнен 19.09.2026 после живой проверки: в нём не было папок
+  contact, reviews (две страницы из подвала отдавали на calc-doc.ru 404; страницу /advertise/ убрали 20.09.2026 по заданию владельца)
+  и файлов seo-article.css, ads.css, offline.html — правки в них заливкой не уезжали.
+
+  Сознательно НЕ заливаем: /rss.xml (ленту собирает панель при публикации статьи,
+  inc\publish.php) и generators/_template.html (заготовка для новых генераторов —
+  на сайте это лишняя страница с плейсхолдерами). Локальные копии этих файлов —
+  только эталон для сверки: попади rss.xml в список, заливка затёрла бы то, что
+  панель собрала на сервере. sitemap.xml в списке как и раньше, но панель тоже его
+  дополняет — перед заливкой стоит сверить live-hash-check.ps1.
+  /popular/index.html, наоборот, заливаем (папка popular в $dirs): панель пишет только
+  список popular.json, а страница — наша, из репозитория; без этого она остаётся
+  на сервере со старой версией ресурсов.
+
   Каждый файл уходит с 4 попытками: FTP sweb под плотным потоком запросов
   иногда отвечает «553 File name not allowed» (это не про имя файла — тот же
   файл проходит со следующей попытки). Если файл так и не уехал, скрипт
@@ -47,11 +61,22 @@ $port = if ($cfg['PORT']) { [int]$cfg['PORT'] } else { if ($mode -eq 'sftp') { 2
 foreach ($k in 'HOST', 'USER', 'REMOTE_PATH') { if (-not $cfg[$k]) { throw "В deploy.env не заполнено поле $k" } }
 
 # ── что заливаем (белый список) ──
-$dirs = @('about', 'api', 'blog', 'calculators', 'converters', 'fonts', 'games', 'generators', 'icons', 'img', 'js', 'libs') |
+# popular — страница /popular/: её собирает локальный скрипт _game-test\site-add-popular-page.ps1,
+# а панель пишет только список popular.json в корень сайта. Раньше папки здесь не было, и на живом
+# сайте страница оставалась со старой версией ресурсов (?v=20 вместо общей).
+$dirs = @('about', 'api', 'blog', 'calculators', 'contact', 'converters', 'fonts', 'games', 'generators', 'icons', 'img', 'js', 'libs', 'popular', 'privacy', 'reviews') |
         Where-Object { Test-Path (Join-Path $root $_) }
-# api/data — рабочее хранилище счётчика посещений: живёт только на сервере
-function Test-Uploadable([string]$fullPath) { return $fullPath -notmatch '\\api\\data\\' }
-$files = @('index.html', 'home.css', 'header.css', 'styles.css', 'games.css', '404.html', 'search.html', 'privacy.html',
+# Что НЕ уходит на сервер:
+#   • api/data — рабочее хранилище счётчика посещений, живёт только на сервере;
+#   • generators/_template.html — заготовка новых генераторов (в ней плейсхолдеры [КЛЮЧ],
+#     [СЛАГ] и canonical на несуществующий адрес). В репозитории она нужна, на сайте это
+#     лишняя страница с «index, follow» — 19.09.2026 её убрали с сервера и закрыли залив.
+function Test-Uploadable([string]$fullPath) {
+  return ($fullPath -notmatch '\\api\\data\\') -and ($fullPath -notmatch '\\generators\\_template\.html$')
+}
+$files = @('index.html', 'home.css', 'header.css', 'styles.css', 'games.css', 'seo-article.css', 'ads.css',
+           'print.css', 'bundle.css', 'service-worker.js',
+           '404.html', 'search.html', 'offline.html',
            'sitemap.xml', 'robots.txt', 'manifest.webmanifest', 'favicon.ico', 'og-cover.png') |
          Where-Object { Test-Path (Join-Path $root $_) }
 # .htaccess для sweb лежит в этой папке; на сервер уходит в корень сайта под тем же именем
