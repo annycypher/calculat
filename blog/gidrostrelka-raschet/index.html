@@ -35,9 +35,8 @@
     </style>
     <link rel="preload" href="/fonts/manrope-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/unbounded-600-lat.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="/bundle.css?v=39" />
+    <link rel="stylesheet" href="/bundle.css?v=42" />
   <meta name="theme-color" content="#6d5dfc" />
-    >
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -92,8 +91,9 @@
           <a class="nav-link" href="/calculators/">Калькуляторы</a>
           <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
           <div class="nav-panel" id="navCalc">
+            <a href="/calculators/finance/">Финансы и налоги<b>16</b></a>
             <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
-            <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <a href="/calculators/auto/">Авто<b>4</b></a>
             <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
             <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
             <a class="nav-all" href="/calculators/">Все калькуляторы</a>
@@ -158,7 +158,7 @@
 
   <div class="container section">
     <div class="prose">
->
+<span class="eyebrow">Инженерные расчёты</span>
       <p>Гидрострелка — вертикальный гидроразделитель между насосом котла и насосами контуров. Расчёт диаметра — единственная инженерная задача при её выборе: диаметр меньше расчётного — скорость внутри превышает 0,2 м/с, развязка контуров не работает; диаметр больше — лишние деньги и точка завоздушивания.</p>
 
       <h2>Формула диаметра — через расход и скорость</h2>
@@ -216,15 +216,20 @@
       </details>
 
       <p><a href="/calculators/engineering/gidrostrelka/">Калькулятор гидрострелки</a> · <a href="/calculators/engineering/otoplenie-obem/">Объём системы отопления</a> · <a href="/calculators/engineering/">Инженерные расчёты</a></p>
-    </div>
-  </div>
 
-      <div class="container section">
-        <div class="prose">
-          <h2>Читайте также</h2>
-          <p><a href="/blog/diametr-trub-otopleniya-raschet/">Диаметр труб отопления</a> · <a href="/blog/obem-sistemy-otopleniya-raschet/">Объём системы отопления</a> · <a href="/blog/cirkulyacionnyy-nasos-podbor/">Циркуляционный насос</a> · <a href="/blog/teploventilyator-vulkan/">Тепловентилятор для цеха</a></p>
-        </div>
-      </div>
+<span class="eyebrow">Смотрите также</span>
+<div class="seo-links">
+  <a href="/blog/diametr-trub-otopleniya-raschet/">Диаметр труб отопления</a>
+  <a href="/blog/obem-sistemy-otopleniya-raschet/">Объём системы отопления</a>
+  <a href="/blog/cirkulyacionnyy-nasos-podbor/">Циркуляционный насос</a>
+  <a href="/blog/teploventilyator-vulkan/">Тепловентилятор для цеха</a>
+  <a href="/calculators/engineering/">Инженерные расчёты</a>
+  <a href="/blog/">Все статьи</a>
+</div>
+
+<p class="calc-note">Расчёты носят справочный характер: точные значения уточняйте в проекте, паспортах оборудования и у профильного специалиста. Все вычисления выполняются в браузере и не покидают ваше устройство.</p>
+</div>
+</div>
 
 <section class="reviews" id="reviews-form" data-page="/blog/gidrostrelka-raschet/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
         <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
@@ -254,7 +259,7 @@
           </div>
         </form>
       </section>
-  <script src="/js/reviews.js?v=39" defer></script>
+  <script src="/js/reviews.js?v=42" defer></script>
 </main>
 
 <footer class="site-footer">
@@ -275,6 +280,6 @@
     </div>
   </footer>
 
-<script type="module" src="/js/ui.js?v=39"></script>
+<script defer src="/js/ui-bundle.js?v=42"></script>
 </body>
 </html>
