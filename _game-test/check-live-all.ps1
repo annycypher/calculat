@@ -33,10 +33,11 @@ foreach ($u in $all) {
   $old = ([regex]::Matches($html, '\?v=(?!42)\d+')).Count
   $fcss = if ($html -match '<link[^>]*href="/fonts/fonts\.css') { 'ДА' } else { 'нет' }
   $uiold = if ($html -match '<script[^>]*src="/js/ui\.js') { 'ДА' } else { 'нет' }
+  $rob = if ($html -match '<meta name="robots" content="index') { 'index' } elseif ($html -match '<meta name="robots" content="noindex') { 'noindex' } else { '—' }
   $title = ([regex]::Match($html, '<title>([^<]*)</title>')).Groups[1].Value
   if ($title.Length -gt 52) { $title = $title.Substring(0, 52) + '…' }
-  $rows += [pscustomobject]@{ u = $u; code = $code; bundle = $bundle; old = $old; fcss = $fcss; uiold = $uiold; title = $title }
-  $out.Add(('{0} | {1} | {2} | {3} | {4} | {5} | {6}' -f $u, $code, $bundle, $old, $fcss, $uiold, $title))
+  $rows += [pscustomobject]@{ u = $u; code = $code; bundle = $bundle; old = $old; fcss = $fcss; uiold = $uiold; rob = $rob; title = $title }
+  $out.Add(('{0} | {1} | {2} | {3} | {4} | {5} | {6} | {7}' -f $u, $code, $bundle, $old, $fcss, $uiold, $rob, $title))
 }
 
 $out.Add('')
@@ -45,8 +46,12 @@ $noBundle = @($rows | Where-Object { $_.bundle -notmatch 'v42' -and $_.u -notin 
 $withOld = @($rows | Where-Object { $_.old -gt 0 })
 $withFcss = @($rows | Where-Object { $_.fcss -ne 'нет' })
 $withUiOld = @($rows | Where-Object { $_.uiold -ne 'нет' })
+$robIndex = @($rows | Where-Object { $_.rob -eq 'index' })
+$robNoIndex = @($rows | Where-Object { $_.rob -eq 'noindex' })
 $out.Add('ИТОГ: адресов ' + $rows.Count + ' | не 200: ' + $bad.Count + ' | без обвязки v42: ' + $noBundle.Count +
-         ' | со старыми ?v: ' + $withOld.Count + ' | с тегом fonts.css: ' + $withFcss.Count + ' | с js/ui.js: ' + $withUiOld.Count)
+         ' | со старыми ?v: ' + $withOld.Count + ' | с тегом fonts.css: ' + $withFcss.Count + ' | с js/ui.js: ' + $withUiOld.Count +
+         ' | index, follow: ' + $robIndex.Count + ' | noindex: ' + $robNoIndex.Count)
+if ($robNoIndex.Count) { $robNoIndex | ForEach-Object { $out.Add('  noindex: ' + $_.u) } }
 if ($bad.Count) { $bad | ForEach-Object { $out.Add('  не 200: ' + $_.u + ' → ' + $_.code) } }
 if ($noBundle.Count) { $noBundle | ForEach-Object { $out.Add('  без v42: ' + $_.u + ' → ' + $_.bundle) } }
 if ($withOld.Count) { $withOld | ForEach-Object { $out.Add('  старые ?v: ' + $_.u + ' (' + $_.old + ')') } }
