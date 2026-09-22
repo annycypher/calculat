@@ -42,7 +42,21 @@
     const txt = best.textContent.trim().replace(/\s+/g, ' ');
     out.push('РЕЗУЛЬТАТ ПОСЧИТАН: блок ' + (best.id ? '#' + best.id : '.' + String(best.className).split(' ')[0]) + ', +' + bestGrow + ' символов → «' + txt.slice(0, 90) + '…»');
   } else {
-    out.push('РЕЗУЛЬТАТ: блок не наполнился (проверить вручную)');
+    const filled = boxes.filter((b) => { const t = (b.textContent || '').trim(); return t.length > 40 && /\d[\d\s\u00a0]*[.,]?\d*\s*(₽|€|м²|м³|шт|кг|л)/.test(t); });
+    if (filled.length) {
+      const b = filled[0];
+      out.push('РЕЗУЛЬТАТ ПОСЧИТАН (живой расчёт, кнопки нет): блок ' + (b.id ? '#' + b.id : '.' + String(b.className).split(' ')[0]) + ' → «' + b.textContent.trim().replace(/\s+/g, ' ').slice(0, 90) + '…»');
+    } else {
+      out.push('РЕЗУЛЬТАТ: блок не наполнился (проверить вручную)');
+    }
+  }
+
+  /* Если форма не проходит проверку — назвать виновника: без этого «не посчиталось» ничем не объяснишь. */
+  const anyForm = btn ? btn.closest('form') : document.querySelector('form[id$="Form"]');
+  if (anyForm && !anyForm.checkValidity()) {
+    const bad = Array.from(anyForm.querySelectorAll(':invalid')).map((e) => (e.id || e.name || e.tagName)
+      + ' (value=' + (e.value === '' ? 'пусто' : e.value) + ', min=' + (e.getAttribute('min') || '—') + ', max=' + (e.getAttribute('max') || '—') + ')');
+    out.push('ФОРМА НЕ ПРОХОДИТ ПРОВЕРКУ: ' + bad.join(', '));
   }
 
   out.push('поиск: поле ' + !!document.getElementById('siteSearch'));
