@@ -10,25 +10,29 @@
 //
 // Версия: меняем строку VERSION при выпуске — старый кэш удаляется сам в activate.
 
-const VERSION = 'calcdoc-2026-09-20-16';
+const VERSION = 'calcdoc-2026-09-22-1';
 const OFFLINE = '/offline.html';
 
 /* Оболочка: то, без чего сайт не открыть. Версии (?v=) не указываем — реальные запросы
-   с параметрами версии доберутся в кэш при первом заходе (правила ниже). */
+   с параметрами версии доберутся в кэш при первом заходе (правила ниже).
+   22.09.2026: вместо отдельных файлов кладём два бандла (ui-bundle.js — все страницы,
+   home-bundle.js — главная), home.css больше не файл (инлайн в index.html), а старые
+   файлы ui.js / home.js / tool-of-day.js / print-result.js / share-params.js / share.js /
+   ads.js на страницах не подключаются — в precache они были мусором. */
 const SHELL = [
   '/', OFFLINE, '/manifest.webmanifest', '/favicon.ico',
   '/icons/icon.svg', '/icons/icon-192.png', '/icons/icon-512.png',
-  '/bundle.css', '/home.css', '/games.css', '/print.css', '/og-cover.png',
-  '/js/ui.js', '/js/home.js', '/js/tool-of-day.js', '/js/print-result.js',
-  '/js/share-params.js', '/js/share.js', '/js/ads.js', '/js/popular-page.js',
+  '/bundle.css', '/games.css', '/print.css', '/og-cover.png',
+  '/js/ui-bundle.js', '/js/home-bundle.js', '/js/popular-page.js',
   '/js/search-index.js', '/js/search-results.js'
 ];
 
 /* Куда не лезем вообще: панель, api и служебные папки. */
 const SKIP = ['/admin-panel', '/api/', '/content/', '/backups/', '/sweb-migration/'];
 
-/* Что подхватываем по ходу дела (кэш-первый с тихим обновлением). */
-const STATIC = ['/js/', '/css/', '/styles/', '/fonts/', '/icons/', '/img/', '/media/'];
+/* Что подхватываем по ходу дела (кэш-первый с тихим обновлением).
+   Папок /css/ и /styles/ на сайте нет (стили лежат в корне) — убраны 22.09.2026 как мёртвые. */
+const STATIC = ['/js/', '/fonts/', '/icons/', '/img/', '/media/'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
