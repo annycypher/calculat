@@ -116,3 +116,18 @@ table.tb{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px}
   .glass,.calc,.res,.schedule{box-shadow:none;border:1px solid #ccc;background:#fff!important}
   body{color:#111}.cmp td,.cmp th{color:#111}
 }
+/* Тёмная тема для лендинга досрочного погашения (правка 21.09.2026).
+   Классы приехали из исходного файла и в общей теме не покрыты: панели светлые, текст светлый — сливался. */
+[data-theme='dark'] .glass, [data-theme='dark'] .calc, [data-theme='dark'] .res, [data-theme='dark'] .cmp,
+[data-theme='dark'] .strat label, [data-theme='dark'] .acc, [data-theme='dark'] .acc-h {
+  background: #161831 !important; border-color: #2a2c4d !important; color: #eef0ff !important;
+}
+[data-theme='dark'] .kicker, [data-theme='dark'] .lead, [data-theme='dark'] .hint, [data-theme='dark'] .nm { color: #d7d9ec !important; }
+[data-theme='dark'] .badge { background: #23254a !important; color: #eef0ff !important; }
+[data-theme='dark'] .strat label.sel { background: #23254a !important; border-color: #7d6dff !important; }
+[data-theme='dark'] .strat input, [data-theme='dark'] .f input, [data-theme='dark'] select { background: #171830 !important; color: #eef0ff !important; border-color: #2a2c4d !important; }
+[data-theme='dark'] table, [data-theme='dark'] th, [data-theme='dark'] td { background: transparent !important; color: #d7d9ec !important; border-color: #2a2c4d !important; }
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .glass, html:not([data-theme='light']) .calc, html:not([data-theme='light']) .res { background: #161831 !important; border-color: #2a2c4d !important; color: #eef0ff !important; }
+  html:not([data-theme='light']) .kicker, html:not([data-theme='light']) .lead, html:not([data-theme='light']) .hint { color: #d7d9ec !important; }
+}

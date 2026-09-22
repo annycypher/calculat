@@ -10,12 +10,31 @@ param(
   [switch]$Apply,
   [switch]$DeleteProbe,
   [string]$Ip = '77.222.61.245',
-  [string]$FtpUser = 'novidesiru',
-  [string]$FtpPass = 'CalcDoc2026!',
+  [string]$FtpUser = '',
+  [string]$FtpPass = '',
   [string]$LocalHtaccess = 'C:\Users\krs3d\.cline\data\workspaces\chat\calc_docs\sweb-migration\.htaccess'
 )
 $ErrorActionPreference = 'Stop'
 [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+
+# Логин и пароль FTP берём из sweb-migration\deploy.env (файл в .gitignore, наружу не уходит).
+# Правка 22.09.2026: раньше пароль был вписан прямо здесь, а репозиторий публичный —
+# такие значения нельзя держать в коде. Если нужно передать вручную: -FtpUser / -FtpPass.
+$envFile = Join-Path $PSScriptRoot 'deploy.env'
+if ((-not $FtpUser -or -not $FtpPass) -and (Test-Path $envFile)) {
+  $cfg = @{}
+  Get-Content $envFile | ForEach-Object {
+    $l = $_.Trim()
+    if ($l -and -not $l.StartsWith('#') -and $l.Contains('=')) {
+      $i = $l.IndexOf('='); $cfg[$l.Substring(0, $i).Trim()] = $l.Substring($i + 1).Trim()
+    }
+  }
+  if (-not $FtpUser) { $FtpUser = [string]$cfg['USER'] }
+  if (-not $FtpPass) { $FtpPass = [string]$cfg['PASS'] }
+}
+if (-not $FtpUser -or -not $FtpPass) {
+  throw 'Нужны логин и пароль FTP: заполните USER= и PASS= в sweb-migration\deploy.env или передайте -FtpUser/-FtpPass.'
+}
 
 function Get-Cert([string]$name) {
   $tcp = New-Object System.Net.Sockets.TcpClient

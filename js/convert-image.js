@@ -87,10 +87,15 @@ function processItem(item) {
       const canvas = document.createElement('canvas');
       canvas.width = w; canvas.height = h;
       const ctx = canvas.getContext('2d');
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, w, h);
-      ctx.drawImage(img, 0, 0, w, h);
+      /* Прозрачность: белым заливаем только под JPEG — в нём альфа-канала нет.
+         PNG, GIF и BMP уходят в WebP, который прозрачность поддерживает, поэтому
+         заливка перед отрисовкой превращала прозрачный фон в белый прямоугольник. */
       const ext = outExtFor(file);
+      if (ext === 'jpg') {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, w, h);
+      }
+      ctx.drawImage(img, 0, 0, w, h);
       canvas.toBlob((blob) => {
         URL.revokeObjectURL(url);
         if (!blob) { setStatus('ошибка'); item.done = true; item.processing = false; resolve(); return; }

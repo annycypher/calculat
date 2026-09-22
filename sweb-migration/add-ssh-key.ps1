@@ -14,8 +14,18 @@
 #>
 $ErrorActionPreference = 'Stop'
 $hostName = '77.222.61.245'
-$user = 'novidesiru'
 $port = 22
+# Логин аккаунта sweb берём из sweb-migration\deploy.env — в репозитории он не хранится
+# (правка 22.09.2026: раньше был вписан прямо в код).
+$envFile = Join-Path $PSScriptRoot 'deploy.env'
+$user = ''
+if (Test-Path $envFile) {
+  foreach ($l in Get-Content $envFile) {
+    $line = $l.Trim()
+    if ($line -like 'USER=*') { $user = $line.Substring(5).Trim() }
+  }
+}
+if (-not $user) { throw 'Не найден логин: заполните USER= в sweb-migration\deploy.env' }
 
 $pubFile = Join-Path $PSScriptRoot 'id_sweb.pub'
 $keyFile = Join-Path $PSScriptRoot 'id_sweb'

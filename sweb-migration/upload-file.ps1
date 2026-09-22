@@ -54,6 +54,12 @@ if ($DryRun) { Write-Host 'DryRun: ничего не отправлено.' -For
 foreach ($rel in $Path) {
   $rel = $rel -replace '\\', '/'
   $full = Join-Path $root $rel
+  # Запасной поиск: часть служебных файлов лежит в sweb-migration (например .htaccess —
+  # локально он в этой папке, а на сервер должен уйти в корень сайта под тем же именем).
+  if (-not (Test-Path $full)) {
+    $alt = Join-Path (Join-Path $root 'sweb-migration') $rel.TrimStart('.')
+    if (Test-Path $alt) { $full = $alt } else { $full = Join-Path (Join-Path $root 'sweb-migration') $rel }
+  }
   if (-not (Test-Path $full)) { throw "Не найден локальный файл: $full" }
   $bytes = [IO.File]::ReadAllBytes($full)
   # FTP-сервер sweb иногда отдаёт 553 "File name not allowed" при частых подряд

@@ -173,7 +173,7 @@
 
   /* ---------- 3. Сжатие изображения (Canvas, локально) ---------- */
   const cmpFile=$('cmpFile'), cmpRes=$('cmpRes');
-  let cmpBlob = null, cmpUrl = null;
+  let cmpBlob = null, cmpUrl = null, cmpExt = 'jpg';
   const fmtSize = b => b < 1024 ? b+' Б' : b < 1048576 ? (b/1024).toFixed(1)+' КБ' : (b/1048576).toFixed(2)+' МБ';
 
   cmpFile.addEventListener('change', () => {
@@ -185,9 +185,22 @@
       const MAX = 1600;
       let w = img.width, h = img.height;
       if(Math.max(w,h) > MAX){ const k = MAX/Math.max(w,h); w = Math.round(w*k); h = Math.round(h*k); }
+      /* Формат вывода выбираем по исходнику: JPEG прозрачности не хранит, поэтому для
+         PNG, GIF, BMP и остальных отдаём WebP — он альфа-канал поддерживает. Белая
+         заливка нужна только под JPEG: на прозрачном PNG она давала белый прямоугольник,
+         а без заливки JPEG отдавал бы чёрный фон, поэтому для JPEG она обязательна. */
+      const srcExt = (String(f.name).match(/\.([a-z0-9]+)$/i) || ['', ''])[1].toLowerCase();
+      const isJpeg = srcExt === 'jpg' || srcExt === 'jpeg' || f.type === 'image/jpeg';
+      cmpExt = isJpeg ? 'jpg' : 'webp';
+      /* Кнопка сохранения называет формат: раньше на ней всегда было «Скачать JPG»,
+         а прозрачные картинки теперь сохраняются в WebP. */
+      const dlBtn = $('cmpDl');
+      if (dlBtn) dlBtn.textContent = 'Скачать ' + (cmpExt === 'jpg' ? 'JPG' : 'WebP');
       const c = document.createElement('canvas');
       c.width = w; c.height = h;
-      c.getContext('2d').drawImage(img, 0, 0, w, h);
+      const ctx = c.getContext('2d');
+      if (isJpeg) { ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h); }
+      ctx.drawImage(img, 0, 0, w, h);
       c.toBlob(b => {
         if(!b){ showToast('Не удалось обработать файл'); return; }
         if(cmpUrl) URL.revokeObjectURL(cmpUrl);
@@ -198,7 +211,7 @@
         $('cmpPct').textContent = pct > 0 ? '−' + pct + '%' : 'оптимизирован';
         cmpRes.classList.add('on');
         showToast(pct > 0 ? 'Сжато на ' + pct + '%' : 'Файл готов');
-      }, 'image/jpeg', 0.72);
+      }, cmpExt === 'jpg' ? 'image/jpeg' : 'image/webp', 0.72);
     };
     img.onerror = () => showToast('Формат не поддерживается браузером');
     img.src = URL.createObjectURL(f);
@@ -206,7 +219,7 @@
   $('cmpDl').addEventListener('click', () => {
     if(!cmpBlob){ showToast('Сначала выберите изображение'); return; }
     const a = document.createElement('a');
-    a.href = cmpUrl; a.download = 'compressed.jpg'; a.click();
+    a.href = cmpUrl; a.download = 'compressed.' + cmpExt; a.click();
     showToast('Файл сохранён');
   });
 

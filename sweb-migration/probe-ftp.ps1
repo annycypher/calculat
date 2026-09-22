@@ -36,7 +36,7 @@ if (-not $pass) {
   Write-Host '  MODE=ftp'
   Write-Host '  HOST=77.222.61.245'
   Write-Host '  PORT=21'
-  Write-Host '  USER=novidesiru'
+  Write-Host '  USER=<логин от аккаунта sweb>'
   Write-Host '  PASS=<пароль от аккаунта sweb>'
   Write-Host '  REMOTE_PATH=/www/calc-doc.ru'
   Write-Host ''

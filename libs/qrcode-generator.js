@@ -2,7 +2,7 @@
 // qrcode-generator 1.4.4 (MIT License) — https://github.com/kazuhikoarase/qrcode-generator
 // Размещено локально вместо CDN jsDelivr, чтобы не было внешних запросов.
 // Загрузка на сайте: loadChunkedScript('/libs/qrcode-generator.js') из js/chunkload.js
-// (Cloudflare обрезает прямые ответы > ~24,7 КБ для /libs/* — поэтому через Range-запросы).
+// (прежде — из-за ограничения прежнего хостинга Cloudflare Pages на длину ответа; грузится так же).
 //---------------------------------------------------------------------
 //
 // QR Code Generator for JavaScript

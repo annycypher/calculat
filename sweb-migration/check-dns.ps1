@@ -105,8 +105,10 @@ function Show-State {
   try {
     # "${domain}:80:${swebIp}" — фигурные скобки обязательны, иначе PowerShell
     # прочитает "$domain:80" как переменную области видимости.
-    $code = (curl.exe -s -o NUL -w '%{http_code}' --max-time 15 --resolve "${domain}:80:${swebIp}" "http://${domain}/") | Out-String
-    $body = (curl.exe -s --max-time 15 --resolve "${domain}:80:${swebIp}" "http://${domain}/") | Out-String
+    # -L обязателен: сайт отвечает 301 с http на https (правило в .htaccess), и без перехода
+    # в теле оказывалась страница переадресации — отсюда ложное «заглушка SpaceWeb».
+    $code = (curl.exe -s -L -o NUL -w '%{http_code}' --max-time 20 --resolve "${domain}:80:${swebIp}" "http://${domain}/") | Out-String
+    $body = (curl.exe -s -L --max-time 20 --resolve "${domain}:80:${swebIp}" "http://${domain}/") | Out-String
     if ([string]::IsNullOrWhiteSpace($code.Trim()) -or $code.Trim() -eq '000') {
       Write-Host 'sweb по IP: ответа нет'
     } else {

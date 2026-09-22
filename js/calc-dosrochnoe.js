@@ -2,6 +2,11 @@
 // Калькулятор досрочного погашения — /calculators/finance/dosrochnoe/ (кластер «Досрочное погашение»).
 // Три стратегии: сокращение срока, уменьшение платежа, гибрид «плати по-старому».Считает только браузер.
 // Источник: Досрочное погашение/early-strategy.js (перенесён как есть, логика не менялась).
+// 22.09.2026: исправлена досрочка с первого месяца. Условие month===earlyMonth-1 при
+// earlyMonth=1 не срабатывало (месяца 0 в цикле нет), поэтому «внести с 1-го месяца»
+// не давало эффекта. Теперь при earlyMonth=1 сумма применяется до первого платежа —
+// в simulate() и в отдельном цикле стратегии «уменьшение платежа»; расчёты для
+// остальных месяцев не изменились (проверено сверкой до и после правки).
 
 (function(){
 'use strict';
@@ -23,6 +28,14 @@ function simulate(S,rate,years,earlyAmt,earlyMonth,mode){
   let pay=basePay; // обязательный
   const sched=[];
   const keepPaying=basePay; // сколько фактически вносим (старая сумма)
+  // Досрочка с первого месяца вносится до первого платежа: у цикла нет месяца 0,
+  // поэтому условие month===earlyMonth-1 при earlyMonth=1 не срабатывало и сумма
+  // «внести с 1-го месяца» пропадала. Применяем её здесь, до цикла.
+  if(earlyMonth===1 && earlyAmt>0){
+    balance-=earlyAmt; totalPaid+=earlyAmt;
+    sched.push({m:1,early:earlyAmt});
+    if(mode!=='shorten' && balance>0) pay=annuity(balance,rate,Math.round(years*12));
+  }
   while(balance>0.5 && month<600){
     month++;
     const interest=balance*i;
@@ -33,7 +46,7 @@ function simulate(S,rate,years,earlyAmt,earlyMonth,mode){
     totalPaid+=pay; totalInterest+=interest;
     sched.push({m:month,pay,extra:0,interest,body:principal,bal:Math.max(0,balance)});
     // досрочка на earlyMonth
-    if(month===earlyMonth-1 && earlyAmt>0){
+    if(earlyMonth>1 && month===earlyMonth-1 && earlyAmt>0){
       balance-=earlyAmt; totalPaid+=earlyAmt;
       sched.push({m:month,early:earlyAmt});
       if(mode==='shorten'){ /* срок: платёж прежний, срок пересчитается сам */ }
@@ -74,13 +87,15 @@ function calc(){
     const i=r/100/12;
     let bal=S, m=0, paid=0, int=0;
     let pay=annuity(S,r,Math.round(y*12));
+    // Та же правка, что в simulate(): досрочка с первого месяца вносится до цикла.
+    if(EM===1 && E>0){ bal-=E; paid+=E; if(bal>0) pay=annuity(bal,r,Math.round(y*12)); }
     while(bal>0.5 && m<600){
       m++;
       const interest=bal*i;
       let pr=pay-interest; if(pr<=0)break;
       if(bal<pr)pr=bal;
       bal-=pr; paid+=pay; int+=interest;
-      if(m===EM-1 && E>0){ bal-=E; paid+=E;
+      if(EM>1 && m===EM-1 && E>0){ bal-=E; paid+=E;
         pay=annuity(bal,r,Math.round(y*12)-m); }
     }
     return {months:m,interest:int,finalPay:pay};

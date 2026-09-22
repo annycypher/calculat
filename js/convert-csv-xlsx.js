@@ -4,7 +4,8 @@ const form = document.getElementById('csvForm');
 const fileEl = document.getElementById('file');
 const output = document.getElementById('output');
 
-// Ленивая загрузка библиотеки: большой файл грузим кусками (Cloudflare режет длинные ответы)
+// Ленивая загрузка библиотеки: большой файл грузим кусками (так было из-за ограничения
+// прежнего хостинга, подробнее — js/chunkload.js; на sweb ограничения нет, механизм оставлен)
 import { loadChunkedScript } from '/js/chunkload.js?v=8';
 
 if (form) {
