@@ -1,0 +1,6 @@
+/generators/invoice.html
+/generators/leave-request.html
+/generators/report.html
+/generators/contract.html
+/generators/power-of-attorney.html
+/generators/resume.html
