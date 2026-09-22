@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор досрочного погашения кредита | CalcDoc</title>
+  <meta name="description" content="Калькулятор досрочного погашения кредита и ипотеки: три стратегии — сокращение срока, уменьшение платежа и гибридная. Расчёт экономии по вашим данным." />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/finance/dosrochnoe/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="https://calc-doc.ru/calculators/finance/dosrochnoe/" />
+  <meta property="og:description" content="https://calc-doc.ru/calculators/finance/dosrochnoe/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/calculators/finance/dosrochnoe/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    
+    <link rel="preload" href="/fonts/manrope-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/unbounded-600-lat.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/bundle.css?v=39" />
+    <link rel="stylesheet" href="/calculators/finance/dosrochnoe/dosrochnoe.css?v=39" />
+  <link rel="stylesheet" href="/print.css?v=39" media="print" />
+  <meta name="theme-color" content="#6d5dfc" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Почему «плати по-старому» экономит меньше, чем сокращение срока?","acceptedAnswer":{"@type":"Answer","text":"При сокращении срока вся сумма досрочки идёт в тело сразу, проценты тают быстрее. При «плати по-старому» разница распределяется так же, но обязательный платёж пересчитывается вниз каждый месяц — и часть эффективности уходит на само пересчитывание. Разница — единицы процентов переплаты за весь срок."}},{"@type":"Question","name":"Можно ли применять стратегию несколько раз?","acceptedAnswer":{"@type":"Answer","text":"Да, любое количество раз. Каждый раз обязательный платёж снижается, а вы продолжаете платить прежнюю сумму. Через несколько циклов обязательный платёж может упасть вдвое — а фактическая трата остаться прежней."}},{"@type":"Question","name":"Работает ли стратегия для автокредитов?","acceptedAnswer":{"@type":"Answer","text":"Да, для любых аннуитетных кредитов. Для дифференцированных — работает аналогично, но платёж и так снижается по графику."}}]}</script>
+</head>
+<body>
+    <body>
+    <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+  <nav class="breadcrumbs" style="max-width:900px;margin:18px auto 0;padding:0 16px"><a href="/">Главная</a> → <a href="/calculators/">Калькуляторы</a> → <a href="/calculators/finance/">Финансовые</a> → <span>Досрочное погашение</span></nav>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/"},{"@type":"ListItem","position":2,"name":"Калькуляторы","item":"https://calc-doc.ru/calculators/"},{"@type":"ListItem","position":3,"name":"Финансовые","item":"https://calc-doc.ru/calculators/finance/"},{"@type":"ListItem","position":4,"name":"Досрочное погашение","item":"https://calc-doc.ru/calculators/finance/dosrochnoe/"}]}</script>
+
+  <h1 style="max-width:900px;margin:24px auto 8px;padding:0 16px">Калькулятор досрочного погашения кредита и ипотеки</h1>
+  <p class="lead" style="max-width:900px;margin:0 auto 20px;padding:0 16px">Инструмент считает три стратегии после досрочного платежа: сокращение срока, уменьшение платежа и гибридную схему. Показывает экономию на процентах и сумму, которую можно направить в тело кредита.</p>
+  <!-- ВИД КАЛЬКУЛЯТОРА (вариант «б»): стили в /calculators/finance/dosrochnoe/dosrochnoe.css -->
+<div class="wrap">
+  <span class="badge">Бесплатно · В браузере · Без регистрации</span>
+  
+  <p style="color:var(--mut);font-size:14.5px;margin-bottom:6px">Внесите досрочный платёж с уменьшением платежа, но продолжайте платить прежнюю сумму. Сравнение трёх стратегий: сокращение срока, обычное уменьшение платежа и «плати по-старому».</p>
+
+  <div class="calc glass">
+    <div class="three">
+      <div class="f"><label>Сумма кредита, ₽</label><input type="number" id="sum" value="4000000" min="1"></div>
+      <div class="f"><label>Ставка, % год</label><input type="number" id="rate" value="12" min="0.1" step="0.1"></div>
+      <div class="f"><label>Срок, лет</label><input type="number" id="years" value="20" min="1" max="35"></div>
+    </div>
+    <div class="two">
+      <div class="f"><label>Досрочный платёж, ₽</label><input type="number" id="early" value="200000" min="0"></div>
+      <div class="f"><label>Внести с месяца</label><input type="number" id="earlyMonth" value="6" min="1"></div>
+    </div>
+
+    <div class="strat" role="radiogroup">
+      <label class="rad" id="lbl-shorten">
+        <input type="radio" name="strategy" value="shorten">
+        <span><b>Сократить срок</b>платёж не меняется, срок тает</span>
+      </label>
+      <label class="rad sel" id="lbl-oldpay">
+        <input type="radio" name="strategy" value="oldpay" checked>
+        <span><b>Уменьшить платёж + платить по-старому</b>гибрид: страховка + экономия</span>
+      </label>
+      <label class="rad" id="lbl-reduce">
+        <input type="radio" name="strategy" value="reduce">
+        <span><b>Уменьшить платёж</b>обязательный платёж падает</span>
+      </label>
+    </div>
+
+    <div class="res">
+      <h3>Сравнение стратегий после досрочного платежа</h3>
+      <table class="cmp">
+        <tr>
+          <th>Показатель</th>
+          <th>Сократить срок</th>
+          <th>Плати по-старому</th>
+          <th>Уменьшить платёж</th>
+        </tr>
+        <tr><td>Срок кредита</td><td id="tShortenTerm">—</td><td id="tOldTerm">—</td><td id="tRedTerm">—</td></tr>
+        <tr><td>Переплата (проценты)</td><td id="tShortenInt">—</td><td id="tOldInt">—</td><td id="tRedInt">—</td></tr>
+        <tr><td>Обязательный платёж после</td><td id="tShortenPay">—</td><td id="tOldPay">—</td><td id="tRedPay">—</td></tr>
+        <tr><td>Фактическая трата в мес.</td><td id="tShortenFact">—</td><td id="tOldFact">—</td><td id="tRedFact">—</td></tr>
+        <tr><td>Экономия vs без досрочки</td><td class="c" id="tShortenSave">—</td><td class="c" id="tOldSave">—</td><td class="c" id="tRedSave">—</td></tr>
+      </table>
+      <span class="gold">Стратегия «Плати по-старому» = обязательный платёж снижен, разница автоматически уходит в досрочку каждый месяц</span>
+
+      <div class="chart">
+        <div class="row"><div class="nm">Без досрочки (переплата)</div>
+          <div class="track"><div class="fill" id="bar0" style="background:#c9c2d8"></div></div>
+          <div class="val" id="val0">—</div></div>
+        <div class="row"><div class="nm">Сократить срок</div>
+          <div class="track"><div class="fill" id="bar1" style="background:#7ee2a8"></div></div>
+          <div class="val" id="val1">—</div></div>
+        <div class="row"><div class="nm">Плати по-старому</div>
+          <div class="track"><div class="fill" id="bar2" style="background:#8b5cf6"></div></div>
+          <div class="val" id="val2">—</div></div>
+        <div class="row"><div class="nm">Уменьшить платёж</div>
+          <div class="track"><div class="fill" id="bar3" style="background:#ffd479"></div></div>
+          <div class="val" id="val3">—</div></div>
+      </div>
+    </div>
+
+    <div class="verdict" id="verdict">Введите параметры кредита.</div>
+
+    <button class="toggle" id="schedToggle">▼ Показать график платежей (стратегия «Плати по-старому»)</button>
+    <div class="schedule" id="schedule">
+      <table id="schedTable">
+        <thead><tr><th>Месяц</th><th>Обязат. платёж</th><th>Доплата</th><th>Проценты</th><th>Тело</th><th>Остаток</th></tr></thead>
+        <tbody id="schedBody"></tbody>
+      </table>
+    </div>
+
+    <div class="acts">
+      <button class="btn btn-vio" data-metric-goal="расчёт выполнен" id="copyBtn">Скопировать сравнение</button>
+      <button class="btn" onclick="window.print()">� Печать</button>
+      <button class="btn" id="pdfBtn">⬇ Скачать PDF</button>
+      <button class="btn" id="shareBtn">Поделиться</button>
+    </div>
+  </div>
+
+  <!-- SEO -->
+  <div class="seoc glass">
+    <span class="kicker">Инструкция</span>
+    <h2 style="margin-top:8px">Стратегия «Плати по-старому»: уменьши платёж, но плати как раньше</h2>
+    <p class="lead">Классическая дилемма досрочного погашения: сократить срок (максимальная экономия, но платёж не снижается) или уменьшить платёж (страховка, но экономия меньше). Есть третий путь, объединяющий оба плюса: <b>внести досрочный платёж с уменьшением платежа и продолжать платить прежнюю сумму</b>. Разница между старым и новым платежом автоматически становится досрочным погашением каждый месяц.</p>
+
+    <h3>Как работает механика</h3>
+    <p>Внесли 200 000 ₽ досрочно с опцией «уменьшение платежа». Банк пересчитал аннуитет: обязательный платёж стал 30 200 ₽ вместо 44 000 ₽. Вы продолжаете вносить 44 000 ₽: 30 200 идут по графику, а 13 800 ₽ — автоматическое частичное досрочное погашение. В следующем месяце платёж пересчитывается снова (немного ниже), переплата сверх обязательного растёт — и тело долга тает быстрее, чем при простом уменьшении платежа.</p>
+
+    <div class="opt2">
+      <ul>
+        <li><b>Страховка.</b> Если доход упадёт — обязательный платёж уже снижен, просрочки не будет</li>
+        <li><b>Экономия.</b> Почти как при сокращении срока: разница в 5–15% переплаты, а не в разы</li>
+        <li><b>Гибкость.</b> В трудный месяц можно платить только обязательные 30 200 ₽ — легально, без заявлений</li>
+      </ul>
+    </div>
+
+    <h3>Что нужно для стратегии в вашем банке</h3>
+    <table class="tb">
+      <tr><th>Требование</th><th>Как выполнить</th></tr>
+      <tr><td>Заявление на досрочку с опцией «уменьшение платежа»</td><td>В приложении банка — обычно мгновенно</td></tr>
+      <tr><td>Ежемесячная досрочка «сверх платежа»</td><td>Настроить автоплатёж на сумму разницы или вносить вручную</td></tr>
+      <tr><td>Уведомление банку за N дней</td><td>По 353-ФЗ обычно 30 дней, в приложениях — часто отменено</td></tr>
+    </table>
+    <div class="warn"><b>Проверьте договор:</b> некоторые банки пересчитывают аннуитет только по заявлению, а разницу зачисляют «на будущее» без уменьшения платежа. Если платёж после досрочки не снизился — стратегия не работает, звоните в банк.</div>
+
+    <h3>Типичные ошибки</h3>
+    <p><b>1. Ожидание, что «разница сама уйдёт в досрочку».</b> У большинства банков списывается ровно обязательный платёж — разницу нужно вносить отдельным платежом или автоплатёжем.</p>
+    <p><b>2. Стратегия при нестабильном доходе без резервного фонда.</b> Сначала подушка 3–6 месяцев расходов, потом агрессивная досрочка.</p>
+    <p><b>3. Досрочка вместо погашения дорогих долгов.</b> Если есть кредитка под 30% — гасить сначала её, а не ипотеку под 12%.</p>
+
+      <section class="seoc" style="max-width:900px;margin:28px auto 0;padding:0 16px">
+    <h2>Виды досрочного погашения</h2>
+    <p>Досрочный платёж уменьшает остаток долга. Дальше возможны два направления: сокращение срока при прежнем платеже либо уменьшение платежа при прежнем сроке. От выбора зависит переплата по процентам.</p>
+    <div class="opt2">
+      <p><b>Сокращение срока.</b> Платёж остаётся прежним, срок договора уменьшается. Проценты начисляются меньшее число месяцев — экономия максимальная, но ежемесячная нагрузка не снижается.</p>
+      <p><b>Уменьшение платежа.</b> Срок прежний, банк пересчитывает график и снижает ежемесячную сумму. Свободные деньги остаются в обороте, переплата сокращается слабее.</p>
+      <p><b>Плати по-старому.</b> Платёж формально уменьшен, но вносится прежняя сумма: разница уходит в тело кредита. Требует заявления в банке и дисциплины — пропуск внесения возвращает обычный график.</p>
+      <p><b>Комбинированная схема.</b> Часть суммы направляется на сокращение срока, часть — на снижение платежа. Используется, когда нужна и экономия, и запас по нагрузке.</p>
+    </div>
+  </section>
+  <section class="seoc" style="max-width:900px;margin:26px auto 0;padding:0 16px">
+    <h2>Гибридная стратегия</h2>
+    <div class="warn">
+      <p><b>Смысл схемы.</b> Первое досрочное внесение уменьшает платёж, второе — сокращает срок. Уменьшение платежа даёт запас на случай просадки дохода, сокращение срока возвращает экономию на процентах.</p>
+      <p><b>Порядок действий.</b> Заявление на уменьшение платежа — после первого внесения. Заявление на сокращение срока — после второго. Оба заявления подаются в одном банке и по одному договору.</p>
+      <p><b>Кому подходит.</b> Заёмщику с нестабильным доходом или с планами на крупные расходы: подушка сохраняется, переплата снижается.</p>
+      <p><b>Кому не подходит.</b> При высокой ставке и длинном сроке выгоднее сразу сокращать срок: каждое уменьшение платежа снижает темп погашения основного долга.</p>
+    </div>
+  </section>
+  <section class="seoc" style="max-width:900px;margin:26px auto 0;padding:0 16px">
+    <h2>Что влияет на результат</h2>
+    <div class="opt2">
+      <p><b>Порядок оформления.</b> Досрочное погашение оформляется заявлением в банке или в приложении; часть банков принимает платёж только в дату очередного платежа.</p>
+      <p><b>Дата внесения.</b> Проценты считаются за фактическое число дней пользования деньгами. Внесение в дату платежа снимает спорные начисления переходного периода.</p>
+      <p><b>Досрочно или на вклад.</b> Ставка по вкладу ниже ставки по кредиту — досрочное погашение выгоднее. Обратное соотношение встречается редко и требует отдельного расчёта.</p>
+      <p><b>Подушка безопасности.</b> До досрочного погашения резерв покрывает три-шесть месячных платежей: иначе досрочка обернётся просрочкой при потере дохода.</p>
+    </div>
+  </section>
+  <p class="disc" style="max-width:900px;margin:26px auto 0;padding:0 16px">Расчёт носит справочный характер и не заменяет условия кредитного договора: фактический график, порядок и дату внесения определяет банк. Итоговые суммы зависят от ставки, срока и даты платежа.</p>
+  <h3>Частые вопросы</h3>
+    <div class="acc glass">
+      <button class="acc-h">Почему «плати по-старому» экономит меньше, чем сокращение срока?<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="acc-b"><div class="acc-in acc-pad"><p>При сокращении срока вся сумма досрочки идёт в тело сразу, проценты тают быстрее. При «плати по-старому» разница распределяется так же, но обязательный платёж пересчитывается вниз каждый месяц — и часть эффективности уходит на само пересчитывание. Разница — единицы процентов переплаты за весь срок.</p></div></div>
+    </div>
+    <div class="acc glass">
+      <button class="acc-h">Можно ли применять стратегию несколько раз?<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="acc-b"><div class="acc-in acc-pad"><p>Да, любое количество раз. Каждый раз обязательный платёж снижается, а вы продолжаете платить прежнюю сумму. Через несколько циклов обязательный платёж может упасть вдвое — а фактическая трата остаться прежней.</p></div></div>
+    </div>
+    <div class="acc glass">
+      <button class="acc-h">Работает ли стратегия для автокредитов?<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="acc-b"><div class="acc-in acc-pad"><p>Да, для любых аннуитетных кредитов. Для дифференцированных — работает аналогично, но платёж и так снижается по графику.</p></div></div>
+    </div>
+
+    <div class="links">
+      <a href="/calculators/finance/credit/">← Кредитный калькулятор</a>
+      <a href="/calculators/finance/mortgage/">Ипотечный калькулятор</a>
+      <a href="/calculators/finance/">Все финансовые калькуляторы</a>
+    </div>
+    <p class="disc">Расчёт справочный, не заменяет условия вашего кредитного договора. Порядок досрочного погашения и пересчёта платежей уточняйте в своём банке. Не является финансовой консультацией.</p>
+  </div>
+</div>
+
+
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+<footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+<!--SLOT:ads-ad-bottom-->
+<div class="ad-slot-box ad-bottom" data-ad-slot="ad-bottom" aria-label="Рекламный блок"></div>
+<!--/SLOT:ads-ad-bottom-->
+
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  <script type="module" src="/js/ui.js?v=39"></script>
+  <script type="module" src="/js/calc-dosrochnoe.js?v=39"></script>
+</body>
+</html>
+
+
+
+
