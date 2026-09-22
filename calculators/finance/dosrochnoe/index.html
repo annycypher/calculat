@@ -24,9 +24,9 @@
     
     <link rel="preload" href="/fonts/manrope-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/unbounded-600-lat.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="/bundle.css?v=39" />
-    <link rel="stylesheet" href="/calculators/finance/dosrochnoe/dosrochnoe.css?v=39" />
-  <link rel="stylesheet" href="/print.css?v=39" media="print" />
+    <link rel="stylesheet" href="/bundle.css?v=42" />
+    <link rel="stylesheet" href="/calculators/finance/dosrochnoe/dosrochnoe.css?v=42" />
+  <link rel="stylesheet" href="/print.css?v=42" media="print" />
   <meta name="theme-color" content="#6d5dfc" />
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Почему «плати по-старому» экономит меньше, чем сокращение срока?","acceptedAnswer":{"@type":"Answer","text":"При сокращении срока вся сумма досрочки идёт в тело сразу, проценты тают быстрее. При «плати по-старому» разница распределяется так же, но обязательный платёж пересчитывается вниз каждый месяц — и часть эффективности уходит на само пересчитывание. Разница — единицы процентов переплаты за весь срок."}},{"@type":"Question","name":"Можно ли применять стратегию несколько раз?","acceptedAnswer":{"@type":"Answer","text":"Да, любое количество раз. Каждый раз обязательный платёж снижается, а вы продолжаете платить прежнюю сумму. Через несколько циклов обязательный платёж может упасть вдвое — а фактическая трата остаться прежней."}},{"@type":"Question","name":"Работает ли стратегия для автокредитов?","acceptedAnswer":{"@type":"Answer","text":"Да, для любых аннуитетных кредитов. Для дифференцированных — работает аналогично, но платёж и так снижается по графику."}}]}</script>
 </head>
@@ -47,8 +47,9 @@
           <a class="nav-link" href="/calculators/">Калькуляторы</a>
           <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
           <div class="nav-panel" id="navCalc">
+            <a href="/calculators/finance/">Финансы и налоги<b>16</b></a>
             <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
-            <a href="/calculators/finance/">Финансы и налоги<b>15</b></a>
+            <a href="/calculators/auto/">Авто<b>4</b></a>
             <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
             <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
             <a class="nav-all" href="/calculators/">Все калькуляторы</a>
@@ -252,7 +253,19 @@
       <p><b>Подушка безопасности.</b> До досрочного погашения резерв покрывает три-шесть месячных платежей: иначе досрочка обернётся просрочкой при потере дохода.</p>
     </div>
   </section>
-  <p class="disc" style="max-width:900px;margin:26px auto 0;padding:0 16px">Расчёт носит справочный характер и не заменяет условия кредитного договора: фактический график, порядок и дату внесения определяет банк. Итоговые суммы зависят от ставки, срока и даты платежа.</p>
+  <section class="seoc" style="max-width:900px;margin:26px auto 0;padding:0 16px">
+  <h2>Статьи по досрочному погашению</h2>
+  <div class="links">
+    <a href="/blog/sokrashchenie-sroka-ili-platezh/">Сокращение срока или уменьшение платежа</a>
+    <a href="/blog/gibridnaya-strategiya-dosrochnogo/">Гибридная стратегия досрочного погашения</a>
+    <a href="/blog/dosrochno-ili-na-vklad/">Досрочно погасить или положить на вклад</a>
+    <a href="/blog/kak-oformit-dosrochnoe-pogashenie/">Как оформить досрочное погашение</a>
+    <a href="/blog/kombinirovannoe-dosrochnoe-pogashenie/">Комбинированное досрочное погашение</a>
+    <a href="/blog/nalogovy-vychet-i-dosrochnoe/">Досрочное погашение и налоговый вычет</a>
+  </div>
+</section>
+
+<p class="disc" style="max-width:900px;margin:26px auto 0;padding:0 16px">Расчёт носит справочный характер и не заменяет условия кредитного договора: фактический график, порядок и дату внесения определяет банк. Итоговые суммы зависят от ставки, срока и даты платежа.</p>
   <h3>Частые вопросы</h3>
     <div class="acc glass">
       <button class="acc-h">Почему «плати по-старому» экономит меньше, чем сокращение срока?<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg></button>
@@ -328,8 +341,8 @@
   
   
 
-  <script type="module" src="/js/ui.js?v=39"></script>
-  <script type="module" src="/js/calc-dosrochnoe.js?v=39"></script>
+  <script defer src="/js/ui-bundle.js?v=42"></script>
+  <script type="module" src="/js/calc-dosrochnoe.js?v=42"></script>
 </body>
 </html>
 
