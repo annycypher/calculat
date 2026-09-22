@@ -1,0 +1,21 @@
+=== СВОДКА СКАНА (локально, код панели) ===
+ключи результата: version, at, summary, pages
+  scanned        = 101
+  total          = 101
+  ok             = 80
+  warn           = 5
+  err            = 13
+  avg            = 82
+  worst          = 40
+  dupe_titles    = 0
+  dupe_descs     = 0
+  no_sitemap     = 18
+  service        = 3
+  orphans        = 18
+  stale          = 0
+  no_date        = 18
+  dupes          = 0
+страниц в списке: 101
+поля строки: rel, score, tone, title, description, keyword, keyword_note, own_keyword, h1, words, headings, links, imgs, imgs_no_alt, para_max, lists, density, lastmod, lastmod_days, in_sitemap, link_paths, link_paths_all, dupe_title_pages, dupe_desc_pages, checks, problems, service, inlinks, inlinks_text, inlink_pages
+
+=== РЕАЛЬНЫЕ СТРАНИЦЫ НИЖЕ 80 БАЛЛОВ (в карте, не служебные) ===
