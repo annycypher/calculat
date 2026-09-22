@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ипотечный калькулятор онлайн: платёж и переплата | CalcDoc</title>
+  <meta name="description" content="Ипотечный калькулятор: рассчитайте ежемесячный аннуитетный платёж, переплату по процентам и общую сумму кредита. Бесплатно, без регистрации." />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/finance/mortgage/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Ипотечный калькулятор онлайн — CalcDoc" />
+  <meta property="og:description" content="Рассчитайте платёж по ипотеке и переплату за секунды." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/calculators/finance/mortgage/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <style>
+      /* @font-face инлайном — вместо внешнего файла шрифтов: убирает цепочку HTML → CSS → woff2 (Lighthouse: 937 мс). Начертаний девять — все сохранены. */
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+    </style>
+    <link rel="preload" href="/fonts/manrope-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/unbounded-600-lat.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/bundle.css?v=39" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Ипотечный калькулятор",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Калькуляторы", "item": "https://calc-doc.ru/calculators/" },
+      { "@type": "ListItem", "position": 3, "name": "Финансы и налоги", "item": "https://calc-doc.ru/calculators/finance/" },
+      { "@type": "ListItem", "position": 4, "name": "Ипотека", "item": "https://calc-doc.ru/calculators/finance/mortgage/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Как рассчитать ипотеку самостоятельно?", "acceptedAnswer": { "@type": "Answer", "text": "Возьмите сумму кредита, годовую ставку и срок. Месячная ставка — это годовая, делённая на 12, а число месяцев — срок в годах, умноженный на 12. Дальше формула аннуитета из раздела выше: платёж = S × i × (1 + i)ⁿ ÷ ((1 + i)ⁿ − 1). Проще вбить четыре числа в калькулятор — он посчитает без ошибок в степенях." } },
+      { "@type": "Question", "name": "Что выгоднее: аннуитет или дифференцированный платёж?", "acceptedAnswer": { "@type": "Answer", "text": "По суммарной переплате выгоднее дифференцированная схема: проценты начисляются на остаток долга, который убывает быстрее. По удобству бюджета и размеру одобренного кредита чаще выигрывает аннуитет — поэтому банки России почти всегда предлагают именно его. На практике тип платежа чаще определяется предложением банка, а не выбором заёмщика." } },
+      { "@type": "Question", "name": "Какая сейчас ставка по ипотеке?", "acceptedAnswer": { "@type": "Answer", "text": "Ставка зависит от банка, программы и ключевой ставки ЦБ и пересматривается несколько раз в год. Актуальные цифры смотрите в предложениях банков на дату подачи заявки. Калькулятор посчитает платёж под любую ставку — подставьте свою и сравните варианты." } },
+      { "@type": "Question", "name": "Можно ли погасить ипотеку досрочно?", "acceptedAnswer": { "@type": "Answer", "text": "Да. По закону о потребительском кредите банк не вправе брать за досрочное погашение комиссию или штраф — нужен только предварительный уведомительный срок, обычно до 30 дней. Выгоднее всего гасить в первые годы кредита и с сокращением срока." } },
+      { "@type": "Question", "name": "Какой первоначальный взнос нужен для ипотеки?", "acceptedAnswer": { "@type": "Answer", "text": "Обычно от 15–20% стоимости жилья, по льготным программам условия отличаются. Чем больше взнос, тем меньше сумма кредита, ежемесячный платёж и переплата, а часто и сама ставка." } },
+      { "@type": "Question", "name": "Какой доход нужен для одобрения ипотеки?", "acceptedAnswer": { "@type": "Answer", "text": "Ориентируйтесь на правило «платёж не больше 40–50% дохода». Банк смотрит совокупный доход и учитывает другие кредиты. Точные требования у каждого банка свои." } }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="/print.css?v=39" media="print" />
+</head>
+<body>
+    <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/finance/">Финансы и налоги<b>16</b></a>
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/auto/">Авто<b>4</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/calculators/">Калькуляторы</a> / <a href="/calculators/finance/">Финансы и налоги</a> / Ипотека</nav>
+      <h1>Ипотечный калькулятор</h1>
+      <p class="tool-meta">Рассчитайте аннуитетный ежемесячный платёж, переплату по процентам и общую сумму кредита. Данные не отправляются на сервер.</p>
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/calculators/finance/credit/">Кредитный калькулятор</a>
+          <a href="/calculators/finance/deposit/">Калькулятор вкладов</a>
+          <a href="/calculators/finance/ndfl/">НДФЛ и налоговые вычеты</a>
+          <a href="/calculators/finance/penalty/">Калькулятор пени</a>
+        </div>
+      <p class="calc-note">Расчёты носят справочный характер.</p>
+    </div>
+
+    <!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+<!--SLOT:ads-ad-top-->
+<div class="ad-slot-box ad-top" data-ad-slot="ad-top" aria-label="Рекламный блок"></div>
+<!--/SLOT:ads-ad-top-->
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="mortgageForm">
+            <div class="field">
+              <label for="price">Стоимость недвижимости (₽)</label>
+              <input type="number" id="price" inputmode="decimal" min="0" step="any" placeholder="например 5000000" required value="5000000" />
+            </div>
+            <div class="field">
+              <label for="down">Первоначальный взнос (₽)</label>
+              <input type="number" id="down" inputmode="decimal" min="0" step="any" placeholder="например 1000000" required value="1000000" />
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="years">Срок кредита (лет)</label>
+                <input type="number" id="years" inputmode="numeric" min="1" max="50" step="1" required value="20" />
+              </div>
+              <div class="field">
+                <label for="rate">Ставка (% годовых)</label>
+                <input type="number" id="rate" inputmode="decimal" min="0" step="any" required value="16" />
+              </div>
+            </div>
+            <button data-metric-goal="расчёт" class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+    <!--SLOT:banner-after-tool-->
+    <!--/SLOT:banner-after-tool-->
+    <!--SLOT:ads-after-tool-->
+    <!--/SLOT:ads-after-tool-->
+      <div class="prose">
+        <span class="eyebrow">Расчёт ипотеки</span>
+        <h2>Ипотечный калькулятор: платёж, проценты и переплата</h2>
+        <p class="tool-meta">Обновлено: 16 сентября 2026</p>
+        <p>Ипотека — самый долгий кредит в жизни: ошибка в расчёте даже на один процентный пункт обходится в сотни тысяч рублей. Калькулятор покажет <strong>ежемесячный платёж</strong>, переплату по процентам и общую сумму выплат — ещё <strong>до подписания договора с банком</strong>.</p>
+        <p>Расчёт идёт прямо в браузере: данные не отправляются на сервер, регистрация не нужна. Укажите стоимость жилья, первоначальный взнос, срок и ставку, нажмите «Рассчитать» — и увидите платёж, переплату и общую сумму выплат по своему варианту.</p>
+
+        <span class="eyebrow">Инструкция</span>
+        <h2>Как рассчитать ипотеку онлайн</h2>
+        <p>Для расчёта нужны четыре значения — все они есть в кредитном предложении банка:</p>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span><strong>Стоимость жилья</strong> — цена квартиры или дома по договору</span></div>
+          <div class="seo-step"><b>2</b><span><strong>Первоначальный взнос</strong> — обычно 15–20% стоимости, остальное даёт банк</span></div>
+          <div class="seo-step"><b>3</b><span><strong>Срок</strong> — задаётся в годах, на рынке это обычно 5–30 лет</span></div>
+          <div class="seo-step"><b>4</b><span><strong>Ставка</strong> — годовые проценты из предложения банка</span></div>
+        </div>
+        <p>Сумму кредита калькулятор считает сам: стоимость жилья минус первоначальный взнос. Меняйте значения и нажимайте «Рассчитать» — так за минуту можно сравнить два предложения банков или понять, насколько снизится платёж при увеличении взноса.</p>
+
+        <span class="eyebrow">Виды платежей</span>
+        <h2>Аннуитетный и дифференцированный платёж</h2>
+        <div class="seo-two">
+          <div class="seo-opt">
+            <h3>Аннуитетный <span class="accent">— платёж одинаковый</span></h3>
+            <ul>
+              <li>Каждый месяц одна и та же сумма — проще планировать бюджет</li>
+              <li>В начале срока большая часть платежа уходит на проценты</li>
+              <li>Банк готов одобрить бо́льшую сумму кредита</li>
+              <li><strong>Такой тип платежа у большинства банков России</strong></li>
+            </ul>
+          </div>
+          <div class="seo-opt">
+            <h3>Дифференцированный <span class="accent">— платёж уменьшается</span></h3>
+            <ul>
+              <li>Максимальная нагрузка в первые годы, дальше платёж снижается</li>
+              <li>Общая переплата меньше, чем при аннуитете</li>
+              <li>Нужен подтверждённый доход «с запасом»</li>
+              <li>Встречается редко — таких программ у банков мало</li>
+            </ul>
+          </div>
+        </div>
+        <p>Калькулятор считает <strong>аннуитетный платёж</strong> — по той же формуле, что используют банки, поэтому результат совпадает с условиями кредитного договора с точностью до округления.</p>
+        <span class="eyebrow">Математика</span>
+        <h2>Формула расчёта ипотеки</h2>
+        <p>Ежемесячный аннуитетный платёж вычисляется так:</p>
+        <div class="seo-formula">Платёж = S × i × (1 + i)<sup>n</sup> ÷ ((1 + i)<sup>n</sup> − 1)</div>
+        <p>где <strong>S</strong> — сумма кредита, <strong>i</strong> — месячная процентная ставка (годовая, делённая на 12), <strong>n</strong> — срок в месяцах.</p>
+        <p><strong>Пример.</strong> Кредит 4 000 000 ₽ на 20 лет — это 240 месяцев. При ставке 12% платёж составит <strong>44 043 ₽</strong> в месяц, всего за срок нужно выплатить 10 570 427 ₽, переплата — 6 570 427 ₽. При ставке 16% платёж вырастает до <strong>55 650 ₽</strong>, всего выплат — 13 356 057 ₽, переплата — 9 356 057 ₽. Разница всего в четыре процентных пункта стоит почти 2,8 млн ₽ — такие цифры лучше видеть до сделки, а не в первом графике банка. Проверьте свой вариант в калькуляторе выше.</p>
+
+        <span class="eyebrow">Что влияет на платёж</span>
+        <h2>Взнос, срок, ставка и страховка</h2>
+        <p><strong>Первоначальный взнос.</strong> Чем больше взнос, тем меньше тело кредита, платёж и переплата. Многие банки снижают ставку при взносе от 30–50%, а минимальный взнос на рынке — обычно 15–20% стоимости жилья.</p>
+        <p><strong>Срок кредита.</strong> Длинный срок (25–30 лет) уменьшает ежемесячный платёж, но заметно увеличивает переплату. Короткий — наоборот: платить приходится больше, зато процентов уходит меньше. Разницу в рублях удобно увидеть в калькуляторе, меняя только срок.</p>
+        <p><strong>Ставка.</strong> Зависит от ключевой ставки ЦБ, программы кредитования, срока, размера взноса и условий банка — например, наличия зарплатной карты.</p>
+        <p><strong>Страхование.</strong> Полис жизни и имущества часто даёт скидку к ставке, но его нужно продлевать каждый год — это тоже расход по кредиту. Сравнивайте предложения по полной стоимости кредита, а не только по платежу.</p>
+
+        <span class="eyebrow">Полная стоимость</span>
+        <h2>Переплата по ипотеке: из чего складывается</h2>
+        <p>Реальные расходы по ипотеке больше, чем «ставка × сумма». В полную стоимость входят:</p>
+        <ul>
+          <li><strong>Проценты банку</strong> — основная часть переплаты, именно её показывает калькулятор;</li>
+          <li><strong>страхование</strong> — жизнь и имущество, примерно 0,5–1,5% от суммы в год на всё время кредита;</li>
+          <li><strong>оценка квартиры</strong> — несколько тысяч рублей, её требует банк;</li>
+          <li><strong>госпошлина и регистрация сделки</strong>;</li>
+          <li><strong>дополнительные расходы</strong> — аккредитив или ячейка, услуги нотариуса в отдельных случаях.</li>
+        </ul>
+        <p>Чтобы честно сравнить два предложения, смотрите не рекламную ставку, а <strong>полную стоимость кредита (ПСК)</strong> — банк обязан указать её в договоре.</p>
+        <span class="eyebrow">Экономия</span>
+        <h2>Досрочное погашение ипотеки</h2>
+        <p>По закону о потребительском кредите банк <strong>не вправе брать за досрочное погашение комиссию или штраф</strong> — достаточно уведомить банк заранее, обычно за 30 дней, точный срок указан в договоре.</p>
+        <p>При аннуитетной схеме досрочный платёж направляют либо на <strong>сокращение срока</strong> — это максимальная экономия на процентах, либо на <strong>уменьшение платежа</strong> — это снижение ежемесячной нагрузки. Первый вариант выгоднее по переплате, второй комфортнее в быту. Заметнее всего работают взносы в первые годы кредита, когда доля процентов в платеже максимальна.</p>
+
+        <span class="eyebrow">Господдержка</span>
+        <h2>Льготные программы ипотеки</h2>
+        <p>Государственные программы позволяют взять ипотеку по ставке ниже рыночной — разницу банку компенсирует бюджет. Среди известных направлений: <strong>семейная ипотека</strong> для семей с детьми, <strong>IT-ипотека</strong> для сотрудников аккредитованных компаний, <strong>дальневосточная и арктическая</strong> программы, а также региональные льготы.</p>
+        <p class="note"><strong>Важно:</strong> условия и ставки льготных программ пересматривают несколько раз в год — уточняйте актуальные параметры на дату подачи заявки. Калькулятор примет любую ставку: подставьте цифры из конкретной программы и увидите платёж.</p>
+
+        <span class="eyebrow">Доход</span>
+        <h2>Какой доход нужен для ипотеки</h2>
+        <p>Обычное правило банков: платёж по ипотеке не должен превышать <strong>40–50% подтверждённого дохода</strong>. При платеже 40 000 ₽ банк, скорее всего, захочет видеть доход от 80 000–100 000 ₽ в месяц. Учитываются и другие кредиты, и число иждивенцев.</p>
+        <p>Практичный приём: посчитайте платёж в калькуляторе и умножьте его на два — получится ориентир дохода, который стоит подтверждать справками при подаче заявки.</p>
+    <!--SLOT:banner-mid-->
+    <!--/SLOT:banner-mid-->
+    <!--SLOT:ads-mid-->
+    <!--/SLOT:ads-mid-->
+        <span class="eyebrow">Вопросы и ответы</span>
+        <h2>Частые вопросы об ипотеке</h2>
+
+        <details class="seo-faq">
+          <summary>Как рассчитать ипотеку самостоятельно?</summary>
+          <div class="seo-faq-b"><p>Возьмите сумму кредита, годовую ставку и срок. Месячная ставка — это годовая, делённая на 12, а число месяцев — срок в годах, умноженный на 12. Дальше формула аннуитета из раздела выше: платёж = S × i × (1 + i)ⁿ ÷ ((1 + i)ⁿ − 1). Проще вбить четыре числа в калькулятор — он посчитает без ошибок в степенях.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Что выгоднее: аннуитет или дифференцированный платёж?</summary>
+          <div class="seo-faq-b"><p>По суммарной переплате выгоднее дифференцированная схема: проценты начисляются на остаток долга, который убывает быстрее. По удобству бюджета и размеру одобренного кредита чаще выигрывает аннуитет — поэтому банки России почти всегда предлагают именно его. На практике тип платежа чаще определяется предложением банка, а не выбором заёмщика.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Какая сейчас ставка по ипотеке?</summary>
+          <div class="seo-faq-b"><p>Ставка зависит от банка, программы и ключевой ставки ЦБ и пересматривается несколько раз в год. Актуальные цифры смотрите в предложениях банков на дату подачи заявки. Калькулятор посчитает платёж под любую ставку — подставьте свою и сравните варианты.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Можно ли погасить ипотеку досрочно?</summary>
+          <div class="seo-faq-b"><p>Да. По закону о потребительском кредите банк не вправе брать за досрочное погашение комиссию или штраф — нужен только предварительный уведомительный срок, обычно до 30 дней. Выгоднее всего гасить в первые годы кредита и с сокращением срока.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Какой первоначальный взнос нужен для ипотеки?</summary>
+          <div class="seo-faq-b"><p>Обычно от 15–20% стоимости жилья, по льготным программам условия отличаются. Чем больше взнос, тем меньше сумма кредита, ежемесячный платёж и переплата, а часто и сама ставка.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Какой доход нужен для одобрения ипотеки?</summary>
+          <div class="seo-faq-b"><p>Ориентируйтесь на правило «платёж не больше 40–50% дохода». Банк смотрит совокупный доход и учитывает другие кредиты. Точные требования у каждого банка свои.</p></div>
+        </details>
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/calculators/finance/credit/">Кредитный калькулятор</a>
+          <a href="/calculators/finance/deposit/">Калькулятор вкладов</a>
+          <a href="/calculators/finance/ndfl/">НДФЛ и налоговые вычеты</a>
+          <a href="/calculators/finance/penalty/">Калькулятор пени</a>
+        </div>
+
+        <p class="calc-note">Расчёты носят справочный характер и не являются офертой или индивидуальной кредитной оценкой. Точные условия уточняйте в банке. Данные калькулятора не покидают ваш браузер.</p>
+      </div>
+    </div>
+
+    <!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/calculators/finance/mortgage/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/calculators/finance/mortgage/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=39" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+  </main>
+
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  <!--SLOT:ads-ad-bottom-->
+<div class="ad-slot-box ad-bottom" data-ad-slot="ad-bottom" aria-label="Рекламный блок"></div>
+<!--/SLOT:ads-ad-bottom-->
+
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=40"></script>
+  <script type="module" src="/js/calc-mortgage.js?v=39"></script>
+</body>
+</html>
+
+
+
+
+

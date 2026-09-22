@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Таможенный калькулятор авто: пошлина и утильсбор | CalcDoc</title>
+  <meta name="description" content="Расчёт ввоза автомобиля: пошлина по сетке, утильсбор базовый и льготный, сбор за оформление, акциз и НДС, итог в рублях и евро, стоимость под ключ." />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/auto/customs/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Таможенный калькулятор авто — CalcDoc" />
+  <meta property="og:description" content="Пошлина, утильсбор, акциз и НДС для физлица и юрлица: итог в рублях и евро и сравнение с ценой аналога в России." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/calculators/auto/customs/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <style>
+      /* @font-face инлайном — вместо внешнего файла шрифтов: убирает цепочку HTML → CSS → woff2 (Lighthouse: 937 мс). Начертаний девять — все сохранены. */
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+    </style>
+    <link rel="preload" href="/fonts/manrope-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/unbounded-600-lat.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/bundle.css?v=39" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"SoftwareApplication", "name":"Таможенный калькулятор автомобиля", "applicationCategory":"FinanceApplication", "operatingSystem":"Web", "offers":{ "@type":"Offer","price":"0","priceCurrency":"RUB" } }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Калькуляторы","item":"https://calc-doc.ru/calculators/" }, { "@type":"ListItem","position":3,"name":"Авто","item":"https://calc-doc.ru/calculators/auto/" }, { "@type":"ListItem","position":4,"name":"Таможенный расчёт","item":"https://calc-doc.ru/calculators/auto/customs/" } ] }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Сколько стоит растаможить автомобиль в 2026 году?", "acceptedAnswer": { "@type": "Answer", "text": "Итог складывается из пошлины, утилизационного сбора и сбора за оформление, а для коммерческого ввоза добавляются акциз и НДС. Пошлина считается по сетке ФТС: ставка зависит от возраста автомобиля и объёма двигателя. Свои ставки подставьте в калькулятор: он посчитает итог в рублях и евро." } },
+      { "@type": "Question", "name": "Что такое утильсбор и чем отличается льготный?", "acceptedAnswer": { "@type": "Answer", "text": "Утилизационный сбор платят при ввозе автомобиля: он компенсирует будущую утилизацию. Льготный (низкий) тариф применяется к машинам для личного пользования при выполнении установленных критериев — по объёму двигателя, мощности и использованию. Для коммерческого ввоза действует базовый (высокий) тариф, и он в разы больше. Точные суммы берите из постановления Правительства РФ и калькулятора ФТС." } },
+      { "@type": "Question", "name": "Выгодно ли ввозить автомобиль старше 5 лет?", "acceptedAnswer": { "@type": "Answer", "text": "Обычно нет: к старым машинам применяется высокая ставка пошлины за см³, а льготный утильсбор для них ограничен, поэтому суммарные платежи могут приблизиться к цене самой машины. Самая выгодная зона ввоза — возраст от 3 до 5 лет: ставки ниже, а утильсбор ещё льготный. Считайте конкретную машину в калькуляторе: разница между возрастными категориями измеряется сотнями тысяч рублей." } },
+      { "@type": "Question", "name": "Нужен ли таможенный брокер?", "acceptedAnswer": { "@type": "Answer", "text": "Юридически можно оформить ввоз самому через личный кабинет участника ВЭД, но на практике ошибка в декларации стоит дороже услуг брокера: неверная классификация или заниженная стоимость приводят к доначислению платежей, пеням и корректировке декларации. Брокер ведёт расчёт платежей, готовит документы и отвечает за сроки, поэтому его услуги окупаются на первой же сложности." } },
+      { "@type": "Question", "name": "Какие ещё расходы будут кроме платежей?", "acceptedAnswer": { "@type": "Answer", "text": "Доставка до границы и по России, страховка груза, услуги брокера или СВХ, получение СБКТС (свидетельство безопасности конструкции) и оформление ЭПТС, постановка на учёт. Эти суммы калькулятор складывает в блоке «под ключ»: на практике они добавляют к платежам заметную долю, поэтому сравнивать ввоз с ценой машины в России нужно именно по итогу «под ключ»." } },
+      { "@type": "Question", "name": "Какие риски у ввоза автомобиля?", "acceptedAnswer": { "@type": "Answer", "text": "Главные: таможня может не согласиться с заявленной стоимостью и насчитать платежи от своей оценки; пробег и состояние по фотографиям сильно расходятся с реальностью; ремонт и запчасти ждать дольше; гарантии производителя на ввезённую машину может не быть. Поэтому считайте запас 10–15% на непредвиденное и проверяйте историю автомобиля до оплаты." } }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="/print.css?v=39" media="print" />
+</head>
+<body>
+    <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/finance/">Финансы и налоги<b>16</b></a>
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/auto/">Авто<b>4</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+        <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/calculators/">Калькуляторы</a> / <a href="/calculators/auto/">Авто</a> / Таможенный расчёт</nav>
+      <h1>Таможенный калькулятор автомобиля</h1>
+      <p class="tool-meta">Посчитайте платежи при ввозе: пошлина, утильсбор, сбор за оформление, а для коммерческого ввоза — акциз и НДС. Итог в рублях и евро и стоимость «под ключ».</p>
+      <p class="calc-note">Ориентировочный расчёт: ставки и утильсбор берутся из официальных источников и вводятся вручную. Не основание для оплаты — точный расчёт делают таможенный брокер и калькулятор ФТС.</p>
+    </div>
+<!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+<!--SLOT:ads-ad-top-->
+<div class="ad-slot-box ad-top" data-ad-slot="ad-top" aria-label="Рекламный блок"></div>
+<!--/SLOT:ads-ad-top-->
+
+        <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="customsForm">
+            <div class="auto-modes" role="tablist" aria-label="Кто ввозит автомобиль">
+              <button type="button" class="auto-mode is-on" role="tab" aria-selected="true" data-mode="person">Физлицо</button>
+              <button type="button" class="auto-mode" role="tab" aria-selected="false" data-mode="company">Юрлицо или ИП</button>
+            </div>
+
+            <p class="hint" style="margin:0 0 12px"><b>Автомобиль</b></p>
+            <div class="row2">
+              <div class="field">
+                <label for="age">Возраст</label>
+                <select id="age">
+                  <option value="lt3">до 3 лет</option>
+                  <option value="3-5" selected>от 3 до 5 лет</option>
+                  <option value="gt5">старше 5 лет</option>
+                </select>
+                <div class="hint">Возрастная категория меняет и ставку пошлины, и тариф утильсбора.</div>
+              </div>
+              <div class="field">
+                <label for="vol">Объём двигателя (см³)</label>
+                <input type="number" id="vol" inputmode="numeric" min="0" step="1" value="1600" />
+              </div>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="price">Стоимость автомобиля (€)</label>
+                <input type="number" id="price" inputmode="decimal" min="0" step="any" value="10000" />
+              </div>
+              <div class="field">
+                <label for="rate">Курс евро (₽ за €)</label>
+                <input type="number" id="rate" inputmode="decimal" min="0" step="0.01" placeholder="курс ЦБ" />
+                <div class="hint">Курс Банка России на дату расчёта; в примере на странице условно взят 100 ₽ за евро.</div>
+              </div>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="hp">Мощность (л.с.)</label>
+                <input type="number" id="hp" inputmode="numeric" min="0" step="1" value="150" />
+                <div class="hint">Нужна для акциза при коммерческом ввозе.</div>
+              </div>
+              <div class="field">
+                <label for="fee">Сбор за оформление (₽)</label>
+                <input type="number" id="fee" inputmode="decimal" min="0" step="any" />
+                <div class="hint">Сбор за таможенные операции — из тарифа ФТС.</div>
+              </div>
+            </div>
+            <div class="field">
+              <label for="analog">Цена аналога в России (₽)</label>
+              <input type="number" id="analog" inputmode="decimal" min="0" step="any" />
+              <div class="hint">Сколько стоит похожая машина здесь: так видно, выгоден ли ввоз.</div>
+            </div>
+
+            <div class="auto-pane" data-pane="person">
+              <p class="hint" style="margin:6px 0 12px"><b>Физлицо: платежи при ввозе для личного пользования</b></p>
+              <div class="field">
+                <label for="dutyr">Пошлина: ставка (€ за см³)</label>
+                <input type="number" id="dutyr" inputmode="decimal" min="0" step="0.01" placeholder="из сетки ФТС" />
+                <div class="hint">Ставку по сетке для своего возраста и объёма смотрите в калькуляторе ФТС или у брокера: в CONFIG сетка ждёт сверки.</div>
+              </div>
+              <div class="row2">
+                <div class="field">
+                  <label for="utilb">Утильсбор базовый (₽)</label>
+                  <input type="number" id="utilb" inputmode="decimal" min="0" step="any" />
+                </div>
+                <div class="field">
+                  <label for="utill">Утильсбор льготный (₽)</label>
+                  <input type="number" id="utill" inputmode="decimal" min="0" step="any" />
+                  <div class="hint">Льготный тариф — для личного пользования при выполнении критериев.</div>
+                </div>
+              </div>
+              <p class="hint" style="margin:6px 0 12px"><b>Под ключ</b> — расходы вокруг ввоза</p>
+              <div class="row2">
+                <div class="field">
+                  <label for="delivery">Доставка (₽)</label>
+                  <input type="number" id="delivery" inputmode="decimal" min="0" step="any" />
+                </div>
+                <div class="field">
+                  <label for="broker">Брокер и СВХ (₽)</label>
+                  <input type="number" id="broker" inputmode="decimal" min="0" step="any" />
+                </div>
+              </div>
+              <div class="field">
+                <label for="sbkts">СБКТС и ЭПТС (₽)</label>
+                <input type="number" id="sbkts" inputmode="decimal" min="0" step="any" />
+              </div>
+            </div>
+<div class="auto-pane" data-pane="company" hidden>
+              <p class="hint" style="margin:6px 0 12px"><b>Юрлицо или ИП: коммерческий ввоз</b></p>
+              <div class="row2">
+                <div class="field">
+                  <label for="dutyp">Пошлина (% от стоимости)</label>
+                  <input type="number" id="dutyp" inputmode="decimal" min="0" step="0.01" />
+                  <div class="hint">Ставку для своего возраста и объёма берите из сетки ФТС.</div>
+                </div>
+                <div class="field">
+                  <label for="excise">Акциз (₽ за л.с.)</label>
+                  <input type="number" id="excise" inputmode="decimal" min="0" step="any" />
+                  <div class="hint">Ставка зависит от мощности — НК РФ, глава 22.</div>
+                </div>
+              </div>
+              <div class="row2">
+                <div class="field">
+                  <label for="vat">НДС (%)</label>
+                  <input type="number" id="vat" inputmode="decimal" min="0" step="0.01" value="20" />
+                  <div class="hint">Ставка из НК РФ, глава 21; 20% — ориентир примера, сверить.</div>
+                </div>
+                <div class="field">
+                  <label for="utilc">Утильсбор коммерческий (₽)</label>
+                  <input type="number" id="utilc" inputmode="decimal" min="0" step="any" />
+                  <div class="hint">Базовый тариф: льготный к коммерческому ввозу не применяется.</div>
+                </div>
+              </div>
+              <p class="hint" style="margin:6px 0 0">НДС считается от суммы стоимости, пошлины и акциза — поэтому растёт вместе с пошлиной.</p>
+            </div>
+          </form>
+          <div class="auto-btns">
+            <button type="button" class="btn btn-glass" id="customsCopy">📋 Скопировать</button>
+            <button type="button" class="btn btn-glass" id="customsShare">🔗 Скопировать ссылку с моими цифрами</button>
+            <button type="button" class="btn btn-glass" id="customsPrint" data-print="btn">🖨 Распечатать результат</button>
+          </div>
+          <p class="calc-note" style="margin-top:12px">Ставки пошлин, утильсбор и акциз калькулятор не подставляет: они вводятся вручную из официальных источников (ФТС, постановление об утильсборе, НК РФ). Точный расчёт — брокер и калькулятор ФТС.</p>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+    <!--SLOT:banner-after-tool-->
+    <!--/SLOT:banner-after-tool-->
+    <!--SLOT:ads-after-tool-->
+    <!--/SLOT:ads-after-tool-->
+      <div class="prose">
+        <span class="eyebrow">Ввоз авто</span>
+        <h2>Таможенный калькулятор автомобиля: пошлина, утильсбор и стоимость под ключ</h2>
+        <p class="tool-meta">Обновлено: 20 сентября 2026</p>
+        <p>Таможенный калькулятор считает, во сколько обойдётся ввоз автомобиля: пошлина по сетке, утилизационный сбор (базовый и льготный), сбор за оформление, а для коммерческого ввоза — ещё акциз и НДС. Итог показывается в рублях и евро, а блок «под ключ» добавляет доставку, брокера и оформление документов.</p>
+        <p>Важный принцип: ставки таможенных сеток и суммы утильсбора — регулируемые величины. Калькулятор их не выдумывает и не подставляет: вы берёте значение из сетки ФТС и постановления об утильсборе и вписываете в поля. Зато арифметика — пошлины, НДС, сравнение с ценой аналога в России — считается точно и мгновенно.</p>
+
+        <span class="eyebrow">Инструкция</span>
+        <h2>Как посчитать растаможку</h2>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span><strong>Выберите, кто ввозит</strong>: для физлица и юрлица правила и платежи разные — табы над формой</span></div>
+          <div class="seo-step"><b>2</b><span><strong>Укажите возраст и объём</strong> — от них зависят и ставка пошлины, и тариф утильсбора</span></div>
+          <div class="seo-step"><b>3</b><span><strong>Впишите стоимость и курс</strong> — стоимость в евро, курс берите с сайта Банка России на дату расчёта</span></div>
+          <div class="seo-step"><b>4</b><span><strong>Возьмите ставки из официальных источников</strong>: пошлина — сетка ФТС, утильсбор — постановление Правительства РФ, акциз и НДС — НК РФ</span></div>
+          <div class="seo-step"><b>5</b><span><strong>Сравните с Россией</strong> — впишите цену похожей машины, и калькулятор скажет, выгоден ли ввоз и на сколько</span></div>
+        </div>
+
+        <span class="eyebrow">Платежи</span>
+        <h2>Из чего состоит ввоз автомобиля</h2>
+        <p>На таможне платят четыре вида платежей, и у каждого своя логика:</p>
+        <div class="seo-two">
+          <div class="seo-opt">
+            <h3>Пошлина</h3>
+            <p>Для физлиц считается по сетке «за кубический сантиметр»: ставка зависит от возраста и объёма двигателя. Для юрлиц — процентом от таможенной стоимости. Логика простая: государство защищает собственный автопром, поэтому ставки растут для дешёвых и старых машин и падают для свежих.</p>
+          </div>
+          <div class="seo-opt">
+            <h3>Утилизационный сбор</h3>
+            <p>Платят один раз при ввозе: сбор компенсирует будущую утилизацию автомобиля. Есть два тарифа — базовый (высокий) и льготный (низкий) для машин личного пользования при выполнении установленных критериев. Разница между ними измеряется сотнями тысяч рублей, поэтому критерии проверяют до покупки.</p>
+          </div>
+        </div>
+        <div class="seo-two">
+          <div class="seo-opt">
+            <h3>Акциз и НДС — только для юрлиц</h3>
+            <p>Акциз считается от мощности: чем больше лошадиных сил, тем выше ставка за каждую. НДС начисляют на сумму таможенной стоимости, пошлины и акциза — то есть он растёт вместе с пошлиной. При личном ввозе физлицом этих платежей нет.</p>
+          </div>
+          <div class="seo-opt">
+            <h3>Сбор за оформление и «под ключ»</h3>
+            <p>Сбор за таможенные операции берут за оформление декларации. Дальше начинаются расходы вокруг ввоза: доставка, СВХ и брокер, СБКТС и ЭПТС, постановка на учёт. Они не платежи, но без них машину не поставить на учёт, и именно они съедают разницу между «дешёво на аукционе» и реальной ценой.</p>
+          </div>
+        </div>
+
+        <span class="eyebrow">Возраст</span>
+        <h2>Почему 3–5 лет — «золотая зона» ввоза</h2>
+        <table class="seo-table">
+          <thead><tr><th>Возраст</th><th>Ставка пошлины</th><th>Утильсбор</th></tr></thead>
+          <tbody>
+            <tr><td>до 3 лет</td><td>самая высокая: машина ещё «новая» по документам</td><td>базовый или льготный по критериям</td></tr>
+            <tr><td>3–5 лет</td><td>умеренная — самая выгодная категория</td><td>льготный для личного пользования</td></tr>
+            <tr><td>старше 5 лет</td><td>высокая за каждый см³</td><td>льготный ограничен сроком владения и критериями</td></tr>
+          </tbody>
+        </table>
+        <p>Возраст считается не по году выпуска в объявлениях, а по документам на момент оформления — поэтому перед покупкой проверяйте дату выпуска и дату первой регистрации: несколько месяцев могут перевести машину в другую категорию и изменить платежи на сотни тысяч рублей.</p>
+
+        <span class="eyebrow">Ошибки</span>
+        <h2>Частые ошибки при ввозе</h2>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span><strong>Верить объявлению, а не документам</strong>: таможня считает по своей оценке стоимости, и если она выше вашей, платежи вырастут</span></div>
+          <div class="seo-step"><b>2</b><span><strong>Забыть утильсбор</strong> — самая дорогая «забывчивость»: у коммерческого тарифа суммы измеряются миллионами</span></div>
+          <div class="seo-step"><b>3</b><span><strong>Экономить на брокере</strong>: ошибка в декларации стоит дороже услуг — доначисление, пени и корректировка</span></div>
+          <div class="seo-step"><b>4</b><span><strong>Не проверить возраст по документам</strong>: пара месяцев меняет категорию и цену платежей</span></div>
+          <div class="seo-step"><b>5</b><span><strong>Не посчитать расходы вокруг</strong>: доставка, СБКТС, ЭПТС и учёт съедают часть выгоды</span></div>
+        </div>
+        <h2>СБКТС и ЭПТС: что это и зачем</h2>
+        <p><strong>СБКТС</strong> — свидетельство о безопасности конструкции транспортного средства: его выдаёт аккредитованная лаборатория после осмотра, без него машину не зарегистрируют. <strong>ЭПТС</strong> — электронный паспорт транспортного средства: он оформляется в системе и заменяет бумажный ПТС. Оба документа делают до постановки на учёт, и оба стоят денег — их сумма входит в блок «под ключ».</p>
+
+        <span class="eyebrow">Пример</span>
+        <h2>Пример расчёта: 3–5 лет, 1 600 см³, 10 000 €</h2>
+        <p>Сверено с калькулятором на этой странице. Возраст — 3–5 лет, объём 1 600 см³, стоимость 10 000 €, курс 100 ₽ за евро. Ставка пошлины ниже — <strong>условная, для арифметики</strong>: свою возьмите из сетки ФТС.</p>
+        <div class="seo-formula">2,4 € × 1 600 см³ = 3 840 € = 384 000 ₽ при курсе 100 ₽/€</div>
+        <ul>
+          <li><strong>Пошлина</strong> — 3 840 €, то есть 384 000 ₽; в калькуляторе это строка «Пошлина (2,40 € за см³ × 1600 см³)».</li>
+          <li><strong>Утильсбор</strong> — подставьте базовый и льготный из постановления: калькулятор посчитает итог с льготным, если он заполнен, и покажет разницу с базовым.</li>
+          <li><strong>Итог платежей</strong> — пошлина + утильсбор + сбор за оформление; рядом калькулятор сразу показывает ту же сумму в евро.</li>
+          <li><strong>Под ключ</strong> — плюс доставка, брокер и СБКТС с ЭПТС: сравнивайте этот итог с ценой аналога в России, а не с ценой машины за границей.</li>
+        </ul>
+
+        <span class="eyebrow">Вопросы</span>
+        <h2>Частые вопросы о ввозе автомобиля</h2>
+        <details class="seo-faq">
+          <summary>Сколько стоит растаможить автомобиль в 2026 году?</summary>
+          <div class="seo-faq-b"><p>Итог складывается из пошлины, утилизационного сбора и сбора за оформление, а для коммерческого ввоза добавляются акциз и НДС. Пошлина считается по сетке ФТС: ставка зависит от возраста автомобиля и объёма двигателя. Свои ставки подставьте в калькулятор: он посчитает итог в рублях и евро.</p></div>
+        </details>
+        <details class="seo-faq">
+          <summary>Что такое утильсбор и чем отличается льготный?</summary>
+          <div class="seo-faq-b"><p>Утилизационный сбор платят при ввозе автомобиля: он компенсирует будущую утилизацию. Льготный (низкий) тариф применяется к машинам для личного пользования при выполнении установленных критериев — по объёму двигателя, мощности и использованию. Для коммерческого ввоза действует базовый (высокий) тариф, и он в разы больше. Точные суммы берите из постановления Правительства РФ и калькулятора ФТС.</p></div>
+        </details>
+        <details class="seo-faq">
+          <summary>Выгодно ли ввозить автомобиль старше 5 лет?</summary>
+          <div class="seo-faq-b"><p>Обычно нет: к старым машинам применяется высокая ставка пошлины за см³, а льготный утильсбор для них ограничен, поэтому суммарные платежи могут приблизиться к цене самой машины. Самая выгодная зона ввоза — возраст от 3 до 5 лет: ставки ниже, а утильсбор ещё льготный. Считайте конкретную машину в калькуляторе: разница между возрастными категориями измеряется сотнями тысяч рублей.</p></div>
+        </details>
+        <details class="seo-faq">
+          <summary>Нужен ли таможенный брокер?</summary>
+          <div class="seo-faq-b"><p>Юридически можно оформить ввоз самому через личный кабинет участника ВЭД, но на практике ошибка в декларации стоит дороже услуг брокера: неверная классификация или заниженная стоимость приводят к доначислению платежей, пеням и корректировке декларации. Брокер ведёт расчёт платежей, готовит документы и отвечает за сроки, поэтому его услуги окупаются на первой же сложности.</p></div>
+        </details>
+        <details class="seo-faq">
+          <summary>Какие ещё расходы будут кроме платежей?</summary>
+          <div class="seo-faq-b"><p>Доставка до границы и по России, страховка груза, услуги брокера или СВХ, получение СБКТС (свидетельство безопасности конструкции) и оформление ЭПТС, постановка на учёт. Эти суммы калькулятор складывает в блоке «под ключ»: на практике они добавляют к платежам заметную долю, поэтому сравнивать ввоз с ценой машины в России нужно именно по итогу «под ключ».</p></div>
+        </details>
+        <details class="seo-faq">
+          <summary>Какие риски у ввоза автомобиля?</summary>
+          <div class="seo-faq-b"><p>Главные: таможня может не согласиться с заявленной стоимостью и насчитать платежи от своей оценки; пробег и состояние по фотографиям сильно расходятся с реальностью; ремонт и запчасти ждать дольше; гарантии производителя на ввезённую машину может не быть. Поэтому считайте запас 10–15% на непредвиденное и проверяйте историю автомобиля до оплаты.</p></div>
+        </details>
+
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/calculators/auto/ownership/">Стоимость владения автомобилем</a>
+          <a href="/calculators/auto/">Авто-калькуляторы</a>
+          <a href="/calculators/auto/osago/">Калькулятор ОСАГО</a>
+        </div>
+        <p class="calc-note">Ориентировочный расчёт: правила и ставки регулярно меняются, калькулятор не подставляет регулируемые значения и не является основанием для оплаты. Точный расчёт делают таможенный брокер и калькулятор ФТС. Перед публикацией значения в блоке CONFIG нужно сверить с ФТС, consultant.ru и постановлением об утильсборe. Данные калькулятора не покидают ваш браузер.</p>
+      </div>
+    </div>
+    <!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/calculators/auto/customs/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/calculators/auto/customs/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=39" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+  </main>
+
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  <!--SLOT:ads-ad-bottom-->
+<div class="ad-slot-box ad-bottom" data-ad-slot="ad-bottom" aria-label="Рекламный блок"></div>
+<!--/SLOT:ads-ad-bottom-->
+
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=40"></script>
+  <script type="module" src="/js/calc-customs.js?v=39"></script>
+</body>
+</html>
+
+
+
+

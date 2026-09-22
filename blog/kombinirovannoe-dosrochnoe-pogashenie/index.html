@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Комбинированное досрочное погашение — CalcDoc</title>
+  <meta name="description" content="Чередование способов пересчёта: крупные суммы — в сокращение срока, регулярные доплаты — в уменьшение платежа. Схема «лестница», возврат НДФЛ, цена отсрочки." />
+  <link rel="canonical" href="https://calc-doc.ru/blog/kombinirovannoe-dosrochnoe-pogashenie/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Комбинированное досрочное погашение кредита — CalcDoc" />
+  <meta property="og:description" content="Схемы комбинированного погашения для нестабильного дохода: крупные суммы в срок, регулярные доплаты гибридно. Цифры и правила распределения." />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/blog/kombinirovannoe-dosrochnoe-pogashenie/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <style>
+      /* @font-face инлайном — вместо внешнего файла шрифтов: убирает цепочку HTML → CSS → woff2 (Lighthouse: 937 мс). Начертаний девять — все сохранены. */
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+    </style>
+    <link rel="preload" href="/fonts/manrope-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/unbounded-600-lat.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/bundle.css?v=39" />
+  <meta name="theme-color" content="#6d5dfc" />
+    <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"Article", "headline":"Комбинированное погашение — чередование стратегий", "description":"Схемы комбинированного досрочного погашения: чередование сокращения срока и уменьшения платежа при последовательных внесениях. Расчёт цены отсрочки, схема лестницы, направление возврата НДФЛ в досрочку.", "datePublished":"2026-09-22", "dateModified":"2026-09-22", "author":{ "@type":"Organization", "name":"CalcDoc" }, "publisher":{ "@type":"Organization", "name":"CalcDoc", "logo":{ "@type":"ImageObject", "url":"https://calc-doc.ru/icons/icon-512.png" } }, "mainEntityOfPage":{ "@type":"WebPage", "@id":"https://calc-doc.ru/blog/kombinirovannoe-dosrochnoe-pogashenie/" } }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Статьи","item":"https://calc-doc.ru/blog/" }, { "@type":"ListItem","position":3,"name":"Комбинированное погашение","item":"https://calc-doc.ru/blog/kombinirovannoe-dosrochnoe-pogashenie/" } ] }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Чем комбинированное погашение отличается от гибридного?", "acceptedAnswer": { "@type": "Answer", "text": "Гибрид — постоянная схема для всех внесений: уменьшение платежа с сохранением суммы взноса. Комбинирование — чередование способов: крупные суммы идут в сокращение срока, регулярные доплаты — в уменьшение платежа." } },
+      { "@type": "Question", "name": "Можно ли менять способ пересчёта от операции к операции?", "acceptedAnswer": { "@type": "Answer", "text": "Да. Способ пересчёта указывается в заявлении на каждое внесение отдельно, автоматического выбора закон не предусматривает. Планировать чередование можно заранее." } },
+      { "@type": "Question", "name": "Какая схема даёт максимальную экономию?", "acceptedAnswer": { "@type": "Answer", "text": "Сокращение срока. Внесение 500 000 ₽ в дату второго платежа на кредите 3 000 000 ₽ под 18% экономит 5 408 815 ₽, то же внесение в дату шестого платежа — 5 252 043 ₽: отсрочка на четыре месяца стоит 156 772 ₽." } },
+      { "@type": "Question", "name": "Что делать с возвратом НДФЛ по ипотеке?", "acceptedAnswer": { "@type": "Answer", "text": "Направлять в сокращение срока: возврат — готовая сумма, которая не уменьшает резерв. Лимиты возврата: 260 000 ₽ за тело кредита и 390 000 ₽ за уплаченные проценты." } },
+      { "@type": "Question", "name": "Как комбинировать при нестабильном доходе?", "acceptedAnswer": { "@type": "Answer", "text": "Крупные поступления — в сокращение срока: экономия максимальная. Ежемесячные доплаты — в уменьшение платежа с сохранением суммы внесения: обязательный платёж снижается, экономия остаётся близкой к сокращению срока." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/finance/">Финансы и налоги<b>16</b></a>
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/auto/">Авто<b>4</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/blog/">Статьи</a> / Комбинированное погашение</nav>
+      <h1>Комбинированное погашение — чередование стратегий</h1>
+      <p class="tool-meta">Обновлено: 22 сентября 2026</p>
+    </div>
+
+    <!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+    <div class="container section">
+      <div class="prose">
+        <span class="eyebrow">Досрочное погашение</span>
+        <p>Комбинированное досрочное погашение — чередование способов пересчёта при последовательных внесениях. Часть сумм направляется на сокращение срока, часть — на уменьшение платежа. Схема используется, когда доход поступает неравномерно: премии, возвраты, сезонная выручка.</p>
+        <p>Основание для чередования — устройство расчёта: проценты начисляются на остаток долга, поэтому ранние крупные внесения дают эффект на весь оставшийся срок кредита, а регулярные доплаты снижают обязательный платёж.</p>
+
+        <h2>Схема для нестабильного дохода</h2>
+        <p>Крупные поступления — премия, возврат НДФЛ, продажа имущества — направляются в сокращение срока: платёж остаётся прежним, срок сокращается, экономия максимальная из достижимых.</p>
+        <p>Регулярные малые доплаты — гибридно: внесение уменьшает обязательный платёж, а разница между прежней и новой суммой ежемесячно уходит в тело кредита. Обязательная нагрузка снижается с каждой операцией, экономия остаётся близкой к сокращению срока.</p>
+        <p>Вывод блока: крупное — в срок, регулярное — в платёж; так экономия сохраняется, а обязательный платёж падает.</p>
+
+        <h2>Схема «лестница»</h2>
+        <p>Первые два года — только сокращение срока: остаток долга наибольший, проценты начисляются на максимальную сумму, эффект ранних внесений выше всего. Далее — переход на гибрид: обязательный платёж снижается до комфортного уровня. Затем — снова сокращение срока, когда бюджет выдерживает прежнюю нагрузку.</p>
+        <p>Логика ступеней: сначала максимум экономии, потом снижение обязательной нагрузки, затем возврат к максимальной экономии на меньшем остатке.</p>
+
+        <h2>Цена отсрочки в цифрах</h2>
+        <p>Условия: кредит 3 000 000 ₽, ставка 18% годовых, срок 20 лет, платёж 46 299 ₽, внесение 500 000 ₽.</p>
+        <table class="seo-table">
+          <thead><tr><th>Когда внесена сумма</th><th>Срок</th><th>Проценты за срок</th><th>Экономия</th></tr></thead>
+          <tbody>
+            <tr><td>Дата 2-го платежа</td><td>113 мес</td><td>2 703 028 ₽</td><td>5 408 815 ₽</td></tr>
+            <tr><td>Дата 6-го платежа</td><td>116 мес</td><td>2 859 800 ₽</td><td>5 252 043 ₽</td></tr>
+          </tbody>
+        </table>
+        <div class="seo-formula">Отсрочка внесения на четыре месяца стоит 156 772 ₽ — проценты начисляются на остаток долга каждый месяц</div>
+        <p>Правило распределения: чем раньше внесение, тем выше экономия. Свободная сумма, задержанная ради «удачного месяца», обходится дороже любой выгоды от ожидания.</p>
+
+        <h2>Схема с налоговым вычетом</h2>
+        <p>Возврат НДФЛ по ипотеке — готовая сумма для досрочного погашения: до 260 000 ₽ за тело кредита и до 390 000 ₽ за уплаченные проценты. Возврат не уменьшает резерв, поэтому направляется в сокращение срока — так экономия на процентах максимальна.</p>
+        <p>Порядок: декларация за прошедший год, камеральная проверка, поступление возврата, внесение суммы в досрочку с указанием способа пересчёта. Цикл повторяется, пока идёт уплата процентов. Подробный разбор влияния досрочки на вычеты — в статье о <a href="/blog/nalogovy-vychet-i-dosrochnoe/">досрочном погашении и налоговом вычете</a>.</p>
+
+        <h2>Пример чередования</h2>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span>Крупный взнос — в сокращение срока: 500 000 ₽ сокращают срок с 240 до 113 месяцев.</span></div>
+          <div class="seo-step"><b>2</b><span>Регулярные доплаты — в уменьшение платежа с сохранением суммы взноса: обязательный платёж снижается с 46 299 ₽ до 38 579 ₽.</span></div>
+          <div class="seo-step"><b>3</b><span>Возврат НДФЛ — снова в сокращение срока: возврат не уменьшает резерв.</span></div>
+        </div>
+        <p>Результат комбинирования лежит между двумя границами: только уменьшение платежа даёт 1 345 056 ₽ экономии, полное сокращение срока — 5 408 832 ₽. Чем больше доля сумм, направленных в срок, тем ближе результат к верхней границе.</p>
+        <p>Если ставка вклада выше ставки кредита, часть свободных сумм выгоднее держать на вкладе: сравнение доходности, риска и ликвидности — в статье о <a href="/blog/dosrochno-ili-na-vklad/">досрочном погашении и вкладе</a>.</p>
+
+        <h2>Что проверить в банке</h2>
+        <p>Способ пересчёта указывается в заявлении на каждую операцию: при чередовании это особенно важно, потому что одна операция идёт на срок, другая — на платёж. Для регулярных доплат настраивается автоплатёж разницы сверх обязательного платежа.</p>
+        <p>После каждой операции сверяется график: остаток долга, срок или платёж, дата последнего платежа. Порядок проверок и разбор ошибок — в статье о <a href="/blog/kak-oformit-dosrochnoe-pogashenie/">оформлении досрочного погашения</a>.</p>
+
+        <h2>Частые вопросы</h2>
+        <details class="seo-faq">
+          <summary>Чем комбинированное погашение отличается от гибридного?</summary>
+          <div class="seo-faq-b"><p>Гибрид — постоянная схема для всех внесений: уменьшение платежа с сохранением суммы взноса. Комбинирование — чередование способов: крупные суммы идут в сокращение срока, регулярные доплаты — в уменьшение платежа.</p></div>
+        </details>
+        <details class="seo-faq">
+          <summary>Можно ли менять способ пересчёта от операции к операции?</summary>
+          <div class="seo-faq-b"><p>Да. Способ пересчёта указывается в заявлении на каждое внесение отдельно, автоматического выбора закон не предусматривает. Планировать чередование можно заранее.</p></div>
+        </details>
+        <details class="seo-faq">
+          <summary>Какая схема даёт максимальную экономию?</summary>
+          <div class="seo-faq-b"><p>Сокращение срока. Внесение 500 000 ₽ в дату второго платежа на кредите 3 000 000 ₽ под 18% экономит 5 408 815 ₽, то же внесение в дату шестого платежа — 5 252 043 ₽: отсрочка на четыре месяца стоит 156 772 ₽.</p></div>
+        </details>
+        <details class="seo-faq">
+          <summary>Что делать с возвратом НДФЛ по ипотеке?</summary>
+          <div class="seo-faq-b"><p>Направлять в сокращение срока: возврат — готовая сумма, которая не уменьшает резерв. Лимиты возврата: 260 000 ₽ за тело кредита и 390 000 ₽ за уплаченные проценты.</p></div>
+        </details>
+        <details class="seo-faq">
+          <summary>Как комбинировать при нестабильном доходе?</summary>
+          <div class="seo-faq-b"><p>Крупные поступления — в сокращение срока: экономия максимальная. Ежемесячные доплаты — в уменьшение платежа с сохранением суммы внесения: обязательный платёж снижается, экономия остаётся близкой к сокращению срока.</p></div>
+        </details>
+
+        <p>Сравните схемы на своих цифрах: <a href="/calculators/finance/dosrochnoe/">калькулятор досрочного погашения</a> считает сокращение срока, уменьшение платежа и гибрид по одним данным — видно, где выгода выше. Возврат налога считает <a href="/calculators/finance/ndfl/">калькулятор НДФЛ и вычетов</a>.</p>
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/calculators/finance/dosrochnoe/">Калькулятор досрочного погашения</a>
+          <a href="/blog/sokrashchenie-sroka-ili-platezh/">Сокращение срока или уменьшение платежа</a>
+          <a href="/blog/gibridnaya-strategiya-dosrochnogo/">Гибридная стратегия досрочного погашения</a>
+          <a href="/blog/nalogovy-vychet-i-dosrochnoe/">Досрочное погашение и налоговый вычет</a>
+          <a href="/calculators/finance/ndfl/">Калькулятор НДФЛ и вычетов</a>
+          <a href="/blog/">Все статьи</a>
+        </div>
+
+        <p class="calc-note">Расчёты носят справочный характер: точные суммы, ставки и нормы уточняйте в договоре, у ведомства или у профильного специалиста. Все вычисления выполняются в браузере и не покидают ваше устройство.</p>
+      </div>
+    </div>
+
+<!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/blog/kombinirovannoe-dosrochnoe-pogashenie/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/blog/kombinirovannoe-dosrochnoe-pogashenie/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=39" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=40"></script>
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Сжатие изображений онлайн: JPG, PNG и GIF — CalcDoc</title>
+  <meta name="description" content="Сжатие изображений в браузере: до 30 файлов, PNG и GIF превращаются в компактный WEBP с сохранением прозрачности. Файлы не покидают устройство." />
+  <link rel="canonical" href="https://calc-doc.ru/converters/image-converter/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Сжатие изображений онлайн — CalcDoc" />
+  <meta property="og:description" content="Облегчите изображения: до 30 файлов за раз, прозрачность PNG сохраняется." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/converters/image-converter/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <style>
+      /* @font-face инлайном — вместо внешнего файла шрифтов: убирает цепочку HTML → CSS → woff2 (Lighthouse: 937 мс). Начертаний девять — все сохранены. */
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+    </style>
+    <link rel="preload" href="/fonts/manrope-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/unbounded-600-lat.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/bundle.css?v=39" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Конвертер изображений",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Конвертеры", "item": "https://calc-doc.ru/converters/" },
+      { "@type": "ListItem", "position": 3, "name": "Изображения", "item": "https://calc-doc.ru/converters/image-converter/" }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Насколько уменьшится вес изображения?", "acceptedAnswer": { "@type": "Answer", "text": "Для обычных фотографий вес снижается обычно в 2–5 раз: зависит от исходного файла и его размера. Качество установлено на 82% — это заметно облегчает картинку без видимой потери вида. Если исходник уже сжат, экономия будет меньше: результат всё равно покажет точные размеры до и после." } },
+      { "@type": "Question", "name": "Где поддерживается формат WEBP?", "acceptedAnswer": { "@type": "Answer", "text": "WEBP читают Chrome, Edge, Firefox, Safari 14+, Opera и почти все мобильные браузеры, а также WordPress, Tilda и крупные маркетплейсы. Если файл нужен для старой системы, используйте изображение формата JPG — его конвертер тоже обрабатывает без смены типа." } },
+      { "@type": "Question", "name": "Сохранится ли прозрачность PNG при сжатии?", "acceptedAnswer": { "@type": "Answer", "text": "Да: PNG перекодируется в WEBP, который поддерживает альфа-канал, поэтому логотипы и вырезы с прозрачным фоном остаются корректными. Прозрачности лишаются только те файлы, которые изначально были JPG — в этом формате её нет." } },
+      { "@type": "Question", "name": "Что происходит с анимированными GIF?", "acceptedAnswer": { "@type": "Answer", "text": "Анимированный GIF превращается в статичный WEBP — остаётся только первый кадр. Для сайта это часто плюс: такие файлы весят в разы меньше, и страница не «дёргается» при загрузке. Если движение важно, оставьте исходный GIF или сжимайте его отдельным инструментом." } },
+      { "@type": "Question", "name": "Как называются готовые файлы?", "acceptedAnswer": { "@type": "Answer", "text": "К имени добавляется окончание _calc_doc: например, foto_01_calc_doc.webp. Файлы скачиваются кнопкой напротив каждого изображения и попадают в папку загрузок браузера — оригиналы на устройстве не меняются." } },
+      { "@type": "Question", "name": "Сколько файлов можно сжать за один раз?", "acceptedAnswer": { "@type": "Answer", "text": "До 30 изображений в одной партии. Если файлов больше, обработайте первую партию, скачайте результаты, нажмите «Очистить» и загрузите следующие. Очередь обрабатывается в фоне, поэтому можно добавлять файлы, пока идёт сжатие." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+    <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/finance/">Финансы и налоги<b>16</b></a>
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/auto/">Авто<b>4</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/converters/">Конвертеры</a> / Сжатие изображений</nav>
+      <h1>Сжатие изображений</h1>
+      <p class="tool-meta">Перетащите до 30 фото — они сожмутся в оптимальном качестве без видимой потери. Файлы не покидают ваше устройство.</p>
+    </div>
+
+    <div class="container ic-app">
+      <div class="ic-drop" id="drop" role="button" tabindex="0" aria-label="Загрузить изображения">
+        <input type="file" id="file" multiple accept="image/*" hidden />
+        <div class="ic-drop-inner">
+          <div class="ic-drop-ic" aria-hidden="true">🖼️</div>
+          <p class="ic-drop-title">Перетащите изображения сюда</p>
+          <p class="ic-drop-sub">или нажмите, чтобы выбрать · PNG, JPG, WEBP · до 30 файлов</p>
+          <button class="btn btn-primary" id="pickBtn" type="button">Выбрать файлы</button>
+        </div>
+      </div>
+
+      <div class="ic-summary" id="summary" hidden>
+        <span>Готово: <strong id="sumCount">0</strong> · сэкономлено <strong id="sumSaved">0 КБ</strong></span>
+        <button class="btn btn-ghost" id="clearBtn" type="button">Очистить</button>
+      </div>
+
+      <div class="ic-list" id="list"></div>
+    </div>
+
+    <!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+    <div class="container section">
+      <div class="prose">
+        <span class="eyebrow">Сжатие изображений</span>
+        <h2>Сжатие изображений онлайн: до 30 файлов за раз</h2>
+        <p class="tool-meta">Обновлено: 16 сентября 2026</p>
+        <p>Инструмент уменьшает вес изображений без видимой потери качества: фотографии перекодируются, а тяжёлые форматы превращаются в компактный <strong>WEBP</strong>. Можно перетащить до 30 файлов сразу — каждый обрабатывается отдельно, и результат скачивается одной кнопкой.</p>
+        <p>Всё происходит в браузере: файлы не загружаются на сервер, поэтому сжимать можно даже личные фотографии и рабочие макеты. Обработка идёт в фоне, очередь двигается автоматически.</p>
+
+        <span class="eyebrow">Инструкция</span>
+        <h2>Как сжать изображения</h2>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span><strong>Выберите файлы</strong> — перетащите на страницу или нажмите и выберите до 30 изображений</span></div>
+          <div class="seo-step"><b>2</b><span><strong>Дождитесь обработки</strong> — напротив каждого файла появится новый размер и статус</span></div>
+          <div class="seo-step"><b>3</b><span><strong>Скачайте результат</strong> — кнопкой у файла или сохраните всё по очереди</span></div>
+        </div>
+        <p>Список показывает исходный и итоговый вес, а внизу видно суммарную экономию — удобно, когда нужно уложить галерею в лимит загрузки на сайт или в почтовое вложение.</p>
+
+        <span class="eyebrow">Форматы</span>
+    <!--SLOT:banner-after-tool-->
+    <!--/SLOT:banner-after-tool-->
+    <!--SLOT:ads-after-tool-->
+    <!--/SLOT:ads-after-tool-->
+        <h2>Что во что превращается</h2>
+        <table class="seo-table">
+          <thead><tr><th>Исходный формат</th><th>Результат</th><th>Комментарий</th></tr></thead>
+          <tbody>
+            <tr><td>JPG, JPEG</td><td>JPG</td><td>Перекодирование с оптимизацией веса</td></tr>
+            <tr><td>PNG</td><td>WEBP</td><td>Прозрачность сохраняется</td></tr>
+            <tr><td>GIF</td><td>WEBP</td><td>Анимация не переносится — останется первый кадр</td></tr>
+            <tr><td>BMP</td><td>WEBP</td><td>Сильное уменьшение веса без потери вида</td></tr>
+            <tr><td>WEBP</td><td>WEBP</td><td>Повторное сжатие, если файл тяжёлый</td></tr>
+          </tbody>
+        </table>
+        <p class="hint">Качество сжатия — 82%: это оптимальный баланс, при котором на экране разницы не видно, а вес файла падает в разы. Имя результата — исходное имя плюс <code>_calc_doc</code>, поэтому файлы не перепутаются с оригиналами.</p>
+
+        <span class="eyebrow">Примеры</span>
+        <h2>Когда это нужно на практике</h2>
+        <ul>
+          <li><strong>Фотографии для сайта.</strong> Карточки товара и галереи: страница грузится быстрее, а изображения выглядят так же.</li>
+          <li><strong>Загрузка на маркетплейс.</strong> Площадки ограничивают вес и размер изображений — партия из 30 файлов сжимается за один заход.</li>
+          <li><strong>Письма и мессенджеры.</strong> Несколько фото из отпуска или акта выполненных работ уйдут в одном письме без «слишком большой файл».</li>
+          <li><strong>Презентации и документы.</strong> Облегчённые картинки уменьшают вес файла, который вы отправляете клиенту.</li>
+        </ul>
+
+        <span class="eyebrow">Ограничения</span>
+        <h2>Что учесть при сжатии</h2>
+        <ul>
+          <li><strong>До 30 файлов за раз.</strong> Можно добавлять партиями: обработайте первую, нажмите «Очистить» и загрузите следующую.</li>
+          <li><strong>Только изображения.</strong> В список попадают файлы с типом image/* — PDF, видео и архивы пропускаются.</li>
+          <li><strong>Память браузера.</strong> Очень крупные фотографии (десятки мегапикселей) обрабатываются дольше: закрытие лишних вкладок ускоряет процесс.</li>
+          <li><strong>Анимация.</strong> GIF теряет движение — если анимация нужна, оставьте исходник.</li>
+          <li><strong>Печать и полиграфия.</strong> Для печати сжимать не стоит: там важны пиксели и точные цвета, а не вес файла.</li>
+        </ul>
+    <!--SLOT:banner-mid-->
+    <!--/SLOT:banner-mid-->
+    <!--SLOT:ads-mid-->
+    <!--/SLOT:ads-mid-->
+        <span class="eyebrow">Вопросы и ответы</span>
+        <h2>Частые вопросы о сжатии изображений</h2>
+
+        <details class="seo-faq">
+          <summary>Насколько уменьшится вес изображения?</summary>
+          <div class="seo-faq-b"><p>Для обычных фотографий вес снижается обычно в 2–5 раз: зависит от исходного файла и его размера. Качество установлено на 82% — это заметно облегчает картинку без видимой потери вида. Если исходник уже сжат, экономия будет меньше: результат всё равно покажет точные размеры до и после.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Где поддерживается формат WEBP?</summary>
+          <div class="seo-faq-b"><p>WEBP читают Chrome, Edge, Firefox, Safari 14+, Opera и почти все мобильные браузеры, а также WordPress, Tilda и крупные маркетплейсы. Если файл нужен для старой системы, используйте изображение формата JPG — его конвертер тоже обрабатывает без смены типа.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Сохранится ли прозрачность PNG при сжатии?</summary>
+          <div class="seo-faq-b"><p>Да: PNG перекодируется в WEBP, который поддерживает альфа-канал, поэтому логотипы и вырезы с прозрачным фоном остаются корректными. Прозрачности лишаются только те файлы, которые изначально были JPG — в этом формате её нет.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Что происходит с анимированными GIF?</summary>
+          <div class="seo-faq-b"><p>Анимированный GIF превращается в статичный WEBP — остаётся только первый кадр. Для сайта это часто плюс: такие файлы весят в разы меньше, и страница не «дёргается» при загрузке. Если движение важно, оставьте исходный GIF или сжимайте его отдельным инструментом.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Как называются готовые файлы?</summary>
+          <div class="seo-faq-b"><p>К имени добавляется окончание <code>_calc_doc</code>: например, <em>foto_01_calc_doc.webp</em>. Файлы скачиваются кнопкой напротив каждого изображения и попадают в папку загрузок браузера — оригиналы на устройстве не меняются.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Сколько файлов можно сжать за один раз?</summary>
+          <div class="seo-faq-b"><p>До 30 изображений в одной партии. Если файлов больше, обработайте первую партию, скачайте результаты, нажмите «Очистить» и загрузите следующие. Очередь обрабатывается в фоне, поэтому можно добавлять файлы, пока идёт сжатие.</p></div>
+        </details>
+
+        <p class="calc-note">Сжатие выполняется локально в браузере: изображения не отправляются на сервер. Итоговый вес и качество зависят от исходного файла, а для печати и полиграфии лучше использовать оригиналы. Данные не покидают ваше устройство.</p>
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/converters/pdf-to-word/">PDF в Word</a>
+          <a href="/converters/csv-to-xlsx/">CSV в Excel</a>
+          <a href="/converters/qr-generator/">Генератор QR-кода</a>
+          <a href="/generators/resume/">Резюме</a>
+        </div>
+      </div>
+    </div>
+    <!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/converters/image-converter/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/converters/image-converter/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=39" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=40"></script>
+  <script type="module" src="/js/convert-image.js?v=40"></script>
+</body>
+</html>
+
+
+
+
+

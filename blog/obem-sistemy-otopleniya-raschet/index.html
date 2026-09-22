@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Объём системы отопления — как рассчитать: радиаторы, трубы, бак | CalcDoc</title>
+  <meta name="description" content="Расчёт объёма системы отопления по радиаторам, трубам, котлу и тёплому полу: справочные таблицы, формула расширительного бака, пример на 112 литров. Подбор бака и закупка теплоносителя — по расчёту, не на глаз." />
+  <link rel="canonical" href="https://calc-doc.ru/blog/obem-sistemy-otopleniya-raschet/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Объём системы отопления — расчёт по компонентам — CalcDoc" />
+  <meta property="og:description" content="Расчёт объёма системы отопления по радиаторам, трубам, котлу и тёплому полу: справочные таблицы, формула расширительного бака, пример на 112 литров. Подбор бака и закупка теплоносителя — по расчёту, не на глаз." />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/blog/obem-sistemy-otopleniya-raschet/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <style>
+      /* @font-face инлайном — вместо внешнего файла шрифтов: убирает цепочку HTML → CSS → woff2 (Lighthouse: 937 мс). Начертаний девять — все сохранены. */
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+    </style>
+    <link rel="preload" href="/fonts/manrope-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/unbounded-600-lat.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/bundle.css?v=39" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Объём системы отопления — расчёт по компонентам",
+    "description": "Расчёт объёма системы отопления по радиаторам, трубам, котлу и тёплому полу: справочные таблицы, формула расширительного бака, пример на 112 литров. Подбор бака и закупка теплоносителя — по расчёту, не на глаз.",
+    "url": "https://calc-doc.ru/blog/obem-sistemy-otopleniya-raschet/",
+    "datePublished": "2026-09-21",
+    "dateModified": "2026-09-21",
+    "inLanguage": "ru",
+    "author": { "@type": "Organization", "name": "CalcDoc", "url": "https://calc-doc.ru/" },
+    "publisher": { "@type": "Organization", "name": "CalcDoc", "url": "https://calc-doc.ru/" },
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://calc-doc.ru/blog/obem-sistemy-otopleniya-raschet/" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Статьи", "item": "https://calc-doc.ru/blog/" },
+      { "@type": "ListItem", "position": 3, "name": "Объём системы отопления", "item": "https://calc-doc.ru/blog/obem-sistemy-otopleniya-raschet/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Зачем знать объём системы отопления?", "acceptedAnswer": { "@type": "Answer", "text": "Закупка теплоносителя в нужном литраже, подбор расширительного бака, дозаполнение после ремонта. Без объёма — закупка на глаз с двойными поездками." } },
+      { "@type": "Question", "name": "Какой бак ставить при незамерзайке?", "acceptedAnswer": { "@type": "Answer", "text": "На 50% больше, чем для воды: коэффициент расширения гликоля 4,8% против 3,5% у воды. Расчётный минимум по формуле плюс округление до стандартного типоразмера (12, 18, 24 литра)." } },
+      { "@type": "Question", "name": "Почему объём радиаторов важнее труб?", "acceptedAnswer": { "@type": "Answer", "text": "Чугунная секция — 1,45 литра; метр трубы DN20 — 0,314 литра. Десять чугунных радиаторов по 10 секций — 145 литров; сорок метров труб — 12 литров. В старых домах радиаторы дают до 90% объёма." } },
+      { "@type": "Question", "name": "Можно ли измерить объём сливом?", "acceptedAnswer": { "@type": "Answer", "text": "Можно: слив в ёмкости известного объёма — самый точный способ, погрешность нулевая. Минусы — трудоёмкость и необходимость остывания системы. Расчёт даёт точность 5–10% — достаточно для закупки." } }
+    ]
+  }
+  </script>
+</head>
+<header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/finance/">Финансы и налоги<b>16</b></a>
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/auto/">Авто<b>4</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+<main>
+  <div class="container tool-hero">
+    <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/blog/">Статьи</a> / Объём системы отопления</nav>
+    <h1>Объём системы отопления — расчёт по компонентам</h1>
+    <p class="tool-meta">Обновлено: 21 сентября 2026</p>
+  </div>
+
+  <div class="container section">
+    <div class="prose">
+<span class="eyebrow">Инженерные расчёты</span>
+      <p>Объём системы отопления — сумма литров во всех компонентах контура: радиаторах, трубах подачи и обратки, теплообменнике котла, контуре тёплого пола. Три задачи без этой цифры не решаются: закупка теплоносителя (сколько литров незамерзайки брать), подбор расширительного бака (какой объём компенсирует расширение при нагреве), дозаполнение после слива участка. Ошибка «на глаз» — минус вторая поездка за канистрами или сброс теплоносителя через предохранительный клапан в мороз.</p>
+
+      <h2>Составляющие объёма — расчёт по компонентам</h2>
+      <p><strong>Радиаторы.</strong> Основной вклад в старых домах. Справочные значения объёма секции: чугунный МС-140 — 1,45 литра; старый чугун ЧМ — 1,6–1,8; биметалл — 0,16–0,25; алюминий — 0,35–0,5. Пятьдесят секций МС-140 — 72,5 литра только на радиаторах.</p>
+      <p><strong>Трубы.</strong> Вклад меньше, но не нулевой: стальная труба DN20 (¾ дюйма) содержит 0,314 литра на метр, металлопластик 16×2 — 0,113, полипропилен 25 — 0,216. Шестьдесят метров стальной DN20 — 18,8 литра. Счёт ведётся отдельно по подаче и обратке — длина удваивается.</p>
+      <p><strong>Котёл.</strong> Теплообменник — от 5 литров у настенных электрических до 30 литров у твердотопливных напольных. Значение — в паспорте прибора.</p>
+      <p><strong>Тёплый пол.</strong> Контур 12 м² с шагом укладки 150 мм — около 80 метров трубы 16×2, объём — 9 литров. Формула: длина трубы = площадь × 1000 ÷ шаг (мм).</p>
+
+      <h2>Формула объёма и расширительного бака</h2>
+      <p>Объём системы — сумма объёмов всех компонентов. Точная последовательность: радиаторы по секциям, трубы по метражу и типу, котёл по паспорту, тёплый пол по метражу контура.</p>
+      <p>Объём расширительного бака:</p>
+      <p><strong>V(бака) = V(системы) × β ÷ ((P клапана − P заполнения) ÷ P клапана)</strong></p>
+      <p>β — коэффициент расширения теплоносителя: вода при нагреве с 10 до 85 °C — 3,5%, пропиленгликоль 40% — 4,8%. P клапана — давление срабатывания предохранительного клапана (типово 3 бара), P заполнения — давление холодной системы (1–1,5 бара).</p>
+      <p>Бытовое правило производителей баков: для воды — 10% объёма системы, для незамерзайки — 15%. Точный расчёт при типовых давлениях даёт близкие значения — расхождение в пределах одного стандартного типоразмера.</p>
+
+      <h2>Пример полного расчёта</h2>
+      <p>Дом 100 м². Радиаторы: пять МС-140 по 10 секций — 72,5 литра. Трубы: сталь DN20, 60 метров — 18,8 литра. Металлопластик 16×2, 40 метров — 4,5 литра. Котёл настенный газовый — 7 литров. Тёплый пол санузла 12 м², шаг 150 мм — 9 литров.</p>
+      <p><strong>Сумма: 111,8 литра.</strong> Расширительный бак: 111,8 × 0,035 ÷ 0,5 = 7,8 литра расчётных → стандартный бак 12–18 литров. Закупка теплоносителя с запасом 15% на воздушные пробки: 129 литров, при цене пропиленгликоля 90 ₽/л — 11 600 ₽.</p>
+
+      <h2>Ошибки подсчёта — типовые случаи</h2>
+      <p><strong>Обратка не посчитана.</strong> Длина труб удваивается: подача и возврат — две линии. Забытая обратка на 40 метрах DN20 — минус 12,6 литра из сметы.</p>
+      <p><strong>Паспорт котла принят за весь объём.</strong> Паспорт содержит ёмкость теплообменника — 5–30 литров. Радиаторы и трубы дают остальные 80–95% объёма.</p>
+      <p><strong>Запас не заложен.</strong> Первое заполнение вымывает воздух, часть теплоносителя остаётся в проливах — закупка без 10–15% резерва означает дозакупку в мороз.</p>
+      <p>Вывод: объём системы — сумма четырёх слагаемых; расчёт по справочным таблицам даёт точность 5–10% — достаточную для закупки и подбора бака.</p>
+
+
+      <h2>Частые вопросы</h2>
+      <details class="seo-faq">
+        <summary>Зачем знать объём системы отопления?</summary>
+        <div class="seo-faq-b"><p>Закупка теплоносителя в нужном литраже, подбор расширительного бака, дозаполнение после ремонта. Без объёма — закупка на глаз с двойными поездками.</p></div>
+      </details>
+      <details class="seo-faq">
+        <summary>Какой бак ставить при незамерзайке?</summary>
+        <div class="seo-faq-b"><p>На 50% больше, чем для воды: коэффициент расширения гликоля 4,8% против 3,5% у воды. Расчётный минимум по формуле плюс округление до стандартного типоразмера (12, 18, 24 литра).</p></div>
+      </details>
+      <details class="seo-faq">
+        <summary>Почему объём радиаторов важнее труб?</summary>
+        <div class="seo-faq-b"><p>Чугунная секция — 1,45 литра; метр трубы DN20 — 0,314 литра. Десять чугунных радиаторов по 10 секций — 145 литров; сорок метров труб — 12 литров. В старых домах радиаторы дают до 90% объёма.</p></div>
+      </details>
+      <details class="seo-faq">
+        <summary>Можно ли измерить объём сливом?</summary>
+        <div class="seo-faq-b"><p>Можно: слив в ёмкости известного объёма — самый точный способ, погрешность нулевая. Минусы — трудоёмкость и необходимость остывания системы. Расчёт даёт точность 5–10% — достаточно для закупки.</p></div>
+      </details>
+
+      <p><a href="/calculators/engineering/otoplenie-obem/">Калькулятор объёма системы отопления</a> · <a href="/calculators/engineering/gidrostrelka/">Гидрострелка</a> · <a href="/calculators/engineering/">Все инженерные расчёты</a></p>
+
+<span class="eyebrow">Смотрите также</span>
+<div class="seo-links">
+  <a href="/blog/gidrostrelka-raschet/">Гидрострелка: расчёт диаметра</a>
+  <a href="/blog/moshchnost-kotla-raschet/">Мощность котла</a>
+  <a href="/blog/rasshiritelnyy-bak-podbor/">Расширительный бак</a>
+  <a href="/calculators/engineering/">Инженерные расчёты</a>
+  <a href="/blog/">Все статьи</a>
+</div>
+
+<p class="calc-note">Расчёты носят справочный характер: точные значения уточняйте в проекте, паспортах оборудования и у профильного специалиста. Все вычисления выполняются в браузере и не покидают ваше устройство.</p>
+</div>
+</div>
+
+<section class="reviews" id="reviews-form" data-page="/blog/obem-sistemy-otopleniya-raschet/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/blog/obem-sistemy-otopleniya-raschet/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+  <script src="/js/reviews.js?v=39" defer></script>
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+<script type="module" src="/js/ui.js?v=40"></script>
+</body>
+</html>

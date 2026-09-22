@@ -1,0 +1,28 @@
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=(), publickey-credentials-get=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' blob: https://cdn.jsdelivr.net https://mc.yandex.ru https://mc.yandex.com https://yandex.ru https://an.yandex.ru https://yastatic.net; style-src 'self' 'unsafe-inline' https://yastatic.net; img-src 'self' data: blob: https://mc.yandex.ru https://mc.yandex.com https://yandex.ru https://an.yandex.ru https://yastatic.net https://avatars.mds.yandex.net; font-src 'self' data: https://yastatic.net; connect-src 'self' blob: https://cdn.jsdelivr.net https://tessdata.projectnaptha.com https://mc.yandex.ru https://mc.yandex.com wss://mc.yandex.ru wss://mc.yandex.com https://yandex.ru https://an.yandex.ru; frame-src 'self' https://mc.yandex.ru https://mc.yandex.com https://yandex.ru https://an.yandex.ru https://yastatic.net https://avatars.mds.yandex.net; worker-src 'self' blob: https://cdn.jsdelivr.net https://yastatic.net; object-src 'none'; frame-ancestors 'none'; base-uri 'self'
+
+/libs/*
+  Cache-Control: public, max-age=604800
+
+/js/*
+  Cache-Control: no-cache, max-age=0, must-revalidate
+
+/img/*
+  Cache-Control: public, max-age=604800
+
+/icons/*
+  Cache-Control: public, max-age=604800
+
+/favicon.ico
+  Cache-Control: public, max-age=604800
+
+/og-cover.png
+  Cache-Control: public, max-age=604800
+
+/styles.css
+  Cache-Control: public, max-age=86400

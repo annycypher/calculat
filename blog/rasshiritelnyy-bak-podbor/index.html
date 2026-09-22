@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Расширительный бак для отопления — расчёт объёма и давления | CalcDoc</title>
+  <meta name="description" content="Расчёт расширительного бака по объёму системы: формула с коэффициентом расширения, давления заполнения и клапана. Настройка воздушной камеры, типовые ошибки установки. Расчёт в браузере." />
+  <link rel="canonical" href="https://calc-doc.ru/blog/rasshiritelnyy-bak-podbor/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Расширительный бак — расчёт объёма и настройка — CalcDoc" />
+  <meta property="og:description" content="Расчёт расширительного бака по объёму системы: формула с коэффициентом расширения, давления заполнения и клапана. Настройка воздушной камеры, типовые ошибки установки. Расчёт в браузере." />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/blog/rasshiritelnyy-bak-podbor/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <style>
+      /* @font-face инлайном — вместо внешнего файла шрифтов: убирает цепочку HTML → CSS → woff2 (Lighthouse: 937 мс). Начертаний девять — все сохранены. */
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+    </style>
+    <link rel="preload" href="/fonts/manrope-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/unbounded-600-lat.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/bundle.css?v=39" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Расширительный бак — расчёт объёма и настройка",
+    "description": "Расчёт расширительного бака по объёму системы: формула с коэффициентом расширения, давления заполнения и клапана. Настройка воздушной камеры, типовые ошибки установки. Расчёт в браузере.",
+    "url": "https://calc-doc.ru/blog/rasshiritelnyy-bak-podbor/",
+    "datePublished": "2026-09-21",
+    "dateModified": "2026-09-21",
+    "inLanguage": "ru",
+    "author": { "@type": "Organization", "name": "CalcDoc", "url": "https://calc-doc.ru/" },
+    "publisher": { "@type": "Organization", "name": "CalcDoc", "url": "https://calc-doc.ru/" },
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://calc-doc.ru/blog/rasshiritelnyy-bak-podbor/" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Статьи", "item": "https://calc-doc.ru/blog/" },
+      { "@type": "ListItem", "position": 3, "name": "Расширительный бак", "item": "https://calc-doc.ru/blog/rasshiritelnyy-bak-podbor/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Где ставить расширительный бак?", "acceptedAnswer": { "@type": "Answer", "text": "На обратке перед котлом: температура мембраны ниже, срок службы дольше. Допустимо и на подаче в гравитационных системах — но мембранный бак лучше на обратке." } },
+      { "@type": "Question", "name": "Какое давление накачивать в воздушную камеру?", "acceptedAnswer": { "@type": "Answer", "text": "На 0,2 бара выше давления заполнения холодной системы. При заполнении 1,2 бара — камера 1,4 бара. Проверка манометром раз в год." } },
+      { "@type": "Question", "name": "Почему клапан сбрасывает воду при каждом нагреве?", "acceptedAnswer": { "@type": "Answer", "text": "Типовой признак нерабочего бака: пустая камера, порванная мембрана или бак меньше необходимого. Проверка золотника: вода из ниппеля — мембрана порвана." } },
+      { "@type": "Question", "name": "Можно ли поставить два бака параллельно?", "acceptedAnswer": { "@type": "Answer", "text": "Да: объёмы суммируются. Решение при нехватке существующего бака без его замены — второй бак рядом на той же обратке." } }
+    ]
+  }
+  </script>
+</head>
+<header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/finance/">Финансы и налоги<b>16</b></a>
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/auto/">Авто<b>4</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+<main>
+  <div class="container tool-hero">
+    <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/blog/">Статьи</a> / Расширительный бак</nav>
+    <h1>Расширительный бак — расчёт объёма и настройка</h1>
+    <p class="tool-meta">Обновлено: 21 сентября 2026</p>
+  </div>
+
+  <div class="container section">
+    <div class="prose">
+<span class="eyebrow">Инженерные расчёты</span>
+      <p>Расширительный бак — компенсатор теплового расширения теплоносителя: вода при нагреве с 10 до 85 °C увеличивается в объёме на 3,5%, пропиленгликоль — на 4,8%. Без бака рост объёма выбрасывается через предохранительный клапан в морозы, а остывание создаёт разрежение и подсос воздуха. Расчёт объёма бака — вторая задача после подсчёта объёма системы.</p>
+
+      <h2>Формула объёма бака</h2>
+      <p><strong>V(бака) = V(системы) × β ÷ ((P клапана − P заполнения) ÷ P клапана)</strong></p>
+      <p>β — коэффициент расширения теплоносителя. P клапана — давление срабатывания предохранительного клапана (типово 3 бара), P заполнения — давление холодной системы (1–1,5 бара).</p>
+      <p>Отношение давлений — множитель эффективности: при клапане 3 бара и заполнении 1,5 бара эффективность 50% — половина объёма бака работает на компенсацию, вторая половина — запас на нагрев до срабатывания клапана.</p>
+
+      <h2>Пример расчёта</h2>
+      <p>Система 112 литров, вода, клапан 3 бара, заполнение 1,5 бара: V = 112 × 0,035 ÷ 0,5 = 7,8 литра расчётных. Стандартный ряд баков — 8, 12, 18, 24, 35 литров: выбор 12 литров — запас 50% сверх минимума.</p>
+      <p>Тот же объём на пропиленгликоле: β = 0,048 → V = 112 × 0,048 ÷ 0,5 = 10,7 литра → бак 18 литров. Переход с воды на незамерзайку — пересчёт бака обязателен.</p>
+
+      <h2>Бытовое правило и точный расчёт</h2>
+      <p>Производители баков дают упрощение: вода — 10% объёма системы, незамерзайка — 15%. Правило совпадает с формулой при типовых давлениях — расхождение в пределах одного типоразмера. Точный расчёт выгоден на границе: система 100 литров, вода — бак 8 литров по правилу, 7,8 по формуле — оба верны, берём 8 или 12.</p>
+
+      <h2>Настройка воздушной камеры — этап, который пропускают</h2>
+      <p>Мембранный бак с завода накачан до 1,5 бара — «универсальное» значение. Правильное давление воздушной камеры — на 0,2 бара выше давления заполнения холодной системы: при заполнении 1,2 бара — камера 1,4 бара.</p>
+      <p>Настройка: бак отсоединён от системы или кран перекрыт, воздушный ниппель (автомобильный золотник) — контроль манометром, подкачка автомобильным насосом. Раз в год — контроль давления камеры: мембрана пропускает медленно, упавшее давление — причина частых срабатываний клапана.</p>
+
+      <h2>Ошибки установки и эксплуатации</h2>
+      <p><strong>Бак сразу после котла на подаче.</strong> Правильное место — на обратке перед котлом: температура мембраны ниже, срок службы дольше. На подаче — перегрев мембраны и разрушение.</p>
+      <p><strong>Камера без проверки давления.</strong> Заводские 1,5 бара при заполнении системы 2 бара — мембрана полностью сжата, бак не работает: клапан сбрасывает при каждом нагреве.</p>
+      <p><strong>Слишком маленький бак после перехода на незамерзайку.</strong> Рост β с 3,5 до 4,8% — прежний бак сбрасывает теплоноситель при каждом нагреве. Пересчёт и замена.</p>
+      <p><strong>Горизонтальный монтаж баллонного бака.</strong> Мембранные баки настенного типа монтируются вертикально подводом вниз; баллонные (с заменяемой мембраной) — вертикально или по инструкции производителя. Горизонталь — износ мембраны о стенку.</p>
+
+      <h2>Признаки неисправного бака</h2>
+      <p>Частый сброс через предохранительный клапан при каждом нагреве — потеря давления воздушной камеры или разрыв мембраны. Проверка: нажать на золотник — если идёт вода, мембрана порвана, бак под замену.</p>
+      <p>Перепады стрелки давления при нагреве больше 0,5 бара — бак не компенсирует: камера пустая или объём мал.</p>
+
+      <p><a href="/calculators/engineering/otoplenie-obem/">Точный расчёт объёма бака по параметрам вашей системы с учётом теплоносителя и давлений — в калькуляторе объёма системы отопления, строка «Расширительный бак» →</a></p>
+
+      <h2>Частые вопросы</h2>
+      <details class="seo-faq">
+        <summary>Где ставить расширительный бак?</summary>
+        <div class="seo-faq-b"><p>На обратке перед котлом: температура мембраны ниже, срок службы дольше. Допустимо и на подаче в гравитационных системах — но мембранный бак лучше на обратке.</p></div>
+      </details>
+      <details class="seo-faq">
+        <summary>Какое давление накачивать в воздушную камеру?</summary>
+        <div class="seo-faq-b"><p>На 0,2 бара выше давления заполнения холодной системы. При заполнении 1,2 бара — камера 1,4 бара. Проверка манометром раз в год.</p></div>
+      </details>
+      <details class="seo-faq">
+        <summary>Почему клапан сбрасывает воду при каждом нагреве?</summary>
+        <div class="seo-faq-b"><p>Типовой признак нерабочего бака: пустая камера, порванная мембрана или бак меньше необходимого. Проверка золотника: вода из ниппеля — мембрана порвана.</p></div>
+      </details>
+      <details class="seo-faq">
+        <summary>Можно ли поставить два бака параллельно?</summary>
+        <div class="seo-faq-b"><p>Да: объёмы суммируются. Решение при нехватке существующего бака без его замены — второй бак рядом на той же обратке.</p></div>
+      </details>
+
+      <p><a href="/calculators/engineering/otoplenie-obem/">Объём системы отопления</a> · <a href="/calculators/engineering/gidrostrelka/">Гидрострелка</a> · <a href="/calculators/engineering/">Инженерные расчёты</a></p>
+
+<span class="eyebrow">Смотрите также</span>
+<div class="seo-links">
+  <a href="/blog/obem-sistemy-otopleniya-raschet/">Объём системы отопления</a>
+  <a href="/blog/moshchnost-kotla-raschet/">Мощность котла</a>
+  <a href="/blog/gidrostrelka-raschet/">Гидрострелка: расчёт диаметра</a>
+  <a href="/calculators/engineering/">Инженерные расчёты</a>
+  <a href="/blog/">Все статьи</a>
+</div>
+
+<p class="calc-note">Расчёты носят справочный характер: точные значения уточняйте в проекте, паспортах оборудования и у профильного специалиста. Все вычисления выполняются в браузере и не покидают ваше устройство.</p>
+</div>
+</div>
+
+<section class="reviews" id="reviews-form" data-page="/blog/rasshiritelnyy-bak-podbor/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/blog/rasshiritelnyy-bak-podbor/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+  <script src="/js/reviews.js?v=39" defer></script>
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+<script type="module" src="/js/ui.js?v=40"></script>
+</body>
+</html>

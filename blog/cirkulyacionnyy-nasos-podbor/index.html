@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Циркуляционный насос для отопления — расчёт напора и расхода | CalcDoc</title>
+  <meta name="description" content="Расчёт циркуляционного насоса: расход по мощности котла, напор по гидравлическому сопротивлению системы, формулы, таблица, ошибки подбора. Проверка расчёта в браузере." />
+  <link rel="canonical" href="https://calc-doc.ru/blog/cirkulyacionnyy-nasos-podbor/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Циркуляционный насос — расчёт напора и подбора — CalcDoc" />
+  <meta property="og:description" content="Расчёт циркуляционного насоса: расход по мощности котла, напор по гидравлическому сопротивлению системы, формулы, таблица, ошибки подбора. Проверка расчёта в браузере." />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/blog/cirkulyacionnyy-nasos-podbor/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <style>
+      /* @font-face инлайном — вместо внешнего файла шрифтов: убирает цепочку HTML → CSS → woff2 (Lighthouse: 937 мс). Начертаний девять — все сохранены. */
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+    </style>
+    <link rel="preload" href="/fonts/manrope-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/unbounded-600-lat.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/bundle.css?v=39" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Циркуляционный насос — расчёт напора и подбора",
+    "description": "Расчёт циркуляционного насоса: расход по мощности котла, напор по гидравлическому сопротивлению системы, формулы, таблица, ошибки подбора. Проверка расчёта в браузере.",
+    "url": "https://calc-doc.ru/blog/cirkulyacionnyy-nasos-podbor/",
+    "datePublished": "2026-09-21",
+    "dateModified": "2026-09-21",
+    "inLanguage": "ru",
+    "author": { "@type": "Organization", "name": "CalcDoc", "url": "https://calc-doc.ru/" },
+    "publisher": { "@type": "Organization", "name": "CalcDoc", "url": "https://calc-doc.ru/" },
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://calc-doc.ru/blog/cirkulyacionnyy-nasos-podbor/" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Статьи", "item": "https://calc-doc.ru/blog/" },
+      { "@type": "ListItem", "position": 3, "name": "Циркуляционный насос", "item": "https://calc-doc.ru/blog/cirkulyacionnyy-nasos-podbor/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Какой напор нужен для двухэтажного дома?", "acceptedAnswer": { "@type": "Answer", "text": "Суммарное сопротивление кольца до второго этажа: типово 1–2 метра напора. Насос 25-60 или 32-60 перекрывает с запасом. Точный расчёт — по сопротивлению арматуры и длин труб." } },
+      { "@type": "Question", "name": "Можно ли ставить два насоса последовательно?", "acceptedAnswer": { "@type": "Answer", "text": "Напор удваивается, расход остаётся. Решение для длинных систем, но лучше — один насос с нужной характеристикой: два насоса — двойной износ и синхронизация включений." } },
+      { "@type": "Question", "name": "Почему насос шумит?", "acceptedAnswer": { "@type": "Answer", "text": "Воздух в системе (спустить через воздухоотводчики), кавитация от перегруза (снизить обороты), износ подшипников (замена). Шум нового насоса — проверить направление монтажа и застревание примесей." } },
+      { "@type": "Question", "name": "Как снизить энергопотребление насоса?", "acceptedAnswer": { "@type": "Answer", "text": "Электронный насос класса Eco-Design потребляет 5–25 Вт против 45–100 Вт старых. Окупаемость замены при постоянной работе — 2–4 года по электроэнергии." } }
+    ]
+  }
+  </script>
+</head>
+<header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/finance/">Финансы и налоги<b>16</b></a>
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/auto/">Авто<b>4</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+<main>
+  <div class="container tool-hero">
+    <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/blog/">Статьи</a> / Циркуляционный насос</nav>
+    <h1>Циркуляционный насос — расчёт напора и подбора</h1>
+    <p class="tool-meta">Обновлено: 21 сентября 2026</p>
+  </div>
+
+  <div class="container section">
+    <div class="prose">
+<span class="eyebrow">Инженерные расчёты</span>
+      <p>Циркуляционный насос — сердце водяного отопления: без него радиаторы у котла горячие, а дальние — холодные. Подбор по двум параметрам: расход (сколько литров в минуту качает) и напор (какое сопротивление преодолевает). Ошибка подбора — шум в трубах при избыточном напоре или холодные дальние ветки при недостаточном.</p>
+
+      <h2>Расчёт расхода</h2>
+      <p><strong>Расход = мощность контура ÷ (1,163 × ΔT)</strong></p>
+      <p>Котёл 30 кВт при ΔT 10 °C: расход 2,58 м³/ч = 43 литра в минуту. Формула та же, что для гидрострелки и диаметров труб — расход в системе един, все расчёты от него.</p>
+
+      <h2>Расчёт напора</h2>
+      <p>Напор — преодоление гидравлического сопротивления самого длинного и нагруженного кольца системы. Точный расчёт — по удельным потерям: сумма сопротивлений труб, фитингов, радиаторов, котла, арматуры на метр.</p>
+      <p>Инженерное упрощение для типовых систем частного дома:</p>
+      <p><strong>H (напор, метры) = длина самого нагруженного кольца (м) × удельные потери (100–150 Па/м) ÷ 10000 + потери арматуры (~30% от труб)</strong></p>
+      <p>Цех 20 метров трубы самого длинного кольца: 20 × 130 ÷ 10000 ≈ 0,26 метра потерь в трубах, плюс 30% на арматуру — около 0,35 метра напора. Типовые насосы с напором 6 метров перекрывают это с многократным запасом — частный дом почти всегда укладывается в среднюю скорость насоса.</p>
+      <p>Многоэтажки, тёплые полы с длинными контурами, радиаторы с большим сопротивлением — расчёт по каталогам сопротивлений арматуры или запрос проекту.</p>
+
+      <h2>Таблица: ориентиры насосов для частных домов</h2>
+      <table class="seo-table">
+        <thead><tr><th>Система</th><th>Расход</th><th>Напор</th><th>Типовой насос</th></tr></thead>
+        <tbody>
+          <tr><td>Квартира, 3–5 радиаторов</td><td>0,5–1 м³/ч</td><td>0,3–0,5 м</td><td>25-40 (максимальный напор 4 м)</td></tr>
+          <tr><td>Дом 100 м², радиаторы</td><td>1,5–2,5 м³/ч</td><td>0,5–1 м</td><td>25-60</td></tr>
+          <tr><td>Дом 150 м² + тёплый пол</td><td>2–3 м³/ч</td><td>1–1,5 м</td><td>25-60 / 32-60</td></tr>
+          <tr><td>Дом 200 м², 2 этажа</td><td>3–4 м³/ч</td><td>1–2 м</td><td>32-80</td></tr>
+          <tr><td>Цех, производственное</td><td>по расчёту</td><td>по расчёту</td><td>промышленная серия</td></tr>
+        </tbody>
+      </table>
+      <p>Обозначение 25-60: подключение DN25, максимальный напор 6 метров (60 кПа, около 0,6 бара). Напор в маркировке указан в десятках килопаскалей: 40 — четыре метра, 60 — шесть, 80 — восемь.</p>
+
+      <h2>Регулирование оборотов — обязательная функция</h2>
+      <p>Современный насос с электронным управлением (класс Eco-Design) снижает энергопотребление на 50–80% против старых и поддерживает постоянный перепад давления при изменении протока контуров. Ночной режим — снижение оборотов и шум; пропорциональное регулирование — адаптация к прикрытым термоголовкам радиаторов.</p>
+      <p>Насос с тремя скоростями ручного переключения — минимум для новой системы. Односкоростной — только замена в существующей системе с проверенным режимом.</p>
+
+      <p><a href="/calculators/engineering/otoplenie-obem/">Расход насоса определяется объёмом системы — калькулятор объёма отопления</a>. <a href="/calculators/engineering/gidrostrelka/">Развязка насосов котла и контуров — калькулятор гидрострелки</a>.</p>
+
+      <h2>Ошибки подбора</h2>
+      <p><strong>Насос «по диаметру труб».</strong> Диаметр врезки 25 мм не означает насос 25-60: напор — характеристика преодоления сопротивления, диаметр — монтажный параметр. Подбор — по расчётному напору кольца.</p>
+      <p><strong>Избыточный напор.</strong> Насос 32-80 в системе с потребностью 0,5 метра — перегрев насоса, шум в радиаторах, кавитация. Решение — снижение оборотов на электронном насосе или замена на меньший.</p>
+      <p><strong>Монтаж валом горизонтально.</strong> Клеммная коробка вверх, вал — горизонтально: вертикальный вал — остановка подшипников через месяцы работы.</p>
+      <p><strong>Положение в системе:</strong> на подаче до котла или на обратке после котла — функционально равноценно для современных насосов с температурой до 110 °C. Критичное — доступ для обслуживания: насос придётся разбирать.</p>
+
+      <h2>Проверка работы</h2>
+      <p>Система заполнена, воздух спущен, насос включён. Признаки правильной работы: равномерный нагрев радиаторов по удалённости, отсутствие шума в трубах и насосе, перепад температур подача/обратка 10–20 °C. Перепад меньше 5 °C — избыточный расход (снизить обороты), больше 25 °C — недостаточный (увеличить скорость или проверить засор).</p>
+
+      <h2>Частые вопросы</h2>
+      <details class="seo-faq">
+        <summary>Какой напор нужен для двухэтажного дома?</summary>
+        <div class="seo-faq-b"><p>Суммарное сопротивление кольца до второго этажа: типово 1–2 метра напора. Насос 25-60 или 32-60 перекрывает с запасом. Точный расчёт — по сопротивлению арматуры и длин труб.</p></div>
+      </details>
+      <details class="seo-faq">
+        <summary>Можно ли ставить два насоса последовательно?</summary>
+        <div class="seo-faq-b"><p>Напор удваивается, расход остаётся. Решение для длинных систем, но лучше — один насос с нужной характеристикой: два насоса — двойной износ и синхронизация включений.</p></div>
+      </details>
+      <details class="seo-faq">
+        <summary>Почему насос шумит?</summary>
+        <div class="seo-faq-b"><p>Воздух в системе (спустить через воздухоотводчики), кавитация от перегруза (снизить обороты), износ подшипников (замена). Шум нового насоса — проверить направление монтажа и застревание примесей.</p></div>
+      </details>
+      <details class="seo-faq">
+        <summary>Как снизить энергопотребление насоса?</summary>
+        <div class="seo-faq-b"><p>Электронный насос класса Eco-Design потребляет 5–25 Вт против 45–100 Вт старых. Окупаемость замены при постоянной работе — 2–4 года по электроэнергии.</p></div>
+      </details>
+
+      <p><a href="/calculators/engineering/otoplenie-obem/">Объём системы отопления</a> · <a href="/calculators/engineering/gidrostrelka/">Гидрострелка</a> · <a href="/calculators/engineering/vulkan/">Калькулятор Вулкана</a></p>
+
+<span class="eyebrow">Смотрите также</span>
+<div class="seo-links">
+  <a href="/blog/diametr-trub-otopleniya-raschet/">Диаметр труб отопления</a>
+  <a href="/blog/obem-sistemy-otopleniya-raschet/">Объём системы отопления</a>
+  <a href="/blog/gidrostrelka-raschet/">Гидрострелка: расчёт диаметра</a>
+  <a href="/calculators/engineering/">Инженерные расчёты</a>
+  <a href="/blog/">Все статьи</a>
+</div>
+
+<p class="calc-note">Расчёты носят справочный характер: точные значения уточняйте в проекте, паспортах оборудования и у профильного специалиста. Все вычисления выполняются в браузере и не покидают ваше устройство.</p>
+</div>
+</div>
+
+<section class="reviews" id="reviews-form" data-page="/blog/cirkulyacionnyy-nasos-podbor/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/blog/cirkulyacionnyy-nasos-podbor/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+  <script src="/js/reviews.js?v=39" defer></script>
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+<script type="module" src="/js/ui.js?v=40"></script>
+</body>
+</html>

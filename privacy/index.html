@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Политика конфиденциальности — CalcDoc</title>
+  <meta name="description" content="CalcDoc не хранит ваши личные данные. Все расчёты и документы обрабатываются на вашем устройстве и не передаются на сервер." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="canonical" href="https://calc-doc.ru/privacy/" />
+  <meta property="og:title" content="Политика конфиденциальности — CalcDoc" />
+  <meta property="og:description" content="CalcDoc не хранит личные данные: расчёты и документы обрабатываются на вашем устройстве и не передаются на сервер." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/privacy/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <style>
+      /* @font-face инлайном — вместо внешнего файла шрифтов: убирает цепочку HTML → CSS → woff2 (Lighthouse: 937 мс). Начертаний девять — все сохранены. */
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+    </style>
+    <link rel="preload" href="/fonts/manrope-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/unbounded-600-lat.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/bundle.css?v=39" />
+  <meta name="theme-color" content="#6d5dfc" />
+</head>
+<body>
+    <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/finance/">Финансы и налоги<b>16</b></a>
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/auto/">Авто<b>4</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / Политика конфиденциальности</nav>
+      <h1>Политика конфиденциальности</h1>
+      <p class="tool-meta">Коротко: мы не собираем и не храним ваши личные данные.</p>
+    </div>
+
+    <div class="container section">
+      <div class="prose">
+        <h2>Что делает CalcDoc</h2>
+        <p>CalcDoc — набор онлайн-калькуляторов и генераторов документов. Все расчёты и создание документов выполняются <strong>непосредственно в вашем браузере</strong> (клиентский JavaScript) и <strong>не передаются на сервер</strong>.</p>
+        <div class="note">🔒 <strong>Мы не храним ваши личные данные.</strong> Введённые вами значения, имена, суммы, паспортные и контактные данные обрабатываются только на вашем устройстве и не отправляются на наши серверы и не сохраняются в базах данных.</div>
+        <h2>Что мы НЕ делаем</h2>
+        <ul>
+          <li>Не запрашиваем регистрацию и аккаунты.</li>
+          <li>Не собираем и не храним персональные данные на сервере.</li>
+          <li>Не передаём введённые данные третьим лицам.</li>
+          <li>Не используем формы входа и подписки.</li>
+        </ul>
+        <h2>Что хранится на вашем устройстве</h2>
+        <p>В браузере локально (<code>localStorage</code>) сохраняется только ваша настройка темы (светлая/тёмная), при необходимости — согласие на обработку файлов cookie, а также последнее показанное число посещений (чтобы блок статистики выглядел правильно, даже если счётчик недоступен). Эти данные остаются на вашем устройстве и могут быть удалены очисткой кэша браузера.</p>
+        <h2>Файлы cookie и аналитика</h2>
+        <p>Собственных файлов cookie сайт не ставит: счётчик посещений работает без них, а настройки (тема, согласие) хранятся в <code>localStorage</code> на вашем устройстве и нам не передаются.</p>
+        <p><strong>Яндекс.Метрика.</strong> Панель проекта может подключить счётчик Яндекс.Метрики на страницах сайта. Если он подключён, сервис Яндекса ставит свои файлы cookie и собирает обезличенную статистику: адрес страницы, источник перехода, тип устройства, карту кликов и вебвизор. Мы видим только сводные числа, а обработка данных регулируется <a href="https://yandex.ru/legal/metrica_termsofuse/" rel="noopener nofollow" target="_blank">условиями Яндекс.Метрики</a>. Отключить его можно блокировщиком или настройками браузера.</p>
+        <p><strong>Рекламные блоки.</strong> Реклама на сайте показывается кодом рекламной сети (например, Яндекс РСЯ или Google AdSense). Если блоки включены, рекламная сеть <strong>может</strong> использовать файлы cookie и обезличенные данные для подбора объявлений; введённые вами суммы, документы и паспортные данные ей недоступны — рекламный блок не видит содержимое полей и файлов.</p>
+        <h2>Счётчик посещений</h2>
+        <p>Чтобы видеть настоящие числа, сайт использует <strong>свой счётчик</strong> на нашем сервере (<code>/api/stats.php</code>) — без сторонних сервисов и <strong>без файлов cookie</strong>. За сутки сохраняются обезличенные итоги: сколько раз открыли страницы, сколько было посетителей, откуда пришли (прямой заход, переход по сайту, поиск, соцсети, другой сайт — <strong>только домен</strong>, без адресов и поисковых запросов), тип устройства (компьютер, телефон, планшет) и сколько посетителей пришло впервые.</p>
+        <p>IP-адрес и данные браузера <strong>не сохраняются</strong>: для подсчёта уникальных за сутки считается короткий необратимый хеш, он живёт только вместе с итогами суток (файлы старше 45 суток стираются). Для «новых и вернувшихся» есть отдельный список хешей с солью на календарный месяц: записи старше 180 суток удаляются, в новом месяце посетитель снова считается новым. Роботы, служебные адреса панели и запросы без браузера счётчик не считает. Если запросы к <code>/api/stats.php</code> заблокировать, счётчик просто не сработает — на работу сайта это не влияет.</p>
+        <h2>Кэш офлайн-режима (PWA)</h2>
+        <p>Сайт можно установить на рабочий стол как приложение — тогда он работает без интернета. Для этого браузер сохраняет страницы, стили и шрифты в <strong>кэше на вашем устройстве</strong> (service worker). В кэше нет ваших расчётов и документов: он хранит только файлы сайта. Удалить кэш можно обычной очисткой данных браузера или удалением установленного приложения.</p>
+        <h2>Технические данные (логи хостинга)</h2>
+        <p>Для обеспечения безопасности и стабильной работы провайдер хостинга может автоматически фиксировать технические данные (IP-адрес, тип браузера, время запроса). Эти данные используются только для защиты от атак и перегрузок и не используются для идентификации личности.</p>
+        <h2>Правовое основание и передача данных</h2>
+        <p>Мы не передаём введённые вами данные третьим лицам. Сайт работает на статическом хостинге без собственной базы данных персональных данных: все ваши расчёты и документы создаются непосредственно на вашем устройстве и не сохраняются на сервере.</p>
+        <h2>Права субъекта персональных данных</h2>
+        <p>Вы вправе (ст. 14, 15, 17 Федерального закона № 152-ФЗ «О персональных данных»): получить информацию об обработке ваших данных, требовать их уточнения, блокирования или удаления, а также отозвать согласие. Сайт не собирает персональные данные посетителей, поэтому обращаться нужно только в одном случае — если вы сами написали нам письмо. Адрес для любых обращений: <a href="mailto:info@calc-doc.ru">info@calc-doc.ru</a>.</p>
+        <h2>Оператор и реквизиты</h2>
+        <p>Проект CalcDoc ведёт небольшая команда энтузиастов. Персональные данные посетителей сайт не собирает и не хранит: расчёты и документы создаются в браузере, а отзывы публикуются после проверки и без адреса почты — только имя, текст и оценка по желанию.</p>
+        <p>Если для сотрудничества, рекламы или договора понадобятся реквизиты, напишите на <a href="mailto:info@calc-doc.ru">info@calc-doc.ru</a> — ответим с нужными данными. Публиковать ФИО, ИНН и адрес в открытом доступе мы не будем: это личные данные владельца проекта.</p>
+        <h2>Контакты</h2>
+        <p>По вопросам конфиденциальности, сотрудничества и рекламы: <a href="mailto:info@calc-doc.ru">info@calc-doc.ru</a> или через <a href="/about/">страницу «О проекте»</a>.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=40"></script>
+</body>
+</html>
+
+
+
+

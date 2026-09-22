@@ -1,0 +1,49 @@
+/* ads.css — оформление рекламных слотов (шаг 9.4).
+   Главная задача — ноль сдвигов вёрстки (CLS = 0): место под рекламу занято заранее,
+   поэтому при появлении кода страница не «прыгает».
+   Пока владелец не включил рекламу в панели, слоты не видны вообще. */
+
+/* Слот виден только когда внутри есть код (js/ads.js ставит data-ad-filled="1")
+   и когда реклама включена глобальным выключателем (html[data-ads="on"]). */
+[data-ad-slot] { display: none; }
+
+html[data-ads="on"] [data-ad-slot][data-ad-filled="1"] { display: block; }
+
+/* Место под блоки: размеры по требованиям рекламных сетей. */
+.ad-top    { min-height: 100px; }   /* после шапки */
+.ad-bottom { min-height: 250px; }   /* перед подвалом */
+.ad-in-content { min-height: 280px; }   /* внутри статьи/инструмента: 300×250, 336×280, 300×600 */
+
+.ad-slot-box {
+  margin: 16px auto;
+  padding: 10px;
+  max-width: 1000px;
+  border: 1px dashed rgba(255, 255, 255, .12);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .03);
+  text-align: center;
+  overflow: hidden;
+}
+.ad-slot-box > * { max-width: 100%; }
+@supports (contain: layout) { .ad-slot-box { contain: layout; } }
+
+:root[data-theme="light"] .ad-slot-box {
+  border-color: rgba(20, 16, 40, .12);
+  background: rgba(20, 16, 40, .03);
+}
+
+/* Мобильная «липучка»: узкая полоса внизу экрана, показывается после 30 % прокрутки. */
+.ad-mobile-sticky {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 60;
+  height: 100px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(12, 10, 24, .96);
+  border-top: 1px solid rgba(255, 255, 255, .12);
+}
+html[data-ads="on"] .ad-mobile-sticky[data-ad-visible="1"] { display: flex; }
+@media (min-width: 721px) { .ad-mobile-sticky { display: none !important; } }
+@media (max-width: 720px) { body.ad-sticky-on { padding-bottom: 104px; } }

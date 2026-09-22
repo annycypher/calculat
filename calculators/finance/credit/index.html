@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Кредитный калькулятор: платёж и переплата онлайн | CalcDoc</title>
+  <meta name="description" content="Кредитный калькулятор считает ежемесячный платёж, сумму выплат и переплату по сумме, ставке и сроку — аннуитет и дифференцированный платёж." />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/finance/credit/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Кредитный калькулятор: платёж и переплата — CalcDoc" />
+  <meta property="og:description" content="Рассчитайте аннуитетный и дифференцированный платёж, сумму выплат и переплату по кредиту." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/calculators/finance/credit/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <style>
+      /* @font-face инлайном — вместо внешнего файла шрифтов: убирает цепочку HTML → CSS → woff2 (Lighthouse: 937 мс). Начертаний девять — все сохранены. */
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+    </style>
+    <link rel="preload" href="/fonts/manrope-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/unbounded-600-lat.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/bundle.css?v=39" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"SoftwareApplication", "name":"Кредитный калькулятор", "applicationCategory":"FinanceApplication", "operatingSystem":"Web", "offers":{ "@type":"Offer","price":"0","priceCurrency":"RUB" } }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Калькуляторы","item":"https://calc-doc.ru/calculators/" }, { "@type":"ListItem","position":3,"name":"Финансы и налоги","item":"https://calc-doc.ru/calculators/finance/" }, { "@type":"ListItem","position":4,"name":"Кредит","item":"https://calc-doc.ru/calculators/finance/credit/" } ] }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Как рассчитать платёж по кредиту самостоятельно?", "acceptedAnswer": { "@type": "Answer", "text": "Для аннуитета нужны сумма кредита S, месячная ставка r (годовая, делённая на 12) и срок n в месяцах: платёж = S × r ÷ (1 − (1 + r)⁻ⁿ). Для дифференцированного платежа тело кредита делят на срок поровну и добавляют проценты на текущий остаток долга. Проще подставить свои числа в калькулятор: он считает по этой же формуле и не ошибается в степенях." } },
+      { "@type": "Question", "name": "Чем аннуитетный платёж отличается от дифференцированного?", "acceptedAnswer": { "@type": "Answer", "text": "Аннуитетный платёж одинаков весь срок, но переплата выше: в первых платежах доля процентов максимальна. Дифференцированный платёж постепенно уменьшается, потому что проценты начисляются на остаток долга, — переплата меньше, зато первые платежи заметно крупнее. Банки чаще предлагают аннуитет." } },
+      { "@type": "Question", "name": "Как считается переплата по кредиту?", "acceptedAnswer": { "@type": "Answer", "text": "Переплата = сумма всех выплат минус сумма кредита. Например, 60 платежей по 27 053 ₽ — это 1 623 202 ₽, значит при кредите 1 000 000 ₽ переплата составит 623 202 ₽, то есть 62% от суммы. Калькулятор показывает переплату и в рублях, и в процентах." } },
+      { "@type": "Question", "name": "Что выгоднее при досрочном погашении: сокращать срок или уменьшать платёж?", "acceptedAnswer": { "@type": "Answer", "text": "По деньгам выгоднее сокращать срок: долг закрывается быстрее, поэтому меньше месяцев, за которые начисляются проценты. Уменьшение платежа снижает нагрузку на бюджет, но переплата сокращается медленнее. Оба варианта бесплатны — комиссию за досрочное погашение банк брать не вправе." } },
+      { "@type": "Question", "name": "Почему платёж в банке отличается от расчёта в калькуляторе?", "acceptedAnswer": { "@type": "Answer", "text": "Калькулятор считает «чистый» кредит по формуле. В банке к нему добавляются страховка, комиссии за обслуживание и другие платежи, а первый платёжный период может быть неполным месяцем. Поэтому сверяйте расчёт с графиком платежей в договоре: сам платёж будет чуть выше, а полная стоимость кредита — заметно выше." } },
+      { "@type": "Question", "name": "Можно ли погасить кредит досрочно без штрафа?", "acceptedAnswer": { "@type": "Answer", "text": "Да. По закону о потребительском кредите за досрочное погашение комиссия и штраф не берутся — нужно только уведомить банк, обычно за 30 дней до платежа. Порядок уведомления указан в договоре: чаще всего это заявление в отделении или в мобильном приложении." } },
+      { "@type": "Question", "name": "Как банк оценивает долговую нагрузку (ПДН)?", "acceptedAnswer": { "@type": "Answer", "text": "ПДН — это отношение всех ежемесячных платежей по кредитам и картам к подтверждённому доходу. Нагрузка до 50% считается комфортной, 50–80% повышает риск отказа или надбавки к ставке, а свыше 80% банки ограничены в выдаче. Снизить показатель помогают меньшая сумма или больший срок, закрытые кредитные карты, справка о дополнительном доходе и созаёмщик." } },
+      { "@type": "Question", "name": "Что выгоднее — рефинансирование или досрочное погашение?", "acceptedAnswer": { "@type": "Answer", "text": "Если есть свободные деньги, выгоднее досрочное погашение: экономия равна ставке кредита, а комиссий за него нет. Рефинансирование имеет смысл, когда новая ставка заметно ниже старой, а срок и платёж становятся удобнее. Сравнивайте не ставки, а итоговую переплату: удлинение срока может «съесть» выгоду от снижения процента." } }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="/print.css?v=39" media="print" />
+</head>
+<body>
+    <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/finance/">Финансы и налоги<b>16</b></a>
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/auto/">Авто<b>4</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/calculators/">Калькуляторы</a> / <a href="/calculators/finance/">Финансы и налоги</a> / Кредит</nav>
+      <h1>Кредитный калькулятор</h1>
+      <p class="tool-meta">Рассчитайте ежемесячный платёж и переплату по кредиту. Данные не отправляются на сервер.</p>
+      <p class="calc-note">Расчёты носят справочный характер.</p>
+    </div>
+
+    <!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+<!--SLOT:ads-ad-top-->
+<div class="ad-slot-box ad-top" data-ad-slot="ad-top" aria-label="Рекламный блок"></div>
+<!--/SLOT:ads-ad-top-->
+
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="creditForm">
+            <div class="field">
+              <label for="sum">Сумма кредита (₽)</label>
+              <input type="number" id="sum" inputmode="decimal" min="0" step="any" placeholder="например 1000000" required value="1000000" />
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="rate">Ставка (% годовых)</label>
+                <input type="number" id="rate" inputmode="decimal" min="0" step="any" placeholder="21" required value="21" />
+              </div>
+              <div class="field">
+                <label for="term">Срок (мес)</label>
+                <input type="number" id="term" inputmode="numeric" min="1" step="1" placeholder="60" required value="60" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="type">Тип платежа</label>
+              <select id="type">
+                <option value="annuity">Аннуитетный</option>
+                <option value="diff">Дифференцированный</option>
+              </select>
+            </div>
+            <button data-metric-goal="расчёт" class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+    <!--SLOT:banner-after-tool-->
+    <!--/SLOT:banner-after-tool-->
+    <!--SLOT:ads-after-tool-->
+    <!--/SLOT:ads-after-tool-->
+      <div class="prose">
+        <span class="eyebrow">Расчёт кредита</span>
+        <h2>Кредитный калькулятор: платёж, переплата и полная стоимость кредита</h2>
+        <p class="tool-meta">Обновлено: 16 сентября 2026</p>
+        <p>Кредитный калькулятор считает <strong>ежемесячный платёж</strong>, сумму всех выплат и переплату по процентам — по сумме кредита, ставке и сроку. Итог виден сразу и <strong>до подачи заявки в банк</strong>.</p>
+        <p>Расчёт идёт прямо в браузере: данные не отправляются на сервер, регистрация не нужна. Один и тот же кредит можно посчитать по двум схемам — аннуитетной и дифференцированной — и сравнить, какая выгоднее по переплате и удобнее по нагрузке на бюджет.</p>
+
+        <span class="eyebrow">Инструкция</span>
+        <h2>Как рассчитать кредит онлайн</h2>
+        <p>Для расчёта нужны четыре значения — все они есть в кредитном предложении:</p>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span><strong>Сумма кредита</strong> — сколько банк выдаёт по договору, без процентов</span></div>
+          <div class="seo-step"><b>2</b><span><strong>Ставка</strong> — годовые проценты; у потребкредитов это обычно 15–30%</span></div>
+          <div class="seo-step"><b>3</b><span><strong>Срок</strong> — задаётся в месяцах: 12, 24, 36, 60 и больше</span></div>
+          <div class="seo-step"><b>4</b><span><strong>Тип платежа</strong> — аннуитетный или дифференцированный</span></div>
+        </div>
+        <p>После нажатия «Рассчитать» появятся платёж, сумма всех выплат и переплата — в рублях и в процентах от суммы кредита. Меняя ставку или срок, за минуту можно сравнить два-три предложения банков и увидеть, сколько стоит каждый процент.</p>
+
+        <span class="eyebrow">Виды платежей</span>
+        <h2>Аннуитетный и дифференцированный платёж</h2>
+        <div class="seo-two">
+          <div class="seo-opt">
+            <h3>Аннуитетный <span class="accent">— платёж одинаковый</span></h3>
+            <ul>
+              <li>Каждый месяц одна и та же сумма — удобно планировать бюджет</li>
+              <li>В начале срока большая часть платежа уходит на проценты</li>
+              <li>Банк готов одобрить бо́льшую сумму и длинный срок</li>
+              <li><strong>Такую схему предлагают почти все банки России</strong></li>
+            </ul>
+          </div>
+          <div class="seo-opt">
+            <h3>Дифференцированный <span class="accent">— платёж уменьшается</span></h3>
+            <ul>
+              <li>Тело кредита гасится равными долями, проценты — на остаток</li>
+              <li>Переплата меньше: проценты начисляются на убывающий долг</li>
+              <li>Максимальная нагрузка в первые месяцы — нужен доход «с запасом»</li>
+              <li>Встречается редко, чаще — в ипотеке и крупных кредитах</li>
+            </ul>
+          </div>
+        </div>
+        <p>На одном и том же кредите 1 000 000 ₽ на 60 месяцев под 21% годовых аннуитет даёт платёж 27 053 ₽ и переплату 623 202 ₽, а дифференцированная схема — платёж от 34 167 ₽ до 16 958 ₽ и переплату 533 750 ₽. Разница — почти <strong>90 000 ₽</strong>, зато первые месяцы платить заметно больше.</p>
+
+        <span class="eyebrow">Формула</span>
+        <h2>Формула расчёта платежа по кредиту</h2>
+        <p>Аннуитетный платёж — одинаковая сумма на весь срок:</p>
+        <div class="seo-formula">P = S × r ÷ (1 − (1 + r)<sup>−n</sup>)</div>
+        <p>где <strong>S</strong> — сумма кредита, <strong>r</strong> — месячная ставка (годовая ÷ 12), <strong>n</strong> — срок в месяцах. Остаток долга в этой формуле уже «зашит»: платёж подобран так, чтобы к последнему месяцу долг закрылся полностью.</p>
+        <p>Дифференцированный платёж считается проще — по частям:</p>
+        <div class="seo-formula">Платёж = S ÷ n + Остаток долга × r</div>
+        <p><strong>Пример.</strong> Кредит 1 000 000 ₽ на 60 месяцев под 21% годовых, месячная ставка — 1,75%. Аннуитет: 27 053 ₽ в месяц, всего выплат 1 623 202 ₽, переплата 623 202 ₽ (62% от суммы кредита). Дифференцированный: первый платёж 34 167 ₽, последний 16 958 ₽, всего 1 533 750 ₽ — переплата 533 750 ₽.</p>
+        <p>Посчитайте свой вариант в полях выше — калькулятор применит ту же формулу и округлит результат так же, как банк в графике платежей.</p>
+
+        <span class="eyebrow">Что влияет на платёж</span>
+        <h2>Сумма, ставка и срок: что меняет переплату</h2>
+        <p>На платёж и переплату влияют три числа, и каждое — по-своему.</p>
+        <p><strong>Срок.</strong> Чем дольше платите, тем меньше платёж, но тем дороже кредит. Вот кредит 500 000 ₽ под 21% годовых:</p>
+        <table class="seo-table">
+          <thead><tr><th>Срок</th><th>Платёж в месяц</th><th>Переплата</th></tr></thead>
+          <tbody>
+            <tr><td>12 месяцев</td><td>46 557 ₽</td><td>58 683 ₽</td></tr>
+            <tr><td>24 месяца</td><td>25 693 ₽</td><td>116 628 ₽</td></tr>
+            <tr><td>36 месяцев</td><td>18 838 ₽</td><td>178 151 ₽</td></tr>
+            <tr><td>60 месяцев</td><td>13 527 ₽</td><td>311 601 ₽</td></tr>
+          </tbody>
+        </table>
+        <p class="hint">Аннуитетный платёж, ставка 21% годовых. Расчёт по формуле выше.</p>
+        <p><strong>Ставка.</strong> Разница в один-два процентных пункта за пять лет стоит сотни тысяч рублей. Кредит 1 000 000 ₽ на 60 месяцев: под 15% платёж 23 790 ₽ и переплата 427 396 ₽, под 30% — 32 353 ₽ и 941 204 ₽. Разница только в процентах — <strong>513 808 ₽</strong>.</p>
+        <p><strong>Сумма кредита</strong> увеличивает и платёж, и переплату пропорционально: вдвое больше сумма при той же ставке и сроке — вдвое больше и то, и другое.</p>
+        <p class="note"><strong>Важно:</strong> платёж из калькулятора — ещё не вся стоимость кредита. Сравнивайте предложения по <strong>полной стоимости кредита (ПСК)</strong> из договора: в неё входят страховки, комиссии и другие платежи, которых в самой ставке не видно.</p>
+
+        <span class="eyebrow">Экономия</span>
+        <h2>Досрочное погашение кредита</h2>
+        <p>По закону о потребительском кредите банк <strong>не вправе брать комиссию или штраф за досрочное погашение</strong> — достаточно уведомить банк заранее, обычно за 30 дней; точный порядок указан в договоре.</p>
+        <p>Досрочный платёж направляют либо на <strong>сокращение срока</strong> — так экономия на процентах максимальна, либо на <strong>уменьшение платежа</strong> — так снижается ежемесячная нагрузка, но переплата падает медленнее. Сильнее всего досрочные взносы работают в первые месяцы и годы, когда доля процентов в платеже самая большая.</p>
+        <p>Эффект легко проверить в калькуляторе: посчитайте платёж и переплату для исходного срока, а затем для уменьшенного на несколько месяцев — разница и будет вашей экономией.</p>
+
+        <span class="eyebrow">Автокредит и нагрузка</span>
+        <h2>Автокредит, рефинансирование и долговая нагрузка</h2>
+        <p>Формула платежа одинакова для любого кредита, но условия банков различаются — от этого зависит и ставка, и сама вероятность одобрения.</p>
+        <ul>
+          <li><strong>Автокредит</strong> дешевле потребительского, потому что автомобиль остаётся в залоге; как правило, требуется КАСКО, а расходы на него увеличивают реальную стоимость кредита. В калькуляторе укажите ставку и срок автокредита, а стоимость полиса добавьте к переплате отдельно.</li>
+          <li><strong>Рефинансирование</strong> — новый кредит гасит старый. Смысл есть, когда новая ставка заметно ниже: сравните платёж и переплату по старому договору и по новому, учтя комиссии и страховки. Иногда выгоднее не удлинять срок, а оставить прежний — тогда экономия больше.</li>
+          <li><strong>Долговая нагрузка (ПДН)</strong> — отношение всех ежемесячных платежей к доходу. Банк смотрит и на этот показатель: при высокой нагрузке он повышает ставку или отказывает, а Банк России ограничивает выдачу кредитов заёмщикам с ПДН выше 80%.</li>
+          <li><strong>Залог и созаёмщик</strong> — залог снижает ставку, созаёмщик с подтверждённым доходом повышает сумму, которую одобрят.</li>
+        </ul>
+        <p><strong>Пример.</strong> Платёж по кредиту 27 053 ₽ при доходе 60 000 ₽ даёт нагрузку 45%. Если добавить второй кредит с платежом 15 000 ₽, суммарная нагрузка станет 70% — банк почти наверняка захочет снизить риск ставкой или откажет.</p>
+
+    <!--SLOT:banner-mid-->
+    <!--/SLOT:banner-mid-->
+    <!--SLOT:ads-mid-->
+    <!--/SLOT:ads-mid-->
+        <span class="eyebrow">Вопросы и ответы</span>
+        <h2>Частые вопросы о расчёте кредита</h2>
+
+        <details class="seo-faq">
+          <summary>Как рассчитать платёж по кредиту самостоятельно?</summary>
+          <div class="seo-faq-b"><p>Для аннуитета нужны сумма кредита S, месячная ставка r (годовая, делённая на 12) и срок n в месяцах: платёж = S × r ÷ (1 − (1 + r)⁻ⁿ). Для дифференцированного платежа тело кредита делят на срок поровну и добавляют проценты на текущий остаток долга. Проще подставить свои числа в калькулятор: он считает по этой же формуле и не ошибается в степенях.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Чем аннуитетный платёж отличается от дифференцированного?</summary>
+          <div class="seo-faq-b"><p>Аннуитетный платёж одинаков весь срок, но переплата выше: в первых платежах доля процентов максимальна. Дифференцированный платёж постепенно уменьшается, потому что проценты начисляются на остаток долга, — переплата меньше, зато первые платежи заметно крупнее. Банки чаще предлагают аннуитет.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Как считается переплата по кредиту?</summary>
+          <div class="seo-faq-b"><p>Переплата = сумма всех выплат минус сумма кредита. Например, 60 платежей по 27 053 ₽ — это 1 623 202 ₽, значит при кредите 1 000 000 ₽ переплата составит 623 202 ₽, то есть 62% от суммы. Калькулятор показывает переплату и в рублях, и в процентах.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Что выгоднее при досрочном погашении: сокращать срок или уменьшать платёж?</summary>
+          <div class="seo-faq-b"><p>По деньгам выгоднее сокращать срок: долг закрывается быстрее, поэтому меньше месяцев, за которые начисляются проценты. Уменьшение платежа снижает нагрузку на бюджет, но переплата сокращается медленнее. Оба варианта бесплатны — комиссию за досрочное погашение банк брать не вправе.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Почему платёж в банке отличается от расчёта в калькуляторе?</summary>
+          <div class="seo-faq-b"><p>Калькулятор считает «чистый» кредит по формуле. В банке к нему добавляются страховка, комиссии за обслуживание и другие платежи, а первый платёжный период может быть неполным месяцем. Поэтому сверяйте расчёт с графиком платежей в договоре: сам платёж будет чуть выше, а полная стоимость кредита — заметно выше.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Можно ли погасить кредит досрочно без штрафа?</summary>
+          <div class="seo-faq-b"><p>Да. По закону о потребительском кредите за досрочное погашение комиссия и штраф не берутся — нужно только уведомить банк, обычно за 30 дней до платежа. Порядок уведомления указан в договоре: чаще всего это заявление в отделении или в мобильном приложении.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Как банк оценивает долговую нагрузку (ПДН)?</summary>
+          <div class="seo-faq-b"><p>ПДН — это отношение всех ежемесячных платежей по кредитам и картам к подтверждённому доходу. Нагрузка до 50% считается комфортной, 50–80% повышает риск отказа или надбавки к ставке, а свыше 80% банки ограничены в выдаче. Снизить показатель помогают меньшая сумма или больший срок, закрытые кредитные карты, справка о дополнительном доходе и созаёмщик.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Что выгоднее — рефинансирование или досрочное погашение?</summary>
+          <div class="seo-faq-b"><p>Если есть свободные деньги, выгоднее досрочное погашение: экономия равна ставке кредита, а комиссий за него нет. Рефинансирование имеет смысл, когда новая ставка заметно ниже старой, а срок и платёж становятся удобнее. Сравнивайте не ставки, а итоговую переплату: удлинение срока может «съесть» выгоду от снижения процента.</p></div>
+        </details>
+
+        <p class="calc-note">Расчёты носят справочный характер и не являются офертой или решением банка об одобрении кредита. Точные условия, ставку и полную стоимость кредита уточняйте в договоре. Данные калькулятора не покидают ваш браузер.</p>
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/calculators/finance/mortgage/">Ипотечный калькулятор</a>
+          <a href="/calculators/finance/deposit/">Калькулятор вкладов</a>
+          <a href="/calculators/finance/penalty/">Калькулятор пени</a>
+          <a href="/calculators/finance/ndfl/">НДФЛ и налоговые вычеты</a>
+        </div>
+      </div>
+    </div>
+    <!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/calculators/finance/credit/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/calculators/finance/credit/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=39" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+  </main>
+
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  <!--SLOT:ads-ad-bottom-->
+<div class="ad-slot-box ad-bottom" data-ad-slot="ad-bottom" aria-label="Рекламный блок"></div>
+<!--/SLOT:ads-ad-bottom-->
+
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=40"></script>
+  <script type="module" src="/js/calc-credit.js?v=39"></script>
+</body>
+</html>
+
+
+
+

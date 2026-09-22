@@ -1,0 +1,168 @@
+# .htaccess для calc-doc.ru на Apache (хостинг sweb.ru / SpaceWeb)
+# Кладётся В КОРЕНЬ сайта (туда же, где index.html).
+# Заменяет служебные файлы Cloudflare Pages `_headers` и `_redirects`
+# (на Apache они не работают — их вообще не нужно заливать).
+
+Options -Indexes
+DirectoryIndex index.html
+
+# ─────────────────────── Типы файлов ───────────────────────
+AddDefaultCharset UTF-8
+<IfModule mod_mime.c>
+  AddType application/javascript              .js .mjs
+  AddType text/css                            .css
+  AddType font/woff2                          .woff2
+  AddType image/svg+xml                       .svg
+  # .ico — иконка вкладки (favicon.ico: кадры 16, 32 и 48 внутри одного файла)
+  AddType image/x-icon                        .ico
+  AddType application/manifest+json           .webmanifest
+  AddType application/xml                     .xml
+</IfModule>
+
+# ─────────────────────── Сжатие ───────────────────────
+# HTML/CSS/JS/JSON/SVG сжимаем; woff2, jpg, png уже сжаты — их не трогаем.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml application/xml \
+    application/javascript application/json application/manifest+json image/svg+xml
+</IfModule>
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/css application/javascript \
+    application/json application/manifest+json image/svg+xml
+</IfModule>
+
+# ─────────────────────── Кэширование ───────────────────────
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html                     "access plus 0 seconds"
+  ExpiresByType text/css                      "access plus 1 year"
+  ExpiresByType application/javascript        "access plus 1 year"
+  ExpiresByType font/woff2                    "access plus 1 year"
+  ExpiresByType image/svg+xml                 "access plus 14 days"
+  ExpiresByType image/jpeg                    "access plus 14 days"
+  ExpiresByType image/png                     "access plus 14 days"
+  # Иконки меняются редко, а браузеры кэшируют favicon особенно упорно:
+  # даём 14 дней, как картинкам.
+  ExpiresByType image/x-icon                  "access plus 14 days"
+  ExpiresByType image/vnd.microsoft.icon      "access plus 14 days"
+</IfModule>
+
+# ─────────────────────── Заголовки безопасности ───────────────────────
+# Значения перенесены из _headers. Правка 22.09.2026: в CSP добавлены адреса
+# Яндекс.Метрики и рекламной сети Яндекса (РСЯ) — иначе браузер блокирует и счётчик,
+# и рекламные блоки. Появились: script/style/img/connect/frame-src для mc.yandex.ru,
+# yastatic.net, an.yandex.ru, yandex.ru, avatars.mds.yandex.net, а также wss://mc.yandex.ru
+# (Метрика держит канал реального времени) и служебная рамка на mc.yandex.ru.
+# cdn.jsdelivr.net и tessdata остаются — это OCR в PDF→Word.
+# Если однажды понадобится AdSense, добавить его адреса (pagead2.googlesyndication.com,
+# tpc.googlesyndication.com, googleads.g.doubleclick.net, adservice.google.com) в те же
+# директивы — сейчас они не нужны, рекламные блоки у нас РСЯ.
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), publickey-credentials-get=()"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' blob: https://cdn.jsdelivr.net https://mc.yandex.ru https://mc.yandex.com https://yandex.ru https://an.yandex.ru https://yastatic.net; style-src 'self' 'unsafe-inline' https://yastatic.net; img-src 'self' data: blob: https://mc.yandex.ru https://mc.yandex.com https://yandex.ru https://an.yandex.ru https://yastatic.net https://avatars.mds.yandex.net; font-src 'self' data: https://yastatic.net; connect-src 'self' blob: https://cdn.jsdelivr.net https://tessdata.projectnaptha.com https://mc.yandex.ru https://mc.yandex.com wss://mc.yandex.ru wss://mc.yandex.com https://yandex.ru https://an.yandex.ru; frame-src 'self' https://mc.yandex.ru https://mc.yandex.com https://yandex.ru https://an.yandex.ru https://yastatic.net https://avatars.mds.yandex.net; worker-src 'self' blob: https://cdn.jsdelivr.net https://yastatic.net; object-src 'none'; frame-ancestors 'none'; base-uri 'self'"
+
+  # Правила кэша из _headers + новые ресурсы (home.css, шрифты).
+  # Правка 21.09.2026 (шаг PageSpeed): сроки хранения CSS, JS и шрифтов подняты до года.
+  # Причина: ссылки на стили и скрипты версионируются (?v=31 и дальше), при выпуске адрес
+  # меняется — держать файл в кэше долго безопасно, а браузер перестаёт ходить за ним на
+  # каждом заходе. Раньше было 7 дней у CSS/JS и шрифтов, поэтому повторные заходы
+  # перезапрашивали статику. Картинки не версионируются — у них 30 дней: если картинку
+  # заменили, лучше поменять имя файла, иначе месяц будет отдаваться старая.
+  # На будущее: у шрифтов версии в имени файла нет — при замене шрифта называйте файл
+  # по-новому (например manrope-400-cyr-v2.woff2), иначе год кэша отдаст старый шрифт.
+  <FilesMatch "\.(js|mjs)$">
+    Header set Cache-Control "public, max-age=31536000"
+  </FilesMatch>
+  <FilesMatch "\.css$">
+    Header set Cache-Control "public, max-age=31536000"
+  </FilesMatch>
+  <FilesMatch "\.woff2$">
+    Header set Cache-Control "public, max-age=31536000"
+  </FilesMatch>
+  <FilesMatch "\.(jpg|jpeg|png|svg|ico)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+
+  # HSTS включён 16.09.2026 по решению владельца. Перед включением проверено замером:
+  # HTTPS работает и на домене, и на www (один сертификат CN=calc-doc.ru до 11.12.2026),
+  # http://calc-doc.ru/ и http://www.calc-doc.ru/ отвечают 301 на https — «залипнуть»
+  # не на чем. Год и includeSubDomains: после первого ответа браузер ходит к домену
+  # и его поддоменам только по HTTPS и не даёт обойти ошибку сертификата, поэтому
+  # в панели sweb должно быть включено автоматическое продление сертификата —
+  # откат для уже зашедших пользователей возможен только по истечении max-age.
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# ─────────────────────── HTTPS и без www ───────────────────────
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # HTTPS включён после выпуска сертификата Let's Encrypt (wildcard calc-doc.ru + www).
+
+  # http -> https
+  # Важно: за прокси sweb переменная %{HTTPS} не выставляется вообще (Apache видит
+  # https-запрос как обычный), поэтому проверять её нельзя — иначе получается петля
+  # (https://calc-doc.ru/ -> 301 -> https://calc-doc.ru/). Проверено на сервере:
+  # Apache 2.2 + PHP 7.1, заголовок X-Forwarded-Proto приходит как http или https.
+  RewriteCond %{HTTP:X-Forwarded-Proto} !^https$ [NC]
+  RewriteCond %{REQUEST_URI} !^/\.well-known/ [NC]
+  RewriteRule ^(.*)$ https://calc-doc.ru/$1 [R=301,L]
+
+  # www -> без www (не зависит от признака TLS, петли не даёт)
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteCond %{REQUEST_URI} !^/\.well-known/ [NC]
+  RewriteRule ^(.*)$ https://calc-doc.ru/$1 [R=301,L]
+
+  # не отдавать служебные/скрытые файлы (.git, .env, .gitignore и т.п.);
+  # исключение — /.well-known/ (нужен для проверки сертификата)
+  RewriteRule (^|/)\.(?!well-known/).* - [F,L]
+
+  # документацию в репозитории тоже не отдаём
+  RewriteRule \.(md|env|log|bak)$ - [F,L]
+</IfModule>
+
+# ─────────────────────── Ошибки ───────────────────────
+ErrorDocument 404 /404.html
+
+# 404 для удалённой страницы инфографики (перенос из _redirects:
+#   /converters/infographic.html  /404  404
+#   /converters/infographic       /404  404 )
+RedirectMatch 404 ^/converters/infographic(\.html)?$
+
+# удалённая игра «Быстрый счёт» (12.09.2026) — страница больше не отдаётся
+RedirectMatch 404 ^/games/quick-math(\.html)?$
+
+# данные счётчика посещений (пишет api/stats.php) снаружи не отдаём:
+# в них только итоговые числа за сутки, открывать их по URL незачем
+RedirectMatch 404 ^/api/data(/|$)
+
+# ─────────── 301: переезд в «чистые» URL папок (15.09.2026) ───────────
+# Инструменты получили адреса вида /calculators/finance/ndfl/ и /generators/contract/.
+# ВАЖНО: правил вида ^/xxx/index\.html$ тут быть не должно. Nginx на sweb сам
+# подставляет index.html при запросе папки, поэтому такое правило срабатывает на
+# /xxx/ и уводит на тот же адрес — была петля редиректов (ERR_TOO_MANY_REDIRECTS)
+# на /converters/, /games/, /calculators/finance/ и /calculators/construction/.
+# Канонизацию держат <link rel="canonical"> в самих страницах.
+RedirectMatch 301 ^/calculators/(alimony|deposit|mortgage|penalty|tax-freelancer|vacation-pay|vat)\.html$ https://calc-doc.ru/calculators/finance/$1/
+RedirectMatch 301 ^/calculators/(brick|wallpaper)\.html$ https://calc-doc.ru/calculators/construction/$1/
+RedirectMatch 301 ^/calculators/finance/(?!index)([a-z0-9-]+)\.html$ https://calc-doc.ru/calculators/finance/$1/
+RedirectMatch 301 ^/calculators/construction/(?!index)([a-z0-9-]+)\.html$ https://calc-doc.ru/calculators/construction/$1/
+# файлы -> генераторы (16.09.2026): раздел вернулся к имени «Генераторы».
+# Старые правила ходили в обратную сторону (/generators/ -> /files/) и убраны:
+# они увели бы живой /generators/... на адреса, которых больше нет.
+RedirectMatch 301 ^/files/([a-z0-9-]+)\.html$ https://calc-doc.ru/generators/$1/
+RedirectMatch 301 ^/files/([a-z0-9-]+)/?$ https://calc-doc.ru/generators/$1/
+# политика конфиденциальности: файл переехал в папку (20.09.2026)
+RedirectMatch 301 ^/privacy\.html$ https://calc-doc.ru/privacy/
+RedirectMatch 301 ^/files/?$ https://calc-doc.ru/generators/
+# расписка переехала в категорию «Автомобильные» (19.09.2026).
+# Правило держим и дальше: это страховка от внешних ссылок, старых закладок и индекса.
+RedirectMatch 301 ^/generators/raspiska/?$ https://calc-doc.ru/generators/auto/raspiska/
+# конвертеры и игры
+RedirectMatch 301 ^/converters/(?!index)([a-z0-9-]+)\.html$ https://calc-doc.ru/converters/$1/
+RedirectMatch 301 ^/games/(?!index)([a-z0-9-]+)\.html$ https://calc-doc.ru/games/$1/

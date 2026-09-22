@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Неустойка по алиментам — расчёт 0,1% в день | CalcDoc</title>
+  <meta name="description" content="Расчёт неустойки по алиментам онлайн: 0,1% за каждый день просрочки по ст. 115 СК РФ и 0,5% для долга до 30.06.2024. Формула, пример, взыскание." />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/finance/alimony/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Неустойка по алиментам — CalcDoc" />
+  <meta property="og:description" content="Рассчитайте неустойку по алиментам по ст. 115 СК РФ за дни просрочки." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/calculators/finance/alimony/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <style>
+      /* @font-face инлайном — вместо внешнего файла шрифтов: убирает цепочку HTML → CSS → woff2 (Lighthouse: 937 мс). Начертаний девять — все сохранены. */
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+    </style>
+    <link rel="preload" href="/fonts/manrope-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/unbounded-600-lat.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/bundle.css?v=39" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Калькулятор неустойки по алиментам",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Калькуляторы", "item": "https://calc-doc.ru/calculators/" },
+      { "@type": "ListItem", "position": 3, "name": "Финансы и налоги", "item": "https://calc-doc.ru/calculators/finance/" },
+      { "@type": "ListItem", "position": 4, "name": "Неустойка по алиментам", "item": "https://calc-doc.ru/calculators/finance/alimony/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Как рассчитывается неустойка по алиментам?", "acceptedAnswer": { "@type": "Answer", "text": "По ст. 115 СК РФ: неустойка = сумма задолженности × 0,1% × число дней просрочки. Для задолженности, образовавшейся до 30 июня 2024 года, применяется прежняя ставка 0,5% в день. Дни считаются календарные, включая выходные." } },
+      { "@type": "Question", "name": "С какого дня начисляется неустойка по алиментам?", "acceptedAnswer": { "@type": "Answer", "text": "С того дня, когда алименты должны были быть уплачены, но не были. Если платёж обязателен до 25 числа, просрочка начинается 26-го. Расчёт удобно делать помесячно — так видно, в каком месяце возникла задолженность." } },
+      { "@type": "Question", "name": "Нужно ли обращаться в суд, чтобы взыскать неустойку?", "acceptedAnswer": { "@type": "Answer", "text": "Да, неустойка взыскивается в судебном порядке: приставам такое требование не передаётся автоматически. Если долг уже подтверждён постановлением, процесс сводится к расчёту, исковому заявлению и доказательствам. Согласен ли плательщик — неважно, суд решает по документам." } },
+      { "@type": "Question", "name": "Можно ли уменьшить или списать неустойку по алиментам?", "acceptedAnswer": { "@type": "Answer", "text": "Суд может снизить неустойку по ст. 333 ГК РФ, если она несоразмерна долгу. Освободить от уплаты неустойки можно, если задолженность возникла не по вине плательщика — например, из-за ошибки банка при переводе или болезни, подтверждённой документами. Просто «тяжёлое положение» обычно не помогает." } },
+      { "@type": "Question", "name": "Что делать, если алименты платили частично?", "acceptedAnswer": { "@type": "Answer", "text": "Неустойка начисляется не на всю сумму алиментов, а на непогашенный остаток за каждый месяц. Поэтому сначала нужен расчёт задолженности от пристава: в нём по месяцам видно, сколько должно было поступить и сколько поступило фактически, а разница и есть база для неустойки." } },
+      { "@type": "Question", "name": "Есть ли срок исковой давности по неустойке за алименты?", "acceptedAnswer": { "@type": "Answer", "text": "К требованию о взыскании неустойки применяется общий трёхлетний срок исковой давности — он считается по каждому периоду просрочки отдельно. Поэтому с иском не стоит тянуть: чем раньше вы обратитесь, тем больше дней просрочки войдёт в расчёт без спора о сроках." } },
+      { "@type": "Question", "name": "Почему расчёт пристава и калькулятора расходится?", "acceptedAnswer": { "@type": "Answer", "text": "Калькулятор умножает всю сумму долга на весь срок просрочки, а пристав считает неустойку по каждому месяцу отдельно — у долга за разные месяцы разное число дней просрочки. Поэтому при длительной задолженности расчёт пристава обычно меньше. Для суда ориентируйтесь на постановление пристава: оно учитывает помесячные суммы и частичные платежи." } },
+      { "@type": "Question", "name": "Как индексация алиментов влияет на неустойку?", "acceptedAnswer": { "@type": "Answer", "text": "Алименты в твёрдой денежной сумме индексируют пропорционально росту прожиточного минимума, поэтому задолженность считают уже с учётом индексации — а неустойка начисляется на проиндексированные суммы. Если индексацию не проводили, долг и неустойка окажутся заниженными: этот вопрос можно поставить перед приставом." } }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="/print.css?v=39" media="print" />
+</head>
+<body>
+    <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/finance/">Финансы и налоги<b>16</b></a>
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/auto/">Авто<b>4</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/calculators/">Калькуляторы</a> / <a href="/calculators/finance/">Финансы и налоги</a> / Неустойка по алиментам</nav>
+      <h1>Калькулятор неустойки по алиментам</h1>
+      <p class="tool-meta">Рассчитайте неустойку по задолженности по алиментам (ст. 115 СК РФ). Данные не отправляются на сервер.</p>
+      <p class="calc-note">Расчёты носят справочный характер.</p>
+    </div>
+
+    <!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="alimonyForm">
+            <div class="field">
+              <label for="debt">Сумма задолженности (₽)</label>
+              <input type="number" id="debt" inputmode="decimal" min="0" step="any" placeholder="например 50000" required value="50000" />
+            </div>
+            <div class="field">
+              <label for="days">Количество дней просрочки</label>
+              <input type="number" id="days" inputmode="numeric" min="1" step="1" placeholder="например 90" required value="90" />
+            </div>
+            <div class="field">
+              <label for="rate">Ставка</label>
+              <select id="rate">
+                <option value="0.1">0,1% в день (ст. 115 СК РФ)</option>
+                <option value="0.5">0,5% в день (до 30.06.2024)</option>
+              </select>
+            </div>
+            <button data-metric-goal="расчёт" class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container section">
+    <!--SLOT:banner-after-tool-->
+    <!--/SLOT:banner-after-tool-->
+    <!--SLOT:ads-after-tool-->
+    <!--/SLOT:ads-after-tool-->
+      <div class="prose">
+        <span class="eyebrow">Неустойка по алиментам</span>
+        <h2>Калькулятор неустойки по алиментам (ст. 115 СК РФ)</h2>
+        <p class="tool-meta">Обновлено: 16 сентября 2026</p>
+        <p>Если алименты не платят или платят не полностью, у получателя появляется право на <strong>неустойку</strong>: по ст. 115 СК РФ она составляет <strong>0,1% от суммы задолженности за каждый день просрочки</strong>. Калькулятор считает её по сумме долга и числу дней — для задолженности, накопившейся и до, и после 2024 года.</p>
+        <p>Для долгов, образовавшихся <strong>до 30 июня 2024 года</strong>, применялась прежняя ставка <strong>0,5% в день</strong> — она тоже есть в калькуляторе. Расчёт пригодится для искового заявления: суд принимает сумму, подтверждённую расчётом и документами.</p>
+
+        <span class="eyebrow">Инструкция</span>
+        <h2>Как рассчитать неустойку по алиментам</h2>
+        <p>Понадобятся три значения:</p>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span><strong>Сумма задолженности</strong> — её считает и подтверждает судебный пристав</span></div>
+          <div class="seo-step"><b>2</b><span><strong>Дни просрочки</strong> — с первого дня неисполнения по день расчёта</span></div>
+          <div class="seo-step"><b>3</b><span><strong>Ставка</strong> — 0,1% в день сейчас или 0,5% для старого долга</span></div>
+        </div>
+        <p>Нажмите «Рассчитать» — увидите сумму неустойки. Если периоды считались по разным ставкам (долг частично накопился до 30.06.2024), посчитайте их отдельно и сложите.</p>
+
+        <span class="eyebrow">Формула</span>
+        <h2>Формула расчёта неустойки</h2>
+        <div class="seo-formula">Неустойка = Задолженность × 0,1% × Дни просрочки</div>
+        <p>Для старой ставки множитель — 0,5% вместо 0,1%. Проценты начисляются за <strong>каждый день</strong>, включая выходные и праздники.</p>
+        <p><strong>Пример.</strong> Задолженность 50 000 ₽, просрочка 90 дней по действующей ставке: 50 000 × 0,001 × 90 = <strong>4 500 ₽</strong>. Если тот же долг копился до 30.06.2024, по 0,5% получилось бы 22 500 ₽.</p>
+        <table class="seo-table">
+          <thead><tr><th>Просрочка</th><th>0,1% в день (с 30.06.2024)</th><th>0,5% в день (до 30.06.2024)</th></tr></thead>
+          <tbody>
+            <tr><td>30 дней</td><td>150 ₽</td><td>750 ₽</td></tr>
+            <tr><td>90 дней</td><td>450 ₽</td><td>2 250 ₽</td></tr>
+            <tr><td>180 дней</td><td>900 ₽</td><td>4 500 ₽</td></tr>
+            <tr><td>365 дней</td><td>1 825 ₽</td><td>9 125 ₽</td></tr>
+          </tbody>
+        </table>
+        <p class="hint">Задолженность для расчёта — 10 000 ₽. Умножьте на нужную сумму: неустойка растёт пропорционально.</p>
+
+        <span class="eyebrow">Задолженность</span>
+        <h2>Как подтвердить задолженность по алиментам</h2>
+        <p>Сумму долга не считают «на глаз»: её определяет <strong>судебный пристав</strong> и оформляет постановлением о расчёте задолженности. В постановлении видно период, доли или твёрдую сумму и итог по месяцам.</p>
+        <ul>
+          <li>Получите постановление о расчёте задолженности — лично в отделении ФССП или через портал Госуслуг.</li>
+          <li>Проверьте период: если плательщик частично платил, это должно быть учтено.</li>
+          <li>Возьмите сумму долга и число дней просрочки — именно эти значения нужны калькулятору.</li>
+        </ul>
+        <p>Если алименты взыскивались по нотариальному соглашению, задолженность считает сам получатель по условиям соглашения — в этом случае к иску прикладывают расчёт и документы о поступлениях.</p>
+
+        <span class="eyebrow">Взыскание</span>
+        <h2>Как взыскать неустойку: порядок действий</h2>
+        <p>Неустойку по ст. 115 СК РФ взыскивают через суд — по общему правилу по месту жительства ответчика.</p>
+        <ol>
+          <li>Считаете неустойку на дату обращения (при длительном споре — с перерасчётом на дату решения суда).</li>
+          <li>Готовите исковое заявление о взыскании неустойки по алиментам.</li>
+          <li>Прикладываете расчёт, постановление пристава о задолженности, свидетельство о рождении, документы о попытках получения алиментов.</li>
+          <li>Платите госпошлину — её размер зависит от суммы иска; по искам в защиту прав детей от уплаты могут освободить, уточняйте в суде.</li>
+        </ol>
+        <p class="note"><strong>Важно:</strong> суд вправе уменьшить неустойку по ст. 333 ГК РФ, если признает её явно несоразмерной (например, долг маленький, а неустойка выросла в разы). Поэтому полезно хранить переписку: она подтверждает, что вы не тянули с обращением.</p>
+
+        <span class="eyebrow">Точность расчёта</span>
+        <h2>Как неустойку считает судебный пристав</h2>
+        <p>Калькулятор считает быстро: вся сумма задолженности × 0,1% × число дней просрочки — это оценка «сверху». Пристав считает точнее и иначе — <strong>по каждому месяцу отдельно</strong>, потому что долг формируется помесячно и у каждой суммы свой срок просрочки.</p>
+        <div class="seo-formula">Неустойка = Σ (Долг за месяц × 0,1% × дни просрочки по этому месяцу)</div>
+        <p>Поэтому при длительной задолженности помесячный расчёт даёт сумму меньше, чем умножение всего долга на весь срок: поздние месяцы просрочены меньшее число дней. Основа для суда — постановление пристава о расчёте задолженности по алиментам: без него иск обычно оставляют без движения.</p>
+        <p>Что ещё меняет итог:</p>
+        <ul>
+          <li><strong>Дата начала.</strong> Неустойку начисляют со дня, следующего за днём, когда алименты должны были быть уплачены по соглашению или решению суда.</li>
+          <li><strong>Индексация.</strong> Алименты в твёрдой денежной сумме индексируют пропорционально росту прожиточного минимума, поэтому долг считают уже с учётом индексации.</li>
+          <li><strong>Частичные платежи.</strong> Каждая уплаченная сумма уменьшает долг с даты зачисления, и месячный расчёт разбивают на части.</li>
+          <li><strong>Снижение по суду.</strong> Суд вправе уменьшить неустойку, если она явно несоразмерна последствиям просрочки (ст. 333 ГК РФ), — особенно когда долг возник из-за тяжёлых обстоятельств, а не из-за уклонения.</li>
+        </ul>
+
+    <!--SLOT:banner-mid-->
+    <!--/SLOT:banner-mid-->
+    <!--SLOT:ads-mid-->
+    <!--/SLOT:ads-mid-->
+        <span class="eyebrow">Вопросы и ответы</span>
+        <h2>Частые вопросы о неустойке по алиментам</h2>
+
+        <details class="seo-faq">
+          <summary>Как рассчитывается неустойка по алиментам?</summary>
+          <div class="seo-faq-b"><p>По ст. 115 СК РФ: неустойка = сумма задолженности × 0,1% × число дней просрочки. Для задолженности, образовавшейся до 30 июня 2024 года, применяется прежняя ставка 0,5% в день. Дни считаются календарные, включая выходные.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>С какого дня начисляется неустойка по алиментам?</summary>
+          <div class="seo-faq-b"><p>С того дня, когда алименты должны были быть уплачены, но не были. Если платёж обязателен до 25 числа, просрочка начинается 26-го. Расчёт удобно делать помесячно — так видно, в каком месяце возникла задолженность.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Нужно ли обращаться в суд, чтобы взыскать неустойку?</summary>
+          <div class="seo-faq-b"><p>Да, неустойка взыскивается в судебном порядке: приставам такое требование не передаётся автоматически. Если долг уже подтверждён постановлением, процесс сводится к расчёту, исковому заявлению и доказательствам. Согласен ли плательщик — неважно, суд решает по документам.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Можно ли уменьшить или списать неустойку по алиментам?</summary>
+          <div class="seo-faq-b"><p>Суд может снизить неустойку по ст. 333 ГК РФ, если она несоразмерна долгу. Освободить от уплаты неустойки можно, если задолженность возникла не по вине плательщика — например, из-за ошибки банка при переводе или болезни, подтверждённой документами. Просто «тяжёлое положение» обычно не помогает.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Что делать, если алименты платили частично?</summary>
+          <div class="seo-faq-b"><p>Неустойка начисляется не на всю сумму алиментов, а на непогашенный остаток за каждый месяц. Поэтому сначала нужен расчёт задолженности от пристава: в нём по месяцам видно, сколько должно было поступить и сколько поступило фактически, а разница и есть база для неустойки.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Есть ли срок исковой давности по неустойке за алименты?</summary>
+          <div class="seo-faq-b"><p>К требованию о взыскании неустойки применяется общий трёхлетний срок исковой давности — он считается по каждому периоду просрочки отдельно. Поэтому с иском не стоит тянуть: чем раньше вы обратитесь, тем больше дней просрочки войдёт в расчёт без спора о сроках.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Почему расчёт пристава и калькулятора расходится?</summary>
+          <div class="seo-faq-b"><p>Калькулятор умножает всю сумму долга на весь срок просрочки, а пристав считает неустойку по каждому месяцу отдельно — у долга за разные месяцы разное число дней просрочки. Поэтому при длительной задолженности расчёт пристава обычно меньше. Для суда ориентируйтесь на постановление пристава: оно учитывает помесячные суммы и частичные платежи.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Как индексация алиментов влияет на неустойку?</summary>
+          <div class="seo-faq-b"><p>Алименты в твёрдой денежной сумме индексируют пропорционально росту прожиточного минимума, поэтому задолженность считают уже с учётом индексации — а неустойка начисляется на проиндексированные суммы. Если индексацию не проводили, долг и неустойка окажутся заниженными: этот вопрос можно поставить перед приставом.</p></div>
+        </details>
+
+        <p class="calc-note">Расчёты носят справочный характер и не являются юридической консультацией. Итоговую сумму задолженности подтверждает судебный пристав, а размер неустойки определяет суд. Данные калькулятора не покидают ваш браузер.</p>
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/calculators/finance/penalty/">Калькулятор пени</a>
+          <a href="/calculators/finance/salary-delay/">Компенсация за задержку зарплаты</a>
+          <a href="/calculators/finance/maternity/">Калькулятор декретных</a>
+          <a href="/calculators/finance/average-earnings/">Средний заработок</a>
+        </div>
+      </div>
+    </div>
+    <!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/calculators/finance/alimony/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/calculators/finance/alimony/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=39" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=40"></script>
+  <script type="module" src="/js/calc-alimony.js?v=39"></script>
+</body>
+
+</html>
+
+
+

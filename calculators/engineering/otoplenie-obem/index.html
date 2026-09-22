@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор объёма системы отопления — теплоноситель и расширительный бак | CalcDoc</title>
+  <meta name="description" content="Рассчитайте объём системы отопления по радиаторам, трубам и котлу. Подбор расширительного бака и объём закупки теплоносителя. Бесплатно, в браузере, без регистрации." />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/engineering/otoplenie-obem/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Калькулятор объёма системы отопления — CalcDoc" />
+  <meta property="og:description" content="Рассчитайте объём системы отопления по радиаторам, трубам и котлу. Подбор расширительного бака и объём закупки теплоносителя. Бесплатно, в браузере, без регистрации." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/calculators/engineering/otoplenie-obem/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <style>
+      /* @font-face инлайном — вместо внешнего файла шрифтов: убирает цепочку HTML → CSS → woff2 (Lighthouse: 937 мс). Начертаний девять — все сохранены. */
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+    </style>
+    <link rel="preload" href="/fonts/manrope-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/unbounded-600-lat.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/bundle.css?v=39" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <link rel="stylesheet" href="/print.css?v=39" media="print" />
+<style>
+/* ⚠️ ВЛАДЕЛЕЦ: переменные ниже — ориентир светлой темы. Истина = ваш
+   styles.css. Сверьте и замените значения на актуальные. */
+:root{
+  /* Палитра сайта (styles.css): истина там. Здесь только имена, которыми
+     пользуется вёрстка калькулятора владельца. */
+  --surface: var(--card-bg); --txt: var(--text); --mut: var(--text-muted);
+  --vio: var(--primary); --vio2: var(--primary-dark); --cyan: var(--icon-cyan);
+  --r: var(--radius);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+.wrap{max-width:940px;margin:0 auto}
+.glass{background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);box-shadow:var(--shadow);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.kicker{font-size:11.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--vio)}
+h1{font-family:'Unbounded';font-weight:600;font-size:clamp(20px,3.4vw,28px);line-height:1.25;margin:10px 0 8px}
+.badge{display:inline-flex;gap:8px;padding:6px 14px;border-radius:100px;font-size:12px;
+  font-weight:800;background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.25);color:var(--vio)}
+h2{font-family:'Unbounded';font-weight:600;font-size:20px;margin:0 0 14px}
+h3{font-size:15.5px;font-weight:800;margin:16px 0 8px}
+
+/* ====== КАЛЬКУЛЯТОР ====== */
+.calc{padding:22px;margin-top:20px}
+.sec{padding:14px 16px;border-radius:14px;background:rgba(124,58,237,.05);
+  border:1px solid rgba(124,58,237,.15);margin-bottom:14px}
+.sec-t{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.sec-t b{font-size:14px}
+.add{background:none;border:1px dashed var(--vio);color:var(--vio);border-radius:8px;
+  padding:4px 10px;font-weight:800;font-size:12.5px;cursor:pointer;font-family:'Manrope'}
+.row{display:grid;grid-template-columns:1.4fr .8fr .7fr 30px;gap:8px;align-items:center;margin-bottom:8px}
+.row select,.row input{width:100%;padding:8px 10px;border-radius:9px;border:1px solid var(--border);
+  background:#fff;color:var(--txt);font-family:'Manrope';font-weight:600;font-size:13.5px;outline:none}
+.row select:focus,.row input:focus{border-color:var(--vio2);box-shadow:0 0 0 3px rgba(139,92,246,.12)}
+.row .vol{font-family:'Unbounded';font-weight:600;font-size:13px;color:var(--vio);white-space:nowrap}
+.del{background:none;border:none;color:#c0392b;font-size:16px;cursor:pointer;font-weight:800}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.f label{display:block;font-size:10.5px;font-weight:800;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--mut);margin-bottom:4px}
+.f select,.f input{width:100%;padding:9px 11px;border-radius:10px;border:1px solid var(--border);
+  background:#fff;color:var(--txt);font-family:'Manrope';font-weight:700;font-size:14px;outline:none}
+.f select:focus,.f input:focus{border-color:var(--vio2);box-shadow:0 0 0 3px rgba(139,92,246,.12)}
+
+.res{padding:18px;border-radius:14px;background:linear-gradient(135deg,rgba(124,58,237,.08),rgba(14,165,233,.06));
+  border:1px solid rgba(124,58,237,.25);margin-top:6px}
+.res .big{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.res .big span{font-size:13px;font-weight:700;color:var(--mut)}
+.res .big b{font-family:'Unbounded';font-weight:700;font-size:30px;color:var(--vio)}
+.bar{display:flex;height:10px;border-radius:6px;overflow:hidden;margin:8px 0 10px}
+.bar div{height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;font-weight:700;color:var(--mut);margin-bottom:12px}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px}
+.res .ln{display:flex;justify-content:space-between;padding:7px 0;border-top:1px solid rgba(124,58,237,.15);font-size:13.5px}
+.res .ln b{font-family:'Unbounded';font-weight:600}
+.res .ln .cyan{color:var(--cyan)}
+.acts{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:11px;
+  border:1px solid var(--border);font-family:'Manrope';font-weight:800;font-size:13px;
+  cursor:pointer;background:rgba(255,255,255,.7);color:var(--txt);transition:.2s;text-decoration:none}
+.btn:hover{transform:translateY(-1px);background:#fff}
+.btn-vio{background:var(--vio);color:#fff;border-color:transparent}
+.note{margin-top:10px;font-size:12.5px;color:var(--mut)}
+.hint{font-size:11.5px;color:var(--mut);margin-top:3px}
+
+/* ====== SEO-БЛОК ====== */
+.seoc{padding:28px;margin-top:26px}
+.seoc p{color:#3d3652;font-size:15px;line-height:1.75;margin-bottom:12px;-webkit-user-select:text;user-select:text}
+.seoc p b{color:var(--txt)}
+.seoc .lead{font-size:16px}
+.opt2{padding:16px;border-radius:14px;background:rgba(124,58,237,.05);
+  border:1px solid rgba(124,58,237,.18);margin-bottom:12px}
+.opt2 h3{margin-top:0}
+.opt2 ul{padding-left:18px;color:#3d3652;font-size:14px;line-height:1.65}
+.opt2 li{margin-bottom:5px}
+.warn{margin:14px 0;padding:13px 17px;border-radius:13px;background:rgba(14,165,233,.07);
+  border:1px dashed rgba(14,165,233,.4);font-size:13.5px;color:#2c3e50;line-height:1.6}
+.warn b{color:var(--cyan)}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px}
+th{text-align:left;padding:9px 12px;background:rgba(124,58,237,.1);
+  color:var(--txt);font-weight:800;border-bottom:2px solid rgba(124,58,237,.3)}
+td{padding:8px 12px;border-bottom:1px solid var(--border);color:#3d3652}
+tr:hover td{background:rgba(124,58,237,.04)}
+.formula{padding:15px;text-align:center;border-radius:12px;background:rgba(124,58,237,.08);
+  border:1px dashed rgba(124,58,237,.4);font-family:'Unbounded';font-size:14px;color:var(--vio);margin:14px 0}
+
+/* FAQ */
+.acc{margin-top:10px;overflow:hidden}
+.acc-h{width:100%;display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:15px 20px;background:none;border:none;color:var(--txt);font-family:'Manrope';
+  font-weight:800;font-size:14.5px;text-align:left;cursor:pointer}
+.chev{flex:none;color:var(--vio);transition:transform .3s}
+.acc.open .chev{transform:rotate(180deg)}
+.acc-b{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s}
+.acc.open .acc-b{grid-template-rows:1fr}
+.acc-in{overflow:hidden}
+.acc-pad{padding:0 20px 16px;color:#3d3652;font-size:14px;line-height:1.7;-webkit-user-select:text;user-select:text}
+
+.links{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.links a{padding:9px 16px;border-radius:100px;font-size:13px;font-weight:700;text-decoration:none;
+  color:var(--vio);background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.3)}
+.disc{margin-top:18px;font-size:12.5px;color:var(--mut);font-style:italic;line-height:1.6}
+
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s}
+.reveal.vis{opacity:1;transform:none}
+
+@media(max-width:640px){
+  .two{grid-template-columns:1fr}
+  .row{grid-template-columns:1fr 70px 60px 26px}
+  .calc,.seoc{padding:18px 16px}
+}
+@media print{
+  .no-print,.acts,.kicker,.badge,.links,.disc,.acc{display:none!important}
+  .glass,.calc,.res{box-shadow:none;border:1px solid #ccc;background:#fff!important}
+  .res .big b,.res .ln b{color:#111!important}
+  }
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Зачем знать объём системы отопления?","acceptedAnswer":{"@type":"Answer","text":"Чтобы купить нужное количество теплоносителя (воды или незамерзайки), правильно подобрать расширительный бак и знать, сколько долить после слива участка системы."}},
+{"@type":"Question","name":"Какой расширительный бак ставить?","acceptedAnswer":{"@type":"Answer","text":"Бытовое правило: 10% объёма системы для воды и 15% для незамерзайки. Точный расчёт — по формуле V×β/КПД с учётом давлений заполнения и предохранительного клапана."}},
+{"@type":"Question","name":"Вода или незамерзайка — что заливать?","acceptedAnswer":{"@type":"Answer","text":"Вода — если дом отапливается постоянно. Пропиленгликоль — если дом может остыть зимой: не замерзает до −30…−40°C, но дороже и требует бак большего объёма."}},
+{"@type":"Question","name":"Сколько теплоносителя покупать?","acceptedAnswer":{"@type":"Answer","text":"Объём системы плюс 10–15% запаса на воздушные пробки и проливы. Незамерзайку округляйте вверх до целой канистры."}},
+{"@type":"Question","name":"Почему объём больше, чем в паспорте котла?","acceptedAnswer":{"@type":"Answer","text":"В паспорте котла — только ёмкость теплообменника (5–30 л). Полный объём складывается из котла, всех радиаторов, разводки труб и контуров тёплого пола."}},
+{"@type":"Question","name":"Можно ли считать по паспорту радиаторов?","acceptedAnswer":{"@type":"Answer","text":"Да, паспортная ёмкость секции точнее типовой таблицы — введите её через режим «свой объём» в калькуляторе."}}
+]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Калькулятор объёма системы отопления",
+"applicationCategory":"UtilitiesApplication","operatingSystem":"Web",
+"url":"https://calc-doc.ru/calculators/engineering/otoplenie-obem/",
+"offers":{"@type":"Offer","price":"0","priceCurrency":"RUB"},
+"publisher":{"@type":"Organization","name":"CalcDoc","url":"https://calc-doc.ru/"}}
+</script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Калькуляторы", "item": "https://calc-doc.ru/calculators/" },
+      { "@type": "ListItem", "position": 3, "name": "Инженерные расчёты", "item": "https://calc-doc.ru/calculators/engineering/" },
+      { "@type": "ListItem", "position": 4, "name": "Объём системы отопления", "item": "https://calc-doc.ru/calculators/engineering/otoplenie-obem/" }
+    ]
+  }
+  </script>
+</head>
+<header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/finance/">Финансы и налоги<b>16</b></a>
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/auto/">Авто<b>4</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+<main>
+  <div class="container tool-hero">
+    <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/calculators/">Калькуляторы</a> / <a href="/calculators/engineering/">Инженерные расчёты</a> / Объём системы отопления</nav>
+    <h1>Калькулятор объёма системы отопления</h1>
+    <p class="tool-meta">Радиаторы + трубы + котёл + тёплый пол → общий объём, подбор расширительного бака и количество теплоносителя к закупке.</p>
+    <p class="calc-note">Расчёты носят справочный характер.</p>
+  </div>
+
+  <!--SLOT:banner-top-->
+  <!--/SLOT:banner-top-->
+  <!--SLOT:ads-top-->
+  <!--/SLOT:ads-top-->
+
+  <div class="container section">
+<!-- ================= КАЛЬКУЛЯТОР ================= -->
+  <div class="calc glass" id="calc">
+
+    <!-- РАДИАТОРЫ -->
+    <div class="sec">
+      <div class="sec-t"><b>Радиаторы</b><button class="add" id="addRad">＋ добавить</button></div>
+      <div id="rads"></div>
+    </div>
+
+    <!-- ТРУБЫ -->
+    <div class="sec">
+      <div class="sec-t"><b>Трубы</b><button class="add" id="addPipe">＋ добавить</button></div>
+      <div id="pipes"></div>
+    </div>
+
+    <div class="two">
+      <div class="f">
+        <label>Котёл</label>
+        <select id="boiler">
+          <option value="0">Не выбран / нет котла</option>
+          <option value="7">Настенный газовый (≈ 7 л)</option>
+          <option value="20">Напольный газовый (≈ 20 л)</option>
+          <option value="30">Твердотопливный (≈ 30 л)</option>
+          <option value="5">Электрический (≈ 5 л)</option>
+          <option value="custom">Свой объём…</option>
+        </select>
+        <input type="number" id="boilerCustom" placeholder="объём котла, л" style="display:none;margin-top:6px">
+      </div>
+      <div class="f">
+        <label>Тёплый пол</label>
+        <input type="number" id="floorArea" placeholder="площадь, м² (0 = нет)">
+        <select id="floorStep" style="margin-top:6px">
+          <option value="100">Шаг укладки 100 мм</option>
+          <option value="150" selected>Шаг 150 мм</option>
+          <option value="200">Шаг 200 мм</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="two">
+      <div class="f">
+        <label>Теплоноситель</label>
+        <select id="coolant">
+          <option value="water">Вода</option>
+          <option value="glycol">Пропиленгликоль 40% (незамерзайка)</option>
+        </select>
+      </div>
+      <div class="f">
+        <label>Цена теплоносителя, ₽/л (опционально)</label>
+        <input type="number" id="price" placeholder="например, 58">
+      </div>
+    </div>
+
+    <div class="two">
+      <div class="f">
+        <label>Давление заполнения, бар</label>
+        <input type="number" id="pFill" value="1.5" step="0.1">
+      </div>
+      <div class="f">
+        <label>Предохранительный клапан, бар</label>
+        <input type="number" id="pMax" value="3" step="0.5">
+      </div>
+    </div>
+
+    <!-- РЕЗУЛЬТАТ -->
+    <div class="res" id="result">
+      <div class="big"><span>Объём системы отопления</span><b id="total">0 л</b></div>
+      <div class="bar" id="bar"></div>
+      <div class="legend" id="legend"></div>
+      <div class="ln"><span>Расширительный бак (расчётный минимум)</span><b id="tankMin">—</b></div>
+      <div class="ln"><span class="cyan">Рекомендуемый бак (стандартный ряд)</span><b class="cyan" id="tankRec">—</b></div>
+      <div class="ln"><span>Закупить теплоносителя (запас 15%)</span><b id="buy">—</b></div>
+      <div class="ln"><span>Стоимость закупки</span><b id="cost" class="cyan">—</b></div>
+    </div>
+    <p class="hint">Запас 15% компенсирует воздушные пробки при первом заполнении и доливы в процессе эксплуатации.</p>
+
+    <div class="acts">
+      <button class="btn btn-vio" id="copyBtn" data-metric-goal="расчёт выполнен">Скопировать результат</button>
+      <button class="btn" data-print="btn">🖨 Печать</button>
+      <button class="btn" id="shareBtn">Поделиться</button>
+    </div>
+  </div>
+
+  <!-- ================= SEO-ТЕКСТ ================= -->
+  <div class="seoc glass">
+    <span class="kicker">Справка</span>
+    <h2 style="margin-top:8px">Зачем считать объём системы отопления</h2>
+    <p class="lead">Три ситуации, когда объём системы нужно знать точно: <b>покупка теплоносителя</b> (сколько литров незамерзайки или воды брать), <b>подбор расширительного бака</b> (слишком маленький — сброс теплоносителя через клапан при нагреве, слишком большой — лишние деньги и завоздушивание) и <b>заполнение после ремонта</b> (сколько долить после слива участка).</p>
+
+    <p>Система отопления — это не только радиаторы. В объём входят все трубы (подача и обратка по всей длине), теплообменник котла, контуры тёплого пола, а иногда и полотенцесушители. Ошибка «в глаз» на порядок: типовая система дома 100 м² — это 100–150 литров, и недокупка незамерзайки на 20 литров означает вторую поездку в магазин и второй чек.</p>
+
+    <h3>Как пользоваться калькулятором</h3>
+    <p>Обходите систему по кругу и добавляйте компоненты: тип радиатора и число секций для каждой комнаты, затем трубы — выбирайте материал с диаметром и меряйте длину (подача + обратка считаются отдельно!), затем котёл и контуры тёплого пола. Калькулятор мгновенно складывает объёмы, подбирает расширительный бак по коэффициенту расширения теплоносителя и считает закупку с запасом 15%.</p>
+
+    <h3>Справочная таблица: объём радиаторов</h3>
+    <table>
+      <tr><th>Тип радиатора</th><th>Объём одной секции</th></tr>
+      <tr><td>Чугунный МС-140 (классика)</td><td>1,45 л</td></tr>
+      <tr><td>Чугунный старый (ЧМ, «гармошка»)</td><td>1,6–1,8 л</td></tr>
+      <tr><td>Биметаллический</td><td>0,16–0,25 л</td></tr>
+      <tr><td>Алюминиевый</td><td>0,35–0,5 л</td></tr>
+      <tr><td>Стальной панельный (на метр длины, h=600)</td><td>см. калькулятор по типу</td></tr>
+    </table>
+    <p>Отсюда следствие: в доме со старыми чугунными «гармошками» объём только радиаторов может составлять 70–100 литров — в 3–4 раза больше, чем с современными биметаллическими. При замене радиаторов объём системы сильно меняется — пересчитайте.</p>
+
+    <h3>Справочная таблица: объём труб на погонный метр</h3>
+    <table>
+      <tr><th>Труба</th><th>Внутр. диаметр</th><th>Литров на метр</th></tr>
+      <tr><td>Металлопластик 16×2</td><td>12 мм</td><td>0,113 л</td></tr>
+      <tr><td>Металлопластик 20×2</td><td>16 мм</td><td>0,201 л</td></tr>
+      <tr><td>Полипропилен 20</td><td>13,2 мм</td><td>0,137 л</td></tr>
+      <tr><td>Полипропилен 25</td><td>16,6 мм</td><td>0,216 л</td></tr>
+      <tr><td>Сталь DN15 (½″)</td><td>15 мм</td><td>0,177 л</td></tr>
+      <tr><td>Сталь DN20 (¾″)</td><td>20 мм</td><td>0,314 л</td></tr>
+      <tr><td>Сталь DN25 (1″)</td><td>25 мм</td><td>0,49 л</td></tr>
+      <tr><td>Сшитый полиэтилен 16×2 (тёплый пол)</td><td>12 мм</td><td>0,113 л</td></tr>
+    </table>
+    <p>Общий принцип: <b>объём трубы = внутренний диаметр² × π ÷ 4000</b> (литров на метр, диаметр в мм). Если вашей трубы нет в списке — измерьте внутренний диаметр штангенциркулем и выберите «свой диаметр» в калькуляторе.</p>
+
+    <h3>Формула: система и расширительный бак</h3>
+    <div class="formula">V(системы) = V(радиаторов) + V(труб) + V(котла) + V(тёплого пола)</div>
+    <div class="formula">V(бака) = V(системы) × β ÷ ((Pклапана − Pзаполнения) ÷ Pклапана)</div>
+    <p>где <b>β</b> — коэффициент теплового расширения теплоносителя: у воды при нагреве с 10 до 85 °C это примерно 3,5%, у гликолевых смесей (незамерзайки) — до 4,8–5%, поэтому баки под незамерзайку нужны больше. <b>Pклапана</b> — давление срабатывания предохранительного клапана (обычно 3 бара), <b>Pзаполнения</b> — давление в холодной системе (обычно 1–1,5 бара).</p>
+    <p>Упрощённое бытовое правило, которое дают производители баков: <b>для воды бак = 10% объёма системы, для незамерзайки = 15%</b>. Наш калькулятор считает точнее по формуле и показывает оба значения — расчётный минимум и практическую рекомендацию с округлением до стандартного ряда баков (8, 12, 18, 24, 35, 50 литров).</p>
+
+    <h3>Пример полного расчёта</h3>
+    <p>Дом 100 м²: пять радиаторов МС-140 по 10 секций (50 секций × 1,45 = <b>72,5 л</b>), стальная труба DN20 — 60 м подачи и обратки (<b>18,8 л</b>), металлопластик 16×2 — 40 м (<b>4,5 л</b>), настенный газовый котёл 24 кВт (<b>7 л</b>), тёплый пол в санузле 12 м² с шагом 150 мм — 80 м трубы 16×2 (<b>9 л</b>).</p>
+    <p><b>Итого: 111,8 литров.</b> Расширительный бак: 111,8 × 0,035 ÷ 0,5 = <b>7,8 литра минимум</b> → покупаем стандартный 12–18 л. Закупка теплоносителя с запасом 15%: <b>≈ 130 литров</b>, при цене 58 ₽/л — около 7 540 ₽.</p>
+
+    <div class="warn"><b>Гликоль или вода?</b> Незамерзайка обязательна, если дом зимой остаётся без отопления (дача, перерывы). Вода дешевле и теплоёмкость выше, но замёрзнув — разорвёт трубы. Переход с воды на гликоль увеличивает требуемый бак — калькулятор учитывает это автоматически.</div>
+
+    <h3>Типичные ошибки при заполнении</h3>
+    <p><b>1. Не посчитали обратку.</b> В трубу входит и подача, и обратная линия — длина удваивается.</p>
+    <p><b>2. Забыли котёл.</b> Теплообменник — это 5–30 литров, у твердотопливных до 40.</p>
+    <p><b>3. Не учли полотенцесушители и магистрали.</b> В домовладениях со старой разводкой «лишние» 10–20 литров — норма.</p>
+    <p><b>4. Купили теплоноситель без запаса.</b> При первом заполнении часть уходит на воздушные пробки и проливы — 10–15% резерва обязательны.</p>
+
+    <h3>Как измерить объём без расчёта</h3>
+    <p>Самый точный способ — фактически слить систему в ёмкости известного объёма и измерить. Минусы: трудоёмко, сливать нужно при отключённом котле и остывшей системе. Расчётный способ даёт погрешность 5–10%, чего достаточно для покупки теплоносителя и подбора бака — поэтому на практике считаются, а не сливают.</p>
+
+    <!-- FAQ -->
+    <h3 style="margin-top:24px">Частые вопросы</h3>
+    <div class="acc glass">
+      <button class="acc-h">Зачем знать объём системы отопления?<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="acc-b"><div class="acc-in acc-pad"><p>Три причины: купить нужное количество теплоносителя (воды или незамерзайки), правильно подобрать расширительный бак и знать, сколько долить после слива участка. Без объёма вы покупаете «на глаз» — и либо не хватает, либо остатки лежат годами.</p></div></div>
+    </div>
+    <div class="acc glass">
+      <button class="acc-h">Какой расширительный бак ставить?<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="acc-b"><div class="acc-in acc-pad"><p>Бытовое правило: 10% объёма системы для воды, 15% для незамерзайки. Точный расчёт — по формуле выше с учётом давлений. Бак ставят на обратке перед котлом; покупать бак «впритык» не стоит — стандартный ряд с запасом надёжнее.</p></div></div>
+    </div>
+    <div class="acc glass">
+      <button class="acc-h">Вода или незамерзайка — что заливать?<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="acc-b"><div class="acc-in acc-pad"><p>Вода — если дом отапливается постоянно: дешевле, теплоёмкость выше. Пропиленгликоль — если дом может остыть зимой: не замерзает до −30…−40 °C, но дороже в 3–5 раз, требует бака побольше и совместимости с уплотнениями. Этиленгликоль токсичен — для дома не рекомендуем.</p></div></div>
+    </div>
+    <div class="acc glass">
+      <button class="acc-h">Сколько теплоносителя покупать?<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="acc-b"><div class="acc-in acc-pad"><p>Объём системы + 10–15% запаса на воздушные пробки и проливы. Незамерзайка продаётся в канистрах по 10/20/40 л — округляйте вверх до целой канистры. Остатки храните герметично: доливка потребуется.</p></div></div>
+    </div>
+    <div class="acc glass">
+      <button class="acc-h">Калькулятор показывает объём больше, чем паспорт котла. Почему?<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="acc-b"><div class="acc-in acc-pad"><p>В паспорте котла указана только ёмкость его теплообменника (5–30 л). Полный объём системы — это котёл + все радиаторы + вся разводка труб + тёплый пол. Эти величины складываются, и трубы на длинных ветках дают приличную долю.</p></div></div>
+    </div>
+    <div class="acc glass">
+      <button class="acc-h">Можно ли считать по паспорту радиаторов, а не по типам?<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="acc-b"><div class="acc-in acc-pad"><p>Да, если паспорта сохранились — паспортная ёмкость секции точнее типовой таблицы. Введите её через режим «свой объём» в калькуляторе. Типовые значения в таблице — для случаев, когда паспорта нет (старые чугунные радиаторы в большинстве домов).</p></div></div>
+    </div>
+
+    <div class="links">
+      <a href="/calculators/engineering/">Инженерные расчёты: все расчёты раздела</a>
+      <a href="/blog/obem-sistemy-otopleniya-raschet/">Статья: как рассчитать объём системы отопления</a>
+      <a href="/calculators/construction/">← Все калькуляторы стройки</a>
+      <a href="/calculators/construction/plaster/">Калькулятор штукатурки</a>
+      <a href="/calculators/construction/paint/">Калькулятор краски</a>
+    </div>
+    <p class="disc">Расчёт носит справочный характер и не заменяет проект отопления. Объёмы секций и труб — типовые справочные значения; для точных данных сверяйтесь с паспортом оборудования. Точный подбор бака и теплоносителя в сложных системах — инженер-теплотехник.</p>
+  </div>
+  </div>
+
+  <!--SLOT:banner-after-tool-->
+  <!--/SLOT:banner-after-tool-->
+  <!--SLOT:ads-after-tool-->
+  <!--/SLOT:ads-after-tool-->
+
+<section class="reviews" id="reviews-form" data-page="/calculators/auto/fuel/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/calculators/auto/fuel/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+  <script src="/js/reviews.js?v=39" defer></script>
+  <!--SLOT:ads-before-footer-->
+  <!--/SLOT:ads-before-footer-->
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+<script type="module" src="/js/ui.js?v=40"></script>
+<script>
+(function(){
+'use strict';
+/* ===== CONFIG. ВЛАДЕЛЕЦ: справочные объёмы — сверить с паспортами
+   производителей при смене модельного ряда. Дата: 2026 ===== */
+const RADS=[
+ {id:'ms140', name:'Чугунный МС-140', v:1.45, unit:'секций'},
+ {id:'chugold', name:'Чугунный старый (ЧМ)', v:1.7, unit:'секций'},
+ {id:'bimet', name:'Биметаллический', v:0.2, unit:'секций'},
+ {id:'alum', name:'Алюминиевый', v:0.45, unit:'секций'},
+ {id:'panel10', name:'Стальной панельный, тип 10', v:1.3, unit:'метров'},
+ {id:'panel11', name:'Стальной панельный, тип 11', v:1.7, unit:'метров'},
+ {id:'panel22', name:'Стальной панельный, тип 22', v:5.2, unit:'метров'},
+ {id:'panel33', name:'Стальной панельный, тип 33', v:7.0, unit:'метров'},
+ {id:'custom', name:'Свой объём секции/панели', v:null, unit:'секций'}
+];
+const PIPES=[
+ {id:'mp16', name:'Металлопластик 16×2', v:0.113},
+ {id:'mp20', name:'Металлопластик 20×2', v:0.201},
+ {id:'mp26', name:'Металлопластик 26×3', v:0.314},
+ {id:'pp20', name:'Полипропилен 20', v:0.137},
+ {id:'pp25', name:'Полипропилен 25', v:0.216},
+ {id:'pp32', name:'Полипропилен 32', v:0.353},
+ {id:'st15', name:'Сталь DN15 (½″)', v:0.177},
+ {id:'st20', name:'Сталь DN20 (¾″)', v:0.314},
+ {id:'st25', name:'Сталь DN25 (1″)', v:0.49},
+ {id:'pex16', name:'PEX 16×2 (тёплый пол)', v:0.113},
+ {id:'cu15', name:'Медь 15×1', v:0.133},
+ {id:'custom', name:'Свой диаметр…', v:null}
+];
+const EXP={water:0.035, glycol:0.048}; // коэффициент расширения (10→85°C)
+const COLORS=['#8b5cf6','#0ea5e9','#7ee2a8','#ffd479','#ff9db8'];
+
+const $=id=>document.getElementById(id);
+const fmt=n=>n.toLocaleString('ru-RU',{maximumFractionDigits:1});
+
+/* --- РАДИАТОРЫ: динамические строки --- */
+let radId=0;
+function addRad(type,count,custom){
+  const d=document.createElement('div'); d.className='row'; d.dataset.id=++radId;
+  const opts=RADS.map(r=>`<option value="${r.id}">${r.name}</option>`).join('');
+  d.innerHTML=`<select class="r-type"><option value="">Тип радиатора…</option>${opts}</select>
+    <input class="r-count" type="number" min="0" placeholder="${RADS[0].unit}">
+    <span class="vol">— л</span><button class="del">×</button>`;
+  $('rads').appendChild(d);
+  const sel=d.querySelector('.r-type'), cnt=d.querySelector('.r-count');
+  if(type){sel.value=type; cnt.value=count; if(custom){d.dataset.custom=custom;}}
+  upd();
+  sel.addEventListener('change',upd); cnt.addEventListener('input',upd);
+  d.querySelector('.del').addEventListener('click',()=>{d.remove();upd();});
+}
+/* --- ТРУБЫ --- */
+let pipeId=0;
+function addPipe(type,len,diam){
+  const d=document.createElement('div'); d.className='row'; d.dataset.id=++pipeId;
+  const opts=PIPES.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
+  d.innerHTML=`<select class="p-type"><option value="">Тип трубы…</option>${opts}</select>
+    <input class="p-len" type="number" min="0" placeholder="длина, м">
+    <span class="vol">— л</span><button class="del">×</button>`;
+  $('pipes').appendChild(d);
+  const sel=d.querySelector('.p-type'), lenI=d.querySelector('.p-len');
+  if(type){sel.value=type; lenI.value=len; if(diam){d.dataset.diam=diam;}}
+  upd();
+  sel.addEventListener('change',upd); lenI.addEventListener('input',upd);
+  d.querySelector('.del').addEventListener('click',()=>{d.remove();upd();});
+}
+
+/* --- ПОДСЧЁТ --- */
+function radVolume(r){
+  const def=RADS.find(x=>x.id===r.type); if(!def) return 0;
+  const n=parseFloat(r.count)||0;
+  if(def.v===null) return n*(parseFloat(r.custom)||0); // свой объём секции
+  return n*def.v;
+}
+function pipeVolume(p){
+  const def=PIPES.find(x=>x.id===p.type); if(!def) return 0;
+  const len=parseFloat(p.len)||0;
+  if(def.v===null){ const d=parseFloat(p.diam)||0; return len*Math.PI*d*d/4000; }
+  return len*def.v;
+}
+function collect(){
+  const rads=[...document.querySelectorAll('#rads .row')].map(r=>({
+    type:r.querySelector('.r-type').value, count:r.querySelector('.r-count').value,
+    custom:r.dataset.custom||'' }));
+  const pipes=[...document.querySelectorAll('#pipes .row')].map(r=>({
+    type:r.querySelector('.p-type').value, len:r.querySelector('.p-len').value,
+    diam:r.dataset.diam||'' }));
+  const boilerSel=$('boiler').value;
+  const boiler=boilerSel==='custom'?(parseFloat($('boilerCustom').value)||0):(parseFloat(boilerSel)||0);
+  const floorA=parseFloat($('floorArea').value)||0, step=parseFloat($('floorStep').value)||150;
+  const floorLen=floorA*1000/step;
+  return {rads,pipes,boiler,floor:floorLen*0.113,coolant:$('coolant').value,
+    price:parseFloat($('price').value)||0,pFill:parseFloat($('pFill').value)||1.5,
+    pMax:parseFloat($('pMax').value)||3};
+}
+function calc(){
+  const d=collect();
+  const vr=d.rads.reduce((s,r)=>s+radVolume(r),0);
+  const vp=d.pipes.reduce((s,p)=>s+pipeVolume(p),0);
+  const total=vr+vp+d.boiler+d.floor;
+  $('total').textContent=fmt(total)+' л';
+  // разбивка
+  const parts=[['Радиаторы',vr,'#8b5cf6'],['Трубы',vp,'#0ea5e9'],['Котёл',d.boiler,'#7ee2a8'],
+    ['Тёплый пол',d.floor,'#ffd479']].filter(p=>p[1]>0);
+  const sum=parts.reduce((s,p)=>s+p[1],0)||1;
+  $('bar').innerHTML=parts.map(p=>`<div style="width:${p[1]/sum*100}%;background:${p[2]}"></div>`).join('');
+  $('legend').innerHTML=parts.map(p=>`<span><i style="background:${p[2]}"></i>${p[0]}: ${fmt(p[1])} л (${Math.round(p[1]/sum*100)}%)</span>`).join('');
+  // бак
+  const beta=EXP[d.coolant]||0.035;
+  const eff=(d.pMax-d.pFill)/d.pMax;
+  const tank=eff>0? total*beta/eff : 0;
+  $('tankMin').textContent=fmt(tank)+' л';
+  const STD=[8,12,18,24,35,50,80];
+  const rec=STD.find(s=>s>=tank*1.1);
+  $('tankRec').textContent=rec? rec+' л' : (Math.ceil(tank*1.1/10)*10)+' л';
+  // закупка
+  const buy=Math.ceil(total*1.15/5)*5;
+  $('buy').textContent=total>0? '≈ '+fmt(buy)+' л' : '—';
+  $('cost').textContent=d.price>0&&total>0? '≈ '+fmt(buy*d.price)+' ₽' : '—';
+  return {total,vr,vp,boiler:parseFloat(d.boiler)||0,floor:d.floor};
+}
+function upd(){calc();}
+['boiler','boilerCustom','floorArea','floorStep','coolant','price','pFill','pMax']
+  .forEach(id=>$(id).addEventListener('input',upd));
+ $('boiler').addEventListener('change',()=>{
+  $('boilerCustom').style.display=$('boiler').value==='custom'?'block':'none'; upd();});
+
+/* Шарить параметрами */
+ $('shareBtn').addEventListener('click',()=>{
+  const d=collect();
+  const p=new URLSearchParams();
+  d.rads.forEach((r,i)=>{if(r.type&&+r.count>0){p.set('rad'+i,r.type+':'+r.count);}});
+  d.pipes.forEach((p2,i)=>{if(p2.type&&+p2.len>0){p2.diam?p.set('pipe'+i,p2.type+':'+p2.len+':'+p2.diam):p.set('pipe'+i,p2.type+':'+p2.len);}});
+  if(d.boiler)p.set('boiler',d.boiler);
+  if(d.floor)p.set('floorA',$('floorArea').value),p.set('step',$('floorStep').value);
+  p.set('cool',d.coolant); if(d.price)p.set('price',d.price);
+  const url=location.origin+location.pathname+'?'+p.toString();
+  navigator.clipboard.writeText(url).then(()=>alert('Ссылка скопирована')).catch(()=>prompt('Скопируйте ссылку:',url));
+});
+
+/* Восстановление из GET */
+(function restore(){
+  const q=new URLSearchParams(location.search);
+  let loaded=false,i=0;
+  while(q.get('rad'+i)!==null){
+    const [t,c]=q.get('rad'+i).split(':'); addRad(t,c); loaded=true; i++;
+  }
+  if(!loaded) addRad('ms140',50);
+  i=0;
+  while(q.get('pipe'+i)!==null){
+    const parts=q.get('pipe'+i).split(':'); addPipe(parts[0],parts[1],parts[2]); i++;
+  }
+  if(q.get('pipe0')===null) addPipe('st20',60);
+  if(q.get('boiler')){$('boiler').value=q.get('boiler'); if(q.get('boiler')==='custom')$('boilerCustom').style.display='block';}
+  if(q.get('floorA')){$('floorArea').value=q.get('floorA'); if(q.get('step'))$('floorStep').value=q.get('step');}
+  if(q.get('cool'))$('coolant').value=q.get('cool');
+  if(q.get('price'))$('price').value=q.get('price');
+  upd();
+})();
+
+/* Копирование */
+ $('copyBtn').addEventListener('click',()=>{
+  const t=$('total').textContent, tm=$('tankRec').textContent, b=$('buy').textContent;
+  navigator.clipboard.writeText('Объём системы отопления: '+t+
+    '. Расширительный бак: '+tm+'. Закупить теплоносителя: '+b+' (CalcDoc)')
+    .then(()=>{$('copyBtn').textContent='Скопировано ✓';
+      setTimeout(()=>$('copyBtn').textContent='Скопировать результат',1800);});
+});
+
+/* FAQ */
+document.querySelectorAll('.acc-h').forEach(h=>
+  h.addEventListener('click',()=>h.parentElement.classList.toggle('open')));
+
+/* Появление */
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target);}
+}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+/* CalcDoc: на мобильных — системное «Поделиться» (navigator.share), иначе работает копирование ссылки. */
+  var shareBtnEl = document.getElementById('shareBtn');
+  if (shareBtnEl) {
+    shareBtnEl.addEventListener('click', function (ev) {
+      if (navigator.share) {
+        ev.stopImmediatePropagation();
+        navigator.share({ title: document.title, url: location.href }).catch(function () {});
+      }
+    }, true);
+  }})();
+</script>
+
+</body>
+</html>

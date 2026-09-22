@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор налога самозанятого НПД | CalcDoc</title>
+  <meta name="description" content="Калькулятор налога самозанятого (НПД): 4% с доходов от физлиц и 6% от юрлиц, лимит 2,4 млн ₽ в год. Расчёт налога за месяц и за год." />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/finance/tax-freelancer/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Налог самозанятого (НПД) — CalcDoc" />
+  <meta property="og:description" content="Посчитайте налог 4% или 6% за месяц или за год и проверьте лимит 2,4 млн ₽." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/calculators/finance/tax-freelancer/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <style>
+      /* @font-face инлайном — вместо внешнего файла шрифтов: убирает цепочку HTML → CSS → woff2 (Lighthouse: 937 мс). Начертаний девять — все сохранены. */
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+    </style>
+    <link rel="preload" href="/fonts/manrope-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/unbounded-600-lat.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/bundle.css?v=39" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Калькулятор налога фрилансера",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Калькуляторы", "item": "https://calc-doc.ru/calculators/" },
+      { "@type": "ListItem", "position": 3, "name": "Финансы и налоги", "item": "https://calc-doc.ru/calculators/finance/" },
+      { "@type": "ListItem", "position": 4, "name": "Налог фрилансера", "item": "https://calc-doc.ru/calculators/finance/tax-freelancer/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Какой налог платят самозанятые?", "acceptedAnswer": { "@type": "Answer", "text": "Налог на профессиональный доход: 4% с доходов, полученных от физических лиц, и 6% с доходов от организаций и ИП. Налог платят только с поступивших денег, ставка зависит от того, кто заплатил. Калькулятор считает сумму за месяц или за год." } },
+      { "@type": "Question", "name": "До какой суммы доходов действует НПД?", "acceptedAnswer": { "@type": "Answer", "text": "Пока доход не превысил 2 400 000 ₽ за год — это примерно 200 000 ₽ в месяц. При превышении право на НПД прекращается, и дальнейшие доходы облагаются по другому режиму. Калькулятор показывает предупреждение при выходе за лимит." } },
+      { "@type": "Question", "name": "Нужно ли самозанятому платить страховые взносы?", "acceptedAnswer": { "@type": "Answer", "text": "Нет, обязательных фиксированных взносов у самозанятых нет — это главное отличие от ИП. Платить на пенсию можно добровольно, тогда стаж и баллы будут формироваться. Если вы работаете ещё и по трудовому договору, взносы за вас платит работодатель." } },
+      { "@type": "Question", "name": "Что будет, если доход превысил 2,4 млн ₽?", "acceptedAnswer": { "@type": "Answer", "text": "Право на НПД прекращается: с месяца превышения нужно перейти на другой режим — обычно УСН или ОСН, в зависимости от масштаба. Часть дохода сверх лимита облагается по правилам новой системы. Калькулятор показывает, на сколько доход вышел за лимит, чтобы это не стало сюрпризом." } },
+      { "@type": "Question", "name": "Как самозанятому платить налог?", "acceptedAnswer": { "@type": "Answer", "text": "Налог формируется автоматически из чеков в приложении «Мой налог»: после оплаты от клиента нужно сформировать чек, а до 28 числа следующего месяца оплатить начисленную сумму — картой или через банк. Декларацию сдавать не нужно, вся отчётность сводится к чекам." } },
+      { "@type": "Question", "name": "Можно ли совмещать самозанятость с работой по трудовому договору?", "acceptedAnswer": { "@type": "Answer", "text": "Да, совмещать можно. НПД применяется к доходам от вашей самостоятельной деятельности, а зарплата по трудовому договору облагается НДФЛ у работодателя. Важно, чтобы вы не оказывали услуги своему текущему работодателю в рамках трудовых отношений — такие схемы налоговая проверяет." } },
+      { "@type": "Question", "name": "Что будет, если самозанятый не сформировал чек?", "acceptedAnswer": { "@type": "Answer", "text": "Штраф составит 20% суммы расчёта, по которому чек не передан, а при повторном нарушении в течение года — 100% суммы, но не менее 5 000 ₽ (ст. 129.13 НК РФ). Если ошибку заметили до проверки, чек можно сформировать задним числом с фактической датой расчёта: налог будет начислен верно, а риск штрафа снизится." } },
+      { "@type": "Question", "name": "Как вернуть переплату по НПД?", "acceptedAnswer": { "@type": "Answer", "text": "Переплату можно вернуть на счёт или зачесть в счёт будущих начислений. Заявление подают в налоговую, в том числе через приложение «Мой налог»; решение по нему принимают в течение 10 дней, а возврат обычно приходит в течение месяца с даты заявления. Суммы налогового вычета при этом не «сгорают» — они уже учтены в расчёте налога." } }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="/print.css?v=39" media="print" />
+</head>
+<body>
+    <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/finance/">Финансы и налоги<b>16</b></a>
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/auto/">Авто<b>4</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/calculators/">Калькуляторы</a> / <a href="/calculators/finance/">Финансы и налоги</a> / Налог фрилансера</nav>
+      <h1>Калькулятор налога фрилансера</h1>
+      <p class="tool-meta">Рассчитайте налог на профессиональный доход (НПД): 4% — от физлиц, 6% — от юрлиц и ИП. Данные не отправляются на сервер.</p>
+      <p class="calc-note">Расчёты носят справочный характер.</p>
+    </div>
+
+    <!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="taxForm">
+            <div class="field">
+              <label for="income">Доход за месяц (₽)</label>
+              <input type="number" id="income" inputmode="decimal" min="0" step="any" placeholder="например 150000" required value="150000" />
+              <span class="hint">Ваш доход за один месяц.</span>
+            </div>
+            <div class="field">
+              <label for="rate">От кого доход</label>
+              <select id="rate">
+                <option value="0.04">От физических лиц — 4%</option>
+                <option value="0.06">От юрлиц / ИП — 6%</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="period">Период</label>
+              <select id="period">
+                <option value="month">Месяц</option>
+                <option value="year">Год (12 месяцев)</option>
+              </select>
+            </div>
+            <button data-metric-goal="расчёт" class="btn btn-primary" type="submit" style="width:100%">Рассчитать</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0">
+            <p style="margin:0;color:var(--text-muted)">Заполните форму и нажмите «Рассчитать».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+    <!--SLOT:banner-after-tool-->
+    <!--/SLOT:banner-after-tool-->
+    <!--SLOT:ads-after-tool-->
+    <!--/SLOT:ads-after-tool-->
+      <div class="prose">
+        <span class="eyebrow">Налог самозанятого</span>
+        <h2>Калькулятор НПД: налог самозанятого 4% и 6%</h2>
+        <p class="tool-meta">Обновлено: 16 сентября 2026</p>
+        <p>Самозанятые и фрилансеры на <strong>НПД</strong> платят налог с каждого поступления: <strong>4%</strong> с доходов от физических лиц и <strong>6%</strong> с доходов от организаций и ИП. Калькулятор считает налог за месяц или за год и предупреждает, если доход подошёл к лимиту режима.</p>
+        <p>Расчёт идёт в браузере: суммы доходов не отправляются на сервер. Так удобно прикинуть налоговую нагрузку до выставления чека, сравнить варианты и понять, сколько останется от выручки.</p>
+
+        <span class="eyebrow">Инструкция</span>
+        <h2>Как рассчитать налог самозанятого</h2>
+        <p>Три поля дают полный расчёт за период:</p>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span><strong>Доход за месяц</strong> — сумма поступлений за один месяц</span></div>
+          <div class="seo-step"><b>2</b><span><strong>От кого доход</strong> — от физлиц (4%) или от юрлиц и ИП (6%)</span></div>
+          <div class="seo-step"><b>3</b><span><strong>Период</strong> — посчитать налог за месяц или сразу за год</span></div>
+        </div>
+        <p>Калькулятор покажет доход за период, применённую ставку и сумму налога. Если годовой доход превысил 2 400 000 ₽, появится предупреждение: часть дохода сверх лимита облагается по другой системе.</p>
+
+        <span class="eyebrow">Формула</span>
+        <h2>Формула расчёта налога на профессиональный доход</h2>
+        <div class="seo-formula">Налог = Доход за период × 4% (доход от физлиц) или × 6% (доход от юрлиц и ИП)</div>
+        <p>Ставка зависит от плательщика, а не от вида услуги: одно и то же задание, выполненное для компании и для частного клиента, облагается по-разному.</p>
+        <p><strong>Пример.</strong> Доход 150 000 ₽ в месяц — это 1 800 000 ₽ за год. При оплате от физических лиц налог составит 72 000 ₽ за год (6 000 ₽ в месяц), от организаций — 108 000 ₽ (9 000 ₽ в месяц). Разница только из-за ставки.</p>
+        <table class="seo-table">
+          <thead><tr><th>Доход в месяц</th><th>Доход за год</th><th>Налог 4%</th><th>Налог 6%</th></tr></thead>
+          <tbody>
+            <tr><td>100 000 ₽</td><td>1 200 000 ₽</td><td>48 000 ₽</td><td>72 000 ₽</td></tr>
+            <tr><td>150 000 ₽</td><td>1 800 000 ₽</td><td>72 000 ₽</td><td>108 000 ₽</td></tr>
+            <tr><td>200 000 ₽</td><td>2 400 000 ₽</td><td>96 000 ₽</td><td>144 000 ₽</td></tr>
+          </tbody>
+        </table>
+        <p class="hint">200 000 ₽ в месяц — это ровно годовой лимит НПД 2 400 000 ₽. Выше него режим перестаёт действовать.</p>
+
+        <span class="eyebrow">Условия</span>
+        <h2>Кому подходит НПД и какие есть ограничения</h2>
+        <ul>
+          <li><strong>Регистрация не нужна</strong> — достаточно приложения «Мой налог»: ИП открывать не требуется, декларации сдавать тоже.</li>
+          <li><strong>Нет наёмных работников</strong> — по трудовому договору привлекать сотрудников нельзя.</li>
+          <li><strong>Нельзя перепродавать товары</strong> и работать по агентским схемам: НПД — для собственных услуг, работ и товаров своего производства.</li>
+          <li><strong>Лимит дохода</strong> — 2 400 000 ₽ за год. При его превышении право на НПД прекращается, а часть дохода сверх лимита облагается по другой системе.</li>
+          <li><strong>Совмещение с работой</strong> — можно: НПД не мешает параллельно работать по трудовому договору у другого работодателя.</li>
+        </ul>
+
+        <span class="eyebrow">Оплата</span>
+        <h2>Как платить налог и что с бонусом новичка</h2>
+        <p>Налог начисляется автоматически по чекам, которые вы формируете в приложении: платить нужно <strong>до 28 числа месяца, следующего за расчётным</strong>. Одна кнопка — и сумма уходит в бюджет, отчётность не нужна.</p>
+        <p>Новым самозанятым положен <strong>стартовый бонус 10 000 ₽</strong>: пока он не израсходован, ставка снижается с 4% до 3% и с 6% до 4,5%. Калькулятор считает по базовым ставкам, то есть даёт верхнюю границу — первый год реальный налог будет немного меньше.</p>
+        <p class="note"><strong>Важно:</strong> страховые взносы самозанятый не платит — ни фиксированные, ни 1% с дохода. Пенсия при этом формируется только при добровольных взносах. Если нужен стаж и баллы, часть дохода можно перевести на другой режим или платить взносы добровольно.</p>
+
+        <span class="eyebrow">Чеки и штрафы</span>
+        <h2>Чек самозанятого, штрафы и переплата</h2>
+        <p>НПД — самый простой режим, но обязанности всё равно есть: доход нужно фиксировать чеком, иначе налоговая узнает о поступлениях из банка и списков покупателей.</p>
+        <ul>
+          <li><strong>Когда формируют чек.</strong> При безналичном расчёте — не позднее 9-го числа месяца, следующего за месяцем поступления; при расчёте наличными — в момент оплаты. Чек удобно отправлять клиенту, а в приложении «Мой налог» он формируется в пару нажатий.</li>
+          <li><strong>Штраф за непереданные сведения.</strong> 20% суммы расчёта, по которому чек не сформирован; при повторном нарушении в течение года — 100% суммы, но не менее 5 000 ₽ (ст. 129.13 НК РФ).</li>
+          <li><strong>Пени за просрочку налога.</strong> Налог начисляют ежемесячно к 28-му числу следующего месяца, а неоплаченная сумма «капает» пенями по ст. 75 НК РФ.</li>
+          <li><strong>Переплата.</strong> Лишние суммы можно вернуть или зачесть: заявление подают в ФНС (в том числе через «Мой налог»), решение принимают за 10 дней, возврат обычно приходит в течение месяца.</li>
+        </ul>
+        <p class="hint">Практический совет: если доход не отметили вовремя, сформируйте чек с датой фактического расчёта — до проверки это снижает риск штрафа, а налог всё равно будет посчитан верно.</p>
+
+    <!--SLOT:banner-mid-->
+    <!--/SLOT:banner-mid-->
+    <!--SLOT:ads-mid-->
+    <!--/SLOT:ads-mid-->
+        <span class="eyebrow">Вопросы и ответы</span>
+        <h2>Частые вопросы о налоге самозанятого</h2>
+
+        <details class="seo-faq">
+          <summary>Какой налог платят самозанятые?</summary>
+          <div class="seo-faq-b"><p>Налог на профессиональный доход: 4% с доходов, полученных от физических лиц, и 6% с доходов от организаций и ИП. Налог платят только с поступивших денег, ставка зависит от того, кто заплатил. Калькулятор считает сумму за месяц или за год.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>До какой суммы доходов действует НПД?</summary>
+          <div class="seo-faq-b"><p>Пока доход не превысил 2 400 000 ₽ за год — это примерно 200 000 ₽ в месяц. При превышении право на НПД прекращается, и дальнейшие доходы облагаются по другому режиму. Калькулятор показывает предупреждение при выходе за лимит.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Нужно ли самозанятому платить страховые взносы?</summary>
+          <div class="seo-faq-b"><p>Нет, обязательных фиксированных взносов у самозанятых нет — это главное отличие от ИП. Платить на пенсию можно добровольно, тогда стаж и баллы будут формироваться. Если вы работаете ещё и по трудовому договору, взносы за вас платит работодатель.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Что будет, если доход превысил 2,4 млн ₽?</summary>
+          <div class="seo-faq-b"><p>Право на НПД прекращается: с месяца превышения нужно перейти на другой режим — обычно УСН или ОСН, в зависимости от масштаба. Часть дохода сверх лимита облагается по правилам новой системы. Калькулятор показывает, на сколько доход вышел за лимит, чтобы это не стало сюрпризом.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Как самозанятому платить налог?</summary>
+          <div class="seo-faq-b"><p>Налог формируется автоматически из чеков в приложении «Мой налог»: после оплаты от клиента нужно сформировать чек, а до 28 числа следующего месяца оплатить начисленную сумму — картой или через банк. Декларацию сдавать не нужно, вся отчётность сводится к чекам.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Можно ли совмещать самозанятость с работой по трудовому договору?</summary>
+          <div class="seo-faq-b"><p>Да, совмещать можно. НПД применяется к доходам от вашей самостоятельной деятельности, а зарплата по трудовому договору облагается НДФЛ у работодателя. Важно, чтобы вы не оказывали услуги своему текущему работодателю в рамках трудовых отношений — такие схемы налоговая проверяет.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Что будет, если самозанятый не сформировал чек?</summary>
+          <div class="seo-faq-b"><p>Штраф составит 20% суммы расчёта, по которому чек не передан, а при повторном нарушении в течение года — 100% суммы, но не менее 5 000 ₽ (ст. 129.13 НК РФ). Если ошибку заметили до проверки, чек можно сформировать задним числом с фактической датой расчёта: налог будет начислен верно, а риск штрафа снизится.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Как вернуть переплату по НПД?</summary>
+          <div class="seo-faq-b"><p>Переплату можно вернуть на счёт или зачесть в счёт будущих начислений. Заявление подают в налоговую, в том числе через приложение «Мой налог»; решение по нему принимают в течение 10 дней, а возврат обычно приходит в течение месяца с даты заявления. Суммы налогового вычета при этом не «сгорают» — они уже учтены в расчёте налога.</p></div>
+        </details>
+
+        <p class="calc-note">Расчёты носят справочный характер и не являются налоговой консультацией. Ставки, лимиты и порядок уплаты уточняйте в законе о НПД и в приложении «Мой налог». Данные калькулятора не покидают ваш браузер.</p>
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/calculators/finance/ip-insurance/">Взносы ИП за себя</a>
+          <a href="/calculators/finance/ndfl/">НДФЛ и налоговые вычеты</a>
+          <a href="/calculators/finance/vat/">Калькулятор НДС</a>
+          <a href="/calculators/finance/average-earnings/">Средний заработок</a>
+        </div>
+      </div>
+    </div>
+    <!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/calculators/finance/tax-freelancer/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/calculators/finance/tax-freelancer/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=39" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+    <p class="hint" id="printHint" hidden>Документ готов — сохраните его в PDF кнопкой печати.</p>
+</main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=40"></script>
+  <script type="module" src="/js/calc-tax-freelancer.js?v=39"></script>
+</body>
+</html>
+
+
+
+
+

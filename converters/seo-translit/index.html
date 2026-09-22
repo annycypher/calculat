@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SEO-транслит: перевод текста в URL и домен | CalcDoc</title>
+  <meta name="description" content="Транслитерация онлайн: slug для URL и домены из русского текста. Наборы правил URL, ГОСТ 7.79-2000 и паспортные, ограничение длины и копирование." />
+  <link rel="canonical" href="https://calc-doc.ru/converters/seo-translit/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="SEO-транслит для URL и доменов — CalcDoc" />
+  <meta property="og:description" content="Получите латинский slug или домен из русского текста по нужным правилам." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/converters/seo-translit/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <style>
+      /* @font-face инлайном — вместо внешнего файла шрифтов: убирает цепочку HTML → CSS → woff2 (Lighthouse: 937 мс). Начертаний девять — все сохранены. */
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+    </style>
+    <link rel="preload" href="/fonts/manrope-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/unbounded-600-lat.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/bundle.css?v=39" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"SoftwareApplication", "name":"SEO транслит для URL и доменов", "applicationCategory":"UtilitiesApplication", "operatingSystem":"Web", "offers":{ "@type":"Offer","price":"0","priceCurrency":"RUB" } }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Конвертеры","item":"https://calc-doc.ru/converters/" }, { "@type":"ListItem","position":3,"name":"SEO транслит","item":"https://calc-doc.ru/converters/seo-translit/" } ] }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Зачем переводить адрес страницы в латиницу?", "acceptedAnswer": { "@type": "Answer", "text": "Латинский адрес короче, читается в ссылках и нормально переносится между сайтами, мессенджерами и документами. Кириллица в URL превращается в длинные последовательности вида %D0%9F%D1%80, которые неудобно переписывать и легко повредить при копировании." } },
+      { "@type": "Question", "name": "Какой набор правил транслитерации выбрать?", "acceptedAnswer": { "@type": "Answer", "text": "Для адресов страниц, товаров и категорий — «URL / Яндекс»: это привычный вид ссылок. ГОСТ 7.79-2000 (система Б) используют для документов и библиографии. Паспортные правила МВД — для имён и фамилий: именно они дают «khlebnikov» вместо «hlebnikov». Для визовых анкет написание всегда сверяйте с требованиями ведомства." } },
+      { "@type": "Question", "name": "Сколько символов допустимо в URL и домене?", "acceptedAnswer": { "@type": "Answer", "text": "Для slug комфортный предел — 60 символов: такой адрес целиком виден в результатах поиска. В домене метка (часть между точками) — не более 63 символов, весь домен — до 253. Дефис не может стоять ни в начале, ни в конце метки." } },
+      { "@type": "Question", "name": "Что делать с буквой «ё»?", "acceptedAnswer": { "@type": "Answer", "text": "В ссылках «ё» обычно заменяют на «e»: «ёлка» → elka. В наборе ГОСТ она превращается в «yo» — yolka. Для документов правило определяет ведомство, поэтому в заявлении или билете написание проверяйте по официальному источнику." } },
+      { "@type": "Question", "name": "Нужен ли транслит, если у меня домен в зоне .рф?", "acceptedAnswer": { "@type": "Answer", "text": "Технически кириллический домен работает, и поисковые системы его индексируют. Но латиница удобнее: её одинаково отображают все браузеры, почтовые программы и зарубежные сервисы, а ссылку проще продиктовать по телефону. Для адресов страниц внутри сайта транслит тоже предпочтительнее кириллицы." } },
+      { "@type": "Question", "name": "Можно ли менять URL страницы после публикации?", "acceptedAnswer": { "@type": "Answer", "text": "Нежелательно: адрес уже проиндексирован, на него могут ссылаться другие сайты. Если изменение необходимо, настройте постоянный 301-редирект со старого адреса на новый, обновите внутренние ссылки и карту сайта — тогда накопленный вес страницы сохранится." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+    <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/finance/">Финансы и налоги<b>16</b></a>
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/auto/">Авто<b>4</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/converters/">Конвертеры</a> / SEO транслит</nav>
+      <h1>SEO транслит для URL и доменов</h1>
+      <p class="tool-meta">Русский текст → латиница: адрес страницы (slug), домен или поддомен. Транслитерация выполняется в браузере, введённый текст никуда не отправляется.</p>
+    </div>
+
+    <!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+    <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="trForm">
+            <div class="field">
+              <label for="src">Текст на русском</label>
+              <textarea id="src" rows="3" placeholder="Например: Калькулятор отпускных онлайн">Калькулятор отпускных онлайн</textarea>
+              <span class="hint">Ссылку удобнее вставлять в режиме «Домен» — протокол, путь и параметры уберутся сами.</span>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="mode">Что нужно</label>
+                <select id="mode">
+                  <option value="slug">Slug для URL</option>
+                  <option value="domain">Домен или поддомен</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="std">Правила транслитерации</label>
+                <select id="std">
+                  <option value="url">URL / Яндекс (рекомендуется)</option>
+                  <option value="gost">ГОСТ 7.79-2000 (система Б)</option>
+                  <option value="passport">Паспортные (МВД)</option>
+                </select>
+              </div>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="sep">Разделитель слов в slug</label>
+                <select id="sep">
+                  <option value="-">дефис «-»</option>
+                  <option value="_">подчёркивание «_»</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="zone">Доменная зона</label>
+                <input type="text" id="zone" placeholder="ru" autocomplete="off" />
+                <span class="hint">Если заполнить, результат закончится этой зоной.</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="maxlen">Максимальная длина slug</label>
+              <input type="number" id="maxlen" min="5" max="120" step="1" value="60" inputmode="numeric" />
+              <span class="hint">60 символов — безопасно для выдачи и соцсетей.</span>
+            </div>
+            <button data-metric-goal="расчёт" class="btn btn-primary" type="submit" style="width:100%">Перевести</button>
+          </form>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="trResult" style="margin-top:0">
+            <div class="tr-label">Готовый адрес</div>
+            <div class="tr-out" id="trMain">—</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+              <button class="btn btn-primary" type="button" id="trCopy">Копировать</button>
+              <button class="btn btn-ghost" type="button" id="trReset">Сбросить</button>
+            </div>
+            <div class="result-list" style="margin-top:16px">
+              <div class="item"><span>Slug для URL</span><span class="val" id="trSlug">—</span></div>
+              <div class="item"><span>Домен</span><span class="val" id="trDomain">—</span></div>
+              <div class="item"><span>Percent-encoded (UTF-8)</span><span class="val" id="trEnc" style="font-size:13px">—</span></div>
+            </div>
+            <p class="hint" id="trNote" style="margin:12px 0 0"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+    <!--SLOT:banner-after-tool-->
+    <!--/SLOT:banner-after-tool-->
+    <!--SLOT:ads-after-tool-->
+    <!--/SLOT:ads-after-tool-->
+      <div class="prose">
+        <span class="eyebrow">Транслитерация</span>
+        <h2>SEO-транслит: латинский адрес страницы и домен из русского текста</h2>
+        <p class="tool-meta">Обновлено: 16 сентября 2026</p>
+        <p>Инструмент переводит русский текст в <strong>латиницу для URL</strong>: получается аккуратный slug вида <code>kupit-kvartiru</code> или доменное имя без пробелов и служебных символов. Поддерживаются три набора правил — URL (Яндекс), ГОСТ 7.79-2000 (система Б) и паспортные правила МВД.</p>
+        <p>Транслитерация выполняется в браузере: введённые названия страниц и товаров никуда не отправляются. Для сайта это удобно: латинский адрес короче, читается в ссылках и не превращается в набор вида <code>%D0%9F%D1%80</code> при копировании из мессенджеров.</p>
+
+        <span class="eyebrow">Инструкция</span>
+        <h2>Как сделать транслит</h2>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span><strong>Введите текст</strong> — название страницы, товара, компании или ФИО</span></div>
+          <div class="seo-step"><b>2</b><span><strong>Выберите режим</strong> — slug для URL (слова через дефис) или домен</span></div>
+          <div class="seo-step"><b>3</b><span><strong>Укажите правила</strong> — URL, ГОСТ или паспортные, и разделитель</span></div>
+          <div class="seo-step"><b>4</b><span><strong>Скопируйте результат</strong> — кнопкой рядом с полем</span></div>
+        </div>
+        <p>В режиме «Домен» можно добавить доменную зону (например, <code>ru</code>) и ограничение длины — полезно, когда адрес нужно уложить в 60 символов, а из вставленной ссылки автоматически убираются протокол, <code>www</code>, путь и параметры запроса.</p>
+
+        <span class="eyebrow">Наборы правил</span>
+        <h2>Чем отличаются правила транслитерации</h2>
+        <table class="seo-table">
+          <thead><tr><th>Слово</th><th>URL / Яндекс</th><th>ГОСТ 7.79-2000 (Б)</th><th>Паспортные (МВД)</th></tr></thead>
+          <tbody>
+            <tr><td>щёлка</td><td>shchelka</td><td>shhyolka</td><td>shchelka</td></tr>
+            <tr><td>йогурт</td><td>yogurt</td><td>jogurt</td><td>yogurt</td></tr>
+            <tr><td>ёлка</td><td>elka</td><td>yolka</td><td>elka</td></tr>
+            <tr><td>Хлебников</td><td>hlebnikov</td><td>hlebnikov</td><td>khlebnikov</td></tr>
+          </tbody>
+        </table>
+        <p class="hint">Для адресов страниц и товаров берите набор «URL / Яндекс» — он привычен пользователям и поисковым системам. ГОСТ пригодится для документов, а паспортные правила — для имён и фамилий в билетах и заявлениях.</p>
+
+        <span class="eyebrow">SEO-практика</span>
+        <h2>Как составлять slug для страницы</h2>
+        <ul>
+          <li><strong>3–5 слов и до 60 символов.</strong> Такой адрес целиком виден в выдаче и нормально копируется в мессенджеры.</li>
+          <li><strong>Ключевое слово — в начале.</strong> «kupit-kvartiru-v-sochi» лучше, чем «v-sochi-kupit-kvartiru»: первое слово сильнее влияет на релевантность.</li>
+          <li><strong>Только строчные буквы, цифры и дефис.</strong> Подчёркивание допустимо технически, но в ссылках читается хуже — используйте его, только если так принято на сайте.</li>
+          <li><strong>Без стоп-слов и предлогов.</strong> «i», «v», «na» в адресе не помогают, а длину занимают: «plitka-dlya-vannoy» короче и понятнее.</li>
+          <li><strong>Транслит или перевод.</strong> Если сайт только для русскоязычных — транслит; если планируете англоязычную аудиторию, переводите: <code>buy-apartment</code> вместо <code>kupit-kvartiru</code>.</li>
+          <li><strong>Не меняйте адрес после индексации.</strong> Если без этого не обойтись, настройте 301-редирект со старого URL и обновите внутренние ссылки.</li>
+        </ul>
+
+        <span class="eyebrow">Ограничения</span>
+        <h2>Ограничения доменов и метки</h2>
+        <ul>
+          <li><strong>Метка домена — до 63 символов,</strong> весь домен — до 253 символов включая точки.</li>
+          <li><strong>Дефис не может стоять в начале или конце</strong> метки: <code>-shop</code> и <code>shop-</code> недопустимы.</li>
+          <li><strong>Домены нечувствительны к регистру,</strong> поэтому результат всегда приводится к нижнему регистру.</li>
+          <li><strong>Пробелы и знаки препинания</strong> становятся разделителями, повторяющиеся разделители схлопываются в один.</li>
+          <li><strong>Кириллические домены (.рф)</strong> существуют и работают, но латиница универсальнее: её понимают любые сервисы, почтовые клиенты и зарубежные системы.</li>
+        </ul>
+    <!--SLOT:banner-mid-->
+    <!--/SLOT:banner-mid-->
+    <!--SLOT:ads-mid-->
+    <!--/SLOT:ads-mid-->
+        <span class="eyebrow">Вопросы и ответы</span>
+        <h2>Частые вопросы о транслите</h2>
+
+        <details class="seo-faq">
+          <summary>Зачем переводить адрес страницы в латиницу?</summary>
+          <div class="seo-faq-b"><p>Латинский адрес короче, читается в ссылках и нормально переносится между сайтами, мессенджерами и документами. Кириллица в URL превращается в длинные последовательности вида %D0%9F%D1%80, которые неудобно переписывать и легко повредить при копировании.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Какой набор правил транслитерации выбрать?</summary>
+          <div class="seo-faq-b"><p>Для адресов страниц, товаров и категорий — «URL / Яндекс»: это привычный вид ссылок. ГОСТ 7.79-2000 (система Б) используют для документов и библиографии. Паспортные правила МВД — для имён и фамилий: именно они дают «khlebnikov» вместо «hlebnikov». Для визовых анкет написание всегда сверяйте с требованиями ведомства.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Сколько символов допустимо в URL и домене?</summary>
+          <div class="seo-faq-b"><p>Для slug комфортный предел — 60 символов: такой адрес целиком виден в результатах поиска. В домене метка (часть между точками) — не более 63 символов, весь домен — до 253. Дефис не может стоять ни в начале, ни в конце метки.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Что делать с буквой «ё»?</summary>
+          <div class="seo-faq-b"><p>В ссылках «ё» обычно заменяют на «e»: «ёлка» → elka. В наборе ГОСТ она превращается в «yo» — yolka. Для документов правило определяет ведомство, поэтому в заявлении или билете написание проверяйте по официальному источнику.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Нужен ли транслит, если у меня домен в зоне .рф?</summary>
+          <div class="seo-faq-b"><p>Технически кириллический домен работает, и поисковые системы его индексируют. Но латиница удобнее: её одинаково отображают все браузеры, почтовые программы и зарубежные сервисы, а ссылку проще продиктовать по телефону. Для адресов страниц внутри сайта транслит тоже предпочтительнее кириллицы.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Можно ли менять URL страницы после публикации?</summary>
+          <div class="seo-faq-b"><p>Нежелательно: адрес уже проиндексирован, на него могут ссылаться другие сайты. Если изменение необходимо, настройте постоянный 301-редирект со старого адреса на новый, обновите внутренние ссылки и карту сайта — тогда накопленный вес страницы сохранится.</p></div>
+        </details>
+
+        <p class="calc-note">Транслитерация выполняется в браузере, введённый текст не отправляется на сервер. Результат — техническая запись, а не официальное написание: для документов сверяйтесь с требованиями ведомства. Данные не покидают ваше устройство.</p>
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/converters/dadata/">DaData-конструктор</a>
+          <a href="/converters/qr-generator/">Генератор QR-кода</a>
+          <a href="/converters/csv-to-xlsx/">CSV в Excel</a>
+          <a href="/generators/resume/">Генератор резюме</a>
+        </div>
+      </div>
+    </div>
+    <!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/converters/seo-translit/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/converters/seo-translit/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=39" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+        <a href="/games/">Игры</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=40"></script>
+  <script type="module" src="/js/convert-seo-translit.js?v=39"></script>
+</body>
+</html>
+
+
+
+

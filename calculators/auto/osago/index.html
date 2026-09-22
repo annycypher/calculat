@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор ОСАГО: расчёт цены полиса онлайн | CalcDoc</title>
+  <meta name="description" content="Ориентировочный расчёт ОСАГО: базовый тариф и коэффициенты — территория, возраст и стаж, мощность, пробег, КБМ. Вилка цены и способы снизить полис." />
+  <link rel="canonical" href="https://calc-doc.ru/calculators/auto/osago/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Калькулятор ОСАГО: цена полиса и КБМ — CalcDoc" />
+  <meta property="og:description" content="Прикидка стоимости ОСАГО по коэффициентам, калькулятор КБМ и способы снизить цену полиса в рублях." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/calculators/auto/osago/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <style>
+      /* @font-face инлайном — вместо внешнего файла шрифтов: убирает цепочку HTML → CSS → woff2 (Lighthouse: 937 мс). Начертаний девять — все сохранены. */
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+    </style>
+    <link rel="preload" href="/fonts/manrope-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/unbounded-600-lat.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/bundle.css?v=39" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"SoftwareApplication", "name":"Калькулятор ОСАГО и КБМ", "applicationCategory":"FinanceApplication", "operatingSystem":"Web", "offers":{ "@type":"Offer","price":"0","priceCurrency":"RUB" } }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Калькуляторы","item":"https://calc-doc.ru/calculators/" }, { "@type":"ListItem","position":3,"name":"Авто","item":"https://calc-doc.ru/calculators/auto/" }, { "@type":"ListItem","position":4,"name":"ОСАГО", "item":"https://calc-doc.ru/calculators/auto/osago/" } ] }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Почему ОСАГО такое дорогое?", "acceptedAnswer": { "@type": "Answer", "text": "Цена собирается из базового тарифа и восьми коэффициентов. Сильнее всего влияют территория (КТ: у Москвы 2,0, у Санкт-Петербурга 1,8, у небольших регионов около 1,0) и возраст со стажем (КВС: у молодого водителя без стажа верх шкалы 1,93, у опытного 0,93). Дальше добавляются мощность, пробег, КБМ, число водителей, срок и нарушения — вот почему у соседа с такой же машиной полис другой." } },
+      { "@type": "Question", "name": "Как снизить цену ОСАГО законно?", "acceptedAnswer": { "@type": "Answer", "text": "Способы по силе эффекта: копить безаварийность (КБМ), не завышать пробег и держаться в дешёвой ступени, вписать ограниченный список водителей вместо мультидрайва, проверить, нет ли ошибок в данных о ваших правах и стаже, обходить предложения всех страховых. Скидку нельзя купить или выпросить — все коэффициенты считает система по правилам, а не менеджер страховой." } },
+      { "@type": "Question", "name": "Что такое КБМ и как его восстановить?", "acceptedAnswer": { "@type": "Answer", "text": "КБМ — бонус-малус, скидка за безаварийную езду. Каждый год без аварий по вашей вине поднимает класс и снижает коэффициент, авария — опускает. Если скидка потерялась (например после смены фамилии, прав или при ошибке страховой), проверьте свой КБМ в личном кабинете водителя на сайте РСА и попросите страховую пересчитать полис по верным данным." } },
+      { "@type": "Question", "name": "Обязательно ли покупать ОСАГО?", "acceptedAnswer": { "@type": "Answer", "text": "Да. ОСАГО обязательно для владельца любого зарегистрированного автомобиля, ездить без полиса нельзя. Полис защищает не вашу машину, а чужие: ремонт или выплату пострадавшим в аварии, которую вы вызвали, берёт на себя страховая." } },
+      { "@type": "Question", "name": "Электронный полис — настоящий?", "acceptedAnswer": { "@type": "Answer", "text": "Да, электронный ОСАГО имеет ту же юридическую силу, что и бумажный: он вносится в базу РСА, и инспектор проверяет его по базе, а не по бумаге. Печатать его не обязательно, но распечатанный экземпляр удобно держать в машине вместе с выпиской. Покупайте только на сайте страховой или на официальном агрегаторе, проверяя адрес." } },
+      { "@type": "Question", "name": "Что будет, если ездить без ОСАГО?", "acceptedAnswer": { "@type": "Answer", "text": "За езду без полиса положен штраф по КоАП, а если спровоцировать аварию — платить пострадавшим придётся из своего кармана, суммы там измеряются сотнями тысяч рублей. Сумму штрафа сверяйте в актуальной редакции КоАП: она периодически меняется, поэтому здесь мы её не приводим." } }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="/print.css?v=39" media="print" />
+</head>
+<body>
+    <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/finance/">Финансы и налоги<b>16</b></a>
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/auto/">Авто<b>4</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+        <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/calculators/">Калькуляторы</a> / <a href="/calculators/auto/">Авто</a> / ОСАГО</nav>
+      <h1>Калькулятор ОСАГО</h1>
+      <p class="tool-meta">Прикиньте порядок цены полиса: базовый тариф умножается на коэффициенты — территория, возраст и стаж, мощность, пробег, КБМ, число водителей, срок и нарушения.</p>
+      <p class="calc-note">Ориентировочная прикидка для понимания порядка цен, не котировка. Точный расчёт — на сайтах страховых компаний и в РСА.</p>
+    </div>
+<!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+<!--SLOT:ads-ad-top-->
+<div class="ad-slot-box ad-top" data-ad-slot="ad-top" aria-label="Рекламный блок"></div>
+<!--/SLOT:ads-ad-top-->
+
+        <div class="container section no-print">
+      <div class="tool-layout">
+        <div class="form-card">
+          <form id="osagoForm">
+            <p class="hint" style="margin:0 0 12px"><b>Базовый тариф (ТБ)</b> — диапазон для своего типа ТС публикует Банк России; точные границы стоят в полисе и у страховщика</p>
+            <div class="row2">
+              <div class="field">
+                <label for="tbmin">Минимум тарифа (₽)</label>
+                <input type="number" id="tbmin" inputmode="decimal" min="0" step="any" value="5000" />
+                <div class="hint">В примере на странице — 5 000 ₽: подставьте границы для своего автомобиля.</div>
+              </div>
+              <div class="field">
+                <label for="tbmax">Максимум тарифа (₽)</label>
+                <input type="number" id="tbmax" inputmode="decimal" min="0" step="any" placeholder="например 6000" />
+                <div class="hint">Без максимума покажу только нижнюю границу вилки.</div>
+              </div>
+            </div>
+
+            <p class="hint" style="margin:6px 0 12px"><b>Коэффициенты</b> — берите их из своего полиса или у страховщика; значения «подставить» — из CONFIG, они ждут сверки</p>
+            <div class="row2">
+              <div class="field">
+                <label for="kt">Территория (КТ)</label>
+                <input type="number" id="kt" inputmode="decimal" min="0" step="0.01" value="1.2" />
+                <div class="hint">Регион регистрации — один из главных множителей цены.</div>
+              </div>
+              <div class="field">
+                <label for="ktsel">Подставить из списка</label>
+                <select id="ktsel">
+                  <option value="">— выберите —</option>
+                  <option value="2">Москва — 2,00</option>
+                  <option value="1.8">Санкт-Петербург — 1,80</option>
+                </select>
+                <div class="hint">Другие регионы: коэффициент смотрите в полисе или у страховщика.</div>
+              </div>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="kvs">Возраст и стаж (КВС)</label>
+                <input type="number" id="kvs" inputmode="decimal" min="0" step="0.01" value="1.17" />
+                <div class="hint">Молодой водитель без стажа — верх шкалы (1,93), опытный — низ (0,93).</div>
+              </div>
+              <div class="field">
+                <label for="kvssel">Подставить из списка</label>
+                <select id="kvssel">
+                  <option value="">— выберите —</option>
+                  <option value="1.93">Молодой водитель без стажа — 1,93</option>
+                  <option value="0.93">Старше 50 лет, стаж от 15 лет — 0,93</option>
+                </select>
+                <div class="hint">Своя ступень — из полиса.</div>
+              </div>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="km">Мощность (КМ)</label>
+                <input type="number" id="km" inputmode="decimal" min="0" step="0.01" value="1.1" />
+                <div class="hint">Считается по лошадиным силам автомобиля.</div>
+              </div>
+              <div class="field">
+                <label for="kmsel">Подставить из списка</label>
+                <select id="kmsel">
+                  <option value="">— выберите —</option>
+                  <option value="0.6">до 50 л.с. — 0,60</option>
+                  <option value="1">50–70 л.с. — 1,00</option>
+                  <option value="1.1">70–100 л.с. — 1,10</option>
+                  <option value="1.2">100–120 л.с. — 1,20</option>
+                  <option value="1.4">120–150 л.с. — 1,40</option>
+                  <option value="1.6">свыше 150 л.с. — 1,60</option>
+                </select>
+                <div class="hint">Значения из CONFIG — на сверку.</div>
+              </div>
+            </div>
+
+            <div class="row2">
+              <div class="field">
+                <label for="kp">Пробег (КП)</label>
+                <input type="number" id="kp" inputmode="decimal" min="0" step="0.01" value="1" />
+                <div class="hint">Чем больше годовой пробег, тем выше коэффициент (в части документов — КН).</div>
+              </div>
+              <div class="field">
+                <label for="kpsel">Подставить из списка</label>
+                <select id="kpsel">
+                  <option value="">— выберите —</option>
+                  <option value="0.76">до 5 000 км — 0,76</option>
+                  <option value="1">5 000–10 000 км — 1,00</option>
+                  <option value="1.1">10 000–15 000 км — 1,10</option>
+                  <option value="1.2">15 000–30 000 км — 1,20</option>
+                  <option value="1.3">свыше 30 000 км — 1,30</option>
+                </select>
+                <div class="hint">Значения из CONFIG — на сверку.</div>
+              </div>
+            </div>
+            <div class="field">
+              <label for="kbm">Бонус-малус (КБМ)</label>
+              <input type="number" id="kbm" inputmode="decimal" min="0" step="0.01" value="0.83" />
+              <div class="hint">Скидка за безаварийность: крайние ступени — 0,46 (скидка 54%) и 2,45 (надбавка 145%). Свой КБМ смотрите в личном кабинете водителя на сайте РСА (autoins.ru).</div>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="ko">Число водителей (КО)</label>
+                <input type="number" id="ko" inputmode="decimal" min="0" step="0.01" value="1" />
+                <div class="hint">Ограниченный список обычно дешевле мультидрайва: значение уточните у страховщика.</div>
+              </div>
+              <div class="field">
+                <label for="ks">Срок действия (КС)</label>
+                <input type="number" id="ks" inputmode="decimal" min="0" step="0.01" value="1" />
+                <div class="hint">Год и 10 месяцев считаются с разными коэффициентами — берите значение из полиса.</div>
+              </div>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="kn">Нарушения (КН)</label>
+                <input type="number" id="kn" inputmode="decimal" min="0" step="0.01" value="1" />
+                <div class="hint">КН = 1,5 при грубых нарушениях, например при заведомо ложных данных.</div>
+              </div>
+              <div class="field">
+                <label for="knsel">Подставить из списка</label>
+                <select id="knsel">
+                  <option value="">— выберите —</option>
+                  <option value="1">Нарушений не было — 1,00</option>
+                  <option value="1.5">Были грубые нарушения — 1,50</option>
+                </select>
+                <div class="hint">Значение 1,5 — из CONFIG, на сверку.</div>
+              </div>
+            </div>
+
+            <p class="hint" style="margin:6px 0 12px"><b>Калькулятор КБМ</b> — введите коэффициент, чтобы увидеть скидку или надбавку</p>
+            <div class="field">
+              <label for="kbmcheck">Мой КБМ</label>
+              <input type="number" id="kbmcheck" inputmode="decimal" min="0" step="0.01" value="0.83" />
+              <div class="hint">Возьмите значение из полиса или из личного кабинета водителя на сайте РСА.</div>
+            </div>
+          </form>
+<div class="auto-btns">
+            <button type="button" class="btn btn-glass" id="osagoCopy">📋 Скопировать</button>
+            <button type="button" class="btn btn-glass" id="osagoShare">🔗 Скопировать ссылку с моими цифрами</button>
+            <button type="button" class="btn btn-glass" id="osagoPrint" data-print="btn">🖨 Распечатать результат</button>
+          </div>
+          <p class="calc-note" style="margin-top:12px">Коэффициенты в блоке CONFIG помечены «на сверку»: это прикидка порядка цен, а не котировка. Точный расчёт — на сайтах страховых компаний и в РСА (autoins.ru).</p>
+        </div>
+        <div class="form-card">
+          <h3>Результат</h3>
+          <div class="result-box" id="result" style="margin-top:0"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+    <!--SLOT:banner-after-tool-->
+    <!--/SLOT:banner-after-tool-->
+    <!--SLOT:ads-after-tool-->
+    <!--/SLOT:ads-after-tool-->
+      <div class="prose">
+        <span class="eyebrow">ОСАГО</span>
+        <h2>Калькулятор ОСАГО: из чего складывается цена полиса и как её снизить</h2>
+        <p class="tool-meta">Обновлено: 20 сентября 2026</p>
+        <p>Калькулятор ОСАГО показывает порядок цены полиса: базовый тариф умножается на коэффициенты, и вы видите, какой из них сильнее всего поднимает стоимость именно в вашем случае. Это прикидка для понимания цен, а не котировка: точную сумму называют страховые, а коэффициенты считает система по правилам.</p>
+        <p>Внутри страницы два инструмента: расчёт вилки цены по базовому тарифу и <strong>калькулятор КБМ</strong> — по своему коэффициенту бонус-малуса вы увидите скидку или надбавку в процентах. Ничего не отправляется на сервер: цифры остаются в браузере.</p>
+
+        <span class="eyebrow">Инструкция</span>
+        <h2>Как посчитать ОСАГО</h2>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span><strong>Базовый тариф</strong> — впишите минимум и максимум диапазона для своего типа ТС: границы публикует Банк России, они же есть в полисе</span></div>
+          <div class="seo-step"><b>2</b><span><strong>Коэффициенты</strong> — возьмите из своего полиса или подставьте из списков: они собраны из CONFIG и ждут сверки с РСА</span></div>
+          <div class="seo-step"><b>3</b><span><strong>Смотрите вилку</strong> — от минимальной до максимальной цены: у разных страховых итог отличается внутри этих границ</span></div>
+          <div class="seo-step"><b>4</b><span><strong>Проверьте КБМ</strong> — в личном кабинете водителя на сайте РСА и сравните со скидкой, которую покажет калькулятор</span></div>
+          <div class="seo-step"><b>5</b><span><strong>Снижайте</strong> — блок «Как снизить цену» считает эффект каждого способа в рублях для ваших цифр</span></div>
+        </div>
+
+        <span class="eyebrow">Формула</span>
+        <h2>Формула ОСАГО: базовый тариф и восемь коэффициентов</h2>
+        <div class="seo-formula">Полис = ТБ × КТ × КВС × КМ × КП × КБМ × КО × КС × КН</div>
+        <table class="seo-table">
+          <thead><tr><th>Коэффициент</th><th>Что означает</th><th>Значения</th></tr></thead>
+          <tbody>
+            <tr><td>ТБ</td><td>Базовый тариф: диапазон для типа транспортного средства публикует Банк России</td><td>в примере 5 000 ₽</td></tr>
+            <tr><td>КТ</td><td>Территория регистрации автомобиля — самый сильный множитель</td><td>Москва 2,00; Санкт-Петербург 1,80; небольшие регионы около 1,00</td></tr>
+            <tr><td>КВС</td><td>Возраст и стаж водителя</td><td>от 1,93 (молодой без стажа) до 0,93 (опытный)</td></tr>
+            <tr><td>КМ</td><td>Мощность двигателя</td><td>0,60 до 50 л.с. … 1,60 свыше 150 л.с.</td></tr>
+            <tr><td>КП</td><td>Годовой пробег</td><td>0,76 до 5 000 км … 1,30 свыше 30 000 км</td></tr>
+            <tr><td>КБМ</td><td>Бонус-малус: скидка за безаварийную езду</td><td>0,46 (скидка 54%) … 2,45 (надбавка 145%)</td></tr>
+            <tr><td>КО</td><td>Число водителей: ограниченный список или мультидрайв</td><td>значение из полиса, у мультидрайва выше 1,00</td></tr>
+            <tr><td>КС</td><td>Срок действия полиса</td><td>год или 10 месяцев — разные коэффициенты</td></tr>
+            <tr><td>КН</td><td>Грубые нарушения, например заведомо ложные данные</td><td>1,50 вместо 1,00</td></tr>
+          </tbody>
+        </table>
+        <p>Сильнее всего цену двигают территория и возраст со стажем: разница между Москвой и регионом с КТ 1,00 двукратная, а между молодым водителем без стажа и опытным — почти такая же. Мощность и пробег меняют цену на десятки процентов, КБМ — на десятки процентов в обе стороны, остальные коэффициенты обычно ближе к единице.</p>
+
+        <span class="eyebrow">КБМ</span>
+        <h2>КБМ: скидка за безаварийность, которую легко потерять</h2>
+        <p>Бонус-малус — единственный коэффициент, который водитель меняет сам, просто аккуратно ездя. Каждый год без аварий по вашей вине поднимает класс и уменьшает коэффициент, авария по вашей вине опускает класс, и накопленная скидка сгорает. Ориентир из разбора правил: год без аварий даёт около 5% скидки, а полный «потолок» безаварийности — 54% (коэффициент 0,46 против 1,00 у нейтрального водителя и 2,45 у новичка). Все ступени шкалы страховщики берут из таблицы РСА, полная таблица классов ждёт сверки — в CONFIG пока внесены только крайние значения.</p>
+        <div class="seo-two">
+          <div class="seo-opt">
+            <h3>Как скидка копится</h3>
+            <p>Оформляйте полис на себя, не давайте знакомым вписывать себя в «аварийные» полисы и не скрывайте аварии: КБМ привязан к водителю, а не к машине, и переносится при смене автомобиля.</p>
+          </div>
+          <div class="seo-opt">
+            <h3>Как теряется и как восстановить</h3>
+            <p>Скидка пропадает после аварии по вашей вине, при смене фамилии или водительского удостоверения и иногда при ошибке страховой. Проверьте свой КБМ в личном кабинете водителя на сайте РСА: если скидка потерялась по ошибке, попросите страховую пересчитать полис — это бесплатно.</p>
+          </div>
+        </div>
+
+        <span class="eyebrow">Нюансы</span>
+        <h2>Почему у соседа с той же машиной полис дешевле</h2>
+        <p>Потому что цена собирается не из автомобиля, а из водителя и места. Даже при одинаковой машине отличаются КТ (регион регистрации), КВС (возраст и стаж), КБМ (безаварийность) и сам базовый тариф: страховые выбирают значение внутри коридора, который установил Банк России. Поэтому у двух людей с одинаковыми машинами итог может отличаться в полтора-два раза — и это нормальная работа формулы, а не «спецпредложение соседу».</p>
+
+        <span class="eyebrow">Способы снизить</span>
+        <h2>Как снизить цену ОСАГО законно</h2>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span><strong>Копить КБМ</strong> — безаварийная езда даёт до 54% скидки: это самый крупный резерв экономии</span></div>
+          <div class="seo-step"><b>2</b><span><strong>Проверить данные</strong> — стаж, права, регион: ошибка в базе РСА стоит вам денег каждый год</span></div>
+          <div class="seo-step"><b>3</b><span><strong>Ограниченный список водителей</strong> вместо мультидрайва, если за рулём обычно один человек</span></div>
+          <div class="seo-step"><b>4</b><span><strong>Не завышать пробег</strong> — держитесь в своей ступени КП: 0,76 против 1,30 это почти двукратная разница</span></div>
+          <div class="seo-step"><b>5</b><span><strong>Сравнить страховые</strong> — внутри вилки цены разброс большой, дешевле всего предложения у нижней границы</span></div>
+        </div>
+        <div class="seo-opt" style="margin:14px 0">
+          <h3>Электронный полис — не скидка, но удобство</h3>
+          <p>Онлайн-полис стоит столько же, сколько бумажный: закон один, база одна, коэффициенты те же. Экономия — в другом: не нужно ехать в офис, менять данные водителей можно за пару минут, а проверяется полис у инспектора по базе РСА. Покупайте только на сайте страховой или через официальный агрегатор и проверяйте адрес.</p>
+        </div>
+
+        <span class="eyebrow">Пример</span>
+        <h2>Пример расчёта: 5 000 ₽ и коэффициенты</h2>
+        <p>Сверено с калькулятором на этой странице: базовый тариф 5 000 ₽, территория КТ 1,20, возраст и стаж КВС 1,17, мощность КМ 1,10, пробег КП 1,00, КБМ 0,83, остальные коэффициенты равны 1,00.</p>
+        <div class="seo-formula">5 000 ₽ × 1,282 = 6 409 ₽</div>
+        <ul>
+          <li><strong>Произведение коэффициентов</strong> — 1,20 × 1,17 × 1,10 × 0,83 = 1,282.</li>
+          <li><strong>Итог по минимальному тарифу</strong> — 6 409 ₽; по максимальному тарифу вилка будет выше на столько же процентов, на сколько выше сам тариф.</li>
+          <li><strong>Тот же набор с КТ 2,00 (Москва)</strong> — 10 682 ₽, то есть на 67% дороже: территория меняет цену сильнее, чем мощность и пробег вместе.</li>
+          <li><strong>С КБМ 0,46 вместо 0,83</strong> — 3 552 ₽ в год, то есть экономия 2 857 ₽ только за безаварийность.</li>
+        </ul>
+
+        <span class="eyebrow">Вопросы</span>
+        <h2>Частые вопросы об ОСАГО</h2>
+        <details class="seo-faq">
+          <summary>Почему ОСАГО такое дорогое?</summary>
+          <div class="seo-faq-b"><p>Цена собирается из базового тарифа и восьми коэффициентов. Сильнее всего влияют территория (КТ: у Москвы 2,0, у Санкт-Петербурга 1,8, у небольших регионов около 1,0) и возраст со стажем (КВС: у молодого водителя без стажа верх шкалы 1,93, у опытного 0,93). Дальше добавляются мощность, пробег, КБМ, число водителей, срок и нарушения — вот почему у соседа с такой же машиной полис другой.</p></div>
+        </details>
+        <details class="seo-faq">
+          <summary>Как снизить цену ОСАГО законно?</summary>
+          <div class="seo-faq-b"><p>Способы по силе эффекта: копить безаварийность (КБМ), не завышать пробег и держаться в дешёвой ступени, вписать ограниченный список водителей вместо мультидрайва, проверить, нет ли ошибок в данных о ваших правах и стаже, обходить предложения всех страховых. Скидку нельзя купить или выпросить — все коэффициенты считает система по правилам, а не менеджер страховой.</p></div>
+        </details>
+        <details class="seo-faq">
+          <summary>Что такое КБМ и как его восстановить?</summary>
+          <div class="seo-faq-b"><p>КБМ — бонус-малус, скидка за безаварийную езду. Каждый год без аварий по вашей вине поднимает класс и снижает коэффициент, авария — опускает. Если скидка потерялась (например после смены фамилии, прав или при ошибке страховой), проверьте свой КБМ в личном кабинете водителя на сайте РСА и попросите страховую пересчитать полис по верным данным.</p></div>
+        </details>
+        <details class="seo-faq">
+          <summary>Обязательно ли покупать ОСАГО?</summary>
+          <div class="seo-faq-b"><p>Да. ОСАГО обязательно для владельца любого зарегистрированного автомобиля, ездить без полиса нельзя. Полис защищает не вашу машину, а чужие: ремонт или выплату пострадавшим в аварии, которую вы вызвали, берёт на себя страховая.</p></div>
+        </details>
+        <details class="seo-faq">
+          <summary>Электронный полис — настоящий?</summary>
+          <div class="seo-faq-b"><p>Да, электронный ОСАГО имеет ту же юридическую силу, что и бумажный: он вносится в базу РСА, и инспектор проверяет его по базе, а не по бумаге. Печатать его не обязательно, но распечатанный экземпляр удобно держать в машине вместе с выпиской. Покупайте только на сайте страховой или на официальном агрегаторе, проверяя адрес.</p></div>
+        </details>
+        <details class="seo-faq">
+          <summary>Что будет, если ездить без ОСАГО?</summary>
+          <div class="seo-faq-b"><p>За езду без полиса положен штраф по КоАП, а если спровоцировать аварию — платить пострадавшим придётся из своего кармана, суммы там измеряются сотнями тысяч рублей. Сумму штрафа сверяйте в актуальной редакции КоАП: она периодически меняется, поэтому здесь мы её не приводим.</p></div>
+        </details>
+
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/calculators/auto/ownership/">Стоимость владения автомобилем</a>
+          <a href="/calculators/auto/">Авто-калькуляторы</a>
+          <a href="/blog/avto-osago-kbm/">КБМ в ОСАГО: как копить скидку</a>
+        </div>
+        <p class="calc-note">Калькулятор даёт ориентировочную прикидку для понимания порядка цен и не является котировкой, офертой или решением страховой. Коэффициенты и базовые тарифы меняются: перед публикацией значения в блоке CONFIG нужно сверить с РСА (autoins.ru) и указаниями Банка России. Точный расчёт — на сайтах страховых компаний и в РСА. Данные калькулятора не покидают ваш браузер.</p>
+      </div>
+    </div>
+    <!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/calculators/auto/osago/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/calculators/auto/osago/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=39" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+  </main>
+
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  <!--SLOT:ads-ad-bottom-->
+<div class="ad-slot-box ad-bottom" data-ad-slot="ad-bottom" aria-label="Рекламный блок"></div>
+<!--/SLOT:ads-ad-bottom-->
+
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=40"></script>
+  <script type="module" src="/js/calc-osago.js?v=39"></script>
+</body>
+</html>
+
+
+
+

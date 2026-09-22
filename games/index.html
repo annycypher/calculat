@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Мини-игры онлайн — перерыв с пользой | CalcDoc</title>
+  <meta name="description" content="Мини-игры онлайн без регистрации: 2048, «Пузыри» и Water Glow — сортировка жидкостей. Короткий перерыв, рекорд сохраняется в браузере." />
+  <link rel="canonical" href="https://calc-doc.ru/games/" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Мини-игры онлайн — CalcDoc" />
+  <meta property="og:description" content="2048, «Пузыри» и Water Glow: короткая разминка без рекламы и регистрации." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
+  <meta property="og:url" content="https://calc-doc.ru/games/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <style>
+      /* @font-face инлайном — вместо внешнего файла шрифтов: убирает цепочку HTML → CSS → woff2 (Lighthouse: 937 мс). Начертаний девять — все сохранены. */
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+    </style>
+    <link rel="preload" href="/fonts/manrope-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/unbounded-600-lat.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/bundle.css?v=39" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"CollectionPage", "name":"Мини-игры", "url":"https://calc-doc.ru/games/", "description":"Лёгкие браузерные мини-игры-разминки." }
+  </script>
+  <script type="application/ld+json">
+  { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Мини-игры","item":"https://calc-doc.ru/games/" } ] }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Игры бесплатные и без регистрации?", "acceptedAnswer": { "@type": "Answer", "text": "Да, все три игры бесплатны, регистрация не нужна, ограничений по числу партий нет. Открывайте страницу игры и играйте — ни почту, ни имя указывать не требуется." } },
+      { "@type": "Question", "name": "Нужно ли что-то устанавливать?", "acceptedAnswer": { "@type": "Answer", "text": "Нет. Игры работают прямо в браузере: скачивать приложение или включать плагины не нужно. Сайт можно добавить на рабочий стол телефона — тогда игра запускается в один тап, как обычное приложение." } },
+      { "@type": "Question", "name": "Как играть на телефоне?", "acceptedAnswer": { "@type": "Answer", "text": "Управление адаптировано под сенсорные экраны: в «2048» плитки двигаются свайпами, в «Пузырях» прицел наводится касанием, а в Water Glow достаточно нажать на пробирку, чтобы перелить жидкость. На компьютере работают стрелки и мышь." } },
+      { "@type": "Question", "name": "Сохраняется ли прогресс или рекорд?", "acceptedAnswer": { "@type": "Answer", "text": "Рекорд сохраняется в браузере (localStorage) и остаётся на месте после перезагрузки страницы — на этом же устройстве он будет виден и завтра. Текущая партия не сохраняется: обновление страницы начинает игру заново. Очистка данных браузера сбрасывает и рекорд." } },
+      { "@type": "Question", "name": "Есть ли реклама или покупки внутри игр?", "acceptedAnswer": { "@type": "Answer", "text": "Нет ни рекламных вставок, ни внутриигровых покупок, ни «жизней» за просмотр. Игры нужны как короткий перерыв, а не как способ что-то продать." } },
+      { "@type": "Question", "name": "Будут ли новые игры?", "acceptedAnswer": { "@type": "Answer", "text": "В планах «Змейка» и небольшая викторина на эрудицию — они уже отмечены на странице раздела. Идеи приветствуются: напишите через контакты на странице «О проекте», какие игры вам заходят — так проще выбрать, что делать следующим." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+    <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/finance/">Финансы и налоги<b>16</b></a>
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/auto/">Авто<b>4</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / Мини-игры</nav>
+      <h1>🎮 Мини-игры</h1>
+      <p class="tool-meta">Лёгкие игры-разминки, чтобы отдохнуть и скоротать пару минут. Всё работает прямо в браузере.</p>
+    </div>
+
+    <!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+    <div class="container section">
+      <div class="grid">
+        <div class="card">
+          <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect class="ci-fa" x="3" y="3" width="8" height="8" rx="2"/><rect class="ci-fb" x="13" y="3" width="8" height="8" rx="2"/><rect class="ci-fb" x="3" y="13" width="8" height="8" rx="2"/><rect class="ci-fa" x="13" y="13" width="8" height="8" rx="2"/></svg></span>
+          <h3><a href="/games/2048/">2048</a></h3>
+          <p>Неоновые плитки, частицы и комбо: соберите 2048 и обгоните свой рекорд.</p>
+          <a class="btn btn-primary" href="/games/2048/" style="margin-top:8px">Играть</a>
+        </div>
+        <div class="card">
+          <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle class="ci-fa" cx="8.5" cy="9" r="4.5"/><circle class="ci-fb" cx="16.5" cy="8" r="3"/><circle class="ci-fa" cx="13" cy="17" r="3.5"/></svg></span>
+          <h3><a href="/games/bubble/">Пузыри</a></h3>
+          <p>Пузырьковый шутер: лопайте шары тройками, отрывайте висящие и проходите уровни.</p>
+          <a class="btn btn-primary" href="/games/bubble/" style="margin-top:8px">Играть</a>
+        </div>
+        <div class="card">
+          <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path class="ci-a" d="M8 3h8v13.5a4 4 0 0 1-8 0z"/><path class="ci-fb" d="M8 11h8v5.5a4 4 0 0 1-8 0z"/></svg></span>
+          <h3><a href="/games/water/">Вода</a></h3>
+          <p>«Water Glow» — сортировка жидкостей (переливашки): переливайте цвета по колбам, пока в каждой не соберётся один цвет.</p>
+          <a class="btn btn-primary" href="/games/water/" style="margin-top:8px">Играть</a>
+        </div>
+        <div class="card">
+          <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle class="ci-a" cx="12" cy="12" r="8.5"/><path class="ci-b" d="M9.6 9.8a2.5 2.5 0 1 1 3.3 2.7c-.7.3-1.1.8-1.1 1.5v.3"/><circle class="ci-fb" cx="11.8" cy="17" r="0.95"/></svg></span>
+          <h3>Викторина «Верю / не верю»</h3>
+          <p>Угадайте, правда это или нет.</p>
+          <span class="card-badge">скоро</span>
+        </div>
+        <div class="card">
+          <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path class="ci-a" d="M15 7H10a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6H7"/><circle class="ci-fa" cx="16.4" cy="7" r="2.3"/><circle class="ci-fb" cx="17.2" cy="6.4" r="0.65"/></svg></span>
+          <h3>Змейка</h3>
+          <p>Классика на стрелках и свайпе.</p>
+          <span class="card-badge">скоро</span>
+        </div>
+      </div>
+    </div>
+    <div class="container section">
+    <!--SLOT:banner-after-tool-->
+    <!--/SLOT:banner-after-tool-->
+    <!--SLOT:ads-after-tool-->
+    <!--/SLOT:ads-after-tool-->
+      <div class="prose">
+        <span class="eyebrow">Мини-игры</span>
+        <h2>Мини-игры онлайн: 2048, «Пузыри» и Water Glow — разминка для головы</h2>
+        <p class="tool-meta">Обновлено: 16 сентября 2026</p>
+        <p>Три игры для короткого перерыва: <strong>«2048»</strong> на сложение плиток, <strong>«Пузыри»</strong> — стрельба по группам шариков и <strong>Water Glow</strong> — сортировка жидкостей по пробиркам. Играть можно с клавиатуры или свайпами на телефоне, без регистрации и без рекламы.</p>
+        <p>Лучший результат сохраняется в браузере, поэтому к рекорду можно возвращаться на следующий день. Сами партии не сохраняются: перезагрузка страницы начинает игру заново — это удобно, если хочется быстро переиграть без «зависшей» ситуации.</p>
+
+        <span class="eyebrow">Игры</span>
+        <h2>Во что можно сыграть</h2>
+        <table class="seo-table">
+          <thead><tr><th>Игра</th><th>Правила</th><th>На что тренирует</th></tr></thead>
+          <tbody>
+            <tr><td>2048</td><td>Стрелки или свайпы двигают плитки; одинаковые числа складываются, цель — плитка 2048</td><td>Планирование и терпение</td></tr>
+            <tr><td>Пузыри</td><td>Стреляйте шариком по полю: группа из трёх и более одинаковых лопается</td><td>Точность и оценка траектории</td></tr>
+            <tr><td>Water Glow</td><td>Переливайте жидкость между пробирками, пока в каждой не останется один цвет</td><td>Логика и порядок действий</td></tr>
+          </tbody>
+        </table>
+        <p class="hint">Все три игры работают офлайн после загрузки страницы: расчёт ходов идёт на вашем устройстве, а прогресс рекорда хранится только в этом браузере.</p>
+
+        <span class="eyebrow">Тактика</span>
+        <h2>Как играть результативнее</h2>
+        <ul>
+          <li><strong>«2048».</strong> Держите самую большую плитку в одном углу и не сдвигайте её оттуда: движения в противоположную сторону «ломают» угол. Старайтесь выстраивать ряд по убыванию — тогда крупные плитки не мешают друг другу.</li>
+          <li><strong>Пузыри.</strong> Цельтесь не в одиночный шарик, а в группу: чем больше снимается за один выстрел, тем выше счёт. Для шариков у стены используйте рикошет — прямой выстрел по ним часто недоступен.</li>
+          <li><strong>Water Glow.</strong> Первым делом освободите пустую пробирку: это резерв для перелива. Начинайте с верхних слоёв редкого цвета и не переливайте в почти полную ёмкость — так меньше «тупиков».</li>
+          <li><strong>Общий принцип.</strong> Короткие сессии по 5–10 минут полезнее долгих: внимание падает, и ошибки в таких играх стоят дороже всего.</li>
+        </ul>
+
+        <span class="eyebrow">Зачем это здесь</span>
+        <h2>Игры в рабочем инструменте</h2>
+        <p>Перерыв на 5 минут помогает вернуться к расчётам со свежей головой, а игры с планированием неплохо разминают внимание. Кроме того, вся игровая логика написана на обычном JavaScript без внешних библиотек — это часть того же офлайн-подхода, что и калькуляторы: работает в браузере и не требует сервера.</p>
+    <!--SLOT:banner-mid-->
+    <!--/SLOT:banner-mid-->
+    <!--SLOT:ads-mid-->
+    <!--/SLOT:ads-mid-->
+        <span class="eyebrow">Вопросы и ответы</span>
+        <h2>Частые вопросы о мини-играх</h2>
+
+        <details class="seo-faq">
+          <summary>Игры бесплатные и без регистрации?</summary>
+          <div class="seo-faq-b"><p>Да, все три игры бесплатны, регистрация не нужна, ограничений по числу партий нет. Открывайте страницу игры и играйте — ни почту, ни имя указывать не требуется.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Нужно ли что-то устанавливать?</summary>
+          <div class="seo-faq-b"><p>Нет. Игры работают прямо в браузере: скачивать приложение или включать плагины не нужно. Сайт можно добавить на рабочий стол телефона — тогда игра запускается в один тап, как обычное приложение.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Как играть на телефоне?</summary>
+          <div class="seo-faq-b"><p>Управление адаптировано под сенсорные экраны: в «2048» плитки двигаются свайпами, в «Пузырях» прицел наводится касанием, а в Water Glow достаточно нажать на пробирку, чтобы перелить жидкость. На компьютере работают стрелки и мышь.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Сохраняется ли прогресс или рекорд?</summary>
+          <div class="seo-faq-b"><p>Рекорд сохраняется в браузере (localStorage) и остаётся на месте после перезагрузки страницы — на этом же устройстве он будет виден и завтра. Текущая партия не сохраняется: обновление страницы начинает игру заново. Очистка данных браузера сбрасывает и рекорд.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Есть ли реклама или покупки внутри игр?</summary>
+          <div class="seo-faq-b"><p>Нет ни рекламных вставок, ни внутриигровых покупок, ни «жизней» за просмотр. Игры нужны как короткий перерыв, а не как способ что-то продать.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Будут ли новые игры?</summary>
+          <div class="seo-faq-b"><p>В планах «Змейка» и небольшая викторина на эрудицию — они уже отмечены на странице раздела. Идеи приветствуются: напишите через контакты на странице «О проекте», какие игры вам заходят — так проще выбрать, что делать следующим.</p></div>
+        </details>
+
+        <p class="calc-note">Игры работают в браузере и не отправляют данные на сервер. Рекорд хранится локально на вашем устройстве. Развлекательный раздел не заменяет медицинские или психологические рекомендации по перерывам в работе.</p>
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/games/2048/">Играть в 2048</a>
+          <a href="/games/bubble/">Играть в «Пузыри»</a>
+          <a href="/games/water/">Играть в Water Glow</a>
+          <a href="/calculators/">Калькуляторы</a>
+        </div>
+      </div>
+    </div>
+
+    <!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/games/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/games/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=39" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+        <a href="/games/">Игры</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/ui.js?v=40"></script>
+</body>
+</html>
+
+
+
+
