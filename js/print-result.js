@@ -21,11 +21,14 @@ const AREAS = '#result, .result-box, .result-list, .print-area, .print-doc, .gen
 const BUTTONS = '#printBtn, [data-print="btn"], .print-btn';
 const CALC_AREA = '#result, .result-box, .result-list';
 
-/** Подключить print.css один раз. */
+/** Подключить print.css один раз.
+    media="print" обязателен: без него браузер считает файл блокирующим для отрисовки
+    (нашлось тестом 22.09.2026 — PageSpeed видел лишний блокирующий CSS на главной). */
 function ensureCss() {
   if (document.querySelector('link[href^="/print.css"]')) return;
   const link = document.createElement('link');
   link.rel = 'stylesheet';
+  link.media = 'print';
   link.href = '/print.css?v=39';
   document.head.appendChild(link);
 }
