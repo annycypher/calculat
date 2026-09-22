@@ -37,5 +37,16 @@
   out.push('строка «Упаковок (по 20 шт)»: ' + /Упаковок \(по 20 шт\)/.test(txt));
   out.push('упаковок 14: ' + /14 уп/.test(txt));
 
+  field.value = '8';
+  field.dispatchEvent(new Event('input', { bubbles: true }));
+  btn.click();
+  await new Promise((r) => setTimeout(r, 200));
+  txt = (q('result').innerText || '').replace(/\s+/g, ' ');
+  out.push('после клика при perBox=8: ' + txt.slice(0, 150));
+  out.push('строка «Упаковок (по 8 шт)»: ' + /Упаковок \(по 8 шт\)/.test(txt));
+  out.push('упаковок 35: ' + /35 уп/.test(txt));
+
+  out.push('подсказка под полем: ' + ((field.parentElement.querySelector('.hint') || {}).textContent || 'НЕТ').trim().slice(0, 90));
+
   return out.join('\n');
 })()
