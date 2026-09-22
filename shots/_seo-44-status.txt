@@ -1,0 +1,46 @@
+АДРЕС | КОД | БАЛЛ | СЛОВ | ЗАГОЛОВОК
+/calculators/finance/ip-insurance.html | 301 | 45 | 134 | Взносы ИП за себя онлайн — фиксированные и 1% свыше лимита — C
+/calculators/finance/ndfl.html | 301 | 45 | 173 | НДФЛ и вычеты онлайн — имущественный, инвестиционный — CalcDoc
+/calculators/finance/sick-leave.html | 301 | 45 | 154 | Больничный онлайн — расчёт пособия по временной нетрудоспособн
+/calculators/alimony.html | 301 | 50 | 183 | Калькулятор неустойки по алиментам (ст. 115 СК РФ) онлайн — Ca
+/calculators/brick.html | 301 | 50 | 178 | Калькулятор кирпича на дом онлайн — сколько кирпича на кладку 
+/calculators/construction/paint.html | 301 | 50 | 166 | Калькулятор краски и грунтовки онлайн — расход на 1 м² — CalcD
+/calculators/construction/tile.html | 301 | 50 | 166 | Калькулятор плитки онлайн — сколько плитки на пол и стены — Ca
+/calculators/finance/credit.html | 301 | 50 | 128 | Кредитный калькулятор онлайн — аннуитет и дифференцированный п
+/calculators/finance/maternity.html | 301 | 50 | 164 | Декретные и пособие по уходу за ребёнком онлайн — CalcDocs
+/calculators/finance/salary-delay.html | 301 | 50 | 135 | Компенсация за задержку зарплаты онлайн — ст. 236 ТК РФ — Calc
+/calculators/mortgage.html | 301 | 50 | 181 | Ипотечный калькулятор онлайн — расчёт платежа и переплаты — Ca
+/calculators/tax-freelancer.html | 301 | 50 | 205 | Калькулятор налога фрилансера (НПД/самозанятость) — CalcDocs
+/calculators/vacation-pay.html | 301 | 50 | 206 | Калькулятор отпускных онлайн — расчёт по среднему заработку — 
+/calculators/vat.html | 301 | 50 | 163 | Калькулятор НДС онлайн — начислить и выделить НДС 20% — CalcDo
+/calculators/wallpaper.html | 301 | 50 | 166 | Калькулятор обоев онлайн — сколько рулонов на комнату — CalcDo
+/converters/csv-to-xlsx.html | 301 | 50 | 101 | Конвертер CSV в Excel (XLSX) онлайн — CalcDocs
+/converters/pdf-to-word.html | 301 | 50 | 140 | Конвертер PDF в Word (DOCX) онлайн — CalcDocs
+/converters/seo-translit.html | 301 | 50 | 383 | SEO транслит для URL и доменов — транслитерация онлайн — CalcD
+/generators/invoice.html | 200 | 50 | 195 | Счёт на оплату онлайн — генератор счёта с QR-кодом в PDF — Cal
+/generators/leave-request.html | 200 | 50 | 119 | Генератор заявления на отпуск и отгул — шаблон в PDF — CalcDoc
+/generators/report.html | 200 | 50 | 159 | Генератор PDF-отчёта онлайн — шаблон отчёта с таблицей в PDF —
+/calculators/construction/laminate.html | 301 | 55 | 176 | Калькулятор ламината и линолеума онлайн — сколько упаковок — C
+/calculators/construction/plaster.html | 301 | 55 | 198 | Калькулятор штукатурки и стяжки онлайн — расход мешков — CalcD
+/calculators/finance/compound-interest.html | 301 | 55 | 131 | Сложный процент и доходность с пополнением онлайн — CalcDocs
+/calculators/penalty.html | 301 | 55 | 204 | Калькулятор пени и неустойки по ставке ЦБ онлайн — CalcDocs
+/converters/image-converter.html | 301 | 55 | 103 | Сжатие изображений онлайн — до 30 файлов сразу — CalcDocs
+/converters/qr-generator.html | 301 | 55 | 201 | Генератор QR-кода онлайн — скачать PNG, JPG, SVG — CalcDocs
+/generators/contract.html | 200 | 55 | 105 | Генератор договора онлайн — шаблон договора оказания услуг в P
+/generators/power-of-attorney.html | 200 | 55 | 109 | Генератор доверенности онлайн — скачать доверенность в PDF — C
+/calculators/deposit.html | 301 | 60 | 261 | Калькулятор вкладов онлайн — сложный процент и капитализация —
+/calculators/finance/average-earnings.html | 301 | 60 | 135 | Средний заработок и стаж онлайн — CalcDocs
+/generators/resume.html | 200 | 60 | 103 | Генератор резюме онлайн — создать резюме в PDF — CalcDocs
+/offline.html | 200 | 60 | 81 | Вы офлайн — CalcDoc
+/search.html | 200 | 60 | 24 | Поиск по сайту — CalcDoc
+/converters/dadata.html | 301 | 65 | 231 | DaData-конструктор запросов онлайн — suggest API (орг., адрес,
+/files/ | 301 | 65 | 669 | Документы онлайн: договор, счёт, резюме — CalcDoc
+/files/invoice/ | 301 | 65 | 767 | Счёт на оплату: генератор с QR-кодом и PDF — CalcDoc
+/files/report/ | 301 | 65 | 748 | Генератор отчёта: таблица показателей и PDF — CalcDoc
+/files/contract/ | 301 | 70 | 788 | Договор оказания услуг: генератор онлайн, шаблон в PDF — CalcD
+/files/leave-request/ | 301 | 70 | 807 | Заявление на отпуск: генератор и шаблон в PDF — CalcDoc
+/games/2048.html | 301 | 70 | 196 | 2048 онлайн — игра-головоломка — CalcDocs
+/generators/raspiska/ | 301 | 70 | 201 | Расписка о получении денег — генератор и образец | CalcDoc
+/files/power-of-attorney/ | 301 | 75 | 709 | Доверенность: генератор онлайн, бланк в PDF — CalcDoc
+/files/resume/ | 301 | 75 | 789 | Генератор резюме: создать резюме в PDF онлайн — CalcDoc
+/games/bubble.html | 301 | 80 | 215 | Пузыри (Bubble Shooter) онлайн — игра — CalcDocs
