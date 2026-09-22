@@ -12,6 +12,7 @@
 param(
   [Parameter(Mandatory = $true)][string]$Pages,   # список путей через запятую (или точку с запятой)
   [int]$Version = 42,
+  [switch]$VersionOnly,      # страница без скриптов (offline.html): поднять только версии
   [switch]$DryRun
 )
 $ErrorActionPreference = 'Stop'
@@ -38,7 +39,11 @@ foreach ($rel in $pageList) {
   $html = Read-Text $path
 
   $hits = $uiRe.Matches($html).Count
-  if ($hits -eq 0) {
+  if ($VersionOnly) {
+    if ($hits -eq 0 -and -not $html.Contains('/js/ui-bundle.js')) {
+      Write-Host ('  режим только версий: ' + $rel)
+    }
+  } elseif ($hits -eq 0) {
     if ($html.Contains('/js/ui-bundle.js')) {
       Write-Host ('  уже на бандле: ' + $rel)
     } else {
