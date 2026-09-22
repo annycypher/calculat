@@ -60,6 +60,24 @@ if ($wantJson) {
     echo '[+] shots/seo-local-scan.json (' . strlen((string)$json) . " Б)\n";
 }
 
+if (in_array('--stage2', $args, true)) {
+    echo "\n=== РЕАЛЬНЫЕ СТРАНИЦЫ НИЖЕ 80 БАЛЛОВ (в карте, не служебные) ===\n";
+    foreach ($list as $rel => $r) {
+        if (!empty($r['service']) || empty($r['in_sitemap'])) { continue; }
+        $sc = (int)($r['score'] ?? 0);
+        if ($sc >= 80) { continue; }
+        printf("\n--- %s | балл %d (%s) | слов=%s ссылок=%s картинок=%s без alt=%s h2/h3=%s абзац макс=%s\n",
+            $rel, $sc, g($r, 'tone'), g($r, 'words'), g($r, 'links'), g($r, 'imgs'), g($r, 'imgs_no_alt'), g($r, 'headings'), g($r, 'para_max'));
+        echo '    title: ' . mb_substr((string)($r['title'] ?? ''), 0, 120) . "\n";
+        echo '    descr: ' . mb_substr((string)($r['description'] ?? ''), 0, 120) . "\n";
+        echo '    ключ:  ' . (string)($r['keyword'] ?? '') . ' | ' . (string)($r['keyword_note'] ?? '') . "\n";
+        if (!empty($r['problems']) && is_array($r['problems'])) {
+            echo "    не хватает:\n";
+            foreach ($r['problems'] as $p) { echo '      • ' . $p . "\n"; }
+        }
+    }
+}
+
 if ($wantList) {
     echo "\n=== ВНЕ SITEMAP (нет в карте сайта) ===\n";
     foreach ($list as $rel => $r) {

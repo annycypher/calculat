@@ -163,6 +163,10 @@ RedirectMatch 301 ^/files/?$ https://calc-doc.ru/generators/
 # расписка переехала в категорию «Автомобильные» (19.09.2026).
 # Правило держим и дальше: это страховка от внешних ссылок, старых закладок и индекса.
 RedirectMatch 301 ^/generators/raspiska/?$ https://calc-doc.ru/generators/auto/raspiska/
+# старые плоские адреса генераторов (.html) — дубли своих же папок (23.09.2026, SEO-этап 1).
+# Правила для calculators, converters, games и files существовали, для generators их не было,
+# поэтому шесть страниц открывались по двум адресам сразу (200 на оба варианта).
+RedirectMatch 301 ^/generators/(invoice|leave-request|report|contract|power-of-attorney|resume)\.html$ https://calc-doc.ru/generators/$1/
 # конвертеры и игры
 RedirectMatch 301 ^/converters/(?!index)([a-z0-9-]+)\.html$ https://calc-doc.ru/converters/$1/
 RedirectMatch 301 ^/games/(?!index)([a-z0-9-]+)\.html$ https://calc-doc.ru/games/$1/
