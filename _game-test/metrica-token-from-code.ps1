@@ -41,22 +41,23 @@ if (-not $Code) { $Code = (Read-Host 'Код подтверждения из б�
 if (-not $Code) { throw 'Код не введён.' }
 
 Write-Host ('меняю код на токен (код: ' + $Code.Substring(0, [Math]::Min(3, $Code.Length)) + '…)') -ForegroundColor Cyan
-try {
-  $resp = Invoke-WebRequest -Uri 'https://oauth.yandex.ru/token' -Method Post -UseBasicParsing -TimeoutSec 40 `
-    -ContentType 'application/x-www-form-urlencoded' `
-    -Body @{ grant_type = 'authorization_code'; code = $Code; client_id = $clientId; client_secret = $clientSecret }
-  $json = $resp.Content | ConvertFrom-Json
-} catch {
-  $text = ''
-  if ($_.Exception.Response) { $sr = New-Object IO.StreamReader($_.Exception.Response.GetResponseStream()); $text = $sr.ReadToEnd(); $sr.Close() }
-  Write-Host ('[!] Яндекс не выдал токен: ' + $_.Exception.Message) -ForegroundColor Yellow
-  if ($text) { Write-Host ('    ответ: ' + $text.Substring(0, [Math]::Min(300, $text.Length))) }
-  Write-Host '    Частые причины: код уже использован (он одноразовый), истёк или приложение без доступа metrika:write.' -ForegroundColor Yellow
+$body = 'grant_type=authorization_code&code=' + [Uri]::EscapeDataString($Code) + '&client_id=' + [Uri]::EscapeDataString($clientId) + '&client_secret=' + [Uri]::EscapeDataString($clientSecret)
+$raw = (curl.exe -s -w '##%{http_code}' -X POST 'https://oauth.yandex.ru/token' -H 'Content-Type: application/x-www-form-urlencoded' --max-time 40 --data $body) -join ''
+$i = $raw.LastIndexOf('##')
+$httpCode = if ($i -ge 0) { $raw.Substring($i + 2).Trim() } else { 'нет' }
+$text = if ($i -ge 0) { $raw.Substring(0, $i) } else { $raw }
+
+if ($httpCode -ne '200') {
+  Write-Host ('[!] Яндекс не выдал токен (код ' + $httpCode + ').') -ForegroundColor Yellow
+  Write-Host ('    ответ: ' + $text.Substring(0, [Math]::Min(300, $text.Length)))
+  Write-Host '    Частые причины: код одноразовый и уже использован, истёк (код живёт минуты),' -ForegroundColor Yellow
+  Write-Host '    у приложения не отмечен доступ metrika:write или токен выпущен под другим аккаунтом.' -ForegroundColor Yellow
   return
 }
 
+$json = $text | ConvertFrom-Json
 $token = [string]$json.access_token
-if (-not $token) { Write-Host ('[!] В ответе нет access_token: ' + ($resp.Content.Substring(0, [Math]::Min(300, $resp.Content.Length)))) -ForegroundColor Yellow; return }
+if (-not $token) { Write-Host ('[!] В ответе нет access_token: ' + $text.Substring(0, [Math]::Min(300, $text.Length))) -ForegroundColor Yellow; return }
 
 # Кладём токен в metrica.env, сохраняя остальные строки как есть.
 $lines = Get-Content $envFile
