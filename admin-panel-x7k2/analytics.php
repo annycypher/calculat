@@ -29,6 +29,58 @@ ensure_guards();
 require_login();
 panel_require('analytics', 'раздел «Аналитика»');
 
+/* ── Выгрузка трафика в CSV (шаг P3.4): два источника рядом, но в своих колонках — не смешиваем ── */
+if ((string)($_GET['export'] ?? '') === 'traffic') {
+    if (!csrf_ok()) {
+        http_response_code(403);
+        exit('Форма устарела — обновите страницу «Аналитика» и повторите выгрузку.');
+    }
+    $ownCsv = stats_period(30);
+    $metCsv = metrika_period(30);
+
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename="calcdoc-traffic-' . date('Y-m-d') . '.csv"');
+    $out = fopen('php://output', 'w');
+    fwrite($out, "\xEF\xBB\xBF");                                   // BOM: Excel откроет UTF-8 правильно
+    fputcsv($out, array('Трафик CalcDoc: период ' . $ownCsv['from'] . ' — ' . $ownCsv['to']), ';');
+    fputcsv($out, array('Выгружено: ' . date('d.m.Y H:i')), ';');
+    if (empty($metCsv['ok'])) {
+        fputcsv($out, array('Метрика недоступна: ' . (string)$metCsv['error']), ';');
+    }
+    fputcsv($out, array(), ';');
+    fputcsv($out, array('Дата', 'Свой счётчик: просмотры', 'Свой счётчик: посетители',
+                        'Метрика: визиты', 'Метрика: посетители', 'Метрика: просмотры'), ';');
+    $metByDate = array();
+    foreach ((array)$metCsv['by_day'] as $row) {
+        $metByDate[(string)$row['date']] = $row;
+    }
+    foreach ((array)$ownCsv['series'] as $date => $s) {
+        $m = isset($metByDate[$date]) ? $metByDate[$date] : null;
+        fputcsv($out, array(
+            $date,
+            (int)$s['hits'],
+            (int)$s['visits'],
+            !empty($metCsv['ok']) ? (int)($m['visits'] ?? 0) : '—',
+            !empty($metCsv['ok']) ? (int)($m['users'] ?? 0) : '—',
+            !empty($metCsv['ok']) ? (int)($m['pageviews'] ?? 0) : '—',
+        ), ';');
+    }
+    fputcsv($out, array(), ';');
+    fputcsv($out, array('Источники: свой счётчик (за 30 дней)'), ';');
+    foreach ((array)$ownCsv['sources'] as $k => $n) {
+        fputcsv($out, array(stats_source_title((string)$k), (int)$n), ';');
+    }
+    if (!empty($metCsv['ok'])) {
+        fputcsv($out, array(), ';');
+        fputcsv($out, array('Источники: Яндекс.Метрика (за 30 дней)'), ';');
+        foreach ((array)$metCsv['sources'] as $s) {
+            fputcsv($out, array(metrika_source_title((string)$s['name']), (int)$s['visits']), ';');
+        }
+    }
+    fclose($out);
+    exit;
+}
+
 $today  = stats_period(1);
 $week   = stats_period(7);
 $month  = stats_period(30);
@@ -116,6 +168,95 @@ $top5  = stats_top_pages($week, 5);
         <p class="hint" style="margin:14px 0 0">Это собственный счётчик сайта: без куки, без IP, роботов не считает.
           Подробности — ниже: три периода, график по дням, устройства и источники.</p>
       <?php endif; ?>
+<?php card_end(); ?>
+
+<?php
+/* ── Отчёт «трафик за неделю» и сравнение с предыдущей неделей (шаг P3.3) ── */
+$ownPrev = stats_period(7, 7);
+$metPrev = metrika_period(7, true, 7);
+$chg = function ($now, $prev) {
+    if ($prev <= 0) { return $now > 0 ? 'появилось с нуля' : '—'; }
+    $d = (int)round(($now - $prev) * 100 / $prev);
+    return ($d > 0 ? '+' : '') . $d . '%';
+};
+?>
+<?php card_start('Трафик за неделю и сравнение', 'Эта неделя против предыдущей — по каждому источнику отдельно, метрики не смешиваются', ''); ?>
+      <p class="hint" style="margin:0 0 10px">Эта неделя: <?php echo h(stats_date_ru($week['from'], false)); ?> — <?php echo h(stats_date_ru($week['to'], false)); ?> ·
+        для сравнения взята предыдущая: <?php echo h(stats_date_ru($ownPrev['from'], false)); ?> — <?php echo h(stats_date_ru($ownPrev['to'], false)); ?>.</p>
+      <table class="table">
+        <tr><th>Источник</th><th>Показатель</th><th>Эта неделя</th><th>Прошлая</th><th>Изменение</th></tr>
+        <tr>
+          <td rowspan="2">Свой счётчик</td>
+          <td>Просмотры</td>
+          <td><b><?php echo (int)$week['hits']; ?></b></td>
+          <td><?php echo (int)$ownPrev['hits']; ?></td>
+          <td><?php echo h($chg((int)$week['hits'], (int)$ownPrev['hits'])); ?></td>
+        </tr>
+        <tr>
+          <td>Посетители</td>
+          <td><b><?php echo (int)$week['visits']; ?></b></td>
+          <td><?php echo (int)$ownPrev['visits']; ?></td>
+          <td><?php echo h($chg((int)$week['visits'], (int)$ownPrev['visits'])); ?></td>
+        </tr>
+        <?php if (!empty($met7['ok'])): ?>
+          <tr>
+            <td rowspan="3">Яндекс.Метрика</td>
+            <td>Визиты</td>
+            <td><b><?php echo (int)$met7['totals']['visits']; ?></b></td>
+            <td><?php echo (int)$metPrev['totals']['visits']; ?></td>
+            <td><?php echo h($chg((int)$met7['totals']['visits'], (int)$metPrev['totals']['visits'])); ?></td>
+          </tr>
+          <tr>
+            <td>Посетители</td>
+            <td><b><?php echo (int)$met7['totals']['users']; ?></b></td>
+            <td><?php echo (int)$metPrev['totals']['users']; ?></td>
+            <td><?php echo h($chg((int)$met7['totals']['users'], (int)$metPrev['totals']['users'])); ?></td>
+          </tr>
+          <tr>
+            <td>Просмотры</td>
+            <td><b><?php echo (int)$met7['totals']['pageviews']; ?></b></td>
+            <td><?php echo (int)$metPrev['totals']['pageviews']; ?></td>
+            <td><?php echo h($chg((int)$met7['totals']['pageviews'], (int)$metPrev['totals']['pageviews'])); ?></td>
+          </tr>
+        <?php else: ?>
+          <tr>
+            <td>Яндекс.Метрика</td>
+            <td colspan="4" class="hint">недоступна: <?php echo h((string)$met7['error']); ?></td>
+          </tr>
+        <?php endif; ?>
+      </table>
+
+      <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:16px">
+        <div style="min-width:260px">
+          <p style="margin:0 0 6px"><b>Источники за неделю — свой счётчик</b></p>
+          <?php if (count((array)$week['sources']) > 0): ?>
+            <table class="table">
+              <?php foreach ($week['sources'] as $k => $n): ?>
+                <tr><td><?php echo h(stats_source_title((string)$k)); ?></td><td style="width:90px"><b><?php echo (int)$n; ?></b></td></tr>
+              <?php endforeach; ?>
+            </table>
+          <?php else: ?>
+            <p class="hint" style="margin:0">за неделю переходов не было</p>
+          <?php endif; ?>
+        </div>
+        <div style="min-width:260px">
+          <p style="margin:0 0 6px"><b>Источники за неделю — Яндекс.Метрика</b></p>
+          <?php if (!empty($met7['ok']) && count((array)$met7['sources']) > 0): ?>
+            <table class="table">
+              <?php foreach ($met7['sources'] as $src): ?>
+                <tr><td><?php echo h(metrika_source_title((string)$src['name'])); ?></td><td style="width:90px"><b><?php echo (int)$src['visits']; ?></b></td></tr>
+              <?php endforeach; ?>
+            </table>
+          <?php else: ?>
+            <p class="hint" style="margin:0"><?php echo !empty($met7['ok']) ? 'за неделю переходов не было' : 'нет доступа к данным Метрики'; ?></p>
+          <?php endif; ?>
+        </div>
+      </div>
+
+      <div class="btn-row" style="margin-top:16px">
+        <a class="btn primary" href="<?php echo h(panel_url('analytics.php') . '?export=traffic&t=' . csrf_token()); ?>">Выгрузить CSV</a>
+        <span class="hint" style="align-self:center">файл за 30 дней: по дням и источникам, два счётчика в отдельных колонках</span>
+      </div>
 <?php card_end(); ?>
 
 <?php if (!$bounds['has']) { ?>

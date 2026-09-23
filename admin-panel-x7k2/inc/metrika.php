@@ -200,11 +200,12 @@ function metrika_cache_write(string $key, array $item): void
  * Статистика Метрики за N дней: итоги, по дням и источники — с кэшем на METRIKA_CACHE_MIN минут.
  * Возвращает массив с ключами ok, error, at, cached, days, totals, by_day, sources.
  */
-function metrika_period(int $days = 7, bool $useCache = true): array
+function metrika_period(int $days = 7, bool $useCache = true, int $offset = 0): array
 {
-    $days = max(1, min(90, $days));
+    $days   = max(1, min(90, $days));
+    $offset = max(0, min(365, $offset));
     $out  = array(
-        'ok' => false, 'error' => '', 'at' => '', 'cached' => false, 'days' => $days,
+        'ok' => false, 'error' => '', 'at' => '', 'cached' => false, 'days' => $days, 'offset' => $offset,
         'totals' => array('visits' => 0, 'users' => 0, 'pageviews' => 0),
         'by_day' => array(), 'sources' => array(),
     );
@@ -213,7 +214,7 @@ function metrika_period(int $days = 7, bool $useCache = true): array
     $bad = metrika_problems($s);
     if (count($bad) > 0) { $out['error'] = 'не заполнено: ' . implode(', ', $bad); return $out; }
 
-    $key   = 'p' . $days . '-' . $s['counter'];
+    $key   = 'p' . $days . '-' . $offset . '-' . $s['counter'];
     $cache = metrika_cache_read();
     if ($useCache && isset($cache['items'][$key]['at'])
         && (time() - (int)strtotime((string)$cache['items'][$key]['at'])) < METRIKA_CACHE_MIN * 60) {
@@ -222,8 +223,8 @@ function metrika_period(int $days = 7, bool $useCache = true): array
         return $item;
     }
 
-    $d2 = date('Y-m-d');
-    $d1 = date('Y-m-d', strtotime('-' . ($days - 1) . ' days'));
+    $d2 = date('Y-m-d', strtotime('-' . $offset . ' days'));
+    $d1 = date('Y-m-d', strtotime('-' . ($offset + $days - 1) . ' days'));
 
     $r = metrika_http_get(metrika_stat_url($s['counter'], 'ym:s:visits,ym:s:users,ym:s:pageviews', $d1, $d2), $s['token']);
     if (!$r[0]) { $out['error'] = (string)$r[2]; return $out; }

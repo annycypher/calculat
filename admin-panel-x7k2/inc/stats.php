@@ -92,11 +92,14 @@ function stats_date_ru(string $iso, bool $short = true): string {
     return (int)date('j', $ts) . ' ' . $m[(int)date('n', $ts)];
 }
 
-/** Свод за период: итоги, серия по дням, источники, устройства, домены-источники, страницы. */
-function stats_period(int $days = 30): array {
-    $days = max(1, $days);
+/** Свод за период: итоги, серия по дням, источники, устройства, домены-источники, страницы.
+ *  $offset — сколько дней назад начинать: 7 при $days = 7 даёт ПРЕДЫДУЩУЮ неделю (нужно для сравнения). */
+function stats_period(int $days = 30, int $offset = 0): array {
+    $days   = max(1, $days);
+    $offset = max(0, $offset);
     $out  = array(
         'days'      => $days,
+        'offset'    => $offset,
         'files'     => 0,
         'hits'      => 0,
         'visits'    => 0,
@@ -107,17 +110,18 @@ function stats_period(int $days = 30): array {
         'refs'      => array(),
         'pages'     => array(),
         'series'    => array(),
-        'from'      => date('Y-m-d', strtotime('-' . ($days - 1) . ' days')),
-        'to'        => date('Y-m-d'),
+        'from'      => date('Y-m-d', strtotime('-' . ($offset + $days - 1) . ' days')),
+        'to'        => date('Y-m-d', strtotime('-' . $offset . ' days')),
     );
 
     /* Серия ровная, с нулями на пропущенных днях: так график не «прыгает» через пустые сутки. */
     for ($i = $days - 1; $i >= 0; $i--) {
-        $d = date('Y-m-d', strtotime('-' . $i . ' days'));
+        $d = date('Y-m-d', strtotime('-' . ($offset + $i) . ' days'));
         $out['series'][$d] = array('hits' => 0, 'visits' => 0);
     }
 
-    foreach (stats_days_files($days) as $date => $file) {
+    foreach (stats_days_files($days + $offset) as $date => $file) {
+        if ($date < $out['from'] || $date > $out['to']) { continue; }   // со смещением чужие дни не берём
         $raw = json_decode((string)@file_get_contents($file), true);
         if (!is_array($raw)) { continue; }
         $day = stats_day($raw);
