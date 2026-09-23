@@ -113,5 +113,37 @@ patch($root . '/js/home.js',
       requestAnimationFrame(() => b.classList.add('bump'));
     }", $dry);
 
+/* ── 4. ui.js: измерения до правок DOM (Lighthouse: home-bundle.js:811, 78 мс) ──
+   Было: syncNavExtra() и isNarrow() читали clientWidth и getComputedStyle(burger) уже ПОСЛЕ того,
+   как initNav() и другие участники изменили DOM → браузер делал принудительный пересчёт вёрстки.
+   Стало: ширина окна и видимость «бургера» измеряются один раз до правок DOM, при resize — обновляются. */
+
+/* 4.1. Предварительный замер перед вызовом initNav() — одной строкой (файл минифицирован) */
+patch($root . '/js/ui.js',
+'})}initNav();function syncNavExtra(){',
+'})}/* Размеры и видимость «бургера» измеряем до правок DOM: раньше clientWidth и getComputedStyle'
+. ' читались после изменения DOM и вызывали принудительный пересчёт вёрстки (Lighthouse: 78 мс,'
+. ' home-bundle.js:811). При resize замер обновляется. */'
+. 'let NAV_W=document.documentElement.clientWidth,NAV_BURGER=!!document.getElementById("navBurger")'
+. '&&getComputedStyle(document.getElementById("navBurger")).display!=="none";'
+. 'function navMeasure(){NAV_W=document.documentElement.clientWidth,NAV_BURGER=!!document.getElementById("navBurger")'
+. '&&getComputedStyle(document.getElementById("navBurger")).display!=="none"}'
+. 'initNav();function syncNavExtra(){', $dry);
+
+/* 4.2. syncNavExtra(): берём готовые значения вместо чтения геометрии */
+patch($root . '/js/ui.js',
+'const narrow=!!burger&&getComputedStyle(burger).display!=="none"&&document.documentElement.clientWidth<=1024,',
+'const narrow=NAV_BURGER&&NAV_W<=1024,', $dry);
+
+/* 4.3. initNav(): isNarrow тоже из готового значения (видимость меняется только при смене размера окна) */
+patch($root . '/js/ui.js',
+'isNarrow=()=>!!burger&&getComputedStyle(burger).display!=="none",',
+'isNarrow=()=>NAV_BURGER,', $dry);
+
+/* 4.4. resize: сначала обновляем замер, потом перекладываем меню */
+patch($root . '/js/ui.js',
+'navExtraTimer=setTimeout(syncNavExtra,150)',
+'navExtraTimer=setTimeout(()=>{navMeasure();syncNavExtra()},150)', $dry);
+
 echo "\nИтог: правок применено " . $ok . ', уже было ' . $skip . ', не найдено ' . $fail . "\n";
 exit($fail === 0 ? 0 : 1);

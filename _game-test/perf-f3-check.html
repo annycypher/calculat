@@ -15,7 +15,10 @@ function show() { document.getElementById('out').textContent = out.join('\n'); }
 function step(name, fn) { try { fn(); } catch (e) { out.push(name + ': СБОЙ — ' + (e && e.message ? e.message : String(e))); } show(); }
 
 var f = document.createElement('iframe');
-f.style.cssText = 'width:390px;height:844px;border:0;position:absolute;left:-99999px;top:0';
+var q = new URLSearchParams(location.search);
+var VW = parseInt(q.get('w') || '390', 10);
+var VH = parseInt(q.get('h') || '844', 10);
+f.style.cssText = 'width:' + VW + 'px;height:' + VH + 'px;border:0;position:absolute;left:-99999px;top:0';
 f.src = '/index.html';
 document.body.appendChild(f);
 
@@ -78,6 +81,19 @@ f.addEventListener('load', function () {
         out.push('4б. Платёж = ' + (text || '(пусто)') + (/[0-9]/.test(text) ? ' — считает' : ' — ПРОВАЛ'));
         out.push('5. Ошибки JS за проверку: ' + (errors.length ? errors.join('; ') : 'нет'));
         out.push('ИТОГ: ' + (errors.length === 0 ? 'ошибок нет, страница работает' : 'есть ошибки — разобрать'));
+      });
+      /* 6. Меню: проверяем, что перекладывание узлов (nav-extra) работает по замеру.
+         В узком окне поиск и кнопки переносятся в меню, в широком — возвращаются на место. */
+      step('6. Меню и nav-extra', function () {
+        var nav = d.getElementById('mainNav');
+        var extra = nav ? nav.querySelector('.nav-extra') : null;
+        var burgerVisible = false;
+        try { burgerVisible = !!(d.getElementById('navBurger')) && w.getComputedStyle(d.getElementById('navBurger')).display !== 'none'; } catch (e) {}
+        out.push('6. Окно ' + VW + 'px: «бургер» видим — ' + (burgerVisible ? 'да' : 'нет')
+          + ' | .nav-extra в меню — ' + (extra ? 'есть' : 'нет'));
+        var expect = (VW <= 1024);
+        out.push('6б. Ожидалось .nav-extra: ' + (expect ? 'есть (узкое окно)' : 'нет (широкое окно)')
+          + ' → ' + ((!!extra === expect) ? 'СОВПАЛО' : 'НЕ СОВПАЛО — проверить логику меню'));
       });
     }, 400);
   }
