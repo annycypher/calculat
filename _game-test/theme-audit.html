@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Аудит тем: контраст и видимость элементов</title>
+</head>
+<body>
+<!-- Зачем: проверить обе темы (светлую и тёмную) без Lighthouse — считаем контраст текста
+     по WCAG (4.5:1 для обычного текста, 3:1 для крупного и для иконок) и проверяем,
+     что ключевые элементы страницы видимы.
+     ?page=/index.html&w=360&theme=light -->
+<pre id="out">ждём…</pre>
+<script>
+var lines = [];
+function note(s) { lines.push(s); document.getElementById('out').textContent = lines.join('\n'); }
+var q = new URLSearchParams(location.search);
+var W = parseInt(q.get('w') || '360', 10);
+var PAGE = q.get('page') || '/index.html';
+var THEME = q.get('theme') || 'light';
+
+var f = document.createElement('iframe');
+f.style.cssText = 'width:' + W + 'px;height:900px;border:0;position:absolute;left:-99999px;top:0';
+/* Тему выставляем ДО загрузки страницы: иначе её скрипт успевает применить светлую
+   и внедрить свои стили, и замеры будут не о той теме. */
+try { localStorage.setItem('calcdoc-theme', THEME); } catch (e) {}
+document.documentElement.setAttribute('data-theme', THEME);
+f.src = PAGE;
+document.body.appendChild(f);
+f.addEventListener('load', function () { setTimeout(run, 1200); });
+
+function parseColor(s) {
+  var m = String(s).match(/rgba?\(([^)]+)\)/);
+  if (!m) { return null; }
+  var p = m[1].split(',').map(function (x) { return parseFloat(x); });
+  return { r: p[0], g: p[1], b: p[2], a: p.length > 3 ? p[3] : 1 };
+}
+function lum(c) {
+  var ff = [c.r, c.g, c.b].map(function (v) {
+    v = v / 255;
+    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * ff[0] + 0.7152 * ff[1] + 0.0722 * ff[2];
+}
+function ratio(a, b) {
+  if (!a || !b) { return null; }
+  var l1 = lum(a), l2 = lum(b);
+  var hi = Math.max(l1, l2), lo = Math.min(l1, l2);
+  return (hi + 0.05) / (lo + 0.05);
+}
+function toHex(c) {
+  if (!c) { return '?'; }
+  var h = function (v) { return ('0' + Math.round(v).toString(16)).slice(-2); };
+  return '#' + h(c.r) + h(c.g) + h(c.b);
+}
+var d;
+function effBg(el, w) {
+  var chain = [], node = el;
+  while (node && node.nodeType === 1) {
+    var st = w.getComputedStyle(node);
+    var c = parseColor(st.backgroundColor);
+    if (c && c.a > 0) { chain.push(c); if (c.a >= 0.99) { break; } }
+    if (st.backgroundImage && st.backgroundImage !== 'none' && node !== el) {
+      /* градиентный/картиночный фон — точный цвет предсказать нельзя, помечаем */
+      chain.push({ r: -1, g: -1, b: -1, a: 0 });
+    }
+    node = node.parentElement;
+  }
+  var base = parseColor(w.getComputedStyle(d.documentElement).backgroundColor);
+  if (!base || base.a < 0.99) { base = { r: 255, g: 255, b: 255, a: 1 }; }
+  var out = base;
+  for (var i = chain.length - 1; i >= 0; i--) {
+    var c = chain[i];
+    if (c.r < 0) { out = null; continue; }
+    if (!out) { continue; }
+    out = {
+      r: c.r * c.a + out.r * (1 - c.a),
+      g: c.g * c.a + out.g * (1 - c.a),
+      b: c.b * c.a + out.b * (1 - c.a),
+      a: 1
+    };
+  }
+  return out;  /* null — фон под элементом задан градиентом, контраст не считаем */
+}
+function path(el) {
+  var parts = [], n = el, i = 0;
+  while (n && n.nodeType === 1 && i < 3) {
+    var s = n.tagName.toLowerCase();
+    if (n.id) { s += '#' + n.id; }
+    else if (n.className && typeof n.className === 'string') { s += '.' + n.className.trim().split(/\s+/).slice(0, 2).join('.'); }
+    parts.unshift(s); n = n.parentElement; i++;
+  }
+  return parts.join(' > ');
+}
+</script>
+<script>
+function run() {
+  var w = f.contentWindow, doc = f.contentDocument;
+  d = doc;
+  doc.documentElement.setAttribute('data-theme', THEME);
+  try { w.localStorage.setItem('calcdoc-theme', THEME); } catch (e) {}
+
+  setTimeout(function () {
+    try {
+    note('Страница ' + PAGE + ' | ширина ' + W + 'px | тема ' + THEME + ' | data-theme=' + doc.documentElement.getAttribute('data-theme'));
+    note('');
+
+    /* 1. Ключевые элементы: есть и видимы? */
+    var keys = [
+      ['.app-header', 'шапка'], ['.logo', 'логотип'], ['#themeToggle', 'кнопка темы'],
+      ['#navBurger', 'бургер'], ['.main-nav', 'меню (закрыто)'],
+      ['.hero', 'hero'], ['.grid, .cards, .catalog-grid', 'сетка карточек'],
+      ['.tool-of-day', 'инструмент дня'], ['.stats, .stat', 'статистика'],
+      ['.footer, footer', 'футер'], ['form', 'форма'], ['canvas', 'canvas (игра)'],
+      ['details, .faq-item', 'FAQ-аккордеоны']
+    ];
+    var miss = [];
+    keys.forEach(function (k) {
+      var el = doc.querySelector(k[0]);
+      if (!el) { return; }  /* элемента нет на этой странице — это нормально */
+      if (k[0] === '.main-nav') { return; }  /* меню закрыто по умолчанию — проверяем отдельно ниже */
+      var cs = w.getComputedStyle(el), r = el.getBoundingClientRect();
+      var vis = cs.display !== 'none' && cs.visibility !== 'hidden' && (r.width > 0 || r.height > 0);
+      if (!vis) { miss.push(k[1] + ' (' + k[0] + ')'); }
+    });
+    note('Ключевые элементы: ' + (miss.length ? 'НЕ ВИДНЫ → ' + miss.join(', ') : 'все найдены и видимы'));
+
+    /* 2. Контраст текста по WCAG */
+    var bad = [], checked = 0;
+    var all = doc.querySelectorAll('body *');
+    for (var i = 0; i < all.length; i++) {
+      var el = all[i], tag = el.tagName;
+      if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'NOSCRIPT' || tag === 'SVG' || tag === 'PATH') { continue; }
+      var txt = '';
+      for (var j = 0; j < el.childNodes.length; j++) {
+        if (el.childNodes[j].nodeType === 3) { txt += el.childNodes[j].nodeValue; }
+      }
+      txt = txt.replace(/\s+/g, ' ').trim();
+      if (txt.length < 2) { continue; }
+      var cs = w.getComputedStyle(el), r = el.getBoundingClientRect();
+      if (cs.display === 'none' || cs.visibility === 'hidden' || +cs.opacity === 0) { continue; }
+      if (r.width < 2 || r.height < 2) { continue; }
+      var fg = parseColor(cs.color); if (!fg) { continue; }
+      if (fg.a < 0.5) { continue; }  /* color:transparent — текст рисуется обводкой (например .step-num) */
+      var size = parseFloat(cs.fontSize), weight = parseInt(cs.fontWeight, 10) || 400;
+      var large = size >= 24 || (size >= 18.66 && weight >= 700);
+      var need = large ? 3.0 : 4.5;
+      var bg = effBg(el, w);
+      var cr = ratio(fg, bg);
+      if (cr === null) { continue; }
+      checked++;
+      if (cr < need) {
+        bad.push('  ❌ ' + path(el) + ' | «' + txt.slice(0, 32) + '» | текст ' + toHex(fg) + ' на ' + toHex(bg)
+          + ' | контраст ' + cr.toFixed(2) + ' (нужно ' + need + ')');
+      }
+    }
+    note('');
+    note('Контраст текста: проверено элементов ' + checked + ', ниже нормы: ' + bad.length);
+    bad.slice(0, 20).forEach(function (s) { note(s); });
+    if (bad.length > 20) { note('  … ещё ' + (bad.length - 20)); }
+
+    /* 3. Иконки шапки: цвет против фона шапки (нужно ≥ 3:1) */
+    var head = doc.querySelector('.app-header');
+    if (head) {
+      var hbg = parseColor(w.getComputedStyle(head).backgroundColor) || effBg(head, w);
+      if (hbg.a < 0.9) { hbg = effBg(head, w); }
+      note('');
+      ['#themeToggle', '#navBurger'].forEach(function (sel) {
+        var el = doc.querySelector(sel);
+        if (!el) { return; }
+        var c = parseColor(w.getComputedStyle(el).color);
+        var rr = ratio(c, hbg);
+        note('  иконка ' + sel + ': цвет ' + toHex(c) + ' на фоне шапки ' + toHex(hbg) + ' | контраст '
+          + (rr === null ? '?' : rr.toFixed(2)) + (rr !== null && rr < 3 ? ' → ❌ мало' : ' → ✅'));
+      });
+    }
+    /* 3б. Открываем меню-бургер: видно ли меню, читается ли текст, осталась ли кнопка темы в шапке */
+    note('');
+    var burger = doc.getElementById('navBurger');
+    var menu = doc.querySelector('.main-nav');
+    if (burger && menu) {
+      var themeInHeader = !!doc.querySelector('header.app-header #themeToggle')
+        && !doc.querySelector('.main-nav #themeToggle');
+      burger.click();
+      var mcs = w.getComputedStyle(menu), mr = menu.getBoundingClientRect();
+      note('  бургер нажат → меню display=' + mcs.display + ', размер ' + Math.round(mr.width) + '×' + Math.round(mr.height)
+        + (mcs.display !== 'none' && mr.width > 10 ? ' → открылось ✅' : ' → ❌ не открылось'));
+      var link = menu.querySelector('.nav-link, .nav-panel a, a');
+      if (link) {
+        var lcs = w.getComputedStyle(link), lbg = effBg(link, w);
+        var lcr = ratio(parseColor(lcs.color), lbg);
+        note('    пункт меню «' + (link.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 26) + '»: цвет '
+          + toHex(parseColor(lcs.color)) + ' на ' + toHex(lbg) + ' | контраст ' + (lcr === null ? '?' : lcr.toFixed(2))
+          + (lcr !== null && lcr < 4.5 ? ' → ❌ мало' : ' → ✅'));
+      }
+      note('  кнопка темы осталась в шапке: ' + (themeInHeader ? 'ДА ✅' : 'НЕТ — уехала в меню ❌'));
+      burger.click();
+    }
+
+    /* 4. Значения CSS-переменных темы и цвета кнопок */
+    var root = w.getComputedStyle(doc.documentElement);
+    note('');
+    ['--vio', '--vio-deep', '--vio-ink', '--primary', '--primary-dark', '--primary-soft', '--text', '--text-muted'].forEach(function (v) {
+      note('  ' + v + ' = ' + root.getPropertyValue(v).trim());
+    });
+    ['.btn-vio', '.btn-primary', '#cookieAccept', '#mReset', '.chip', '.btn-glass', '.eyebrow', '#genPreview', '#genPreview p'].forEach(function (sel) {
+      var el = doc.querySelector(sel);
+      if (!el) { return; }
+      var cs = w.getComputedStyle(el);
+      note('  ' + sel + ': фон ' + cs.backgroundColor + ', текст ' + cs.color + ', размер ' + cs.fontSize);
+      note('     локально --vio=' + cs.getPropertyValue('--vio').trim()
+        + ', --primary-dark=' + cs.getPropertyValue('--primary-dark').trim()
+        + ', ближайший [data-theme]=<' + ((el.closest('[data-theme]') || { tagName: 'нет' }).tagName || '?') + ' ' + (el.closest('[data-theme]') ? el.closest('[data-theme]').getAttribute('data-theme') : '') + '>'
+        + ', html=' + doc.documentElement.getAttribute('data-theme')
+        + ', body=' + (doc.body.getAttribute('data-theme') || 'нет')
+        + ', html[data-theme="dark"] matches=' + doc.documentElement.matches(':root[data-theme="dark"]')
+        + ', html[data-theme="light"] matches=' + doc.documentElement.matches(':root[data-theme="light"]'));
+    });
+    var hd = doc.querySelector('.app-header');
+    if (hd) {
+      var hcs = w.getComputedStyle(hd);
+      note('  шапка: классы «' + hd.className + '», id=' + (hd.id || 'нет') + ', фон ' + hcs.backgroundColor
+        + ', background-image ' + hcs.backgroundImage.slice(0, 60)
+        + ', --htxt=' + hcs.getPropertyValue('--htxt').trim() + ', текст ' + hcs.color);
+    }
+
+    /* 5. Какие правила реально задают фон/цвет у кнопки (для отладки расхождений) */
+    note('');
+    note('Правила для .btn-vio (только применимые):');
+    var target = doc.querySelector('.btn-vio') || doc.querySelector('.btn-primary');
+    if (target) {
+      var sheets = doc.styleSheets;
+      for (var si = 0; si < sheets.length; si++) {
+        var rs;
+        try { rs = sheets[si].cssRules; } catch (e) { continue; }
+        (function walk(list, mediaText) {
+          for (var k = 0; k < list.length; k++) {
+            var r = list[k];
+            if (r.type === 4 && r.cssRules) { walk(r.cssRules, r.media ? r.media.mediaText : ''); continue; }
+            if (r.type !== 1 || !r.selectorText) { continue; }
+            if (mediaText && !w.matchMedia(mediaText).matches) { continue; }
+            var bg = r.style.background || r.style.backgroundColor;
+            var col = r.style.color;
+            if (!bg && !col) { continue; }
+            var hit = false;
+            try { hit = target.matches(r.selectorText); } catch (e) { hit = false; }
+            if (hit) {
+              note('  ' + (mediaText ? '@media ' + mediaText + ' → ' : '') + r.selectorText
+                + ' { ' + (bg ? 'фон:' + bg + '; ' : '') + (col ? 'цвет:' + col : '') + ' }');
+            }
+          }
+        })(rs, '');
+      }
+    }
+    note('');
+    note('ГОТОВО');
+    } catch (err) {
+      note('');
+      note('ОШИБКА АУДИТА: ' + err);
+    }
+  }, 400);
+}
+</script>
+</body>
+</html>

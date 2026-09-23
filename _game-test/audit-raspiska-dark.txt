@@ -1,0 +1,12 @@
+﻿  Контраст текста: проверено элементов 203, ниже нормы: 9
+    ❌ form#genForm > div.gen-actions > button.btn.btn-vio | «Копировать» | текст #ffffff на #7d6dff | контраст 3.82 (нужно 4.5)
+    ❌ div.gen-grid > div#genPreview > h1 | «Расписка о получении денег» | текст #ffffff на #ffffff | контраст 1.00 (нужно 4.5)
+    ❌ div.gen-grid > div#genPreview > p | «— «23» сентября 2026 г.» | текст #d7d9ec на #ffffff | контраст 1.40 (нужно 4.5)
+    ❌ div.gen-grid > div#genPreview > p | «Я, , паспорт , получил от , пасп» | текст #d7d9ec на #ffffff | контраст 1.40 (нужно 4.5)
+    ❌ div.gen-grid > div#genPreview > p | «Деньги переданы полностью, прете» | текст #d7d9ec на #ffffff | контраст 1.40 (нужно 4.5)
+    ❌ div.gen-grid > div#genPreview > p | «Возврат средств: .» | текст #d7d9ec на #ffffff | контраст 1.40 (нужно 4.5)
+    ❌ section.container.section > div.prose > div.seo-formula | «Заём между гражданами свыше 10 0» | текст #7d6dff на #23254a | контраст 3.84 (нужно 4.5)
+    ❌ form > div > button | «Отправить отзыв» | текст #eef0ff на #f0f0f0 | контраст 1.01 (нужно 4.5)
+    ❌ div.container > div.cookie-actions > button#cookieAccept | «Принять» | текст #ffffff на #7d6dff | контраст 3.82 (нужно 4.5)
+    #genPreview: фон rgb(255, 255, 255), текст rgb(17, 17, 17), размер 15px
+    #genPreview p: фон rgba(0, 0, 0, 0), текст rgb(215, 217, 236), размер 15px

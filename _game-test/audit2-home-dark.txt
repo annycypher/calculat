@@ -1,0 +1,40 @@
+﻿  Страница /index.html | ширина 360px | тема dark | data-theme=dark
+  
+  Ключевые элементы: все найдены и видимы
+  
+  Контраст текста: проверено элементов 226, ниже нормы: 104
+    ❌ div.hero-copy.reveal > div.hero-actions > a.btn.btn-vio | «Попробовать» | текст #170b2e на #5646e0 | контраст 2.98 (нужно 4.5)
+    ❌ div.hero-copy.reveal > div.hero-actions > a.btn.btn-glass | «Как это работает» | текст #f1eef9 на #cfcfd2 | контраст 1.36 (нужно 4.5)
+    ❌ div.tool.glass > div.t-actions > button#mReset | «Сбросить» | текст #170b2e на #5646e0 | контраст 2.98 (нужно 4.5)
+    ❌ div.tool.glass > div.t-actions > button#qrBtn | «Создать QR» | текст #170b2e на #5646e0 | контраст 2.98 (нужно 4.5)
+    ❌ div.tool.glass > div.t-actions > button#cmpDl | «Скачать JPG» | текст #170b2e на #5646e0 | контраст 2.98 (нужно 4.5)
+    ❌ div.popular-bar > div.chips > a.chip | «Статьи и инструкции» | текст #f1eef9 на #e2e2e4 | контраст 1.13 (нужно 4.5)
+    ❌ div.popular-bar > div.chips > a.chip | «Ипотека» | текст #f1eef9 на #e2e2e4 | контраст 1.13 (нужно 4.5)
+    ❌ div.popular-bar > div.chips > a.chip | «Налог фрилансера» | текст #f1eef9 на #e2e2e4 | контраст 1.13 (нужно 4.5)
+    ❌ div.popular-bar > div.chips > a.chip | «Отпускные» | текст #f1eef9 на #e2e2e4 | контраст 1.13 (нужно 4.5)
+    ❌ div.popular-bar > div.chips > a.chip | «Кредит» | текст #f1eef9 на #e2e2e4 | контраст 1.13 (нужно 4.5)
+    ❌ div.popular-bar > div.chips > a.chip | «Больничный» | текст #f1eef9 на #e2e2e4 | контраст 1.13 (нужно 4.5)
+    ❌ div.popular-bar > div.chips > a.chip | «НДФЛ» | текст #f1eef9 на #e2e2e4 | контраст 1.13 (нужно 4.5)
+    ❌ div.popular-bar > div.chips > a.chip | «Взносы ИП» | текст #f1eef9 на #e2e2e4 | контраст 1.13 (нужно 4.5)
+    ❌ div.popular-bar > div.chips > a.chip | «Декретные» | текст #f1eef9 на #e2e2e4 | контраст 1.13 (нужно 4.5)
+    ❌ div.popular-bar > div.chips > a.chip | «Кирпич» | текст #f1eef9 на #e2e2e4 | контраст 1.13 (нужно 4.5)
+    ❌ div.popular-bar > div.chips > a.chip | «Обои» | текст #f1eef9 на #e2e2e4 | контраст 1.13 (нужно 4.5)
+    ❌ div.popular-bar > div.chips > a.chip | «Плитка» | текст #f1eef9 на #e2e2e4 | контраст 1.13 (нужно 4.5)
+    ❌ div.popular-bar > div.chips > a.chip | «Ламинат» | текст #f1eef9 на #e2e2e4 | контраст 1.13 (нужно 4.5)
+    ❌ div.popular-bar > div.chips > a.chip | «НДС» | текст #f1eef9 на #e2e2e4 | контраст 1.13 (нужно 4.5)
+    ❌ div.popular-bar > div.chips > a.chip | «Пеня» | текст #f1eef9 на #e2e2e4 | контраст 1.13 (нужно 4.5)
+    … ещё 84
+  
+    иконка #themeToggle: цвет #f1eef9 на фоне шапки #0f1020 | контраст 16.44 → ✅
+    иконка #navBurger: цвет #f1eef9 на фоне шапки #0f1020 | контраст 16.44 → ✅
+  
+    бургер нажат → меню display=flex, размер 313×350 → открылось ✅
+      пункт меню «Калькуляторы»: цвет #9a92b0 на #110e1e | контраст 6.43 → ✅
+    кнопка темы осталась в шапке: ДА ✅
+  
+    --vio = #a78bfa
+    --vio-deep = #8b5cf6
+    --vio-ink = #170b2e
+    --primary = #7d6dff
+    --primary-dark = #624fff
+    --primary-soft = #23254a

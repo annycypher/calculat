@@ -1,0 +1,40 @@
+﻿  Страница /generators/auto/raspiska/ | ширина 360px | тема dark | data-theme=dark
+  
+  Ключевые элементы: все найдены и видимы
+  
+  Контраст текста: проверено элементов 203, ниже нормы: 8
+    ❌ div.gen-grid > div#genPreview > h1 | «Расписка о получении денег» | текст #ffffff на #ffffff | контраст 1.00 (нужно 4.5)
+    ❌ div.gen-grid > div#genPreview > p | «— «23» сентября 2026 г.» | текст #d7d9ec на #ffffff | контраст 1.40 (нужно 4.5)
+    ❌ div.gen-grid > div#genPreview > p | «Я, , паспорт , получил от , пасп» | текст #d7d9ec на #ffffff | контраст 1.40 (нужно 4.5)
+    ❌ div.gen-grid > div#genPreview > p | «Деньги переданы полностью, прете» | текст #d7d9ec на #ffffff | контраст 1.40 (нужно 4.5)
+    ❌ div.gen-grid > div#genPreview > p | «Возврат средств: .» | текст #d7d9ec на #ffffff | контраст 1.40 (нужно 4.5)
+    ❌ main > section#reviews-form > p | «Почту не спрашиваем: нужны тольк» | текст #5f5a78 на #161727 | контраст 2.71 (нужно 4.5)
+    ❌ form > fieldset > legend | «Оценка — по желанию» | текст #5f5a78 на #161727 | контраст 2.71 (нужно 4.5)
+    ❌ form > div > span | «Публикуется после проверки.» | текст #5f5a78 на #161727 | контраст 2.71 (нужно 4.5)
+  
+    иконка #themeToggle: цвет #f1eef9 на фоне шапки #0c0b17 | контраст 17.05 → ✅
+    иконка #navBurger: цвет #f1eef9 на фоне шапки #0c0b17 | контраст 17.05 → ✅
+  
+    бургер нажат → меню display=flex, размер 313×350 → открылось ✅
+      пункт меню «Калькуляторы»: цвет #9a92b0 на #110e1e | контраст 6.44 → ✅
+    кнопка темы осталась в шапке: ДА ✅
+  
+    --vio =
+    --vio-deep =
+    --vio-ink =
+    --primary = #7d6dff
+    --primary-dark = #624fff
+    --primary-soft = #23254a
+    --text = #eef0ff
+    --text-muted = #a6a9c8
+    .btn-vio: фон rgb(167, 139, 250), текст rgb(23, 11, 46), размер 16px
+       локально --vio-deep=, --vio-ink=, --primary=#7d6dff, ближайший [data-theme]=dark
+    .btn-primary: фон rgb(167, 139, 250), текст rgb(23, 11, 46), размер 14px
+       локально --vio-deep=, --vio-ink=, --primary=#7d6dff, ближайший [data-theme]=dark
+    #cookieAccept: фон rgb(167, 139, 250), текст rgb(23, 11, 46), размер 14px
+       локально --vio-deep=, --vio-ink=, --primary=#7d6dff, ближайший [data-theme]=dark
+    .chip: фон rgb(22, 24, 49), текст rgb(238, 240, 255), размер 14px
+       локально --vio-deep=, --vio-ink=, --primary=#7d6dff, ближайший [data-theme]=dark
+    .btn-glass: фон rgba(255, 255, 255, 0.12), текст rgb(241, 238, 249), размер 16px
+       локально --vio-deep=, --vio-ink=, --primary=#7d6dff, ближайший [data-theme]=dark
+    #genPreview: фон rgb(255, 255, 255), текст rgb(26, 21, 48), размер 15px

@@ -1,0 +1,12 @@
+﻿  Страница /index.html | ширина 360px | тема dark | data-theme=dark
+  
+  Ключевые элементы: все найдены и видимы
+  
+  Контраст текста: проверено элементов 226, ниже нормы: 101
+    ❌ div.hero-copy.reveal > div.hero-actions > a.btn.btn-vio | «Попробовать» | текст #170b2e на #5646e0 | контраст 2.98 (нужно 4.5)
+    ❌ div.hero-copy.reveal > div.hero-actions > a.btn.btn-glass | «Как это работает» | текст #f1eef9 на #cfcfd2 | контраст 1.36 (нужно 4.5)
+    ❌ div.tool.glass > div.t-actions > button#mReset | «Сбросить» | текст #170b2e на #5646e0 | контраст 2.98 (нужно 4.5)
+    ❌ div.tool.glass > div.t-actions > button#qrBtn | «Создать QR» | текст #170b2e на #5646e0 | контраст 2.98 (нужно 4.5)
+    ❌ div.tool.glass > div.t-actions > button#cmpDl | «Скачать JPG» | текст #170b2e на #5646e0 | контраст 2.98 (нужно 4.5)
+    ❌ div.popular-bar > div.chips > a.chip | «Статьи и инструкции» | текст #f1eef9 на #e2e2e4 | контраст 1.13 (нужно 4.5)
+    ❌ div.popular-bar > div.chips > a.chip | «Ипотека» | текст #f1eef9 на #e2e2e4 | контраст 1.13 (нужно 4.5)

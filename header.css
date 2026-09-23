@@ -270,3 +270,20 @@ header.app-header .search-none { padding: 10px 12px; color: var(--hmut); font-si
   header.app-header .search-input:focus { width: 152px; }
 }
 @media (max-width: 600px) { header.app-header .search-wrap { display: none; } }
+
+/* ── Мобильная шапка (правка 23.09.2026) ─────────────────────────────────────────────
+   Было: на телефоне кнопка переключения темы была недоступна из шапки — на ширине ≤600 px
+   все .icon-btn внутри .head-cta скрывались, а на 601–1024 px скрипт переносил весь .head-cta
+   (вместе с кнопкой темы) в меню-бургер.
+   Стало: кнопка темы остаётся в шапке (переносим только поиск), размеры уменьшены, чтобы лого,
+   кнопка темы и бургер помещались на 360 px. installBtn скрыт атрибутом hidden — теперь
+   hidden важнее, чем display:grid. */
+header.app-header [hidden] { display: none !important; }
+@media (max-width: 760px) {
+  header.app-header .head-cta, header.app-header .header-actions { gap: 6px; }
+  header.app-header .head-cta .icon-btn, header.app-header .header-actions .icon-btn { display: grid; width: 36px; height: 36px; font-size: 16px; }
+  header.app-header .nav-burger { width: 36px; height: 36px; }
+  header.app-header .logo { gap: 8px; }
+  header.app-header .logo-mark { width: 34px; height: 34px; }
+  header.app-header .logo b { font-size: 16px; }
+}

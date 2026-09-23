@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Снимок страницы в нужной теме и ширине</title>
+  <style>
+    html, body { margin: 0; padding: 0; background: #fff; overflow: hidden; }
+    iframe { border: 0; display: block; }
+    [data-theme="dark"] body { background: #0c0a14; }
+  </style>
+</head>
+<body>
+<!-- Зачем: снять настоящий PNG страницы на мобильной ширине в нужной теме.
+     Тема выставляется до отрисовки (data-theme + localStorage), меню можно открыть (?menu=1).
+     Запуск: Chrome --headless=new --screenshot=файл.png --window-size=W,H
+             "http://127.0.0.1:8099/_game-test/theme-shot.html?page=/index.html&w=360&theme=dark&menu=1" -->
+<script>
+var q = new URLSearchParams(location.search);
+var W = q.get('w') || '360';
+var H = q.get('h') || '740';
+var PAGE = q.get('page') || '/index.html';
+var THEME = q.get('theme') || 'light';
+var MENU = q.get('menu') === '1';
+var SCROLL = parseInt(q.get('scroll') || '0', 10);
+
+try { localStorage.setItem('calcdoc-theme', THEME); } catch (e) {}
+document.documentElement.setAttribute('data-theme', THEME);
+
+var f = document.createElement('iframe');
+f.width = W; f.height = H; f.src = PAGE;
+document.body.appendChild(f);
+f.addEventListener('load', function () {
+  try {
+    var d = f.contentDocument, w = f.contentWindow;
+    d.documentElement.setAttribute('data-theme', THEME);
+    if (SCROLL) { w.scrollTo(0, SCROLL); }
+    if (MENU) { var b = d.getElementById('navBurger'); if (b) { b.click(); } }
+  } catch (e) {}
+});
+</script>
+</body>
+</html>

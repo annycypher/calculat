@@ -1,0 +1,40 @@
+﻿  Страница /index.html | ширина 360px | тема light | data-theme=light
+  
+  Ключевые элементы: все найдены и видимы
+  
+  Контраст текста: проверено элементов 228, ниже нормы: 0
+  
+    иконка #themeToggle: цвет #1b1533 на фоне шапки #eceef8 | контраст 15.11 → ✅
+    иконка #navBurger: цвет #1b1533 на фоне шапки #eceef8 | контраст 15.11 → ✅
+  
+    бургер нажат → меню display=flex, размер 313×350 → открылось ✅
+      пункт меню «Калькуляторы»: цвет #c9c3da на #181525 | контраст 10.52 → ✅
+    кнопка темы осталась в шапке: ДА ✅
+  
+    --vio = #6d28d9
+    --vio-deep = #5b21b6
+    --vio-ink = #ffffff
+    --primary = #6d5dfc
+    --primary-dark = #5646e0
+    --primary-soft = #eeebff
+    --text = #1b1c2e
+    --text-muted = #5a5c72
+    .btn-vio: фон rgb(86, 70, 224), текст rgb(255, 255, 255), размер 14.5px
+       локально --vio-deep=#5b21b6, --vio-ink=#ffffff, --primary=#6d5dfc, ближайший [data-theme]=light
+    .btn-primary: фон rgb(86, 70, 224), текст rgb(255, 255, 255), размер 14.5px
+       локально --vio-deep=#5b21b6, --vio-ink=#ffffff, --primary=#6d5dfc, ближайший [data-theme]=light
+    #cookieAccept: фон rgb(86, 70, 224), текст rgb(255, 255, 255), размер 14px
+       локально --vio-deep=#5b21b6, --vio-ink=#ffffff, --primary=#6d5dfc, ближайший [data-theme]=light
+    #mReset: фон rgb(86, 70, 224), текст rgb(255, 255, 255), размер 12px
+       локально --vio-deep=#5b21b6, --vio-ink=#ffffff, --primary=#6d5dfc, ближайший [data-theme]=light
+    .chip: фон rgba(255, 255, 255, 0.88), текст rgb(27, 21, 51), размер 14px
+       локально --vio-deep=#5b21b6, --vio-ink=#ffffff, --primary=#6d5dfc, ближайший [data-theme]=light
+    .btn-glass: фон rgba(255, 255, 255, 0.8), текст rgb(27, 21, 51), размер 14.5px
+       локально --vio-deep=#5b21b6, --vio-ink=#ffffff, --primary=#6d5dfc, ближайший [data-theme]=light
+    .eyebrow: фон rgba(0, 0, 0, 0), текст rgb(86, 70, 224), размер 12.5px
+       локально --vio-deep=#5b21b6, --vio-ink=#ffffff, --primary=#6d5dfc, ближайший [data-theme]=light
+    шапка: классы «app-header», id=header, фон rgba(0, 0, 0, 0), background-image none, --htxt=#1b1533, текст rgb(27, 21, 51)
+  
+  Правила для .btn-vio (только применимые):
+    a { цвет:inherit }
+    .btn-vio { фон:var(--primary); цвет:rgb(255, 255, 255) }

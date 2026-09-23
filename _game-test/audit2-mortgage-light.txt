@@ -1,0 +1,40 @@
+﻿  Страница /calculators/finance/mortgage/ | ширина 360px | тема light | data-theme=light
+  
+  Ключевые элементы: все найдены и видимы
+  
+  Контраст текста: проверено элементов 230, ниже нормы: 1
+    ❌ a.logo > b > span | «Doc» | текст #a78bfa на #4f4e55 | контраст 3.02 (нужно 4.5)
+  
+    иконка #themeToggle: цвет #f1eef9 на фоне шапки #4f4e55 | контраст 7.18 → ✅
+    иконка #navBurger: цвет #f1eef9 на фоне шапки #4f4e55 | контраст 7.18 → ✅
+  
+    бургер нажат → меню display=flex, размер 313×350 → открылось ✅
+      пункт меню «Калькуляторы»: цвет #c4b5fd на #131020 | контраст 10.14 → ✅
+    кнопка темы осталась в шапке: ДА ✅
+  
+    --vio =
+    --vio-deep =
+    --vio-ink =
+    --primary = #6d5dfc
+    --primary-dark = #5646e0
+    --primary-soft = #eeebff
+    --text = #1b1c2e
+    --text-muted = #5a5c72
+    .btn-primary: фон rgb(86, 70, 224), текст rgb(255, 255, 255), размер 16px
+       локально --vio-deep=, --vio-ink=, --primary=#6d5dfc, ближайший [data-theme]=light
+    #cookieAccept: фон rgb(86, 70, 224), текст rgb(255, 255, 255), размер 14px
+       локально --vio-deep=, --vio-ink=, --primary=#6d5dfc, ближайший [data-theme]=light
+    .chip: фон rgb(255, 255, 255), текст rgb(27, 28, 46), размер 14px
+       локально --vio-deep=, --vio-ink=, --primary=#6d5dfc, ближайший [data-theme]=light
+    .btn-glass: фон rgb(245, 246, 251), текст rgb(27, 28, 46), размер 16px
+       локально --vio-deep=, --vio-ink=, --primary=#6d5dfc, ближайший [data-theme]=light
+    .eyebrow: фон rgb(238, 235, 255), текст rgb(86, 70, 224), размер 13px
+       локально --vio-deep=, --vio-ink=, --primary=#6d5dfc, ближайший [data-theme]=light
+    шапка: классы «site-header app-header», id=нет, фон rgba(11, 9, 19, 0.72), background-image none, --htxt=#f1eef9, текст rgb(241, 238, 249)
+  
+  Правила для .btn-vio (только применимые):
+    button, input, select, textarea { цвет:inherit }
+    .btn-primary { фон:var(--primary); цвет:rgb(255, 255, 255) }
+    :root[data-theme="light"] .btn-primary, :root[data-theme="light"] .btn-vio { фон:var(--primary-dark);  }
+  
+  ГОТОВО

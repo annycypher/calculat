@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Мобильная шапка: что видно и что скрыто</title>
+</head>
+<body>
+<!-- Зачем: проверить состояние шапки на мобильной ширине без DevTools руками.
+     Грузим страницу в iframe нужной ширины и читаем вычисленные стили ключевых элементов,
+     а также ищем правила CSS с display:none, которые к ним применяются.
+     ?w=360 — ширина, ?page=/index.html — какая страница, ?theme=light|dark — какая тема. -->
+<pre id="out">ждём…</pre>
+<script>
+var out = [];
+function note(s) { out.push(s); document.getElementById('out').textContent = out.join('\n'); }
+var q = new URLSearchParams(location.search);
+var W = parseInt(q.get('w') || '360', 10);
+var PAGE = q.get('page') || '/index.html';
+var THEME = q.get('theme') || '';
+
+var f = document.createElement('iframe');
+f.style.cssText = 'width:' + W + 'px;height:820px;border:0;position:absolute;left:-99999px;top:0';
+f.src = PAGE;
+document.body.appendChild(f);
+
+f.addEventListener('load', function () {
+  setTimeout(run, 900);
+});
+
+function box(d, w, sel) {
+  var el = d.querySelector(sel);
+  if (!el) { return { found: false }; }
+  var cs = w.getComputedStyle(el);
+  var r = el.getBoundingClientRect();
+  return {
+    found: true, display: cs.display, visibility: cs.visibility, opacity: cs.opacity,
+    w: Math.round(r.width), h: Math.round(r.height), x: Math.round(r.x), y: Math.round(r.y),
+    inHeader: !!el.closest('header.app-header'),
+    inMenu: !!el.closest('.main-nav'),
+    color: cs.color, bg: cs.backgroundColor
+  };
+}
+
+function rules(d, sel) {
+  var res = [];
+  var sheets = d.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    var rules0;
+    try { rules0 = sheets[i].cssRules; } catch (e) { continue; }
+    var walk = function (list, mediaText) {
+      for (var j = 0; j < list.length; j++) {
+        var r = list[j];
+        if (r.type === 1) {
+          if (r.selectorText && r.selectorText.indexOf(sel) !== -1) {
+            var decl = r.style.display ? 'display:' + r.style.display : '';
+            if (decl) { res.push((mediaText ? '@media ' + mediaText + ' → ' : '') + r.selectorText + ' { ' + decl + ' }'); }
+          }
+        } else if (r.type === 4 && r.cssRules) {
+          walk(r.cssRules, r.media ? r.media.mediaText : '');
+        }
+      }
+    };
+    walk(rules0, '');
+  }
+  return res;
+}
+
+function run() {
+  var w = f.contentWindow, d = f.contentDocument;
+
+  /* Тема: выставляем запрошенную до чтения стилей */
+  if (THEME) {
+    d.documentElement.setAttribute('data-theme', THEME);
+    try { w.localStorage.setItem('calcdoc-theme', THEME); } catch (e) {}
+  }
+
+  note('Страница ' + PAGE + ', ширина ' + W + 'px, тема: ' + (THEME || 'как в браузере')
+    + ', data-theme=' + d.documentElement.getAttribute('data-theme'));
+
+  var items = [
+    ['#themeToggle', 'кнопка темы'],
+    ['#navBurger', 'бургер'],
+    ['.logo', 'логотип'],
+    ['.head-cta', 'контейнер кнопок'],
+    ['#installBtn', 'кнопка установки'],
+    ['.search-wrap', 'поиск'],
+    ['.main-nav', 'меню']
+  ];
+  items.forEach(function (it) {
+    var b = box(d, w, it[0]);
+    if (!b.found) { note('  ' + it[1] + ' (' + it[0] + '): НЕ НАЙДЕН'); return; }
+    note('  ' + it[1] + ' (' + it[0] + '): display=' + b.display
+      + ', размер ' + b.w + '×' + b.h + ', позиция x=' + b.x + ' y=' + b.y
+      + (b.inHeader ? ', в шапке' : '') + (b.inMenu ? ', в меню' : '')
+      + (b.display === 'none' ? ' → СКРЫТ' : (b.w > 0 && b.h > 0 ? ' → виден' : ' → нулевой размер')));
+  });
+
+  note('');
+  note('Правила с display для #themeToggle-подобных селекторов:');
+  var rs = rules(d, '.head-cta').concat(rules(d, '.icon-btn'));
+  (rs.length ? rs : ['  (правил с display не найдено)']).slice(0, 12).forEach(function (s) { note('  ' + s); });
+
+  /* Клик по кнопке темы: меняется ли тема и запоминается ли выбор */
+  var tg = d.getElementById('themeToggle');
+  if (tg) {
+    var before = d.documentElement.getAttribute('data-theme');
+    tg.click();
+    var after = d.documentElement.getAttribute('data-theme');
+    var saved = '';
+    try { saved = w.localStorage.getItem('calcdoc-theme') || ''; } catch (e) {}
+    note('');
+    note('Клик по кнопке темы: было ' + before + ' → стало ' + after + ' | в localStorage: ' + (saved || 'пусто'));
+    note('Клик меняет тему: ' + (before !== after ? 'ДА' : 'НЕТ') + ' | запоминается: ' + (saved === after ? 'ДА' : 'НЕТ'));
+  }
+}
+</script>
+</body>
+</html>

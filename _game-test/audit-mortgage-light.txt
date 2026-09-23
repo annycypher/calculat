@@ -1,0 +1,51 @@
+﻿  Страница /calculators/finance/mortgage/ | ширина 360px | тема light | data-theme=light
+  
+  Ключевые элементы: все найдены и видимы
+  
+  Контраст текста: проверено элементов 230, ниже нормы: 17
+    ❌ a.logo > b > span | «Doc» | текст #a78bfa на #4f4e55 | контраст 3.02 (нужно 4.5)
+    ❌ main > div.container.tool-hero > span.eyebrow | «Смотрите также» | текст #6d5dfc на #eeebff | контраст 3.89 (нужно 4.5)
+    ❌ div.container.section > div.prose > span.eyebrow | «Расчёт ипотеки» | текст #6d5dfc на #eeebff | контраст 3.89 (нужно 4.5)
+    ❌ div.container.section > div.prose > span.eyebrow | «Инструкция» | текст #6d5dfc на #eeebff | контраст 3.89 (нужно 4.5)
+    ❌ div.container.section > div.prose > span.eyebrow | «Виды платежей» | текст #6d5dfc на #eeebff | контраст 3.89 (нужно 4.5)
+    ❌ div.container.section > div.prose > span.eyebrow | «Математика» | текст #6d5dfc на #eeebff | контраст 3.89 (нужно 4.5)
+    ❌ div.container.section > div.prose > div.seo-formula | «Платёж = S × i × (1 + i) ÷ ((1 +» | текст #6d5dfc на #eeebff | контраст 3.89 (нужно 4.5)
+    ❌ div.container.section > div.prose > span.eyebrow | «Что влияет на платёж» | текст #6d5dfc на #eeebff | контраст 3.89 (нужно 4.5)
+    ❌ div.container.section > div.prose > span.eyebrow | «Полная стоимость» | текст #6d5dfc на #eeebff | контраст 3.89 (нужно 4.5)
+    ❌ div.container.section > div.prose > span.eyebrow | «Экономия» | текст #6d5dfc на #eeebff | контраст 3.89 (нужно 4.5)
+    ❌ div.container.section > div.prose > span.eyebrow | «Господдержка» | текст #6d5dfc на #eeebff | контраст 3.89 (нужно 4.5)
+    ❌ div.container.section > div.prose > span.eyebrow | «Доход» | текст #6d5dfc на #eeebff | контраст 3.89 (нужно 4.5)
+    ❌ div.container.section > div.prose > span.eyebrow | «Вопросы и ответы» | текст #6d5dfc на #eeebff | контраст 3.89 (нужно 4.5)
+    ❌ div.container.section > div.prose > span.eyebrow | «Смотрите также» | текст #6d5dfc на #eeebff | контраст 3.89 (нужно 4.5)
+    ❌ main > section#reviews-form > p | «Почту не спрашиваем: нужны тольк» | текст #a9a4bb на #ffffff | контраст 2.41 (нужно 4.5)
+    ❌ form > fieldset > legend | «Оценка — по желанию» | текст #a9a4bb на #ffffff | контраст 2.41 (нужно 4.5)
+    ❌ form > div > span | «Публикуется после проверки.» | текст #a9a4bb на #ffffff | контраст 2.41 (нужно 4.5)
+  
+    иконка #themeToggle: цвет #f1eef9 на фоне шапки #4f4e55 | контраст 7.18 → ✅
+    иконка #navBurger: цвет #f1eef9 на фоне шапки #4f4e55 | контраст 7.18 → ✅
+  
+    бургер нажат → меню display=flex, размер 313×350 → открылось ✅
+      пункт меню «Калькуляторы»: цвет #a78bfa на #131020 | контраст 6.88 → ✅
+    кнопка темы осталась в шапке: ДА ✅
+  
+    --vio =
+    --vio-deep =
+    --vio-ink =
+    --primary = #6d5dfc
+    --primary-dark = #5646e0
+    --primary-soft = #eeebff
+    --text = #1b1c2e
+    --text-muted = #5a5c72
+    .btn-primary: фон rgb(109, 93, 252), текст rgb(255, 255, 255), размер 16px
+       локально --vio-deep=, --vio-ink=, --primary=#6d5dfc, ближайший [data-theme]=light
+    #cookieAccept: фон rgb(109, 93, 252), текст rgb(255, 255, 255), размер 14px
+       локально --vio-deep=, --vio-ink=, --primary=#6d5dfc, ближайший [data-theme]=light
+    .eyebrow: фон rgb(238, 235, 255), текст rgb(109, 93, 252), размер 13px
+       локально --vio-deep=, --vio-ink=, --primary=#6d5dfc, ближайший [data-theme]=light
+    шапка: классы «site-header app-header», id=нет, фон rgba(11, 9, 19, 0.72), background-image none, --htxt=#f1eef9, текст rgb(241, 238, 249)
+  
+  Правила для .btn-vio (только применимые):
+    button, input, select, textarea { цвет:inherit }
+    .btn-primary { фон:var(--primary); цвет:rgb(255, 255, 255) }
+  
+  ГОТОВО
