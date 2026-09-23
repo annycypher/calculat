@@ -1,0 +1,8 @@
+index.html
+blog/kak-sostavit-raspisku/index.html
+contact/index.html
+popular/index.html
+generators/auto/raspiska/index.html
+calculators/engineering/gidrostrelka/index.html
+calculators/engineering/vulkan/index.html
+calculators/finance/dosrochnoe/index.html

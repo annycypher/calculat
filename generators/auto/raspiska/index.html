@@ -199,7 +199,7 @@
           <div class="field"><label for="f-deal">По какому обязательству</label><input type="text" id="f-deal" name="deal" placeholder="по договору займа от 01.08.2026" /></div>
           <div class="gen-actions">
             <button type="button" class="btn btn-vio" data-gen-action="copy">Копировать</button>
-            <button type="button" class="btn btn-glass" data-gen-action="doc">Скачать .docx</button>
+            <button type="button" class="btn btn-glass" data-gen-action="doc" data-metric-goal="pdf">Скачать .docx</button>
             <button type="button" class="btn btn-glass" data-gen-action="print">🖨 Печать</button>
             <button type="button" class="btn btn-glass" data-gen-action="clear">Очистить</button>
             <span class="gen-hint">«Скачать .docx» даёт файл .doc для Word (откроется с предупреждением — это норма). «Печать» выводит только документ.</span>
@@ -341,7 +341,7 @@
             <label><input type="radio" name="rating" value="1" /> ★</label>
           </fieldset>
           <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
-            <button type="submit">Отправить отзыв</button>
+            <button type="submit" data-metric-goal="отзыв">Отправить отзыв</button>
             <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
           </div>
         </form>
