@@ -39,8 +39,9 @@ foreach ($l in Get-Content $envFile) {
 }
 $token = [string]$cfg['METRIKA_TOKEN']
 $counter = if ($cfg['METRIKA_COUNTER']) { [string]$cfg['METRIKA_COUNTER'] } else { '112558731' }
-if (-not $token) { throw 'В metrica.env нет строки METRIKA_TOKEN=' }
-Write-Host ('токен: ' + $token.Substring(0, [Math]::Min(6, $token.Length)) + '… | счётчик: ' + $counter) -ForegroundColor Cyan
+if (-not $token -and -not $DryRun) { throw 'В metrica.env нет строки METRIKA_TOKEN= — впишите токен (см. metrica.env.example).' }
+if ($token) { Write-Host ('токен: ' + $token.Substring(0, [Math]::Min(6, $token.Length)) + '… | счётчик: ' + $counter) -ForegroundColor Cyan }
+else { Write-Host ('токен не вписан — будет показан только план | счётчик: ' + $counter) -ForegroundColor Yellow }
 
 function Call([string]$method, [string]$path, [string]$body = '') {
   $headers = @{ Authorization = 'OAuth ' + $token; Accept = 'application/x-yametrika+json' }
@@ -63,6 +64,7 @@ function Call([string]$method, [string]$path, [string]$body = '') {
 }
 
 # ── кого видит токен и какие цели уже есть ───────────────────────────────────────────────────────
+if ($token) {
 $ping = Call 'GET' '/management/v1/counters?per_page=50'
 Write-Host ('запрос счётчиков: код ' + $ping.code) -ForegroundColor $(if ($ping.code -eq 200) { 'Green' } else { 'Yellow' })
 if ($ping.code -ne 200) {
@@ -84,6 +86,10 @@ if ($goals.code -eq 200) {
   }
 } else {
   Write-Host ('  ответ: ' + $goals.body.Substring(0, [Math]::Min(300, $goals.body.Length)))
+}
+
+} else {
+  Write-Host 'проверка доступа к API пропущена: нет токена (план ниже не требует прав).' -ForegroundColor Yellow
 }
 
 # ── какие цели создаём ───────────────────────────────────────────────────────────────────────────
