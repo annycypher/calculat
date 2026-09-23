@@ -21,6 +21,7 @@ require __DIR__ . '/inc/auth.php';
 require __DIR__ . '/inc/ui.php';
 require __DIR__ . '/inc/settings.php';
 require __DIR__ . '/inc/contact.php';   /* сообщения с контактной формы (шаг 6.4) */
+require __DIR__ . '/inc/deploy.php';    /* FTP-доступ и публикация правок (шаг P2.3) */
 
 panel_session_start();
 ensure_guards();
@@ -60,6 +61,31 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         } else {
             flash('Не всё получилось: ' . $r['error'], 'error');
         }
+    } elseif ($op === 'save_ftp') {
+        /* Пустое поле пароля = «не менять сохранённый» — так владелец не вводит его каждый раз. */
+        $prev = deploy_secrets();
+        $pass = (string)($_POST['ftp_pass'] ?? '');
+        if ($pass === '') { $pass = (string)$prev['pass']; }
+        $save = array(
+            'host'        => (string)($_POST['ftp_host'] ?? ''),
+            'port'        => (int)($_POST['ftp_port'] ?? 21),
+            'user'        => (string)($_POST['ftp_user'] ?? ''),
+            'pass'        => $pass,
+            'remote_path' => (string)($_POST['ftp_remote_path'] ?? ''),
+        );
+        $bad = deploy_secrets_problems($save);
+        if (count($bad) > 0) {
+            flash('FTP-доступ не сохранён — не хватает: ' . implode(', ', $bad) . '.', 'error');
+        } elseif (deploy_secrets_save($save)) {
+            log_action('FTP-доступ для публикации обновлён', 'хост ' . (string)$save['host'] . ', папка ' . (string)$save['remote_path']);
+            flash('FTP-доступ сохранён. Проверьте связь кнопкой рядом — она ничего не заливает.');
+        } else {
+            flash('Не удалось записать content/secrets.json — проверьте права на папку content.', 'error');
+        }
+    } elseif ($op === 'ftp_check') {
+        $res = ftpDeploy(array(), array('dry_run' => true));
+        log_action('FTP-проверка связи', $res['error'] !== '' ? 'ошибка: ' . $res['error'] : 'связь есть');
+        flash($res['error'] !== '' ? 'Связь не установлена: ' . $res['error'] : 'Связь с хостингом есть, папка сайта доступна.');
     } else {
         flash('Форма пришла без понятного действия — ничего не менял.', 'error');
     }
@@ -72,6 +98,11 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 $cur   = settings_all();
 $state = settings_site_state();
 $canEdit = is_admin();
+
+/* Реквизиты FTP для публикации (шаг P2.3): показываем состояние, пароль не раскрываем. */
+$ftpCur       = deploy_secrets();
+$ftpProblems  = deploy_secrets_problems($ftpCur);
+$ftpHasPass   = $ftpCur['pass'] !== '';
 
 $socialsText = '';
 foreach ((array)$cur['socials'] as $s) {
@@ -205,6 +236,35 @@ panel_page_start('Настройки', 'Счётчик Метрики, увед�
         <button class="btn primary" type="submit"<?php echo $canEdit ? '' : ' disabled'; ?>>Сохранить</button>
       </div>
 </form>
+
+<?php card_start('Публикация на хостинг (FTP)', 'Реквизиты для кнопки «Опубликовать изменения» в разделе «Публикация»', count($ftpProblems) === 0 ? 'ok' : 'warn'); ?>
+      <form method="post" action="<?php echo h(panel_url('settings.php')); ?>">
+        <?php echo csrf_field(); ?>
+        <input type="hidden" name="op" value="save_ftp" />
+        <label for="s-ftp-host">FTP-сервер (адрес или IP)</label>
+        <input type="text" id="s-ftp-host" name="ftp_host" value="<?php echo h((string)$ftpCur['host']); ?>"
+               placeholder="например 77.222.61.245" autocomplete="off" />
+        <label for="s-ftp-port">Порт</label>
+        <input type="text" id="s-ftp-port" name="ftp_port" inputmode="numeric" maxlength="5"
+               value="<?php echo (int)$ftpCur['port']; ?>" />
+        <label for="s-ftp-user">Логин FTP</label>
+        <input type="text" id="s-ftp-user" name="ftp_user" value="<?php echo h((string)$ftpCur['user']); ?>" autocomplete="off" />
+        <label for="s-ftp-pass">Пароль FTP</label>
+        <input type="password" id="s-ftp-pass" name="ftp_pass" value="" autocomplete="new-password"
+               placeholder="<?php echo $ftpHasPass ? 'пароль сохранён — оставьте поле пустым, чтобы не менять' : 'введите пароль'; ?>" />
+        <label for="s-ftp-path">Папка сайта на хостинге</label>
+        <input type="text" id="s-ftp-path" name="ftp_remote_path" value="<?php echo h((string)$ftpCur['remote_path']); ?>"
+               placeholder="/public_html" />
+        <div class="field-hint">Данные берутся в панели хостинга SpaceWeb — раздел «FTP-доступы».
+          Пароль лежит в файле <code>content/secrets.json</code> (снаружи закрыт) и в журнал панели не пишется.
+          Сейчас не заполнено: <?php echo count($ftpProblems) ? h(implode(', ', $ftpProblems)) : 'ничего, всё на месте'; ?>.</div>
+        <div class="btn-row" style="margin-top:16px">
+          <button class="btn primary" type="submit"<?php echo $canEdit ? '' : ' disabled'; ?>>Сохранить FTP-доступ</button>
+          <button class="btn" type="submit" name="op" value="ftp_check"<?php echo $canEdit ? '' : ' disabled'; ?>>Проверить связь</button>
+          <a class="btn ghost" href="<?php echo h(panel_url('publish.php')); ?>">К разделу «Публикация»</a>
+        </div>
+      </form>
+<?php card_end(); ?>
 
 <?php card_start('Чёрный список отзывов', 'Слова и фразы, по которым отзывы не принимаются (с шага 6.3 список живёт здесь)'); ?>
       <form method="post" action="<?php echo h(panel_url('settings.php')); ?>">
