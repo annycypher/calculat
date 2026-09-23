@@ -482,16 +482,27 @@ function markFilled() {
 function initSticky() {
   const sticky = document.querySelector('.ad-mobile-sticky');
   if (!sticky) { return; }
+  /* Размеры документа читаем один раз и после изменения окна, а не на каждом событии скролла:
+     раньше scrollHeight вызывался при каждом скролле и заставлял браузер пересчитывать вёрстку
+     (Lighthouse: «принудительная компоновка»). Теперь обработчик скролла только читает scrollY
+     и запускает проверку раз в кадр. */
+  let limit = 0;
+  let queued = false;
+  const measure = () => { limit = document.documentElement.scrollHeight - window.innerHeight; };
   const check = () => {
-    const h = document.documentElement.scrollHeight - window.innerHeight;
-    const seen = h > 0 ? window.scrollY / h : 0;
+    queued = false;
+    const seen = limit > 0 ? window.scrollY / limit : 0;
     if (seen >= SCROLL_SHARE) {
       sticky.setAttribute('data-ad-visible', '1');
       document.body.classList.add('ad-sticky-on');
-      window.removeEventListener('scroll', check);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', measure);
     }
   };
-  window.addEventListener('scroll', check, { passive: true });
+  const onScroll = () => { if (queued) { return; } queued = true; requestAnimationFrame(check); };
+  measure();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', measure, { passive: true });
   check();
 }
 
@@ -877,13 +888,25 @@ let SEARCH=[],POPULAR=[];"serviceWorker"in navigator&&(location.protocol==="http
 
   /* Tilt-наклон стекла за курсором */
   function bindTilt(el, max){
-    el.addEventListener('mousemove', e => {
-      const r = el.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width - .5;
-      const y = (e.clientY - r.top) / r.height - .5;
+    /* Раньше прямоугольник элемента читался на каждое движение мыши — браузер пересчитывал вёрстку
+       (Lighthouse: «принудительная компоновка»). Теперь читаем один раз при наведении,
+       а наклон применяем раз в кадр через requestAnimationFrame. */
+    let r = null, queued = false, last = null;
+    const apply = () => {
+      queued = false;
+      if (!r || !last) { return; }
+      const x = (last.x - r.left) / r.width - .5;
+      const y = (last.y - r.top) / r.height - .5;
       el.style.transform = `translateY(-4px) rotateY(${x*max}deg) rotateX(${-y*max}deg)`;
+    };
+    el.addEventListener('mouseenter', () => { r = el.getBoundingClientRect(); });
+    el.addEventListener('mousemove', e => {
+      if (!r) { r = el.getBoundingClientRect(); }
+      last = { x: e.clientX, y: e.clientY };
+      if (!queued) { queued = true; requestAnimationFrame(apply); }
     });
     el.addEventListener('mouseleave', () => {
+      r = null;
       el.style.transition = 'transform .5s cubic-bezier(.2,.7,.3,1)';
       el.style.transform = '';
       setTimeout(() => el.style.transition = '', 500);
@@ -1071,7 +1094,11 @@ let SEARCH=[],POPULAR=[];"serviceWorker"in navigator&&(location.protocol==="http
 
     function bump(el){
       const b = el.closest('b'); if(!b) return;
-      b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump');
+      /* Раньше тут стояло «void b.offsetWidth» — чтение размера заставляло браузер пересчитать всю вёрстку
+         ради перезапуска анимации (Lighthouse: «принудительная компоновка»). Теперь перезапускаем через
+         кадр: эффект тот же, пересчёта вёрстки нет. */
+      b.classList.remove('bump');
+      requestAnimationFrame(() => b.classList.add('bump'));
     }
     /* Счёт «доезжает» до нужного числа; на каждом шаге отдаём показанное значение,
        чтобы подпись («посещение/посещения/посещений») всегда совпадала с цифрой. */

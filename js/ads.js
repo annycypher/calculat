@@ -36,16 +36,27 @@ function markFilled() {
 function initSticky() {
   const sticky = document.querySelector('.ad-mobile-sticky');
   if (!sticky) { return; }
+  /* Размеры документа читаем один раз и после изменения окна, а не на каждом событии скролла:
+     раньше scrollHeight вызывался при каждом скролле и заставлял браузер пересчитывать вёрстку
+     (Lighthouse: «принудительная компоновка»). Теперь обработчик скролла только читает scrollY
+     и запускает проверку раз в кадр. */
+  let limit = 0;
+  let queued = false;
+  const measure = () => { limit = document.documentElement.scrollHeight - window.innerHeight; };
   const check = () => {
-    const h = document.documentElement.scrollHeight - window.innerHeight;
-    const seen = h > 0 ? window.scrollY / h : 0;
+    queued = false;
+    const seen = limit > 0 ? window.scrollY / limit : 0;
     if (seen >= SCROLL_SHARE) {
       sticky.setAttribute('data-ad-visible', '1');
       document.body.classList.add('ad-sticky-on');
-      window.removeEventListener('scroll', check);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', measure);
     }
   };
-  window.addEventListener('scroll', check, { passive: true });
+  const onScroll = () => { if (queued) { return; } queued = true; requestAnimationFrame(check); };
+  measure();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', measure, { passive: true });
   check();
 }
 
