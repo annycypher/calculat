@@ -87,23 +87,21 @@ if ($goals.code -eq 200) {
 }
 
 # ── какие цели создаём ───────────────────────────────────────────────────────────────────────────
-# Типы button (клик по кнопке) и form (отправка формы) есть в интерфейсе Метрики; если API их
-# не примет, он ответит текстом с перечнем допустимых типов — тогда правим список и запускаем снова.
+# Тип action — это «Целевое событие»: сайт уже отправляет ym(счётчик, 'reachGoal', имя) для кнопок
+# и форм с data-metric-goal (файл js/metrica-goals.js в бандлах), поэтому достаточно завести
+# цели с этими идентификаторами. Имена ДОЛЖНЫ совпадать с тем, что уходит с сайта.
 $wanted = @(
-  @{ name = 'Расчёт калькулятора';   type = 'button'; selector = '[data-metric-goal="расчёт"]' },
-  @{ name = 'Отзыв отправлен';       type = 'form';   selector = '' },
-  @{ name = 'Сообщение с контактов'; type = 'form';   selector = '' },
-  @{ name = 'Скачивание PDF';        type = 'button'; selector = '[data-metric-goal="pdf"]' },
-  @{ name = 'QR-код';                type = 'button'; selector = '[data-metric-goal="qr"]' },
-  @{ name = 'Инженерный расчёт';     type = 'button'; selector = '[data-metric-goal="расчёт выполнен"]' }
+  @{ name = 'расчёт';           note = 'кнопки «Рассчитать» в калькуляторах' },
+  @{ name = 'отзыв';            note = 'отправка отзыва' },
+  @{ name = 'сообщение';        note = 'форма контактов' },
+  @{ name = 'pdf';              note = 'скачивание PDF в генераторах' },
+  @{ name = 'qr';               note = 'QR-генератор и главная' },
+  @{ name = 'расчёт выполнен';  note = 'инженерные калькуляторы и досрочное погашение' }
 )
 
 Write-Host ''
-Write-Host 'к созданию:' -ForegroundColor Cyan
-foreach ($w in $wanted) {
-  $extra = if ($w.selector) { ', селектор ' + $w.selector } else { '' }
-  Write-Host ('  ' + $w.name + ' — тип ' + $w.type + $extra)
-}
+Write-Host 'к созданию (тип «Целевое событие»):' -ForegroundColor Cyan
+foreach ($w in $wanted) { Write-Host ('  ' + $w.name + ' — ' + $w.note) }
 
 if ($DryRun -or (-not $Create)) {
   Write-Host 'РЕЖИМ ПРОВЕРКИ — цели не создавались.' -ForegroundColor Yellow
@@ -111,10 +109,8 @@ if ($DryRun -or (-not $Create)) {
 }
 
 foreach ($w in $wanted) {
-  $goal = [ordered]@{ goal = [ordered]@{ name = $w.name; type = $w.type } }
-  if ($w.selector) { $goal.goal['conditions'] = @(@{ type = 'exact'; url = $w.selector }) }
-  $json = $goal | ConvertTo-Json -Depth 6 -Compress
-  $res = Call 'POST' ('/management/v1/counter/' + $counter + '/goals') $json
+  $body = @{ goal = @{ name = $w.name; type = 'action' } } | ConvertTo-Json -Depth 6 -Compress
+  $res = Call 'POST' ('/management/v1/counter/' + $counter + '/goals') $body
   $mark = if ($res.code -eq 200 -or $res.code -eq 201) { 'создана' } else { 'ОШИБКА' }
   Write-Host ('  ' + $w.name + ': ' + $mark + ' (код ' + $res.code + ')') -ForegroundColor $(if ($mark -eq 'создана') { 'Green' } else { 'Yellow' })
   if ($mark -eq 'ОШИБКА') { Write-Host ('      ответ API: ' + $res.body.Substring(0, [Math]::Min(300, $res.body.Length))) }
