@@ -77,4 +77,8 @@ header.app-header [hidden] { display: none !important; }
 @media (max-width: 760px){header.app-header .head-cta, header.app-header .header-actions { gap: 6px; }header.app-header .head-cta .icon-btn, header.app-header .header-actions .icon-btn { display: grid; width: 36px; height: 36px; font-size: 16px; }header.app-header .nav-burger { width: 36px; height: 36px; }header.app-header .logo { gap: 8px; }header.app-header .logo-mark { width: 34px; height: 34px; }header.app-header .logo b { font-size: 16px; }}
 :root[data-theme="light"] .btn-primary, :root[data-theme="light"] .btn-vio { background: var(--primary-dark); }
 :root[data-theme="light"] .eyebrow, :root[data-theme="light"] .seo-formula { color: var(--primary-dark); }
-:root[data-theme="light"] header.app-header .main-nav { --htxt: #f1eef9; --hmut: #c9c3da; --hvio: #c4b5fd; }
+/* Ссылки меню на тёмном стекле (панель меню на телефоне, стеклянная шапка): светлая палитра. */
+:root[data-theme="light"] header.app-header .main-nav { --htxt: #f1eef9; --hmut: #c9c3da; --hvio: #ddd6fe; }
+/* Главная в светлой теме: шапка прозрачная над светлым фоном — в строке меню ссылки тёмные.
+   Только для широких экранов: на телефоне меню — тёмная панель, там нужна светлая палитра. */
+@media (min-width: 1025px) { :root[data-theme="light"] header.app-header#header:not(.scrolled) .main-nav { --htxt: #1b1533; --hmut: #4d4666; --hvio: #6d28d9; } }

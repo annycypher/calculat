@@ -87,3 +87,4 @@ generators/resume/index.html
 popular/index.html
 privacy/index.html
 reviews/index.html
+Досрочное погашение/_build/template.html

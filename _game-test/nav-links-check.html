@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ссылки меню в шапке: цвет и контраст</title>
+</head>
+<body>
+<!-- Зачем: измерить цвет ссылок меню в шапке и контраст к фону, который под ними.
+     Грузим страницу в iframe нужной ширины и темы, читаем вычисленные стили .nav-link,
+     ищем первый непрозрачный фон у предков (эффективный фон) и считаем отношение WCAG.
+     ?page=/index.html  ?w=1366  ?theme=light|dark  ?scroll=1 (прокрутить — сработает .scrolled)
+     ?open=1 (открыть панель меню на мобильной ширине) -->
+<pre id="out">ждём…</pre>
+<script>
+var out = [];
+function note(s) { out.push(s); document.getElementById('out').textContent = out.join('\n'); }
+var q = new URLSearchParams(location.search);
+var W = parseInt(q.get('w') || '1366', 10);
+var PAGE = q.get('page') || '/index.html';
+var THEME = q.get('theme') || '';
+var SCROLL = q.get('scroll') === '1';
+var OPEN = q.get('open') === '1';
+
+if (THEME) {
+  /* Тема должна быть выставлена ДО загрузки страницы: её скрипт при старте применяет
+     сохранённое значение и включает свои стили, а transition на цвет искажает замер.
+     Предпросмотр и страницы — один origin, поэтому localStorage общий. */
+  try { localStorage.setItem('calcdoc-theme', THEME); } catch (e) {}
+}
+
+var f = document.createElement('iframe');
+f.style.cssText = 'width:' + W + 'px;height:900px;border:0;position:absolute;left:-99999px;top:0';
+f.src = PAGE;
+document.body.appendChild(f);
+f.addEventListener('load', function () { setTimeout(run, 800); });
+
+function parse(c) {
+  var m = String(c).match(/rgba?\(([^)]+)\)/);
+  if (!m) { return null; }
+  var p = m[1].split(',').map(function (x) { return parseFloat(x); });
+  return { r: p[0], g: p[1], b: p[2], a: p.length > 3 ? p[3] : 1 };
+}
+function over(top, bottom) { // накладываем полупрозрачный top на bottom
+  var a = top.a;
+  return { r: top.r * a + bottom.r * (1 - a), g: top.g * a + bottom.g * (1 - a), b: top.b * a + bottom.b * (1 - a), a: 1 };
+}
+function lum(c) {
+  var v = [c.r, c.g, c.b].map(function (x) {
+    x = x / 255;
+    return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2];
+}
+function ratio(a, b) {
+  var la = lum(a), lb = lum(b);
+  return Math.round(((Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05)) * 100) / 100;
+}
+function hex(c) {
+  return '#' + [c.r, c.g, c.b].map(function (x) { return ('0' + Math.round(x).toString(16)).slice(-2); }).join('');
+}
+function effBg(w, el) { // первый непрозрачный фон + под ним фон body (полупрозрачные накладываем)
+  var chain = [], node = el;
+  while (node && node.nodeType === 1) {
+    var c = parse(w.getComputedStyle(node).backgroundColor);
+    if (c && c.a > 0) { chain.push({ c: c, el: node }); if (c.a >= 1) { break; } }
+    node = node.parentElement;
+  }
+  var bodyC = parse(w.getComputedStyle(w.document.body).backgroundColor);
+  var base = (bodyC && bodyC.a >= 1) ? bodyC : { r: 255, g: 255, b: 255, a: 1 };
+  var res = base, src = 'body';
+  for (var i = chain.length - 1; i >= 0; i--) { res = over(chain[i].c, res); src = tag(chain[i].el); }
+  return { c: res, src: src };
+}
+function tag(el) {
+  var s = el.tagName.toLowerCase() + (el.id ? '#' + el.id : '') + (el.className && typeof el.className === 'string' ? '.' + el.className.trim().split(/\s+/)[0] : '');
+  return s;
+}
+
+function run() {
+  var w = f.contentWindow, d = f.contentDocument;
+  if (THEME) {
+    d.documentElement.setAttribute('data-theme', THEME);
+    try { w.localStorage.setItem('calcdoc-theme', THEME); } catch (e) {}
+  }
+  if (SCROLL) { w.scrollTo(0, 600); }
+  /* Ждём, пока js/home.js повесит на шапку класс .scrolled (он ставится по событию прокрутки),
+     и ещё 700 мс — чтобы закончились transition фона (0,3 с) и цвета (0,2 с), иначе
+     computedStyle отдаёт промежуточные значения. */
+  var waited = 0;
+  (function step() {
+    var hd = d.querySelector('header.app-header');
+    var needScrolled = SCROLL && !(hd && hd.classList.contains('scrolled'));
+    if (!needScrolled && waited >= 700) { measure(w, d); return; }
+    waited += 150;
+    if (waited > 5000) { note('  (класс .scrolled так и не появился)'); measure(w, d); return; }
+    setTimeout(step, 150);
+  })();
+}
+
+function measure(w, d) {
+  if (THEME) {
+    d.documentElement.setAttribute('data-theme', THEME);
+  }
+  /* Отключаем переходы на время замера: иначе computedStyle отдаёт промежуточный цвет
+     (у .nav-link transition color .2s, у шапки background .3s), и итог зависит от момента чтения. */
+  var st = d.createElement('style');
+  st.id = 'no-transition-for-measure';
+  st.textContent = '*{transition:none !important;animation:none !important}';
+  d.head.appendChild(st);
+  void d.body.offsetWidth;
+
+  note('Страница ' + PAGE + ', ширина ' + W + 'px, тема ' + (THEME || 'по умолчанию')
+    + ', data-theme=' + d.documentElement.getAttribute('data-theme')
+    + (SCROLL ? ', прокручено' : ', верх страницы'));
+
+  var menu = d.querySelector('.main-nav');
+  if (menu && OPEN) { menu.classList.add('open'); }
+  if (menu) {
+    var mcs = w.getComputedStyle(menu);
+    var mbg = effBg(w, menu);
+    note('  меню .main-nav: display=' + mcs.display + ', фон ' + mcs.backgroundColor + ' (эффективный ' + hex(mbg.c) + ' по ' + mbg.src + ')');
+  }
+
+  var hd = d.querySelector('header.app-header');
+  if (hd) {
+    note('  шапка: классы «' + hd.className + '», фон ' + w.getComputedStyle(hd).backgroundColor
+      + ', --hmut=' + w.getComputedStyle(hd).getPropertyValue('--hmut').trim());
+  }
+
+  var links = d.querySelectorAll('.main-nav .nav-link');
+  note('  ссылок в меню: ' + links.length);
+  /* Разбор: сколько в документе шапок, у какой id, какие правила задают цвет ссылок.
+     Без этого легко перепутать состояния «шапка прозрачная» и «шапка-стекло при прокрутке». */
+  var hds = d.querySelectorAll('header.app-header');
+  note('  всего шапок header.app-header: ' + hds.length);
+  for (var h = 0; h < hds.length; h++) {
+    note('    шапка #' + (h + 1) + ': id=' + (hds[h].id || 'нет') + ', классы «' + hds[h].className + '», фон '
+      + w.getComputedStyle(hds[h]).backgroundColor + ', ссылок внутри: ' + hds[h].querySelectorAll('.nav-link').length);
+  }
+  if (links.length) {
+    var l0 = links[0], a0 = l0.closest('header.app-header');
+    note('  цвет ссылки задают правила:');
+    var sheets = d.styleSheets, found = 0;
+    for (var s = 0; s < sheets.length; s++) {
+      var list0;
+      try { list0 = sheets[s].cssRules; } catch (e) { continue; }
+      var walk = function (list, mediaText) {
+        for (var j = 0; j < list.length; j++) {
+          var r = list[j];
+          if (r.type === 1 && r.selectorText && r.style && r.style.length) {
+            var txt = r.style.cssText || '';
+            if (r.selectorText.indexOf('.main-nav') !== -1 && txt.indexOf('--hmut') !== -1) {
+              note('    ' + (mediaText ? '@media ' + mediaText + ' → ' : '') + r.selectorText + ' { ' + txt.replace(/\s+/g, ' ').slice(0, 110) + ' }');
+              found++;
+            }
+          } else if (r.type === 4 && r.cssRules) {
+            walk(r.cssRules, r.media ? r.media.mediaText : '');
+          }
+        }
+      };
+      walk(list0, '');
+    }
+    if (!found) { note('    (правил с --hmut для .main-nav не найдено)'); }
+    note('  шапка ссылки: ' + (a0 ? 'id=' + (a0.id || 'нет') + ', классы «' + a0.className + '»' : 'нет')
+      + ', --hmut на ссылке: ' + w.getComputedStyle(l0).getPropertyValue('--hmut').trim());
+  }
+  var worst = 99;
+  for (var i = 0; i < links.length; i++) {
+    var el = links[i];
+    var cs = w.getComputedStyle(el);
+    var bg = effBg(w, el);
+    var r = ratio(parse(cs.color), bg.c);
+    if (r < worst) { worst = r; }
+    note('    ' + el.textContent.trim().slice(0, 22).padEnd(24, ' ')
+      + ' цвет ' + cs.color + ' → фон ' + hex(bg.c) + ' (' + bg.src + ') = ' + r + ':1 '
+      + (r >= 4.5 ? '✅' : (r >= 3 ? '⚠ крупный' : '❌')));
+  }
+  if (links.length) { note('  худший контраст: ' + worst + ':1 ' + (worst >= 4.5 ? '✅' : '❌')); }
+
+  /* Подсказка для глазами: цвета переменных меню */
+  if (menu) {
+    var mm = w.getComputedStyle(menu);
+    note('  переменные меню: --htxt=' + mm.getPropertyValue('--htxt').trim()
+      + ', --hmut=' + mm.getPropertyValue('--hmut').trim()
+      + ', --hvio=' + mm.getPropertyValue('--hvio').trim());
+  }
+}
+</script>
+</body>
+</html>

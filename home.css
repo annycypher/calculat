@@ -426,7 +426,11 @@
 :root[data-theme="dark"] .btn-glass { background: rgba(255, 255, 255, .12); color: #f1eef9; border-color: rgba(255, 255, 255, .2); }
 
 /* Светлая тема: панель меню-бургера тёмная, а текст в ней брался светлой палитрой = 2,6:1. */
-:root[data-theme="light"] header.app-header .main-nav { --htxt: #f1eef9; --hmut: #c9c3da; --hvio: #c4b5fd; }
+/* Ссылки меню на тёмном стекле (панель меню на телефоне, стеклянная шапка): светлая палитра. */
+:root[data-theme="light"] header.app-header .main-nav { --htxt: #f1eef9; --hmut: #c9c3da; --hvio: #ddd6fe; }
+/* Главная в светлой теме: шапка прозрачная над светлым фоном — в строке меню ссылки тёмные.
+   Только для широких экранов: на телефоне меню — тёмная панель, там нужна светлая палитра. */
+@media (min-width: 1025px) { :root[data-theme="light"] header.app-header#header:not(.scrolled) .main-nav { --htxt: #1b1533; --hmut: #4d4666; --hvio: #6d28d9; } }
 
 /* Предпросмотр документов — это «бумага»: она белая в любой теме, значит текст всегда тёмный. */
 :root[data-theme="dark"] #genPreview,
