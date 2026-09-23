@@ -30,6 +30,7 @@ function panel_sections(): array {
         array('file' => 'articles.php',   'title' => 'Статьи',       'group' => 'Контент',      'icon' => '✎', 'ready' => true,  'hint' => 'черновики и редактор статьи'),
         array('file' => 'media.php',       'title' => 'Медиа-файлы',  'group' => 'Контент',      'icon' => '▨', 'ready' => true,  'hint' => 'картинки сайта'),
         array('file' => 'meta.php',        'title' => 'Мета-теги',    'group' => 'Контент',      'icon' => '⌗', 'ready' => true,  'hint' => 'title, description и H1 любой страницы: подсказки, предпросмотр сниппета, дубли'),
+        array('file' => 'meta-bulk.php',   'title' => 'Массовая мета', 'group' => 'Контент',     'icon' => '⁝', 'ready' => true,  'hint' => 'один шаблон title сразу для нескольких страниц — с предпросмотром'),
         array('file' => 'content.php',     'title' => 'Текст страниц','group' => 'Контент',      'icon' => '≡', 'ready' => false, 'hint' => 'правка по маркерам — фаза 9'),
         array('file' => 'catalog.php',     'title' => 'Каталог',      'group' => 'Контент',      'icon' => '▦', 'ready' => true,  'hint' => 'карточки главной: добавить, скрыть, порядок'),
         array('file' => 'add-tool.php',    'title' => 'Новый инструмент','group' => 'Контент',   'icon' => '✚', 'ready' => true,  'hint' => 'чек-лист из 14 шагов с проверками'),

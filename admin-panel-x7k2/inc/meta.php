@@ -199,3 +199,102 @@ function meta_save(string $rel, string $title, string $desc, string $h1): array
     $out['ok'] = true;
     return $out;
 }
+
+/* ─────────────────────── массовая правка меты (фаза P5) ───────────────────────
+   Идея: владелец выбирает несколько страниц и задаёт шаблон заголовка, где
+   [Название] — короткое имя страницы (title без хвоста «— CalcDoc»),
+   [H1] — текущий главный заголовок, [Адрес] — адрес страницы.
+   Сначала предпросмотр «было → станет» для каждой страницы, и только потом применение. */
+
+/** Короткое имя страницы: «Политика конфиденциальности — CalcDoc» → «Политика конфиденциальности». */
+function meta_short_name(string $title): string
+{
+    $t = trim((string)preg_replace('/\s+/u', ' ', $title));
+    $t = (string)preg_replace('/\s*[—|–-]\s*CalcDoc\s*$/u', '', $t);
+    return trim($t);
+}
+
+/** Собрать новый title по шаблону для одной страницы. */
+function meta_bulk_build(string $pattern, array $page): string
+{
+    $title = trim((string)preg_replace('/\s+/u', ' ', (string)($page['title'] ?? '')));
+    $out = str_replace(
+        array('[Название]', '[название]', '[H1]', '[h1]', '[Адрес]', '[адрес]'),
+        array(meta_short_name($title), meta_short_name($title),
+              trim((string)preg_replace('/\s+/u', ' ', (string)($page['h1'] ?? ''))),
+              trim((string)preg_replace('/\s+/u', ' ', (string)($page['h1'] ?? ''))),
+              (string)($page['rel'] ?? ''), (string)($page['rel'] ?? '')),
+        $pattern
+    );
+    return trim((string)preg_replace('/\s+/u', ' ', $out));
+}
+
+/** Предпросмотр массовой правки: что станет с каждой страницей (ничего не пишем). */
+function meta_bulk_preview(array $rels, string $pattern): array
+{
+    $out = array();
+    foreach ($rels as $rel) {
+        $m = meta_read((string)$rel);
+        if (!$m['ok']) {
+            $out[] = array('rel' => (string)$rel, 'from' => '', 'to' => '', 'changed' => false, 'error' => (string)$m['error']);
+            continue;
+        }
+        $to = meta_bulk_build($pattern, array('rel' => $rel, 'title' => $m['title'], 'h1' => $m['h1']));
+        $out[] = array(
+            'rel' => (string)$rel,
+            'from' => (string)$m['title'],
+            'to' => $to,
+            'changed' => ($to !== (string)$m['title']),
+            'error' => $to === '' ? 'по шаблону получился пустой заголовок' : '',
+        );
+    }
+    return $out;
+}
+
+/** Применить массовую правку: только title у выбранных страниц (+ lastmod, + список публикации). */
+function meta_bulk_apply(array $rels, string $pattern): array
+{
+    $rows = array();
+    $okCount = 0;
+    foreach ($rels as $rel) {
+        $rel = (string)$rel;
+        $m   = meta_read($rel);
+        if (!$m['ok']) { $rows[] = array('rel' => $rel, 'ok' => false, 'note' => (string)$m['error'], 'from' => '', 'to' => ''); continue; }
+
+        $to = meta_bulk_build($pattern, array('rel' => $rel, 'title' => $m['title'], 'h1' => $m['h1']));
+        if ($to === '') { $rows[] = array('rel' => $rel, 'ok' => false, 'note' => 'пустой заголовок по шаблону', 'from' => (string)$m['title'], 'to' => ''); continue; }
+        if ($to === (string)$m['title']) { $rows[] = array('rel' => $rel, 'ok' => true, 'note' => 'без изменений', 'from' => (string)$m['title'], 'to' => $to); continue; }
+
+        $res = meta_save($rel, $to, (string)$m['description'], (string)$m['h1']);
+        if (!$res['ok']) { $rows[] = array('rel' => $rel, 'ok' => false, 'note' => (string)$res['error'], 'from' => (string)$m['title'], 'to' => $to); continue; }
+
+        meta_sitemap_touch($rel);
+        $fileRel = ($rel === '/') ? 'index.html' : trim($rel, '/') . '/index.html';
+        deploy_changes_add($fileRel);
+        $okCount++;
+        $rows[] = array('rel' => $rel, 'ok' => true, 'note' => 'заголовок заменён', 'from' => (string)$m['title'], 'to' => $to);
+    }
+
+    if ($okCount > 0) {
+        meta_bulk_log_add(array('at' => date('Y-m-d H:i:s'), 'pattern' => $pattern, 'count' => $okCount, 'rows' => $rows));
+    }
+    return array('ok' => true, 'applied' => $okCount, 'rows' => $rows);
+}
+
+/** Журнал массовых правок (что делали, когда и с какими страницами). */
+function meta_bulk_log(int $limit = 5): array
+{
+    $data = json_read(CONTENT_DIR . '/meta-bulk-log.json', array('entries' => array()));
+    $list = isset($data['entries']) && is_array($data['entries']) ? $data['entries'] : array();
+    return array_slice(array_reverse($list), 0, max(1, $limit));
+}
+
+function meta_bulk_log_add(array $entry): bool
+{
+    $file = CONTENT_DIR . '/meta-bulk-log.json';
+    $data = json_read($file, array('entries' => array()));
+    $list = isset($data['entries']) && is_array($data['entries']) ? $data['entries'] : array();
+    $list[] = $entry;
+    if (count($list) > 50) { $list = array_slice($list, -50); }      // храним последние 50 правок
+    return json_write($file, array('entries' => $list));
+}
