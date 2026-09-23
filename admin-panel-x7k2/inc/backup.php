@@ -65,10 +65,12 @@ function backup_excludes(): array {
         'admin-panel-x7k2',      // сама панель: копия нужна для сайта, а не для панели
         'backups',               // копии внутрь копии не кладём
         '_backup', '_archive', '_game-test', 'sweb-migration',   // рабочие папки проекта и доступы к хостингу
+        'shots',                 // снимки и временные списки заливки (рабочая папка, не сайт)
         '.git', '.github', 'node_modules',
         'content/logs',          // журнал панели
         'content/security',      // попытки входа
         'content/users.json',    // пароли: в копию не кладём (см. заголовок файла)
+        'content/secrets.json',  // реквизиты FTP, токен Метрики и пароль ящика — тоже не кладём (фаза P7)
     );
 }
 
