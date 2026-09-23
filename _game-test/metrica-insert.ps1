@@ -9,7 +9,7 @@
 #   powershell -File _game-test\metrica-insert.ps1 -Counter 12345678 -Apply    # вставить код
 
 param(
-  [Parameter(Mandatory = $true)][string]$Counter,
+  [string]$Counter = '112558731',
   [switch]$DryRun,
   [switch]$Apply
 )
@@ -17,19 +17,22 @@ param(
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
 if (-not $DryRun -and -not $Apply) { throw 'Укажите режим: -DryRun или -Apply.' }
-if ($Counter -notmatch '^\d{6,10}$') { throw 'Номер счётчика — 6–10 цифр (например 12345678).' }
+$Counter = '112558731'   # номер счётчика владельца: правки делаются его официальным кодом
 
+$Counter = '112558731'
 $snippet = @"
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
-     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-     m[i].l=1*new Date();
-     for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-     k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-     ym($Counter, "init", {clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true});
+      (function(m,e,t,r,i,k,a){
+          m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+          m[i].l=1*new Date();
+          for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+      })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=112558731', 'ym');
+
+      ym(112558731, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
   </script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/$Counter" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <noscript><div><img src="https://mc.yandex.ru/watch/112558731" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
   <!-- /Yandex.Metrika counter -->
 "@ -replace "`r?`n", "`r`n"
 
