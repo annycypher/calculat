@@ -24,6 +24,7 @@ sweb-migration/deploy.env.*
 sweb-migration/deploy.env.txt
 sweb-migration/metrica.env
 sweb-migration/metrica.env.*
+!sweb-migration/metrica.env.example
 sweb-migration/id_sweb
 sweb-migration/id_sweb.*
 sweb-migration/*.bak
