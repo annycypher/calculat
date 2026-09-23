@@ -156,11 +156,21 @@ function seo_parse(string $html): array {
     }
     $out['lists'] = count($root->getElementsByTagName('ul')) + count($root->getElementsByTagName('ol'));
 
-    /* Картинки — по всей странице: alt нужен и в шапке, и в подвале. */
+    /* Картинки — по всей странице: alt нужен и в шапке, и в подвале.
+       ИСКЛЮЧЕНИЕ: пиксель счётчика (Яндекс.Метрика и подобные) стоит внутри <noscript> —
+       это служебная метка, а не картинка страницы. Без этой поправки SEO-центр ругал
+       «картинкой без alt» любую страницу с установленным счётчиком (найдено 23.09.2026
+       при подготовке к повторной подаче в РСЯ). */
     foreach ($doc->getElementsByTagName('img') as $img) {
+        $src = trim((string)$img->getAttribute('src'));
+        if (preg_match('#mc\.yandex\.(ru|com)|google-analytics|googletagmanager|top-favor#i', $src)) { continue; }
+        $inNoscript = false;
+        for ($n = $img->parentNode; $n !== null; $n = $n->parentNode) {
+            if (strtolower((string)$n->nodeName) === 'noscript') { $inNoscript = true; break; }
+        }
+        if ($inNoscript) { continue; }
         $out['imgs']++;
         if (trim((string)$img->getAttribute('alt')) === '') {
-            $src = trim((string)$img->getAttribute('src'));
             $out['imgs_no_alt'][] = $src !== '' ? $src : 'картинка без src';
         }
     }
