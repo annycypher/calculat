@@ -1,0 +1,56 @@
+=== ВЗГЛЯД РОБОТА: страницы ===
+
+--- / ---
+код: 200 | html lang: ru | H1: —
+title (53 знаков, кириллица: да): CalcDoc — онлайн-калькуляторы, документы и конвертеры
+description (145 знаков): Бесплатные онлайн-инструменты: 29 калькуляторов по финансам, налогам, стройке и авто, генераторы документов и конвертеры файлов. Без регистрации.
+canonical: https://calc-doc.ru/
+robots: index, follow
+OG: title=да, description=да, url=да, image=да
+структурированные данные: блоков 2, типы: WebSite, FAQPage, Question, Answer, Question, Answer
+
+--- /calculators/finance/mortgage/ ---
+код: 200 | html lang: ru | H1: Ипотечный калькулятор
+title (58 знаков, кириллица: да): Ипотечный калькулятор онлайн: платёж и переплата | CalcDoc
+description (140 знаков): Ипотечный калькулятор: рассчитайте ежемесячный аннуитетный платёж, переплату по процентам и общую сумму кредита. Бесплатно, без регистрации.
+canonical: https://calc-doc.ru/calculators/finance/mortgage/
+robots: index, follow
+OG: title=да, description=да, url=да, image=да
+структурированные данные: блоков 3, типы: SoftwareApplication, Offer, BreadcrumbList, ListItem, ListItem, ListItem
+
+--- /calculators/auto/fuel/ ---
+код: 200 | html lang: ru | H1: Калькулятор расхода топлива
+title (54 знаков, кириллица: да): Калькулятор расхода топлива на 100 км онлайн | CalcDoc
+description (147 знаков): Калькулятор расхода топлива считает литры на 100 км, стоимость поездки и траты на бензин за год. Шесть режимов расчёта, всё в браузере — бесплатно.
+canonical: https://calc-doc.ru/calculators/auto/fuel/
+robots: index, follow
+OG: title=да, description=да, url=да, image=да
+структурированные данные: блоков 3, типы: SoftwareApplication, Offer, BreadcrumbList, ListItem, ListItem, ListItem
+
+--- /blog/otpusknye/ ---
+код: 200 | html lang: ru | H1: Как рассчитать отпускные: формула и примеры
+title (56 знаков, кириллица: да): Как рассчитать отпускные в 2026 году — формула и примеры
+description (140 знаков): Как рассчитать отпускные: формула среднего дневного заработка, что входит в расчёт, примеры с цифрами и проверка результата на калькуляторе.
+canonical: https://calc-doc.ru/blog/otpusknye/
+robots: index, follow
+OG: title=да, description=да, url=да, image=да
+структурированные данные: блоков 3, типы: Article, Organization, Organization, ImageObject, WebPage, BreadcrumbList
+
+=== ВЗГЛЯД РОБОТА: robots.txt и карта сайта ===
+robots.txt:
+  # Открытый сайт CalcDoc (режим переноса снят 23.09.2026 по команде владельца).
+  # До этого стояли «Disallow: /» и noindex на страницах — сайт не попадал в поиск.
+  # Директива Host в Яндекс.Вебмастере не используется с 2018 года, поэтому её нет.
+  
+  User-agent: *
+  Allow: /
+  Disallow: /search.html
+  Disallow: /offline.html
+  
+  # Метки систем аналитики не создают отдельных адресов
+  Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&yclid&gclid&fbclid
+  
+  Sitemap: https://calc-doc.ru/sitemap.xml
+
+карта сайта: адресов 81 | XML валиден: True | без https: 0 | со старыми .html: 0
+примеры адресов: https://calc-doc.ru/, https://calc-doc.ru/blog/, https://calc-doc.ru/blog/otpusknye/, https://calc-doc.ru/blog/avto-rashod-topliva/
