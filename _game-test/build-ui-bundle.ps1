@@ -33,13 +33,14 @@ $parts = @(
   @{ file = 'share.js';        note = 'кнопки «поделиться»' },
   @{ file = 'ads.js';          note = 'рекламные блоки' },
   @{ file = 'share-png.js';    note = 'PNG-карточка расчёта (import chunkload → динамический)' },
-  @{ file = 'ui.js';           note = 'ядро интерфейса (минифицирован, статические import сняты)' }
+  @{ file = 'ui.js';           note = 'ядро интерфейса (минифицирован, статические import сняты)' },
+  @{ file = 'metrica-goals.js'; note = 'цели Метрики: data-metric-goal → reachGoal (клик и отправка формы)' }
 )
 
 $out = New-Object Text.StringBuilder
 [void]$out.AppendLine('/* ui-bundle.js — общий бандл интерфейса для всех страниц, кроме главной (фаза 7).')
 [void]$out.AppendLine('   Собран скриптом _game-test\build-ui-bundle.ps1 из: print-result.js, share-params.js, share.js,')
-[void]$out.AppendLine('   ads.js, share-png.js, ui.js — каждый файл в своей IIFE со строгим режимом.')
+[void]$out.AppendLine('   ads.js, share-png.js, ui.js, metrica-goals.js — каждый файл в своей IIFE со строгим режимом.')
 [void]$out.AppendLine('   Руками не править: правьте исходные файлы в /js/ и пересоберите бандл. */')
 
 foreach ($p in $parts) {

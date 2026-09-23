@@ -39,13 +39,14 @@ $parts = @(
   @{ file = 'share-png.js';    note = 'PNG-карточка расчёта (import chunkload → динамический)' },
   @{ file = 'ui.js';           note = 'ядро интерфейса (минифицирован, статические import сняты)' },
   @{ file = 'home.js';         note = 'интерактив главной страницы' },
-  @{ file = 'tool-of-day.js';  note = 'инструмент дня (export снят — никто не импортирует)' }
+  @{ file = 'tool-of-day.js';  note = 'инструмент дня (export снят — никто не импортирует)' },
+  @{ file = 'metrica-goals.js'; note = 'цели Метрики: data-metric-goal → reachGoal (клик и отправка формы)' }
 )
 
 $out = New-Object Text.StringBuilder
 [void]$out.AppendLine('/* home-bundle.js — склейка без минификации (шаг 5.1-5.4 PROMPT-PROFILE-MAIN-PAGE.md).')
 [void]$out.AppendLine('   Собран скриптом _game-test\build-home-opt.ps1 из: print-result.js, share-params.js, share.js,')
-[void]$out.AppendLine('   ads.js, share-png.js, ui.js, home.js, tool-of-day.js — каждый файл в своей IIFE со строгим режимом.')
+[void]$out.AppendLine('   ads.js, share-png.js, ui.js, home.js, tool-of-day.js, metrica-goals.js — каждый файл в своей IIFE со строгим режимом.')
 [void]$out.AppendLine('   Руками не править: правьте исходные файлы в /js/ и пересоберите бандл. */')
 
 foreach ($p in $parts) {
