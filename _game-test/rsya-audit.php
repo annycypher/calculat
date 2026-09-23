@@ -60,9 +60,14 @@ function audit_text_metrics(string $html): array
     $faqBlocks = preg_match_all('#<details[^>]*class="[^"]*seo-faq#i', $html);
     $faqSchema = (bool)preg_match('#"@type"\s*:\s*"FAQPage"#i', $html);
 
-    // Кнопки «Поделиться» и «Отправить на почту»
-    $share = (bool)preg_match('#Поделиться|navigator\.share#iu', $html);
-    $mail  = (bool)preg_match('#Отправить (?:на|по) почте|mailto:#iu', $html);
+    // Кнопки «Поделиться» и «Отправить на почту».
+    // Есть два способа: статичная кнопка в разметке ИЛИ обвязка (/js/ui-bundle.js, /js/home-bundle.js),
+    // которая добавляет блок «Поделиться» на статьях и кнопку почты в панель действий.
+    $bundle = (bool)preg_match('#/js/(?:ui|home)-bundle\.js#i', $html);
+    $shareStatic = (bool)preg_match('#Поделиться|navigator\.share#iu', $html);
+    $mailStatic  = (bool)preg_match('#Отправить (?:на|по) почте#iu', $html);
+    $share = $shareStatic ? 'static' : ($bundle ? 'обвязка' : '—');
+    $mail  = $mailStatic ? 'static' : ($bundle ? 'обвязка' : '—');
 
     // Структура
     $h1 = preg_match_all('#<h1\b#i', $html);
@@ -141,8 +146,8 @@ foreach ($rows as $r) {
     $cat[$r['cat']]++;
     if ($r['score'] !== null) { $scores[] = $r['score']; }
     if ($r['faq_blocks'] < 3) { $noFaq++; }
-    if (empty($r['share'])) { $noShare++; }
-    if (empty($r['mail'])) { $noMail++; }
+    if (($r['share'] ?? '—') === '—') { $noShare++; }
+    if (($r['mail'] ?? '—') === '—') { $noMail++; }
     if ($r['inlinks'] !== null && $r['inlinks'] < 2) { $fewIn++; }
     if ($r['desc_len'] < 140 || $r['desc_len'] > 160) { $badDesc++; }
     if ($r['title_len'] < 45 || $r['title_len'] > 60) { $badTitle++; }
@@ -170,8 +175,8 @@ if ($wantCsv) {
     foreach ($rows as $r) {
         fputcsv($fh, array(
             $r['rel'], $r['cat'] ?? '—', $r['score'] ?? '—', $r['chars'] ?? '', $r['words_own'] ?? '',
-            $r['faq_blocks'] ?? '', !empty($r['faq_schema']) ? 'да' : 'нет', !empty($r['share']) ? 'да' : 'нет',
-            !empty($r['mail']) ? 'да' : 'нет', $r['title_len'] ?? '', $r['desc_len'] ?? '', $r['inlinks'] ?? '',
+            $r['faq_blocks'] ?? '', !empty($r['faq_schema']) ? 'да' : 'нет', $r['share'] ?? '—',
+            $r['mail'] ?? '—', $r['title_len'] ?? '', $r['desc_len'] ?? '', $r['inlinks'] ?? '',
             $r['out_links'] ?? '', $r['h2'] ?? '', $r['lists'] ?? '', $r['imgs'] ?? '', $r['file'],
             implode(' / ', $r['problems'] ?? array()),
         ), ';');
@@ -186,8 +191,8 @@ if ($wantMd) {
     foreach ($rows as $r) {
         $md .= sprintf("| `%s` | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s |\n",
             $r['rel'], $r['cat'] ?? '—', $r['score'] ?? '—', $r['chars'] ?? '', $r['words_own'] ?? '',
-            $r['faq_blocks'] ?? '', !empty($r['faq_schema']) ? '✓' : '—', !empty($r['share']) ? '✓' : '—',
-            !empty($r['mail']) ? '✓' : '—', $r['inlinks'] ?? '—', $r['out_links'] ?? '', $r['title_len'] ?? '', $r['desc_len'] ?? '');
+            $r['faq_blocks'] ?? '', !empty($r['faq_schema']) ? '✓' : '—', $r['share'] ?? '—',
+            $r['mail'] ?? '—', $r['inlinks'] ?? '—', $r['out_links'] ?? '', $r['title_len'] ?? '', $r['desc_len'] ?? '');
     }
     file_put_contents($root . '/shots/rsya-audit-table.md', $md);
     echo "[+] shots/rsya-audit-table.md\n";

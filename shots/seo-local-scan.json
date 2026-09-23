@@ -1,6 +1,6 @@
 {
     "version": 1,
-    "at": "2026-09-23 06:35:07",
+    "at": "2026-09-23 06:48:09",
     "summary": {
         "scanned": 102,
         "total": 102,
@@ -7333,9 +7333,9 @@
             "keyword_note": "ключ «стоимость владения автомобилем» (ключ взят из H1)",
             "own_keyword": false,
             "h1": "Стоимость владения автомобилем",
-            "words": 1524,
+            "words": 1527,
             "headings": 19,
-            "links": 3,
+            "links": 4,
             "imgs": 0,
             "imgs_no_alt": 0,
             "para_max": 377,
@@ -7346,6 +7346,7 @@
             "in_sitemap": true,
             "link_paths": [
                 "\/calculators\/auto\/fuel\/",
+                "\/calculators\/auto\/customs\/",
                 "\/calculators\/auto\/",
                 "\/blog\/avto-vladenie\/"
             ],
@@ -7378,6 +7379,7 @@
                 "\/games\/water\/",
                 "\/about\/",
                 "\/calculators\/auto\/fuel\/",
+                "\/calculators\/auto\/customs\/",
                 "\/blog\/avto-vladenie\/",
                 "\/blog\/",
                 "\/reviews\/",
@@ -7442,14 +7444,14 @@
                     "max": 10,
                     "points": 10,
                     "pass": true,
-                    "note": "слов в основном тексте: 1524"
+                    "note": "слов в основном тексте: 1527"
                 },
                 "links": {
                     "title": "Внутренние ссылки в тексте",
                     "max": 10,
                     "points": 10,
                     "pass": true,
-                    "note": "внутренних ссылок в тексте: 3"
+                    "note": "внутренних ссылок в тексте: 4"
                 },
                 "img_alt": {
                     "title": "У всех картинок есть alt",
@@ -15352,9 +15354,9 @@
             "keyword_note": "ключ «сколько реально стоит владеть» (ключ взят из H1)",
             "own_keyword": false,
             "h1": "Сколько реально стоит владеть автомобилем",
-            "words": 934,
+            "words": 937,
             "headings": 8,
-            "links": 5,
+            "links": 6,
             "imgs": 0,
             "imgs_no_alt": 0,
             "para_max": 346,
@@ -15367,6 +15369,7 @@
                 "\/calculators\/auto\/ownership\/",
                 "\/calculators\/auto\/fuel\/",
                 "\/calculators\/auto\/osago\/",
+                "\/calculators\/auto\/customs\/",
                 "\/calculators\/finance\/mortgage\/",
                 "\/blog\/"
             ],
@@ -15402,6 +15405,7 @@
                 "\/calculators\/auto\/ownership\/",
                 "\/calculators\/auto\/fuel\/",
                 "\/calculators\/auto\/osago\/",
+                "\/calculators\/auto\/customs\/",
                 "\/calculators\/finance\/mortgage\/",
                 "\/reviews\/",
                 "\/popular\/",
@@ -15465,14 +15469,14 @@
                     "max": 10,
                     "points": 10,
                     "pass": true,
-                    "note": "слов в основном тексте: 934"
+                    "note": "слов в основном тексте: 937"
                 },
                 "links": {
                     "title": "Внутренние ссылки в тексте",
                     "max": 10,
                     "points": 10,
                     "pass": true,
-                    "note": "внутренних ссылок в тексте: 5"
+                    "note": "внутренних ссылок в тексте: 6"
                 },
                 "img_alt": {
                     "title": "У всех картинок есть alt",
@@ -16587,10 +16591,12 @@
             },
             "problems": [],
             "service": false,
-            "inlinks": 1,
-            "inlinks_text": 1,
+            "inlinks": 3,
+            "inlinks_text": 3,
             "inlink_pages": [
-                "\/calculators\/auto\/"
+                "\/blog\/avto-vladenie\/",
+                "\/calculators\/auto\/",
+                "\/calculators\/auto\/ownership\/"
             ]
         },
         {

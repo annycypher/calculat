@@ -358,6 +358,39 @@ async function copy(url) {
   }
 }
 
+/* «Отправить на почту» (этап R2, пункт 5): письмо с заголовком и ссылкой на страницу.
+   Кнопка появляется в двух местах: в блоке «Поделиться» на статьях и в плавающей панели
+   действий (она есть на всех страницах с обвязкой). Сторонних скриптов не добавляем —
+   обычная ссылка mailto, адресат выбирается в почтовой программе читателя. */
+function mailHref(title, url) {
+  return 'mailto:?subject=' + encodeURIComponent(title) + '&body=' + encodeURIComponent(title + '\r\n' + url);
+}
+
+function mailPage() {
+  const url = location.href.split('#')[0];
+  const title = document.title.replace(/\s*[|—-]\s*CalcDoc.*$/, '').trim() || document.title;
+  location.href = mailHref(title, url);
+}
+
+/* Иконка конверта для панели действий: те же размеры и штрих, что у соседних кнопок. */
+const MAIL_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+  'stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/>' +
+  '<path d="m2 7 10 6 10-6"/></svg>';
+
+function addMailToActionBar() {
+  const bar = document.querySelector('.action-bar');
+  if (!bar || bar.querySelector('#actMail')) { return; }
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'act-btn';
+  btn.id = 'actMail';
+  btn.title = 'Отправить на почту';
+  btn.setAttribute('aria-label', 'Отправить на почту');
+  btn.innerHTML = MAIL_ICON;
+  btn.addEventListener('click', mailPage);
+  bar.appendChild(btn);
+}
+
 function boot() {
   if (!isArticle()) { return; }
   const h1 = document.querySelector('main h1, h1');
@@ -380,6 +413,16 @@ function boot() {
   const copyBtn = box.querySelector('[data-share="copy"]');
   copyBtn.addEventListener('click', () => copy(url));
 
+  /* Та же возможность в блоке статьи: «Отправить на почту» рядом с «Скопировать ссылку». */
+  const mailBtn = document.createElement('button');
+  mailBtn.type = 'button';
+  mailBtn.className = 'btn btn-glass';
+  mailBtn.setAttribute('data-share', 'mail');
+  mailBtn.style.cssText = 'padding:8px 14px;font-size:14px';
+  mailBtn.textContent = 'Отправить на почту';
+  mailBtn.addEventListener('click', mailPage);
+  box.appendChild(mailBtn);
+
   if (anchor.parentNode) { anchor.parentNode.insertBefore(box, anchor.nextSibling); }
 }
 
@@ -388,6 +431,13 @@ if (typeof document !== 'undefined') {
     document.addEventListener('DOMContentLoaded', boot);
   } else {
     boot();
+  }
+  /* Панель действий создаётся в обвязке ui.js, поэтому кнопку почты добавляем
+     после полной загрузки страницы (тогда панель уже существует). */
+  if (document.readyState === 'complete') {
+    addMailToActionBar();
+  } else {
+    window.addEventListener('load', addMailToActionBar);
   }
 }
 })();
@@ -1244,9 +1294,16 @@ if (typeof document !== 'undefined') {
 
   document.addEventListener('submit', function (e) {
     var form = e.target;
-    if (!form || !form.querySelector) { return; }
-    var marked = form.querySelector('[data-metric-goal]');
-    if (marked) { send(marked.getAttribute('data-metric-goal')); }
+    /* Цель берём у нажатой кнопки (e.submitter), иначе — у первой размеченной в форме:
+       в одной форме может быть несколько целей (например «расчёт» и «pdf»). */
+    var goal = '';
+    var btn = e.submitter || null;
+    if (btn && btn.getAttribute) { goal = btn.getAttribute('data-metric-goal') || ''; }
+    if (!goal && form && form.querySelector) {
+      var marked = form.querySelector('[data-metric-goal]');
+      if (marked) { goal = marked.getAttribute('data-metric-goal') || ''; }
+    }
+    send(goal);
   }, true);
 })();
 })();
