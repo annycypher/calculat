@@ -70,7 +70,11 @@ Write-Host ('запрос счётчиков: код ' + $ping.code) -Foreground
 if ($ping.code -ne 200) {
   Write-Host ('  ответ API: ' + $ping.body.Substring(0, [Math]::Min(300, $ping.body.Length)))
   if ($ping.code -eq 401) { Write-Host '  → токен не принят: проверьте, что он создан для Метрики и не истёк.' -ForegroundColor Yellow }
-  if ($ping.code -eq 403) { Write-Host '  → у токена нет прав или у аккаунта нет доступа к счётчику (нужен metrika:write).' -ForegroundColor Yellow }
+  if ($ping.code -eq 403) {
+  Write-Host '  → чтение недоступно: у токена нет права metrika:read (приложение просит только запись).' -ForegroundColor Yellow
+  Write-Host '    Созданию целей это НЕ мешает — запись работает: powershell -File _game-test\metrica-goals-create.ps1' -ForegroundColor Yellow
+  Write-Host '    Если нужно читать счётчики и цели через API — добавьте в приложении право «Метрика: чтение» и получите новый токен.' -ForegroundColor Yellow
+}
   return
 }
 $counters = ($ping.body | ConvertFrom-Json).counters

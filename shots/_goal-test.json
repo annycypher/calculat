@@ -1,0 +1,1 @@
+{"goal":{"name":"Проверка доступа (удалить)","type":"action","conditions":[{"type":"exact","url":"проверка-доступа"}]}}
