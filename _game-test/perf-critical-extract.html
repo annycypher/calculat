@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Извлечение критического CSS главной (по первому экрану)</title>
+</head>
+<body>
+<!-- Зачем: перед тем как сделать bundle.css неблокирующим, вынимаем из него правила, которые нужны
+     элементам ПЕРВОГО ЭКРАНА (шаг F2.1). Берём правила, чьи селекторы совпадают с видимыми элементами.
+     Результат отдаём в base64, чтобы не пострадал от экранирования в --dump-dom.
+     Ширину окна задаёт Chrome (замер под мобильный и под настольный вид). На сайт файл не влияет. -->
+<pre id="out">ждём…</pre>
+<script>
+fetch('/index.html').then(function (r) { return r.text(); }).then(function (html) {
+  /* Два окна сразу: мобильное и настольное. Правила собираем один раз, в порядке bundle.css,
+     чтобы каскад не поехал (порядок правил в файле сохраняется). */
+  var widths = [390, 1280];
+  var frames = [], ready = 0, out = [];
+  var collected = [], seen = {}, usedRules = 0, totalRules = 0;
+
+  function inViewport(el, vh) {
+    var r = el.getBoundingClientRect();
+    return r.height > 0 && r.width > 0 && r.top < vh + 300 && r.bottom > -300;
+  }
+  var need = new Array(widths.length);
+  for (var i = 0; i < widths.length; i++) { need[i] = {}; }
+
+  function walk(rules, idx, doc, win) {
+    for (var i = 0; i < rules.length; i++) {
+      var r = rules[i];
+      if (idx === 0) { totalRules++; }
+      if (r.type === 1) {
+        var parts = (r.selectorText || '').split(','), hit = false;
+        for (var p = 0; p < parts.length && !hit; p++) {
+          var one = parts[p].trim();
+          if (!one) { continue; }
+          try {
+            var list = doc.querySelectorAll(one);
+            for (var j = 0; j < list.length; j++) { if (inViewport(list[j], win.innerHeight)) { hit = true; break; } }
+          } catch (e) { /* служебные селекторы пропускаем */ }
+        }
+        if (hit) { need[idx][r.cssText] = 1; }
+      } else if (r.type === 4 && r.media && r.cssRules) {
+        var ok = false;
+        try { ok = win.matchMedia(r.media.mediaText).matches; } catch (e) { ok = false; }
+        if (ok) {
+          var beforeMark = JSON.stringify(Object.keys(need[idx]).length);
+          walk(r.cssRules, idx, doc, win);
+          if (JSON.stringify(Object.keys(need[idx]).length) !== beforeMark) {
+            need[idx]['@media#' + i + '#' + r.media.mediaText] = 1;
+          }
+        }
+      }
+    }
+  }
+
+  widths.forEach(function (w, idx) {
+    var f = document.createElement('iframe');
+    f.style.cssText = 'width:' + w + 'px;height:' + (w < 500 ? 844 : 900) + 'px;border:0;position:absolute;left:-99999px;top:0';
+    f.srcdoc = html;
+    f.addEventListener('load', function () {
+      setTimeout(function () {
+        var doc = f.contentDocument, win = f.contentWindow;
+        var sheets = doc.styleSheets, found = 0;
+        for (var s = 0; s < sheets.length; s++) {
+          if ((sheets[s].href || '').indexOf('bundle.css') === -1) { continue; }
+          found++;
+          try { walk(sheets[s].cssRules, idx, doc, win); } catch (e) { out.push('ОШИБКА ЧТЕНИЯ: ' + e.message); }
+        }
+        out.push('окно ' + win.innerWidth + 'px: правил в bundle.css ' + found + ', нужных первому экрану ' + Object.keys(need[idx]).length);
+        ready++;
+        if (ready === widths.length) { finish(); }
+      }, 1500);
+    });
+    document.body.appendChild(f);
+    frames.push(f);
+  });
+
+  /* Финальный проход: идём по правилам bundle.css в исходном порядке и берём нужные хотя бы одному окну. */
+  function finish() {
+    var doc = frames[0].contentDocument;
+    var sheets = doc.styleSheets;
+    for (var s = 0; s < sheets.length; s++) {
+      if ((sheets[s].href || '').indexOf('bundle.css') === -1) { continue; }
+      var rules = sheets[s].cssRules;
+      var sheetText = {};
+      for (var i = 0; i < rules.length; i++) {
+        var r = rules[i];
+        if (r.type === 1) {
+          if (need[0][r.cssText] || need[1][r.cssText]) { push(r.cssText); }
+        } else if (r.type === 4 && r.media && r.cssRules) {
+          var inner = '';
+          for (var k = 0; k < r.cssRules.length; k++) {
+            if (need[0][r.cssRules[k].cssText] || need[1][r.cssRules[k].cssText]) { inner += r.cssRules[k].cssText; }
+          }
+          if (inner !== '') { push('@media ' + r.media.mediaText + '{' + inner + '}'); }
+        }
+      }
+    }
+    var css = collected.join('\n');
+    out.push('правил просмотрено: ' + totalRules + ', отобрано: ' + usedRules);
+    out.push('размер критического CSS: ' + css.length + ' Б');
+    out.push('BASE64=' + btoa(unescape(encodeURIComponent(css))));
+    document.getElementById('out').textContent = out.join('\n');
+
+    function push(text) {
+      if (seen[text]) { return; }
+      seen[text] = 1; collected.push(text); usedRules++;
+    }
+  }
+});
+</script>
+</body>
+</html>

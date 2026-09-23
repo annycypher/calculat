@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Сборка критического CSS главной (в порядке bundle.css)</title>
+</head>
+<body>
+<!-- Зачем: собрать критический CSS так, чтобы он (1) покрывал первый экран и (2) шёл в том же порядке,
+     что bundle.css — иначе каскад поедет и первый кадр будет отличаться от итогового.
+     Грузим index.html дважды (как есть и без bundle.css), сравниваем стили элементов первого экрана,
+     добираем нужные правила и выдаём их в порядке bundle.css. Результат — в DOM (base64), забирает Chrome.
+     На сайт файл не влияет. -->
+<pre id="out">ждём…</pre>
+<script>
+var params = new URLSearchParams(window.location.search);
+var VW = parseInt(params.get('w') || '1280', 10);
+var VH = parseInt(params.get('h') || '900', 10);
+
+var KEYS = ['display','position','color','backgroundColor','fontFamily','fontSize','fontWeight','lineHeight',
+  'marginTop','marginBottom','marginLeft','marginRight','paddingTop','paddingBottom','paddingLeft','paddingRight',
+  'maxWidth','minHeight','borderRadius','borderColor','borderWidth','boxShadow','textAlign','flexDirection',
+  'alignItems','justifyContent','gridTemplateColumns','gap','opacity','transform','overflow','letterSpacing'];
+var SELECTORS = ['html','body','header','header a','main','main h1','main h2','main p','main a','main button',
+  'main img','main section','main ul','main li','footer','footer a','a','button','img','h1','h2','p','.btn','.card'];
+var SKIP_SIZE = { 'html': 1, 'body': 1, 'main': 1 };
+
+function snap(el) {
+  var cs = getComputedStyle(el), o = {};
+  KEYS.forEach(function (k) { o[k] = cs[k]; });
+  return o;
+}
+function inViewport(el, vh) {
+  var r = el.getBoundingClientRect();
+  return r.height > 0 && r.width > 0 && r.top < vh + 300 && r.bottom > -300;
+}
+function matches(el, sel) {
+  var parts = (sel || '').split(','), hit = false;
+  for (var i = 0; i < parts.length && !hit; i++) {
+    var one = parts[i].trim();
+    if (!one) { continue; }
+    try { hit = el.matches(one); } catch (e) { hit = false; }
+  }
+  return hit;
+}
+
+fetch('/index.html').then(function (r) { return r.text(); }).then(function (html) {
+  var out = [];
+  var stripped = html.replace(/<link[^>]+href="\/bundle\.css[^"]*"[^>]*>/i, '');
+
+  /* Четыре окна: на каждой ширине — как есть и без bundle.css. Так видно и первый экран,
+     и то, что меняется, когда полный CSS доезжает. */
+  var sizes = [[390, 844], [1280, 900]];
+  var frames = [];
+  sizes.forEach(function (sz) {
+    var A = document.createElement('iframe'), B = document.createElement('iframe');
+    var css = 'width:' + sz[0] + 'px;height:' + sz[1] + 'px;border:0;position:absolute;left:-99999px;top:0';
+    A.style.cssText = css; B.style.cssText = css;
+    A.srcdoc = html; B.srcdoc = stripped;
+    document.body.appendChild(A); document.body.appendChild(B);
+    frames.push({ w: sz[0], h: sz[1], A: A, B: B });
+  });
+
+  var done = 0;
+  function after() { done++; if (done < frames.length * 2) { return; } setTimeout(build, 1500); }
+  frames.forEach(function (f) { f.A.addEventListener('load', after); f.B.addEventListener('load', after); });
+
+  function build() {
+    var diffsAll = 0, checkedAll = 0;
+
+    /* Помечаем нужные элементы: видимые в первом экране + те, чьи стили меняет bundle.css. */
+    frames.forEach(function (f) {
+      var docA = f.A.contentDocument;
+      var all = docA.querySelectorAll('body *'), checked = 0;
+      for (var i = 0; i < all.length && checked < 6000; i++) {
+        checked++;
+        /* Пометку ставим по положению, а не по размеру: у картинок размер появляется только после загрузки,
+           и раньше такие элементы в критику не попадали. */
+        var r = all[i].getBoundingClientRect();
+        if (r.top < f.h + 300 && r.bottom > -300) { all[i].__need = true; }
+      }
+      checkedAll += checked;
+      SELECTORS.forEach(function (sel) {
+        var ea = docA.querySelector(sel), eb = f.B.contentDocument.querySelector(sel);
+        if (!ea || !eb) { return; }
+        if (ea.getBoundingClientRect().top >= f.h) { return; }
+        var pa = snap(ea), pb = snap(eb), changed = false;
+        Object.keys(pa).forEach(function (k) {
+          if (pa[k] === pb[k]) { return; }
+          if (SKIP_SIZE[sel] && (k === 'height' || k === 'minHeight' || k === 'width')) { return; }
+          changed = true;
+        });
+        if (changed) { diffsAll++; ea.__need = true; }
+      });
+    });
+
+    /* Правило нужно, если помечен хотя бы один его элемент (проверяем во всех окнах). */
+    function ruleNeeded(rule, text) {
+      var parts = (text || rule.selectorText || '').split(',');
+      for (var p = 0; p < parts.length; p++) {
+        var one = parts[p].trim();
+        if (!one) { continue; }
+        for (var i = 0; i < frames.length; i++) {
+          var list;
+          try { list = frames[i].A.contentDocument.querySelectorAll(one); } catch (e) { continue; }
+          for (var j = 0; j < list.length; j++) { if (list[j].__need) { return true; } }
+        }
+      }
+      return false;
+    }
+
+    var collected = [], seen = {}, usedRules = 0, totalRules = 0;
+    function push(text) { if (seen[text]) { return; } seen[text] = 1; collected.push(text); usedRules++; }
+
+    var docA = frames[1].A.contentDocument;          /* порядок правил берём из bundle.css как есть */
+    var sheets = docA.styleSheets;
+    for (var s = 0; s < sheets.length; s++) {
+      if ((sheets[s].href || '').indexOf('bundle.css') === -1) { continue; }
+      var rules;
+      try { rules = sheets[s].cssRules; } catch (e) { out.push('ОШИБКА ЧТЕНИЯ: ' + e.message); continue; }
+      for (var r = 0; r < rules.length; r++) {
+        var rule = rules[r];
+        totalRules++;
+        if (rule.type === 1) {
+          if (ruleNeeded(rule, '')) { push(rule.cssText); }
+        } else if (rule.type === 4 && rule.media && rule.cssRules) {
+          var applies = false;
+          for (var i = 0; i < frames.length; i++) {
+            try { if (frames[i].A.contentWindow.matchMedia(rule.media.mediaText).matches) { applies = true; } } catch (e) {}
+          }
+          if (!applies) { continue; }
+          var inner = '';
+          for (var k = 0; k < rule.cssRules.length; k++) {
+            if (ruleNeeded(rule.cssRules[k], '')) { inner += rule.cssRules[k].cssText; }
+          }
+          if (inner !== '') { push('@media ' + rule.media.mediaText + '{' + inner + '}'); }
+        }
+      }
+    }
+
+    var css = collected.join('\n');
+    out.push('окон проверено: ' + frames.length + ' | расхождений первого экрана: ' + diffsAll
+      + ' | элементов осмотрено: ' + checkedAll);
+    out.push('правил в bundle.css просмотрено: ' + totalRules + ', отобрано для критики: ' + usedRules);
+    out.push('размер критического CSS: ' + css.length + ' Б');
+    out.push('BASE64=' + btoa(unescape(encodeURIComponent(css))));
+    document.getElementById('out').textContent = out.join('\n');
+  }
+});
+</script>
+</body>
+</html>

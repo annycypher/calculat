@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Что на главной реально зависит от bundle.css</title>
+</head>
+<body>
+<!-- Зачем: перед тем как делать bundle.css неблокирующим (шаг F2), надо честно узнать, какие правила
+     из него влияют на первый экран главной. Страница грузит index.html дважды: как есть и с удалённой
+     ссылкой на bundle.css, затем сравнивает вычисленные стили ключевых элементов.
+     Результат попадает в DOM, откуда его забирает Chrome (--dump-dom). На сайт не влияет. -->
+<pre id="out">ждём…</pre>
+<script>
+var KEYS = ['display','position','color','backgroundColor','fontFamily','fontSize','fontWeight','lineHeight',
+  'marginTop','marginBottom','marginLeft','marginRight','paddingTop','paddingBottom','paddingLeft','paddingRight',
+  'width','height','maxWidth','minHeight','borderRadius','borderColor','borderWidth','boxShadow','textAlign',
+  'flexDirection','alignItems','justifyContent','gridTemplateColumns','gap','opacity','transform','overflow',
+  'textDecorationLine','letterSpacing','zIndex','backgroundImage'];
+
+function snap(el) {
+  var cs = getComputedStyle(el), o = {};
+  KEYS.forEach(function (k) { o[k] = cs[k]; });
+  return o;
+}
+
+var params = new URLSearchParams(window.location.search);
+var VW = parseInt(params.get('w') || '1280', 10);
+var VH = parseInt(params.get('h') || '900', 10);
+
+var SELECTORS = ['html','body','header','header a','header img','main','main h1','main h2','main p','main a',
+  'main button','main img','main section','main ul','main li','footer','footer a','a','button','img','h1','h2','p','.wrap','.container','.btn','.card'];
+
+fetch('/index.html').then(function (r) { return r.text(); }).then(function (html) {
+  var out = [];
+  var stripped = html.replace(/<link[^>]+href="\/bundle\.css[^"]*"[^>]*>/i, '');
+  out.push('окно проверки: ' + VW + '×' + VH + ' | ссылка на bundle.css в HTML: ' + (html.indexOf('bundle.css') !== -1 ? 'есть' : 'НЕТ'));
+
+  var A = document.createElement('iframe'), B = document.createElement('iframe');
+  A.style.cssText = B.style.cssText = 'width:' + VW + 'px;height:' + VH + 'px;border:0;position:absolute;left:-99999px;top:0';
+  A.srcdoc = html;
+  B.srcdoc = stripped;
+  document.body.appendChild(A);
+  document.body.appendChild(B);
+
+  var done = 0;
+  function after() {
+    done++;
+    if (done < 2) { return; }
+    setTimeout(function () {
+      var diffsTop = 0, diffsBelow = 0, need = {};
+
+      /* Какие правила bundle.css применяются к этому элементу (значит, их и не хватает в критике). */
+      function rulesFor(el) {
+        var sheets = A.contentDocument.styleSheets, res = [];
+        for (var s = 0; s < sheets.length; s++) {
+          if ((sheets[s].href || '').indexOf('bundle.css') === -1) { continue; }
+          var rules;
+          try { rules = sheets[s].cssRules; } catch (e) { continue; }
+          for (var i = 0; i < rules.length; i++) {
+            var r = rules[i];
+            if (r.type === 1) {
+              if (matches(el, r.selectorText)) { res.push(r.cssText); }
+            } else if (r.type === 4 && r.media && r.cssRules) {
+              var ok = false;
+              try { ok = A.contentWindow.matchMedia(r.media.mediaText).matches; } catch (e) { ok = false; }
+              if (!ok) { continue; }
+              var inner = '';
+              for (var k = 0; k < r.cssRules.length; k++) {
+                if (matches(el, r.cssRules[k].selectorText)) { inner += r.cssRules[k].cssText; }
+              }
+              if (inner !== '') { res.push('@media ' + r.media.mediaText + '{' + inner + '}'); }
+            }
+          }
+        }
+        return res;
+      }
+      function matches(el, sel) {
+        var parts = (sel || '').split(','), hit = false;
+        for (var i = 0; i < parts.length && !hit; i++) {
+          var one = parts[i].trim();
+          if (!one) { continue; }
+          try { hit = el.matches(one); } catch (e) { hit = false; }
+        }
+        return hit;
+      }
+
+      /* Высоту всего документа (html/body/main) не сравниваем: это не первый экран, а вся страница. */
+      var SKIP_SIZE = { 'html': 1, 'body': 1, 'main': 1 };
+
+      SELECTORS.forEach(function (sel) {
+        var ea = A.contentDocument.querySelector(sel), eb = B.contentDocument.querySelector(sel);
+        if (!ea || !eb) { out.push('НЕТ ЭЛЕМЕНТА: ' + sel); return; }
+        var rect = ea.getBoundingClientRect();
+        var aboveFold = rect.top < VH;
+        var pa = snap(ea), pb = snap(eb);
+        var changed = false;
+        Object.keys(pa).forEach(function (k) {
+          if (pa[k] === pb[k]) { return; }
+          if (SKIP_SIZE[sel] && (k === 'height' || k === 'minHeight' || k === 'width')) { return; }
+          changed = true;
+          if (aboveFold) { diffsTop++; out.push('РАЗНИЦА В ПЕРВОМ ЭКРАНЕ ' + sel + '.' + k + ' → с bundle.css: ' + pa[k] + ' | без: ' + pb[k]); }
+          else { diffsBelow++; }
+        });
+        if (changed && aboveFold) {
+          rulesFor(ea).forEach(function (text) { need[text] = 1; });
+        }
+      });
+
+      /* Сколько правил в инлайновом критическом CSS главной — проверка, что он не побился. */
+      var critCount = 0, critSheets = 0;
+      (function () {
+        var ss = A.contentDocument.styleSheets;
+        for (var i = 0; i < ss.length; i++) {
+          var node = ss[i].ownerNode;
+          if (node && node.id === 'critical-css') {
+            critSheets++;
+            try { critCount += ss[i].cssRules.length; } catch (e) { critCount = -1; }
+          }
+        }
+      })();
+
+      var needList = Object.keys(need);
+      out.push('правил в критическом CSS главной: ' + critCount + ' (таблиц: ' + critSheets + ')');
+      out.push('различий в первом экране: ' + diffsTop + ' | ниже первого экрана: ' + diffsBelow);
+      out.push('НУЖНЫЕ ПРАВИЛА (' + needList.length + '):');
+      needList.forEach(function (t) { out.push('NEED_RULE64 ' + btoa(unescape(encodeURIComponent(t)))); });
+      out.push(diffsTop === 0
+        ? 'ВЫВОД: первый экран полностью покрыт критическим CSS — bundle.css грузится асинхронно корректно.'
+        : 'ВЫВОД: в первом экране есть несовпадения — правила NEED_RULE надо добавить в критический CSS.');
+      document.getElementById('out').textContent = out.join('\n');
+    }, 1200);
+  }
+  A.addEventListener('load', after);
+  B.addEventListener('load', after);
+});
+</script>
+</body>
+</html>

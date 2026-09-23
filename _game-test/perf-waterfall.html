@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Замер ресурсов страницы (локальная лаборатория)</title>
+  <style>body{font:14px/1.5 monospace;margin:12px} iframe{border:0;width:390px;height:780px;background:#fff}</style>
+</head>
+<body>
+<!-- Зачем: локальный Lighthouse недоступен (нет Node). Эта страница грузит нужную страницу сайта в iframe
+     того же источника и снимает её тайминги (FCP, LCP, порядок ресурсов) — числа попадают в DOM,
+     откуда их забирает Chrome в режиме --dump-dom (см. _game-test/perf-chrome.ps1).
+     На сам сайт этот файл не влияет и не публикуется. -->
+<pre id="out">ждём замер…</pre>
+<script>
+var params = new URLSearchParams(window.location.search);
+var url = params.get('u') || '/index.html';
+var budget = parseInt(params.get('wait') || '2500', 10);
+
+var f = document.createElement('iframe');
+f.src = url;
+document.body.appendChild(f);
+
+f.addEventListener('load', function () {
+  setTimeout(function () {
+    var w = f.contentWindow;
+    var lines = [];
+    lines.push('URL=' + url);
+    try {
+      var nav = (w.performance.getEntriesByType('navigation') || [])[0] || {};
+      lines.push('DOMContentLoaded=' + Math.round(nav.domContentLoadedEventEnd || 0) + ' ms');
+      lines.push('load=' + Math.round(nav.loadEventEnd || 0) + ' ms');
+      (w.performance.getEntriesByType('paint') || []).forEach(function (p) {
+        lines.push(p.name + '=' + Math.round(p.startTime) + ' ms');
+      });
+      var res = w.performance.getEntriesByType('resource') || [];
+      res.forEach(function (r) {
+        var name = r.name.split('?')[0].split('/').pop() || r.name;
+        lines.push('RES start=' + Math.round(r.startTime) + ' end=' + Math.round(r.responseEnd)
+          + ' dur=' + Math.round(r.duration) + ' type=' + r.initiatorType + ' ' + name);
+      });
+      lines.push('RESOURCE_COUNT=' + res.length);
+    } catch (e) {
+      lines.push('ОШИБКА ЗАМЕРА: ' + e.message);
+    }
+    document.getElementById('out').textContent = lines.join('\n');
+  }, budget);
+
+  /* LCP — через observer с буфером: значения, которые уже случились, тоже придут. */
+  try {
+    var w2 = f.contentWindow;
+    if (w2.PerformanceObserver) {
+      var po = new w2.PerformanceObserver(function (list) {
+        var e = list.getEntries();
+        var last = e[e.length - 1];
+        window.__lcp = Math.round(last.startTime);
+        var el = document.getElementById('out');
+        el.textContent = el.textContent + '\nLCP=' + window.__lcp + ' ms';
+      });
+      po.observe({ type: 'largest-contentful-paint', buffered: true });
+    }
+  } catch (e2) { /* нет поддержки — не беда */ }
+});
+</script>
+</body>
+</html>
