@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Бургер и мобильное меню: открытие, закрытие, доступность, контраст</title>
+</head>
+<body>
+<!-- Зачем: проверить поведение бургера на мобильной ширине без DevTools руками.
+     Открываем страницу в iframe нужной ширины и выполняем сценарий из ТЗ (H2.5, H3, H4):
+     видимость и размеры кнопок, открытие меню, подменю категорий, закрытие по ссылке,
+     по клику вне и по Escape, aria-expanded, контраст иконок к эффективному фону.
+     ?w=360 — ширина, ?page=/index.html — какая страница, ?theme=light|dark — какая тема. -->
+<pre id="out">ждём…</pre>
+<script>
+var out = [];
+function note(s) { out.push(s); document.getElementById('out').textContent = out.join('\n'); }
+var q = new URLSearchParams(location.search);
+var W = parseInt(q.get('w') || '360', 10);
+var PAGE = q.get('page') || '/index.html';
+var THEME = q.get('theme') || '';
+
+var f = document.createElement('iframe');
+f.style.cssText = 'width:' + W + 'px;height:820px;border:0;position:absolute;left:-99999px;top:0';
+f.src = PAGE;
+document.body.appendChild(f);
+f.addEventListener('load', function () { setTimeout(run, 900); });
+
+function rgb(c) {
+  var m = String(c).match(/-?[\d.]+/g);
+  if (!m) { return null; }
+  return { r: +m[0], g: +m[1], b: +m[2], a: m.length > 3 ? +m[3] : 1 };
+}
+function mix(top, bottom) {
+  /* Накладываем полупрозрачный слой top на непрозрачный bottom. */
+  if (!top) { return bottom; }
+  if (!bottom) { return top; }
+  var a = top.a;
+  return { r: top.r * a + bottom.r * (1 - a), g: top.g * a + bottom.g * (1 - a), b: top.b * a + bottom.b * (1 - a), a: 1 };
+}
+function toCss(c) { return 'rgb(' + Math.round(c.r) + ',' + Math.round(c.g) + ',' + Math.round(c.b) + ')'; }
+function lum(c) {
+  var m = rgb(c); if (!m) { return null; }
+  function ch(v) { v = v / 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }
+  return 0.2126 * ch(m.r) + 0.7152 * ch(m.g) + 0.0722 * ch(m.b);
+}
+function contrast(a, b) {
+  var la = lum(a), lb = lum(b);
+  if (la === null || lb === null) { return 'n/a'; }
+  var hi = Math.max(la, lb), lo = Math.min(la, lb);
+  return ((hi + 0.05) / (lo + 0.05)).toFixed(2);
+}
+/* Эффективный фон: идём от корня вниз, накладывая полупрозрачные фоны предков. */
+function effBg(d, w, el) {
+  var chain = [], node = el;
+  while (node && node.nodeType === 1) { chain.unshift(node); node = node.parentElement; }
+  var base = rgb(w.getComputedStyle(d.documentElement).backgroundColor) || { r: 255, g: 255, b: 255, a: 1 };
+  if (base.a === 0) { base = { r: 255, g: 255, b: 255, a: 1 }; }
+  var cur = base;
+  chain.forEach(function (n) {
+    var c = rgb(w.getComputedStyle(n).backgroundColor);
+    if (c && c.a > 0) { cur = mix(c, cur); }
+  });
+  return cur;
+}
+function info(d, w, sel) {
+  var el = d.querySelector(sel);
+  if (!el) { return 'НЕ НАЙДЕН'; }
+  var cs = w.getComputedStyle(el), r = el.getBoundingClientRect();
+  var vis = cs.display === 'none' ? 'СКРЫТ' : (r.width > 0 && r.height > 0 ? 'виден' : 'нулевой размер');
+  var s = 'display=' + cs.display + ', ' + Math.round(r.width) + '×' + Math.round(r.height)
+    + ', x=' + Math.round(r.x) + ' y=' + Math.round(r.y) + ' → ' + vis;
+  if (cs.display !== 'none' && r.width > 0) {
+    var bg = toCss(effBg(d, w, el));
+    s += ' | цвет=' + cs.color + ' на фоне ' + bg + ' → контраст ' + contrast(cs.color, bg);
+  }
+  return s;
+}
+function menuState(d) {
+  var nav = d.querySelector('.main-nav');
+  var burger = d.getElementById('navBurger');
+  return 'menu.open=' + (nav && nav.classList.contains('open') ? 'ДА' : 'нет')
+    + ', .main-nav display=' + (nav ? d.defaultView.getComputedStyle(nav).display : '—')
+    + ', aria-expanded=' + (burger ? burger.getAttribute('aria-expanded') : '—');
+}
+
+function run() {
+  var w = f.contentWindow, d = f.contentDocument;
+  if (THEME) { d.documentElement.setAttribute('data-theme', THEME); }
+
+  note('Страница ' + PAGE + ', ширина ' + W + 'px, тема: ' + (THEME || 'как в браузере')
+    + ', data-theme=' + d.documentElement.getAttribute('data-theme'));
+  note('');
+  note('— H1: что видно в шапке —');
+  note('  логотип       (.logo): ' + info(d, w, '.logo'));
+  note('  кнопка темы (#themeToggle): ' + info(d, w, '#themeToggle'));
+  note('  бургер     (#navBurger): ' + info(d, w, '#navBurger'));
+  note('  контейнер   (.head-cta): ' + info(d, w, '.head-cta'));
+  note('  установка  (#installBtn): ' + info(d, w, '#installBtn'));
+
+  /* Норма ТЗ: кнопка не меньше 44×44 px. */
+  var small = [];
+  ['#themeToggle', '#navBurger'].forEach(function (sel) {
+    var el = d.querySelector(sel);
+    if (!el) { return; }
+    var r = el.getBoundingClientRect();
+    if (r.width > 0 && (r.width < 44 || r.height < 44)) {
+      small.push(sel + ' ' + Math.round(r.width) + '×' + Math.round(r.height));
+    }
+  });
+  note('  норма 44×44: ' + (small.length ? 'НЕ ВЫПОЛНЕНА (' + small.join('; ') + ')' : 'выполнена'));
+  var de = d.documentElement;
+  note('  страница: scrollWidth=' + de.scrollWidth + ' при окне ' + W
+    + ' → горизонтальное переполнение: ' + (de.scrollWidth > W + 1 ? 'ЕСТЬ' : 'нет'));
+  /* Кто именно вылезает за правый край: fixed-элементы пропускаем — они не создают прокрутку. */
+  var wide = [], all = d.querySelectorAll('body *');
+  for (var i = 0; i < all.length; i++) {
+    var e = all[i], r = e.getBoundingClientRect(), cs2 = w.getComputedStyle(e);
+    if (cs2.position === 'fixed' || cs2.display === 'none' || cs2.visibility === 'hidden') { continue; }
+    if (r.right > W + 1) {
+      var name = e.tagName.toLowerCase() + (e.id ? '#' + e.id : '')
+        + (typeof e.className === 'string' && e.className.trim() ? '.' + e.className.trim().split(/\s+/).slice(0, 2).join('.') : '');
+      wide.push(name + ' — ' + Math.round(r.width) + 'px, правый край ' + Math.round(r.right));
+    }
+  }
+  note('  вылезают за окно (без fixed): ' + wide.length);
+  wide.slice(0, 8).forEach(function (s) { note('    ' + s.substring(0, 90)); });
+  /* Строка шапки: не переполняется ли она на границе 1024/1025 px — там полное меню ещё в строке. */
+  var row = d.querySelector('header.app-header .head-in') || d.querySelector('header.app-header .header-inner');
+  if (row) {
+    note('  строка шапки: видимая ' + row.clientWidth + ', содержимое ' + row.scrollWidth
+      + ' → ' + (row.scrollWidth > row.clientWidth + 1 ? 'ПЕРЕПОЛНЕНИЕ' : 'влезает'));
+  }
+
+  var burger = d.getElementById('navBurger');
+  var nav = d.querySelector('.main-nav');
+  if (!burger || !nav) { note('НЕТ БУРГЕРА ИЛИ МЕНЮ — дальше проверять нечего'); return; }
+
+  note('');
+  note('— H2: бургер и меню —');
+  note('  до клика: ' + menuState(d));
+
+  if (w.getComputedStyle(burger).display === 'none') {
+    note('  бургер скрыт на этой ширине — значит меню показывается строкой');
+    note('  .main-nav display=' + w.getComputedStyle(nav).display + ' (на десктопе ожидается flex)');
+    return;
+  }
+
+  burger.click();
+  note('  после клика по бургеру: ' + menuState(d));
+  var cats = nav.querySelectorAll('.nav-item > .nav-link');
+  var links = nav.querySelectorAll('a');
+  var nr = nav.getBoundingClientRect();
+  note('  в меню: категорий ' + cats.length + ', ссылок всего ' + links.length);
+  note('  панель меню: ' + Math.round(nr.width) + '×' + Math.round(nr.height)
+    + ', x=' + Math.round(nr.x) + ' y=' + Math.round(nr.y)
+    + ' | влезает по ширине окна: ' + (nr.left >= 0 && nr.right <= W ? 'ДА' : 'НЕТ'));
+
+  var caret = nav.querySelector('.nav-caret');
+  if (caret) {
+    caret.click();
+    var opened = nav.querySelector('.nav-item.open > .nav-panel');
+    note('  подменю категории по клику на треугольник: ' + (opened ? 'открыто' : 'НЕ ОТКРЫЛОСЬ')
+      + (opened ? ', ссылок внутри ' + opened.querySelectorAll('a').length : ''));
+    if (opened) {
+      var sb = opened.getBoundingClientRect();
+      note('    подменю: ' + Math.round(sb.width) + '×' + Math.round(sb.height) + ', x=' + Math.round(sb.x));
+    }
+  } else {
+    note('  треугольников .nav-caret в меню нет');
+  }
+
+  var firstLink = nav.querySelector('a[href]');
+  if (firstLink) {
+    firstLink.addEventListener('click', function (e) { e.preventDefault(); }, true);
+    firstLink.click();
+    note('  после клика по ссылке в меню: ' + menuState(d));
+  }
+
+  burger.click();
+  note('  открыли заново: ' + menuState(d));
+  d.body.click();
+  note('  после клика вне меню: ' + menuState(d));
+
+  burger.click();
+  var esc = new w.KeyboardEvent('keydown', { key: 'Escape', code: 'Escape', bubbles: true });
+  d.dispatchEvent(esc);
+  w.dispatchEvent(esc);
+  note('  после клавиши Escape: ' + menuState(d));
+  note('  aria-expanded в конце: ' + burger.getAttribute('aria-expanded') + ' (ожидается false)');
+}
+</script>
+</body>
+</html>

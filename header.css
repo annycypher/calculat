@@ -157,7 +157,7 @@ header.app-header .nav-burger:hover { background: var(--hglass-2); }
 header.app-header .head-cta,
 header.app-header .header-actions { display: flex; align-items: center; gap: 12px; margin-left: 0; }
 header.app-header .icon-btn {
-  width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center;
+  width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center;
   background: var(--hglass); border: 1px solid var(--hline); color: var(--htxt);
   font-size: 17px; line-height: 1; cursor: pointer;
   -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
@@ -281,8 +281,8 @@ header.app-header .search-none { padding: 10px 12px; color: var(--hmut); font-si
 header.app-header [hidden] { display: none !important; }
 @media (max-width: 760px) {
   header.app-header .head-cta, header.app-header .header-actions { gap: 6px; }
-  header.app-header .head-cta .icon-btn, header.app-header .header-actions .icon-btn { display: grid; width: 36px; height: 36px; font-size: 16px; }
-  header.app-header .nav-burger { width: 36px; height: 36px; }
+  header.app-header .head-cta .icon-btn, header.app-header .header-actions .icon-btn { display: grid; width: 44px; height: 44px; font-size: 18px; }
+  header.app-header .nav-burger { width: 44px; height: 44px; }
   header.app-header .logo { gap: 8px; }
   header.app-header .logo-mark { width: 34px; height: 34px; }
   header.app-header .logo b { font-size: 16px; }
