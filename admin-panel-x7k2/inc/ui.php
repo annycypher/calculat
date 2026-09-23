@@ -48,6 +48,7 @@ function panel_sections(): array {
         array('file' => 'popular.php',     'title' => 'Популярное',   'group' => 'Продвижение',  'icon' => '☆', 'ready' => true,  'hint' => 'топ страниц для /popular/'),
 
         array('file' => 'backup.php',      'title' => 'Бэкапы',       'group' => 'Сервис',       'icon' => '⛁', 'ready' => true,  'hint' => 'копии сайта'),
+        array('file' => 'publish.php',     'title' => 'Публикация',   'group' => 'Сервис',       'icon' => '📤','ready' => true,  'hint' => 'заливка правок на хостинг: файлы, кнопка «Опубликовать», результат по каждому'),
         array('file' => 'users.php',       'title' => 'Пользователи', 'group' => 'Сервис',       'icon' => '☺', 'ready' => true,  'hint' => 'доступы и роли'),
         array('file' => 'log.php',         'title' => 'Журнал',       'group' => 'Сервис',       'icon' => '☰', 'ready' => true,  'hint' => 'кто что делал: 500 последних записей'),
         array('file' => 'settings.php',    'title' => 'Настройки',    'group' => 'Сервис',       'icon' => '⚙', 'ready' => true,  'hint' => 'Метрика, техобслуживание, отзывы'),

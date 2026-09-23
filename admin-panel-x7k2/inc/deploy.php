@@ -24,6 +24,7 @@ if (isset($_SERVER['SCRIPT_FILENAME']) && realpath((string)$_SERVER['SCRIPT_FILE
 }
 
 const DEPLOY_SECRETS_FILE = 'secrets.json';   // лежит в CONTENT_DIR
+const DEPLOY_CHANGES_FILE = 'changes.json';   // реестр правок: что панель изменила и надо залить
 const DEPLOY_TIMEOUT      = 25;               // секунд на операцию (хостинг неспешный)
 
 /** Реквизиты FTP из content/secrets.json. Нет файла — вернём пустые значения. */
@@ -71,9 +72,12 @@ function deploy_secrets_problems(array $s): array
 
 final class DeployFtp
 {
+    /** @var resource|null сокет управляющего канала */
     private $sock = null;
-    private int $code = 0;
-    public string $error = '';
+    /** @var int код последнего ответа сервера */
+    private $code = 0;
+    /** @var string человеческая причина последней ошибки */
+    public $error = '';
 
     /** Подключиться и войти. false — причина в $error. */
     public function connect(string $host, int $port, string $user, string $pass): bool
@@ -315,4 +319,76 @@ function ftpDeploy(array $changedFiles, array $opts = array()): array
     $ftp->close();
     $out['ok'] = ($out['summary']['fail'] === 0);
     return $out;
+}
+
+/* ─────────────────────────── реестр правок (шаг P2.2) ───────────────────────────
+   Кнопка «Опубликовать» должна знать, что именно изменилось. Панель сама отмечает
+   каждый файл сайта, который правила (редактор меты, публикация статьи, правка текста),
+   а публикация заливает ровно этот список и очищает его после успеха.
+   Хранение: CONTENT_DIR/changes.json → {"files": {путь: время правки, …}} */
+
+/** Отметить файл как изменённый (можно звать много раз — время обновится). */
+function deploy_changes_add(string $rel): bool
+{
+    $rel = ltrim(str_replace('\\', '/', $rel), '/');
+    if ($rel === '') { return false; }
+    $all = deploy_changes_raw();
+    $all[$rel] = date('Y-m-d H:i:s');
+    return json_write(CONTENT_DIR . '/' . DEPLOY_CHANGES_FILE, array('files' => $all));
+}
+
+/** Убрать файл из реестра (например, правку отменили). */
+function deploy_changes_forget(string $rel): bool
+{
+    $rel = ltrim(str_replace('\\', '/', $rel), '/');
+    $all = deploy_changes_raw();
+    if (isset($all[$rel])) { unset($all[$rel]); }
+    return json_write(CONTENT_DIR . '/' . DEPLOY_CHANGES_FILE, array('files' => $all));
+}
+
+/** Полный реестр: путь => время правки (свежие сверху). */
+function deploy_changes_raw(): array
+{
+    $data = json_read(CONTENT_DIR . '/' . DEPLOY_CHANGES_FILE, array());
+    $files = isset($data['files']) && is_array($data['files']) ? $data['files'] : array();
+    arsort($files);                                   // новые правки — первыми
+    return $files;
+}
+
+/** Список для показа в панели: путь, время, размер и дата файла на диске. */
+function deploy_changes_list(): array
+{
+    $out = array();
+    foreach (deploy_changes_raw() as $rel => $at) {
+        $local = SITE_ROOT . '/' . $rel;
+        $out[] = array(
+            'file'  => $rel,
+            'at'    => (string)$at,
+            'size'  => is_file($local) ? (int)filesize($local) : 0,
+            'exists' => is_file($local),
+        );
+    }
+    return $out;
+}
+
+function deploy_changes_count(): int
+{
+    return count(deploy_changes_raw());
+}
+
+/** Очистить реестр целиком (после успешной публикации). */
+function deploy_changes_clear(): bool
+{
+    return json_write(CONTENT_DIR . '/' . DEPLOY_CHANGES_FILE, array('files' => array()));
+}
+
+/** Убрать из реестра только успешно залитые файлы (если часть не прошла — те останутся). */
+function deploy_changes_keep_failed(array $results): int
+{
+    $all = deploy_changes_raw();
+    foreach ($results as $row) {
+        if (!empty($row['ok']) && isset($all[(string)$row['file']])) { unset($all[(string)$row['file']]); }
+    }
+    json_write(CONTENT_DIR . '/' . DEPLOY_CHANGES_FILE, array('files' => $all));
+    return count($all);
 }
