@@ -48,6 +48,7 @@ content/settings.json
 content/messages.json
 content/reminders.json
 content/seo.json
+content/secrets.json
 
 # Загрузки владельца через раздел «Медиа-файлы»: рабочие картинки сайта, в git не нужны
 media/uploads/*
