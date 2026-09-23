@@ -50,6 +50,7 @@ content/reminders.json
 content/seo.json
 content/secrets.json
 content/changes.json
+cacert.pem
 
 # Загрузки владельца через раздел «Медиа-файлы»: рабочие картинки сайта, в git не нужны
 media/uploads/*

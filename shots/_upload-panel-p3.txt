@@ -1,0 +1,3 @@
+inc/metrika.php
+settings.php
+analytics.php

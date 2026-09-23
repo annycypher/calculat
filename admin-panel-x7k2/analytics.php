@@ -22,6 +22,7 @@ require __DIR__ . '/inc/config.php';
 require __DIR__ . '/inc/auth.php';
 require __DIR__ . '/inc/ui.php';
 require __DIR__ . '/inc/stats.php';
+require __DIR__ . '/inc/metrika.php';   /* статистика Яндекс.Метрики (фаза P3) */
 
 panel_session_start();
 ensure_guards();
@@ -38,6 +39,84 @@ $devAll = (int)array_sum($month['devices']);
 
 panel_page_start('Аналитика', 'Что смотрят, откуда приходят и сколько людей приходит впервые', 'analytics.php');
 ?>
+
+<?php
+/* ── Карточка «Трафик»: два источника рядом, метрики не смешиваются (фаза P3, шаг 3.2) ── */
+$tab = (string)($_GET['tab'] ?? 'metrika');
+if ($tab !== 'own') { $tab = 'metrika'; }
+
+$met1  = metrika_period(1);
+$met7  = metrika_period(7);
+$met30 = metrika_period(30);
+$top5  = stats_top_pages($week, 5);
+?>
+<?php card_start('📊 Трафик', 'Два независимых источника рядом — цифры не смешиваются', ''); ?>
+      <div class="btn-row" style="margin:0 0 14px">
+        <a class="btn<?php echo $tab === 'metrika' ? ' primary' : ''; ?>" href="<?php echo h(panel_url('analytics.php') . '?tab=metrika'); ?>">Яндекс.Метрика</a>
+        <a class="btn<?php echo $tab === 'own' ? ' primary' : ''; ?>" href="<?php echo h(panel_url('analytics.php') . '?tab=own'); ?>">Свой счётчик</a>
+      </div>
+
+      <?php if ($tab === 'metrika'): ?>
+        <?php if (!empty($met7['ok'])): ?>
+          <table class="table">
+            <tr><th>Период</th><th>Визиты</th><th>Посетители</th><th>Просмотры</th></tr>
+            <?php foreach (array($met1, $met7, $met30) as $p): ?>
+              <tr>
+                <td><?php echo (int)$p['days'] === 1 ? 'сегодня' : 'последние ' . (int)$p['days'] . ' дней'; ?></td>
+                <td><b><?php echo (int)$p['totals']['visits']; ?></b></td>
+                <td><?php echo (int)$p['totals']['users']; ?></td>
+                <td><?php echo (int)$p['totals']['pageviews']; ?></td>
+              </tr>
+            <?php endforeach; ?>
+          </table>
+          <?php if (count((array)$met7['sources']) > 0): ?>
+            <p style="margin:16px 0 6px"><b>Откуда приходят за 7 дней</b></p>
+            <table class="table">
+              <?php foreach ($met7['sources'] as $src): ?>
+                <tr>
+                  <td><?php echo h(metrika_source_title((string)$src['name'])); ?></td>
+                  <td style="width:130px"><b><?php echo (int)$src['visits']; ?></b> визитов</td>
+                </tr>
+              <?php endforeach; ?>
+            </table>
+          <?php endif; ?>
+          <p class="hint" style="margin:14px 0 0">Данные Метрики получены <?php echo h((string)$met7['at']); ?><?php
+            echo !empty($met7['cached']) ? ' — из кэша (обновляем раз в ' . (int)METRIKA_CACHE_MIN . ' минут)' : ''; ?>.
+            Визиты и источники считает официальный счётчик; показания собственного счётчика сайта — во вкладке рядом
+            и подробно ниже на странице.</p>
+        <?php else: ?>
+          <p style="margin:0 0 10px"><b>Метрика не отдаёт статистику:</b> <?php echo h((string)$met7['error']); ?></p>
+          <p class="hint" style="margin:0">Как включить: в приложении на <code>oauth.yandex.ru</code> добавьте право
+            «Метрика: чтение», получите <b>новый</b> токен и вставьте его в
+            <a href="<?php echo h(panel_url('settings.php')); ?>">Настройках → «Метрика: чтение статистики»</a>.
+            Собственный счётчик сайта работает независимо — его цифры во вкладке рядом.</p>
+        <?php endif; ?>
+      <?php else: ?>
+        <table class="table">
+          <tr><th>Период</th><th>Просмотры</th><th>Посетители</th></tr>
+          <?php foreach (array(array('сегодня', $today), array('последние 7 дней', $week), array('последние 30 дней', $month)) as $pair): ?>
+            <tr>
+              <td><?php echo h((string)$pair[0]); ?></td>
+              <td><b><?php echo (int)$pair[1]['hits']; ?></b></td>
+              <td><?php echo (int)$pair[1]['visits']; ?></td>
+            </tr>
+          <?php endforeach; ?>
+        </table>
+        <?php if (count($top5) > 0): ?>
+          <p style="margin:16px 0 6px"><b>Топ-5 страниц за 7 дней</b></p>
+          <table class="table">
+            <?php foreach ($top5 as $t): ?>
+              <tr>
+                <td><?php echo h((string)$t['page']); ?></td>
+                <td style="width:130px"><b><?php echo (int)$t['views']; ?></b> просмотров</td>
+              </tr>
+            <?php endforeach; ?>
+          </table>
+        <?php endif; ?>
+        <p class="hint" style="margin:14px 0 0">Это собственный счётчик сайта: без куки, без IP, роботов не считает.
+          Подробности — ниже: три периода, график по дням, устройства и источники.</p>
+      <?php endif; ?>
+<?php card_end(); ?>
 
 <?php if (!$bounds['has']) { ?>
 <?php card_start('Счётчик пока пуст', 'Это нормально: сайт ещё закрыт для посетителей', 'warn'); ?>

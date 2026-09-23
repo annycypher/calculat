@@ -22,6 +22,7 @@ require __DIR__ . '/inc/ui.php';
 require __DIR__ . '/inc/settings.php';
 require __DIR__ . '/inc/contact.php';   /* сообщения с контактной формы (шаг 6.4) */
 require __DIR__ . '/inc/deploy.php';    /* FTP-доступ и публикация правок (шаг P2.3) */
+require __DIR__ . '/inc/metrika.php';   /* чтение статистики Метрики (фаза P3) */
 
 panel_session_start();
 ensure_guards();
@@ -86,6 +87,29 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         $res = ftpDeploy(array(), array('dry_run' => true));
         log_action('FTP-проверка связи', $res['error'] !== '' ? 'ошибка: ' . $res['error'] : 'связь есть');
         flash($res['error'] !== '' ? 'Связь не установлена: ' . $res['error'] : 'Связь с хостингом есть, папка сайта доступна.');
+    } elseif ($op === 'save_metrika') {
+        /* Пустое поле токена = «не менять сохранённый». */
+        $prev  = metrika_secrets();
+        $token = (string)($_POST['metrika_token'] ?? '');
+        if ($token === '') { $token = (string)$prev['token']; }
+        $counter = trim((string)($_POST['metrika_counter'] ?? ''));
+        if ($token === '' || $counter === '') {
+            flash('Токен чтения не сохранён — нужны и токен, и номер счётчика.', 'error');
+        } elseif (metrika_secrets_save($token, $counter)) {
+            log_action('Метрика: токен чтения статистики обновлён', 'счётчик ' . $counter);
+            flash('Токен сохранён. Проверьте доступ кнопкой рядом — она запрашивает один день статистики.');
+        } else {
+            flash('Не удалось записать content/secrets.json — проверьте права на папку content.', 'error');
+        }
+    } elseif ($op === 'metrika_check') {
+        $res = metrika_check();
+        log_action('Метрика: проверка доступа к статистике', $res['ok'] ? 'доступ есть' : 'ошибка: ' . $res['error']);
+        if ($res['ok']) {
+            flash('Доступ к статистике есть: сегодня визитов ' . (int)$res['totals']['visits']
+                . ', посетителей ' . (int)$res['totals']['users'] . '.');
+        } else {
+            flash('Доступа нет: ' . $res['error'], 'error');
+        }
     } else {
         flash('Форма пришла без понятного действия — ничего не менял.', 'error');
     }
@@ -103,6 +127,11 @@ $canEdit = is_admin();
 $ftpCur       = deploy_secrets();
 $ftpProblems  = deploy_secrets_problems($ftpCur);
 $ftpHasPass   = $ftpCur['pass'] !== '';
+
+/* Реквизиты чтения статистики Метрики (фаза P3): токен не раскрываем. */
+$metCur       = metrika_secrets();
+$metProblems  = metrika_problems($metCur);
+$metHasToken  = $metCur['token'] !== '';
 
 $socialsText = '';
 foreach ((array)$cur['socials'] as $s) {
@@ -262,6 +291,28 @@ panel_page_start('Настройки', 'Счётчик Метрики, увед�
           <button class="btn primary" type="submit"<?php echo $canEdit ? '' : ' disabled'; ?>>Сохранить FTP-доступ</button>
           <button class="btn" type="submit" name="op" value="ftp_check"<?php echo $canEdit ? '' : ' disabled'; ?>>Проверить связь</button>
           <a class="btn ghost" href="<?php echo h(panel_url('publish.php')); ?>">К разделу «Публикация»</a>
+        </div>
+      </form>
+<?php card_end(); ?>
+
+<?php card_start('Метрика: чтение статистики', 'Токен для показа визитов, посетителей и источников в разделе «Аналитика»', count($metProblems) === 0 ? 'ok' : 'warn'); ?>
+      <form method="post" action="<?php echo h(panel_url('settings.php')); ?>">
+        <?php echo csrf_field(); ?>
+        <input type="hidden" name="op" value="save_metrika" />
+        <label for="s-met-token">Токен OAuth с правом «Метрика: чтение»</label>
+        <input type="password" id="s-met-token" name="metrika_token" value="" autocomplete="new-password"
+               placeholder="<?php echo $metHasToken ? 'токен сохранён — оставьте поле пустым, чтобы не менять' : 'вставьте токен'; ?>" />
+        <label for="s-met-counter">Номер счётчика</label>
+        <input type="text" id="s-met-counter" name="metrika_counter" inputmode="numeric" maxlength="12"
+               placeholder="например 112558731" value="<?php echo h((string)$metCur['counter']); ?>" />
+        <div class="field-hint">Чтение статистики требует права <code>metrika:read</code>: в приложении на
+          oauth.yandex.ru включите «Метрика: чтение» и получите <b>новый</b> токен — у токена, выданного раньше,
+          права не меняются. Токен лежит в <code>content/secrets.json</code> и в журнал не пишется.
+          Сейчас не заполнено: <?php echo count($metProblems) ? h(implode(', ', $metProblems)) : 'ничего, всё на месте'; ?>.</div>
+        <div class="btn-row" style="margin-top:16px">
+          <button class="btn primary" type="submit"<?php echo $canEdit ? '' : ' disabled'; ?>>Сохранить токен</button>
+          <button class="btn" type="submit" name="op" value="metrika_check"<?php echo $canEdit ? '' : ' disabled'; ?>>Проверить доступ</button>
+          <a class="btn ghost" href="<?php echo h(panel_url('analytics.php')); ?>">К разделу «Аналитика»</a>
         </div>
       </form>
 <?php card_end(); ?>
