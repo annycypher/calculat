@@ -23,6 +23,7 @@ require __DIR__ . '/inc/reviews.php';   /* счётчик «Отзывы на м
 require __DIR__ . '/inc/security-lib.php';   /* алерты безопасности: новое устройство, часы, подбор пароля, robots (шаг 7.3) */
 require __DIR__ . '/inc/reminders-lib.php';  /* виджет «Напоминания» на дашборде (шаг 7.6) */
 require __DIR__ . '/inc/popular.php';        /* список «Популярное» для /popular/ (шаг 8.4) */
+require_once __DIR__ . '/inc/imap.php';           /* непрочитанные письма ящика (шаг P6.1) */
 
 panel_session_start();
 ensure_guards();
@@ -161,6 +162,20 @@ $quickFiles = array('articles.php', 'media.php', 'banners.php', 'ads.php', 'revi
                     'seo-center.php', 'analytics.php', 'backup.php', 'users.php');
 $byFile = array();
 foreach (panel_sections() as $s) { $byFile[$s['file']] = $s; }
+
+/* ── непрочитанные письма ящика (шаг P6.1): проверяем при входе в панель, но не чаще раза в 5 минут ── */
+$mailReady = false;
+$mailOk    = false;
+$mailCount = 0;
+if (function_exists('imap_ready')) {
+    $mailCfg   = imap_secrets();
+    $mailReady = imap_ready($mailCfg);
+    if ($mailReady) {
+        $mailRes   = imap_unread_cached(300, false);
+        $mailOk    = !empty($mailRes['ok']);
+        $mailCount = (int)($mailRes['count'] ?? 0);
+    }
+}
 
 panel_page_start('Дашборд', 'Что есть на сайте сейчас и что происходило в панели', 'dashboard.php');
 
@@ -328,6 +343,15 @@ $backupWord = $lastBackup === null ? 'копий пока нет' : 'сдела�
 <?php } ?>
 
       <div class="stats">
+<?php stat_card('Непрочитанных писем', ($mailReady && $mailOk) ? (string)$mailCount : '—',
+    $mailReady
+        ? ($mailOk
+            ? ($mailCount > 0
+                ? '<a href="' . h(panel_url('mail.php')) . '">открыть «Почту»</a> — письма ждут ответа'
+                : 'всё разобрано: непрочитанных нет')
+            : '<a href="' . h(panel_url('mail.php')) . '">Раздел «Почта»</a>: ящик не ответил')
+        : '<a href="' . h(panel_url('settings.php')) . '">включить в «Настройках»</a> — раздел «Почта»',
+    $mailOk ? ($mailCount > 0 ? 'warn' : 'ok') : ''); ?>
 <?php stat_card('Страниц в sitemap.xml', (string)$pageCount, 'адреса сайта для поисковиков'); ?>
 <?php stat_card('Статей в блоге', (string)$blogCount, 'страницы /blog/'); ?>
 <?php stat_card('Статей панели', (string)count($articles), $drafts > 0 ? 'черновиков: ' . $drafts : 'раздел статей — фаза 4'); ?>

@@ -23,6 +23,7 @@ require __DIR__ . '/inc/settings.php';
 require __DIR__ . '/inc/contact.php';   /* сообщения с контактной формы (шаг 6.4) */
 require __DIR__ . '/inc/deploy.php';    /* FTP-доступ и публикация правок (шаг P2.3) */
 require __DIR__ . '/inc/metrika.php';   /* чтение статистики Метрики (фаза P3) */
+require_once __DIR__ . '/inc/imap.php';      /* непрочитанные письма ящика (фаза P6) */
 
 panel_session_start();
 ensure_guards();
@@ -110,6 +111,41 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         } else {
             flash('Доступа нет: ' . $res['error'], 'error');
         }
+    } elseif ($op === 'save_imap') {
+        /* Пустое поле пароля = «не менять сохранённый» — как у FTP и Метрики. */
+        $prev = imap_secrets();
+        $pass = (string)($_POST['imap_pass'] ?? '');
+        if ($pass === '') { $pass = (string)$prev['pass']; }
+        $save = array(
+            'host'    => trim((string)($_POST['imap_host'] ?? '')),
+            'port'    => (int)($_POST['imap_port'] ?? 993),
+            'ssl'     => isset($_POST['imap_ssl']),
+            'user'    => trim((string)($_POST['imap_user'] ?? '')),
+            'pass'    => $pass,
+            'webmail' => trim((string)($_POST['imap_webmail'] ?? '')),
+        );
+        $bad = imap_problems($save);
+        if (count($bad) > 0) {
+            flash('Доступ к ящику не сохранён — не хватает: ' . implode(', ', $bad) . '.', 'error');
+        } elseif (imap_secrets_save($save)) {
+            log_action('Почта: доступ по IMAP обновлён',
+                'сервер ' . (string)$save['host'] . ':' . (int)$save['port'] . ', ящик ' . (string)$save['user']);
+            flash('Доступ к ящику сохранён. Нажмите «Проверить связь»: она читает только заголовки и ничего не помечает прочитанным.');
+        } else {
+            flash('Не удалось записать content/secrets.json — проверьте права на папку content.', 'error');
+        }
+    } elseif ($op === 'imap_check') {
+        $res = imap_probe();
+        if (!empty($res['ok'])) {
+            imap_cache_write($res + array('source' => 'live'));
+            log_action('Почта: проверка связи по IMAP',
+                'непрочитанных: ' . (int)$res['count'] . ', всего в папке: ' . (int)$res['total']);
+            flash('Связь есть. Непрочитанных писем: ' . (int)$res['count']
+                . ' (всего в папке ' . (int)$res['total'] . '). Панель читает только заголовки и не ставит отметку «прочитано».');
+        } else {
+            log_action('Почта: проверка связи по IMAP', 'ошибка: ' . (string)$res['error']);
+            flash('Связи нет: ' . imap_error_text((string)$res['error']), 'error');
+        }
     } else {
         flash('Форма пришла без понятного действия — ничего не менял.', 'error');
     }
@@ -132,6 +168,13 @@ $ftpHasPass   = $ftpCur['pass'] !== '';
 $metCur       = metrika_secrets();
 $metProblems  = metrika_problems($metCur);
 $metHasToken  = $metCur['token'] !== '';
+
+/* Реквизиты ящика для счётчика непрочитанных писем (фаза P6): пароль тоже не раскрываем. */
+$imapCur      = imap_secrets();
+$imapProblems = imap_problems($imapCur);
+$imapHasPass  = $imapCur['pass'] !== '';
+$imapCache    = imap_cache_read();
+$imapAge      = imap_cache_age();
 
 $socialsText = '';
 foreach ((array)$cur['socials'] as $s) {
@@ -313,6 +356,49 @@ panel_page_start('Настройки', 'Счётчик Метрики, увед�
           <button class="btn primary" type="submit"<?php echo $canEdit ? '' : ' disabled'; ?>>Сохранить токен</button>
           <button class="btn" type="submit" name="op" value="metrika_check"<?php echo $canEdit ? '' : ' disabled'; ?>>Проверить доступ</button>
           <a class="btn ghost" href="<?php echo h(panel_url('analytics.php')); ?>">К разделу «Аналитика»</a>
+        </div>
+      </form>
+<?php card_end(); ?>
+
+<?php card_start('Почта: непрочитанные письма (IMAP)', 'Данные для бейджа «Непрочитанных» и раздела «Почта». Ящик читается только на чтение', count($imapProblems) === 0 ? 'ok' : 'warn'); ?>
+      <form method="post" action="<?php echo h(panel_url('settings.php')); ?>">
+        <?php echo csrf_field(); ?>
+        <input type="hidden" name="op" value="save_imap" />
+        <label for="s-imap-host">Почтовый сервер (IMAP)</label>
+        <input type="text" id="s-imap-host" name="imap_host" value="<?php echo h((string)$imapCur['host']); ?>"
+               placeholder="imap.spaceweb.ru" autocomplete="off" />
+        <label for="s-imap-port">Порт</label>
+        <input type="text" id="s-imap-port" name="imap_port" inputmode="numeric" maxlength="5"
+               value="<?php echo (int)$imapCur['port']; ?>" />
+        <label for="s-imap-user">Ящик (полный адрес)</label>
+        <input type="text" id="s-imap-user" name="imap_user" value="<?php echo h((string)$imapCur['user']); ?>"
+               placeholder="info@calc-doc.ru" autocomplete="off" />
+        <label for="s-imap-pass">Пароль ящика</label>
+        <input type="password" id="s-imap-pass" name="imap_pass" value="" autocomplete="new-password"
+               placeholder="<?php echo $imapHasPass ? 'пароль сохранён — оставьте поле пустым, чтобы не менять' : 'введите пароль ящика'; ?>" />
+        <label for="s-imap-webmail">Ссылка на веб-почту (для кнопки «Открыть почту»)</label>
+        <input type="text" id="s-imap-webmail" name="imap_webmail" value="<?php echo h((string)$imapCur['webmail']); ?>"
+               placeholder="<?php echo h(IMAP_DEFAULT_WEBMAIL); ?>" autocomplete="off" />
+        <label style="display:flex;gap:8px;align-items:center;margin-top:10px">
+          <input type="checkbox" name="imap_ssl" value="1"<?php echo $imapCur['ssl'] ? ' checked' : ''; ?> />
+          <span>Шифрованное соединение (SSL) — для порта 993, снимите галочку для порта 143</span>
+        </label>
+        <div class="field-hint">Ящик сайта живёт на почте SpaceWeb (MX — <code>mx1/mx2.spaceweb.ru</code>),
+          поэтому сервер обычно <code>imap.spaceweb.ru</code>, порт <code>993</code>, галочка SSL включена —
+          связь с хостинга проверена. Если панель скажет, что сервер не отвечает, попробуйте порт <code>143</code>
+          и снимите галочку SSL.
+          Логин — полный адрес ящика, пароль — тот же, что вы вводите в веб-почте. Пароль лежит в
+          <code>content/secrets.json</code> (снаружи закрыт) и в журнал панели не пишется.<br />
+          Сейчас не заполнено: <?php echo count($imapProblems) ? h(implode(', ', $imapProblems)) : 'ничего, всё на месте'; ?>.
+          <?php if (array_key_exists('ok', $imapCache)) { ?>
+          Последняя проверка: <?php echo (int)($imapCache['ok'] ? $imapCache['count'] : 0); ?> непрочитанных,
+          <?php echo h(imap_cache_human()); ?><?php echo $imapCache['ok'] ? '.' : ' (не удалось: ' . h(imap_error_text((string)$imapCache['error'])) . ').'; ?>
+          <?php } ?>
+          Панель открывает «Входящие» только на чтение и запрашивает одни заголовки — письма остаются непрочитанными.</div>
+        <div class="btn-row" style="margin-top:16px">
+          <button class="btn primary" type="submit"<?php echo $canEdit ? '' : ' disabled'; ?>>Сохранить доступ к ящику</button>
+          <button class="btn" type="submit" name="op" value="imap_check"<?php echo $canEdit ? '' : ' disabled'; ?>>Проверить связь</button>
+          <a class="btn ghost" href="<?php echo h(panel_url('mail.php')); ?>">К разделу «Почта»</a>
         </div>
       </form>
 <?php card_end(); ?>

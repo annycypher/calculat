@@ -19,6 +19,8 @@ if (isset($_SERVER['SCRIPT_FILENAME']) && realpath((string)$_SERVER['SCRIPT_FILE
     exit;
 }
 
+require_once __DIR__ . '/imap.php';   /* бейдж непрочитанных писем в меню (шаг P6.2) */
+
 /** Разделы панели.
     'ready' => false — раздел ещё не написан: в меню он серый, без ссылки, с подсказкой,
     чтобы вы не попали на пустую страницу. Раздел готов — ставим true. */
@@ -56,6 +58,8 @@ function panel_sections(): array {
         array('file' => 'security.php',    'title' => 'Безопасность', 'group' => 'Сервис',       'icon' => '⚿', 'ready' => true,  'hint' => 'пароль, журнал входов, устройства', 'admin' => true),
         array('file' => 'reminders.php',   'title' => 'Напоминания',  'group' => 'Сервис',       'icon' => '◷', 'ready' => true,  'hint' => 'регулярные задачи владельца'),
         array('file' => 'contact.php',     'title' => 'Связаться',    'group' => 'Сервис',       'icon' => '✉', 'ready' => false, 'hint' => 'письма и реквизиты — фаза 12'),
+        array('file' => 'mail.php',        'title' => 'Почта',        'group' => 'Сервис',      'icon' => '✉', 'ready' => true,  'hint' => 'непрочитанные письма ящика: счётчик, от кого и тема (тела писем не читаются)'),
+
     );
 }
 
@@ -149,6 +153,14 @@ function panel_page_start(string $title, string $subtitle = '', string $active =
     $logout = panel_url('login.php?action=logout&t=' . rawurlencode(csrf_token()));
     $groups = array();
     foreach (panel_sections() as $s) { $groups[$s['group']][] = $s; }
+
+    /* Бейдж непрочитанных писем в меню (шаг P6.2): читаем только кэш, чтобы не обращаться к почте
+       на каждой странице панели. Живой запрос делает дашборд и раздел «Почта». */
+    $navMail = '';
+    $navCache = imap_cache_read();
+    if (!empty($navCache['ok']) && (int)($navCache['count'] ?? 0) > 0) {
+        $navMail = ' ' . badge('✉ ' . (int)$navCache['count'], 'warn');
+    }
 ?>
 <!DOCTYPE html>
 <html lang="ru" data-theme="dark">
@@ -175,7 +187,7 @@ function panel_page_start(string $title, string $subtitle = '', string $active =
 <?php   foreach ($items as $s) {
           if (!empty($s['admin']) && !is_admin()) { continue; }   // раздел только для администратора
           if ($s['ready']) { ?>
-        <a class="nav-item<?php echo $active === $s['file'] ? ' active' : ''; ?>" href="<?php echo h(panel_url($s['file'])); ?>"><span class="nav-ico" aria-hidden="true"><?php echo h($s['icon']); ?></span><?php echo h($s['title']); ?></a>
+        <a class="nav-item<?php echo $active === $s['file'] ? ' active' : ''; ?>" href="<?php echo h(panel_url($s['file'])); ?>"><span class="nav-ico" aria-hidden="true"><?php echo h($s['icon']); ?></span><?php echo h($s['title']); ?><?php echo $s['file'] === 'mail.php' ? $navMail : ''; ?></a>
 <?php     } else { ?>
         <span class="nav-item soon" title="<?php echo h($s['hint']); ?>"><span class="nav-ico" aria-hidden="true"><?php echo h($s['icon']); ?></span><?php echo h($s['title']); ?><em>скоро</em></span>
 <?php     } ?>
