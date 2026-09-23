@@ -9,9 +9,8 @@
 //     и кэшировать такие ответы нельзя.
 //
 // Версия: меняем строку VERSION при выпуске — старый кэш удаляется сам в activate.
-// 23.09.2026: исправлен порядок clone() в assetStrategy (кэш статики не заполнялся), версия поднята.
 
-const VERSION = 'calcdoc-2026-09-23-1';
+const VERSION = 'test-before-1';
 const OFFLINE = '/offline.html';
 
 /* Оболочка: то, без чего сайт не открыть. Версии (?v=) не указываем — реальные запросы
@@ -67,7 +66,7 @@ async function pageStrategy(event, url) {
   try {
     const fresh = await fetch(event.request);
     const cache = await caches.open(VERSION);
-    if (fresh && fresh.ok) { cache.put(event.request, fresh.clone()).catch(() => {}); }
+    if (fresh && fresh.ok) { cache.put(event.request, fresh.clone()); }
     return fresh;
   } catch (e) {
     const cached = await caches.match(event.request);
@@ -85,13 +84,7 @@ async function pageStrategy(event, url) {
 async function assetStrategy(event) {
   const cached = await caches.match(event.request);
   const network = fetch(event.request).then((res) => {
-    if (res && res.ok) {
-      /* Клон делаем ЗДЕСЬ, синхронно, до возврата ответа браузеру: если клонировать позже
-         (внутри .then от caches.open), тело уже уйдёт странице и clone() упадёт с ошибкой
-         «Response body is already used» — а из-за этого кэш оставался пустым. */
-      const forCache = res.clone();
-      caches.open(VERSION).then((c) => c.put(event.request, forCache)).catch(() => {});
-    }
+    if (res && res.ok) { caches.open(VERSION).then((c) => c.put(event.request, res.clone())); }
     return res;
   }).catch(() => cached || Response.error());
   return cached || network;

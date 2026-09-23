@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Проверка service-worker: clone() до отдачи ответа</title>
+</head>
+<body>
+<!-- Зачем: сервис-воркер в headless не успевает активироваться, поэтому проверяем саму логику
+     детерминированно: выполняем исходник service-worker.js в песочнице (свой self, caches, fetch),
+     вызываем assetStrategy и смотрим, попал ли клон ответа в кэш.
+     Ключевая деталь: заглушка caches.open() отвечает с задержкой — как в жизни, когда ответ уже отдан
+     странице. Тогда старый код (res.clone() внутри .then) падает, а исправленный работает.
+     Сравниваем две версии: ?sw=before (копия со сломанным кодом) и ?sw=after (боевой файл). -->
+<pre id="out">ждём…</pre>
+<script>
+var out = [];
+function note(s) { out.push(s); document.getElementById('out').textContent = out.join('\n'); }
+
+/* Песочница: выполняем код сервис-воркера с подменёнными self / caches / fetch. */
+function sandbox(code, opts) {
+  var handlers = {}, store = {}, errors = [];
+  var fakeCaches = {
+    open: async function () {
+      /* Задержка — это и есть суть проверки: ответ к этому моменту уже прочитан страницей. */
+      await new Promise(function (r) { setTimeout(r, opts.delay); });
+      return {
+        put: async function (req, res) {
+          var t = await res.text();                 /* если клон сделан после использования тела — тут будет ошибка */
+          store[String(req.url || req)] = t.length;
+        }
+      };
+    },
+    match: async function () { return undefined; },
+    keys: async function () { return []; },
+    delete: async function () { return true; }
+  };
+  var selfStub = {
+    addEventListener: function (name, fn) { handlers[name] = fn; },
+    skipWaiting: async function () {},
+    clients: { claim: async function () {} },
+    location: location
+  };
+  var fetchStub = async function () {
+    await new Promise(function (r) { setTimeout(r, 5); });
+    return new Response('STATIC-BODY-' + 'x'.repeat(400), { status: 200, headers: { 'Content-Type': 'text/plain' } });
+  };
+  try {
+    var api = new Function('self', 'caches', 'fetch', 'Response', 'Request', 'URL',
+      code + '\nreturn { assetStrategy: assetStrategy, pageStrategy: pageStrategy, skip: skip };')
+      (selfStub, fakeCaches, fetchStub, Response, Request, URL);
+  } catch (e) {
+    return { syntaxError: (e && e.message) ? e.message : String(e), store: store, handlers: handlers };
+  }
+  return { api: api, store: store, handlers: handlers };
+}
+
+async function check(label, url) {
+  note('── ' + label + ': ' + url);
+  var code = await (await fetch(url + '?t=' + Date.now())).text();
+  note('   исходник получен: ' + code.length + ' знаков');
+  var sb = sandbox(code, { delay: 60 });
+  if (sb.syntaxError) { note('   СИНТАКСИС: ошибка — ' + sb.syntaxError); return false; }
+  note('   разбор кода: ошибок нет');
+
+  var ev = { request: new Request('/js/ui-bundle.js', { method: 'GET' }), respondWith: function () {} };
+  var res = await sb.api.assetStrategy(ev);
+  var text = await res.text();                       /* страница читает ответ сразу */
+  note('   странице отдан ответ: код ' + res.status + ', байт ' + text.length);
+
+  await new Promise(function (r) { setTimeout(r, 400); });   /* ждём фоновую запись в кэш */
+  var keys = Object.keys(sb.store);
+  note('   в кэше записей: ' + keys.length + (keys.length ? ' (' + keys[0] + ' → ' + sb.store[keys[0]] + ' байт)' : ''));
+  return keys.length > 0;
+}
+
+(async function () {
+  var which = new URLSearchParams(location.search).get('sw') || 'after';
+  var urls = which === 'before'
+    ? [['ДО правки', '/_game-test/sw-before.js']]
+    : [['ДО правки', '/_game-test/sw-before.js'], ['ПОСЛЕ правки', '/service-worker.js']];
+
+  var results = [];
+  for (var i = 0; i < urls.length; i++) {
+    results.push([urls[i][0], await check(urls[i][0], urls[i][1])]);
+  }
+  note('');
+  results.forEach(function (r) { note(r[0] + ': статика попала в кэш — ' + (r[1] ? 'ДА' : 'НЕТ')); });
+  var ok = results.every(function (r, idx) { return idx === 0 ? !r[1] : r[1]; });
+  note(ok
+    ? 'ВЫВОД: ошибка воспроизвелась на старой версии и исчезла на новой — правка работает.'
+    : 'ВНИМАНИЕ: ожидалось «ДО — нет, ПОСЛЕ — да»; проверьте вывод выше.');
+})();
+</script>
+</body>
+</html>
