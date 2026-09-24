@@ -1,9 +1,4 @@
-﻿bundle.css
-header.css
-home.css
-js/gen-invoice.js
-js/gen-report.js
-404.html
+﻿404.html
 index.html
 offline.html
 search.html
