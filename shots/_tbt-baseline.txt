@@ -1,0 +1,7 @@
+﻿Базовый замер TBT, живая главная https://calc-doc.ru/, мобильный 390x844, CPU x4, троттлинг как Lighthouse mobile
+FCP=1396 мс  LCP=2064 мс  load=2408 мс
+длинных задач=5, суммарно 799 мс, TBT-подобная сумма 549 мс, худшая задача 497 мс (старт 1397 мс = FCP)
+LayoutDuration=1.291 с  RecalcStyleDuration=0.171 с  ScriptDuration=0.754 с  TaskDuration=3.083 с
+задачи: 497@1397, 103@2198, 83@2553, 56@3288, 60@3398
+
+Для сравнения (без троттлинга): /calculators/finance/mortgage/ - FCP=628 LCP=888 load=1009, задач 1 (95 мс), TBT-подобная 45 мс, ScriptDuration=0.125 с
