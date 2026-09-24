@@ -1,4 +1,4 @@
-АУДИТ Title/H1 (снято 24.09.2026 02:49), страниц: 85
+АУДИТ Title/H1 (снято 24.09.2026 03:16), страниц: 86
 
 СТРАНИЦА                               | TITLE (длина) | H1
 --------------------------------------------------------------------------------------------------------------------------------------------
@@ -67,6 +67,7 @@ converters/index.html                          | Конвертеры онлай
 converters/pdf-to-word/index.html              | Конвертер PDF в Word онлайн — DOCX с форматированием (52) | Конвертер PDF в Word
 converters/qr-generator/index.html             | Генератор QR-кода — PNG, JPG, SVG | CalcDoc (43) | Генератор QR-кода
 converters/seo-translit/index.html             | SEO-транслит: перевод текста в URL и домен | CalcDoc (52) | SEO транслит для URL и доменов
+converters/unit-converter/index.html           | Конвертер единиц измерения онлайн | CalcDoc (43) | Конвертер единиц измерения онлайн
 games/2048/index.html                          | 2048 онлайн — игра-головоломка: правила и тактика | CalcDoc (59) | 2048
 games/bubble/index.html                        | Пузыри (Bubble Shooter): играть онлайн бесплатно | CalcDoc (58) | Пузыри
 games/index.html                               | Мини-игры онлайн — перерыв с пользой | CalcDoc (46) | 🎮 Мини-игры
@@ -125,6 +126,7 @@ search.html                                    | Поиск по сайту — 
   converters/index.html → Конвертеры онлайн бесплатно | CalcDoc
   converters/pdf-to-word/index.html → Конвертер PDF в Word онлайн — DOCX с форматированием
   converters/qr-generator/index.html → Генератор QR-кода — PNG, JPG, SVG | CalcDoc
+  converters/unit-converter/index.html → Конвертер единиц измерения онлайн | CalcDoc
   generators/auto/raspiska/index.html → Генератор расписки о получении денег — онлайн
   generators/contract/index.html → Генератор договора — шаблоны с выгрузкой в PDF | CalcDoc
   generators/index.html → Шаблоны документов онлайн: бесплатные бланки и конструктор | CalcDoc

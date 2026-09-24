@@ -8,19 +8,19 @@
   <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Автомобильные документы: генераторы онлайн | CalcDoc</title>
-  <meta name="description" content="Автомобильные генераторы документов: расписка при купле-продаже машины, аванс, залог и часть суммы. Готовый текст за минуту, скачать или распечатать." />
-  <link rel="canonical" href="https://calc-doc.ru/generators/auto/" />
+  <title>Конвертер единиц измерения онлайн | CalcDoc</title>
+  <meta name="description" content="Конвертер единиц измерения онлайн: длина, масса, температура, площадь, объём, скорость и время. Пересчёт мгновенно, в браузере, без регистрации." />
+  <link rel="canonical" href="https://calc-doc.ru/converters/unit-converter/" />
   <meta name="robots" content="index, follow" />
-  <meta property="og:title" content="Автомобильные генераторы документов — расписка, ДКП" />
-  <meta property="og:description" content="Автомобильные генераторы документов: расписка при купле-продаже машины, аванс, залог и часть суммы. Готовый текст за минуту, скачать или распечатать." />
+  <meta property="og:title" content="Конвертер единиц измерения — CalcDoc" />
+  <meta property="og:description" content="Переведите длину, массу, температуру, площадь, объём, скорость и время — расчёт в браузере." />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="CalcDoc" />
   <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="CalcDoc — онлайн-калькуляторы, документы и конвертеры" />
-  <meta property="og:url" content="https://calc-doc.ru/generators/auto/" />
+  <meta property="og:url" content="https://calc-doc.ru/converters/unit-converter/" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="manifest" href="/manifest.webmanifest" />
     <style>
@@ -40,10 +40,38 @@
     <link rel="stylesheet" href="/bundle.css?v=57" />
   <meta name="theme-color" content="#6d5dfc" />
   <script type="application/ld+json">
-  { "@context":"https://schema.org", "@type":"CollectionPage", "name":"Автомобильные генераторы документов", "url":"https://calc-doc.ru/generators/auto/", "description":"Генераторы документов для сделок с автомобилем: расписка о получении денег, аванс, залог, часть суммы." }
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Конвертер единиц измерения",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+  }
   </script>
   <script type="application/ld+json">
-  { "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[ { "@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/" }, { "@type":"ListItem","position":2,"name":"Генераторы","item":"https://calc-doc.ru/generators/" }, { "@type":"ListItem","position":3,"name":"Автомобильные","item":"https://calc-doc.ru/generators/auto/" } ] }
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://calc-doc.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Конвертеры", "item": "https://calc-doc.ru/converters/" },
+      { "@type": "ListItem", "position": 3, "name": "Единицы измерения", "item": "https://calc-doc.ru/converters/unit-converter/" }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Как перевести единицы измерения онлайн?", "acceptedAnswer": { "@type": "Answer", "text": "Выберите величину (длина, масса, температура, площадь, объём, скорость, время), укажите исходную единицу и ту, в которую переводите, затем введите число. Результат появится сразу: пересчёт идёт в браузере, без регистрации и отправки данных на сервер." } },
+      { "@type": "Question", "name": "Чем отличается пересчёт температуры?", "acceptedAnswer": { "@type": "Answer", "text": "Для температуры нельзя использовать один множитель: у шкал разные точки отсчёта. Поэтому градусы Цельсия, Фаренгейта и кельвины считаются по формулам: 0 °C = 32 °F = 273,15 K." } },
+      { "@type": "Question", "name": "Сколько знаков после запятой показывает результат?", "acceptedAnswer": { "@type": "Answer", "text": "До шести значащих цифр. Этого достаточно для бытовых и инженерных расчётов; очень маленькие и очень большие значения выводятся в экспоненциальном виде." } },
+      { "@type": "Question", "name": "Данные передаются на сервер?", "acceptedAnswer": { "@type": "Answer", "text": "Нет. Пересчёт выполняет браузер: введённые числа никуда не отправляются и не сохраняются." } }
+    ]
+  }
   </script>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
@@ -60,7 +88,7 @@
   <!-- /Yandex.Metrika counter -->
 </head>
 <body>
-  <header class="site-header app-header">
+    <header class="site-header app-header">
     <div class="container header-inner">
       <a class="logo" href="/" aria-label="CalcDoc — на главную">
         <span class="logo-mark" aria-hidden="true">
@@ -136,68 +164,127 @@
 
   <main>
     <div class="container tool-hero">
-      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/generators/">Генераторы</a> / Автомобильные</nav>
-      <h1>Автомобильные документы онлайн</h1>
-      <p class="tool-meta">Автомобильные генераторы документов для сделок с машиной: аванс, задаток, залог и часть суммы. Текст собирается прямо в браузере — данные никуда не отправляются.</p>
-      <p class="calc-note">Документы носят справочный характер и не заменяют консультацию юриста.</p>
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/converters/">Конвертеры</a> / Единицы измерения</nav>
+      <h1>Конвертер единиц измерения онлайн</h1>
+      <p class="tool-meta">Выберите величину и единицы — пересчёт идёт сразу, в браузере. Числа никуда не отправляются.</p>
     </div>
 
     <!--SLOT:banner-top-->
     <!--/SLOT:banner-top-->
     <!--SLOT:ads-top-->
     <!--/SLOT:ads-top-->
-    <div class="container section">
-      <h2 class="section-title">Инструменты раздела</h2>
-      <div class="grid">
-        <a class="card" href="/generators/auto/raspiska/"><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path class="ci-a" d="M6 3.5h9.4L20 8v12.5H6z"/><path class="ci-b" d="M15.4 3.5V8H20"/><path class="ci-b" d="M9 12h6.5M9 15h4.5"/><circle class="ci-fa" cx="16.2" cy="17" r="2.5"/><path class="ci-b" d="M16.2 15.6v1.5l1 .8"/></svg></span><h3>Расписка о получении денег</h3><p>аванс за авто, залог, часть суммы — готовый текст за минуту</p></a>
+        <div class="container section no-print">
+      <div class="form-card">
+        <form id="unitsForm">
+          <div class="field">
+            <label for="unitGroup">Что переводим</label>
+            <select id="unitGroup">
+              <option value="length">Длина</option>
+              <option value="mass">Масса</option>
+              <option value="temp">Температура</option>
+              <option value="area">Площадь</option>
+              <option value="volume">Объём</option>
+              <option value="speed">Скорость</option>
+              <option value="time">Время</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="unitValue">Значение</label>
+            <input type="text" id="unitValue" inputmode="decimal" value="1" />
+            <span class="hint">Можно с запятой или точкой: 2,5 или 2.5</span>
+          </div>
+          <div class="field">
+            <label for="unitFrom">Из</label>
+            <select id="unitFrom"></select>
+          </div>
+          <div class="field">
+            <label for="unitTo">В</label>
+            <select id="unitTo"></select>
+          </div>
+          <button data-metric-goal="расчёт" class="btn btn-primary" type="submit" style="width:100%">Перевести</button>
+          <p class="hint" id="unitsHint" style="margin:10px 0 0"></p>
+        </form>
       </div>
-      <!-- Место под будущие автомобильные генераторы (каждый — по чек-листу «Новый инструмент» в панели):
-           • договор купли-продажи автомобиля (ДКП) — основная бумага сделки;
-           • расписка о возврате залога/задатка, если сделка не состоялась;
-           • акт приёма-передачи автомобиля и ключей;
-           • расписка о получении документов (ПТС/СТС) на время.
-           Карточку добавляем только для готовой страницы: адрес из карточки не должен отдавать 404.
-           Связка с автомобильными калькуляторами: когда появятся /calculators/auto/ (транспортный налог,
-           ОСАГО и другие — по промту PROMPT-AUTO-CALCS.md), поставить взаимные ссылки «инструмент ↔ документ». -->
-      <p class="hint" style="margin-top:24px">Добавляются: договор купли-продажи (ДКП), расписка о возврате залога, акт приёма-передачи автомобиля.</p>
-    </div>
-    <div class="container section">
-      <!--SLOT:banner-after-tool-->
-      <!--/SLOT:banner-after-tool-->
-      <!--SLOT:ads-after-tool-->
-      <!--/SLOT:ads-after-tool-->
-      <div class="prose">
-        <span class="eyebrow">Автомобильные</span>
-        <h2>Автомобильные генераторы и документы</h2>
-      <ul>
-        <li><b>расписка о получении денег</b> — заём, аванс, задаток, часть суммы за машину;</li>
-        <li><b>расписка о документах</b> — что именно передано вместе с автомобилем: ПТС, СТС, ключи;</li>
-        <li><b>расписка о возврате долга</b> — подтверждение, что деньги вернули полностью;</li>
-        <li><b>договор купли-продажи (ДКП)</b> — основной документ сделки с машиной.</li>
-      </ul>
-      <p>Каждый автомобильный генератор работает по одному принципу: вы заполняете поля — данные сторон, сумму, дату и предмет сделки, — и документ собирается прямо в браузере. Данные никуда не отправляются: текст формируется на вашем устройстве, поэтому персональные данные сторон остаются у вас. Скачать документ можно файлом Word или через печать, а распечатанную расписку остаётся только подписать. Нотариальное удостоверение для расписки о деньгах не требуется — достаточно подписи и даты; ДКП принято составлять в трёх экземплярах: продавцу, покупателю и для ГИБДД. Если сделка идёт через аванс, сначала оформляют расписку об авансе, а после полного расчёта — расписку о получении остатка.</p>
-        <p>Сделка с машиной — это всегда несколько движений денег: аванс за понравившийся автомобиль, задаток, часть суммы до оформления, залог за ключи или переданные документы, возврат залога при отказе от сделки. Каждое такое движение лучше закрепить на бумаге: устные договорённости в суде почти ничего не весят.</p>
-        <p>Это требование не «для порядка», а норма закона. По ст. 159 ГК РФ сделки между гражданами на сумму свыше 10 000 ₽ должны совершаться в письменной форме, а заём между гражданами свыше 10 000 ₽ — обязательно письменно (ст. 808 ГК РФ). Перевод на карту подтверждает, что деньги пришли, но не подтверждает, что человек обязался их вернуть, — именно поэтому расписка важнее «истории операций».</p>
-        <p>Отдельно различайте аванс и задаток. Задаток оформляется письменно (ст. 380 ГК РФ) и работает как обеспечение сделки: передумал покупатель — задаток остаётся у продавца, передумал продавец — он возвращает его в двойном размере (ст. 381 ГК РФ). Аванс таких последствий не несёт: его возвращают независимо от того, кто отказался от сделки. Поэтому в документе лучше прямо написать, что именно передано.</p>
-        <p>Что фиксируют письменно при сделке с автомобилем: аванс или задаток за машину, залог за ключи и документы, часть суммы до подписания договора купли-продажи, возврат залога, если сделка не состоялась.</p>
-        <p>Расписку можно написать от руки, но печатный текст читать проще и ошибиться в нём труднее: сумма не «дорисовывается», данные не теряются. Заполните поля в инструменте — сумма пропишется словами, паспортные данные встанут на свои места, останется распечатать документ и попросить получателя подписать. Надёжный вариант — печатный текст плюс короткая фраза от руки: «Сумму получил полностью» и подпись.</p>
-        <p>Документы формируются прямо в браузере и не отправляются на сервер. Шаблоны носят справочный характер и не заменяют консультацию юриста.</p>
-        <div class="seo-links">
-          <a href="/generators/">Все генераторы документов</a>
-          <a href="/generators/auto/raspiska/">Расписка о получении денег</a>
-          <a href="/calculators/finance/penalty/">Калькулятор пени и неустойки</a>
+      <div class="form-card" style="margin-top:20px">
+        <h3>Результат</h3>
+        <div id="unitsOut" class="result-box" style="margin-top:0">
+          <p style="margin:0;color:var(--text-muted)">Введите значение — результат появится сразу.</p>
         </div>
       </div>
     </div>
+
+<div class="container section">
+    <!--SLOT:banner-after-tool-->
+    <!--/SLOT:banner-after-tool-->
+    <!--SLOT:ads-after-tool-->
+    <!--/SLOT:ads-after-tool-->
+            <div class="prose">
+        <span class="eyebrow">Единицы измерения</span>
+        <h2>Конвертер единиц измерения онлайн</h2>
+        <p class="tool-meta">Обновлено: 24 сентября 2026</p>
+        <p>Инструмент переводит <strong>длину, массу, температуру, площадь, объём, скорость и время</strong>: выберите величину, укажите единицы «из» и «в», введите число — результат появится сразу. Считает браузер, числа никуда не отправляются.</p>
+        <p>Помогает, когда нужно быстро сверить метры и футы, килограммы и фунты, литры и галлоны или пересчитать градусы Цельсия в Фаренгейт — без таблиц и поиска формул.</p>
+
+        <span class="eyebrow">Инструкция</span>
+        <h2>Как перевести единицы измерения</h2>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span><strong>Выберите величину</strong> — длина, масса, температура, площадь, объём, скорость или время</span></div>
+          <div class="seo-step"><b>2</b><span><strong>Укажите единицы</strong> — список «из» и «в» меняется под выбранную величину</span></div>
+          <div class="seo-step"><b>3</b><span><strong>Введите число</strong> — пересчёт идёт сразу, без кнопки «посчитать»</span></div>
+        </div>
+
+        <span class="eyebrow">Что поддерживается</span>
+        <h2>Список единиц измерения</h2>
+        <ul>
+          <li><strong>Длина:</strong> миллиметры, сантиметры, метры, километры, дюймы, футы, ярды, мили.</li>
+          <li><strong>Масса:</strong> миллиграммы, граммы, килограммы, тонны, унции, фунты.</li>
+          <li><strong>Температура:</strong> градусы Цельсия, Фаренгейта и кельвины — по формулам, а не по коэффициентам.</li>
+          <li><strong>Площадь:</strong> см², м², сотки, гектары, км², фут².</li>
+          <li><strong>Объём:</strong> миллилитры, литры, кубометры, галлоны, фут³.</li>
+          <li><strong>Скорость:</strong> метры в секунду, километры в час, мили в час, узлы.</li>
+          <li><strong>Время:</strong> секунды, минуты, часы, сутки, недели.</li>
+        </ul>
+
+        <span class="eyebrow">Точность</span>
+        <h2>Насколько точен пересчёт</h2>
+        <p>Коэффициенты взяты по международным определениям единиц: дюйм — ровно 25,4 мм, фунт — 0,45359237 кг, галлон — 3,785411784 л, узел — 1,852 км/ч. Результат выводится с шестью значащими цифрами — этого хватает и для бытовых задач, и для инженерных прикидок.</p>
+        <p>Для расчётов посложнее — объём системы отопления, расход топлива, мощность котла — на сайте есть отдельные калькуляторы в разделе «Калькуляторы».</p>
+
+    <!--SLOT:banner-mid-->
+    <!--/SLOT:banner-mid-->
+    <!--SLOT:ads-mid-->
+    <!--/SLOT:ads-mid-->
+        <span class="eyebrow">Вопросы и ответы</span>
+        <h2>Частые вопросы о переводе единиц</h2>
+
+        <details class="seo-faq">
+          <summary>Как перевести единицы измерения онлайн?</summary>
+          <div class="seo-faq-b"><p>Выберите величину (длина, масса, температура, площадь, объём, скорость, время), укажите единицы «из» и «в», затем введите число. Результат появится сразу: пересчёт идёт в браузере, без регистрации и отправки данных на сервер.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Чем отличается пересчёт температуры?</summary>
+          <div class="seo-faq-b"><p>Для температуры нельзя использовать один множитель: у шкал разные точки отсчёта. Поэтому °C, °F и кельвины считаются по формулам — 0 °C = 32 °F = 273,15 K.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Сколько знаков после запятой показывает результат?</summary>
+          <div class="seo-faq-b"><p>До шести значащих цифр: этого достаточно для бытовых и инженерных расчётов. Очень маленькие и очень большие значения выводятся в экспоненциальном виде.</p></div>
+        </details>
+
+        <details class="seo-faq">
+          <summary>Данные передаются на сервер?</summary>
+          <div class="seo-faq-b"><p>Нет. Пересчёт выполняет браузер: введённые числа никуда не отправляются и не сохраняются.</p></div>
+        </details>
     <!--SLOT:banner-footer-->
     <!--/SLOT:banner-footer-->
-    <!--SLOT:reviews-->
-    <!--/SLOT:reviews-->
-      <section class="reviews" id="reviews-form" data-page="/generators/auto/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/converters/unit-converter/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
         <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
         <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
         <form method="post" action="/api/reviews.php" data-reviews-form>
-          <input type="hidden" name="page" value="/generators/auto/" />
+          <input type="hidden" name="page" value="/converters/unit-converter/" />
           <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
             <label for="reviews-website">Не заполняйте это поле</label>
             <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
@@ -222,7 +309,7 @@
         </form>
       </section>
       <script src="/js/reviews.js?v=42" defer></script>
-    <!--SLOT:ads-before-footer-->
+<!--SLOT:ads-before-footer-->
     <!--/SLOT:ads-before-footer-->
   </main>
 
@@ -245,12 +332,9 @@
   </footer>
 
   <script defer src="/js/ui-bundle.js?v=49"></script>
+  <script type="module" src="/js/unit-converter.js?v=1"></script>
 </body>
 </html>
-
-
-
-
 
 
 
