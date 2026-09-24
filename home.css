@@ -178,7 +178,7 @@
   /* Футер */
   .foot-in{padding:32px 0;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
   .foot-in .copy{color:var(--mut);font-size:13px;max-width:520px}
-  .foot-links{display:flex;gap:22px}
+  .foot-links{display:flex;flex-wrap:wrap;gap:10px 22px}
   .foot-links a{color:var(--mut);text-decoration:none;font-size:13.5px;font-weight:600}
   .foot-links a:hover{color:var(--txt)}
   /* Колонка «Полезные статьи» (фаза C2): те же .foot-links, но в столбик — без своих цветов. */

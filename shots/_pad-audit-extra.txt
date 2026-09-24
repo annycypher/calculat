@@ -1,0 +1,10 @@
+blog/index.html -> vw=360 норм=24 нарушителей=0 групп=0
+calculators/finance/mortgage/index.html -> vw=360 норм=24 нарушителей=0 групп=0
+calculators/auto/osago/index.html -> vw=360 норм=24 нарушителей=0 групп=0
+calculators/construction/wallpaper/index.html -> vw=360 норм=24 нарушителей=0 групп=0
+generators/invoice/index.html -> vw=360 норм=24 нарушителей=1 групп=1
+converters/qr-generator/index.html -> vw=360 норм=24 нарушителей=0 групп=0
+games/water/index.html -> vw=360 норм=24 нарушителей=0 групп=0
+search.html -> vw=360 норм=24 нарушителей=0 групп=0
+calculators/engineering/vulkan/index.html -> vw=360 норм=24 нарушителей=0 групп=0
+generators/contract/index.html -> vw=360 норм=24 нарушителей=0 групп=0

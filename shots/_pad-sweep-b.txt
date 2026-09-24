@@ -1,0 +1,8 @@
+generators/auto/raspiska/index.html -> vw=360 норм=24 нарушителей=0 групп=0
+generators/leave-request/index.html -> vw=360 норм=24 нарушителей=0 групп=0
+generators/power-of-attorney/index.html -> vw=360 норм=24 нарушителей=0 групп=0
+generators/report/index.html -> vw=360 норм=24 нарушителей=2 групп=2
+generators/resume/index.html -> vw=360 норм=24 нарушителей=0 групп=0
+converters/csv-to-xlsx/index.html -> vw=360 норм=24 нарушителей=0 групп=0
+converters/dadata/index.html -> vw=360 норм=24 нарушителей=0 групп=0
+converters/pdf-to-word/index.html -> vw=360 норм=24 нарушителей=0 групп=0

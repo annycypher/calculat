@@ -68,6 +68,7 @@ games/2048/index.html
 games/bubble/index.html
 games/index.html
 games/water/index.html
+generators/_template.html
 generators/auto/index.html
 generators/auto/raspiska/index.html
 generators/contract/index.html

@@ -50,7 +50,7 @@ function addItemRow(desc, qty, price) {
   desc = desc || ''; qty = qty || 1; price = price || 0;
   const div = document.createElement('div');
   div.className = 'item-row';
-  div.style.cssText = 'display:grid;grid-template-columns:1fr 60px 100px;gap:8px;margin-bottom:8px';
+  div.style.cssText = 'display:grid;grid-template-columns:minmax(0,1fr) 60px 100px;gap:8px;margin-bottom:8px';
   div.innerHTML = `
     <input class="i-desc" type="text" placeholder="Товар / услуга" value="${escAttr(desc)}" />
     <input class="i-qty" type="number" min="0" step="any" value="${qty}" />

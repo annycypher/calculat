@@ -1,0 +1,180 @@
+=== http://127.0.0.1:8099/index.html @360 ===
+  vw=360
+  --- main
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main.wrap l=0 r=360 w=360 pl=24px pr=24px ml=0px mr=0px
+  --- main > .container
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main.wrap l=0 r=360 w=360 pl=24px pr=24px ml=0px mr=0px
+      section.container.section l=24 r=336 w=312 pl=0px pr=0px ml=0px mr=0px
+  --- main .container.tool-hero : НЕТ
+  --- main .container.section
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main.wrap l=0 r=360 w=360 pl=24px pr=24px ml=0px mr=0px
+      section.container.section l=24 r=336 w=312 pl=0px pr=0px ml=0px mr=0px
+  --- main .prose
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main.wrap l=0 r=360 w=360 pl=24px pr=24px ml=0px mr=0px
+      section l=24 r=336 w=312 pl=0px pr=0px ml=0px mr=0px
+      div.prose.glass l=24 r=336 w=312 pl=24px pr=24px ml=0px mr=0px
+  --- main h1
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main.wrap l=0 r=360 w=360 pl=24px pr=24px ml=0px mr=0px
+      div.hero l=24 r=336 w=312 pl=0px pr=0px ml=0px mr=0px
+      div.hero-row l=24 r=336 w=312 pl=0px pr=0px ml=0px mr=0px
+      div.hero-copy.reveal l=24 r=336 w=312 pl=0px pr=0px ml=0px mr=0px
+      h1 l=24 r=336 w=312 pl=0px pr=0px ml=0px mr=0px
+  --- main h2.section-title
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main.wrap l=0 r=360 w=360 pl=24px pr=24px ml=0px mr=0px
+      section l=24 r=336 w=312 pl=0px pr=0px ml=0px mr=0px
+      h2.section-title l=24 r=336 w=312 pl=0px pr=0px ml=0px mr=0px
+  --- main p.tool-meta
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main.wrap l=0 r=360 w=360 pl=24px pr=24px ml=0px mr=0px
+      div.container.section l=24 r=336 w=312 pl=0px pr=0px ml=0px mr=0px
+      div.prose l=24 r=336 w=312 pl=24px pr=24px ml=0px mr=0px
+      p.tool-meta l=48 r=312 w=264 pl=0px pr=0px ml=0px mr=0px
+  --- main > section
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main.wrap l=0 r=360 w=360 pl=24px pr=24px ml=0px mr=0px
+      section l=24 r=336 w=312 pl=0px pr=0px ml=0px mr=0px
+  --- section.reviews
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main.wrap l=0 r=360 w=360 pl=24px pr=24px ml=0px mr=0px
+      section.reviews l=24 r=336 w=312 pl=18px pr=18px ml=0px mr=0px
+  --- div.chips
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main.wrap l=0 r=360 w=360 pl=24px pr=24px ml=0px mr=0px
+      section.container.section l=24 r=336 w=312 pl=0px pr=0px ml=0px mr=0px
+      div.popular-bar l=24 r=336 w=312 pl=0px pr=0px ml=0px mr=0px
+      div.chips l=24 r=336 w=312 pl=0px pr=0px ml=0px mr=0px
+  --- a.chip
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main.wrap l=0 r=360 w=360 pl=24px pr=24px ml=0px mr=0px
+      section.container.section l=24 r=336 w=312 pl=0px pr=0px ml=0px mr=0px
+      div.popular-bar l=24 r=336 w=312 pl=0px pr=0px ml=0px mr=0px
+      div.chips l=24 r=336 w=312 pl=0px pr=0px ml=0px mr=0px
+      a.chip l=24 r=197 w=173 pl=14px pr=14px ml=0px mr=0px
+  --- p.calc-note
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main.wrap l=0 r=360 w=360 pl=24px pr=24px ml=0px mr=0px
+      div.container.section l=24 r=336 w=312 pl=0px pr=0px ml=0px mr=0px
+      div.prose l=24 r=336 w=312 pl=24px pr=24px ml=0px mr=0px
+      p.calc-note l=48 r=312 w=264 pl=14px pr=14px ml=0px mr=0px
+  --- details.seo-faq
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main.wrap l=0 r=360 w=360 pl=24px pr=24px ml=0px mr=0px
+      div.container.section l=24 r=336 w=312 pl=0px pr=0px ml=0px mr=0px
+      div.prose l=24 r=336 w=312 pl=24px pr=24px ml=0px mr=0px
+      details.seo-faq l=48 r=312 w=264 pl=0px pr=0px ml=0px mr=0px
+  --- details.seo-faq > summary
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main.wrap l=0 r=360 w=360 pl=24px pr=24px ml=0px mr=0px
+      div.container.section l=24 r=336 w=312 pl=0px pr=0px ml=0px mr=0px
+      div.prose l=24 r=336 w=312 pl=24px pr=24px ml=0px mr=0px
+      details.seo-faq l=48 r=312 w=264 pl=0px pr=0px ml=0px mr=0px
+      summary l=49 r=311 w=262 pl=18px pr=18px ml=0px mr=0px
+  --- nav.breadcrumbs : НЕТ
+  --- table.seo-table
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main.wrap l=0 r=360 w=360 pl=24px pr=24px ml=0px mr=0px
+      div.container.section l=24 r=336 w=312 pl=0px pr=0px ml=0px mr=0px
+      div.prose l=24 r=336 w=312 pl=24px pr=24px ml=0px mr=0px
+      table.seo-table l=48 r=360 w=312 pl=0px pr=0px ml=0px mr=0px
+  --- footer .container : НЕТ
+  --- .foot-links
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main.wrap l=0 r=360 w=360 pl=24px pr=24px ml=0px mr=0px
+      footer l=24 r=336 w=312 pl=0px pr=0px ml=0px mr=0px
+      div.foot-in l=24 r=336 w=312 pl=0px pr=0px ml=0px mr=0px
+      div.foot-links l=24 r=336 w=312 pl=0px pr=0px ml=0px mr=0px
+=== http://127.0.0.1:8099/calculators/index.html @360 ===
+  vw=360
+  --- main
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+  --- main > .container
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      div.container.tool-hero l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+  --- main .container.tool-hero
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      div.container.tool-hero l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+  --- main .container.section
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      div.container.section l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+  --- main .prose
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      div.container.section l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      div.prose l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+  --- main h1
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      div.container.tool-hero l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      h1 l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+  --- main h2.section-title
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      div.container.section l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      h2.section-title l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+  --- main p.tool-meta
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      div.container.tool-hero l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      p.tool-meta l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+  --- main > section
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      section.reviews l=0 r=360 w=360 pl=18px pr=18px ml=0px mr=0px
+  --- section.reviews
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      section.reviews l=0 r=360 w=360 pl=18px pr=18px ml=0px mr=0px
+  --- div.chips
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      section.container.section l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      div.chips l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+  --- a.chip
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      section.container.section l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      div.chips l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      a.chip l=0 r=183 w=183 pl=14px pr=14px ml=0px mr=0px
+  --- p.calc-note
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      div.container.section l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      div.prose l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      p.calc-note l=0 r=360 w=360 pl=14px pr=14px ml=0px mr=0px
+  --- details.seo-faq
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      div.container.section l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      div.prose l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      details.seo-faq l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+  --- details.seo-faq > summary
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      div.container.section l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      div.prose l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      details.seo-faq l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      summary l=1 r=359 w=358 pl=18px pr=18px ml=0px mr=0px
+  --- nav.breadcrumbs
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      div.container.tool-hero l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      nav.breadcrumbs l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+  --- table.seo-table
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      main l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      div.container.section l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      div.prose l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      table.seo-table l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+  --- footer .container
+      body l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      footer.site-footer l=0 r=360 w=360 pl=0px pr=0px ml=0px mr=0px
+      div.container.footer-inner l=0 r=360 w=360 pl=20px pr=20px ml=0px mr=0px
+  --- .foot-links : НЕТ

@@ -1,0 +1,28 @@
+﻿=== http://127.0.0.1:8099/calculators/auto/ownership/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/construction/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/construction/brick/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/construction/laminate/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/construction/paint/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/construction/plaster/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/construction/tile/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/construction/wallpaper/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/engineering/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/engineering/gidrostrelka/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/engineering/otoplenie-obem/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/engineering/vulkan/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/finance/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/finance/alimony/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0

@@ -1,0 +1,108 @@
+=== http://127.0.0.1:8099/index.html @360 ===
+  vw=360 норм=24 нарушителей=8 групп=2
+  НАРУШЕНИЕ лево=301.6 право=5.1 x1  th  «Типовая задача»
+        [th pl=301.6 pr=5.1] th(pl=5px pr=5px w=102) < tr(pl=0px pr=0px w=312) < thead(pl=0px pr=0px w=312) < table.seo-table(pl=0px pr=0px w=312) < div.prose(pl=24px pr=24px w=312)
+  НАРУШЕНИЕ лево=262.5 право=5.1 x7  td  «Посчитать платёж, пособие, налог и»
+        [td pl=289.4 pr=5.1] td(pl=5px pr=5px w=102) < tr(pl=0px pr=0px w=312) < tbody(pl=0px pr=0px w=312) < table.seo-table(pl=0px pr=0px w=312) < div.prose(pl=24px pr=24px w=312)
+        [td pl=280 pr=5.1] td(pl=5px pr=5px w=102) < tr(pl=0px pr=0px w=312) < tbody(pl=0px pr=0px w=312) < table.seo-table(pl=0px pr=0px w=312) < div.prose(pl=24px pr=24px w=312)
+=== http://127.0.0.1:8099/calculators/index.html @360 ===
+  vw=360 норм=24 нарушителей=20 групп=3
+  НАРУШЕНИЕ лево=0 право=140.9 x1  h2.section-title  «Другие инструменты»
+        [h2.section-title pl=0 pr=140.9] h2.section-title(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=15 право=323 x18  span  «💼»
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=183) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=115) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=304.1 право=20.3 x1  a.chip  «Обои»
+        [a.chip pl=304.1 pr=20.3] a.chip(pl=14px pr=14px w=96) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+=== http://127.0.0.1:8099/calculators/finance/credit/index.html @360 ===
+  vw=360 норм=24 нарушителей=20 групп=3
+  НАРУШЕНИЕ лево=0 право=140.9 x1  h2.section-title  «Другие инструменты»
+        [h2.section-title pl=0 pr=140.9] h2.section-title(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=15 право=323 x18  span  «💼»
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=183) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=115) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=304.1 право=20.3 x1  a.chip  «Обои»
+        [a.chip pl=304.1 pr=20.3] a.chip(pl=14px pr=14px w=96) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+=== http://127.0.0.1:8099/blog/avto-osago-kbm/index.html @360 ===
+  vw=360 норм=24 нарушителей=20 групп=3
+  НАРУШЕНИЕ лево=0 право=140.9 x1  h2.section-title  «Другие инструменты»
+        [h2.section-title pl=0 pr=140.9] h2.section-title(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=15 право=323 x18  span  «💼»
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=183) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=115) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=304.1 право=20.3 x1  a.chip  «Обои»
+        [a.chip pl=304.1 pr=20.3] a.chip(pl=14px pr=14px w=96) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+=== http://127.0.0.1:8099/about/index.html @360 ===
+  vw=360 норм=24 нарушителей=20 групп=3
+  НАРУШЕНИЕ лево=0 право=140.9 x1  h2.section-title  «Другие инструменты»
+        [h2.section-title pl=0 pr=140.9] h2.section-title(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=15 право=323 x18  span  «💼»
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=183) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=115) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=304.1 право=20.3 x1  a.chip  «Обои»
+        [a.chip pl=304.1 pr=20.3] a.chip(pl=14px pr=14px w=96) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+=== http://127.0.0.1:8099/popular/index.html @360 ===
+  vw=360 норм=24 нарушителей=20 групп=3
+  НАРУШЕНИЕ лево=0 право=140.9 x1  h2.section-title  «Другие инструменты»
+        [h2.section-title pl=0 pr=140.9] h2.section-title(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=15 право=323 x18  span  «💼»
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=183) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=115) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=304.1 право=20.3 x1  a.chip  «Обои»
+        [a.chip pl=304.1 pr=20.3] a.chip(pl=14px pr=14px w=96) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+=== http://127.0.0.1:8099/contact/index.html @360 ===
+  vw=360 норм=24 нарушителей=20 групп=3
+  НАРУШЕНИЕ лево=0 право=140.9 x1  h2.section-title  «Другие инструменты»
+        [h2.section-title pl=0 pr=140.9] h2.section-title(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=15 право=323 x18  span  «💼»
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=183) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=115) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=304.1 право=20.3 x1  a.chip  «Обои»
+        [a.chip pl=304.1 pr=20.3] a.chip(pl=14px pr=14px w=96) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+=== http://127.0.0.1:8099/generators/index.html @360 ===
+  vw=360 норм=24 нарушителей=20 групп=3
+  НАРУШЕНИЕ лево=0 право=140.9 x1  h2.section-title  «Другие инструменты»
+        [h2.section-title pl=0 pr=140.9] h2.section-title(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=15 право=323 x18  span  «💼»
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=183) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=115) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=304.1 право=20.3 x1  a.chip  «Обои»
+        [a.chip pl=304.1 pr=20.3] a.chip(pl=14px pr=14px w=96) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+=== http://127.0.0.1:8099/reviews/index.html @360 ===
+  vw=360 норм=24 нарушителей=20 групп=3
+  НАРУШЕНИЕ лево=0 право=140.9 x1  h2.section-title  «Другие инструменты»
+        [h2.section-title pl=0 pr=140.9] h2.section-title(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=15 право=323 x18  span  «💼»
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=183) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=115) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=304.1 право=20.3 x1  a.chip  «Обои»
+        [a.chip pl=304.1 pr=20.3] a.chip(pl=14px pr=14px w=96) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+=== http://127.0.0.1:8099/privacy/index.html @360 ===
+  vw=360 норм=24 нарушителей=21 групп=4
+  НАРУШЕНИЕ лево=0 право=140.9 x1  h2.section-title  «Другие инструменты»
+        [h2.section-title pl=0 pr=140.9] h2.section-title(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=24 право=4.7 x1  h1  «Политика конфиденциальности»
+        [h1 pl=24 pr=4.7] h1(pl=0px pr=0px w=312) < div.container.tool-hero(pl=0px pr=0px w=312) < main(pl=24px pr=24px w=360)
+  НАРУШЕНИЕ лево=15 право=323 x18  span  «💼»
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=183) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=115) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=304.1 право=20.3 x1  a.chip  «Обои»
+        [a.chip pl=304.1 pr=20.3] a.chip(pl=14px pr=14px w=96) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+=== http://127.0.0.1:8099/converters/index.html @360 ===
+  vw=360 норм=24 нарушителей=20 групп=3
+  НАРУШЕНИЕ лево=0 право=140.9 x1  h2.section-title  «Другие инструменты»
+        [h2.section-title pl=0 pr=140.9] h2.section-title(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=15 право=323 x18  span  «💼»
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=183) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=115) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=304.1 право=20.3 x1  a.chip  «Обои»
+        [a.chip pl=304.1 pr=20.3] a.chip(pl=14px pr=14px w=96) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+=== http://127.0.0.1:8099/games/index.html @360 ===
+  vw=360 норм=24 нарушителей=20 групп=3
+  НАРУШЕНИЕ лево=0 право=140.9 x1  h2.section-title  «Другие инструменты»
+        [h2.section-title pl=0 pr=140.9] h2.section-title(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=15 право=323 x18  span  «💼»
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=183) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=115) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=304.1 право=20.3 x1  a.chip  «Обои»
+        [a.chip pl=304.1 pr=20.3] a.chip(pl=14px pr=14px w=96) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)

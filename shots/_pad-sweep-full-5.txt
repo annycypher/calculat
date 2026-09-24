@@ -1,0 +1,28 @@
+﻿=== http://127.0.0.1:8099/calculators/finance/vat/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/contact/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/converters/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/converters/csv-to-xlsx/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/converters/dadata/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/converters/image-converter/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/converters/pdf-to-word/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/converters/qr-generator/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/converters/seo-translit/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/games/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/games/2048/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/games/bubble/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/games/water/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/generators/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0

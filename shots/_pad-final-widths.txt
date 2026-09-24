@@ -1,0 +1,12 @@
+﻿=== http://127.0.0.1:8099/calculators/index.html @320 ===
+  vw=320 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/index.html @390 ===
+  vw=390 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/index.html @768 ===
+  vw=768 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/index.html @1280 ===
+  vw=1280 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/finance/dosrochnoe/index.html @320 ===
+  vw=320 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/finance/dosrochnoe/index.html @1280 ===
+  vw=1280 норм=24 нарушителей=0 групп=0

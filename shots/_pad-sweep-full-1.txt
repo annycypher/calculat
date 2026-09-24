@@ -1,0 +1,28 @@
+﻿=== http://127.0.0.1:8099/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/about/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/blog/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/blog/avto-osago-kbm/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/blog/avto-rashod-topliva/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/blog/avto-vladenie/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/blog/cirkulyacionnyy-nasos-podbor/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/blog/diametr-trub-otopleniya-raschet/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/blog/dosrochno-ili-na-vklad/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/blog/gibridnaya-strategiya-dosrochnogo/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/blog/gidrostrelka-raschet/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/blog/kak-oformit-dosrochnoe-pogashenie/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/blog/kak-sostavit-raspisku/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/blog/kombinirovannoe-dosrochnoe-pogashenie/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0

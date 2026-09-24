@@ -1,0 +1,26 @@
+=== http://127.0.0.1:8099/calculators/finance/dosrochnoe/index.html @360 ===
+  vw=360 норм=24 нарушителей=14 групп=5
+  НАРУШЕНИЕ лево=297.2 право=-88.4 x2  th  «Плати по-старому»
+        [th pl=297.2 pr=7.2] th(pl=10px pr=10px w=80) < tr(pl=0px pr=0px w=384) < tbody(pl=0px pr=0px w=384) < table.cmp(pl=0px pr=0px w=384) < div.res(pl=18px pr=18px w=250)
+        [th pl=372.8 pr=-88.4] th(pl=10px pr=10px w=96) < tr(pl=0px pr=0px w=384) < tbody(pl=0px pr=0px w=384) < table.cmp(pl=0px pr=0px w=384) < div.res(pl=18px pr=18px w=250)
+  НАРУШЕНИЕ лево=292.7 право=-88.4 x8  td  «16 г 10 м»
+        [td pl=295.9 pr=7.2] td(pl=10px pr=10px w=80) < tr(pl=0px pr=0px w=384) < tbody(pl=0px pr=0px w=384) < table.cmp(pl=0px pr=0px w=384) < div.res(pl=18px pr=18px w=250)
+        [td pl=399 pr=-88.4] td(pl=10px pr=10px w=96) < tr(pl=0px pr=0px w=384) < tbody(pl=0px pr=0px w=384) < table.cmp(pl=0px pr=0px w=384) < div.res(pl=18px pr=18px w=250)
+  НАРУШЕНИЕ лево=292.7 право=-88.4 x2  td.c  «1 507 129 ₽»
+        [td.c pl=292.7 pr=7.2] td.c(pl=10px pr=10px w=80) < tr(pl=0px pr=0px w=384) < tbody(pl=0px pr=0px w=384) < table.cmp(pl=0px pr=0px w=384) < div.res(pl=18px pr=18px w=250)
+        [td.c pl=388.4 pr=-88.4] td.c(pl=10px pr=10px w=96) < tr(pl=0px pr=0px w=384) < tbody(pl=0px pr=0px w=384) < table.cmp(pl=0px pr=0px w=384) < div.res(pl=18px pr=18px w=250)
+  НАРУШЕНИЕ лево=40 право=-47.8 x1  p  «Мы используем cookie и обезличенны»
+        [p pl=40 pr=-47.8] p(pl=0px pr=0px w=379) < div.container(pl=20px pr=20px w=419) < div.cookie-banner(pl=20px pr=20px w=459)
+  НАРУШЕНИЕ лево=166.5 право=-18.3 x1  a  «политикой конфиденциальности»
+        [a pl=166.5 pr=-18.3] a(pl=0px pr=0px w=212) < p(pl=0px pr=0px w=379) < div.container(pl=20px pr=20px w=419) < div.cookie-banner(pl=20px pr=20px w=459)
+=== http://127.0.0.1:8099/calculators/auto/ownership/index.html @360 ===
+  vw=360 норм=24 нарушителей=6 групп=2
+  НАРУШЕНИЕ лево=301.9 право=-7 x1  th  «Всего потрачено»
+        [th pl=301.9 pr=-7] th(pl=5px pr=5px w=75) < tr(pl=0px pr=0px w=303) < thead(pl=0px pr=0px w=303) < table.seo-table(pl=0px pr=0px w=303) < div(pl=0px pr=0px w=222)
+  НАРУШЕНИЕ лево=310.8 право=-7 x5  td  «381 767 ₽»
+        [td pl=310.8 pr=-7] td(pl=5px pr=5px w=75) < tr(pl=0px pr=0px w=303) < tbody(pl=0px pr=0px w=303) < table.seo-table(pl=0px pr=0px w=303) < div(pl=0px pr=0px w=222)
+        [td pl=310.8 pr=-7] td(pl=5px pr=5px w=75) < tr(pl=0px pr=0px w=303) < tbody(pl=0px pr=0px w=303) < table.seo-table(pl=0px pr=0px w=303) < div(pl=0px pr=0px w=222)
+=== http://127.0.0.1:8099/games/bubble/index.html @360 ===
+  vw=360 норм=24 нарушителей=1 групп=1
+  НАРУШЕНИЕ лево=338.2 право=-19.5 x1  small  «Рекорд»
+        [small pl=338.2 pr=-19.5] small(pl=0px pr=0px w=41) < div.chip.glass(pl=12px pr=12px w=89) < div.hud(pl=0px pr=0px w=316) < div.top(pl=0px pr=0px w=270) < div.game(pl=0px pr=0px w=270)

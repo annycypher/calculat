@@ -1,0 +1,28 @@
+﻿=== http://127.0.0.1:8099/blog/moshchnost-kotla-raschet/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/blog/nalogovy-vychet-i-dosrochnoe/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/blog/nalogovy-vychet-kvartira/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/blog/neustoyka-alimenty/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/blog/obem-sistemy-otopleniya-raschet/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/blog/otpusknye/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/blog/rasshiritelnyy-bak-podbor/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/blog/sokrashchenie-sroka-ili-platezh/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/blog/teploventilyator-vulkan/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/auto/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/auto/customs/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/auto/fuel/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/auto/osago/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0

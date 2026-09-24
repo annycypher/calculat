@@ -11,7 +11,7 @@ function addMetricRow(name, value) {
   name = name || ''; value = value || '';
   const div = document.createElement('div');
   div.className = 'metric-row';
-  div.style.cssText = 'display:grid;grid-template-columns:1fr 180px;gap:8px;margin-bottom:8px';
+  div.style.cssText = 'display:grid;grid-template-columns:minmax(0,1fr) 180px;gap:8px;margin-bottom:8px';
   div.innerHTML = `
     <input class="m-name" type="text" placeholder="Показатель" value="${escAttr(name)}" />
     <input class="m-val" type="text" placeholder="Значение" value="${escAttr(value)}" />

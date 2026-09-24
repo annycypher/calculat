@@ -1,0 +1,28 @@
+﻿=== http://127.0.0.1:8099/calculators/finance/average-earnings/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/finance/compound-interest/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/finance/credit/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/finance/deposit/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/finance/dosrochnoe/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/finance/ip-insurance/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/finance/maternity/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/finance/mortgage/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/finance/ndfl/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/finance/penalty/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/finance/salary-delay/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/finance/sick-leave/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/finance/tax-freelancer/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0
+=== http://127.0.0.1:8099/calculators/finance/vacation-pay/index.html @360 ===
+  vw=360 норм=24 нарушителей=0 групп=0

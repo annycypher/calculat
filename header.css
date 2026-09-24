@@ -253,10 +253,6 @@ header.app-header .search-none { padding: 10px 12px; color: var(--hmut); font-si
   header.app-header .main-nav .nav-extra .head-cta .icon-btn,
   header.app-header .main-nav .nav-extra .header-actions .icon-btn { display: grid; }
 }
-@media (max-width: 600px) {
-  header.app-header .head-cta .icon-btn,
-  header.app-header .header-actions .icon-btn { display: none; }
-}
 /* На широких экранах у меню есть запас (замер: 60–160 px), поэтому отделяем поиск
    от последнего пункта «О проекте» просветом. Ниже 1101 px просвет не ставим:
    там меню и поле идут впритык, и лишние 22 px увели бы контент в правый отступ. */
@@ -286,4 +282,36 @@ header.app-header [hidden] { display: none !important; }
   header.app-header .logo { gap: 8px; }
   header.app-header .logo-mark { width: 34px; height: 34px; }
   header.app-header .logo b { font-size: 16px; }
+}
+
+/* Единый боковой отступ страницы (решение владельца 24.09.2026) — 24 px, как у логотипа в шапке.
+   Было: отступ 24 px давала только главная своей инлайновой критикой (main.wrap), а внутренние
+   страницы имели <main> без класса wrap и .container вообще без боковых padding — на телефоне
+   крошки, заголовки, абзацы, списки, плашки и таблицы упирались в края экрана (0…18 px).
+   Стало: отступ-«жёлоб» 24 px у всех страниц. Плюс мелочи, которые вылезали за этот жёлоб:
+     — блок «Другие инструменты» вставляется скриптом прямо в <body> (вне <main>), поэтому
+       отступ ему даём отдельно через body > section / body > .container;
+     — у главной .prose без .glass сам имел 24 px внутри main.wrap (то есть 48 px от края) —
+       обнуляем, чтобы текст встал на общую линию 24 px и таблица .seo-table не уезжала за край;
+     — длинные слова в заголовках («Политика конфиденциальности») переносим, а не выпускаем
+       за экран (lang="ru" на страницах есть, переносы работают).
+   Правило только до 1168 px: на широком экране .container и так центрируется с отступом >24 px,
+   поэтому настольная вёрстка не меняется.
+   Отдельная беда — форма генератора: карточка .form-card как grid-элемент не могла сжаться
+   (min-width:auto = ширина полей по умолчанию), из-за чего трек растягивался до 415 px и страница
+   распирала вьюпорт (замер: /generators/invoice/ на 360 px давал scrollWidth=440 — и вместе с ним
+   растягивались fixed-элементы: шапка и баннер cookie уезжали за край). Лечим сжимаемостью:
+   min-width:0 у карточки/треков и у самих полей. */
+@media (max-width: 1168px) {
+  main:not(.wrap) { padding-left: 24px; padding-right: 24px; }
+  body > section { padding-left: 24px; padding-right: 24px; }
+  body > .container { padding-left: 24px; padding-right: 24px; }
+  footer .container { padding-left: 24px; padding-right: 24px; }
+  main.wrap .prose:not(.glass) { padding-left: 0; padding-right: 0; }
+  main h1, main h2 { overflow-wrap: break-word; hyphens: auto; }
+  .form-card, .tool-layout > *, .gen-grid > * { min-width: 0; }
+  .field input, .field select, .field textarea { min-width: 0; }
+  .item-row input, .item-row select { min-width: 0; }
+  table.seo-table, table.cmp { display: block; max-width: 100%; overflow-x: auto; }
+  .hud { flex-wrap: wrap; }
 }

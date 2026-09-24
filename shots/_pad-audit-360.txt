@@ -1,0 +1,478 @@
+=== http://127.0.0.1:8099/index.html @360 ===
+  vw=360 норм=24 нарушителей=8 групп=2
+  НАРУШЕНИЕ лево=301.6 право=5.1 x1  th  «Типовая задача»
+        [th pl=301.6 pr=5.1] th(pl=5px pr=5px w=102) < tr(pl=0px pr=0px w=312) < thead(pl=0px pr=0px w=312) < table.seo-table(pl=0px pr=0px w=312) < div.prose(pl=24px pr=24px w=312)
+  НАРУШЕНИЕ лево=262.5 право=5.1 x7  td  «Посчитать платёж, пособие, налог и»
+        [td pl=289.4 pr=5.1] td(pl=5px pr=5px w=102) < tr(pl=0px pr=0px w=312) < tbody(pl=0px pr=0px w=312) < table.seo-table(pl=0px pr=0px w=312) < div.prose(pl=24px pr=24px w=312)
+        [td pl=280 pr=5.1] td(pl=5px pr=5px w=102) < tr(pl=0px pr=0px w=312) < tbody(pl=0px pr=0px w=312) < table.seo-table(pl=0px pr=0px w=312) < div.prose(pl=24px pr=24px w=312)
+=== http://127.0.0.1:8099/calculators/index.html @360 ===
+  vw=360 норм=24 нарушителей=77 групп=17
+  НАРУШЕНИЕ лево=0 право=199 x7  a  «Главная»
+        [a pl=0 pr=309.2] a(pl=0px pr=0px w=51) < nav.breadcrumbs(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [a pl=15 pr=222.7] a(pl=14px pr=14px w=152) < div.seo-links(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=22 x1  h1  «Калькуляторы онлайн»
+        [h1 pl=0 pr=22] h1(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=20.9 x2  p.tool-meta  «21 бесплатный калькулятор для дене»
+        [p.tool-meta pl=0 pr=20.9] p.tool-meta(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [p.tool-meta pl=0 pr=155.1] p.tool-meta(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=140.9 x3  h2.section-title  «Категории»
+        [h2.section-title pl=0 pr=252.8] h2.section-title(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [h2.section-title pl=0 pr=231.5] h2.section-title(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=51.7 x1  p.hint  «Готовятся: УСН и ОСНО, ФОТ, точка »
+        [p.hint pl=0 pr=51.7] p.hint(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=2.5 x5  h2  «Калькуляторы онлайн: финансы, нало»
+        [h2 pl=0 pr=29.8] h2(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [h2 pl=0 pr=132.9] h2(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=0.1 x9  p  «В каталоге»
+        [p pl=0 pr=9.8] p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [p pl=0 pr=0.1] p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=40 право=2.2 x7  li  «Больничный, отпускные, декретные, »
+        [li pl=40 pr=3.8] li(pl=0px pr=0px w=320) < ul(pl=40px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [li pl=40 pr=16.5] li(pl=0px pr=0px w=320) < ul(pl=40px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=5 право=5 x2  th  «Раздел»
+        [th pl=5 pr=313.3] th(pl=5px pr=5px w=82) < tr(pl=0px pr=0px w=360) < thead(pl=0px pr=0px w=360) < table.seo-table(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+        [th pl=300.7 pr=5] th(pl=5px pr=5px w=180) < tr(pl=0px pr=0px w=360) < thead(pl=0px pr=0px w=360) < table.seo-table(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=5 право=5 x4  td  «Финансы и налоги»
+        [td pl=5 pr=290] td(pl=5px pr=5px w=82) < tr(pl=0px pr=0px w=360) < tbody(pl=0px pr=0px w=360) < table.seo-table(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+        [td pl=192.1 pr=5] td(pl=5px pr=5px w=180) < tr(pl=0px pr=0px w=360) < tbody(pl=0px pr=0px w=360) < table.seo-table(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=14 право=233.5 x5  span.eyebrow  «Каталог»
+        [span.eyebrow pl=14 pr=298.7] span.eyebrow(pl=14px pr=14px w=75) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [span.eyebrow pl=14 pr=294.4] span.eyebrow(pl=14px pr=14px w=80) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=15 право=163.3 x19  span  «Публикуется после проверки.»
+        [span pl=19 pr=163.3] span(pl=0px pr=0px w=178) < div(pl=0px pr=0px w=322) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=183) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=17 право=33.3 x1  p.calc-note  «Расчёты носят справочный характер:»
+        [p.calc-note pl=17 pr=33.3] p.calc-note(pl=14px pr=14px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=19 право=45 x6  summary  «Сколько калькуляторов на сайте и к»
+        [summary pl=19 pr=69.8] summary(pl=18px pr=18px w=358) < details.seo-faq(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [summary pl=19 pr=47.5] summary(pl=18px pr=18px w=358) < details.seo-faq(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=19 право=239.6 x3  label  «Ваше имя»
+        [label pl=19 pr=269.6] label(pl=0px pr=0px w=71) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+        [label pl=19 pr=239.6] label(pl=0px pr=0px w=101) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=304.1 право=20.3 x1  a.chip  «Обои»
+        [a.chip pl=304.1 pr=20.3] a.chip(pl=14px pr=14px w=96) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=21 право=188.9 x1  legend  «Оценка — по желанию»
+        [legend pl=21 pr=188.9] legend(pl=2px pr=2px w=154) < fieldset(pl=0px pr=0px w=322) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+=== http://127.0.0.1:8099/calculators/finance/credit/index.html @360 ===
+  vw=360 норм=24 нарушителей=132 групп=22
+  НАРУШЕНИЕ лево=0 право=162.1 x7  a  «Главная»
+        [a pl=0 pr=309.2] a(pl=0px pr=0px w=51) < nav.breadcrumbs(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [a pl=15 pr=183.7] a(pl=14px pr=14px w=191) < div.seo-links(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=170 x1  h1  «Кредитный калькулятор»
+        [h1 pl=0 pr=170] h1(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=13.3 x2  p.tool-meta  «Рассчитайте ежемесячный платёж и п»
+        [p.tool-meta pl=0 pr=13.3] p.tool-meta(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [p.tool-meta pl=0 pr=155.1] p.tool-meta(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=1.4 x9  h2  «Кредитный калькулятор: платёж, пер»
+        [h2 pl=0 pr=25.3] h2(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [h2 pl=0 pr=1.4] h2(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=1.6 x28  p  «Кредитный калькулятор считает»
+        [p pl=0 pr=4.1] p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [p pl=0 pr=3.5] p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=8.9 x17  strong  «ежемесячный платёж»
+        [strong pl=0 pr=8.9] strong(pl=0px pr=0px w=351) < p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [strong pl=144.8 pr=20.4] strong(pl=0px pr=0px w=195) < p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=47.8 x1  p.hint  «Аннуитетный платёж, ставка 21% год»
+        [p.hint pl=0 pr=47.8] p.hint(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=140.9 x1  h2.section-title  «Другие инструменты»
+        [h2.section-title pl=0 pr=140.9] h2.section-title(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=39 право=4.6 x4  li  «Максимальная нагрузка в первые мес»
+        [li pl=39 pr=22] li(pl=0px pr=0px w=300) < ul(pl=18px pr=0px w=318) < div.seo-opt(pl=20px pr=20px w=360) < div.seo-two(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+        [li pl=40 pr=7.5] li(pl=0px pr=0px w=320) < ul(pl=40px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=5 право=5 x2  th  «Срок»
+        [th pl=5 pr=324.5] th(pl=5px pr=5px w=107) < tr(pl=0px pr=0px w=360) < thead(pl=0px pr=0px w=360) < table.seo-table(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+        [th pl=289.6 pr=5] th(pl=5px pr=5px w=104) < tr(pl=0px pr=0px w=360) < thead(pl=0px pr=0px w=360) < table.seo-table(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=5 право=5 x8  td  «12 месяцев»
+        [td pl=5 pr=287.5] td(pl=5px pr=5px w=107) < tr(pl=0px pr=0px w=360) < tbody(pl=0px pr=0px w=360) < table.seo-table(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+        [td pl=305.8 pr=5] td(pl=5px pr=5px w=104) < tr(pl=0px pr=0px w=360) < tbody(pl=0px pr=0px w=360) < table.seo-table(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=14 право=205.9 x9  span.eyebrow  «Расчёт кредита»
+        [span.eyebrow pl=14 pr=253] span.eyebrow(pl=14px pr=14px w=121) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [span.eyebrow pl=14 pr=272.5] span.eyebrow(pl=14px pr=14px w=102) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=15 право=20.4 x22  span  «— сколько банк выдаёт по договору,»
+        [span pl=15 pr=74] span(pl=0px pr=0px w=330) < div.seo-step(pl=14px pr=14px w=360) < div.seo-steps(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360)
+        [span pl=15 pr=20.4] span(pl=0px pr=0px w=330) < div.seo-step(pl=14px pr=14px w=360) < div.seo-steps(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=285 право=16.6 x1  nav.breadcrumbs  «/ Кредит»
+        [nav.breadcrumbs pl=285 pr=16.6] nav.breadcrumbs(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=17 право=20.9 x2  p.calc-note  «Расчёты носят справочный характер.»
+        [p.calc-note pl=17 pr=103.8] p.calc-note(pl=14px pr=14px w=270) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [p.calc-note pl=17 pr=20.9] p.calc-note(pl=14px pr=14px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=19 право=20.5 x1  p.note  «платёж из калькулятора — ещё не вс»
+        [p.note pl=19 pr=20.5] p.note(pl=18px pr=18px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=19 право=41.7 x8  summary  «Как рассчитать платёж по кредиту с»
+        [summary pl=19 pr=69.4] summary(pl=18px pr=18px w=358) < details.seo-faq(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [summary pl=19 pr=48.1] summary(pl=18px pr=18px w=358) < details.seo-faq(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=19 право=239.6 x3  label  «Ваше имя»
+        [label pl=19 pr=269.6] label(pl=0px pr=0px w=71) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+        [label pl=19 pr=239.6] label(pl=0px pr=0px w=101) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=304.1 право=20.3 x1  a.chip  «Обои»
+        [a.chip pl=304.1 pr=20.3] a.chip(pl=14px pr=14px w=96) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=21 право=117.2 x2  h3  «Аннуитетный»
+        [h3 pl=21 pr=210.7] h3(pl=0px pr=0px w=318) < div.seo-opt(pl=20px pr=20px w=360) < div.seo-two(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360)
+        [h3 pl=21 pr=117.2] h3(pl=0px pr=0px w=318) < div.seo-opt(pl=20px pr=20px w=360) < div.seo-two(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=21 право=26.3 x2  span.accent  «— платёж одинаковый»
+        [span.accent pl=21 pr=119.8] span.accent(pl=0px pr=0px w=219) < h3(pl=0px pr=0px w=318) < div.seo-opt(pl=20px pr=20px w=360) < div.seo-two(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+        [span.accent pl=21 pr=26.3] span.accent(pl=0px pr=0px w=313) < h3(pl=0px pr=0px w=318) < div.seo-opt(pl=20px pr=20px w=360) < div.seo-two(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=21 право=188.9 x1  legend  «Оценка — по желанию»
+        [legend pl=21 pr=188.9] legend(pl=2px pr=2px w=154) < fieldset(pl=0px pr=0px w=322) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+=== http://127.0.0.1:8099/blog/avto-osago-kbm/index.html @360 ===
+  vw=360 норм=24 нарушителей=79 групп=16
+  НАРУШЕНИЕ лево=0 право=114.9 x8  a  «Главная»
+        [a pl=0 pr=309.2] a(pl=0px pr=0px w=51) < nav.breadcrumbs(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [a pl=0 pr=205.3] a(pl=0px pr=0px w=155) < p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=84.8 x1  h1  «КБМ в ОСАГО: как копить скидку за »
+        [h1 pl=0 pr=84.8] h1(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=155.1 x1  p.tool-meta  «Обновлено: 21 сентября 2026»
+        [p.tool-meta pl=0 pr=155.1] p.tool-meta(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=20 x24  span  «Поделиться:»
+        [span pl=0 pr=282] span(pl=0px pr=0px w=78) < div(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [span pl=15 pr=24.4] span(pl=0px pr=0px w=330) < div.seo-step(pl=14px pr=14px w=360) < div.seo-steps(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=0.8 x15  p  «КБМ — коэффициент бонус-малус, мно»
+        [p pl=0 pr=2.6] p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [p pl=0 pr=3.9] p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=0.1 x9  h2  «Как работает КБМ»
+        [h2 pl=0 pr=146.7] h2(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [h2 pl=0 pr=17.9] h2(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=140.9 x1  h2.section-title  «Другие инструменты»
+        [h2.section-title pl=0 pr=140.9] h2.section-title(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=14 право=247.2 x2  span.eyebrow  «ОСАГО»
+        [span.eyebrow pl=14 pr=303.5] span.eyebrow(pl=14px pr=14px w=71) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [span.eyebrow pl=14 pr=247.2] span.eyebrow(pl=14px pr=14px w=127) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=15 право=208.9 x1  button.btn.btn-glass  «Скопировать ссылку»
+        [button.btn.btn-glass pl=15 pr=208.9] button.btn.btn-glass(pl=14px pr=14px w=166) < div(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=15 право=93.9 x4  strong  «Смена фамилии или замена прав.»
+        [strong pl=15 pr=119.2] strong(pl=0px pr=0px w=226) < span(pl=0px pr=0px w=330) < div.seo-step(pl=14px pr=14px w=360) < div.seo-steps(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+        [strong pl=15 pr=93.9] strong(pl=0px pr=0px w=251) < span(pl=0px pr=0px w=330) < div.seo-step(pl=14px pr=14px w=360) < div.seo-steps(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=40 право=15.8 x3  li  «— класс падает, коэффициент растёт»
+        [li pl=40 pr=22.4] li(pl=0px pr=0px w=320) < ul(pl=40px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [li pl=40 pr=17.3] li(pl=0px pr=0px w=320) < ul(pl=40px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=17 право=34 x1  p.calc-note  «Коэффициенты и правила ОСАГО регул»
+        [p.calc-note pl=17 pr=34] p.calc-note(pl=14px pr=14px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=19 право=61.5 x4  summary  «Что такое КБМ простыми словами?»
+        [summary pl=19 pr=61.5] summary(pl=18px pr=18px w=358) < details.seo-faq(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [summary pl=19 pr=167.3] summary(pl=18px pr=18px w=358) < details.seo-faq(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=19 право=239.6 x3  label  «Ваше имя»
+        [label pl=19 pr=269.6] label(pl=0px pr=0px w=71) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+        [label pl=19 pr=239.6] label(pl=0px pr=0px w=101) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=304.1 право=20.3 x1  a.chip  «Обои»
+        [a.chip pl=304.1 pr=20.3] a.chip(pl=14px pr=14px w=96) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=21 право=188.9 x1  legend  «Оценка — по желанию»
+        [legend pl=21 pr=188.9] legend(pl=2px pr=2px w=154) < fieldset(pl=0px pr=0px w=322) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+=== http://127.0.0.1:8099/about/index.html @360 ===
+  vw=360 норм=24 нарушителей=92 групп=17
+  НАРУШЕНИЕ лево=0 право=15.2 x8  a  «Главная»
+        [a pl=0 pr=309.2] a(pl=0px pr=0px w=51) < nav.breadcrumbs(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [a pl=0 pr=239.9] a(pl=0px pr=0px w=120) < p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=207.1 x1  h1  «О проекте»
+        [h1 pl=0 pr=207.1] h1(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=29.5 x2  p.tool-meta  «CalcDoc — это набор бесплатных онл»
+        [p.tool-meta pl=0 pr=29.5] p.tool-meta(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [p.tool-meta pl=0 pr=155.1] p.tool-meta(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=140.9 x2  h2.section-title  «Разделы сайта»
+        [h2.section-title pl=0 pr=209.5] h2.section-title(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [h2.section-title pl=0 pr=140.9] h2.section-title(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=6.6 x7  h2  «О проекте CalcDoc: калькуляторы и »
+        [h2 pl=0 pr=6.6] h2(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [h2 pl=0 pr=26.5] h2(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=1.6 x13  p  «CalcDoc — набор бесплатных инструм»
+        [p pl=0 pr=5.9] p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [p pl=0 pr=19.3] p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=13.8 x2  strong  «7 генераторов документов»
+        [strong pl=0 pr=13.8] strong(pl=0px pr=0px w=346) < p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [strong pl=0 pr=219.2] strong(pl=0px pr=0px w=141) < p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=40 право=0.6 x7  li  «Сайт можно добавить на рабочий сто»
+        [li pl=40 pr=0.6] li(pl=0px pr=0px w=320) < ul(pl=40px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [li pl=40 pr=7.5] li(pl=0px pr=0px w=320) < ul(pl=40px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=5 право=5 x2  th  «Кому»
+        [th pl=5 pr=323.3] th(pl=5px pr=5px w=147) < tr(pl=0px pr=0px w=360) < thead(pl=0px pr=0px w=360) < table.seo-table(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+        [th pl=259.6 pr=5] th(pl=5px pr=5px w=213) < tr(pl=0px pr=0px w=360) < thead(pl=0px pr=0px w=360) < table.seo-table(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=5 право=5 x10  td  «Бухгалтеру и кадровику»
+        [td pl=5 pr=279.7] td(pl=5px pr=5px w=147) < tr(pl=0px pr=0px w=360) < tbody(pl=0px pr=0px w=360) < table.seo-table(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+        [td pl=165.1 pr=5] td(pl=5px pr=5px w=213) < tr(pl=0px pr=0px w=360) < tbody(pl=0px pr=0px w=360) < table.seo-table(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=14 право=233.5 x7  span.eyebrow  «О проекте»
+        [span.eyebrow pl=14 pr=283.3] span.eyebrow(pl=14px pr=14px w=91) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [span.eyebrow pl=14 pr=264.6] span.eyebrow(pl=14px pr=14px w=109) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=15 право=163.3 x19  span  «Публикуется после проверки.»
+        [span pl=19 pr=163.3] span(pl=0px pr=0px w=178) < div(pl=0px pr=0px w=322) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=183) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=17 право=15.3 x1  p.calc-note  «Информация на сайте носит справочн»
+        [p.calc-note pl=17 pr=15.3] p.calc-note(pl=14px pr=14px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=19 право=54.6 x6  summary  «Сервис действительно бесплатный?»
+        [summary pl=19 pr=58.6] summary(pl=18px pr=18px w=358) < details.seo-faq(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [summary pl=19 pr=114.8] summary(pl=18px pr=18px w=358) < details.seo-faq(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=19 право=239.6 x3  label  «Ваше имя»
+        [label pl=19 pr=269.6] label(pl=0px pr=0px w=71) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+        [label pl=19 pr=239.6] label(pl=0px pr=0px w=101) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=304.1 право=20.3 x1  a.chip  «Обои»
+        [a.chip pl=304.1 pr=20.3] a.chip(pl=14px pr=14px w=96) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=21 право=188.9 x1  legend  «Оценка — по желанию»
+        [legend pl=21 pr=188.9] legend(pl=2px pr=2px w=154) < fieldset(pl=0px pr=0px w=322) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+=== http://127.0.0.1:8099/popular/index.html @360 ===
+  vw=360 норм=24 нарушителей=40 групп=10
+  НАРУШЕНИЕ лево=0 право=206.7 x4  a  «Главная»
+        [a pl=0 pr=309.2] a(pl=0px pr=0px w=51) < nav(pl=0px pr=0px w=360) < div.container(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [a pl=20 pr=250.1] a(pl=0px pr=0px w=90) < nav.footer-nav(pl=0px pr=0px w=320) < div.container.footer-inner(pl=20px pr=20px w=360) < footer.site-footer(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=28.2 x1  h1  «Популярное на сайте»
+        [h1 pl=0 pr=28.2] h1(pl=0px pr=0px w=360) < div.container(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=8.8 x4  p  «Популярное на CalcDoc — это то, чт»
+        [p pl=0 pr=11.6] p(pl=0px pr=0px w=360) < div.container(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [p pl=19 pr=20.6] p(pl=0px pr=0px w=322) < section(pl=18px pr=18px w=360) < div.container(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=149.7 x3  h2  «Инструменты недели»
+        [h2 pl=0 pr=149.7] h2(pl=0px pr=0px w=360) < div.container(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [h2 pl=0 pr=152] h2(pl=0px pr=0px w=360) < div.container(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=140.9 x1  h2.section-title  «Другие инструменты»
+        [h2.section-title pl=0 pr=140.9] h2.section-title(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=15 право=163.3 x19  span  «Публикуется после проверки.»
+        [span pl=19 pr=163.3] span(pl=0px pr=0px w=178) < div(pl=0px pr=0px w=322) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=183) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=19 право=239.6 x3  label  «Ваше имя»
+        [label pl=19 pr=269.6] label(pl=0px pr=0px w=71) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+        [label pl=19 pr=239.6] label(pl=0px pr=0px w=101) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=304.1 право=20.3 x1  a.chip  «Обои»
+        [a.chip pl=304.1 pr=20.3] a.chip(pl=14px pr=14px w=96) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=21 право=188.9 x1  legend  «Оценка — по желанию»
+        [legend pl=21 pr=188.9] legend(pl=2px pr=2px w=154) < fieldset(pl=0px pr=0px w=322) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=23 право=153.9 x3  a.btn.btn-glass  «Все калькуляторы»
+        [a.btn.btn-glass pl=23 pr=201.6] a.btn.btn-glass(pl=22px pr=22px w=181) < p(pl=0px pr=0px w=360) < div.container(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [a.btn.btn-glass pl=23 pr=153.9] a.btn.btn-glass(pl=22px pr=22px w=229) < p(pl=0px pr=0px w=360) < div.container(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+=== http://127.0.0.1:8099/contact/index.html @360 ===
+  vw=360 норм=24 нарушителей=46 групп=11
+  НАРУШЕНИЕ лево=0 право=151.8 x5  a  «Главная»
+        [a pl=0 pr=309.2] a(pl=0px pr=0px w=51) < nav.breadcrumbs(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [a pl=0 pr=151.8] a(pl=0px pr=0px w=208) < p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=215.2 x1  h1  «Контакты»
+        [h1 pl=0 pr=215.2] h1(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=35.2 x1  p.tool-meta  «Проект ведёт небольшая команда энт»
+        [p.tool-meta pl=0 pr=35.2] p.tool-meta(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=153.4 x3  h2  «Написать нам»
+        [h2 pl=0 pr=197.3] h2(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [h2 pl=0 pr=153.4] h2(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=1.6 x6  p  «Контакты для любых вопросов: сообщ»
+        [p pl=0 pr=18.2] p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [p pl=0 pr=25.3] p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=140.9 x1  h2.section-title  «Другие инструменты»
+        [h2.section-title pl=0 pr=140.9] h2.section-title(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=40 право=10.5 x1  li  «сотрудничество и реклама — расскаж»
+        [li pl=40 pr=10.5] li(pl=0px pr=0px w=320) < ul(pl=40px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=15 право=163.3 x20  span  «Ответим на указанную почту.»
+        [span pl=19 pr=164.8] span(pl=0px pr=0px w=176) < div(pl=0px pr=0px w=322) < form(pl=18px pr=18px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360)
+        [span pl=19 pr=163.3] span(pl=0px pr=0px w=178) < div(pl=0px pr=0px w=322) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=19 право=27.3 x6  label  «Ваше имя»
+        [label pl=19 pr=269.6] label(pl=0px pr=0px w=71) < form(pl=18px pr=18px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [label pl=19 pr=27.3] label(pl=0px pr=0px w=314) < form(pl=18px pr=18px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=304.1 право=20.3 x1  a.chip  «Обои»
+        [a.chip pl=304.1 pr=20.3] a.chip(pl=14px pr=14px w=96) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=21 право=188.9 x1  legend  «Оценка — по желанию»
+        [legend pl=21 pr=188.9] legend(pl=2px pr=2px w=154) < fieldset(pl=0px pr=0px w=322) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+=== http://127.0.0.1:8099/generators/index.html @360 ===
+  vw=360 норм=24 нарушителей=83 групп=18
+  НАРУШЕНИЕ лево=0 право=185.4 x6  a  «Главная»
+        [a pl=0 pr=309.2] a(pl=0px pr=0px w=51) < nav.breadcrumbs(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [a pl=15 pr=185.4] a(pl=14px pr=14px w=190) < div.seo-links(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=177.9 x1  h1  «Генераторы документов»
+        [h1 pl=0 pr=177.9] h1(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=16.7 x2  p.tool-meta  «Готовые документы по форме: заполн»
+        [p.tool-meta pl=0 pr=16.7] p.tool-meta(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [p.tool-meta pl=0 pr=155.1] p.tool-meta(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=140.9 x3  h2.section-title  «Разделы»
+        [h2.section-title pl=0 pr=271] h2.section-title(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [h2.section-title pl=0 pr=217.6] h2.section-title(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=14.3 x5  h2  «Генераторы документов: договор, сч»
+        [h2 pl=0 pr=14.3] h2(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [h2 pl=0 pr=116.4] h2(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=5.1 x9  p  «Шесть генераторов собирают готовые»
+        [p pl=0 pr=10.3] p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [p pl=0 pr=5.1] p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=18.9 x1  strong  «договор оказания услуг, счёт на оп»
+        [strong pl=0 pr=18.9] strong(pl=0px pr=0px w=341) < p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=8.1 x1  p.hint  «PDF удобно отправлять: вёрстка и ш»
+        [p.hint pl=0 pr=8.1] p.hint(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=40 право=4.3 x5  li  «ИНН, КПП, БИК и номер расчётного с»
+        [li pl=40 pr=8.8] li(pl=0px pr=0px w=320) < ul(pl=40px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [li pl=40 pr=4.6] li(pl=0px pr=0px w=320) < ul(pl=40px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=5 право=5 x2  th  «Документ»
+        [th pl=5 pr=294.5] th(pl=5px pr=5px w=103) < tr(pl=0px pr=0px w=360) < thead(pl=0px pr=0px w=360) < table.seo-table(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+        [th pl=297.3 pr=5] th(pl=5px pr=5px w=127) < tr(pl=0px pr=0px w=360) < thead(pl=0px pr=0px w=360) < table.seo-table(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=5 право=5 x12  td  «Договор оказания услуг»
+        [td pl=5 pr=266.3] td(pl=5px pr=5px w=103) < tr(pl=0px pr=0px w=360) < tbody(pl=0px pr=0px w=360) < table.seo-table(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+        [td pl=266.6 pr=5] td(pl=5px pr=5px w=127) < tr(pl=0px pr=0px w=360) < tbody(pl=0px pr=0px w=360) < table.seo-table(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=14 право=233.5 x5  span.eyebrow  «Документы»
+        [span.eyebrow pl=14 pr=275.7] span.eyebrow(pl=14px pr=14px w=98) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [span.eyebrow pl=14 pr=262.5] span.eyebrow(pl=14px pr=14px w=111) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=15 право=163.3 x19  span  «Публикуется после проверки.»
+        [span pl=19 pr=163.3] span(pl=0px pr=0px w=178) < div(pl=0px pr=0px w=322) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=183) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=17 право=29.3 x1  p.calc-note  «Шаблоны носят справочный характер »
+        [p.calc-note pl=17 pr=29.3] p.calc-note(pl=14px pr=14px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=19 право=41.5 x6  summary  «Генераторы бесплатные, нужна ли ре»
+        [summary pl=19 pr=68.3] summary(pl=18px pr=18px w=358) < details.seo-faq(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [summary pl=19 pr=41.5] summary(pl=18px pr=18px w=358) < details.seo-faq(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=19 право=239.6 x3  label  «Ваше имя»
+        [label pl=19 pr=269.6] label(pl=0px pr=0px w=71) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+        [label pl=19 pr=239.6] label(pl=0px pr=0px w=101) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=304.1 право=20.3 x1  a.chip  «Обои»
+        [a.chip pl=304.1 pr=20.3] a.chip(pl=14px pr=14px w=96) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=21 право=188.9 x1  legend  «Оценка — по желанию»
+        [legend pl=21 pr=188.9] legend(pl=2px pr=2px w=154) < fieldset(pl=0px pr=0px w=322) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+=== http://127.0.0.1:8099/reviews/index.html @360 ===
+  vw=360 норм=24 нарушителей=54 групп=12
+  НАРУШЕНИЕ лево=0 право=14.8 x5  a  «Главная»
+        [a pl=0 pr=309.2] a(pl=0px pr=0px w=51) < nav.breadcrumbs(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [a pl=256.8 pr=14.8] a(pl=0px pr=0px w=88) < p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=88 x1  h1  «Отзывы о CalcDoc»
+        [h1 pl=0 pr=88] h1(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=15.2 x1  p.tool-meta  «Отзывы пока не оставлены — будете »
+        [p.tool-meta pl=0 pr=15.2] p.tool-meta(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=0.9 x10  p  «Отзывы на этой странице появляются»
+        [p pl=0 pr=26.8] p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [p pl=0 pr=6.2] p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=18.8 x4  h2  «Как оставить отзыв»
+        [h2 pl=0 pr=131.3] h2(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [h2 pl=0 pr=18.8] h2(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=15.6 x6  h3  «Кто и когда проверяет присланное?»
+        [h3 pl=0 pr=31.3] h3(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [h3 pl=0 pr=15.6] h3(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=140.9 x1  h2.section-title  «Другие инструменты»
+        [h2.section-title pl=0 pr=140.9] h2.section-title(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=40 право=11.8 x2  li  «Пролистайте до блока «Отзывы» и за»
+        [li pl=40 pr=16.7] li(pl=0px pr=0px w=320) < ul(pl=40px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [li pl=40 pr=11.8] li(pl=0px pr=0px w=320) < ul(pl=40px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=15 право=163.3 x19  span  «Публикуется после проверки.»
+        [span pl=19 pr=163.3] span(pl=0px pr=0px w=178) < div(pl=0px pr=0px w=322) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=183) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=19 право=239.6 x3  label  «Ваше имя»
+        [label pl=19 pr=269.6] label(pl=0px pr=0px w=71) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+        [label pl=19 pr=239.6] label(pl=0px pr=0px w=101) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=304.1 право=20.3 x1  a.chip  «Обои»
+        [a.chip pl=304.1 pr=20.3] a.chip(pl=14px pr=14px w=96) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=21 право=188.9 x1  legend  «Оценка — по желанию»
+        [legend pl=21 pr=188.9] legend(pl=2px pr=2px w=154) < fieldset(pl=0px pr=0px w=322) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+=== http://127.0.0.1:8099/privacy/index.html @360 ===
+  vw=360 норм=24 нарушителей=69 групп=12
+  НАРУШЕНИЕ лево=0 право=14.5 x7  a  «Главная»
+        [a pl=0 pr=309.2] a(pl=0px pr=0px w=51) < nav.breadcrumbs(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [a pl=0 pr=156.5] a(pl=0px pr=0px w=204) < p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=28.7 x1  h1  «Политика конфиденциальности»
+        [h1 pl=0 pr=28.7] h1(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=52.1 x1  p.tool-meta  «Коротко: мы не собираем и не храни»
+        [p.tool-meta pl=0 pr=52.1] p.tool-meta(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=30.8 x11  h2  «Что делает CalcDoc»
+        [h2 pl=0 pr=134.8] h2(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [h2 pl=0 pr=141.2] h2(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=0.2 x14  p  «CalcDoc — набор онлайн-калькулятор»
+        [p pl=0 pr=46.4] p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [p pl=0 pr=1] p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=20.7 x8  strong  «непосредственно в вашем браузере»
+        [strong pl=0 pr=76.6] strong(pl=0px pr=0px w=283) < p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [strong pl=0 pr=35.3] strong(pl=0px pr=0px w=325) < p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=7.6 x2  code  «localStorage»
+        [code pl=0 pr=274.2] code(pl=0px pr=0px w=86) < p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [code pl=252.3 pr=7.6] code(pl=0px pr=0px w=100) < p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=140.9 x1  h2.section-title  «Другие инструменты»
+        [h2.section-title pl=0 pr=140.9] h2.section-title(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=40 право=5.9 x4  li  «Не запрашиваем регистрацию и аккау»
+        [li pl=40 pr=5.9] li(pl=0px pr=0px w=320) < ul(pl=40px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [li pl=40 pr=17.7] li(pl=0px pr=0px w=320) < ul(pl=40px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=15 право=323 x18  span  «💼»
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=183) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=115) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=19 право=24.7 x1  div.note  «🔒»
+        [div.note pl=19 pr=24.7] div.note(pl=18px pr=18px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=304.1 право=20.3 x1  a.chip  «Обои»
+        [a.chip pl=304.1 pr=20.3] a.chip(pl=14px pr=14px w=96) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+=== http://127.0.0.1:8099/converters/index.html @360 ===
+  vw=360 норм=24 нарушителей=80 групп=18
+  НАРУШЕНИЕ лево=0 право=201.6 x6  a  «Главная»
+        [a pl=0 pr=309.2] a(pl=0px pr=0px w=51) < nav.breadcrumbs(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [a pl=15 pr=272.5] a(pl=14px pr=14px w=103) < div.seo-links(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=174.2 x1  h1  «Конвертеры»
+        [h1 pl=0 pr=174.2] h1(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=6.1 x2  p.tool-meta  «Таблицы, документы, изображения, Q»
+        [p.tool-meta pl=0 pr=6.1] p.tool-meta(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [p.tool-meta pl=0 pr=155.1] p.tool-meta(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=140.9 x2  h2.section-title  «Инструменты»
+        [h2.section-title pl=0 pr=217.6] h2.section-title(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [h2.section-title pl=0 pr=140.9] h2.section-title(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=44.7 x5  h2  «Конвертеры онлайн: CSV в Excel, PD»
+        [h2 pl=0 pr=44.7] h2(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [h2 pl=0 pr=128.4] h2(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=0 x9  p  «Шесть конвертеров закрывают рутинн»
+        [p pl=0 pr=0] p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [p pl=0 pr=8] p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=26.2 x1  strong  «CSV в Excel, PDF в Word, сжатие из»
+        [strong pl=0 pr=26.2] strong(pl=0px pr=0px w=334) < p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=7.5 x1  p.hint  «Самые частые сценарии: выгрузку из»
+        [p.hint pl=0 pr=7.5] p.hint(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=40 право=2.5 x3  li  «CSV в Excel, сжатие изображений, Q»
+        [li pl=40 pr=2.5] li(pl=0px pr=0px w=320) < ul(pl=40px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [li pl=40 pr=18.3] li(pl=0px pr=0px w=320) < ul(pl=40px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=5 право=5 x2  th  «Инструмент»
+        [th pl=5 pr=281.4] th(pl=5px pr=5px w=103) < tr(pl=0px pr=0px w=360) < thead(pl=0px pr=0px w=360) < table.seo-table(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+        [th pl=297.3 pr=5] th(pl=5px pr=5px w=134) < tr(pl=0px pr=0px w=360) < thead(pl=0px pr=0px w=360) < table.seo-table(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=5 право=5 x12  td  «CSV в Excel»
+        [td pl=5 pr=289.5] td(pl=5px pr=5px w=103) < tr(pl=0px pr=0px w=360) < tbody(pl=0px pr=0px w=360) < table.seo-table(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+        [td pl=292.6 pr=5] td(pl=5px pr=5px w=134) < tr(pl=0px pr=0px w=360) < tbody(pl=0px pr=0px w=360) < table.seo-table(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=14 право=233.5 x5  span.eyebrow  «Конвертеры»
+        [span.eyebrow pl=14 pr=271.1] span.eyebrow(pl=14px pr=14px w=103) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [span.eyebrow pl=14 pr=262.5] span.eyebrow(pl=14px pr=14px w=111) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=15 право=163.3 x19  span  «Публикуется после проверки.»
+        [span pl=19 pr=163.3] span(pl=0px pr=0px w=178) < div(pl=0px pr=0px w=322) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=183) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=17 право=17 x1  p.calc-note  «Конвертация выполняется локально в»
+        [p.calc-note pl=17 pr=17] p.calc-note(pl=14px pr=14px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=19 право=53.7 x6  summary  «Конвертеры бесплатные и без регист»
+        [summary pl=19 pr=102.7] summary(pl=18px pr=18px w=358) < details.seo-faq(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [summary pl=19 pr=56.2] summary(pl=18px pr=18px w=358) < details.seo-faq(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=19 право=239.6 x3  label  «Ваше имя»
+        [label pl=19 pr=269.6] label(pl=0px pr=0px w=71) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+        [label pl=19 pr=239.6] label(pl=0px pr=0px w=101) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=304.1 право=20.3 x1  a.chip  «Обои»
+        [a.chip pl=304.1 pr=20.3] a.chip(pl=14px pr=14px w=96) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=21 право=188.9 x1  legend  «Оценка — по желанию»
+        [legend pl=21 pr=188.9] legend(pl=2px pr=2px w=154) < fieldset(pl=0px pr=0px w=322) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+=== http://127.0.0.1:8099/games/index.html @360 ===
+  vw=360 норм=24 нарушителей=77 групп=17
+  НАРУШЕНИЕ лево=0 право=206.7 x7  a  «Главная»
+        [a pl=0 pr=309.2] a(pl=0px pr=0px w=51) < nav.breadcrumbs(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [a pl=15 pr=252.9] a(pl=14px pr=14px w=122) < div.seo-links(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=131.8 x1  h1  «🎮 Мини-игры»
+        [h1 pl=0 pr=131.8] h1(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=52.8 x2  p.tool-meta  «Лёгкие игры-разминки, чтобы отдохн»
+        [p.tool-meta pl=0 pr=52.8] p.tool-meta(pl=0px pr=0px w=360) < div.container.tool-hero(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [p.tool-meta pl=0 pr=155.1] p.tool-meta(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=10.2 x6  h2  «Мини-игры онлайн: 2048, «Пузыри» и»
+        [h2 pl=0 pr=48.7] h2(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [h2 pl=0 pr=95] h2(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=1.6 x10  p  «Три игры для короткого перерыва:»
+        [p pl=0 pr=12.7] p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [p pl=0 pr=1.6] p(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=2.6 x1  p.hint  «Все три игры работают офлайн после»
+        [p.hint pl=0 pr=2.6] p.hint(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=0 право=140.9 x1  h2.section-title  «Другие инструменты»
+        [h2.section-title pl=0 pr=140.9] h2.section-title(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=40 право=3 x4  li  «Держите самую большую плитку в одн»
+        [li pl=40 pr=3.4] li(pl=0px pr=0px w=320) < ul(pl=40px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [li pl=40 pr=3] li(pl=0px pr=0px w=320) < ul(pl=40px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=5 право=5 x2  th  «Игра»
+        [th pl=5 pr=325.4] th(pl=5px pr=5px w=60) < tr(pl=0px pr=0px w=360) < thead(pl=0px pr=0px w=360) < table.seo-table(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+        [th pl=292.3 pr=5] th(pl=5px pr=5px w=116) < tr(pl=0px pr=0px w=360) < thead(pl=0px pr=0px w=360) < table.seo-table(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=5 право=5 x6  td  «2048»
+        [td pl=5 pr=327] td(pl=5px pr=5px w=60) < tr(pl=0px pr=0px w=360) < tbody(pl=0px pr=0px w=360) < table.seo-table(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+        [td pl=255.5 pr=5] td(pl=5px pr=5px w=116) < tr(pl=0px pr=0px w=360) < tbody(pl=0px pr=0px w=360) < table.seo-table(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=14 право=233.5 x6  span.eyebrow  «Мини-игры»
+        [span.eyebrow pl=14 pr=274.8] span.eyebrow(pl=14px pr=14px w=99) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [span.eyebrow pl=14 pr=313.2] span.eyebrow(pl=14px pr=14px w=61) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=15 право=163.3 x19  span  «Публикуется после проверки.»
+        [span pl=19 pr=163.3] span(pl=0px pr=0px w=178) < div(pl=0px pr=0px w=322) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+        [span pl=15 pr=323] span(pl=0px pr=0px w=22) < a.chip(pl=14px pr=14px w=183) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=17 право=29.5 x1  p.calc-note  «Игры работают в браузере и не отпр»
+        [p.calc-note pl=17 pr=29.5] p.calc-note(pl=14px pr=14px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=19 право=42 x6  summary  «Игры бесплатные и без регистрации?»
+        [summary pl=19 pr=46.1] summary(pl=18px pr=18px w=358) < details.seo-faq(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+        [summary pl=19 pr=83.8] summary(pl=18px pr=18px w=358) < details.seo-faq(pl=0px pr=0px w=360) < div.prose(pl=0px pr=0px w=360) < div.container.section(pl=0px pr=0px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=19 право=239.6 x3  label  «Ваше имя»
+        [label pl=19 pr=269.6] label(pl=0px pr=0px w=71) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+        [label pl=19 pr=239.6] label(pl=0px pr=0px w=101) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=304.1 право=20.3 x1  a.chip  «Обои»
+        [a.chip pl=304.1 pr=20.3] a.chip(pl=14px pr=14px w=96) < div.chips(pl=0px pr=0px w=360) < section.container.section(pl=0px pr=0px w=360)
+  НАРУШЕНИЕ лево=21 право=188.9 x1  legend  «Оценка — по желанию»
+        [legend pl=21 pr=188.9] legend(pl=2px pr=2px w=154) < fieldset(pl=0px pr=0px w=322) < form(pl=0px pr=0px w=322) < section.reviews(pl=18px pr=18px w=360) < main(pl=0px pr=0px w=360)
