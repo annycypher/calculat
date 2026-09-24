@@ -56,13 +56,28 @@ function fromBase(group, unit, base) {
   return base / UNITS[group].units[unit][1];
 }
 
-/** Красивый вывод: до 6 значащих цифр, без экспоненты для нормальных чисел. */
+/** Короткие обозначения для вывода: имя в родительном/множественном виде выглядело бы криво
+    («100 сантиметр»), а символы и сокращения читаются в любой форме. */
+const SHORT = {
+  mm: 'мм', cm: 'см', m: 'м', km: 'км', in: 'дюйм', ft: 'фут', yd: 'ярд', mi: 'миля',
+  mg: 'мг', g: 'г', kg: 'кг', t: 'т', oz: 'унция', lb: 'фунт',
+  cm2: 'см²', m2: 'м²', a: 'сотка', ha: 'га', km2: 'км²', ft2: 'фут²',
+  ml: 'мл', l: 'л', m3: 'м³', gal: 'галлон', ft3: 'фут³',
+  ms: 'м/с', kmh: 'км/ч', mph: 'миля/ч', kn: 'узел',
+  s: 'с', min: 'мин', h: 'ч', d: 'сутки', wk: 'нед',
+  c: '°C', f: '°F', k: 'K'
+};
+
+/** Красивый вывод: до 6 значащих цифр, тысячи — с пробелом, без экспоненты для нормальных чисел. */
 function fmt(x) {
   if (!isFinite(x)) { return '—'; }
   const a = Math.abs(x);
   if (a !== 0 && (a < 1e-6 || a >= 1e12)) { return x.toExponential(4).replace('.', ','); }
-  const s = Number(x.toPrecision(6));
-  return String(s).replace('.', ',');
+  let s = String(Number(x.toPrecision(6)));
+  let [int, frac] = s.split('.');
+  int = int.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  s = frac ? int + ',' + frac : int;
+  return s;
 }
 
 function init() {
@@ -87,8 +102,8 @@ function init() {
     const g = groupSel.value;
     const v = parseFloat(String(valInp.value).replace(',', '.'));
     if (!isFinite(v)) { out.textContent = 'Введите число.'; return; }
-    const from = fromSel.options[fromSel.selectedIndex].text;
-    const to = toSel.options[toSel.selectedIndex].text;
+    const from = SHORT[fromSel.value] || fromSel.value;
+    const to = SHORT[toSel.value] || toSel.value;
     const res = fromBase(g, toSel.value, toBase(g, fromSel.value, v));
     out.innerHTML = '<b>' + fmt(v) + ' ' + from + ' = ' + fmt(res) + ' ' + to + '</b>';
     const hint = document.getElementById('unitsHint');
