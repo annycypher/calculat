@@ -8,11 +8,11 @@
   <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CalcDoc — онлайн-калькуляторы, документы и конвертеры</title>
+  <title>CalcDoc — онлайн-калькуляторы, конвертеры и шаблоны документов бесплатно</title>
   <meta name="description" content="Бесплатные онлайн-инструменты: 29 калькуляторов по финансам, налогам, стройке и авто, генераторы документов и конвертеры файлов. Без регистрации." />
   <link rel="canonical" href="https://calc-doc.ru/" />
   <meta name="robots" content="index, follow" />
-  <meta property="og:title" content="CalcDoc — онлайн-калькуляторы и документы" />
+  <meta property="og:title" content="CalcDoc — онлайн-калькуляторы, конвертеры и шаблоны документов бесплатно" />
   <meta property="og:description" content="29 калькуляторов, 7 генераторов документов и 6 конвертеров — в браузере, без регистрации." />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="CalcDoc" />
@@ -613,6 +613,9 @@ header.app-header [hidden] { display: none !important; }
 /* Внутренние страницы: у шапки тёмное стекло и в светлой теме, поэтому акцентное «Doc»
    берём из светлой части палитры. Главную не трогаем: у неё шапка с id=header и своя пара цветов. */
 :root[data-theme="light"] header.app-header:not(#header) .logo b span { color: #d0c4ff !important; }
+
+    /* Первый абзац под H1: из него поисковики собирают описание страницы. */
+    .hero-lead{max-width:560px;margin:12px 0 0;font-size:15.5px;line-height:1.6;color:var(--mut,#9a92b0)}
 </style>
   <meta name="theme-color" content="#0b0913" />
   <script type="application/ld+json">
@@ -762,7 +765,8 @@ header.app-header [hidden] { display: none !important; }
 
       <div class="hero-copy reveal vis">
         <span class="eyebrow glass"><i></i>Бесплатно · Без регистрации</span>
-        <h1>CalcDoc — <em>калькуляторы и конвертеры онлайн</em></h1>
+        <h1>Онлайн-калькуляторы, конвертеры и <em>документы</em></h1>
+                <p class="hero-lead">CalcDoc — бесплатный набор онлайн-инструментов: калькуляторы для быстрых расчётов, конвертеры величин и файлов, шаблоны и конструктор документов. Всё работает в браузере без регистрации и установки. Выберите нужный раздел — калькуляторы для расчётов и конвертаций, документы для оформления бумаг.</p>
         <div class="hero-actions">
           <a class="btn btn-vio" href="#tools">
             Попробовать
@@ -931,6 +935,16 @@ header.app-header [hidden] { display: none !important; }
     <!-- СТАТИСТИКА: числа настоящие. «посещений в день» даёт /api/stats.php (см. api/stats.php,
          учёт визита — js/ui.js), «инструментов» — количество страниц-инструментов в sitemap.xml.
          Значения в разметке — запасные: они видны, только если счётчик недоступен. -->
+        <!-- РАЗДЕЛЫ САЙТА (шаг: усиление главной): три категории с описаниями -->
+    <section class="container section" id="sectionsBlock" style="padding:26px 0 0">
+      <h2 class="section-title">Три раздела: <span class="accent">посчитать, перевести, оформить</span></h2>
+      <div class="grid" style="margin-top:18px">
+        <a class="card" href="/calculators/"><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path class="ci-a" d="M5 4h14v16H5z"/><path class="ci-b" d="M8 8h8M8 12h3M8 16h3M14 12h3M14 16h3"/></svg></span><h3>Калькуляторы</h3><p>29 инструментов для расчётов: кредиты и налоги, отпускные и больничный, стройка, авто, инженерные системы.</p></a>
+        <a class="card" href="/converters/"><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path class="ci-a" d="M4 8h13l-3-3M20 16H7l3 3"/></svg></span><h3>Конвертеры</h3><p>Единицы измерения, файлы и таблицы: CSV в Excel, PDF в Word, сжатие картинок, QR-коды, транслит.</p></a>
+        <a class="card" href="/generators/"><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path class="ci-a" d="M6 3h8l4 4v14H6z"/><path class="ci-b" d="M9 12h6M9 16h6"/></svg></span><h3>Документы</h3><p>Шаблоны и конструктор документов: договор, счёт, расписка, заявление, доверенность, отчёт, резюме.</p></a>
+      </div>
+    </section>
+
     <div class="stats reveal" id="statsBlock">
       <div class="stat"><b>Все инструменты</b><span>в одном месте</span></div>
       <div class="stat cyan"><b><i id="stVisits">—</i></b><span id="stVisitsLabel">посещений в день</span></div>
@@ -1333,6 +1347,17 @@ header.app-header [hidden] { display: none !important; }
 
 
 
+    <!-- ТЕКСТ О СЕРВИСЕ (шаг: усиление главной): для страницы и для сниппета -->
+    <section class="container section" id="aboutService">
+      <div class="prose glass">
+        <h2 class="section-title">Что можно сделать на CalcDoc</h2>
+        <p>CalcDoc — набор онлайн-инструментов для бытовых и рабочих задач: посчитать, проверить, перевести, оформить. Каждый инструмент открывается в браузере и считает на вашем устройстве — без установки программ, учётных записей и отправки данных на сервер.</p>
+        <p>В разделе калькуляторов собраны расчёты, которые нужны регулярно: платёж по кредиту и ипотеке, досрочное погашение, доход по вкладу, НДФЛ и страховые взносы, отпускные и больничный, неустойка по алиментам. Отдельные группы — стройка и ремонт (обои, плитка, ламинат, краска, кирпич), автомобильные расчёты (расход топлива, ОСАГО, стоимость владения, таможенные платежи) и инженерные (объём системы отопления, гидрострелка, тепловентилятор). Под каждым калькулятором есть статья с формулой и примером — видно, откуда берётся результат.</p>
+        <p>Конвертеры закрывают перевод величин и работу с файлами: единицы измерения, CSV в Excel, PDF в Word, сжатие изображений, QR-коды, транслит. Документы — это шаблоны и конструктор: договор и счёт с QR, расписка о получении денег, заявление на отпуск, доверенность, отчёт, резюме. Заполняете форму — получаете готовый текст, который можно сохранить в PDF и распечатать.</p>
+        <p>Сервис подходит и для частных задач, и для работы: подсчитать выгоду вклада или кредита, проверить, хватит ли материала на ремонт, оформить документ для сделки. Всё бесплатно, работает на телефоне и компьютере, а страницы с расчётами открываются даже при слабом соединении.</p>
+      </div>
+    </section>
+
 <footer>
     <div class="foot-in">
       <a class="logo" href="/" aria-label="CalcDoc">
@@ -1360,7 +1385,7 @@ header.app-header [hidden] { display: none !important; }
     <!--/SLOT:banner-footer-->
           <!--SLOT:reviews-->
           <!--/SLOT:reviews-->
-      <section class="reviews" id="reviews-form" data-page="/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+          <section class="reviews" id="reviews-form" data-page="/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
         <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
         <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
         <form method="post" action="/api/reviews.php" data-reviews-form>
