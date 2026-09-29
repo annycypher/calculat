@@ -1,0 +1,44 @@
+﻿{
+    "headings":  [
+                     {
+                         "valueType":  "node",
+                         "key":  "node",
+                         "subItemsHeading":  {
+                                                 "key":  "extra"
+                                             },
+                         "label":  "Element"
+                     },
+                     {
+                         "subItemsHeading":  {
+                                                 "key":  "cause",
+                                                 "valueType":  "text"
+                                             },
+                         "key":  "score",
+                         "label":  "Layout shift score",
+                         "granularity":  0.001,
+                         "valueType":  "numeric"
+                     }
+                 ],
+    "type":  "table",
+    "items":  [
+                  {
+                      "score":  7.3467182531235237E-05,
+                      "node":  {
+                                   "path":  "1,HTML,1,BODY,0,HEADER,0,DIV,0,A,1,B,1,SPAN",
+                                   "nodeLabel":  "Doc",
+                                   "type":  "node",
+                                   "snippet":  "\u003cspan\u003e",
+                                   "selector":  "div.container \u003e a.logo \u003e b \u003e span",
+                                   "boundingRect":  {
+                                                        "top":  27,
+                                                        "height":  20,
+                                                        "left":  111,
+                                                        "width":  40,
+                                                        "bottom":  47,
+                                                        "right":  151
+                                                    },
+                                   "lhId":  "page-1-SPAN"
+                               }
+                  }
+              ]
+}

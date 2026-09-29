@@ -11,7 +11,7 @@
 // Версия: меняем строку VERSION при выпуске — старый кэш удаляется сам в activate.
 // 23.09.2026: исправлен порядок clone() в assetStrategy (кэш статики не заполнялся), версия поднята.
 
-const VERSION = 'calcdoc-2026-09-23-1';
+const VERSION = 'calcdoc-2026-09-27-5';
 const OFFLINE = '/offline.html';
 
 /* Оболочка: то, без чего сайт не открыть. Версии (?v=) не указываем — реальные запросы
@@ -24,8 +24,8 @@ const SHELL = [
   '/', OFFLINE, '/manifest.webmanifest', '/favicon.ico',
   '/icons/icon.svg', '/icons/icon-192.png', '/icons/icon-512.png',
   '/bundle.css', '/games.css', '/print.css', '/og-cover.png',
-  '/js/ui-bundle.js', '/js/home-bundle.js', '/js/popular-page.js',
-  '/js/search-index.js', '/js/search-results.js'
+  '/js/ui-bundle.min.js', '/js/home-bundle.min.js', '/js/popular-page.min.js',
+  '/js/search-index.js', '/js/search-results.min.js'
 ];
 
 /* Куда не лезем вообще: панель, api и служебные папки. */

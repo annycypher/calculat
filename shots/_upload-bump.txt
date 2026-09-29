@@ -65,6 +65,7 @@ converters/image-converter/index.html
 converters/pdf-to-word/index.html
 converters/qr-generator/index.html
 converters/seo-translit/index.html
+converters/unit-converter/index.html
 games/index.html
 games/2048/index.html
 games/bubble/index.html
@@ -79,6 +80,8 @@ generators/leave-request/index.html
 generators/power-of-attorney/index.html
 generators/report/index.html
 generators/resume/index.html
+glossary/annuitetnyy-platezh.html
+glossary/index.html
 popular/index.html
 privacy/index.html
 reviews/index.html

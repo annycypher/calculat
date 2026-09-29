@@ -1,0 +1,51 @@
+﻿{
+    "label":  "mortgage",
+    "url":  "https://calc-doc.ru/calculators/finance/mortgage/",
+    "score":  83,
+    "fcp_ms":  1133,
+    "lcp_ms":  1377,
+    "cls":  0.29636677961830571,
+    "tbt_ms":  160,
+    "layoutShifts":  [
+                         {
+                             "score":  0.29283110571081411,
+                             "selector":  "body \u003e div#cookieBanner",
+                             "boundingRect":  {
+                                                  "top":  624,
+                                                  "width":  412,
+                                                  "right":  412,
+                                                  "left":  0,
+                                                  "bottom":  823,
+                                                  "height":  199
+                                              },
+                             "nodeLabel":  "Мы используем cookie и обезличенные технологии для работы сайта (тема, настройк…",
+                             "snippet":  "\u003cdiv class=\"cookie-banner\" id=\"cookieBanner\" role=\"dialog\" aria-label=\"Уведомление о файлах cookie\"\u003e",
+                             "subItems":  [
+
+                                          ]
+                         },
+                         {
+                             "score":  0.003535673907491601,
+                             "selector":  "body \u003e header.site-header \u003e div.container \u003e nav#mainNav",
+                             "boundingRect":  {
+                                                  "left":  0,
+                                                  "right":  0,
+                                                  "top":  0,
+                                                  "bottom":  0,
+                                                  "height":  0,
+                                                  "width":  0
+                                              },
+                             "nodeLabel":  "\n        \n          Калькуляторы\n          \n          \n            Финансы и на…",
+                             "snippet":  "\u003cnav class=\"main-nav\" id=\"mainNav\" aria-label=\"Главное меню\"\u003e",
+                             "subItems":  [
+                                              {
+                                                  "cause":  "Web font loaded",
+                                                  "previousRect":  null,
+                                                  "currentRect":  null,
+                                                  "node_selector":  null,
+                                                  "score":  null
+                                              }
+                                          ]
+                         }
+                     ]
+}

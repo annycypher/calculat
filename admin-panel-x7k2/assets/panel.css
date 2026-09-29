@@ -200,3 +200,21 @@ input[type=file] { width:100%; padding:10px 12px; border-radius:var(--r-sm); col
   background:rgba(0,0,0,.32); color:#bfe9f7; font-family:ui-monospace, Consolas, monospace; font-size:12px;
   white-space:pre-wrap; word-break:break-all; }
 
+
+/* ─────────── выпадающие списки и системные элементы: тёмная тема (24.09.2026) ───────────
+   Жалоба владельца: текст в выпадающих списках сливается с фоном. Причина — у <option> не было
+   своего фона: браузер рисовал раскрытый список в светлой системной теме, а цвет текста
+   наследовался светлый (--txt) → светлое на светлом.
+   Что делаем: color-scheme:dark переводит системные элементы панели (раскрытый список, календарь
+   даты, галочки, полосы прокрутки) в тёмную тему; явные цвета option подстраховывают браузеры,
+   которые её не поддерживают, и делают закрытый список таким же, как раскрытый.
+   Важно: этот блок должен стоять в самом конце файла — правила ниже в файле его перебивали бы. */
+:root { color-scheme: dark; }
+
+select { background-color:#191527; }
+select option, select optgroup { background-color:#191527; color:var(--txt); }
+select option:checked, select option:hover { background-color:#2b2544; color:#fff; }
+select optgroup { font-weight:600; color:var(--mut); }
+select:disabled, select option:disabled { color:var(--mut); }
+input[type=date], input[type=time], input[type=datetime-local], input[type=color] { color-scheme: dark; }
+

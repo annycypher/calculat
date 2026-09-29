@@ -6,6 +6,7 @@
    результат. Также показывает подсказки по SEO и готовый HTML страницы.
 
    ?preview=1 — отдаёт собранную страницу без оболочки панели: именно её показывает рамка.
+   ?id=<id>   — предпросмотр сохранённого черновика (та же сборка, что при публикации, с плашкой).
 */
 
 declare(strict_types=1);
@@ -15,10 +16,24 @@ require __DIR__ . '/inc/auth.php';
 require __DIR__ . '/inc/ui.php';
 require __DIR__ . '/inc/media.php';
 require __DIR__ . '/inc/article-template.php';
+require __DIR__ . '/inc/articles.php';
 
 panel_session_start();
 ensure_guards();
 require_login();
+
+/* ── Предпросмотр сохранённого черновика: ?id=<id> — та же сборка, что при публикации ── */
+$previewId = isset($_GET['id']) ? trim((string)$_GET['id']) : '';
+if ($previewId !== '') {
+    $previewDraft = articles_find($previewId);
+    if (count($previewDraft) === 0) { fail('Такого черновика нет — возможно, его удалили.'); }
+    $previewResult = article_render((array)$previewDraft['fields']);
+    if (!$previewResult['ok']) { fail($previewResult['error']); }
+    header('Content-Type: text/html; charset=UTF-8');
+    header('X-Robots-Tag: noindex, nofollow');
+    echo article_preview_badge($previewResult['html']);
+    exit;
+}
 
 /** Поля статьи для показа: пример + то, что поменяли в форме. */
 function article_preview_fields(): array {

@@ -50,6 +50,9 @@ content/reminders.json
 content/seo.json
 content/secrets.json
 content/changes.json
+content/pgen-items.json
+content/pgen-parties.json
+content/pgen-clusters.json
 content/mail-unread.json
 cacert.pem
 
@@ -73,3 +76,21 @@ _backup/
 /popular.json
 backups/
 _archive/
+
+# SEO-модуль панели (content/seo): ключ сервисного аккаунта Google и база GSC
+# содержат приватный ключ и токены — серверные секреты, в git не попадают.
+# Саму папку и .htaccess-заглушку держим в репозитории.
+content/seo/*
+!content/seo/.htaccess
+
+# Ключ сервисного аккаунта Google, скачанный из консоли (лежит в корне сайта)
+/calc-doc-seo-*.json
+/client_secret*.json
+
+# Рабочий кэш Метрики и резервные копии данных панели
+content/metrika-cache.json
+content/*.bak-*
+
+# Отладочные выгрузки настроек сервера (могут содержать токены)
+shots/_server-secrets*.json
+

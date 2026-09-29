@@ -14,7 +14,8 @@ declare(strict_types=1);
 require __DIR__ . '/inc/config.php';
 require __DIR__ . '/inc/auth.php';
 require __DIR__ . '/inc/ui.php';
-require __DIR__ . '/inc/deploy.php';
+require_once __DIR__ . '/inc/deploy.php';
+require_once __DIR__ . '/inc/cache-lib.php';   // версии статики, версия приложения, кэши панели
 
 panel_session_start();
 ensure_guards();
@@ -75,9 +76,55 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         header('Location: ' . panel_url('publish.php'));
         exit;
     }
+
+    /* Кэш у посетителей: поднять версии статики во всех страницах и версию приложения. */
+    if ($action === 'cache_bump') {
+        $bump  = cache_bump_assets();
+        $sw    = cache_bump_sw();
+        $files = (array)$bump['files'];
+        if ($sw['ok']) { $files[] = 'service-worker.js'; }
+        $queued   = count($files) > 0 ? cache_register($files) : 0;
+        $problems = cache_verify($files);
+        log_action('cache', 'версии подняты: ' . implode(', ', array_slice($files, 0, 12)));
+        if ($bump['ok'] || $sw['ok']) {
+            flash('Версии обновлены: страниц ' . count((array)$bump['files']) . ' (замен ' . (int)$bump['count'] . '), '
+                . 'версия приложения — ' . ($sw['ok'] ? $sw['was'] . ' → ' . $sw['now'] : 'без изменений') . '. '
+                . 'Файлов в очереди заливки: ' . $queued . '. Дальше — кнопка «Опубликовать изменения» выше.'
+                . (count($problems) > 0 ? ' Замечания: ' . implode('; ', array_slice($problems, 0, 3)) : ''));
+        } else {
+            flash('Не получилось обновить версии: ' . ($bump['error'] !== '' ? $bump['error'] : $sw['error']), 'error');
+        }
+        header('Location: ' . panel_url('publish.php#cache'));
+        exit;
+    }
+
+    if ($action === 'cache_sw') {
+        $sw = cache_bump_sw();
+        if ($sw['ok']) {
+            cache_register(array('service-worker.js'));
+            flash('Версия приложения обновлена: ' . $sw['was'] . ' → ' . $sw['now']
+                . '. Файл service-worker.js в очереди заливки — залейте его кнопкой «Опубликовать изменения».');
+        } else {
+            flash('Не получилось обновить версию приложения: ' . $sw['error'], 'error');
+        }
+        header('Location: ' . panel_url('publish.php#cache'));
+        exit;
+    }
+
+    if ($action === 'cache_purge') {
+        $res = cache_purge_panel();
+        log_action('cache', 'кэши панели очищены: ' . (count($res['gone']) > 0 ? implode(', ', $res['gone']) : 'нечего чистить'));
+        flash(count($res['gone']) > 0
+            ? 'Кэши панели очищены: ' . implode(', ', array_map('basename', (array)$res['gone']))
+              . '. Свежие цифры панель запросит при следующем заходе в «Аналитику» и «Почту».'
+            : 'Кэшей панели сейчас нет — чистить нечего.');
+        header('Location: ' . panel_url('publish.php#cache'));
+        exit;
+    }
 }
 
 $changes  = deploy_changes_list();
+$cacheVers = cache_versions();
 $secrets  = deploy_secrets();
 $problems = deploy_secrets_problems($secrets);
 $last     = $_SESSION['deploy_last'] ?? null;
@@ -168,4 +215,47 @@ panel_page_start('Публикация', 'Заливка правок на хо�
     <li>Реквизиты FTP лежат в <code>content/secrets.json</code> и в журнал не пишутся.</li>
   </ul>
 </div>
+<a id="cache"></a>
+<div class="card">
+  <div class="card-head">
+    <h2>Кэш у посетителей и в приложении</h2>
+    <div class="hint">нужен редко — когда хочется, чтобы все браузеры и телефоны сразу взяли свежие файлы</div>
+  </div>
+  <p style="margin:0 0 12px">По-простому: стили и скрипты сайта хостинг отдаёт с кэшем на год — браузер посетителя
+    хранит копию и берёт свежую только тогда, когда меняется номер версии в адресе (<code>?v=…</code>).
+    Кнопка «Обновить версии файлов» поднимает номер во всех страницах сайта и версию офлайн-копии
+    (приложения на телефоне). Это и есть «сброс кэша»: после заливки все посетители получают свежие файлы.
+    Содержание страниц, статьи, глоссарий, карта сайта и отчёты проверок не меняются — правятся только
+    номера версий и одна строка в <code>service-worker.js</code>, а копия каждого файла ложится
+    в <code>backups/files/</code>.</p>
+  <table class="table">
+    <tr><td>Версия стилей <code>bundle.css</code></td><td style="width:120px"><?php echo (int)$cacheVers['bundle.css']; ?></td></tr>
+    <tr><td>Версия общих скриптов <code>ui-bundle.min.js</code></td><td><?php echo (int)$cacheVers['ui-bundle.min.js']; ?></td></tr>
+    <tr><td>Версия скриптов главной <code>home-bundle.min.js</code></td><td><?php echo (int)$cacheVers['home-bundle.min.js']; ?></td></tr>
+    <tr><td>Версия приложения (service worker)</td><td><code><?php echo h((string)$cacheVers['sw']); ?></code></td></tr>
+    <tr><td>Страниц сайта проверено</td><td><?php echo (int)$cacheVers['pages']; ?></td></tr>
+  </table>
+  <div class="btn-row" style="margin-top:14px">
+    <form method="post" style="display:inline"
+          onsubmit="return confirm('Поднять версии стилей и скриптов во всех страницах сайта и обновить версию приложения? Содержание страниц не меняется, копии файлов сохраняются.');">
+      <?php echo csrf_field(); ?>
+      <input type="hidden" name="action" value="cache_bump" />
+      <button class="btn primary" type="submit">Обновить версии файлов</button>
+    </form>
+    <form method="post" style="display:inline">
+      <?php echo csrf_field(); ?>
+      <input type="hidden" name="action" value="cache_sw" />
+      <button class="btn ghost" type="submit">Обновить только приложение</button>
+    </form>
+    <form method="post" style="display:inline">
+      <?php echo csrf_field(); ?>
+      <input type="hidden" name="action" value="cache_purge" />
+      <button class="btn ghost" type="submit">Очистить кэши панели</button>
+    </form>
+  </div>
+  <p class="hint" style="margin:12px 0 0">После обновления версий нажмите выше <b>«Опубликовать изменения»</b> —
+    без заливки новые версии останутся только на сервере панели. Кнопка «Очистить кэши панели» убирает лишь
+    короткие кэши самой панели (счётчик писем и ответы Метрики): статьи, глоссарий и отчёты проверок не трогаются.</p>
+</div>
+
 <?php panel_page_end();

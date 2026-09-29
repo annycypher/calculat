@@ -174,6 +174,7 @@ function articles_clean(array $in, bool $keepEmpty = true): array {
             if ($name === '' && !$keepEmpty) { continue; }
             $block['name'] = $name;
             $block['alt']  = trim((string)($b['alt'] ?? ''));
+            $block['caption'] = trim((string)($b['caption'] ?? ''));
 
         } elseif ($type === 'html') {
             $html = trim((string)($b['text'] ?? ''));
@@ -246,6 +247,63 @@ function articles_put(array $fields, string $id = ''): array {
                      'error' => 'Не получилось записать черновик: проверьте права на папку content/.');
     }
     return array('ok' => true, 'id' => $id, 'error' => '');
+}
+
+/** Создать черновик из вставленного HTML (шаг П.3): тот же разбор, что в блоке импорта
+    редактора (article_import_html) — импортёр НЕ дублируется. Возвращает
+    ['ok','id','title','error','notes','skipped','blocks']. Заголовок берётся из поля title,
+    а если его нет — из первого подзаголовка h2/h3 импорта. */
+function article_create_from_html(array $in): array {
+    $bad = array('ok' => false, 'id' => '', 'title' => '', 'error' => '',
+                 'notes' => array(), 'skipped' => array(), 'blocks' => 0);
+    if (!function_exists('article_import_html')) {
+        $bad['error'] = 'Модуль импорта HTML не подключён.';
+        return $bad;
+    }
+    $rawHtml = (string)($in['html_import'] ?? '');
+    $imp     = article_import_html($rawHtml);
+
+    if (trim($rawHtml) === '') {
+        $bad['error'] = 'Вставьте HTML — поле пустое.';
+        return $bad;
+    }
+    if (count($imp['blocks']) === 0) {
+        $bad['error']    = 'Импорт ничего не дал — проверьте HTML.';
+        $bad['notes']    = $imp['notes'];
+        $bad['skipped']  = $imp['skipped'];
+        return $bad;
+    }
+
+    $title = trim((string)($in['title'] ?? ''));
+    if ($title === '') {
+        foreach ($imp['blocks'] as $b) {
+            if (in_array((string)($b['type'] ?? ''), array('h2', 'h3'), true) && trim((string)($b['text'] ?? '')) !== '') {
+                $title = trim((string)$b['text']);
+                break;
+            }
+        }
+    }
+    if ($title === '') {
+        $bad['error']    = 'Укажите заголовок статьи — из HTML его извлечь не удалось.';
+        $bad['notes']    = $imp['notes'];
+        $bad['skipped']  = $imp['skipped'];
+        return $bad;
+    }
+
+    $fields           = articles_blank();
+    $fields['title']  = $title;
+    $fields['blocks'] = $imp['blocks'];
+
+    $put = articles_put($fields, '');
+    if (empty($put['ok'])) {
+        $bad['error']    = (string)($put['error'] ?? 'Не получилось сохранить черновик.');
+        $bad['notes']    = $imp['notes'];
+        $bad['skipped']  = $imp['skipped'];
+        return $bad;
+    }
+
+    return array('ok' => true, 'id' => (string)$put['id'], 'title' => $title, 'error' => '',
+                 'notes' => $imp['notes'], 'skipped' => $imp['skipped'], 'blocks' => count($imp['blocks']));
 }
 
 /** Удалить черновик. С шага 13.1 это мягкое удаление: статья уезжает в корзину. */

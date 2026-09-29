@@ -21,7 +21,7 @@ require __DIR__ . '/inc/auth.php';
 require __DIR__ . '/inc/ui.php';
 require __DIR__ . '/inc/settings.php';
 require __DIR__ . '/inc/contact.php';   /* сообщения с контактной формы (шаг 6.4) */
-require __DIR__ . '/inc/deploy.php';    /* FTP-доступ и публикация правок (шаг P2.3) */
+require_once __DIR__ . '/inc/deploy.php';    /* FTP-доступ и публикация правок (шаг P2.3) */
 require __DIR__ . '/inc/metrika.php';   /* чтение статистики Метрики (фаза P3) */
 require_once __DIR__ . '/inc/imap.php';      /* непрочитанные письма ящика (фаза P6) */
 
@@ -350,7 +350,11 @@ panel_page_start('Настройки', 'Счётчик Метрики, увед�
                placeholder="например 112558731" value="<?php echo h((string)$metCur['counter']); ?>" />
         <div class="field-hint">Чтение статистики требует права <code>metrika:read</code>: в приложении на
           oauth.yandex.ru включите «Метрика: чтение» и получите <b>новый</b> токен — у токена, выданного раньше,
-          права не меняются. Токен лежит в <code>content/secrets.json</code> и в журнал не пишется.
+          права не меняются. Токен лежит в <code>content/secrets.json</code> и в журнал не пишется.<br />
+          <b>Если Яндекс отвечает «Client not found» или «Invalid oauth_token»</b> — приложение, по которому
+          выдавали токен, удалено или его секрет сменился. Тогда нужно завести на oauth.yandex.ru новое
+          приложение (тип «Веб-сервис»), отметить в нём доступ <b>«Метрика: чтение»</b> и прислать её
+          ClientID и Client secret: токен получим одной ссылкой-подтверждением.
           Сейчас не заполнено: <?php echo count($metProblems) ? h(implode(', ', $metProblems)) : 'ничего, всё на месте'; ?>.</div>
         <div class="btn-row" style="margin-top:16px">
           <button class="btn primary" type="submit"<?php echo $canEdit ? '' : ' disabled'; ?>>Сохранить токен</button>

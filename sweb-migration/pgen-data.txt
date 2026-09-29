@@ -1,0 +1,3 @@
+content\pgen-items.json
+content\pgen-parties.json
+content\pgen-clusters.json

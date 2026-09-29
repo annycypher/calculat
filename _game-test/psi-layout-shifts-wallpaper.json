@@ -1,0 +1,26 @@
+﻿{
+    "type":  "table",
+    "headings":  [
+                     {
+                         "valueType":  "node",
+                         "subItemsHeading":  {
+                                                 "key":  "extra"
+                                             },
+                         "key":  "node",
+                         "label":  "Element"
+                     },
+                     {
+                         "subItemsHeading":  {
+                                                 "valueType":  "text",
+                                                 "key":  "cause"
+                                             },
+                         "key":  "score",
+                         "granularity":  0.001,
+                         "valueType":  "numeric",
+                         "label":  "Layout shift score"
+                     }
+                 ],
+    "items":  [
+
+              ]
+}

@@ -93,7 +93,18 @@ function blog_card_html(array $fields, string $icon, string $indent = '        '
     if (mb_strlen($text) > 130) { $text = rtrim(mb_substr($text, 0, 127), ' ,.;') . '…'; }
     $date  = article_russian_date((string)($fields['date_modified'] ?? ($fields['date_published'] ?? date('Y-m-d'))));
 
-    return $indent . '<a class="card" href="/blog/' . h($slug) . '/">' . $icon
+    /* Обложка статьи: если она выбрана, карточка показывает картинку вместо иконки раздела. */
+    $top   = $icon;
+    $cover = function_exists('article_cover_file') ? article_cover_file($fields) : '';
+    if ($cover !== '') {
+        $img = function_exists('media_snippet')
+            ? media_snippet($cover, $title)
+            : '<img src="/media/uploads/' . h($cover) . '" alt="' . h($title) . '" loading="lazy" />';
+        $top = '<span class="card-cover">'
+             . $img . '</span>';
+    }
+
+    return $indent . '<a class="card" href="/blog/' . h($slug) . '/">' . $top
          . '<h3>' . h($title) . '</h3>'
          . '<p>' . h($text) . '</p>'
          . '<span class="card-badge">' . h($date) . '</span>'

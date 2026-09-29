@@ -16,6 +16,7 @@ require __DIR__ . '/inc/config.php';
 require __DIR__ . '/inc/auth.php';
 require __DIR__ . '/inc/ui.php';
 require __DIR__ . '/inc/stats.php';
+require __DIR__ . '/inc/settings.php';   /* settings_get() — из настроек берётся бренд и контакты (шаг P3) */
 require __DIR__ . '/inc/media-kit-lib.php';
 
 panel_session_start();

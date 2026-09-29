@@ -1,0 +1,155 @@
+TASK 2e — WEIGHT AUDIT (read-only) — 2026-09-27 19:56
+
+файлов (бандл-страниц): 96
+общий вес HTML:        4774971 Б (4663.1 КБ), в среднем 49739 Б/стр.
+inline <style>:        1248141 Б (1218.9 КБ), блоков 210
+inline style="...":    51900 Б (50.7 КБ), атрибутов 1466
+чистый HTML (без инлайн-CSS): 3474930 Б (3393.5 КБ)
+доля inline <style> от общего: 26.1%
+
+--- ТОП-15 по общему весу ---
+137307 Б  style= 54253  attr=  901  index.html
+ 82112 Б  style= 18200  attr=  583  calculators/engineering/gidrostrelka/index.html
+ 75961 Б  style= 18649  attr=  674  calculators/engineering/vulkan/index.html
+ 75870 Б  style= 15796  attr=  637  games/bubble/index.html
+ 72171 Б  style= 18786  attr=  698  calculators/engineering/otoplenie-obem/index.html
+ 70176 Б  style= 18398  attr=  644  games/2048/index.html
+ 67063 Б  style= 13504  attr=  658  calculators/auto/osago/index.html
+ 65668 Б  style= 13179  attr=  676  calculators/auto/customs/index.html
+ 65471 Б  style= 14546  attr=  611  calculators/auto/fuel/index.html
+ 65345 Б  style= 13504  attr=  710  calculators/auto/ownership/index.html
+ 61331 Б  style= 12903  attr=  623  calculators/finance/credit/index.html
+ 60590 Б  style= 12697  attr=  873  calculators/finance/deposit/index.html
+ 60174 Б  style= 14056  attr=  569  generators/auto/raspiska/index.html
+ 59719 Б  style= 15819  attr=  581  games/water/index.html
+ 57740 Б  style= 12811  attr=  623  calculators/finance/salary-delay/index.html
+
+--- ТОП-15 по inline <style> ---
+ 54253 Б  блоков=5  index.html
+ 18786 Б  блоков=3  calculators/engineering/otoplenie-obem/index.html
+ 18649 Б  блоков=3  calculators/engineering/vulkan/index.html
+ 18398 Б  блоков=3  games/2048/index.html
+ 18200 Б  блоков=3  calculators/engineering/gidrostrelka/index.html
+ 15819 Б  блоков=3  games/water/index.html
+ 15796 Б  блоков=3  games/bubble/index.html
+ 14546 Б  блоков=2  calculators/auto/fuel/index.html
+ 14056 Б  блоков=2  generators/auto/raspiska/index.html
+ 13868 Б  блоков=2  converters/seo-translit/index.html
+ 13504 Б  блоков=2  calculators/auto/ownership/index.html
+ 13504 Б  блоков=2  calculators/auto/osago/index.html
+ 13222 Б  блоков=2  calculators/finance/mortgage/index.html
+ 13179 Б  блоков=2  calculators/auto/customs/index.html
+ 12970 Б  блоков=2  converters/unit-converter/index.html
+
+--- ТОП-15 по inline style="..." ---
+  1045 Б  атр.=25  popular/index.html
+   974 Б  атр.=22  contact/index.html
+   901 Б  атр.=24  index.html
+   873 Б  атр.=27  calculators/finance/deposit/index.html
+   726 Б  атр.=20  converters/qr-generator/index.html
+   710 Б  атр.=24  calculators/auto/ownership/index.html
+   698 Б  атр.=21  calculators/engineering/otoplenie-obem/index.html
+   693 Б  атр.=17  blog/index.html
+   686 Б  атр.=21  converters/seo-translit/index.html
+   676 Б  атр.=22  calculators/auto/customs/index.html
+   674 Б  атр.=20  calculators/engineering/vulkan/index.html
+   658 Б  атр.=21  calculators/auto/osago/index.html
+   653 Б  атр.=20  converters/unit-converter/index.html
+   651 Б  атр.=19  converters/dadata/index.html
+   644 Б  атр.=18  games/2048/index.html
+
+--- Файлы с >1 <style>-блока (аномалия) ---
+ 2 блоков  404.html
+ 5 блоков  index.html
+ 2 блоков  search.html
+ 2 блоков  about/index.html
+ 2 блоков  blog/index.html
+ 2 блоков  blog/avto-osago-kbm/index.html
+ 2 блоков  blog/avto-rashod-topliva/index.html
+ 2 блоков  blog/avto-vladenie/index.html
+ 2 блоков  blog/cirkulyacionnyy-nasos-podbor/index.html
+ 2 блоков  blog/diametr-trub-otopleniya-raschet/index.html
+ 2 блоков  blog/dosrochno-ili-na-vklad/index.html
+ 2 блоков  blog/gibridnaya-strategiya-dosrochnogo/index.html
+ 2 блоков  blog/gidrostrelka-raschet/index.html
+ 2 блоков  blog/kak-oformit-dosrochnoe-pogashenie/index.html
+ 2 блоков  blog/kak-sostavit-raspisku/index.html
+ 2 блоков  blog/kombinirovannoe-dosrochnoe-pogashenie/index.html
+ 2 блоков  blog/moshchnost-kotla-raschet/index.html
+ 2 блоков  blog/nalogovy-vychet-i-dosrochnoe/index.html
+ 2 блоков  blog/nalogovy-vychet-kvartira/index.html
+ 2 блоков  blog/neustoyka-alimenty/index.html
+ 2 блоков  blog/obem-sistemy-otopleniya-raschet/index.html
+ 2 блоков  blog/otpusknye/index.html
+ 2 блоков  blog/rasshiritelnyy-bak-podbor/index.html
+ 2 блоков  blog/sokrashchenie-sroka-ili-platezh/index.html
+ 2 блоков  blog/teploventilyator-vulkan/index.html
+ 2 блоков  calculators/index.html
+ 2 блоков  calculators/auto/index.html
+ 2 блоков  calculators/auto/customs/index.html
+ 2 блоков  calculators/auto/fuel/index.html
+ 2 блоков  calculators/auto/osago/index.html
+ 2 блоков  calculators/auto/ownership/index.html
+ 2 блоков  calculators/construction/index.html
+ 2 блоков  calculators/construction/brick/index.html
+ 2 блоков  calculators/construction/laminate/index.html
+ 2 блоков  calculators/construction/paint/index.html
+ 2 блоков  calculators/construction/plaster/index.html
+ 2 блоков  calculators/construction/tile/index.html
+ 2 блоков  calculators/construction/wallpaper/index.html
+ 2 блоков  calculators/engineering/index.html
+ 3 блоков  calculators/engineering/gidrostrelka/index.html
+ 3 блоков  calculators/engineering/otoplenie-obem/index.html
+ 3 блоков  calculators/engineering/vulkan/index.html
+ 2 блоков  calculators/finance/index.html
+ 2 блоков  calculators/finance/alimony/index.html
+ 2 блоков  calculators/finance/average-earnings/index.html
+ 2 блоков  calculators/finance/compound-interest/index.html
+ 2 блоков  calculators/finance/credit/index.html
+ 2 блоков  calculators/finance/deposit/index.html
+ 2 блоков  calculators/finance/ip-insurance/index.html
+ 2 блоков  calculators/finance/maternity/index.html
+ 2 блоков  calculators/finance/mortgage/index.html
+ 2 блоков  calculators/finance/ndfl/index.html
+ 2 блоков  calculators/finance/penalty/index.html
+ 2 блоков  calculators/finance/salary-delay/index.html
+ 2 блоков  calculators/finance/sick-leave/index.html
+ 2 блоков  calculators/finance/tax-freelancer/index.html
+ 2 блоков  calculators/finance/vacation-pay/index.html
+ 2 блоков  calculators/finance/vat/index.html
+ 2 блоков  contact/index.html
+ 2 блоков  converters/index.html
+ 2 блоков  converters/csv-to-xlsx/index.html
+ 2 блоков  converters/dadata/index.html
+ 2 блоков  converters/image-converter/index.html
+ 2 блоков  converters/pdf-to-word/index.html
+ 2 блоков  converters/qr-generator/index.html
+ 2 блоков  converters/seo-translit/index.html
+ 2 блоков  converters/unit-converter/index.html
+ 2 блоков  games/index.html
+ 3 блоков  games/2048/index.html
+ 3 блоков  games/bubble/index.html
+ 3 блоков  games/water/index.html
+ 2 блоков  generators/index.html
+ 2 блоков  generators/auto/index.html
+ 2 блоков  generators/auto/raspiska/index.html
+ 2 блоков  generators/contract/index.html
+ 2 блоков  generators/invoice/index.html
+ 2 блоков  generators/leave-request/index.html
+ 2 блоков  generators/power-of-attorney/index.html
+ 2 блоков  generators/report/index.html
+ 2 блоков  generators/resume/index.html
+ 3 блоков  glossary/annuitetnyy-platezh.html
+ 3 блоков  glossary/differencirovannyy-platezh.html
+ 3 блоков  glossary/effektivnaya-stavka.html
+ 3 блоков  glossary/index.html
+ 3 блоков  glossary/kapitalizaciya-procentov.html
+ 3 блоков  glossary/klyuchevaya-stavka-cb.html
+ 3 блоков  glossary/nalogovyy-vychet.html
+ 3 блоков  glossary/ndfl.html
+ 3 блоков  glossary/pervonachalnyy-vznos.html
+ 3 блоков  glossary/psk-polnaya-stoimost-kredita.html
+ 3 блоков  glossary/slozhnyy-procent.html
+ 2 блоков  popular/index.html
+ 2 блоков  privacy/index.html
+ 2 блоков  reviews/index.html

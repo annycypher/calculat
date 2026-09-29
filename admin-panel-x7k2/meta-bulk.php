@@ -18,7 +18,7 @@ require __DIR__ . '/inc/config.php';
 require __DIR__ . '/inc/auth.php';
 require __DIR__ . '/inc/ui.php';
 require __DIR__ . '/inc/meta.php';
-require __DIR__ . '/inc/deploy.php';
+require_once __DIR__ . '/inc/deploy.php';
 
 panel_session_start();
 ensure_guards();

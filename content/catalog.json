@@ -1,0 +1,329 @@
+{
+    "version": 1,
+    "imported_at": "2026-09-24 11:32:37",
+    "groups": [
+        {
+            "key": "remont-i-stroitelstvo-1",
+            "category": "калькуляторы",
+            "title": "Ремонт и строительство",
+            "cards": [
+                {
+                    "id": "ce53fd505",
+                    "url": "/calculators/construction/",
+                    "title": "Стройка и ремонт",
+                    "desc": "Плитка, ламинат, штукатурка, краска, кирпич, обои — все калькуляторы ремонта.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><path class=\"ci-a\" d=\"M3 21h18\"/><path class=\"ci-a\" d=\"M7 21V4h12\"/><path class=\"ci-a\" d=\"M7 4H4\"/><path class=\"ci-b\" d=\"M16 4v5\"/><rect class=\"ci-fa\" x=\"14\" y=\"9\" width=\"4.4\" height=\"3.6\" rx=\"0.6\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "ccb1a9547",
+                    "url": "/calculators/construction/tile/",
+                    "title": "Плитка",
+                    "desc": "Сколько плитки на пол или стены, с запасом.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><rect class=\"ci-a\" x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\"/><path class=\"ci-b\" d=\"M3 9h18M3 15h18M9 3v18M15 3v18\"/><rect class=\"ci-fa\" x=\"9\" y=\"3\" width=\"6\" height=\"6\" rx=\"0.4\"/><rect class=\"ci-fb\" x=\"15\" y=\"15\" width=\"6\" height=\"6\" rx=\"0.4\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "c50441fbe",
+                    "url": "/calculators/construction/laminate/",
+                    "title": "Ламинат и линолеум",
+                    "desc": "Упаковки ламината или метры линолеума.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><rect class=\"ci-a\" x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"1.5\"/><path class=\"ci-b\" d=\"M3 9.3h18M3 14.7h18M10 4v5.3M14 9.3v5.4M8 14.7V20\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "c8da06fed",
+                    "url": "/calculators/construction/plaster/",
+                    "title": "Штукатурка и стяжка",
+                    "desc": "Расход смеси и количество мешков.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><rect class=\"ci-a\" x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"1.5\"/><path class=\"ci-b\" d=\"M6 9.5c3.5 1.6 8.5 1.6 12 0M6 13.5c3.5 1.6 8.5 1.6 12 0\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "c1ad944b5",
+                    "url": "/calculators/construction/paint/",
+                    "title": "Краска и грунтовка",
+                    "desc": "Расход краски и сколько банок.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><path class=\"ci-a\" d=\"M6 7l1.4 13h9.2L18 7z\"/><path class=\"ci-a\" d=\"M5.2 7h13.6\"/><path class=\"ci-b\" d=\"M8.6 7a3.4 3.4 0 0 1 6.8 0\"/><path class=\"ci-fb\" d=\"M6.7 12h10.6l-.8 8H7.5z\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "cab7a217a",
+                    "url": "/calculators/construction/brick/",
+                    "title": "Кирпич на дом",
+                    "desc": "Сколько кирпича нужно на кладку стен.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><rect class=\"ci-a\" x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"1\"/><path class=\"ci-b\" d=\"M3 9.7h18M3 14.3h18M9.6 5v4.7M14.4 9.7v4.6M9.6 14.3V19\"/><rect class=\"ci-fa\" x=\"3\" y=\"5\" width=\"6.6\" height=\"4.7\" rx=\"0.4\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "ca3fdb8b1",
+                    "url": "/calculators/construction/wallpaper/",
+                    "title": "Обои",
+                    "desc": "Сколько рулонов на комнату, с подгонкой и запасом.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><rect class=\"ci-a\" x=\"3.5\" y=\"4\" width=\"13\" height=\"4\" rx=\"2\"/><circle class=\"ci-a\" cx=\"16.5\" cy=\"6\" r=\"2\"/><path class=\"ci-fb\" d=\"M6.5 8v10a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V8z\"/></svg></span>",
+                    "hidden": 0
+                }
+            ]
+        },
+        {
+            "key": "finansy-i-nalogi-2",
+            "category": "калькуляторы",
+            "title": "Финансы и налоги",
+            "cards": [
+                {
+                    "id": "c6ea2db5b",
+                    "url": "/calculators/finance/",
+                    "title": "Финансы и налоги",
+                    "desc": "Кредит, больничный, НДФЛ, взносы ИП — все финансовые расчёты.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><rect class=\"ci-a\" x=\"5\" y=\"3\" width=\"14\" height=\"18\" rx=\"2\"/><path class=\"ci-b\" d=\"M8 6.5h8\"/><circle class=\"ci-fb\" cx=\"8.5\" cy=\"11\" r=\"0.95\"/><circle class=\"ci-fb\" cx=\"12\" cy=\"11\" r=\"0.95\"/><circle class=\"ci-fb\" cx=\"15.5\" cy=\"11\" r=\"0.95\"/><circle class=\"ci-fb\" cx=\"8.5\" cy=\"15\" r=\"0.95\"/><path class=\"ci-b\" d=\"M11.2 15h5.3\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "cc3effb61",
+                    "url": "/calculators/finance/credit/",
+                    "title": "Кредитный калькулятор",
+                    "desc": "Аннуитетный и дифференцированный платёж.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><path class=\"ci-fa\" d=\"M3 9l9-5.2L21 9z\"/><path class=\"ci-a\" d=\"M5.5 9.6V20M18.5 9.6V20M3 20h18\"/><path class=\"ci-b\" d=\"M9.2 12.5V20M14.8 12.5V20\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "c56adb27e",
+                    "url": "/calculators/finance/sick-leave/",
+                    "title": "Больничный",
+                    "desc": "Пособие по стажу и доходу.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><rect class=\"ci-a\" x=\"4.5\" y=\"3\" width=\"15\" height=\"18\" rx=\"2\"/><rect class=\"ci-fb\" x=\"10.9\" y=\"8\" width=\"2.2\" height=\"7\" rx=\"0.7\"/><rect class=\"ci-fb\" x=\"8.5\" y=\"10.4\" width=\"7\" height=\"2.2\" rx=\"0.7\"/><path class=\"ci-b\" d=\"M7.5 18h9\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "c1094e4ee",
+                    "url": "/calculators/finance/maternity/",
+                    "title": "Декретные",
+                    "desc": "По беременности и родам и по уходу.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><circle class=\"ci-a\" cx=\"9\" cy=\"7\" r=\"3\"/><circle class=\"ci-b\" cx=\"16.5\" cy=\"10.5\" r=\"2.3\"/><path class=\"ci-fa\" d=\"M4 20.5a5 5 0 0 1 10 0z\"/><path class=\"ci-fb\" d=\"M13.5 20.5a3.5 3.5 0 0 1 7 0z\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "c7dcb4db8",
+                    "url": "/calculators/finance/ndfl/",
+                    "title": "НДФЛ и вычеты",
+                    "desc": "Имущественный и инвестиционный возврат.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><circle class=\"ci-fa\" cx=\"12\" cy=\"12\" r=\"8.5\"/><circle class=\"ci-b\" cx=\"9.2\" cy=\"9.2\" r=\"1.5\"/><circle class=\"ci-b\" cx=\"14.8\" cy=\"14.8\" r=\"1.5\"/><path class=\"ci-b\" d=\"M15.6 8.4L8.4 15.6\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "c48918173",
+                    "url": "/calculators/finance/ip-insurance/",
+                    "title": "Взносы ИП",
+                    "desc": "Фиксированные + 1% свыше лимита.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><path class=\"ci-a\" d=\"M4 9l1.5-4.5h13L20 9\"/><path class=\"ci-a\" d=\"M5 9v11.5h14V9\"/><path class=\"ci-b\" d=\"M4 9c2 2.2 4 2.2 6 0s4-2.2 6 0 4 2.2 4 0\"/><rect class=\"ci-fb\" x=\"10\" y=\"13.5\" width=\"4\" height=\"7\" rx=\"0.6\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "c2c3b3c70",
+                    "url": "/calculators/finance/salary-delay/",
+                    "title": "Задержка зарплаты",
+                    "desc": "Компенсация по ст. 236 ТК РФ.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><rect class=\"ci-a\" x=\"3\" y=\"6\" width=\"18\" height=\"12\" rx=\"2\"/><path class=\"ci-a\" d=\"M3.4 7l8.6 5.8L20.6 7\"/><circle class=\"ci-fa\" cx=\"17.5\" cy=\"17.5\" r=\"4.2\"/><path class=\"ci-b\" d=\"M17.5 15.4v2.2l1.5 1\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "cabdadd53",
+                    "url": "/calculators/finance/compound-interest/",
+                    "title": "Сложный процент",
+                    "desc": "Доходность с пополнением.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><path class=\"ci-a\" d=\"M4 4v16h16\"/><path class=\"ci-b\" d=\"M6 16.5l4-4.5 3 2.5 4.5-6\"/><path class=\"ci-b\" d=\"M14.6 8.5h3.6v3.6\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "c93db6212",
+                    "url": "/calculators/finance/average-earnings/",
+                    "title": "Средний заработок",
+                    "desc": "Средний дневной и месячный, стаж.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><rect class=\"ci-a\" x=\"3.5\" y=\"5\" width=\"17\" height=\"15.5\" rx=\"2\"/><path class=\"ci-a\" d=\"M3.5 9.8h17M8 3v3.6M16 3v3.6\"/><rect class=\"ci-fb\" x=\"6.8\" y=\"12.5\" width=\"2.6\" height=\"5\" rx=\"0.6\"/><rect class=\"ci-fa\" x=\"10.7\" y=\"14.5\" width=\"2.6\" height=\"3\" rx=\"0.6\"/><rect class=\"ci-fb\" x=\"14.6\" y=\"11.5\" width=\"2.6\" height=\"6\" rx=\"0.6\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "c4d5d2e4e",
+                    "url": "/calculators/finance/mortgage/",
+                    "title": "Ипотечный калькулятор",
+                    "desc": "Ежемесячный платёж, переплата и график по кредиту.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><path class=\"ci-a\" d=\"M4 11L12 4.5 20 11V20.5H4z\"/><path class=\"ci-fa\" d=\"M4 11L12 4.5 20 11z\"/><rect class=\"ci-fb\" x=\"10\" y=\"15\" width=\"4\" height=\"5.5\" rx=\"0.6\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "c36664062",
+                    "url": "/calculators/finance/deposit/",
+                    "title": "Калькулятор вкладов",
+                    "desc": "Сложный процент, капитализация и пополнение — с графиком.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><ellipse class=\"ci-a\" cx=\"12\" cy=\"7\" rx=\"7\" ry=\"3\"/><path class=\"ci-b\" d=\"M5 7v10M19 7v10M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3\"/><ellipse class=\"ci-fa\" cx=\"12\" cy=\"17\" rx=\"7\" ry=\"3\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "cbb1e8582",
+                    "url": "/calculators/finance/penalty/",
+                    "title": "Пеня и неустойка",
+                    "desc": "Расчёт пени по ставке ЦБ: ст. 395, 1/300, 1/150.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><rect class=\"ci-a\" x=\"3\" y=\"7.5\" width=\"18\" height=\"9\" rx=\"2\"/><circle class=\"ci-fa\" cx=\"12\" cy=\"12\" r=\"3.2\"/><path class=\"ci-b\" d=\"M12 10.3V12l1.4.9\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "cd700e4fd",
+                    "url": "/calculators/finance/vat/",
+                    "title": "НДС",
+                    "desc": "Начислить или выделить НДС: 20%, 10%, 0%.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><path class=\"ci-a\" d=\"M6 3.5h12v17l-2-1.3-2 1.3-2-1.3-2 1.3-2-1.3-2 1.3z\"/><circle class=\"ci-b\" cx=\"10\" cy=\"9\" r=\"1.5\"/><circle class=\"ci-b\" cx=\"14\" cy=\"15\" r=\"1.5\"/><path class=\"ci-b\" d=\"M14.6 8.5L9.4 15.5\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "c075a6f19",
+                    "url": "/calculators/finance/tax-freelancer/",
+                    "title": "Налог фрилансера",
+                    "desc": "Рассчитайте налог по НПД/самозанятости за месяц или год.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><rect class=\"ci-a\" x=\"3\" y=\"8\" width=\"18\" height=\"12\" rx=\"2\"/><path class=\"ci-a\" d=\"M9 8V6.5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2V8\"/><path class=\"ci-b\" d=\"M3 13.5h18\"/><circle class=\"ci-fb\" cx=\"9.6\" cy=\"17\" r=\"1.2\"/><circle class=\"ci-fb\" cx=\"14.4\" cy=\"17\" r=\"1.2\"/><path class=\"ci-b\" d=\"M15.2 15.9L8.8 18.1\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "c36f57f60",
+                    "url": "/calculators/finance/vacation-pay/",
+                    "title": "Отпускные",
+                    "desc": "Сколько вы получите за отпуск — расчёт по среднему заработку.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><rect class=\"ci-a\" x=\"3.5\" y=\"5\" width=\"17\" height=\"15.5\" rx=\"2\"/><path class=\"ci-a\" d=\"M3.5 9.8h17M8 3v3.6M16 3v3.6\"/><circle class=\"ci-fb\" cx=\"12\" cy=\"15\" r=\"2.6\"/><path class=\"ci-b\" d=\"M12 11v-1.2M12 20.2V19M7.9 15H6.7M17.3 15h-1.2\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "cbdcfa8ca",
+                    "url": "/calculators/finance/alimony/",
+                    "title": "Неустойка по алиментам",
+                    "desc": "0,1% в день по ст. 115 СК РФ.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><circle class=\"ci-a\" cx=\"8.5\" cy=\"7.5\" r=\"3\"/><path class=\"ci-a\" d=\"M3.5 20a5 5 0 0 1 10 0z\"/><circle class=\"ci-fa\" cx=\"17\" cy=\"14.5\" r=\"4.5\"/><path class=\"ci-b\" d=\"M16.4 12.6v3.8M15.4 13.9h2.2M15.4 15.3h2.2\"/></svg></span>",
+                    "hidden": 0
+                }
+            ]
+        },
+        {
+            "key": "avto-3",
+            "category": "калькуляторы",
+            "title": "Авто",
+            "cards": [
+                {
+                    "id": "cd6f49b8b",
+                    "url": "/calculators/auto/",
+                    "title": "Авто-калькуляторы",
+                    "desc": "Расход топлива, стоимость владения, ОСАГО и таможенный расчёт — всё про машину.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><path class=\"ci-a\" d=\"M3 14l1.6-4.4A2 2 0 0 1 6.5 8h11a2 2 0 0 1 1.9 1.6L21 14v4h-2.5v-2h-13v2H3z\"/><path class=\"ci-b\" d=\"M5 14h14\"/><circle class=\"ci-b\" cx=\"7.5\" cy=\"16\" r=\"1\"/><circle class=\"ci-b\" cx=\"16.5\" cy=\"16\" r=\"1\"/><path class=\"ci-fa\" d=\"M8 10h2.5v2H8zM13.5 10H16v2h-2.5z\"/></svg></span>",
+                    "hidden": 0
+                }
+            ]
+        },
+        {
+            "key": "generatory-dokumentov-1",
+            "category": "генераторы документов",
+            "title": "",
+            "cards": [
+                {
+                    "id": "cfcb89f81",
+                    "url": "/generators/resume/",
+                    "title": "Резюме",
+                    "desc": "Готовое резюме из шаблона — сохраните в PDF одним кликом.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><rect class=\"ci-a\" x=\"4.5\" y=\"3\" width=\"15\" height=\"18\" rx=\"2\"/><circle class=\"ci-b\" cx=\"9\" cy=\"8.5\" r=\"2\"/><path class=\"ci-b\" d=\"M5.8 14.8a3.3 3.3 0 0 1 6.4 0\"/><path class=\"ci-fb\" d=\"M13.5 7.5h4M13.5 10.5h4M6.5 17.5h11\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "c578f6eb2",
+                    "url": "/generators/power-of-attorney/",
+                    "title": "Доверенность",
+                    "desc": "Доверенность на авто или на действия — по шаблону.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><rect class=\"ci-a\" x=\"4.5\" y=\"3\" width=\"15\" height=\"18\" rx=\"2\"/><path class=\"ci-b\" d=\"M8 8h8M8 11h8\"/><path class=\"ci-b\" d=\"M7 17c1.4-2 2.8-2 4.2 0\"/><circle class=\"ci-fa\" cx=\"16.5\" cy=\"17.5\" r=\"3.2\"/><path class=\"ci-b\" d=\"M15.4 17.5l.9.9 2-2\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "ce1c9a81f",
+                    "url": "/generators/contract/",
+                    "title": "Договор",
+                    "desc": "Типовые договоры: оказание услуг, аренда, купля-продажа.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><rect class=\"ci-a\" x=\"4.5\" y=\"5\" width=\"15\" height=\"16\" rx=\"2\"/><rect class=\"ci-fa\" x=\"9\" y=\"2.8\" width=\"6\" height=\"4\" rx=\"1.5\"/><path class=\"ci-b\" d=\"M8 12h8M8 15.5h8\"/><path class=\"ci-fb\" d=\"M7.5 18.6c1.5-1.8 3-1.8 4.5 0s3 1.8 4.5 0\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "ce64898b3",
+                    "url": "/generators/leave-request/",
+                    "title": "Заявление на отпуск",
+                    "desc": "Заявление на отпуск или отгул — готовый шаблон в PDF.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><rect class=\"ci-a\" x=\"4\" y=\"3\" width=\"13\" height=\"18\" rx=\"2\"/><path class=\"ci-b\" d=\"M7 8h7M7 11.5h7M7 15h4\"/><path class=\"ci-fa\" d=\"M17.5 11.5l3 3-6.6 6.6-3.6.6.6-3.6z\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "c1730347a",
+                    "url": "/generators/invoice/",
+                    "title": "Счёт на оплату",
+                    "desc": "Счёт с реквизитами, позициями и QR-кодом — в PDF.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><rect class=\"ci-a\" x=\"4.5\" y=\"3\" width=\"15\" height=\"18\" rx=\"2\"/><path class=\"ci-b\" d=\"M8 7.5h8M8 11h8M8 14.5h5\"/><path class=\"ci-fb\" d=\"M7 18.5h6\"/><path class=\"ci-b\" d=\"M16 16.6v4M14.6 17.9h2.8M14.6 19.3h2.8\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "cb7d1d89d",
+                    "url": "/generators/report/",
+                    "title": "PDF-отчёт",
+                    "desc": "Отчёт с таблицей показателей и выводами — в PDF.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><rect class=\"ci-a\" x=\"4.5\" y=\"3\" width=\"15\" height=\"18\" rx=\"2\"/><path class=\"ci-b\" d=\"M7 6.5h10\"/><rect class=\"ci-fb\" x=\"7.5\" y=\"14\" width=\"2.6\" height=\"4.5\" rx=\"0.6\"/><rect class=\"ci-fa\" x=\"11\" y=\"11\" width=\"2.6\" height=\"7.5\" rx=\"0.6\"/><rect class=\"ci-fb\" x=\"14.5\" y=\"8\" width=\"2.6\" height=\"10.5\" rx=\"0.6\"/></svg></span>",
+                    "hidden": 0
+                }
+            ]
+        },
+        {
+            "key": "konvertery-1",
+            "category": "конвертеры",
+            "title": "",
+            "cards": [
+                {
+                    "id": "c2a5f9e06",
+                    "url": "/converters/image-converter/",
+                    "title": "Сжатие изображений",
+                    "desc": "До 30 фото сразу, в оптимальном качестве.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><rect class=\"ci-a\" x=\"3\" y=\"4.5\" width=\"18\" height=\"15\" rx=\"2\"/><circle class=\"ci-fa\" cx=\"8.5\" cy=\"9\" r=\"1.8\"/><path class=\"ci-b\" d=\"M4.2 17.5l4.8-4.8 3.4 3.4 3.4-3.4 4 4\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "c2964512a",
+                    "url": "/converters/csv-to-xlsx/",
+                    "title": "CSV → Excel",
+                    "desc": "Превратите CSV-файл в готовый .xlsx.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><rect class=\"ci-a\" x=\"3\" y=\"4\" width=\"9.5\" height=\"16\" rx=\"1.5\"/><path class=\"ci-a\" d=\"M3 9.5h9.5M3 15h9.5\"/><path class=\"ci-b\" d=\"M14.5 12h6M17.5 9l3 3-3 3\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "c97d90d8e",
+                    "url": "/converters/pdf-to-word/",
+                    "title": "PDF → Word",
+                    "desc": "Извлеките текст из PDF в редактируемый DOCX.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><rect class=\"ci-a\" x=\"3\" y=\"4.5\" width=\"11\" height=\"15\" rx=\"2\"/><path class=\"ci-b\" d=\"M6 9h5M6 12.5h5\"/><path class=\"ci-b\" d=\"M16 8.5v7M13.6 11l2.4-2.5 2.4 2.5M13.6 13l2.4 2.5 2.4-2.5\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "c3811f710",
+                    "url": "/converters/dadata/",
+                    "title": "DaData-конструктор",
+                    "desc": "Соберите запрос к DaData Suggest API: орг., адрес, банк.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><circle class=\"ci-fa\" cx=\"10.5\" cy=\"10.5\" r=\"6\"/><path class=\"ci-a\" d=\"M15 15l5 5\"/><path class=\"ci-b\" d=\"M8 9h5M8 12h3\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "c6f94f562",
+                    "url": "/converters/qr-generator/",
+                    "title": "Генератор QR-кода",
+                    "desc": "QR из текста или ссылки — PNG, JPG, SVG.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><rect class=\"ci-a\" x=\"3\" y=\"3\" width=\"7\" height=\"7\" rx=\"1\"/><rect class=\"ci-a\" x=\"14\" y=\"3\" width=\"7\" height=\"7\" rx=\"1\"/><rect class=\"ci-a\" x=\"3\" y=\"14\" width=\"7\" height=\"7\" rx=\"1\"/><rect class=\"ci-fa\" x=\"5.4\" y=\"5.4\" width=\"2.2\" height=\"2.2\" rx=\"0.6\"/><rect class=\"ci-fa\" x=\"16.4\" y=\"5.4\" width=\"2.2\" height=\"2.2\" rx=\"0.6\"/><rect class=\"ci-fa\" x=\"5.4\" y=\"16.4\" width=\"2.2\" height=\"2.2\" rx=\"0.6\"/><rect class=\"ci-fb\" x=\"14\" y=\"14\" width=\"3\" height=\"3\" rx=\"0.6\"/><rect class=\"ci-fb\" x=\"18\" y=\"17.5\" width=\"3\" height=\"3.5\" rx=\"0.6\"/></svg></span>",
+                    "hidden": 0
+                },
+                {
+                    "id": "c17216a81",
+                    "url": "/converters/seo-translit/",
+                    "title": "SEO транслит для URL и доменов",
+                    "desc": "Русский текст → латиница: slug, домен, поддомен.",
+                    "icon": "<span class=\"card-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\"><path class=\"ci-a\" d=\"M3 8.5h12M11.5 5l3.5 3.5-3.5 3.5\"/><path class=\"ci-b\" d=\"M21 15.5H9M12.5 12L9 15.5l3.5 3.5\"/></svg></span>",
+                    "hidden": 0
+                }
+            ]
+        }
+    ]
+}

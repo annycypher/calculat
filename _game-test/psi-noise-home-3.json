@@ -1,0 +1,45 @@
+﻿{
+    "label":  "home-3",
+    "url":  "https://calc-doc.ru/",
+    "score":  97,
+    "fcp_ms":  1132,
+    "lcp_ms":  1743,
+    "cls":  0.0863232032402095,
+    "tbt_ms":  102,
+    "layoutShifts":  [
+                         {
+                             "score":  0.080728612368156635,
+                             "selector":  "div.hero \u003e div.hero-row \u003e div.hero-copy \u003e p.hero-lead",
+                             "boundingRect":  {
+                                                  "top":  421,
+                                                  "height":  198,
+                                                  "bottom":  620,
+                                                  "left":  24,
+                                                  "right":  388,
+                                                  "width":  364
+                                              },
+                             "nodeLabel":  "CalcDoc — бесплатный набор онлайн-инструментов: калькуляторы для быстрых расчёт…",
+                             "snippet":  "\u003cp class=\"hero-lead\"\u003e",
+                             "subItems":  [
+
+                                          ]
+                         },
+                         {
+                             "score":  0.00559459087205287,
+                             "selector":  "body \u003e div.action-bar \u003e button#actShare",
+                             "boundingRect":  {
+                                                  "left":  130,
+                                                  "height":  46,
+                                                  "bottom":  811,
+                                                  "width":  46,
+                                                  "right":  176,
+                                                  "top":  765
+                                              },
+                             "nodeLabel":  "Поделиться",
+                             "snippet":  "\u003cbutton class=\"act-btn\" id=\"actShare\" aria-label=\"Поделиться\"\u003e",
+                             "subItems":  [
+
+                                          ]
+                         }
+                     ]
+}

@@ -1,0 +1,63 @@
+﻿{
+    "items":  [
+                  {
+                      "score":  0.29283110571081411,
+                      "node":  {
+                                   "path":  "1,HTML,1,BODY,9,DIV",
+                                   "nodeLabel":  "Мы используем cookie и обезличенные технологии для работы сайта (тема, настройк…",
+                                   "boundingRect":  {
+                                                        "height":  199,
+                                                        "right":  412,
+                                                        "top":  624,
+                                                        "left":  0,
+                                                        "width":  412,
+                                                        "bottom":  823
+                                                    },
+                                   "selector":  "body \u003e div#cookieBanner",
+                                   "lhId":  "page-1-DIV",
+                                   "type":  "node",
+                                   "snippet":  "\u003cdiv class=\"cookie-banner\" id=\"cookieBanner\" role=\"dialog\" aria-label=\"Уведомление о файлах cookie\"\u003e"
+                               }
+                  },
+                  {
+                      "node":  {
+                                   "snippet":  "\u003cdiv class=\"action-bar\" aria-label=\"Действия\"\u003e",
+                                   "nodeLabel":  "Действия",
+                                   "type":  "node",
+                                   "selector":  "body \u003e div.action-bar",
+                                   "lhId":  "page-3-DIV",
+                                   "path":  "1,HTML,1,BODY,10,DIV",
+                                   "boundingRect":  {
+                                                        "bottom":  811,
+                                                        "top":  765,
+                                                        "left":  130,
+                                                        "height":  46,
+                                                        "right":  400,
+                                                        "width":  270
+                                                    }
+                               },
+                      "score":  0.0062339382847420074
+                  }
+              ],
+    "type":  "table",
+    "headings":  [
+                     {
+                         "key":  "node",
+                         "subItemsHeading":  {
+                                                 "key":  "extra"
+                                             },
+                         "label":  "Element",
+                         "valueType":  "node"
+                     },
+                     {
+                         "granularity":  0.001,
+                         "subItemsHeading":  {
+                                                 "valueType":  "text",
+                                                 "key":  "cause"
+                                             },
+                         "key":  "score",
+                         "valueType":  "numeric",
+                         "label":  "Layout shift score"
+                     }
+                 ]
+}

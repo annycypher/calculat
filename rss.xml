@@ -5,7 +5,7 @@
     <link>https://calc-doc.ru/blog/</link>
     <description>Разбираем бытовые расчёты по шагам: формула, пример с числами и калькулятор для проверки.</description>
     <language>ru-ru</language>
-    <lastBuildDate>Tue, 22 Sep 2026 09:46:44 +0300</lastBuildDate>
+    <lastBuildDate>Mon, 28 Sep 2026 13:57:30 +0300</lastBuildDate>
     <item>
       <title>Сокращение срока или уменьшение платежа</title>
       <link>https://calc-doc.ru/blog/sokrashchenie-sroka-ili-platezh/</link>
@@ -47,6 +47,13 @@
       <guid isPermaLink="true">https://calc-doc.ru/blog/nalogovy-vychet-i-dosrochnoe/</guid>
       <pubDate>Tue, 22 Sep 2026 12:00:00 +0300</pubDate>
       <description>Вычет за тело сохраняется, по процентам уменьшается: 5 408 815 ₽ экономии против 38 606 ₽ потери.</description>
+    </item>
+    <item>
+      <title>Незамерзайка для системы отопления — сколько нужно и расчёт</title>
+      <link>https://calc-doc.ru/blog/skolko-nezamerzayki-nuzhno-dlya-sistemy-otopleniya-raschet-o/</link>
+      <guid isPermaLink="true">https://calc-doc.ru/blog/skolko-nezamerzayki-nuzhno-dlya-sistemy-otopleniya-raschet-o/</guid>
+      <pubDate>Mon, 28 Sep 2026 12:00:00 +0300</pubDate>
+      <description>Сколько незамерзайки нужно для системы отопления: таблицы объёмов радиаторов и труб, формула расчёта и порядок заливки пропилен…</description>
     </item>
     <item>
       <title>Объём системы отопления — как рассчитать</title>
@@ -138,13 +145,6 @@
       <guid isPermaLink="true">https://calc-doc.ru/blog/nalogovy-vychet-kvartira/</guid>
       <pubDate>Wed, 16 Sep 2026 12:00:00 +0300</pubDate>
       <description>Лимиты расходов и процентов по ипотеке, кто имеет право, пошаговый порядок получения.</description>
-    </item>
-    <item>
-      <title>Неустойка по алиментам: как рассчитать и взыскать</title>
-      <link>https://calc-doc.ru/blog/neustoyka-alimenty/</link>
-      <guid isPermaLink="true">https://calc-doc.ru/blog/neustoyka-alimenty/</guid>
-      <pubDate>Wed, 16 Sep 2026 12:00:00 +0300</pubDate>
-      <description>0,1% за день просрочки, вина плательщика, пример расчёта и порядок взыскания.</description>
     </item>
   </channel>
 </rss>

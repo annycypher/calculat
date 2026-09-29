@@ -250,7 +250,9 @@
     const cacheRead = () => { try { return JSON.parse(localStorage.getItem(STATS_CACHE) || 'null'); } catch(e){ return null; } };
     const cacheWrite = o => { try { localStorage.setItem(STATS_CACHE, JSON.stringify(o)); } catch(e){} };
     const valueOf = el => { const n = parseInt(String(el.textContent).replace(/\D/g, ''), 10); return isNaN(n) ? 0 : n; };
-    const VISIT_WORDS = ['посещение в день', 'посещения в день', 'посещений в день'];
+    /* Число на главной — это посетители сайта за текущие сутки (уникальные, без cookie),
+       то есть «пользователи за день». Подпись склоняем под число. */
+    const VISIT_WORDS = ['посетитель сегодня', 'посетителя сегодня', 'посетителей сегодня'];
 
     /* Правильное склонение под число: 1 посещение, 2 посещения, 5 посещений. */
     function plural(n, words){
@@ -304,7 +306,10 @@
     }
     function apply(data, mode){
       if(!data) return;
-      if(stVisits && typeof data.visits === 'number') applyValue(stVisits, data.visits, mode, setVisitsWord);
+      /* Число на главной — посетители за сутки: берём users, если он есть, иначе visits
+         (это одно и то же число; users добавлен в ответ для понятности). */
+      const users = (typeof data.users === 'number') ? data.users : data.visits;
+      if(stVisits && typeof users === 'number') applyValue(stVisits, users, mode, setVisitsWord);
       if(stTools && typeof data.tools === 'number' && data.tools > 0) applyValue(stTools, data.tools, mode);
       cacheWrite({ visits: data.visits, tools: data.tools, date: data.date });
     }

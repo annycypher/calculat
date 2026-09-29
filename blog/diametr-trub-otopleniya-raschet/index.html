@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" data-theme="light">
 <head>
+  <script>try{if(localStorage.getItem("calcdoc-consent"))document.documentElement.classList.add("calcdoc-consent")}catch(e){}</script>
   <meta charset="UTF-8" />
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32">
@@ -8,12 +9,14 @@
   <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Расчёт диаметра труб отопления — таблица DN по мощности</title>
-  <meta name="description" content="Расчёт диаметра труб отопления по расходу теплоносителя и скорости: формула, таблица подбора DN по мощности, последствия ошибок — шум и недогрев." />
+  <!--EDIT:title--><title>Расчёт диаметра труб отопления — таблица DN по мощности</title><!--/EDIT:title-->
+  <!--EDIT:description--><meta name="description" content="Расчёт диаметра труб отопления по расходу теплоносителя и скорости: формула, таблица подбора DN по мощности, последствия ошибок — шум и недогрев." /><!--/EDIT:description-->
   <link rel="canonical" href="https://calc-doc.ru/blog/diametr-trub-otopleniya-raschet/" />
   <meta name="robots" content="index, follow" />
+  <!--EDIT:og-->
   <meta property="og:title" content="Расчёт диаметра труб отопления — CalcDoc" />
   <meta property="og:description" content="Расчёт диаметра труб отопления по расходу теплоносителя и скорости: формула, таблица подбора DN по мощности, последствия ошибок — шум и недогрев." />
+<!--/EDIT:og-->
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="CalcDoc" />
   <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
@@ -37,7 +40,71 @@
     </style>
     <link rel="preload" href="/fonts/manrope-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/unbounded-600-lat.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="/bundle.css?v=57" />
+    <style id="critical-css">
+/* Критический CSS первого экрана (задача 1 ТЗ по скорости, 25.09.2026): правила bundle.css, нужные видимым элементам при ширине окна 390 и 1280 px. Собран инструментом _game-test/perf-critical-measure.html. Полный bundle.css подключается ниже асинхронно. */
+:root { --bg: #ffffff; --bg-soft: #f5f6fb; --text: #1b1c2e; --text-muted: #5a5c72; --border: #e4e6f0; --primary: #6d5dfc; --primary-dark: #5646e0; --primary-soft: #eeebff; --accent: #f4a340; --card-bg: #ffffff; --shadow: 0 8px 30px rgba(28, 25, 60, 0.08); --icon-cyan: #2f9fc4; --radius: 16px; --radius-sm: 10px; --maxw: 1120px; }
+*, ::before, ::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0px; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; color: var(--text); background: var(--bg); -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+.container { width: 100%; max-width: var(--maxw); margin: 0px auto; padding: 0px 20px; }
+.icon-btn { border: 1px solid var(--border); background: var(--card-bg); width: 42px; height: 42px; border-radius: 12px; cursor: pointer; font-size: 18px; display: grid; place-items: center; transition: transform 0.12s, border-color 0.12s; }
+.eyebrow { display: inline-block; padding: 6px 14px; border-radius: 999px; background: var(--primary-soft); color: var(--primary); font-size: 13px; font-weight: 600; margin: 0px 0px 14px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 22px; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: transform 0.12s, box-shadow 0.12s; }
+.btn-primary { background: var(--primary); color: rgb(255, 255, 255); box-shadow: rgba(109, 93, 252, 0.35) 0px 6px 20px; }
+.btn-ghost { border-color: var(--border); background: var(--card-bg); }
+.btn-glass { border-color: var(--border); background: var(--bg-soft); color: var(--text); }
+.section { padding: 48px 0px; }
+html.calcdoc-consent .cookie-banner{display:none!important}
+.cookie-banner { position: fixed; left: 0px; right: 0px; bottom: 0px; z-index: 1000; background: var(--card-bg); color: var(--text); border-top: 1px solid var(--border); box-shadow: rgba(0, 0, 0, 0.08) 0px -6px 24px; padding: 10px 14px !important; }
+.cookie-banner .container { display: flex; align-items: center; gap: 12px !important; flex-wrap: nowrap !important; justify-content: flex-start !important; padding: 0 !important; }
+.cookie-banner .cookie-text { margin: 0px; font-size: 13px; color: var(--text-muted); line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex: 1 1 auto; }
+.cookie-banner a { color: var(--primary); text-decoration: underline; }
+.cookie-actions { display: flex; gap: 10px; flex-wrap: nowrap; flex-shrink: 0; }
+.cookie-actions .btn { padding: 8px 14px !important; font-size: 13px !important; white-space: nowrap; flex-shrink: 0; }
+.prose { max-width: 760px; }
+.prose p, .prose li { color: var(--text-muted); }
+.tool-hero { padding: 40px 0px 8px; }
+.tool-hero h1 { margin: 0px 0px 12px; letter-spacing: -0.02em; }
+.breadcrumbs { font-size: 14px; color: var(--text-muted); margin-bottom: 16px; }
+.breadcrumbs a { color: var(--primary); }
+.tool-meta { color: var(--text-muted); font-size: 15px; }
+:root[data-theme="light"] { --bg: #ffffff; --bg-soft: #f5f6fb; --text: #1b1c2e; --text-muted: #5a5c72; --border: #e4e6f0; --primary: #6d5dfc; --primary-dark: #5646e0; --primary-soft: #eeebff; --icon-cyan: #2f9fc4; --accent: #f4a340; --card-bg: #ffffff; --shadow: 0 8px 30px rgba(28, 25, 60, .08); }
+.action-bar { position: fixed; right: 18px; bottom: 18px; display: flex; flex-direction: column; gap: 10px; z-index: 80; }
+.act-btn { width: 46px; height: 46px; border-radius: 14px; border: 1px solid var(--border); background: var(--card-bg); color: var(--primary); box-shadow: var(--shadow); display: grid; place-items: center; cursor: pointer; font-size: 0px; transition: transform 0.12s, border-color 0.12s, color 0.12s; }
+.act-btn svg { width: 20px; height: 20px; }
+@media (max-width: 640px){.action-bar { flex-direction: row; right: 12px; bottom: 12px; }}
+.seo-formula { margin: 14px 0px; padding: 16px 20px; border-radius: var(--radius-sm); text-align: center; background: var(--primary-soft); border: 1px dashed color-mix(in srgb, var(--primary) 45%, var(--border)); font-weight: 700; color: var(--primary); letter-spacing: 0.01em; }
+header.app-header { --htxt: #f1eef9; --hmut: #9a92b0; --hvio: #a78bfa; --hline: rgba(255, 255, 255, .11); --hline-2: rgba(255, 255, 255, .22); --hglass: rgba(255, 255, 255, .05); --hglass-2: rgba(255, 255, 255, .08); position: sticky; top: 0px; z-index: 50; background: rgba(11, 9, 19, 0.72); backdrop-filter: blur(16px); border-bottom: 1px solid var(--hline); color: var(--htxt); transition: background 0.3s, border-color 0.3s; }
+header.app-header .head-in, header.app-header .header-inner { display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: 0px; width: 100%; max-width: 1180px; margin: 0px auto; padding: 0px 24px; height: 76px; }
+header.app-header .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--htxt); }
+header.app-header .logo-mark { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: rgba(139, 92, 246, 0.16); border: 1px solid rgba(167, 139, 250, 0.35); color: var(--hvio); }
+header.app-header .logo-mark svg { display: block; width: 20px; height: 20px; }
+header.app-header .logo b { font-family: Unbounded, sans-serif; font-weight: 600; font-size: 19px; color: var(--htxt); }
+header.app-header .main-nav { display: flex; flex-wrap: nowrap; align-items: center; gap: 26px; margin-left: auto; }
+header.app-header .nav-item { position: relative; display: flex; align-items: center; }
+header.app-header .nav-link { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; padding: 0px; border-radius: 0px; background: none; color: var(--hmut); text-decoration: none; font-weight: 600; font-size: 14.5px; transition: color 0.2s; }
+header.app-header .logo b span { color: var(--hvio); }
+header.app-header .nav-burger { display: none; width: 44px; height: 44px; border-radius: 12px; background: var(--hglass); border: 1px solid var(--hline); color: var(--htxt); cursor: pointer; place-items: center; }
+header.app-header .head-cta, header.app-header .header-actions { display: flex; align-items: center; gap: 12px; margin-left: 0px; }
+header.app-header .icon-btn { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: var(--hglass); border: 1px solid var(--hline); color: var(--htxt); font-size: 17px; line-height: 1; cursor: pointer; backdrop-filter: blur(12px); transition: background 0.25s, border-color 0.25s, transform 0.25s; }
+header.app-header .search-wrap { position: relative; flex: 0 0 auto; }
+header.app-header .search-input { width: 150px; padding: 7px 12px 7px 30px; border-radius: 999px; font-family: Manrope, sans-serif; font-size: 13px; color: var(--htxt); border: 1px solid var(--hline); outline: none; background-color: var(--hglass); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239a92b0' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='6'/%3E%3Cpath d='M20.5 20.5 16 16'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: 10px 50%; background-size: 14px 14px; backdrop-filter: blur(12px); transition: width 0.2s, border-color 0.2s, box-shadow 0.2s, background-color 0.2s; }
+@media (max-width: 1024px){header.app-header .nav-burger { display: grid; }}
+@media (min-width: 1101px){header.app-header .search-wrap { margin-left: 22px; }}
+@media (max-width: 760px){header.app-header .head-cta, header.app-header .header-actions { gap: 6px; }header.app-header .head-cta .icon-btn, header.app-header .header-actions .icon-btn { display: grid; width: 44px; height: 44px; font-size: 18px; }header.app-header .nav-burger { width: 44px; height: 44px; }header.app-header .logo { gap: 8px; }header.app-header .logo-mark { width: 34px; height: 34px; }header.app-header .logo b { font-size: 16px; }}
+:root[data-theme="light"] .btn-primary, :root[data-theme="light"] .btn-vio { background: var(--primary-dark); }
+:root[data-theme="light"] .eyebrow, :root[data-theme="light"] .seo-formula { color: var(--primary-dark); }
+:root[data-theme="light"] header.app-header .main-nav { --htxt: #f1eef9; --hmut: #c9c3da; --hvio: #ddd6fe; }
+:root[data-theme="light"] header.app-header:not(#header) .logo b span { color: rgb(208, 196, 255) !important; }
+@media (max-width: 1168px){main:not(.wrap) { padding-left: 24px; padding-right: 24px; }main h1, main h2 { overflow-wrap: break-word; hyphens: auto; }}
+@media (max-width: 1024px){header.app-header .head-in, header.app-header .header-inner { gap: 8px; }header.app-header .head-cta, header.app-header .header-actions { gap: 8px; margin-left: auto; }}
+@media (max-width: 760px){header.app-header .head-in, header.app-header .header-inner { gap: 8px; }header.app-header .head-cta, header.app-header .header-actions { gap: 8px; }}
+header.app-header .head-cta #installBtn svg, header.app-header .header-actions #installBtn svg { display: block; width: 20px; height: 20px; }
+:root[data-theme="light"] header.app-header .head-cta #installBtn, :root[data-theme="light"] header.app-header .header-actions #installBtn { background: var(--hglass); border-color: var(--hline); color: var(--hvio); }
+</style>
+<link rel="stylesheet" href="/bundle.css?v=62" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="/bundle.css?v=62" /></noscript>
   <meta name="theme-color" content="#6d5dfc" />
   <script type="application/ld+json">
   {
@@ -91,6 +158,8 @@
   <noscript><div><img src="https://mc.yandex.ru/watch/112558731" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
   <!-- /Yandex.Metrika counter -->
 </head>
+<body>
+<div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Уведомление о файлах cookie"><div class="container"><span class="cookie-text">Мы используем cookie. <a href="/privacy/">Подробнее</a></span><div class="cookie-actions"><button type="button" class="btn btn-primary" id="cookieAccept">Принять</button></div></div></div>
 <header class="site-header app-header">
     <div class="container header-inner">
       <a class="logo" href="/" aria-label="CalcDoc — на главную">
@@ -157,7 +226,7 @@
       </nav>
       <div class="head-cta header-actions">
         <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
-        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><polyline points="7 10 12 15 17 10"/><path d="M5 20h14"/></svg></button>
       </div>
       <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -169,11 +238,16 @@
   <div class="container tool-hero">
     <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/blog/">Статьи</a> / Диаметр труб отопления</nav>
     <h1>Расчёт диаметра труб отопления</h1>
-    <p class="tool-meta">Обновлено: 21 сентября 2026</p>
+    <!--EDIT:updated--><p class="tool-meta">Обновлено: 21 сентября 2026</p><!--/EDIT:updated-->
   </div>
 
+<!--SLOT:banner-top-->
+<!--/SLOT:banner-top-->
+<!--SLOT:ads-top-->
+<!--/SLOT:ads-top-->
   <div class="container section">
     <div class="prose">
+<!--EDIT:seo-->
 <span class="eyebrow">Инженерные расчёты</span>
       <p>Расчёт диаметра труб отопления — это компромисс трёх факторов: широкие трубы — дорогая разводка и большой объём теплоносителя, узкие — шум воды и недогрев дальних радиаторов. Расчётный диапазон скорости воды в отопительных трубах — 0,4–0,8 м/с: ниже 0,3 — завоздушивание и застой, выше 1,0–1,2 — шум в трубах и кавитация в арматуре.</p>
 
@@ -189,6 +263,10 @@
       <p>Q — расход теплоносителя (м³/с), v — скорость воды. Расход определяется мощностью участка: Q = P ÷ (1,163 × ΔT) — та же формула, что для гидрострелки: котёл 30 кВт при ΔT 10 °C качает 2,58 м³/ч = 0,000716 м³/с.</p>
       <p>Диаметр магистрали от котла 30 кВт при скорости 0,6 м/с: √(4 × 0,000716 ÷ (3,14 × 0,6)) = 0,039 м — 39 мм внутреннего диаметра, стандартная сталь DN40 или полипропилен 40.</p>
 
+      <!--SLOT:banner-after-tool-->
+      <!--/SLOT:banner-after-tool-->
+      <!--SLOT:ads-after-tool-->
+      <!--/SLOT:ads-after-tool-->
       <h2>Таблица подбора: мощность участка → диаметр</h2>
       <table class="seo-table">
         <thead><tr><th>Мощность участка, кВт</th><th>Внутренний диаметр при 0,5 м/с</th><th>Ближайший стандарт</th></tr></thead>
@@ -215,7 +293,13 @@
       <p>Контур тёплого пола — труба 16×2 с шагом 150 мм, длина одного контура — до 80–100 метров (ограничение по потерям давления). Диаметр фиксированный — расчёт ведётся по длине контура и шагу укладки. Коллектор тёплого пола с расходомерами на каждый контур — обязательная арматура балансировки.</p>
 
       <p><a href="/calculators/engineering/gidrostrelka/">Расход по мощности участка и диаметр магистрали считает калькулятор гидрострелки — тот же расход для развязки контуров</a>. <a href="/calculators/engineering/otoplenie-obem/">Объём теплоносителя в трубах выбранного диаметра — калькулятор объёма отопления</a>.</p>
+<!--/EDIT:seo-->
 
+      <!--EDIT:faq-->
+      <!--SLOT:banner-mid-->
+      <!--/SLOT:banner-mid-->
+      <!--SLOT:ads-mid-->
+      <!--/SLOT:ads-mid-->
       <h2>Частые вопросы</h2>
       <details class="seo-faq">
         <summary>Какой диаметр трубы для радиатора 2 кВт?</summary>
@@ -233,6 +317,7 @@
         <summary>Нужно ли сужать трубы к дальним радиаторам?</summary>
         <div class="seo-faq-b"><p>Нет: сужение увеличивает сопротивление ветки. Диаметр ветки — по её мощности, балансировка — клапанами на радиаторах.</p></div>
       </details>
+<!--/EDIT:faq-->
 
       <p><a href="/calculators/engineering/gidrostrelka/">Гидрострелка и теплообменник</a> · <a href="/calculators/engineering/otoplenie-obem/">Объём системы отопления</a> · <a href="/calculators/engineering/">Инженерные расчёты</a></p>
 
@@ -249,6 +334,10 @@
 </div>
 </div>
 
+<!--SLOT:banner-footer-->
+<!--/SLOT:banner-footer-->
+<!--SLOT:reviews-->
+<!--/SLOT:reviews-->
 <section class="reviews" id="reviews-form" data-page="/blog/diametr-trub-otopleniya-raschet/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
         <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
         <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
@@ -278,8 +367,11 @@
         </form>
       </section>
   <script src="/js/reviews.js?v=42" defer></script>
+<!--SLOT:ads-before-footer-->
+<!--/SLOT:ads-before-footer-->
 </main>
 
+<section class="container section" aria-label="Другие инструменты"><h2 class="section-title">Другие инструменты</h2><div class="chips"><a class="chip" href="/calculators/finance/tax-freelancer/"><span>💼</span>Налог фрилансера</a><a class="chip" href="/calculators/finance/vacation-pay/"><span>🏖️</span>Отпускные</a><a class="chip" href="/calculators/finance/mortgage/"><span>🏠</span>Ипотека</a><a class="chip" href="/calculators/finance/deposit/"><span>💰</span>Калькулятор вкладов</a><a class="chip" href="/generators/resume/"><span>📄</span>Резюме</a><a class="chip" href="/generators/power-of-attorney/"><span>✍️</span>Доверенность</a><a class="chip" href="/generators/contract/"><span>📋</span>Договор</a><a class="chip" href="/generators/leave-request/"><span>🗓️</span>Заявление на отпуск</a><a class="chip" href="/converters/image-converter/"><span>🖼️</span>Сжатие изображений</a><a class="chip" href="/converters/csv-to-xlsx/"><span>📑</span>CSV → Excel</a><a class="chip" href="/converters/pdf-to-word/"><span>📄</span>PDF → Word</a><a class="chip" href="/games/"><span>🎮</span>Мини-игры</a><a class="chip" href="/converters/qr-generator/"><span>📱</span>QR-код</a><a class="chip" href="/calculators/finance/penalty/"><span>💳</span>Пеня</a><a class="chip" href="/calculators/finance/vat/"><span>🧾</span>НДС</a><a class="chip" href="/calculators/construction/brick/"><span>🧱</span>Кирпич</a><a class="chip" href="/calculators/finance/alimony/"><span>👪</span>Алименты</a><a class="chip" href="/calculators/construction/wallpaper/"><span>🧻</span>Обои</a><a class="chip" href="/calculators/construction/"><span>🏗️</span>Стройка и ремонт</a><a class="chip" href="/calculators/construction/tile/"><span>🔲</span>Плитка</a><a class="chip" href="/calculators/construction/laminate/"><span>🪵</span>Ламинат</a><a class="chip" href="/calculators/construction/plaster/"><span>🪨</span>Штукатурка</a><a class="chip" href="/calculators/construction/paint/"><span>🪣</span>Краска</a><a class="chip" href="/calculators/finance/"><span>🧮</span>Финансы и налоги</a><a class="chip" href="/calculators/finance/credit/"><span>🏦</span>Кредит</a><a class="chip" href="/calculators/finance/sick-leave/"><span>🤒</span>Больничный</a><a class="chip" href="/calculators/finance/maternity/"><span>👶</span>Декретные</a><a class="chip" href="/calculators/finance/ndfl/"><span>📊</span>НДФЛ и вычеты</a><a class="chip" href="/calculators/finance/ip-insurance/"><span>🧑‍💼</span>Взносы ИП</a><a class="chip" href="/calculators/finance/salary-delay/"><span>⏰</span>Задержка зарплаты</a><a class="chip" href="/calculators/finance/compound-interest/"><span>📈</span>Сложный процент</a><a class="chip" href="/calculators/finance/average-earnings/"><span>📅</span>Средний заработок</a><a class="chip" href="/generators/invoice/"><span>💳</span>Счёт</a><a class="chip" href="/generators/report/"><span>📊</span>Отчёт</a><a class="chip" href="/converters/dadata/"><span>🔎</span>DaData</a><a class="chip" href="/converters/seo-translit/"><span>🔤</span>SEO транслит</a></div></section>
 <footer class="site-footer">
     <div class="container footer-inner">
       <nav class="footer-nav" aria-label="Разделы сайта">
@@ -289,6 +381,8 @@
         <a href="/blog/">Статьи и инструкции</a>
         <a href="/reviews/">Отзывы</a>
         <a href="/popular/">Популярное</a>
+
+        <a href="/glossary/">Глоссарий</a>
       </nav>
       <nav class="footer-nav" aria-label="Служебные страницы">
         <a href="/about/">О проекте</a>
@@ -298,6 +392,6 @@
     </div>
   </footer>
 
-<script defer src="/js/ui-bundle.js?v=49"></script>
-</body>
+<script defer src="/js/ui-bundle.min.js?v=55"></script>
+  </body>
 </html>

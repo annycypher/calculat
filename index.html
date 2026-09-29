@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" data-theme="light" data-home-dark>
 <head>
+  <script>try{if(localStorage.getItem("calcdoc-consent"))document.documentElement.classList.add("calcdoc-consent")}catch(e){}</script>
   <meta charset="UTF-8" />
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32">
@@ -8,12 +9,14 @@
   <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CalcDoc — онлайн-калькуляторы, конвертеры и шаблоны документов бесплатно</title>
-  <meta name="description" content="Бесплатные онлайн-инструменты: 29 калькуляторов по финансам, налогам, стройке и авто, генераторы документов и конвертеры файлов. Без регистрации." />
+  <!--EDIT:title--><title>CalcDoc — онлайн-калькуляторы, конвертеры и шаблоны документов бесплатно</title><!--/EDIT:title-->
+  <!--EDIT:description--><meta name="description" content="CalcDoc — бесплатные онлайн-калькуляторы, конвертеры величин и шаблоны документов. Расчёты и документы работают прямо в браузере, без регистрации." /><!--/EDIT:description-->
   <link rel="canonical" href="https://calc-doc.ru/" />
   <meta name="robots" content="index, follow" />
+  <!--EDIT:og-->
   <meta property="og:title" content="CalcDoc — онлайн-калькуляторы, конвертеры и шаблоны документов бесплатно" />
   <meta property="og:description" content="29 калькуляторов, 7 генераторов документов и 6 конвертеров — в браузере, без регистрации." />
+<!--/EDIT:og-->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="CalcDoc" />
   <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
@@ -59,12 +62,13 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .btn-vio { border-color: transparent; background: var(--primary); color: rgb(255, 255, 255); }
 .btn-xs { padding: 8px 12px; font-size: 12px; border-radius: 10px; }
 .section { padding: 48px 0px; }
-.cookie-banner { position: fixed; left: 0px; right: 0px; bottom: 0px; z-index: 1000; background: var(--card-bg); color: var(--text); border-top: 1px solid var(--border); box-shadow: rgba(0, 0, 0, 0.08) 0px -6px 24px; padding: 14px 20px; }
-.cookie-banner .container { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; justify-content: space-between; }
-.cookie-banner p { margin: 0px; font-size: 14px; color: var(--text-muted); max-width: 720px; }
+html.calcdoc-consent .cookie-banner{display:none!important}
+.cookie-banner { position: fixed; left: 0px; right: 0px; bottom: 0px; z-index: 1000; background: var(--card-bg); color: var(--text); border-top: 1px solid var(--border); box-shadow: rgba(0, 0, 0, 0.08) 0px -6px 24px; padding: 10px 14px !important; }
+.cookie-banner .container { display: flex; align-items: center; gap: 12px !important; flex-wrap: nowrap !important; justify-content: flex-start !important; padding: 0 !important; }
+.cookie-banner .cookie-text { margin: 0px; font-size: 13px; color: var(--text-muted); line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex: 1 1 auto; }
 .cookie-banner a { color: var(--primary); text-decoration: underline; }
-.cookie-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-.cookie-actions .btn { padding: 9px 16px; font-size: 14px; }
+.cookie-actions { display: flex; gap: 10px; flex-wrap: nowrap; flex-shrink: 0; }
+.cookie-actions .btn { padding: 8px 14px !important; font-size: 13px !important; white-space: nowrap; flex-shrink: 0; }
 .ad-slot { position: relative; min-height: 100px; display: grid; place-items: center; border: 1px dashed var(--border); border-radius: var(--radius-sm); background: var(--bg-soft); color: var(--text-muted); font-size: 13px; }
 .ad-label { position: absolute; top: 6px; left: 10px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.7; }
 .hero-banner { display: block; margin: 8px auto 0px; max-width: var(--maxw); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); border: 1px solid var(--border); line-height: 0; }
@@ -127,9 +131,7 @@ header.app-header [hidden] { display: none !important; }
    Только для широких экранов: на телефоне меню — тёмная панель, там нужна светлая палитра. */
 @media (min-width: 1025px) { :root[data-theme="light"] header.app-header#header:not(.scrolled) .main-nav { --htxt: #1b1533; --hmut: #4d4666; --hvio: #6d28d9; } }
 </style>
-<link rel="stylesheet" href="/bundle.css?v=57" media="print" onload="this.media='all'" />
-<noscript><link rel="stylesheet" href="/bundle.css?v=57" /></noscript>
-  <style id="home-inline">
+<style id="home-critical">
 /* home.css — оформление главной страницы CalcDoc (тёмное стекло, glassmorphism).
    Выделено из preview-new-home.html. Подключается ТОЛЬКО на главной;
    остальные страницы по-прежнему используют styles.css.
@@ -270,67 +272,11 @@ header.app-header [hidden] { display: none !important; }
   .cmp-line b{color:var(--txt)}
   .badge{font-size:11px;font-weight:600;color:var(--cyan);background:rgba(111,211,242,.12);border:1px solid rgba(111,211,242,.35);padding:2px 9px;border-radius:100px}
 
-  /* ---------- Статистика ---------- */
-  .stats{display:flex;margin:52px 0 0;padding:24px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-  .stat{flex:1;padding:4px 34px;text-align:left}
-  .stat + .stat{border-left:1px solid var(--line)}
-  .stat b{display:block;font-family:'Unbounded';font-weight:600;font-size:clamp(22px,2.6vw,30px);line-height:1.25}
-  .stat b i{font-style:normal;display:inline-block;color:var(--vio)}
-  .stat.cyan b i{color:var(--cyan)}
-  .stat span{color:var(--mut);font-size:13px;font-weight:600}
-  .stat b.bump i{animation:bump .45s ease}
-  @keyframes bump{0%{transform:scale(1)}35%{transform:scale(1.15)}100%{transform:scale(1)}}
-
-  /* ---------- Секции ---------- */
-  section{padding:80px 0}
-  .sec-head{margin-bottom:40px;max-width:640px}
-  .sec-head h2{font-family:'Unbounded';font-weight:600;font-size:clamp(23px,3vw,34px);line-height:1.2;margin:12px 0 10px}
-  .sec-head p{color:var(--mut);font-size:16px}
-  .kicker{font-size:12.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--vio)}
-
-  /* Шаги */
-  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
-  .step-num{font-family:'Unbounded';font-weight:600;font-size:52px;line-height:1;color:transparent;-webkit-text-stroke:1.4px rgba(167,139,250,.4);display:block;margin-bottom:14px;transition:.3s}
-  .step:hover .step-num{-webkit-text-stroke-color:var(--vio)}
-  .step h3{font-size:16.5px;margin-bottom:7px}
-  .step p{color:var(--mut);font-size:14px}
-
-  /* FAQ */
-  .faq{max-width:760px}
-  .qa{margin-bottom:12px;overflow:hidden;transition:border-color .25s}
-  .qa:hover{border-color:rgba(167,139,250,.4)}
-  .qa-q{width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:17px 22px;background:none;border:none;color:var(--txt);font-family:'Manrope';font-weight:600;font-size:15px;text-align:left;cursor:pointer}
-  .qa-q svg{flex:none;color:var(--vio);transition:transform .3s}
-  .qa.open .qa-q svg{transform:rotate(180deg)}
-  .qa-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.2,.7,.3,1)}
-  .qa.open .qa-a{grid-template-rows:1fr}
-  .qa-a > div{overflow:hidden}
-  .qa-a p{padding:0 22px 18px;color:var(--mut);font-size:14px}
-
-  /* Футер */
-  .foot-in{padding:32px 0;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
-  .foot-in .copy{color:var(--mut);font-size:13px;max-width:520px}
-  .foot-links{display:flex;flex-wrap:wrap;gap:10px 22px}
-  .foot-links a{color:var(--mut);text-decoration:none;font-size:13.5px;font-weight:600}
-  .foot-links a:hover{color:var(--txt)}
-  /* Колонка «Полезные статьи» (фаза C2): те же .foot-links, но в столбик — без своих цветов. */
-  .footer-col{flex-direction:column;align-items:flex-start;gap:8px}
-  .footer-col .eyebrow{margin:0 0 4px}
-
   /* Появление контента — прогрессивное улучшение: элементы видимы по умолчанию,
      скрываются только когда JS активен (.js ставит инлайн-скрипт в <head>),
      а если модуль по какой-то причине не выполнится — таймер всё покажет. */
   .js .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.3,1)}
   .js .reveal.vis{opacity:1;transform:none}
-
-  .toast{position:fixed;bottom:28px;left:50%;transform:translate(-50%,20px);z-index:80;padding:12px 20px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:10px;opacity:0;pointer-events:none;transition:.35s cubic-bezier(.2,.7,.3,1)}
-  .toast svg{color:var(--vio)}
-  .toast.show{opacity:1;transform:translate(-50%,0)}
-  .to-top{position:fixed;bottom:26px;right:26px;z-index:60;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;cursor:pointer;color:var(--txt);opacity:0;pointer-events:none;transform:translateY(12px);transition:.3s}
-  .to-top.show{opacity:1;pointer-events:auto;transform:none}
-
-  a:focus-visible,button:focus-visible,input:focus-visible,label.drop:focus-within{outline:2px solid var(--vio);outline-offset:2px}
-
   @media(max-width:1024px){
     .hero-row{gap:28px}
     .hero-banner{flex:0 1 360px}
@@ -352,35 +298,6 @@ header.app-header [hidden] { display: none !important; }
     section{padding:60px 0}
     .hero-banner{width:min(400px,92vw)}
   }
-  
-    /* Заголовки секций, перенесённых с главной */
-    .section-title{font-family:'Unbounded',sans-serif;font-weight:600;font-size:clamp(23px,3vw,34px);line-height:1.2;margin:0 0 4px}
-    .section-title .accent{color:var(--vio)}
-    .cat-title{font-family:'Unbounded',sans-serif;font-weight:600;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--cyan);margin:44px 0 18px}
-    /* Сетка и карточки инструментов */
-    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:16px}
-    .card{display:block;text-decoration:none;color:inherit;padding:22px;border-radius:16px;
-      background:linear-gradient(180deg,rgba(38,30,60,.80),rgba(21,16,35,.74));
-      border:1px solid var(--line);
-      transition:transform .28s,border-color .28s,background .28s,box-shadow .28s}
-    .card:hover{transform:translateY(-4px);border-color:rgba(167,139,250,.5);
-      background:linear-gradient(180deg,rgba(54,43,84,.88),rgba(31,24,52,.82));
-      box-shadow:0 18px 40px -22px rgba(139,92,246,.55)}
-    .card-icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:21px;line-height:1;
-      background:rgba(139,92,246,.16);border:1px solid rgba(167,139,250,.35)}
-    /* Иконки карточек: двухцветные инлайн-SVG в цветах темы (фиолетовый + циан).
-       Цвета задаются классами, а не атрибутами — работают и в светлой теме. */
-    .card-icon svg{width:24px;height:24px;display:block}
-    .card-icon .ci-a{fill:none;stroke:var(--vio);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-    .card-icon .ci-b{fill:none;stroke:var(--cyan);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-    .card-icon .ci-fa{fill:rgba(167,139,250,.22);stroke:var(--vio);stroke-width:1.5;stroke-linejoin:round}
-    .card-icon .ci-fb{fill:rgba(111,211,242,.22);stroke:var(--cyan);stroke-width:1.5;stroke-linejoin:round}
-    .card h3{font-family:'Unbounded',sans-serif;font-weight:600;font-size:16px;line-height:1.35;margin:15px 0 7px}
-    .card p{color:var(--mut);font-size:14px}
-    /* Кнопка как на главной */
-    .btn-primary{background:var(--vio-deep);color:var(--vio-ink);border-color:transparent;
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 12px 32px -12px rgba(139,92,246,.6)}
-    .btn-primary:hover{background:var(--vio)}
     /* Слот рекламы: padding-top 100px — компенсация фиксированной шапки (77px),
        поэтому у героя ниже шапка уже «оплачена» и снимаем его 150px до 40px.
        Селектор — через '~', а не '+': между секцией рекламы и .hero в index.html
@@ -392,231 +309,12 @@ header.app-header [hidden] { display: none !important; }
     .ad-label{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
     @media(max-width:960px){.grid{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:760px){.grid{grid-template-columns:1fr}}
-  
-    /* Чипы */
-    .chips{display:flex;flex-wrap:wrap;gap:10px}
-    .chip{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;font-size:14px;font-weight:600;
-      color:var(--txt);text-decoration:none;background:rgba(30,24,48,.72);border:1px solid var(--line);
-      transition:border-color .15s,transform .15s,background .15s}
-    .chip:hover{border-color:rgba(167,139,250,.55);background:rgba(46,36,72,.86);transform:translateY(-1px)}
-    .chip span{font-size:16px}
-    /* «Популярное» */
-    .popular-bar{display:flex;align-items:center;flex-wrap:wrap;gap:12px}
-    .popular-label{font-size:14px;font-weight:600;color:var(--mut);white-space:nowrap}
-    /* «Что такое CalcDoc» */
-    .prose{padding:36px 38px;border-radius:24px}
-    .prose h2{margin-bottom:16px}
-    .prose h3{font-family:'Unbounded',sans-serif;font-weight:600;font-size:17px;margin:26px 0 12px}
-    .prose p{color:var(--mut);margin-bottom:14px}
-    .prose ul{list-style:none;display:grid;gap:10px}
-    .prose li{color:var(--mut);padding-left:26px;position:relative}
-    .prose li::before{content:'';position:absolute;left:2px;top:9px;width:9px;height:9px;border-radius:3px;background:rgba(167,139,250,.75)}
-    .prose a{color:var(--vio)}
-    .note{margin:22px 0 4px;padding:16px 20px;border-radius:14px;background:rgba(139,92,246,.10);
-      border:1px solid rgba(167,139,250,.3);color:var(--txt);font-size:14.5px}
-    section[aria-label="Другие инструменты"] .chips{margin-top:18px}
-    /* Адаптив поиска */
-    @media(max-width:960px){.prose{padding:28px 24px}}
-    /* Орбы: без анимации на мобильных и при reduced-motion */
-    @media(max-width:760px){.orb{animation:none;filter:blur(70px)}}
-    @media(prefers-reduced-motion:reduce){.orb{animation:none}}
-  
-
-/* ═══════════ Компоненты сайта на тёмной главной ═══════════
-   Их вставляет js/ui.js: поиск, «Популярное», «Другие инструменты»,
-   cookie-баннер, панель действий. Классы повторяют разметку ui.js,
-   но оформлены под тёмное стекло. */
-.container{width:100%;max-width:1180px;margin:0 auto;padding:0 24px}
-/* ui.js вставляет секции с .container уже внутри main.wrap — не сужаем их повторно */
-.wrap .container{max-width:none;padding:0}
-.accent{color:var(--vio)}
-.btn-primary{background:var(--vio-deep);color:var(--vio-ink);border-color:transparent;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 12px 32px -12px rgba(139,92,246,.6)}
-.btn-primary:hover{background:var(--vio);transform:translateY(-2px)}
-.btn-ghost{background:var(--glass);color:var(--txt)}
-.btn-ghost:hover{border-color:var(--line-2);transform:translateY(-2px)}
-.cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:1000;padding:14px 20px;
-  background:rgba(17,13,29,.94);border-top:1px solid var(--line);box-shadow:0 -10px 30px rgba(0,0,0,.45);
-  -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
-.cookie-banner .container{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between}
-.cookie-banner p{margin:0;font-size:14px;color:var(--mut);max-width:720px}
-.cookie-banner a{color:var(--vio);text-decoration:underline}
-.cookie-actions{display:flex;gap:10px;flex-wrap:wrap}
-.cookie-actions .btn{padding:9px 16px;font-size:14px}
-.action-bar{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:10px;z-index:80}
-.act-btn{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;cursor:pointer;font-size:0;
-  background:var(--glass);border:1px solid var(--line);color:var(--vio);
-  box-shadow:0 14px 30px -18px rgba(0,0,0,.8);
-  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
-  transition:transform .12s ease,border-color .12s ease,color .12s ease}
-.act-btn:hover{transform:translateY(-2px);border-color:rgba(167,139,250,.55)}
-.act-btn:active{transform:translateY(0)}
-.act-btn svg{width:20px;height:20px}
-.act-btn[hidden]{display:none!important}
-@media(max-width:640px){.action-bar{flex-direction:row;right:12px;bottom:12px;left:12px;justify-content:flex-end}}
-@media(max-width:760px){.container{padding:0 18px}}
-/* Панель действий дублирует кнопку «наверх», поэтому плавающую стрелку скрываем,
-   а тост поднимаем — иначе он перекрывает панель на мобильных. */
-.to-top{display:none}
-.toast{bottom:80px}
-
-/* ═══════════ Светлая тема главной (кнопка 🌓) ═══════════
-   Дизайн тёмный по умолчанию; светлый включается кнопкой темы
-   (ui.js ставит data-theme="light" на <html> и помнит выбор в localStorage
-   под общим ключом calcdoc-theme — то есть работает и на остальных страницах). */
-:root[data-theme="light"]{
-  --bg:#eceef8;
-  --glass:rgba(255,255,255,.66);
-  --glass-2:rgba(255,255,255,.9);
-  --line:rgba(30,20,60,.14);
-  --line-2:rgba(30,20,60,.3);
-  --txt:#1b1533;
-  --mut:#5c5573;
-  --vio:#6d28d9;
-  --vio-deep:#5b21b6;
-  --vio-ink:#ffffff;
-  --cyan:#0e7490;
-}
-:root[data-theme="light"] body{background:var(--bg);color:var(--txt)}
-:root[data-theme="light"] .glass{
-  background:linear-gradient(180deg,rgba(255,255,255,.86),rgba(255,255,255,.64));
-  border-color:var(--line)}
-:root[data-theme="light"] .glass::before{background:linear-gradient(90deg,transparent,rgba(255,255,255,.95),transparent)}
-:root[data-theme="light"] .card{background:linear-gradient(180deg,rgba(255,255,255,.94),rgba(255,255,255,.8))}
-:root[data-theme="light"] .card:hover{background:linear-gradient(180deg,#fff,rgba(255,255,255,.92));
-  box-shadow:0 18px 40px -22px rgba(109,40,217,.35)}
-:root[data-theme="light"] .chip{background:rgba(255,255,255,.88)}
-:root[data-theme="light"] .chip:hover{background:#fff}
-:root[data-theme="light"] .t-inp{background:rgba(30,20,60,.05);color:var(--txt)}
-:root[data-theme="light"] .t-inp::placeholder{color:rgba(92,85,115,.6)}
-:root[data-theme="light"] .t-res{background:rgba(30,20,60,.035);border-color:rgba(30,20,60,.16)}
-:root[data-theme="light"] .drop{background:rgba(255,255,255,.6)}
-:root[data-theme="light"] .drop:hover{background:rgba(109,40,217,.07)}
-:root[data-theme="light"] .note{background:rgba(109,40,217,.08);border-color:rgba(109,40,217,.28)}
-:root[data-theme="light"] .ad-slot{background:rgba(255,255,255,.55)}
-:root[data-theme="light"] .cookie-banner{background:rgba(255,255,255,.97);box-shadow:0 -10px 30px rgba(30,20,60,.12)}
-:root[data-theme="light"] .act-btn{background:rgba(255,255,255,.92);box-shadow:0 14px 30px -18px rgba(30,20,60,.35)}
-:root[data-theme="light"] .toast{background:rgba(255,255,255,.97);color:var(--txt)}
-:root[data-theme="light"] .grain{opacity:.03}
-:root[data-theme="light"] .cursor-light{background:radial-gradient(520px circle at var(--mx,50%) var(--my,30%),rgba(109,40,217,.05),transparent 70%)}
-:root[data-theme="light"] .orb-1{background:radial-gradient(circle,rgba(139,92,246,.20),transparent 65%)}
-:root[data-theme="light"] .orb-2{background:radial-gradient(circle,rgba(14,116,144,.12),transparent 65%)}
-:root[data-theme="light"] .orb-3{background:radial-gradient(circle,rgba(139,92,246,.10),transparent 60%)}
-:root[data-theme="light"] .btn-glass{background:rgba(255,255,255,.8);color:var(--txt)}
-:root[data-theme="light"] ::selection{background:rgba(109,40,217,.2)}
-/* Контраст мелочей в светлой теме: почти белая искра и обводка цифр шагов */
-:root[data-theme="light"] [fill="#f1eef9"]{fill:#7c3aed}
-:root[data-theme="light"] .step-num{-webkit-text-stroke-color:rgba(109,40,217,.45)}
-
-/* «Инструмент дня» (шаг 8.1): стеклянная полоса над тремя инструментами */
-.tool-of-day{display:flex;align-items:center;gap:12px;margin:18px 0 0;padding:12px 16px;border-radius:16px}
-.tool-of-day:empty{display:none}
-.tool-of-day .tod-star{font-size:18px;line-height:1;flex:0 0 auto}
-.tool-of-day .tod-copy{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;min-width:0}
-.tool-of-day .tod-copy b{font-size:12.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--vio,#a78bfa)}
-.tool-of-day .tod-copy a{font-weight:700;font-size:15.5px}
-.tool-of-day .tod-desc{font-size:13.5px;color:var(--text-muted,#9a92b0)}
-@media (max-width:520px){
-  .tool-of-day{align-items:flex-start}
-  .tool-of-day .tod-copy{display:block}
-  .tool-of-day .tod-desc{display:block;margin-top:4px}
-}
-  
-/* ── Контраст в обеих темах (правка 23.09.2026) ────────────────────────────────────────────
-   Замерено своими инструментами (_game-test/theme-audit.html, 23.09.2026, 360 px):
-     светлая тема — подсказки формы отзыва 2,1:1, плашки и формулы 3,9:1,
-     белый текст на кнопке --primary 3,8:1;
-     тёмная тема — чипы 1,1:1 и «стеклянные» кнопки 1,4:1 (держали светлую подложку),
-     белая «бумага» предпросмотра расписки 1,0–1,4:1, кнопки 2,1–3,8:1.
-   Ниже — только те правила, что доводят контраст до нормы WCAG AA (4,5:1 текст, 3:1 крупный).
-   Вид разделов не меняем: пары цветов взяты из уже существующей палитры тем. */
-
-/* Светлая тема: белый текст на --primary = 3,8:1 → --primary-dark = 5,9:1. */
-:root[data-theme="light"] .btn-primary,
-:root[data-theme="light"] .btn-vio { background: var(--primary-dark); }
-
-/* Плашки-надписи и формулы: #6d5dfc на #eeebff = 3,9:1 → тёмно-фиолетовый. */
-:root[data-theme="light"] .eyebrow,
-:root[data-theme="light"] .seo-formula { color: var(--primary-dark); }
-
-/* Тёмная тема: #7d6dff на #23254a = 3,8:1 → светлее (6,9:1). */
-:root[data-theme="dark"] .eyebrow,
-:root[data-theme="dark"] .seo-formula { color: #b3a6ff; }
-
-/* Тёмная тема: кнопки. Белый текст давал 3,8:1, а смешанная пара (светлый фон + тёмная
-   «тушь») — 2,1:1. Возвращаем задуманную парой переменных тему: #8b5cf6 + #170b2e = 5,9:1. */
-:root[data-theme="dark"] .btn-primary,
-:root[data-theme="dark"] .btn-vio,
-:root[data-theme="dark"] #cookieAccept,
-:root[data-theme="dark"] #mReset,
-:root[data-theme="dark"] #qrBtn,
-:root[data-theme="dark"] #cmpDl { background: var(--vio, #a78bfa); color: #170b2e; }
-
-/* Тёмная тема: чипы популярного и «стеклянные» кнопки держали светлую подложку
-   rgba(255,255,255,.8–.88) при светлом тексте = 1,1–1,4:1. Даём тёмное стекло (~15:1). */
-:root[data-theme="dark"] .popular-bar .chip { background: rgba(255, 255, 255, .1); color: #f1eef9; border-color: rgba(255, 255, 255, .18); }
-:root[data-theme="dark"] .btn-glass { background: rgba(255, 255, 255, .12); color: #f1eef9; border-color: rgba(255, 255, 255, .2); }
-
-/* Светлая тема: панель меню-бургера тёмная, а текст в ней брался светлой палитрой = 2,6:1. */
-/* Ссылки меню на тёмном стекле (панель меню на телефоне, стеклянная шапка): светлая палитра. */
-:root[data-theme="light"] header.app-header .main-nav { --htxt: #f1eef9; --hmut: #c9c3da; --hvio: #ddd6fe; }
-/* Главная в светлой теме: шапка прозрачная над светлым фоном — в строке меню ссылки тёмные.
-   Только для широких экранов: на телефоне меню — тёмная панель, там нужна светлая палитра. */
-@media (min-width: 1025px) { :root[data-theme="light"] header.app-header#header:not(.scrolled) .main-nav { --htxt: #1b1533; --hmut: #4d4666; --hvio: #6d28d9; } }
-
-/* Предпросмотр документов — это «бумага»: она белая в любой теме, значит текст всегда тёмный. */
-:root[data-theme="dark"] #genPreview,
-:root[data-theme="dark"] #genPreview h1,
-:root[data-theme="dark"] #genPreview h2,
-:root[data-theme="dark"] #genPreview h3,
-:root[data-theme="dark"] #genPreview p,
-:root[data-theme="dark"] #genPreview div,
-:root[data-theme="dark"] #genPreview span,
-:root[data-theme="dark"] #genPreview td,
-:root[data-theme="dark"] #genPreview th { color: #1a1530; }
-
-/* Подсказки формы отзыва: инлайн-цвет #a9a4bb (2,1–2,4:1) → приглушённый, но читаемый.
-   !important нужен, потому что цвет задан атрибутом style прямо в разметке страниц. */
-#reviews-form p[style*="a9a4bb"],
-#reviews-form legend[style*="a9a4bb"],
-#reviews-form [data-reviews-note] { color: #5f5a78 !important; }
-
-/* Кнопка отправки отзыва была без стилей: в тёмной теме светлый текст на светлой кнопке (1,0:1). */
-#reviews-form button[type="submit"] { border: 0; border-radius: 12px; padding: 12px 20px; font: inherit; font-weight: 700; font-size: 15px; cursor: pointer; background: var(--primary-dark); color: #fff; }
-:root[data-theme="dark"] #reviews-form button[type="submit"] { background: #a78bfa; color: #170b2e; }
-
-/* ── Контраст: усиление (правка 23.09.2026, шаг 4б) ──────────────────────────────────────
-   Проверка после первого блока (_game-test/theme-audit.html) показала: на главной в тёмной теме
-   светлые значения переменных из разметки перебивали тёмные правила. Дожимаем !important —
-   это правки читаемости, внешний вид разделов не меняется. */
-:root[data-theme="dark"] .btn-primary,
-:root[data-theme="dark"] .btn-vio,
-:root[data-theme="dark"] #cookieAccept,
-:root[data-theme="dark"] #mReset,
-:root[data-theme="dark"] #qrBtn,
-:root[data-theme="dark"] #cmpDl { background: #a78bfa !important; color: #170b2e !important; }
-
-/* Тёмная тема: чипы и «стеклянные» кнопки главной (были 1,1–1,4:1). */
-:root[data-theme="dark"] .popular-bar .chip { background: rgba(255, 255, 255, .1) !important; color: #f1eef9 !important; border-color: rgba(255, 255, 255, .18) !important; }
-:root[data-theme="dark"] .btn-glass { background: rgba(255, 255, 255, .12) !important; color: #f1eef9 !important; border-color: rgba(255, 255, 255, .2) !important; }
-
-/* Предпросмотр документов: белая «бумага», значит текст всегда тёмный (цвет ставит скрипт генератора). */
-:root[data-theme="dark"] #genPreview,
-:root[data-theme="dark"] #genPreview *:not(svg):not(path) { color: #1a1530 !important; }
-
-/* Подсказки формы отзыва: в тёмной теме нужен светлый приглушённый цвет (было 1,0:1). */
-:root[data-theme="dark"] #reviews-form p[style*="a9a4bb"],
-:root[data-theme="dark"] #reviews-form legend[style*="a9a4bb"],
-:root[data-theme="dark"] #reviews-form [data-reviews-note] { color: #bdb7d2 !important; }
-:root[data-theme="dark"] #reviews-form button[type="submit"] { background: #a78bfa !important; color: #170b2e !important; }
-
-/* Внутренние страницы: у шапки тёмное стекло и в светлой теме, поэтому акцентное «Doc»
-   берём из светлой части палитры. Главную не трогаем: у неё шапка с id=header и своя пара цветов. */
-:root[data-theme="light"] header.app-header:not(#header) .logo b span { color: #d0c4ff !important; }
-
-    /* Первый абзац под H1: из него поисковики собирают описание страницы. */
     .hero-lead{max-width:560px;margin:12px 0 0;font-size:15.5px;line-height:1.6;color:var(--mut,#9a92b0)}
 </style>
+<link rel="stylesheet" href="/bundle.css?v=62" media="print" onload="this.media='all'" />
+<noscript><link rel="stylesheet" href="/bundle.css?v=62" /></noscript>
+<link rel="stylesheet" href="/css/home-inline.css?v=1" media="print" onload="this.media='all'" />
+<noscript><link rel="stylesheet" href="/css/home-inline.css?v=1" /></noscript>
   <meta name="theme-color" content="#0b0913" />
   <script type="application/ld+json">
 {
@@ -649,6 +347,7 @@ header.app-header [hidden] { display: none !important; }
   </script>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
+      window.addEventListener('load', function(){
       (function(m,e,t,r,i,k,a){
           m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
           m[i].l=1*new Date();
@@ -657,11 +356,13 @@ header.app-header [hidden] { display: none !important; }
       })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=112558731', 'ym');
 
       ym(112558731, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+      });
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/112558731" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
   <!-- /Yandex.Metrika counter -->
 </head>
 <body>
+  <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Уведомление о файлах cookie"><div class="container"><span class="cookie-text">Мы используем cookie. <a href="/privacy/">Подробнее</a></span><div class="cookie-actions"><button type="button" class="btn btn-primary" id="cookieAccept">Принять</button></div></div></div>
 <div class="orbs" aria-hidden="true">
   <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
 </div>
@@ -734,7 +435,7 @@ header.app-header [hidden] { display: none !important; }
       </nav>
       <div class="head-cta header-actions">
         <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
-        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол">⬇️</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><polyline points="7 10 12 15 17 10"/><path d="M5 20h14"/></svg></button>
       </div>
       <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -883,6 +584,7 @@ header.app-header [hidden] { display: none !important; }
             <button class="btn btn-glass btn-xs" id="mCopy">Скопировать</button>
             <button class="btn btn-vio btn-xs" id="mReset">Сбросить</button>
           </div>
+          <a class="t-all" href="/calculators/">Все калькуляторы</a>
         </div>
       </div>
 
@@ -947,7 +649,7 @@ header.app-header [hidden] { display: none !important; }
 
     <div class="stats reveal" id="statsBlock">
       <div class="stat"><b>Все инструменты</b><span>в одном месте</span></div>
-      <div class="stat cyan"><b><i id="stVisits">—</i></b><span id="stVisitsLabel">посещений в день</span></div>
+      <div class="stat cyan"><b><i id="stVisits">—</i></b><span id="stVisitsLabel">посетителей сегодня</span></div>
       <div class="stat"><b>более <i id="stTools">33</i></b><span>инструментов</span></div>
     </div>
   </div>
@@ -958,6 +660,10 @@ header.app-header [hidden] { display: none !important; }
   <section id="how">
     <div class="sec-head reveal">
       <span class="kicker">Процесс</span>
+      <!--SLOT:banner-after-tool-->
+      <!--/SLOT:banner-after-tool-->
+      <!--SLOT:ads-after-tool-->
+      <!--/SLOT:ads-after-tool-->
       <h2>Три шага до результата</h2>
       <p>Никаких установок и ожиданий — всё происходит на странице.</p>
     </div>
@@ -972,6 +678,7 @@ header.app-header [hidden] { display: none !important; }
 
   <!-- ===== Блоки с главной calc-doc.ru (мини-игры -> конвертеры) ===== -->
       <!-- Кнопка: мини-игры -->
+      <!--EDIT:catalog:games-->
       <section id="games" style="padding: 24px 0 8px;">
         <a class="card" href="/games/" style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:26px 28px;text-decoration:none;flex-wrap:wrap;">
           <div>
@@ -999,8 +706,10 @@ header.app-header [hidden] { display: none !important; }
           </a>
         </div>
       </section>
+<!--/EDIT:catalog:games-->
 
       <!-- Сетка калькуляторов -->
+      <!--EDIT:catalog:tools-->
       <section id="tools">
         <h2 class="section-title">Категория: <span class="accent">калькуляторы</span></h2>
 
@@ -1137,8 +846,10 @@ header.app-header [hidden] { display: none !important; }
 
 
       </section>
+<!--/EDIT:catalog:tools-->
 
       <!-- Сетка генераторов -->
+      <!--EDIT:catalog:files-->
       <section id="files">
         <h2 class="section-title">Категория: <span class="accent">генераторы документов</span></h2>
         <div class="grid">
@@ -1174,8 +885,10 @@ header.app-header [hidden] { display: none !important; }
           </a>
         </div>
       </section>
+<!--/EDIT:catalog:files-->
 
       <!-- Сетка конвертеров -->
+      <!--EDIT:catalog:converters-->
       <section id="converters">
         <h2 class="section-title">Категория: <span class="accent">конвертеры</span></h2>
         <div class="grid">
@@ -1211,6 +924,7 @@ header.app-header [hidden] { display: none !important; }
           </a>
         </div>
       </section>
+<!--/EDIT:catalog:converters-->
 
   <!-- ===== /Блоки с главной ===== -->
 
@@ -1245,9 +959,10 @@ header.app-header [hidden] { display: none !important; }
 
       <div class="container section">
       <div class="prose">
+        <!--EDIT:seo-->
         <span class="eyebrow">Инструменты сайта</span>
         <h2>Что можно посчитать, оформить и сконвертировать в CalcDoc</h2>
-        <p class="tool-meta">Обновлено: 22 сентября 2026</p>
+        <!--EDIT:updated--><p class="tool-meta">Обновлено: 22 сентября 2026</p><!--/EDIT:updated-->
         <p>На сайте <strong>29 калькуляторов</strong> в четырёх разделах (финансы и налоги, стройка и ремонт, авто, инженерные расчёты), <strong>7 генераторов документов</strong> (договор, счёт, расписка, заявление на отпуск, доверенность, отчёт, резюме), <strong>6 конвертеров</strong> файлов (CSV в Excel, PDF в Word, сжатие изображений, QR-код, SEO-транслит, DaData) и мини-игры. Все инструменты бесплатны, без регистрации и без ограничений по количеству запусков.</p>
         <p>Главный принцип — расчёт и сборка документов выполняются <strong>в браузере</strong>. Суммы кредита, доходы, реквизиты и выгрузки из банка не отправляются на сервер, поэтому инструментами удобно пользоваться для зарплатных, налоговых и юридических задач.</p>
 
@@ -1276,7 +991,9 @@ header.app-header [hidden] { display: none !important; }
         </ul>
         <p>Все инструменты связаны между собой: счёту из генератора можно посчитать НДС, к договору приложить отчёт, а выгрузку из банка сначала привести в порядок конвертером. Ссылки «Смотрите также» внизу каждой статьи ведут к соседним инструментам, поэтому нужную страницу не приходится искать заново.</p>
         <p class="note"><strong>Важно:</strong> расчёты и документы носят справочный характер. Итоговые суммы определяют банк, фонд или налоговая, а юридическую силу документу придают подписи сторон. Точные условия всегда сверяйте с договором и документами.</p>
+<!--/EDIT:seo-->
 
+        <!--EDIT:faq-->
         <span class="eyebrow">Вопросы и ответы</span>
         <h2>Частые вопросы</h2>
 
@@ -1309,6 +1026,7 @@ header.app-header [hidden] { display: none !important; }
           <summary>Как найти нужный инструмент?</summary>
           <div class="seo-faq-b"><p>Откройте раздел «Калькуляторы», «Генераторы» или «Конвертеры» — там перечислены все инструменты с короткими описаниями. Если название не помните, воспользуйтесь поиском по сайту: он ищет и по страницам, и по формулировкам задач.</p></div>
         </details>
+<!--/EDIT:faq-->
 
         <p class="calc-note">Информация на сайте носит справочный характер и не является офертой, налоговой или юридической консультацией. Расчёты выполняются в браузере и не покидают ваше устройство.</p>
         <span class="eyebrow">Смотрите также</span>
@@ -1358,6 +1076,7 @@ header.app-header [hidden] { display: none !important; }
       </div>
     </section>
 
+<section class="container section" aria-label="Другие инструменты"><h2 class="section-title">Другие инструменты</h2><div class="chips"><a class="chip" href="/calculators/finance/tax-freelancer/"><span>💼</span>Налог фрилансера</a><a class="chip" href="/calculators/finance/vacation-pay/"><span>🏖️</span>Отпускные</a><a class="chip" href="/calculators/finance/mortgage/"><span>🏠</span>Ипотека</a><a class="chip" href="/calculators/finance/deposit/"><span>💰</span>Калькулятор вкладов</a><a class="chip" href="/generators/resume/"><span>📄</span>Резюме</a><a class="chip" href="/generators/power-of-attorney/"><span>✍️</span>Доверенность</a><a class="chip" href="/generators/contract/"><span>📋</span>Договор</a><a class="chip" href="/generators/leave-request/"><span>🗓️</span>Заявление на отпуск</a><a class="chip" href="/converters/image-converter/"><span>🖼️</span>Сжатие изображений</a><a class="chip" href="/converters/csv-to-xlsx/"><span>📑</span>CSV → Excel</a><a class="chip" href="/converters/pdf-to-word/"><span>📄</span>PDF → Word</a><a class="chip" href="/games/"><span>🎮</span>Мини-игры</a><a class="chip" href="/converters/qr-generator/"><span>📱</span>QR-код</a><a class="chip" href="/calculators/finance/penalty/"><span>💳</span>Пеня</a><a class="chip" href="/calculators/finance/vat/"><span>🧾</span>НДС</a><a class="chip" href="/calculators/construction/brick/"><span>🧱</span>Кирпич</a><a class="chip" href="/calculators/finance/alimony/"><span>👪</span>Алименты</a><a class="chip" href="/calculators/construction/wallpaper/"><span>🧻</span>Обои</a><a class="chip" href="/calculators/construction/"><span>🏗️</span>Стройка и ремонт</a><a class="chip" href="/calculators/construction/tile/"><span>🔲</span>Плитка</a><a class="chip" href="/calculators/construction/laminate/"><span>🪵</span>Ламинат</a><a class="chip" href="/calculators/construction/plaster/"><span>🪨</span>Штукатурка</a><a class="chip" href="/calculators/construction/paint/"><span>🪣</span>Краска</a><a class="chip" href="/calculators/finance/"><span>🧮</span>Финансы и налоги</a><a class="chip" href="/calculators/finance/credit/"><span>🏦</span>Кредит</a><a class="chip" href="/calculators/finance/sick-leave/"><span>🤒</span>Больничный</a><a class="chip" href="/calculators/finance/maternity/"><span>👶</span>Декретные</a><a class="chip" href="/calculators/finance/ndfl/"><span>📊</span>НДФЛ и вычеты</a><a class="chip" href="/calculators/finance/ip-insurance/"><span>🧑‍💼</span>Взносы ИП</a><a class="chip" href="/calculators/finance/salary-delay/"><span>⏰</span>Задержка зарплаты</a><a class="chip" href="/calculators/finance/compound-interest/"><span>📈</span>Сложный процент</a><a class="chip" href="/calculators/finance/average-earnings/"><span>📅</span>Средний заработок</a><a class="chip" href="/generators/invoice/"><span>💳</span>Счёт</a><a class="chip" href="/generators/report/"><span>📊</span>Отчёт</a><a class="chip" href="/converters/dadata/"><span>🔎</span>DaData</a><a class="chip" href="/converters/seo-translit/"><span>🔤</span>SEO транслит</a></div></section>
 <footer>
     <div class="foot-in">
       <a class="logo" href="/" aria-label="CalcDoc">
@@ -1429,7 +1148,7 @@ header.app-header [hidden] { display: none !important; }
 <!-- QR: локальная библиотека /libs/qrcode-generator.js (загружается вашим chunkload.js;
      ни CDN, ни сторонних сервисов — данные не покидают браузер) -->
 
-  <script defer src="/js/home-bundle.js?v=49"></script>
+  <script defer src="/js/home-bundle.min.js?v=56"></script>
 <style id="dark-theme-anchor">
 /* Тёмная тема главной: кнопки и чипы. Ставим последним блоком документа, потому что\n   в разметке главной их цвета перебивались значениями из более ранних блоков\n   (_game-test/theme-audit.html: было 1,1–2,9:1 при норме 4,5:1). */
 :root[data-theme="dark"] .popular-bar .chip {

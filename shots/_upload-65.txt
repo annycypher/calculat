@@ -1,0 +1,12 @@
+glossary/annuitetnyy-platezh.html
+glossary/differencirovannyy-platezh.html
+glossary/effektivnaya-stavka.html
+glossary/index.html
+glossary/kapitalizaciya-procentov.html
+glossary/klyuchevaya-stavka-cb.html
+glossary/nalogovyy-vychet.html
+glossary/ndfl.html
+glossary/pervonachalnyy-vznos.html
+glossary/psk-polnaya-stoimost-kredita.html
+glossary/slozhnyy-procent.html
+sitemap.xml

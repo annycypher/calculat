@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <script>try{if(localStorage.getItem("calcdoc-consent"))document.documentElement.classList.add("calcdoc-consent")}catch(e){}</script>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!--EDIT:title-->  <title>Расчет незамерзайки для системы отопления</title>
+  <meta name="description" content="" />
+  <link rel="canonical" href="https://calc-doc.ru/blog/skolko-nezamerzayki-nuzhno-dlya-sistemy-otopleniya-raschet-o/" />
+  <meta name="robots" content="index, follow" />
+  <meta name="keywords" content="незамерзайка, теплоноситель, отопление" />
+  <meta property="og:title" content="Расчет незамерзайки для системы отопления" />
+  <meta property="og:description" content="" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Сколько незамерзайки нужно для системы отопления: расчёт объёма теплоносителя" />
+  <meta property="og:url" content="https://calc-doc.ru/blog/skolko-nezamerzayki-nuzhno-dlya-sistemy-otopleniya-raschet-o/" />
+  <meta name="twitter:card" content="summary_large_image" />
+<link rel="manifest" href="/manifest.webmanifest" />
+    <style>
+      /* @font-face инлайном — вместо внешнего файла шрифтов: убирает цепочку HTML → CSS → woff2 (Lighthouse: 937 мс). Начертаний девять — все сохранены. */
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+    </style>
+    <link rel="preload" href="/fonts/manrope-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/unbounded-600-lat.woff2" as="font" type="font/woff2" crossorigin />
+    <style id="critical-css">
+/* Критический CSS первого экрана (задача 1 ТЗ по скорости, 25.09.2026): правила bundle.css, нужные видимым элементам при ширине окна 390 и 1280 px. Собран инструментом _game-test/perf-critical-measure.html. Полный bundle.css подключается ниже асинхронно. */
+:root { --bg: #ffffff; --bg-soft: #f5f6fb; --text: #1b1c2e; --text-muted: #5a5c72; --border: #e4e6f0; --primary: #6d5dfc; --primary-dark: #5646e0; --primary-soft: #eeebff; --accent: #f4a340; --card-bg: #ffffff; --shadow: 0 8px 30px rgba(28, 25, 60, 0.08); --icon-cyan: #2f9fc4; --radius: 16px; --radius-sm: 10px; --maxw: 1120px; }
+*, ::before, ::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0px; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; color: var(--text); background: var(--bg); -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+.container { width: 100%; max-width: var(--maxw); margin: 0px auto; padding: 0px 20px; }
+.icon-btn { border: 1px solid var(--border); background: var(--card-bg); width: 42px; height: 42px; border-radius: 12px; cursor: pointer; font-size: 18px; display: grid; place-items: center; transition: transform 0.12s, border-color 0.12s; }
+.eyebrow { display: inline-block; padding: 6px 14px; border-radius: 999px; background: var(--primary-soft); color: var(--primary); font-size: 13px; font-weight: 600; margin: 0px 0px 14px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 22px; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: transform 0.12s, box-shadow 0.12s; }
+.btn-primary { background: var(--primary); color: rgb(255, 255, 255); box-shadow: rgba(109, 93, 252, 0.35) 0px 6px 20px; }
+.btn-ghost { border-color: var(--border); background: var(--card-bg); }
+.btn-glass { border-color: var(--border); background: var(--bg-soft); color: var(--text); }
+.section { padding: 48px 0px; }
+html.calcdoc-consent .cookie-banner{display:none!important}
+.cookie-banner { position: fixed; left: 0px; right: 0px; bottom: 0px; z-index: 1000; background: var(--card-bg); color: var(--text); border-top: 1px solid var(--border); box-shadow: rgba(0, 0, 0, 0.08) 0px -6px 24px; padding: 10px 14px !important; }
+.cookie-banner .container { display: flex; align-items: center; gap: 12px !important; flex-wrap: nowrap !important; justify-content: flex-start !important; padding: 0 !important; }
+.cookie-banner .cookie-text { margin: 0px; font-size: 13px; color: var(--text-muted); line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex: 1 1 auto; }
+.cookie-banner a { color: var(--primary); text-decoration: underline; }
+.cookie-actions { display: flex; gap: 10px; flex-wrap: nowrap; flex-shrink: 0; }
+.cookie-actions .btn { padding: 8px 14px !important; font-size: 13px !important; white-space: nowrap; flex-shrink: 0; }
+.prose { max-width: 760px; }
+.prose p, .prose li { color: var(--text-muted); }
+.tool-hero { padding: 40px 0px 8px; }
+.tool-hero h1 { margin: 0px 0px 12px; letter-spacing: -0.02em; }
+.breadcrumbs { font-size: 14px; color: var(--text-muted); margin-bottom: 16px; }
+.breadcrumbs a { color: var(--primary); }
+.tool-meta { color: var(--text-muted); font-size: 15px; }
+:root[data-theme="light"] { --bg: #ffffff; --bg-soft: #f5f6fb; --text: #1b1c2e; --text-muted: #5a5c72; --border: #e4e6f0; --primary: #6d5dfc; --primary-dark: #5646e0; --primary-soft: #eeebff; --icon-cyan: #2f9fc4; --accent: #f4a340; --card-bg: #ffffff; --shadow: 0 8px 30px rgba(28, 25, 60, .08); }
+.action-bar { position: fixed; right: 18px; bottom: 18px; display: flex; flex-direction: column; gap: 10px; z-index: 80; }
+.act-btn { width: 46px; height: 46px; border-radius: 14px; border: 1px solid var(--border); background: var(--card-bg); color: var(--primary); box-shadow: var(--shadow); display: grid; place-items: center; cursor: pointer; font-size: 0px; transition: transform 0.12s, border-color 0.12s, color 0.12s; }
+.act-btn svg { width: 20px; height: 20px; }
+@media (max-width: 640px){.action-bar { flex-direction: row; right: 12px; bottom: 12px; }}
+.seo-formula { margin: 14px 0px; padding: 16px 20px; border-radius: var(--radius-sm); text-align: center; background: var(--primary-soft); border: 1px dashed color-mix(in srgb, var(--primary) 45%, var(--border)); font-weight: 700; color: var(--primary); letter-spacing: 0.01em; }
+header.app-header { --htxt: #f1eef9; --hmut: #9a92b0; --hvio: #a78bfa; --hline: rgba(255, 255, 255, .11); --hline-2: rgba(255, 255, 255, .22); --hglass: rgba(255, 255, 255, .05); --hglass-2: rgba(255, 255, 255, .08); position: sticky; top: 0px; z-index: 50; background: rgba(11, 9, 19, 0.72); backdrop-filter: blur(16px); border-bottom: 1px solid var(--hline); color: var(--htxt); transition: background 0.3s, border-color 0.3s; }
+header.app-header .head-in, header.app-header .header-inner { display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: 0px; width: 100%; max-width: 1180px; margin: 0px auto; padding: 0px 24px; height: 76px; }
+header.app-header .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--htxt); }
+header.app-header .logo-mark { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: rgba(139, 92, 246, 0.16); border: 1px solid rgba(167, 139, 250, 0.35); color: var(--hvio); }
+header.app-header .logo-mark svg { display: block; width: 20px; height: 20px; }
+header.app-header .logo b { font-family: Unbounded, sans-serif; font-weight: 600; font-size: 19px; color: var(--htxt); }
+header.app-header .main-nav { display: flex; flex-wrap: nowrap; align-items: center; gap: 26px; margin-left: auto; }
+header.app-header .nav-item { position: relative; display: flex; align-items: center; }
+header.app-header .nav-link { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; padding: 0px; border-radius: 0px; background: none; color: var(--hmut); text-decoration: none; font-weight: 600; font-size: 14.5px; transition: color 0.2s; }
+header.app-header .logo b span { color: var(--hvio); }
+header.app-header .nav-burger { display: none; width: 44px; height: 44px; border-radius: 12px; background: var(--hglass); border: 1px solid var(--hline); color: var(--htxt); cursor: pointer; place-items: center; }
+header.app-header .head-cta, header.app-header .header-actions { display: flex; align-items: center; gap: 12px; margin-left: 0px; }
+header.app-header .icon-btn { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: var(--hglass); border: 1px solid var(--hline); color: var(--htxt); font-size: 17px; line-height: 1; cursor: pointer; backdrop-filter: blur(12px); transition: background 0.25s, border-color 0.25s, transform 0.25s; }
+header.app-header .search-wrap { position: relative; flex: 0 0 auto; }
+header.app-header .search-input { width: 150px; padding: 7px 12px 7px 30px; border-radius: 999px; font-family: Manrope, sans-serif; font-size: 13px; color: var(--htxt); border: 1px solid var(--hline); outline: none; background-color: var(--hglass); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239a92b0' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='6'/%3E%3Cpath d='M20.5 20.5 16 16'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: 10px 50%; background-size: 14px 14px; backdrop-filter: blur(12px); transition: width 0.2s, border-color 0.2s, box-shadow 0.2s, background-color 0.2s; }
+@media (max-width: 1024px){header.app-header .nav-burger { display: grid; }}
+@media (min-width: 1101px){header.app-header .search-wrap { margin-left: 22px; }}
+@media (max-width: 760px){header.app-header .head-cta, header.app-header .header-actions { gap: 6px; }header.app-header .head-cta .icon-btn, header.app-header .header-actions .icon-btn { display: grid; width: 44px; height: 44px; font-size: 18px; }header.app-header .nav-burger { width: 44px; height: 44px; }header.app-header .logo { gap: 8px; }header.app-header .logo-mark { width: 34px; height: 34px; }header.app-header .logo b { font-size: 16px; }}
+:root[data-theme="light"] .btn-primary, :root[data-theme="light"] .btn-vio { background: var(--primary-dark); }
+:root[data-theme="light"] .eyebrow, :root[data-theme="light"] .seo-formula { color: var(--primary-dark); }
+:root[data-theme="light"] header.app-header .main-nav { --htxt: #f1eef9; --hmut: #c9c3da; --hvio: #ddd6fe; }
+:root[data-theme="light"] header.app-header:not(#header) .logo b span { color: rgb(208, 196, 255) !important; }
+@media (max-width: 1168px){main:not(.wrap) { padding-left: 24px; padding-right: 24px; }main h1, main h2 { overflow-wrap: break-word; hyphens: auto; }}
+@media (max-width: 1024px){header.app-header .head-in, header.app-header .header-inner { gap: 8px; }header.app-header .head-cta, header.app-header .header-actions { gap: 8px; margin-left: auto; }}
+@media (max-width: 760px){header.app-header .head-in, header.app-header .header-inner { gap: 8px; }header.app-header .head-cta, header.app-header .header-actions { gap: 8px; }}
+header.app-header .head-cta #installBtn svg, header.app-header .header-actions #installBtn svg { display: block; width: 20px; height: 20px; }
+:root[data-theme="light"] header.app-header .head-cta #installBtn, :root[data-theme="light"] header.app-header .header-actions #installBtn { background: var(--hglass); border-color: var(--hline); color: var(--hvio); }
+</style>
+<link rel="stylesheet" href="/bundle.css?v=61" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="/bundle.css?v=61" /></noscript>
+  <meta name="theme-color" content="#6d5dfc" />
+    <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Article","headline":"Сколько незамерзайки нужно для системы отопления: расчёт объёма теплоносителя","description":"","datePublished":"2026-09-28","dateModified":"2026-09-28","image":["https://calc-doc.ru/og-cover.png"],"author":{"@type":"Organization","name":"CalcDoc"},"publisher":{"@type":"Organization","name":"CalcDoc","logo":{"@type":"ImageObject","url":"https://calc-doc.ru/icons/icon-512.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://calc-doc.ru/blog/skolko-nezamerzayki-nuzhno-dlya-sistemy-otopleniya-raschet-o/"}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/"},{"@type":"ListItem","position":2,"name":"Статьи","item":"https://calc-doc.ru/blog/"},{"@type":"ListItem","position":3,"name":"","item":"https://calc-doc.ru/blog/skolko-nezamerzayki-nuzhno-dlya-sistemy-otopleniya-raschet-o/"}]}
+  </script>
+</head>
+<body>
+  <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Уведомление о файлах cookie"><div class="container"><span class="cookie-text">Мы используем cookie. <a href="/privacy/">Подробнее</a></span><div class="cookie-actions"><button type="button" class="btn btn-primary" id="cookieAccept">Принять</button></div></div></div>
+  <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/finance/">Финансы и налоги<b>16</b></a>
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/auto/">Авто<b>4</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a href="/converters/unit-converter/">Единицы измерения</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><polyline points="7 10 12 15 17 10"/><path d="M5 20h14"/></svg></button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/blog/">Статьи</a> / </nav>
+      <h1>Сколько незамерзайки нужно для системы отопления: расчёт объёма теплоносителя</h1>
+      <p class="tool-meta">Обновлено: 28 сентября 2026</p>
+    </div>
+
+    <!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+    <div class="container section">
+      <div class="prose">
+        <main>
+    <div>
+      <nav><a href="/">Главная</a> / <a href="/blog/">Статьи</a> / Сколько незамерзайки для отопления</nav>
+      <h1>Сколько незамерзайки нужно для системы отопления: расчёт объёма теплоносителя</h1>
+      <p>Обновлено: 2026-09-28</p>
+    </div>
+
+    
+    
+    
+    
+    <div>
+      <div>
+        
+        <div>
+<b>Локальный preview.</b> Это автономная копия статьи со встроенными стилями, воспроизводящая оформление calc-doc.ru. На продакшене файл <code>index.html</code> подключает внешний <code>/bundle.css</code> — здесь стили встроены для просмотра в браузере без сервера.</div>
+
+        <span>Отопление</span>
+        <p>Чтобы понять, сколько незамерзайки нужно для системы отопления дома, считают суммарный внутренний объём радиаторов, труб и теплообменника котла, а затем прибавляют 10–15 % на заливку и стравливание воздуха. Концентрат пропиленгликоля в 3–5 раз дороже воды, а излишек не войдёт в расширительный бак. Ниже — таблицы ёмкостей, формула и пошаговый порядок заливки пропиленгликолем.</p>
+
+        <div>Коротко: V = Vрадиаторов + Vтруб + Vкотла + 10–15 % запаса; плотность пропиленгликоля ≈ 1,03 кг/л, этиленгликоля ≈ 1,05 кг/л при +20 °C; расширительный бак под гликоль берут на 30–50 % больше, чем под воду.</div>
+
+        <h2>От чего зависит объём</h2>
+        <p>Итоговое количество незамерзайки для системы отопления дома определяется не площадью здания, а геометрией контура: числом и типом отопительных приборов, метражом и диаметром труб, типом котла. Два дома одинаковой площади могут отличаться по объёму теплоносителя в 1,5–2 раза — например, при компактных алюминиевых радиаторах или чугунных секционных батареях. Ёмкость приборов берут из техпаспортов конкретного бренда: у разных производителей при одной высоте секции внутренний объём отличается на 15–25 %.</p>
+
+        <table>
+          <thead>
+            <tr>
+<th>Тип прибора</th>
+<th>Объём теплоносителя</th>
+<th>Примечание</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>Алюминиевый, межосевое 500 мм</td>
+<td>0,35–0,46 л/секция</td>
+<td>по паспортам производителей</td>
+</tr>
+            <tr>
+<td>Алюминиевый, межосевое 350 мм</td>
+<td>0,20–0,25 л/секция</td>
+<td>[СВЕРИТЬ: у разных брендов разброс]</td>
+</tr>
+            <tr>
+<td>Биметаллический, межосевое 500 мм</td>
+<td>0,18–0,30 л/секция</td>
+<td>стальной сердечник сужает канал</td>
+</tr>
+            <tr>
+<td>Биметаллический, межосевое 350 мм</td>
+<td>0,13–0,17 л/секция</td>
+<td>[СВЕРИТЬ: конкретная модель]</td>
+</tr>
+            <tr>
+<td>Чугунный МС-140-500</td>
+<td>≈ 1,45 л/секция</td>
+<td>ГОСТ 8690-97</td>
+</tr>
+            <tr>
+<td>Чугунный современный (STI Nova и пр.)</td>
+<td>0,7–1,0 л/секция</td>
+<td>[СВЕРИТЬ: модель]</td>
+</tr>
+            <tr>
+<td>Стальной панельный тип 22, 500×1000 мм</td>
+<td>≈ 5,0–5,5 л</td>
+<td>по паспортам Kermi, Purmo, Bergerr</td>
+</tr>
+            <tr>
+<td>Стальной панельный тип 11, 500×1000 мм</td>
+<td>≈ 2,5–3,0 л</td>
+<td>[СВЕРИТЬ: бренд]</td>
+</tr>
+            <tr>
+<td>Стальной панельный тип 33, 500×1000 мм</td>
+<td>≈ 7,0–8,0 л</td>
+<td>[СВЕРИТЬ: бренд]</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p>С трубами то же самое: внутренний диаметр зависит от материала и толщины стенки. У стальной водогазопроводной трубы DN20 (3/4″) внутренний канал около 21 мм, у полипропиленовой PN20 Ø25 — около 16,6 мм, при равной номинальной пропускной способности объём жидкости на погонный метр отличается почти вдвое.</p>
+
+        <table>
+          <thead>
+            <tr>
+<th>Тип трубы</th>
+<th>DN15 (½″)</th>
+<th>DN20 (¾″)</th>
+<th>DN25 (1″)</th>
+<th>DN32 (1¼″)</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>Стальная ВГП, ГОСТ 3262-75</td>
+<td>0,20 л/м</td>
+<td>0,35 л/м</td>
+<td>0,57 л/м</td>
+<td>1,00 л/м</td>
+</tr>
+            <tr>
+<td>Полипропилен PN20</td>
+<td>0,14 л/м (Ø20)</td>
+<td>0,22 л/м (Ø25)</td>
+<td>0,35 л/м (Ø32)</td>
+<td>0,56 л/м (Ø40)</td>
+</tr>
+            <tr>
+<td>Металлопластик / PEX</td>
+<td>0,11 л/м (Ø16)</td>
+<td>0,20 л/м (Ø20)</td>
+<td>0,33 л/м (Ø25)</td>
+<td>0,55 л/м (Ø32)</td>
+</tr>
+          </tbody>
+        </table>
+        <p>Теплообменник настенного газового котла 12–24 кВт вмещает 0,5–2,0 л, напольного чугунного — 5–15 л в зависимости от числа секций. В контуре тёплого пола на каждый квадратный метр укладывают около 7–8 метров трубы Ø16, что даёт ещё 0,8–0,9 л/м².</p>
+
+        <h2>Расчёт: формула и пример</h2>
+        <p>Формула расчёта простая: общий объём равен сумме объёмов всех узлов плюс резерв 10–15 %, который уходит на заполнение «мёртвых» зон, воздухоотводчики и долив при последующих обслуживаниях.</p>
+        <div>Vобщ = Vрад + Vтруб + Vкотла + Vзапаса  (Vзапаса = 10–15 % от первых трёх слагаемых)</div>
+        <p>Расчёт незамерзайки для системы отопления дома разберём на реальном запросе «сколько нужно незамерзайки для 5 радиаторов по 10 секций». Дом 100–120 м², два этажа, два трубопровода (подача + обратка), алюминиевые радиаторы 500 мм, трубы из полипропилена PN20.</p>
+        <table>
+          <thead>
+            <tr>
+<th>Узел</th>
+<th>Расчёт</th>
+<th>Объём, л</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>5 радиаторов × 10 секций алюминий 500 мм</td>
+<td>50 × 0,40</td>
+<td>20,0</td>
+</tr>
+            <tr>
+<td>Подача и обратка, 30 м трубы DN20 (Ø25 PPR)</td>
+<td>30 × 0,22</td>
+<td>6,6</td>
+</tr>
+            <tr>
+<td>Магистраль 15 м DN25 (Ø32 PPR)</td>
+<td>15 × 0,35</td>
+<td>5,3</td>
+</tr>
+            <tr>
+<td>Подводки 5 м DN15 (Ø20 PPR)</td>
+<td>5 × 0,14</td>
+<td>0,7</td>
+</tr>
+            <tr>
+<td>Настенный котёл 24 кВт</td>
+<td>—</td>
+<td>1,5</td>
+</tr>
+            <tr>
+<td><b>Подытог</b></td>
+<td>—</td>
+<td><b>34,1</b></td>
+</tr>
+            <tr>
+<td>Резерв 12 %</td>
+<td>34,1 × 0,12</td>
+<td>4,1</td>
+</tr>
+            <tr>
+<td><b>Итого незамерзайки −30 °C</b></td>
+<td>—</td>
+<td><b>≈ 38 л</b></td>
+</tr>
+          </tbody>
+        </table>
+        <p>Если используется готовый раствор −30 °C на пропиленгликоле (ρ ≈ 1,038 кг/л при +20 °C), масса составит 38 × 1,038 ≈ 39,4 кг. Если берётся концентрат 100 % для разбавления до −30 °C (≈ 45 % по объёму), понадобится ≈ 17 л концентрата и 21 л дистиллированной воды. Точные пропорции — на этикетке.</p>
+
+        <h2>Пропиленгликоль или этиленгликоль</h2>
+        <p>Для частного дома безопаснее пропиленгликоль: он не токсичен, разрешён в системах с возможным контактом с питьевой водой через теплообменник ГВС, не разрушает алюминий при правильной концентрации ингибиторов. Минус — выше вязкость при низких температурах, что требует чуть более мощного циркуляционного насоса.</p>
+        <p>Этиленгликоль дешевле и лучше по теплофизике, но токсичен: смертельная доза для взрослого — порядка 100–150 мл. Его применяют в закрытых промышленных контурах, где исключён случайный слив. В жилых домах от этиленгликоля отказываются даже ради экономии.</p>
+        <table>
+          <thead>
+            <tr>
+<th>Параметр</th>
+<th>Пропиленгликоль 45 % (−30 °C)</th>
+<th>Этиленгликоль 50 % (−35 °C)</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>Плотность при +20 °C</td>
+<td>≈ 1,038 кг/л</td>
+<td>≈ 1,064 кг/л</td>
+</tr>
+            <tr>
+<td>Токсичность</td>
+<td>нетоксичен</td>
+<td>токсичен</td>
+</tr>
+            <tr>
+<td>Совместимость с алюминием</td>
+<td>да (с ингибиторами)</td>
+<td>да (с ингибиторами)</td>
+</tr>
+            <tr>
+<td>Вязкость при −20 °C</td>
+<td>выше</td>
+<td>ниже</td>
+</tr>
+            <tr>
+<td>Цена за 1 кг</td>
+<td>выше в 1,3–1,5 раза</td>
+<td>базовая</td>
+</tr>
+          </tbody>
+        </table>
+        <p>Плотности — для водных растворов при +20 °C; у готовых жидкостей «Тёплый дом», Dixis, Thermagent возможны отклонения 0,002–0,005 кг/л — сверьтесь с этикеткой канистры [СВЕРИТЬ: точное значение у бренда].</p>
+
+        <h2>Как заполнять: порядок</h2>
+        <p>Заполнение системы отопления пропиленгликолем отличается от заливки воды: гликоль вязкий, его подают насосом, а не из ведра, и обязательно стравливают воздух из каждого радиатора.</p>
+        <div>
+          <ol>
+            <li>Слить старый теплоноситель, при необходимости промыть контур специальной жидкостью и опрессовать водой под давлением 1,5 рабочего.</li>
+            <li>Проверить, что запорно-регулировочная арматура открыта, воздухоотводчики на радиаторах закрыты, расширительный бак подобран с запасом 30–50 % к объёму для воды.</li>
+            <li>Подключить заливной насос к патрубку подпитки или дренажному крану на обратке, подготовить ёмкость с готовым раствором нужной концентрации.</li>
+            <li>Заливать под давлением 0,2–0,3 бар выше статического, пока из воздухоотводчика на верхней точке контура не потечёт сплошная струя без пузырьков.</li>
+            <li>Поочерёдно стравить воздух из каждого радиатора, начиная с самого верхнего по уровню; при падении давления доливать раствор до целевых 1,0–1,5 бар в холодной системе.</li>
+            <li>Запустить котёл, прогреть систему до 50–60 °C, повторно стравить воздух, проверить отсутствие течей на резьбах и фитингах.</li>
+            <li>Довести давление до рабочего (обычно 1,2–1,8 бар в холодной системе), зафиксировать показания манометра и плотность ареометром — это точка отсчёта для последующих доливок.</li>
+          </ol>
+        </div>
+
+        <h2>Ошибки</h2>
+        <p>Самая частая — считать объём по мощности котла или площади дома. «100 Вт на квадратный метр» описывает тепловую мощность, а не литраж: дом 120 м² может иметь систему и на 25, и на 60 литров. Считают всегда по фактической геометрии контура.</p>
+        <p>Вторая — заливать концентрат без разбавления. Концентрат 100 % пропиленгликоля замерзает при −60 °C, но в чистом виде хуже отдаёт тепло, агрессивнее к уплотнениям и неоправданно дорог. Рабочая концентрация для средней полосы — 35–45 % (защита до −25...−30 °C), для Сибири и Севера — 45–50 %.</p>
+        <p>Третья — ставить расширительный бак, рассчитанный на воду. У гликолей коэффициент объёмного расширения при нагреве на 30–40 % выше, чем у воды: бак «по воде» на 80 °C стравит предохранительный клапан. Под гликоль бак берут на 30–50 % большего объёма — см. <a href="/blog/rasshiritelnyy-bak-podbor/">подбор расширительного бака</a>.</p>
+        <p>Четвёртая — смешивать остатки старого теплоносителя с новым другого бренда: ингибиторы коррозии у производителей разные, при смешивании выпадают в осадок и забивают фильтр. Перед заливкой новой жидкости старую сливают полностью и промывают контур.</p>
+        <p>Пятая — заливать в алюминиевые радиаторы автомобильный антифриз на метаноле или нитритах: он разрушает алюминий за один сезон. Для отопления используют только специализированные теплоносители с ингибиторами для систем отопления.</p>
+
+
+        
+        
+        
+        
+        
+        <h2>Частые вопросы</h2>
+        <details>
+          <summary>Сколько нужно незамерзайки для 5 радиаторов по 10 секций?</summary>
+          <div><p>Около 38 литров готового теплоносителя −30 °C для дома 100–120 м² с алюминиевыми радиаторами 500 мм, трубами PN20 и настенным котлом 24 кВт: 20 л в радиаторах + 12,6 л в трубах + 1,5 л в котле + 4,1 л резерва. Биметаллические радиаторы уменьшат итог до ~28–32 л.</p></div>
+        </details>
+        <details>
+          <summary>Сколько литров теплоносителя в радиаторе?</summary>
+          <div><p>На одну секцию: алюминиевый 500 мм — 0,35–0,46 л, биметаллический 500 мм — 0,18–0,30 л, чугунный МС-140-500 — около 1,45 л, современный чугунный — 0,7–1,0 л. Точное значение — в техпаспорте конкретного прибора.</p></div>
+        </details>
+        <details>
+          <summary>Как заполнить систему отопления пропиленгликолем?</summary>
+          <div><p>Готовый раствор или концентрат с дистиллированной водой заливают через подпиточный патрубок насосом под давлением 0,2–0,3 бар выше статического. После заполнения стравливают воздух из каждого радиатора, прогревают систему до 50–60 °C, повторно удаляют воздух и доводят давление до 1,2–1,8 бар в холодной системе.</p></div>
+        </details>
+        <details>
+          <summary>Можно ли смешивать незамерзайку с водой?</summary>
+          <div><p>Дистиллированную воду добавляют только для корректировки концентрации того же бренда в пропорциях с этикетки. Смешивать готовый теплоноситель с водопроводной водой нельзя: соли жёсткости выпадают в осадок, а ингибиторы коррозии разбавляются ниже рабочего порога. Смешивать незамерзайки разных брендов и разных основ (пропиленгликоль + этиленгликоль) запрещено.</p></div>
+        </details>
+        <details>
+          <summary>Какой расширительный бак ставить под незамерзайку?</summary>
+          <div><p>Объём бака берут на 30–50 % больше, чем для воды: коэффициент расширения гликоля при нагреве с 20 до 90 °C составляет 5–6 % против 3,5 % у воды. Для системы на 38 л нужен бак не менее 6–8 л, а лучше — по расчёту с учётом статической высоты и давления срабатывания предохранительного клапана.</p></div>
+        </details>
+
+
+        <p>Посчитайте объём под свою систему на <a href="/calculators/engineering/obem-sistemy-otopleniya/">калькуляторе объёма системы отопления</a> — он суммирует радиаторы, трубы и котёл и выдаёт литры и массу теплоносителя нужной концентрации. <a href="/blog/diametr-trub-otopleniya-raschet/">Расчёт диаметра труб</a> и <a href="/blog/moshchnost-kotla-raschet/">расчёт мощности котла</a> помогут выстроить контур, а <a href="/blog/rasshiritelnyy-bak-podbor/">подбор расширительного бака</a> — закрыть температурное расширение.</p>
+
+        <span>Смотрите также</span>
+        <div>
+          <a href="/blog/obem-sistemy-otopleniya-raschet/">Объём системы отопления: расчёт</a>
+          <a href="/blog/diametr-trub-otopleniya-raschet/">Диаметр труб отопления: расчёт</a>
+          <a href="/blog/rasshiritelnyy-bak-podbor/">Расширительный бак: подбор</a>
+          <a href="/blog/moshchnost-kotla-raschet/">Мощность котла: расчёт</a>
+          <a href="/blog/cirkulyacionnyy-nasos-podbor/">Циркуляционный насос: подбор</a>
+          <a href="/calculators/engineering/obem-sistemy-otopleniya/">Калькулятор объёма системы отопления</a>
+          <a href="/blog/">Все статьи</a>
+        </div>
+
+        <p>Расчёты носят справочный характер: точные ёмкости приборов и труб уточняйте в технических паспортах производителей, плотность готового теплоносителя — на этикетке канистры. Все вычисления выполняются в браузере и не покидают ваше устройство.</p>
+      </div>
+    </div>
+
+    
+    
+    
+    
+  </main>
+
+        <p class="calc-note">Расчёты носят справочный характер: точные суммы, ставки и нормы уточняйте в договоре, у ведомства или у профильного специалиста. Все вычисления выполняются в браузере и не покидают ваше устройство.</p>
+      </div>
+    </div>
+    <!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/blog/skolko-nezamerzayki-nuzhno-dlya-sistemy-otopleniya-raschet-o/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/blog/skolko-nezamerzayki-nuzhno-dlya-sistemy-otopleniya-raschet-o/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=42" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+</main>
+
+  <section class="container section" aria-label="Другие инструменты"><h2 class="section-title">Другие инструменты</h2><div class="chips"><a class="chip" href="/calculators/finance/tax-freelancer/"><span>💼</span>Налог фрилансера</a><a class="chip" href="/calculators/finance/vacation-pay/"><span>🏖️</span>Отпускные</a><a class="chip" href="/calculators/finance/mortgage/"><span>🏠</span>Ипотека</a><a class="chip" href="/calculators/finance/deposit/"><span>💰</span>Калькулятор вкладов</a><a class="chip" href="/generators/resume/"><span>📄</span>Резюме</a><a class="chip" href="/generators/power-of-attorney/"><span>✍️</span>Доверенность</a><a class="chip" href="/generators/contract/"><span>📋</span>Договор</a><a class="chip" href="/generators/leave-request/"><span>🗓️</span>Заявление на отпуск</a><a class="chip" href="/converters/image-converter/"><span>🖼️</span>Сжатие изображений</a><a class="chip" href="/converters/csv-to-xlsx/"><span>📑</span>CSV → Excel</a><a class="chip" href="/converters/pdf-to-word/"><span>📄</span>PDF → Word</a><a class="chip" href="/games/"><span>🎮</span>Мини-игры</a><a class="chip" href="/converters/qr-generator/"><span>📱</span>QR-код</a><a class="chip" href="/calculators/finance/penalty/"><span>💳</span>Пеня</a><a class="chip" href="/calculators/finance/vat/"><span>🧾</span>НДС</a><a class="chip" href="/calculators/construction/brick/"><span>🧱</span>Кирпич</a><a class="chip" href="/calculators/finance/alimony/"><span>👪</span>Алименты</a><a class="chip" href="/calculators/construction/wallpaper/"><span>🧻</span>Обои</a><a class="chip" href="/calculators/construction/"><span>🏗️</span>Стройка и ремонт</a><a class="chip" href="/calculators/construction/tile/"><span>🔲</span>Плитка</a><a class="chip" href="/calculators/construction/laminate/"><span>🪵</span>Ламинат</a><a class="chip" href="/calculators/construction/plaster/"><span>🪨</span>Штукатурка</a><a class="chip" href="/calculators/construction/paint/"><span>🪣</span>Краска</a><a class="chip" href="/calculators/finance/"><span>🧮</span>Финансы и налоги</a><a class="chip" href="/calculators/finance/credit/"><span>🏦</span>Кредит</a><a class="chip" href="/calculators/finance/sick-leave/"><span>🤒</span>Больничный</a><a class="chip" href="/calculators/finance/maternity/"><span>👶</span>Декретные</a><a class="chip" href="/calculators/finance/ndfl/"><span>📊</span>НДФЛ и вычеты</a><a class="chip" href="/calculators/finance/ip-insurance/"><span>🧑‍💼</span>Взносы ИП</a><a class="chip" href="/calculators/finance/salary-delay/"><span>⏰</span>Задержка зарплаты</a><a class="chip" href="/calculators/finance/compound-interest/"><span>📈</span>Сложный процент</a><a class="chip" href="/calculators/finance/average-earnings/"><span>📅</span>Средний заработок</a><a class="chip" href="/generators/invoice/"><span>💳</span>Счёт</a><a class="chip" href="/generators/report/"><span>📊</span>Отчёт</a><a class="chip" href="/converters/dadata/"><span>🔎</span>DaData</a><a class="chip" href="/converters/seo-translit/"><span>🔤</span>SEO транслит</a></div></section>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+
+        <a href="/glossary/">Глоссарий</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script defer src="/js/ui-bundle.min.js?v=55"></script>
+</body>
+</html>
+
+
+
+

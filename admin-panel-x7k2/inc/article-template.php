@@ -112,6 +112,26 @@ function article_shell(): array {
 }
 
 /** Разметка для поисковиков: Article + «хлебные крошки» + FAQ (если есть вопросы). */
+/** Обложка статьи как имя файла в media/uploads ('' — обложки нет). В поле может лежать
+    и имя файла, и путь «/media/uploads/имя.jpg» — приводим к имени. */
+function article_cover_file(array $f): string
+{
+    $raw = basename(trim((string)($f['image'] ?? '')));
+    return ($raw !== '' && is_file(MEDIA_DIR . '/' . $raw)) ? $raw : '';
+}
+
+/** Абсолютный адрес обложки для og:image и разметки (нет обложки — общая картинка сайта). */
+function article_cover_url(array $f, string $site = ''): string
+{
+    $site = rtrim($site !== '' ? $site : '', '/');
+    $raw  = trim((string)($f['image'] ?? ''));
+    $file = article_cover_file($f);
+    if ($file !== '') { return $site . '/media/uploads/' . $file; }
+    if ($raw !== '' && strpos($raw, 'http') === 0) { return $raw; }
+    if ($raw !== '' && strpos($raw, '/') === 0) { return $site . $raw; }
+    return $site . '/og-cover.png';
+}
+
 function article_jsonld(array $f): string {
     $shell = article_shell();
     $site  = rtrim((string)$shell['site_url'], '/');
@@ -122,9 +142,7 @@ function article_jsonld(array $f): string {
     $mod   = (string)($f['date_modified'] ?? $pub);
     $org   = (string)($f['author'] ?? 'CalcDoc');
 
-    $image = (string)($f['image'] ?? '');
-    if ($image === '') { $image = '/og-cover.png'; }
-    if (strpos($image, 'http') !== 0) { $image = $site . $image; }
+    $image = article_cover_url($f, $site);
 
     $blocks   = array();
     $blocks[] = array(
@@ -191,6 +209,54 @@ function article_plain(string $text): string {
 }
 
 /** Две колонки «Входят / НЕ входят» (класс .seo-two). */
+/** Безопасен ли адрес для href/src: относительные (/…), http(s), mailto:, tel: — да;
+    javascript:, vbscript:, data: (кроме data:image/) — нет. Используется импортёром и выводом. */
+function article_url_safe(string $url): bool {
+    $u = strtolower(trim($url));
+    if ($u === '') { return true; }
+    if (strpos($u, 'javascript:') === 0) { return false; }
+    if (strpos($u, 'vbscript:') === 0) { return false; }
+    if (strpos($u, 'data:') === 0 && strpos($u, 'data:image/') !== 0) { return false; }
+    return true;
+}
+
+/** Фильтр «своего HTML» (html-блок): опасные теги (script/iframe/object/embed) вырезаем целиком,
+    а опасные href/src (javascript:, vbscript:, data: кроме data:image/) — только атрибут,
+    тег и текст остаются. Работает на DOM, не на регулярках. */
+function article_html_block_filter(string $html): string {
+    $prev = libxml_use_internal_errors(true);
+    $doc  = new DOMDocument('1.0', 'UTF-8');
+    $doc->loadHTML('<?xml encoding="UTF-8">' . $html, LIBXML_NOERROR | LIBXML_NOWARNING);
+    libxml_clear_errors();
+    libxml_use_internal_errors($prev);
+
+    $xp = new DOMXPath($doc);
+
+    $drop = array();
+    foreach ($xp->query('//script | //iframe | //object | //embed') as $el) { $drop[] = $el; }
+    foreach ($drop as $el) { if ($el->parentNode !== null) { $el->parentNode->removeChild($el); } }
+
+    $strip = array();
+    foreach ($xp->query('//*[@href or @src]') as $el) { $strip[] = $el; }
+    foreach ($strip as $el) {
+        if ($el->attributes === null) { continue; }
+        $remove = array();
+        foreach ($el->attributes as $a) {
+            $name = strtolower((string)$a->nodeName);
+            if (($name === 'href' || $name === 'src') && !article_url_safe((string)$a->nodeValue)) {
+                $remove[] = (string)$a->nodeName;
+            }
+        }
+        foreach ($remove as $name) { $el->removeAttribute($name); }
+    }
+
+    $body = $doc->getElementsByTagName('body')->item(0);
+    if ($body === null) { return ''; }
+    $out = '';
+    foreach ($body->childNodes as $child) { $out .= $doc->saveHTML($child); }
+    return trim($out);
+}
+
 function article_two_html(array $column): string {
     $title = (string)($column['title'] ?? '');
     $out = "          <div class=\"seo-opt\">\n";
@@ -270,11 +336,19 @@ function article_block_html(array $b): string {
                 return "        <!-- картинка " . h($name === '' ? '(не выбрана)' : $name)
                      . " не найдена в media/uploads -->\n";
             }
-            return '        ' . media_snippet($name, (string)($b['alt'] ?? '')) . "\n";
+            $snippet = media_snippet($name, (string)($b['alt'] ?? ''));
+            $caption = trim((string)($b['caption'] ?? ''));
+            if ($caption === '') { return '        ' . $snippet . "\n"; }
+            /* Подпись под картинкой: выводим <figcaption>, только если автор её заполнил. */
+            return "        <figure style=\"margin:22px 0\">\n"
+                 . '          ' . $snippet . "\n"
+                 . '          <figcaption style="margin-top:8px;font-size:14px;color:#a9a4bb;text-align:center">'
+                 . h($caption) . "</figcaption>\n"
+                 . "        </figure>\n";
 
         case 'html':
-            /* Свой HTML для аккуратных правок: опасные теги вырезаем */
-            return '        ' . preg_replace('#<(script|iframe|object|embed)\b[^>]*>.*?</\1>#is', '', $text) . "\n";
+            /* Свой HTML для аккуратных правок: опасные теги и href/src вырезаем (DOM) */
+            return '        ' . article_html_block_filter($text) . "\n";
 
         case 'p':
         default:
@@ -296,6 +370,14 @@ function article_body(array $f): string {
           . h($breadcrumb) . "</nav>\n";
     $out .= '      <h1>' . h($title) . "</h1>\n";
     $out .= '      <p class="tool-meta">Обновлено: ' . h(article_russian_date($modified)) . "</p>\n";
+    $coverFile = article_cover_file($f);
+    if ($coverFile !== '') {
+        /* Обложка показывается на самой странице статьи: картинка-герой под заголовком.
+           Размеры и копии 480/768/1200 берутся из медиатеки — тот же сниппет, что у картинок в тексте. */
+        $out .= "      <figure class=\"post-cover\" style=\"margin:18px 0 0\">\n";
+        $out .= '        ' . media_snippet($coverFile, $title) . "\n";
+        $out .= "      </figure>\n";
+    }
     $out .= "    </div>\n\n";
     $out .= "    <!--SLOT:banner-top-->\n    <!--/SLOT:banner-top-->\n";
     /* Рекламный слот после шапки статьи: на остальных страницах сайта он есть
@@ -449,10 +531,10 @@ function article_render(array $f): array {
     $mod     = (string)($f['date_modified'] ?? $pub);
     $og      = (string)($f['image'] ?? '');
     /* SEO-заголовок может отличаться от H1 (так сделаны две статьи сайта): отдельное поле.
-       Пусто — как раньше: «H1 — CalcDoc» в <title> и H1 в og:title. */
+       Пусто — как раньше: «H1 — CalcDoc» в <title> и в og:title (1-в-1 с донором). */
     $seoTitle  = trim((string)($f['seo_title'] ?? ''));
     $pageTitle = ($seoTitle !== '') ? $seoTitle : ($title . ' — CalcDoc');
-    $ogTitle   = ($seoTitle !== '') ? $seoTitle : $title;
+    $ogTitle   = ($seoTitle !== '') ? $seoTitle : ($title . ' — CalcDoc');
 
     $html  = $shell['head_open'];
     $html .= '  <title>' . h($pageTitle) . "</title>\n";
@@ -465,7 +547,7 @@ function article_render(array $f): array {
     $html .= "  <meta property=\"og:type\" content=\"article\" />\n";
     $html .= "  <meta property=\"og:site_name\" content=\"CalcDoc\" />\n";
     $html .= '  <meta property="og:image" content="'
-           . h($og === '' ? $site . '/og-cover.png' : (strpos($og, 'http') === 0 ? $og : $site . $og)) . "\" />\n";
+           . h(article_cover_url($f, $site)) . "\" />\n";
     $dim = $og !== '' && is_file(SITE_ROOT . $og) ? @getimagesize(SITE_ROOT . $og) : false;
     $html .= '  <meta property="og:image:width" content="' . ($dim ? (int)$dim[0] : 1200) . "\" />\n";
     $html .= '  <meta property="og:image:height" content="' . ($dim ? (int)$dim[1] : 630) . "\" />\n";
@@ -481,6 +563,22 @@ function article_render(array $f): array {
 
     return array('ok' => true, 'error' => '', 'html' => $html,
                  'warnings' => article_seo_warnings($f), 'donor' => $shell['donor'], 'url' => $url);
+}
+
+/** Плашка «Черновик — предпросмотр»: вставляется в собранную страницу сразу после <body>,
+    чтобы предпросмотр сохранённого черновика нельзя было принять за живую страницу.
+    Вызывается только в предпросмотре (?id=) — при публикации не используется. */
+function article_preview_badge(string $html): string {
+    $badge = '<div style="position:fixed;top:0;left:0;right:0;z-index:2147483647;'
+           . 'background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;'
+           . 'font:600 14px/1.5 system-ui,-apple-system,\'Segoe UI\',Roboto,sans-serif;'
+           . 'text-align:center;padding:8px 14px;box-shadow:0 2px 12px rgba(0,0,0,.28)">'
+           . 'Черновик — предпросмотр</div>';
+    if (preg_match('#<body[^>]*>#i', $html, $m, PREG_OFFSET_CAPTURE)) {
+        $pos = $m[0][1] + strlen($m[0][0]);
+        return substr($html, 0, $pos) . $badge . substr($html, $pos);
+    }
+    return $badge . $html;
 }
 
 function article_russian_date(string $iso): string {

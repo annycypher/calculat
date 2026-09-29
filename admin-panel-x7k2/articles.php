@@ -17,10 +17,13 @@ require __DIR__ . '/inc/ui.php';
 require __DIR__ . '/inc/media.php';
 require __DIR__ . '/inc/article-template.php';
 require __DIR__ . '/inc/articles.php';
+require __DIR__ . '/inc/article-import.php';
+require __DIR__ . '/inc/article-text.php';
 require_once __DIR__ . '/inc/links.php';
 /* publish.php подключаем через require_once: его же тянет цепочка inc/ads.php (links.php → seo.php → ads.php),
    а обычный require второй раз объявил бы функции (file_backup и другие) — была фатальная ошибка. */
 require_once __DIR__ . '/inc/publish.php';
+require_once __DIR__ . '/inc/deploy.php';   /* ftpDeploy + реестр правок — кнопка «Залить на хостинг» */
 
 panel_session_start();
 ensure_guards();
@@ -77,6 +80,38 @@ function article_drop(array $list, int $i): array {
 /** Ключ сессии, под которым лежит предпросмотр (черновик или новая статья). */
 function article_preview_key(string $id): string {
     return $id !== '' ? $id : 'new';
+}
+
+/* ── «Не потерять набранное» (П.0 Ф2/Ф3): откладываем поля и вставленный HTML/текст в сессию,
+   чтобы при отказе сохранения или перезагрузке формы ничего не пропало молча. ── */
+
+/** Ключ сессии для формы редактора (id пустой у новой статьи). */
+function articles_edit_stash_key(string $id): string { return $id !== '' ? $id : 'new'; }
+
+/** Сохранить поля формы на случай отказа сохранения (Ф3). */
+function articles_stash_edit(string $key, array $fields, string $error): void {
+    $_SESSION['articles_edit'][$key] = array('fields' => $fields, 'error' => $error, 'at' => time());
+}
+
+/** Забрать и очистить отложенные поля формы (Ф3). */
+function articles_take_edit(string $key): array {
+    $out = (isset($_SESSION['articles_edit'][$key]) && is_array($_SESSION['articles_edit'][$key]))
+        ? $_SESSION['articles_edit'][$key] : array();
+    unset($_SESSION['articles_edit'][$key]);
+    return $out;
+}
+
+/** Запомнить вставленный HTML/текст, чтобы он не пропал после перезагрузки формы (Ф2). */
+function articles_stash_import(string $key, string $title, string $raw): void {
+    $_SESSION['articles_import'][$key] = array('title' => $title, 'raw' => $raw, 'at' => time());
+}
+
+/** Забрать отложенный вставленный HTML/текст (Ф2). */
+function articles_take_import(string $key): array {
+    $out = (isset($_SESSION['articles_import'][$key]) && is_array($_SESSION['articles_import'][$key]))
+        ? $_SESSION['articles_import'][$key] : array();
+    unset($_SESSION['articles_import'][$key]);
+    return $out;
 }
 
 /** Как статья будет выглядеть в выдаче Яндекса: заголовок, адрес, описание и подсказки. */
@@ -196,6 +231,92 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     csrf_check();
     $op     = (string)($_POST['op'] ?? '');
     $id     = trim((string)($_POST['id'] ?? ''));
+
+    /* Ф2: если в форме редактора был вставлен HTML, запоминаем его до успешного сохранения,
+       чтобы при перезагрузке (отказ валидации, микродействие, предпросмотр) он не пропал. */
+    if (!in_array($op, array('parse_html', 'parse_text', 'create_html', 'create_text'), true)
+        && trim((string)($_POST['html_import'] ?? '')) !== '') {
+        articles_stash_import('editor_' . articles_edit_stash_key($id),
+            (string)($_POST['title'] ?? ''), (string)$_POST['html_import']);
+    }
+
+    /* «Создать из HTML / из текста» (шаг П.2): формы импорта не несут поля редактора — обрабатываем
+       до разбора editor-формы. Схема двухшаговая: разбор → предпросмотр блоков → создание черновика. */
+    if ($op === 'parse_html' || $op === 'parse_text') {
+        $isText  = ($op === 'parse_text');
+        $formKey = $isText ? 'text' : 'html';
+        $rawName = $isText ? 'text_import' : 'html_import';
+        $title   = trim((string)($_POST['title'] ?? ''));
+        $rawIn   = (string)($_POST[$rawName] ?? '');
+        $backUrl = 'articles.php?from_' . $formKey . '=1';
+
+        if (trim($rawIn) === '') {
+            articles_stash_import($formKey, $title, $rawIn);
+            flash('Вставьте ' . ($isText ? 'текст' : 'HTML') . ' — поле пустое.', 'error');
+            header('Location: ' . panel_url($backUrl));
+            exit;
+        }
+
+        $parsed  = $isText ? article_import_text($rawIn) : article_import_html($rawIn);
+        $blocksN = count((array)($parsed['blocks'] ?? array()));
+        $faqN    = $isText ? count((array)($parsed['faq'] ?? array())) : 0;
+
+        if ($blocksN === 0 && $faqN === 0) {
+            articles_stash_import($formKey, $title, $rawIn);
+            flash('Разбор ничего не дал — проверьте ' . ($isText ? 'текст' : 'HTML') . '.', 'error');
+            foreach ((array)($parsed['notes'] ?? array()) as $nt) { flash($nt, 'error'); }
+            header('Location: ' . panel_url($backUrl));
+            exit;
+        }
+
+        $_SESSION['articles_import_preview'][$formKey] = array(
+            'title' => $title, 'raw' => $rawIn,
+            'blocks' => (array)$parsed['blocks'], 'faq' => $isText ? (array)$parsed['faq'] : array(),
+            'notes' => (array)($parsed['notes'] ?? array()),
+            'skipped' => (array)($parsed['skipped'] ?? array()), 'at' => time(),
+        );
+        flash('Разобрано: блоков — ' . $blocksN . ($faqN > 0 ? ', вопросов — ' . $faqN : '')
+            . '. Проверьте ниже и нажмите «Создать черновик».');
+        header('Location: ' . panel_url($backUrl));
+        exit;
+    }
+
+    if ($op === 'create_html' || $op === 'create_text') {
+        $isText  = ($op === 'create_text');
+        $formKey = $isText ? 'text' : 'html';
+        $backUrl = 'articles.php?from_' . $formKey . '=1';
+        $prev = (isset($_SESSION['articles_import_preview'][$formKey])
+                 && is_array($_SESSION['articles_import_preview'][$formKey]))
+            ? $_SESSION['articles_import_preview'][$formKey] : array();
+
+        if ($prev === array()) {
+            flash('Сначала вставьте ' . ($isText ? 'текст' : 'HTML') . ' и нажмите «Разобрать».', 'error');
+            header('Location: ' . panel_url($backUrl));
+            exit;
+        }
+
+        if ($isText) {
+            $made = article_create_from_text(array('title' => (string)$prev['title'], 'text_import' => (string)$prev['raw']));
+        } else {
+            $made = article_create_from_html(array('title' => (string)$prev['title'], 'html_import' => (string)$prev['raw']));
+        }
+
+        if (empty($made['ok'])) {
+            flash($made['error'], 'error');
+            foreach ((array)$made['notes'] as $nt) { flash($nt, 'error'); }
+            foreach ((array)$made['skipped'] as $s) { flash('Не смаппилось: ' . (string)($s['src'] ?? $s['line'] ?? ''), 'error'); }
+            header('Location: ' . panel_url($backUrl));
+            exit;
+        }
+        unset($_SESSION['articles_import_preview'][$formKey], $_SESSION['articles_import'][$formKey]);
+        flash('Черновик создан: «' . (string)$made['title'] . '» — блоков: ' . (int)$made['blocks']
+            . ((int)($made['faq'] ?? 0) > 0 ? ', вопросов: ' . (int)$made['faq'] : '') . '.');
+        foreach ((array)$made['notes'] as $nt) { flash($nt, 'ok'); }
+        foreach ((array)$made['skipped'] as $s) { flash('Не смаппилось: ' . (string)($s['src'] ?? $s['line'] ?? ''), 'ok'); }
+        header('Location: ' . panel_url('articles.php?id=' . rawurlencode((string)$made['id'])));
+        exit;
+    }
+
     $raw    = article_fields_from_post();
     $clean  = articles_clean($raw, true);                 // пустые блоки сохраняем: их только что добавили
 
@@ -284,6 +405,13 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
                 if ($i >= 0 && isset($clean['fields']['blocks'][$i])
                     && (string)($clean['fields']['blocks'][$i]['type'] ?? '') === 'image') {
                     $clean['fields']['blocks'][$i]['name'] = $name;
+                    if (trim((string)($clean['fields']['blocks'][$i]['alt'] ?? '')) === '') {
+                        $autoAlt = article_alt_from_name($name);
+                        if ($autoAlt !== '') {
+                            $clean['fields']['blocks'][$i]['alt'] = $autoAlt;
+                            flash('alt подставлен из имени файла: «' . $autoAlt . '» — поправьте, если не подходит.');
+                        }
+                    }
                 }
             }
             log_action('Статья: выбрана картинка', $name . ' (' . ($target === 'cover' ? 'обложка' : 'блок ' . (int)($_POST['pick_idx'] ?? 0)) . ')');
@@ -298,6 +426,71 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
             $i = (int)($_POST['pick_idx'] ?? -1);
             if ($i >= 0 && isset($clean['fields']['blocks'][$i])) {
                 $clean['fields']['blocks'][$i]['name'] = '';
+            }
+        }
+    } elseif ($op === 'upload_cover' || strpos($op, 'upload_block_') === 0) {
+        /* Загрузка картинки прямо из редактора: файл идёт через ту же библиотеку медиа,
+           что и раздел «Медиа-файлы» (сжатие до 1920 точек + копии 480/768/1200). */
+        $isCover = ($op === 'upload_cover');
+        $idx     = $isCover ? -1 : (int)substr($op, strlen('upload_block_'));
+        $key     = $isCover ? 'img_cover' : 'img_block_' . $idx;
+        $file    = (isset($_FILES[$key]) && is_array($_FILES[$key])) ? $_FILES[$key] : array();
+        $res     = media_save_upload($file);
+
+        if (empty($res['ok'])) {
+            flash('Картинка не загружена: ' . (string)($res['error'] ?? 'причина не сообщена'), 'error');
+        } else {
+            $name = basename((string)($res['name'] ?? ''));
+            $done = false;
+            if ($isCover) {
+                $clean['fields']['image'] = $name;
+                $done = true;
+            } elseif ($idx >= 0 && isset($clean['fields']['blocks'][$idx])
+                && (string)($clean['fields']['blocks'][$idx]['type'] ?? '') === 'image') {
+                $clean['fields']['blocks'][$idx]['name'] = $name;
+                $done = true;
+                if (trim((string)($clean['fields']['blocks'][$idx]['alt'] ?? '')) === '') {
+                    $autoAlt = article_alt_from_name($name);
+                    if ($autoAlt !== '') {
+                        $clean['fields']['blocks'][$idx]['alt'] = $autoAlt;
+                        $altNote = ' alt подставлен из имени файла: «' . $autoAlt . '» — поправьте, если не подходит.';
+                    }
+                }
+            }
+            if (!$done) {
+                flash('Картинка «' . $name . '» загружена в медиа-файлы, но поставить её было некуда — '
+                    . 'блок не найден. Выберите её кнопкой «Выбрать из медиа».', 'error');
+            } else {
+                $note = trim((string)($res['note'] ?? ''));
+                $altNote = isset($altNote) ? $altNote : '';
+                flash('Картинка «' . $name . '» загружена: ' . (int)($res['w'] ?? 0) . '×' . (int)($res['h'] ?? 0)
+                    . ', ' . human_size((int)($res['size'] ?? 0)) . ($note !== '' ? '. ' . $note : '.')
+                    . ' Поставлена ' . ($isCover ? 'обложкой' : 'в блок ' . $idx) . '.' . $altNote);
+                log_action('Статья: картинка загружена из редактора', $name
+                    . ' (' . ($isCover ? 'обложка' : 'блок ' . $idx) . ')');
+            }
+        }
+    } elseif ($op === 'prep_copies_cover' || strpos($op, 'prep_copies_block_') === 0) {
+        /* «Подготовить копии» прямо из редактора: та же функция, что в «Медиа-файлах»
+           (сжатие до 1920 точек + копии 480/768/1200), чтобы не уходить в другой раздел. */
+        $isCover = ($op === 'prep_copies_cover');
+        $idx     = $isCover ? -1 : (int)substr($op, strlen('prep_copies_block_'));
+        $name    = $isCover
+            ? basename((string)($clean['fields']['image'] ?? ''))
+            : basename((string)($clean['fields']['blocks'][$idx]['name'] ?? ''));
+
+        if ($name === '') {
+            flash('Сначала выберите картинку — готовить копии не от чего.', 'error');
+        } else {
+            $res = media_process($name);
+            if (empty($res['ok'])) {
+                flash('Копии не получились: ' . (string)($res['error'] ?? 'причина не сообщена'), 'error');
+            } else {
+                $copies = is_array($res['copies']) ? count($res['copies']) : 0;
+                flash('Копии готовы: ' . $copies . ' (480/768/1200). Файл: '
+                    . human_size((int)$res['before']) . ' → ' . human_size((int)$res['after'])
+                    . (trim((string)($res['note'] ?? '')) !== '' ? '. ' . (string)$res['note'] : '.'));
+                log_action('Статья: подготовлены копии картинки', $name . ($isCover ? ' (обложка)' : ' (блок ' . $idx . ')'));
             }
         }
     } elseif ($op === 'add_block') {
@@ -323,6 +516,40 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         if ($m[1] === 'rel_up')        { $clean['fields']['related'] = article_move($clean['fields']['related'], $i, -1); }
         elseif ($m[1] === 'rel_down')  { $clean['fields']['related'] = article_move($clean['fields']['related'], $i, 1); }
         else                           { $clean['fields']['related'] = article_drop($clean['fields']['related'], $i); }
+    } elseif ($op === 'import') {
+        /* Импорт готового HTML в блоки (шаг П.1): разбираем вставленный HTML и заменяем
+           им текущие блоки. Картинки медиа-записи не создают — их src показываем в отчёте. */
+        $rawHtml = (string)($_POST['html_import'] ?? '');
+        $imp = article_import_html($rawHtml);
+        if (trim($rawHtml) === '') {
+            flash('Поле импорта пустое — вставьте HTML и нажмите «Импортировать».', 'error');
+        } elseif (count($imp['blocks']) === 0) {
+            flash('Импорт ничего не дал — проверьте HTML. Текущие блоки не тронуты.', 'error');
+            foreach ($imp['notes'] as $nt) { flash($nt, 'error'); }
+            foreach ($imp['skipped'] as $s) { flash('Не смаппилось: img src=' . (string)($s['src'] ?? ''), 'error'); }
+        } else {
+            $clean['fields']['blocks'] = $imp['blocks'];
+            flash('Импорт: распознано блоков — ' . count($imp['blocks']) . '. Они заменяют текущие блоки статьи.');
+            foreach ($imp['notes'] as $nt) { flash($nt, 'ok'); }
+            foreach ($imp['skipped'] as $s) { flash('Не смаппилось: img src=' . (string)($s['src'] ?? ''), 'ok'); }
+        }
+    }
+
+    /* Ф1: если в поле импорта был HTML, а нажали «Сохранить черновик» / Ctrl+S / автосохранение —
+       применяем импорт, чтобы вставленное не пропало молча (раньше его читал только op=import). */
+    if ($op !== 'import'
+        && in_array($op, array('', 'save', 'save_preview', 'save_deploy', 'preview'), true)
+        && trim((string)($_POST['html_import'] ?? '')) !== '') {
+        $saveImp = article_import_html((string)$_POST['html_import']);
+        if (count($saveImp['blocks']) > 0) {
+            $clean['fields']['blocks'] = $saveImp['blocks'];
+            flash('HTML из поля импорта разобран и применён: блоков — ' . count($saveImp['blocks']) . '.');
+            foreach ($saveImp['notes'] as $nt) { flash($nt, 'ok'); }
+            foreach ($saveImp['skipped'] as $s) { flash('Не смаппилось: img src=' . (string)($s['src'] ?? ''), 'ok'); }
+        } else {
+            flash('HTML из поля импорта не разобрался в блоки — блоки статьи не тронуты.', 'error');
+            foreach ($saveImp['notes'] as $nt) { flash($nt, 'error'); }
+        }
     }
 
     /* Предпросмотр всегда показывает то, что сейчас в форме */
@@ -334,17 +561,108 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         exit;
     }
 
+    /* «Залить на хостинг» прямо из редактора: тот же движок, что в разделе «Публикация»
+       (inc/deploy.php), но без похода по всему реестру — только файл этой статьи. */
+    if ($op === 'deploy_now' && $id !== '') {
+        $art  = articles_find($id);
+        $slug = trim((string)($art['slug'] ?? ''));
+        if ($slug === '') {
+            flash('У статьи нет адреса (slug) — сначала сохраните черновик.', 'error');
+        } else {
+            $fileRel = 'blog/' . $slug . '/index.html';
+            deploy_changes_add($fileRel);                       // на случай, если файла не было в реестре
+            $res = ftpDeploy(array($fileRel));
+            $row = (isset($res['results'][0]) && is_array($res['results'][0])) ? $res['results'][0] : array();
+            if (!empty($res['ok']) && !empty($row['ok'])) {
+                deploy_changes_forget($fileRel);
+                log_action('Статья залита на хостинг', $fileRel
+                    . (isset($row['bytes']) ? ' — ' . (int)$row['bytes'] . ' Б' : ''));
+                flash('Файл статьи залит на хостинг: ' . $fileRel
+                    . (isset($row['bytes']) ? ' (' . (int)$row['bytes'] . ' Б)' : '')
+                    . '. Открыть: /blog/' . $slug . '/');
+            } else {
+                $why = trim((string)($res['error'] ?? '')) !== ''
+                    ? (string)$res['error']
+                    : (string)($row['message'] ?? 'причина не сообщена');
+                flash('Залить не получилось: ' . $why . ' Файл остался в списке публикации.', 'error');
+            }
+        }
+        header('Location: ' . panel_url('articles.php?id=' . rawurlencode($id)));
+        exit;
+    }
+
     $put = articles_put($clean['fields'], $id);
     if ($put['ok']) {
-        flash('Черновик сохранён: «' . $clean['fields']['title'] . '» — слов: ' . articles_words($clean['fields'])
-            . ', блоков: ' . count($clean['fields']['blocks']) . ', вопросов: ' . count($clean['fields']['faq']) . '.');
-        header('Location: ' . panel_url('articles.php?id=' . rawurlencode($put['id'])));
+        /* Сохранено — отложенные поля и вставленный HTML больше не нужны. */
+        unset($_SESSION['articles_edit'][articles_edit_stash_key($id)],
+              $_SESSION['articles_import']['editor_' . articles_edit_stash_key($id)]);
+        $saved = 'Черновик сохранён: «' . $clean['fields']['title'] . '» — слов: ' . articles_words($clean['fields'])
+               . ', блоков: ' . count($clean['fields']['blocks']) . ', вопросов: ' . count($clean['fields']['faq']) . '.';
+
+        /* «Сохранить и залить»: обновляем страницу на сайте (уже опубликованную) и сразу отправляем
+           на хостинг всё, что панель изменила, — одной кнопкой, без похода в раздел «Публикация». */
+        if ($op === 'save_deploy') {
+            $slug = trim((string)($clean['fields']['slug'] ?? ''));
+            if ($slug === '') {
+                $saved .= ' Адрес (slug) пуст — заливать нечего.';
+            } elseif (!articles_is_published($clean['fields'])) {
+                $saved .= ' Статья ещё не опубликована: сначала «Опубликовать на сайте…», потом заливка.';
+            } else {
+                $up = article_publish($clean['fields'], (string)$put['id']);
+                if (empty($up['ok'])) {
+                    $saved .= ' Страницу обновить не удалось: ' . (string)($up['error'] ?? 'причина не сообщена');
+                } else {
+                    $files = array();
+                    foreach (deploy_changes_list() as $row) { $files[] = (string)$row['file']; }
+                    if (count($files) === 0) { $files[] = 'blog/' . $slug . '/index.html'; }
+                    $dres = ftpDeploy($files);
+                    if (!empty($dres['ok'])) {
+                        foreach ($files as $f) { deploy_changes_forget($f); }
+                        log_action('Статья сохранена и залита', 'blog/' . $slug . '/index.html — файлов: ' . count($files));
+                        $saved .= ' Страница обновлена и залита на хостинг: файлов ' . count($files) . '.';
+                    } else {
+                        $why = trim((string)($dres['error'] ?? '')) !== ''
+                            ? (string)$dres['error']
+                            : 'часть файлов не прошла — смотрите раздел «Публикация»';
+                        $saved .= ' Залить не получилось: ' . $why . '.';
+                    }
+                }
+            }
+        }
+        flash($saved);
+        if ($op === 'save_preview') {
+            /* «Сохранить и предпросмотр» (шаг П.2): сохранили и открываем серверный предпросмотр
+               сохранённого черновика — article-template.php?id=… рендерит его тем же кодом, что публикация. */
+            header('Location: ' . panel_url('article-template.php?id=' . rawurlencode($put['id'])));
+        } else {
+            header('Location: ' . panel_url('articles.php?id=' . rawurlencode($put['id'])));
+        }
     } else {
-        flash('Не сохранил: ' . $put['error'], 'error');
-        header('Location: ' . panel_url('articles.php?id=' . rawurlencode($id)));
+        /* Ф3: при отказе сохранения возвращаем пользователя в ту же форму с его текстом,
+           а не в общий список — и напоминаем, что ничего не потерялось. */
+        articles_stash_edit(articles_edit_stash_key($id), $clean['fields'], (string)$put['error']);
+        flash('Не сохранил: ' . $put['error'] . ' Ваш текст остался в форме — исправьте и нажмите «Сохранить черновик» снова.', 'error');
+        header('Location: ' . panel_url($id !== '' ? 'articles.php?id=' . rawurlencode($id) : 'articles.php?new=1'));
     }
     exit;
 }
+/** Черновой alt из имени файла: «kredit-ipoteka.jpg» → «kredit ipoteka».
+    Нужен, только когда поле alt пустое; машинные имена из одних цифр отбрасываются. */
+function article_alt_from_name(string $name): string
+{
+    $base = (string)pathinfo(basename($name), PATHINFO_FILENAME);
+    $base = str_replace(array('-', '_', '+', '.'), ' ', $base);
+    $words = array();
+    foreach (explode(' ', (string)preg_replace('/\s+/u', ' ', $base)) as $w) {
+        $w = trim($w);
+        if ($w === '' || preg_match('/^[0-9]{3,}$/', $w)) { continue; }   // «0021», «4526» — не слова
+        if (preg_match('/^[0-9]+$/', $w)) { continue; }
+        $words[] = $w;
+    }
+    $alt = trim(implode(' ', $words));
+    return mb_substr($alt, 0, 120);
+}
+
 // MARKER-ARTICLES-RENDER
 
 /* ── Что показываем: список статей (с поиском и фильтром) или редактор ── */
@@ -379,9 +697,22 @@ if ($editId !== '') {
     else { flash('Такого черновика нет — возможно, его удалили.', 'error'); }
 } elseif (isset($_GET['new'])) {
     $mode = 'new';
+} elseif (isset($_GET['from_html'])) {
+    $mode = 'import_html';
+} elseif (isset($_GET['from_text'])) {
+    $mode = 'import_text';
 }
 
-$fields  = $mode === 'edit' ? (array)$draft['fields'] : articles_blank();
+$editStash = ($mode === 'new' || $mode === 'edit')
+    ? articles_take_edit(articles_edit_stash_key($mode === 'edit' ? $editId : 'new'))
+    : array();
+$fields    = $editStash !== array()
+    ? (array)$editStash['fields']
+    : ($mode === 'edit' ? (array)$draft['fields'] : articles_blank());
+$stashError   = $editStash !== array() ? (string)$editStash['error'] : '';
+$editorImport = ($mode === 'new' || $mode === 'edit')
+    ? articles_take_import('editor_' . articles_edit_stash_key($editId))
+    : array();
 $preview = panel_url('articles.php?preview=1' . ($editId !== '' ? '&id=' . rawurlencode($editId) : ''));
 $words   = articles_words($fields);
 $warns   = article_seo_warnings($fields);
@@ -499,6 +830,7 @@ panel_page_start('Статьи', 'Черновики, редактор стат�
 <?php card_end(); ?>
 <?php } ?>
 
+<?php if ($mode === 'list') { ?>
 <?php card_start('Статьи', 'Статья появляется на сайте после публикации — до этого она живёт черновиком в панели'); ?>
       <form method="get" action="<?php echo h(panel_url('articles.php')); ?>"
             style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
@@ -547,14 +879,100 @@ panel_page_start('Статьи', 'Черновики, редактор стат�
       </table>
 <?php } ?>
       <div class="btn-row" style="margin-top:14px">
-        <a class="btn primary" href="<?php echo h(panel_url('articles.php?new=1')); ?>">Создать статью</a>
+        <a class="btn primary" href="<?php echo h(panel_url('articles.php?new=1')); ?>">Создать с нуля</a>
+        <a class="btn primary" href="<?php echo h(panel_url('articles.php?from_html=1')); ?>">Вставить готовый HTML</a>
+        <a class="btn primary" href="<?php echo h(panel_url('articles.php?from_text=1')); ?>">Вставить готовый текст</a>
         <a class="btn ghost" href="<?php echo h(panel_url('article-template.php')); ?>">Шаблон статьи отдельно</a>
         <span class="hint" style="align-self:center">Публикация файла на сайт — следующий шаг (4.3).</span>
       </div>
 <?php card_end(); ?>
+<?php } ?>
 
-<?php if ($mode !== 'list') { ?>
-<form method="post" action="<?php echo h(panel_url('articles.php')); ?>" id="article-form">
+<?php if ($mode === 'import_html' || $mode === 'import_text') {
+        $isTextImport = ($mode === 'import_text');
+        $impKey       = $isTextImport ? 'text' : 'html';
+        $impField     = $isTextImport ? 'text_import' : 'html_import';
+        $impPrev      = (isset($_SESSION['articles_import_preview'][$impKey]) && is_array($_SESSION['articles_import_preview'][$impKey]))
+            ? $_SESSION['articles_import_preview'][$impKey] : array();
+        $impStash     = articles_take_import($impKey);
+        $impParsed    = $impPrev !== array();
+        $impTitle     = $impParsed ? (string)($impPrev['title'] ?? '') : (string)($impStash['title'] ?? '');
+        $impRaw       = $impParsed ? (string)($impPrev['raw'] ?? '')   : (string)($impStash['raw'] ?? '');
+        $impBlocks    = (array)($impPrev['blocks'] ?? array());
+        $impFaq       = (array)($impPrev['faq'] ?? array());
+?>
+<?php card_start($isTextImport ? 'Создать статью из текста' : 'Создать статью из HTML',
+                 $isTextImport
+                     ? 'Вставьте готовый текст — панель разберёт его на блоки редактора (заголовки, абзацы, списки, вопросы-ответы)'
+                     : 'Вставьте готовый HTML — панель разберёт его на блоки редактора (тот же разбор, что в блоке «Импорт»)'); ?>
+
+<?php if ($impParsed) { ?>
+      <div style="margin:0 0 16px;padding:12px 14px;border:1px solid rgba(147,225,171,.4);border-radius:12px;background:rgba(147,225,171,.07)">
+        <p style="margin:0 0 10px"><strong>Разобрано: блоков — <?php echo count($impBlocks); ?><?php if ($isTextImport) { ?>, вопросов — <?php echo count($impFaq); ?><?php } ?>. Проверьте и создайте черновик.</strong></p>
+        <ul style="margin:0 0 12px;padding-left:22px;color:var(--mut)">
+<?php foreach ($impBlocks as $bi => $bb) {
+            $bt = (string)($bb['type'] ?? 'p');
+            $bn = isset(articles_block_types()[$bt]) ? articles_block_types()[$bt] : $bt;
+            $bx = trim((string)preg_replace('/\s+/u', ' ', strip_tags((string)($bb['text'] ?? ''))));
+            if ($bx === '' && !empty($bb['items'])) { $bx = implode(' · ', array_slice((array)$bb['items'], 0, 4)); }
+            if ($bx === '') { $bx = '—'; }
+            if (mb_strlen($bx) > 60) { $bx = mb_substr($bx, 0, 60) . '…'; } ?>
+          <li><?php echo (int)($bi + 1); ?>. <?php echo h($bn); ?> — <?php echo h($bx); ?></li>
+<?php } ?>
+<?php if ($isTextImport && count($impFaq) > 0) { ?>
+          <li>«Частые вопросы»: <?php echo count($impFaq); ?> пар «вопрос — ответ»</li>
+<?php } ?>
+        </ul>
+        <div class="btn-row">
+          <form method="post" action="<?php echo h(panel_url('articles.php')); ?>" style="display:inline">
+            <?php echo csrf_field(); ?>
+            <input type="hidden" name="op" value="<?php echo $isTextImport ? 'create_text' : 'create_html'; ?>" />
+            <button class="btn primary" type="submit">Создать черновик</button>
+          </form>
+          <a class="btn ghost" href="#import-form">Разобрать заново</a>
+        </div>
+      </div>
+<?php } ?>
+
+      <form method="post" action="<?php echo h(panel_url('articles.php')); ?>" id="import-form">
+        <?php echo csrf_field(); ?>
+        <input type="hidden" name="op" value="<?php echo $isTextImport ? 'parse_text' : 'parse_html'; ?>" />
+        <label for="i-title">Заголовок статьи</label>
+        <input type="text" id="i-title" name="title" value="<?php echo h($impTitle); ?>"
+               placeholder="Пусто — возьмётся из первого подзаголовка H2/H3" />
+        <div class="field-hint">Если заголовок не указан и в <?php echo $isTextImport ? 'тексте' : 'HTML'; ?> нет подзаголовка — панель попросит добавить его.</div>
+
+        <label for="i-raw"><?php echo $isTextImport ? 'Текст статьи' : 'HTML статьи'; ?></label>
+        <textarea id="i-raw" name="<?php echo h($impField); ?>" rows="16"
+                  placeholder="<?php echo $isTextImport
+                      ? "Вставьте сюда текст:\n# Заголовок\nАбзац…\n- пункт\nВопрос: …\nОтвет: …"
+                      : 'Вставьте сюда HTML: <h2>…</h2><p>…</p><ul><li>…</li></ul><table>…</table>…'; ?>"><?php echo h($impRaw); ?></textarea>
+        <div class="field-hint"><?php echo $isTextImport
+            ? 'Распознаются: # / ## / ### → подзаголовки, абзацы, «- пункт» → список, «1. шаг» → шаги, «Вопрос: … / Ответ: …» → частые вопросы.'
+            : 'Распознаются: h1/h2/h3 → подзаголовки, p → абзацы, ul → список, ol → шаги с номерами, table → таблица. Картинки не переносятся — их адреса покажут в отчёте.'; ?></div>
+
+        <div class="btn-row" style="margin-top:14px">
+          <button class="btn primary" type="submit"><?php echo $impParsed ? 'Разобрать заново' : 'Разобрать и показать блоки'; ?></button>
+          <a class="btn ghost" href="<?php echo h(panel_url('articles.php')); ?>">Отмена</a>
+        </div>
+      </form>
+<?php card_end(); ?>
+<?php } ?>
+
+<?php if ($mode === 'new' || $mode === 'edit') { ?>
+  <div class="btn-row" style="margin:0 0 12px">
+    <a class="btn ghost" href="<?php echo h(panel_url('articles.php')); ?>">← Статьи</a>
+    <span class="hint" style="align-self:center">/
+      <?php echo $mode === 'new' ? 'Новая статья' : h(trim((string)($fields['title'] ?? '')) !== '' ? (string)$fields['title'] : 'Без названия'); ?></span>
+  </div>
+<?php if ($stashError !== '') { ?>
+  <div style="margin:0 0 12px;padding:10px 14px;border:1px solid rgba(255,150,150,.4);border-radius:12px;background:rgba(255,120,120,.08);color:#ffb0b0">
+    Предыдущее сохранение не прошло: <strong><?php echo h($stashError); ?></strong>.
+    Ваш текст остался в форме — исправьте и нажмите «Сохранить черновик» снова.
+  </div>
+<?php } ?>
+<form method="post" action="<?php echo h(panel_url('articles.php')); ?>" id="article-form" enctype="multipart/form-data">
+  <input type="hidden" name="op" value="save" />
   <?php echo csrf_field(); ?>
   <input type="hidden" name="id" value="<?php echo h($editId); ?>" />
 
@@ -642,10 +1060,28 @@ panel_page_start('Статьи', 'Черновики, редактор стат�
       <label for="a-author">Автор (в разметке)</label>
       <input type="text" id="a-author" name="author" value="<?php echo h((string)($fields['author'] ?? 'CalcDoc')); ?>" />
 
-      <label for="a-image">Картинка для соцсетей (og:image)</label>
+      <label for="a-image">Обложка статьи — карточка на /blog/ и превью в соцсетях</label>
       <input type="text" id="a-image" name="image" value="<?php echo h((string)($fields['image'] ?? '')); ?>"
              placeholder="имя файла из media/uploads" />
-      <div class="field-hint">Пусто — возьмётся общая картинка сайта.</div>
+      <div class="field-hint">
+        <b>Где видно:</b> картинка карточки на странице <code>/blog/</code>, превью ссылки в соцсетях и
+        мессенджерах (og:image) и картинка в разметке статьи для поисковиков.
+        <b>Внутри самой статьи обложка не показывается</b> — там работают картинки из блоков текста.
+      </div>
+      <div class="field-hint">
+        <b>Какую брать:</b> 1200×630 точек (16:9), вес до 200 КБ, JPG или WebP.
+        Панель сожмёт исходник до 1920 точек и сделает копии 480/768/1200 — их подставит телефон или монитор.
+        Пусто — покажется общая картинка сайта.
+      </div>
+      <div class="field-row" style="align-items:end;margin-top:10px">
+        <div>
+          <label for="img-cover">…или загрузить с компьютера</label>
+          <input type="file" id="img-cover" name="img_cover" accept="image/*" />
+        </div>
+        <button class="btn ghost" type="submit" name="op" value="upload_cover">Загрузить и поставить обложкой</button>
+      </div>
+      <div class="field-hint">Загрузка кладёт файл в «Медиа-файлы» (сжатие и копии панель сделает сама)
+        и сразу ставит его обложкой — в «Медиа-файлы» ходить не нужно.</div>
 <?php if ($coverInfo['set']) { ?>
       <div class="image-line">
 <?php if ($coverInfo['exists']) { ?>
@@ -659,15 +1095,106 @@ panel_page_start('Статьи', 'Черновики, редактор стат�
 <?php } ?>
       <div class="btn-row" style="margin-top:10px">
         <a class="btn ghost" href="<?php echo h($pickUrl('cover')); ?>">Выбрать из медиа</a>
+<?php if ($coverInfo['exists'] && (int)$coverInfo['copies'] === 0) { ?>
+        <button class="btn ghost" type="submit" name="op" value="prep_copies_cover">Подготовить копии 480/768/1200</button>
+<?php } ?>
         <button class="btn ghost" type="submit" name="op" value="clear_image">Убрать обложку</button>
       </div>
+<?php if ($coverInfo['exists'] && (int)$coverInfo['w'] > 0) { ?>
+      <label>Превью ссылки — так её увидят в соцсетях и мессенджерах</label>
+      <div style="max-width:520px;border:1px solid rgba(255,255,255,.14);border-radius:14px;overflow:hidden;background:rgba(255,255,255,.03)">
+        <img src="<?php echo h('/media/uploads/' . basename((string)$fields['image'])); ?>" alt=""
+             style="display:block;width:100%;aspect-ratio:1200/630;object-fit:cover" loading="lazy" />
+        <div style="padding:10px 12px">
+          <div style="font-size:12px;color:#a9a4bb;text-transform:uppercase;letter-spacing:.06em">calc-doc.ru</div>
+          <div style="font-weight:600;margin-top:4px"><?php echo h((string)(($fields['seo_title'] ?? '') !== '' ? $fields['seo_title'] : ($fields['title'] ?? ''))); ?></div>
+          <div style="font-size:13px;color:#a9a4bb;margin-top:4px"><?php echo h(mb_substr((string)($fields['description'] ?? ''), 0, 140)); ?></div>
+        </div>
+      </div>
+      <div class="field-hint">
+        <b>Где видно:</b> картинкой-героем в начале статьи, в карточке на <code>/blog/</code>,
+        в превью ссылки (соцсети, мессенджеры) и в разметке статьи для поисковиков.
+        Страницы, опубликованные раньше, покажут обложку после «Опубликовать правки…».
+      </div>
+<?php } ?>
 <?php card_end(); ?>
 
-<?php card_start('Текст статьи', 'Блоки идут по порядку — так их увидят читатели'); ?>
+<?php card_start('Текст статьи', 'Блоки идут по порядку — так их увидят читатели. Ctrl+S — сохранить; черновик сохраняется сам, если минуту ничего не печатать'); ?>
+<details style="margin:0 0 14px;padding:8px 12px;border:1px dashed rgba(201,184,255,.4);border-radius:12px">
+  <summary style="cursor:pointer;font-size:14px;color:#c9b8ff">Импорт из готового HTML — заменит блоки статьи</summary>
+  <div style="margin-top:10px">
+    <?php if (trim((string)($editorImport['raw'] ?? '')) !== '') { ?>
+    <p class="field-hint" style="color:#ffd479">Ваш вставленный HTML сохранён в поле — проверьте и примените кнопкой «Импортировать».</p>
+    <?php } ?>
+    <label for="html-import">Вставьте HTML (тело статьи или целую страницу)</label>
+    <textarea id="html-import" name="html_import" rows="8"
+              placeholder="&lt;h2&gt;Подзаголовок&lt;/h2&gt;&#10;&lt;p&gt;Абзац…&lt;/p&gt;&#10;&lt;ul&gt;&lt;li&gt;пункт&lt;/li&gt;&lt;/ul&gt;"><?php echo h((string)($editorImport['raw'] ?? '')); ?></textarea>
+    <div class="field-hint">Как разложится: <code>&lt;h2&gt;</code> → подзаголовок, <code>&lt;p&gt;</code> → абзац,
+      <code>&lt;ul&gt;</code> → список, <code>&lt;ol&gt;</code> → шаги с номерами, <code>&lt;table&gt;</code> → таблица,
+      остальное (цитаты, вставки) — в блок «свой HTML». Опасное (<code>script</code>, <code>onclick</code>, <code>style</code>)
+      вырезается. Картинки не переносятся — их адреса покажем в отчёте.</div>
+    <div class="btn-row" style="margin-top:10px">
+      <button class="btn primary" type="submit" name="op" value="import"
+              onclick="return confirm('Импорт заменит текущие блоки статьи. Продолжить?')">Импортировать</button>
+    </div>
+  </div>
+</details>
+<?php $__blocks = (array)($fields['blocks'] ?? array()); ?>
+<?php if (count($__blocks) > 1) { ?>
+<details style="position:sticky;top:6px;z-index:5;margin:0 0 14px;padding:8px 12px;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(23,20,33,.95)">
+  <summary style="cursor:pointer;font-size:14px">Оглавление блоков: <?php echo count($__blocks); ?> — клик переносит к нужному блоку</summary>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+<?php foreach ($__blocks as $oi => $ob) {
+        $otype  = (string)($ob['type'] ?? 'p');
+        $otitle = isset(articles_block_types()[$otype]) ? articles_block_types()[$otype] : $otype;
+        $otext  = (string)($ob['text'] ?? '');
+        if ($otext === '' && !empty($ob['items'])) { $otext = implode(' ', array_slice((array)$ob['items'], 0, 3)); }
+        if ($otext === '') { $otext = (string)($ob['name'] ?? ''); }
+        $otext = trim((string)preg_replace('/\s+/u', ' ', strip_tags($otext)));
+        if ($otext === '') { $otext = 'без текста'; }
+        if (mb_strlen($otext) > 42) { $otext = mb_substr($otext, 0, 42) . '…'; } ?>
+    <a class="btn ghost btn-xs" href="#block-<?php echo (int)($oi + 1); ?>"><?php echo (int)($oi + 1); ?>. <?php echo h($otitle); ?> · <?php echo h($otext); ?></a>
+<?php } ?>
+  </div>
+</details>
+<?php } ?>
+<script>
+(function () {
+  var form = document.getElementById('article-form');
+  if (!form) { return; }
+  var dirty = false, lastTyping = Date.now();
+
+  form.addEventListener('input', function () { dirty = true; lastTyping = Date.now(); });
+  form.addEventListener('change', function () { dirty = true; lastTyping = Date.now(); });
+
+  /* Ctrl+S (Cmd+S) — сохранить черновик, как в редакторах */
+  document.addEventListener('keydown', function (e) {
+    if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'ы' || e.key === 'Ы')) {
+      e.preventDefault();
+      dirty = false;
+      form.submit();
+    }
+  });
+
+  /* Предупреждение, если уходите со страницы с несохранёнными правками */
+  window.addEventListener('beforeunload', function (e) {
+    if (!dirty) { return; }
+    e.preventDefault();
+    e.returnValue = '';
+  });
+
+  /* Автосохранение: раз в минуту, но только если последние 20 секунд вы не печатали */
+  setInterval(function () {
+    if (!dirty || Date.now() - lastTyping < 20000) { return; }
+    dirty = false;
+    form.submit();
+  }, 60000);
+})();
+</script>
 <?php foreach ((array)($fields['blocks'] ?? array()) as $i => $b) {
         $type     = (string)($b['type'] ?? 'p');
         $typeName = isset(articles_block_types()[$type]) ? articles_block_types()[$type] : $type; ?>
-      <div class="block-card">
+      <div class="block-card" id="block-<?php echo (int)($i + 1); ?>" style="scroll-margin-top:70px">
         <div class="block-head">
           <span class="block-title">Блок <?php echo (int)($i + 1); ?> · <?php echo h($typeName); ?></span>
           <span class="btn-row">
@@ -725,6 +1252,24 @@ panel_page_start('Статьи', 'Черновики, редактор стат�
                placeholder="имя файла" />
         <label>Подпись для незрячих и поисковиков (alt)</label>
         <input type="text" name="blocks[<?php echo (int)$i; ?>][alt]" value="<?php echo h((string)($b['alt'] ?? '')); ?>" />
+        <label for="img-cap-<?php echo (int)$i; ?>">Подпись под картинкой (видна на странице, можно не заполнять)</label>
+        <input type="text" id="img-cap-<?php echo (int)$i; ?>" name="blocks[<?php echo (int)$i; ?>][caption]"
+               value="<?php echo h((string)($b['caption'] ?? '')); ?>" placeholder="например: Схема расчёта" />
+        <div class="field-hint">
+          <b>Где видно:</b> картинка встанет в тексте статьи по центру — ровно там, где стоит блок.
+          Подписи под картинкой нет: текст для незрячих и поисковиков берётся из поля «alt».
+        </div>
+        <div class="field-hint">
+          <b>Какую брать:</b> ширина от 1200 точек, вес до 200 КБ, JPG или WebP.
+          Панель сожмёт исходник до 1920 точек и сделает копии 480/768/1200 — телефон получит лёгкую копию.
+        </div>
+        <div class="field-row" style="align-items:end;margin-top:10px">
+          <div>
+            <label for="img-block-<?php echo (int)$i; ?>">…или загрузить с компьютера в этот блок</label>
+            <input type="file" id="img-block-<?php echo (int)$i; ?>" name="img_block_<?php echo (int)$i; ?>" accept="image/*" />
+          </div>
+          <button class="btn ghost" type="submit" name="op" value="upload_block_<?php echo (int)$i; ?>">Загрузить и поставить</button>
+        </div>
 <?php $bi = article_image_info((string)($b['name'] ?? '')); ?>
 <?php if ($bi['set']) { ?>
         <div class="image-line">
@@ -735,6 +1280,11 @@ panel_page_start('Статьи', 'Черновики, редактор стат�
               ? (int)$bi['w'] . '×' . (int)$bi['h'] . ' · ' . h(human_size((int)$bi['bytes']))
                 . ($bi['copies'] > 0 ? ' · копий под экран: ' . (int)$bi['copies'] : ' · копий под экран нет')
               : 'файл не найден в media/uploads'; ?></div>
+<?php if ($bi['exists'] && (int)$bi['copies'] === 0) { ?>
+        <div style="margin:8px 0 0">
+          <button class="btn ghost btn-xs" type="submit" name="op" value="prep_copies_block_<?php echo (int)$i; ?>">Подготовить копии 480/768/1200</button>
+        </div>
+<?php } ?>
         </div>
 <?php } ?>
         <div class="btn-row" style="margin-top:10px">
@@ -834,15 +1384,31 @@ panel_page_start('Статьи', 'Черновики, редактор стат�
         ссылок: <strong><?php echo count((array)($fields['related'] ?? array())); ?></strong></p>
       <div class="btn-row">
         <button class="btn primary" type="submit" name="op" value="save">Сохранить черновик</button>
+<?php if ($mode === 'edit' && $draftPublished) { ?>
+        <button class="btn primary" type="submit" name="op" value="save_deploy"
+                onclick="return confirm('Сохранить правки, обновить страницу на сайте и залить файлы на хостинг?')">Сохранить и залить</button>
+<?php } ?>
         <button class="btn ghost" type="submit" name="op" value="preview">Обновить предпросмотр</button>
+        <button class="btn ghost" type="submit" name="op" value="save_preview">Сохранить и предпросмотр</button>
+        <a class="btn ghost" href="<?php echo h(panel_url('articles.php?preview=1' . ($editId !== '' ? '&id=' . rawurlencode($editId) : ''))); ?>"
+           target="_blank" rel="noopener" title="Показывает то, что сейчас в форме (без сохранения)">Предпросмотр ↗</a>
+<?php if ($mode === 'edit' && $draftPublished) { ?>
+        <button class="btn ghost" type="submit" name="op" value="deploy_now"
+                onclick="return confirm('Залить файл этой статьи на хостинг сейчас? Файл уже сохранён в черновике.')">Залить на хостинг</button>
+<?php } ?>
       </div>
       <p class="field-hint">Любое действие (блоки, вопросы, ссылки) тоже сохраняет черновик.
-        «Обновить предпросмотр» показывает текущие правки, не записывая их в черновик.</p>
+        «Обновить предпросмотр» показывает текущие правки, не записывая их в черновик.
+<?php if ($mode === 'edit' && $draftPublished) { ?>
+        «Залить на хостинг» отправляет уже сохранённый файл статьи на сервер — то же, что кнопка
+        «Опубликовать изменения» в разделе «Публикация», но одной кнопкой и только по этой статье.
+<?php } ?></p>
 <?php if ($mode === 'edit') { ?>
       <div class="btn-row" style="margin-top:10px">
         <a class="btn primary" href="<?php echo h(panel_url('articles.php?pub=' . rawurlencode($editId))); ?>"><?php
           echo $draftPublished ? 'Опубликовать правки…' : 'Опубликовать на сайте…'; ?></a>
-<?php if ($draftPublished) { ?>
+<?php if ($draftPublished) { $gscSite = rtrim((string)article_shell()['site_url'], '/'); if ($gscSite === '') { $gscSite = 'https://calc-doc.ru'; } $gscInspect = 'https://search.google.com/search-console/inspect?resource_id=' . rawurlencode($gscSite . '/') . '&id=' . rawurlencode($gscSite . '/blog/' . (string)($fields['slug'] ?? '') . '/'); ?>
+        <a class="btn ghost" href="<?php echo h($gscInspect); ?>" target="_blank" rel="noopener" title="Открывает «Проверку URL» в Google Search Console с подставленным адресом статьи — после публикации/правки нажмите «Запросить индексирование»">GSC: запросить индексирование →</a>
         <a class="btn ghost" href="<?php echo h('/blog/' . rawurlencode((string)($fields['slug'] ?? '')) . '/'); ?>"
            target="_blank" rel="noopener">Открыть на сайте</a>
         <a class="btn ghost" href="<?php echo h(panel_url('articles.php?unpub=' . rawurlencode($editId))); ?>">Снять с публикации…</a>
@@ -1012,6 +1578,25 @@ document.addEventListener('click', function (event) {
 
     </aside>
   </div>
+
+    <!-- Липкая панель: кнопки всегда под рукой, даже если статья длинная и вы в самом низу. -->
+    <div style="position:sticky;bottom:8px;z-index:6;margin-top:18px;padding:10px 12px;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:rgba(23,20,33,.94);box-shadow:0 12px 30px -14px rgba(0,0,0,.7);display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <span class="hint" style="margin:0">Эта статья:</span>
+      <button class="btn primary" type="submit" name="op" value="save">Сохранить черновик</button>
+<?php if ($mode === 'edit' && $draftPublished) { ?>
+      <button class="btn primary" type="submit" name="op" value="save_deploy"
+              onclick="return confirm('Сохранить правки, обновить страницу на сайте и залить файлы на хостинг?')">Сохранить и залить</button>
+<?php } ?>
+      <button class="btn ghost" type="submit" name="op" value="preview">Предпросмотр</button>
+      <button class="btn ghost" type="submit" name="op" value="save_preview">Сохранить и предпросмотр</button>
+      <a class="btn ghost" href="<?php echo h(panel_url('articles.php?preview=1' . ($editId !== '' ? '&id=' . rawurlencode($editId) : ''))); ?>"
+         target="_blank" rel="noopener" title="Показывает то, что сейчас в форме (без сохранения)">Предпросмотр ↗</a>
+<?php if ($mode === 'edit' && $draftPublished) { ?>
+      <button class="btn ghost" type="submit" name="op" value="deploy_now"
+              onclick="return confirm('Залить файл этой статьи на хостинг сейчас?')">Залить файл</button>
+<?php } ?>
+      <a class="btn ghost" href="<?php echo h(panel_url('articles.php')); ?>">К списку статей</a>
+    </div>
 </form>
 <?php } ?>
 

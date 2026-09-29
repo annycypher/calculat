@@ -1,0 +1,933 @@
+
+=== 404.html ===
+     11 <!--EDIT:title--><title>404 — страница не найдена — CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Страница не найдена: возможно, ссылка устарела …
+
+=== about/index.html ===
+     11 <!--EDIT:title--><title>О проекте CalcDoc: что такое calc-doc и кто его создал</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="О проекте CalcDoc: зачем созданы калькуляторы, …
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    166 <!--EDIT:catalog-->
+    173 <!--/EDIT:catalog-->
+    182 <!--EDIT:seo-->
+    185 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    231 <!--/EDIT:seo-->
+    232 <!--EDIT:faq-->
+    265 <!--/EDIT:faq-->
+
+=== blog/avto-osago-kbm/index.html ===
+     11 <!--EDIT:title--><title>КБМ в ОСАГО: как копить скидку за безаварийность</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="КБМ в ОСАГО (бонус-малус) — скидка за безаварий…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    155 <!--EDIT:updated--><p class="tool-meta">Обновлено: 21 сентября 2026</p><!--/EDIT:updated-->
+    163 <!--EDIT:seo-->
+    211 <!--/EDIT:seo-->
+    213 <!--EDIT:faq-->
+    231 <!--/EDIT:faq-->
+
+=== blog/avto-rashod-topliva/index.html ===
+     11 <!--EDIT:title--><title>Как рассчитать расход топлива автомобиля — метод и формула</title><!--/EDIT:titl…
+     12 <!--EDIT:description--><meta name="description" content="Как рассчитать расход топлива автомобиля: форму…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    155 <!--EDIT:updated--><p class="tool-meta">Обновлено: 21 сентября 2026</p><!--/EDIT:updated-->
+    163 <!--EDIT:seo-->
+    231 <!--/EDIT:seo-->
+    233 <!--EDIT:faq-->
+    251 <!--/EDIT:faq-->
+
+=== blog/avto-vladenie/index.html ===
+     11 <!--EDIT:title--><title>Сколько реально стоит владеть автомобилем в 2026 году</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Сколько реально стоит владеть автомобилем: топл…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    156 <!--EDIT:updated--><p class="tool-meta">Обновлено: 21 сентября 2026</p><!--/EDIT:updated-->
+    164 <!--EDIT:seo-->
+    223 <!--/EDIT:seo-->
+    225 <!--EDIT:faq-->
+    247 <!--/EDIT:faq-->
+
+=== blog/cirkulyacionnyy-nasos-podbor/index.html ===
+     11 <!--EDIT:title--><title>Циркуляционный насос для отопления — расчёт напора и расхода | CalcDoc</title><!…
+     12 <!--EDIT:description--><meta name="description" content="Расчёт циркуляционного насоса: расход по мощнос…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    174 <!--EDIT:updated--><p class="tool-meta">Обновлено: 21 сентября 2026</p><!--/EDIT:updated-->
+    179 <!--EDIT:seo-->
+    221 <!--/EDIT:seo-->
+    223 <!--EDIT:faq-->
+    241 <!--/EDIT:faq-->
+
+=== blog/diametr-trub-otopleniya-raschet/index.html ===
+     11 <!--EDIT:title--><title>Расчёт диаметра труб отопления — таблица DN по мощности</title><!--/EDIT:title--…
+     12 <!--EDIT:description--><meta name="description" content="Расчёт диаметра труб отопления по расходу тепло…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    174 <!--EDIT:updated--><p class="tool-meta">Обновлено: 21 сентября 2026</p><!--/EDIT:updated-->
+    179 <!--EDIT:seo-->
+    221 <!--/EDIT:seo-->
+    223 <!--EDIT:faq-->
+    241 <!--/EDIT:faq-->
+
+=== blog/dosrochno-ili-na-vklad/index.html ===
+     11 <!--EDIT:title--><title>Досрочно погасить кредит или положить на вклад — CalcDoc</title><!--/EDIT:title-…
+     12 <!--EDIT:description--><meta name="description" content="500 000 ₽ в досрочку на кредите под 18% экономя…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    156 <!--EDIT:updated--><p class="tool-meta">Обновлено: 22 сентября 2026</p><!--/EDIT:updated-->
+    165 <!--EDIT:seo-->
+    208 <!--/EDIT:seo-->
+    210 <!--EDIT:faq-->
+    232 <!--/EDIT:faq-->
+
+=== blog/gibridnaya-strategiya-dosrochnogo/index.html ===
+     11 <!--EDIT:title--><title>Гибридная стратегия досрочного погашения — CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Гибридная стратегия досрочного погашения: часть…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    156 <!--EDIT:updated--><p class="tool-meta">Обновлено: 22 сентября 2026</p><!--/EDIT:updated-->
+    165 <!--EDIT:seo-->
+    203 <!--/EDIT:seo-->
+    205 <!--EDIT:faq-->
+    227 <!--/EDIT:faq-->
+
+=== blog/gidrostrelka-raschet/index.html ===
+     11 <!--EDIT:title--><title>Гидрострелка — расчёт диаметра по мощности котла: формула и таблица | CalcDoc</t…
+     12 <!--EDIT:description--><meta name="description" content="Расчёт гидрострелки по мощности котла: формула …
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    174 <!--EDIT:updated--><p class="tool-meta">Обновлено: 21 сентября 2026</p><!--/EDIT:updated-->
+    179 <!--EDIT:seo-->
+    218 <!--/EDIT:seo-->
+    220 <!--EDIT:faq-->
+    238 <!--/EDIT:faq-->
+
+=== blog/index.html ===
+     11 <!--EDIT:title--><title>Статьи и инструкции по расчётам — CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Статьи CalcDoc о расчётах: отпускные, налоговый…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    156 <!--EDIT:catalog-->
+    183 <!--/EDIT:catalog-->
+    191 <!--EDIT:seo-->
+    208 <!--/EDIT:seo-->
+
+=== blog/kak-oformit-dosrochnoe-pogashenie/index.html ===
+     11 <!--EDIT:title--><title>Как оформить досрочное погашение — 353-ФЗ — CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Порядок досрочного погашения по 353-ФЗ: уведомл…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    156 <!--EDIT:updated--><p class="tool-meta">Обновлено: 22 сентября 2026</p><!--/EDIT:updated-->
+    165 <!--EDIT:seo-->
+    208 <!--/EDIT:seo-->
+    210 <!--EDIT:faq-->
+    232 <!--/EDIT:faq-->
+
+=== blog/kak-sostavit-raspisku/index.html ===
+     11 <!--EDIT:title--><title>Как правильно составить расписку о получении денег — CalcDoc</title><!--/EDIT:ti…
+     12 <!--EDIT:description--><meta name="description" content="Как правильно составить расписку о получении де…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    145 <!--EDIT:updated--><p class="tool-meta">Обновлено: 20 сентября 2026</p><!--/EDIT:updated-->
+    154 <!--EDIT:seo-->
+    239 <!--/EDIT:seo-->
+    240 <!--EDIT:faq-->
+    262 <!--/EDIT:faq-->
+
+=== blog/kombinirovannoe-dosrochnoe-pogashenie/index.html ===
+     11 <!--EDIT:title--><title>Комбинированное досрочное погашение — CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Комбинированное досрочное погашение — чередован…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    156 <!--EDIT:updated--><p class="tool-meta">Обновлено: 22 сентября 2026</p><!--/EDIT:updated-->
+    165 <!--EDIT:seo-->
+    214 <!--/EDIT:seo-->
+    216 <!--EDIT:faq-->
+    238 <!--/EDIT:faq-->
+
+=== blog/moshchnost-kotla-raschet/index.html ===
+     11 <!--EDIT:title--><title>Расчёт мощности котла отопления — по площади, объёму и теплопотерям | CalcDoc</t…
+     12 <!--EDIT:description--><meta name="description" content="Расчёт мощности котла отопления: по площади, по…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    174 <!--EDIT:updated--><p class="tool-meta">Обновлено: 21 сентября 2026</p><!--/EDIT:updated-->
+    179 <!--EDIT:seo-->
+    220 <!--/EDIT:seo-->
+    222 <!--EDIT:faq-->
+    240 <!--/EDIT:faq-->
+
+=== blog/nalogovy-vychet-i-dosrochnoe/index.html ===
+     11 <!--EDIT:title--><title>Досрочное погашение и налоговый вычет — CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Досрочка 500 000 ₽ на ипотеке под 18% срезает п…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    156 <!--EDIT:updated--><p class="tool-meta">Обновлено: 22 сентября 2026</p><!--/EDIT:updated-->
+    165 <!--EDIT:seo-->
+    208 <!--/EDIT:seo-->
+    210 <!--EDIT:faq-->
+    232 <!--/EDIT:faq-->
+
+=== blog/nalogovy-vychet-kvartira/index.html ===
+     11 <!--EDIT:title--><title>Налоговый вычет за квартиру — сколько вернут в 2026</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Налоговый вычет за квартиру: до 260 000 ₽ возвр…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    155 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    164 <!--EDIT:seo-->
+    224 <!--/EDIT:seo-->
+    225 <!--EDIT:faq-->
+    243 <!--/EDIT:faq-->
+
+=== blog/neustoyka-alimenty/index.html ===
+     11 <!--EDIT:title--><title>Неустойка по алиментам: как рассчитать и взыскать — CalcDoc</title><!--/EDIT:tit…
+     12 <!--EDIT:description--><meta name="description" content="Неустойка по алиментам — 0,1% за каждый день пр…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    155 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    164 <!--EDIT:seo-->
+    222 <!--/EDIT:seo-->
+    223 <!--EDIT:faq-->
+    241 <!--/EDIT:faq-->
+
+=== blog/obem-sistemy-otopleniya-raschet/index.html ===
+     11 <!--EDIT:title--><title>Объём системы отопления — как рассчитать: радиаторы, трубы, бак | CalcDoc</title…
+     12 <!--EDIT:description--><meta name="description" content="Объём системы отопления: теплоноситель в радиат…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    174 <!--EDIT:updated--><p class="tool-meta">Обновлено: 21 сентября 2026</p><!--/EDIT:updated-->
+    179 <!--EDIT:seo-->
+    205 <!--/EDIT:seo-->
+    208 <!--EDIT:faq-->
+    226 <!--/EDIT:faq-->
+
+=== blog/otpusknye/index.html ===
+     11 <!--EDIT:title--><title>Как рассчитать отпускные в 2026 году — формула и примеры</title><!--/EDIT:title-…
+     12 <!--EDIT:description--><meta name="description" content="Как рассчитать отпускные: формула среднего днев…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    155 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    164 <!--EDIT:seo-->
+    231 <!--/EDIT:seo-->
+    232 <!--EDIT:faq-->
+    250 <!--/EDIT:faq-->
+
+=== blog/rasshiritelnyy-bak-podbor/index.html ===
+     11 <!--EDIT:title--><title>Расширительный бак для отопления — расчёт объёма и давления | CalcDoc</title><!-…
+     12 <!--EDIT:description--><meta name="description" content="Подбор расширительного бака: формула объёма с к…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    174 <!--EDIT:updated--><p class="tool-meta">Обновлено: 21 сентября 2026</p><!--/EDIT:updated-->
+    179 <!--EDIT:seo-->
+    210 <!--/EDIT:seo-->
+    212 <!--EDIT:faq-->
+    230 <!--/EDIT:faq-->
+
+=== blog/sokrashchenie-sroka-ili-platezh/index.html ===
+     11 <!--EDIT:title--><title>Сокращение срока или уменьшение платежа — CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Досрочка 500 000 ₽ на кредите 3 000 000 ₽ под 1…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    156 <!--EDIT:updated--><p class="tool-meta">Обновлено: 22 сентября 2026</p><!--/EDIT:updated-->
+    165 <!--EDIT:seo-->
+    209 <!--/EDIT:seo-->
+    211 <!--EDIT:faq-->
+    233 <!--/EDIT:faq-->
+
+=== blog/teploventilyator-vulkan/index.html ===
+     11 <!--EDIT:title--><title>Тепловентилятор для цеха — расчёт мощности и электрики по теплопотерям | CalcDoc…
+     12 <!--EDIT:description--><meta name="description" content="Тепловентилятор для цеха: расчёт мощности по те…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    174 <!--EDIT:updated--><p class="tool-meta">Обновлено: 21 сентября 2026</p><!--/EDIT:updated-->
+    179 <!--EDIT:seo-->
+    217 <!--/EDIT:seo-->
+    219 <!--EDIT:faq-->
+    237 <!--/EDIT:faq-->
+
+=== calculators/auto/customs/index.html ===
+     11 <!--EDIT:title--><title>Таможенный калькулятор автомобиля — пошлина и утильсбор</title><!--/EDIT:title--…
+     12 <!--EDIT:description--><meta name="description" content="Таможенный калькулятор онлайн: пошлина, утильсб…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    306 <!--EDIT:seo-->
+    309 <!--EDIT:updated--><p class="tool-meta">Обновлено: 20 сентября 2026</p><!--/EDIT:updated-->
+    383 <!--/EDIT:seo-->
+    384 <!--EDIT:faq-->
+    410 <!--/EDIT:faq-->
+
+=== calculators/auto/fuel/index.html ===
+     11 <!--EDIT:title--><title>Калькулятор расхода топлива на 100 км онлайн | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор расхода топлива онлайн: расход на 1…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    330 <!--EDIT:seo-->
+    333 <!--EDIT:updated--><p class="tool-meta">Обновлено: 20 сентября 2026</p><!--/EDIT:updated-->
+    415 <!--/EDIT:seo-->
+    416 <!--EDIT:faq-->
+    438 <!--/EDIT:faq-->
+
+=== calculators/auto/index.html ===
+     11 <!--EDIT:title--><title>Авто-калькуляторы онлайн | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Авто-калькуляторы онлайн: расход топлива, стоим…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    178 <!--EDIT:catalog-->
+    201 <!--/EDIT:catalog-->
+    210 <!--EDIT:seo-->
+    214 <!--EDIT:updated--><p class="tool-meta">Обновлено: 20 сентября 2026</p><!--/EDIT:updated-->
+    223 <!--/EDIT:seo-->
+    225 <!--EDIT:faq-->
+    239 <!--/EDIT:faq-->
+
+=== calculators/auto/osago/index.html ===
+     11 <!--EDIT:title--><title>Калькулятор ОСАГО: расчёт цены полиса онлайн | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор ОСАГО онлайн: цена полиса по мощнос…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    321 <!--EDIT:seo-->
+    324 <!--EDIT:updated--><p class="tool-meta">Обновлено: 20 сентября 2026</p><!--/EDIT:updated-->
+    401 <!--/EDIT:seo-->
+    402 <!--EDIT:faq-->
+    428 <!--/EDIT:faq-->
+
+=== calculators/auto/ownership/index.html ===
+     11 <!--EDIT:title--><title>Калькулятор стоимости владения автомобилем | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор стоимости владения автомобилем онла…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    310 <!--EDIT:seo-->
+    313 <!--EDIT:updated--><p class="tool-meta">Обновлено: 20 сентября 2026</p><!--/EDIT:updated-->
+    428 <!--/EDIT:seo-->
+    429 <!--EDIT:faq-->
+    451 <!--/EDIT:faq-->
+
+=== calculators/construction/brick/index.html ===
+     11 <!--EDIT:title--><title>Калькулятор кирпича на дом — расход на кладку | CalcDoc</title><!--/EDIT:title--…
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор кирпича онлайн: сколько кирпича и р…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    224 <!--EDIT:seo-->
+    227 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    282 <!--/EDIT:seo-->
+    283 <!--EDIT:faq-->
+    316 <!--/EDIT:faq-->
+
+=== calculators/construction/index.html ===
+     11 <!--EDIT:title--><title>Калькуляторы ремонта и стройки | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Калькуляторы стройки и ремонта: обои, плитка, л…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    181 <!--EDIT:catalog-->
+    214 <!--/EDIT:catalog-->
+    223 <!--EDIT:seo-->
+    227 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    259 <!--/EDIT:seo-->
+    260 <!--EDIT:faq-->
+    293 <!--/EDIT:faq-->
+
+=== calculators/construction/laminate/index.html ===
+     11 <!--EDIT:title--><title>Калькулятор ламината и линолеума | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор ламината и линолеума онлайн: скольк…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    247 <!--EDIT:seo-->
+    250 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    303 <!--/EDIT:seo-->
+    304 <!--EDIT:faq-->
+    337 <!--/EDIT:faq-->
+
+=== calculators/construction/paint/index.html ===
+     11 <!--EDIT:title--><title>Калькулятор краски — расход на комнату | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор краски и грунтовки онлайн: объём по…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    235 <!--EDIT:seo-->
+    238 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    292 <!--/EDIT:seo-->
+    293 <!--EDIT:faq-->
+    326 <!--/EDIT:faq-->
+
+=== calculators/construction/plaster/index.html ===
+     11 <!--EDIT:title--><title>Калькулятор штукатурки — расход на м2 | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор штукатурки и стяжки онлайн: мешки с…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    224 <!--EDIT:seo-->
+    227 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    281 <!--/EDIT:seo-->
+    282 <!--EDIT:faq-->
+    315 <!--/EDIT:faq-->
+
+=== calculators/construction/tile/index.html ===
+     11 <!--EDIT:title--><title>Калькулятор плитки — сколько нужно на пол и стены | CalcDoc</title><!--/EDIT:tit…
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор плитки онлайн: количество плитки на…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    232 <!--EDIT:seo-->
+    235 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    290 <!--/EDIT:seo-->
+    291 <!--EDIT:faq-->
+    324 <!--/EDIT:faq-->
+
+=== calculators/construction/wallpaper/index.html ===
+     11 <!--EDIT:title--><title>Калькулятор обоев — сколько рулонов нужно | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор обоев онлайн: сколько рулонов нужно…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    231 <!--EDIT:seo-->
+    234 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    288 <!--/EDIT:seo-->
+    289 <!--EDIT:faq-->
+    322 <!--/EDIT:faq-->
+
+=== calculators/engineering/gidrostrelka/index.html ===
+     11 <!--EDIT:title--><title>Калькулятор гидрострелки — диаметр, длина и расход</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор гидрострелки онлайн: диаметр по мощ…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    497 <!--EDIT:seo-->
+    551 <!--/EDIT:seo-->
+    552 <!--EDIT:faq-->
+    578 <!--/EDIT:faq-->
+
+=== calculators/engineering/index.html ===
+     11 <!--EDIT:title--><title>Инженерные калькуляторы онлайн | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Инженерные калькуляторы онлайн: объём системы о…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    178 <!--EDIT:catalog-->
+    200 <!--/EDIT:catalog-->
+    209 <!--EDIT:seo-->
+    213 <!--EDIT:updated--><p class="tool-meta">Обновлено: 21 сентября 2026</p><!--/EDIT:updated-->
+    222 <!--/EDIT:seo-->
+    224 <!--EDIT:faq-->
+    238 <!--/EDIT:faq-->
+
+=== calculators/engineering/otoplenie-obem/index.html ===
+     11 <!--EDIT:title--><title>Калькулятор объёма системы отопления — теплоноситель</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор объёма системы отопления онлайн: те…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    377 <!--EDIT:seo-->
+    444 <!--/EDIT:seo-->
+    445 <!--EDIT:faq-->
+    471 <!--/EDIT:faq-->
+
+=== calculators/engineering/vulkan/index.html ===
+     11 <!--EDIT:title--><title>Калькулятор тепловентилятора Вулкан — питы и кабель</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор тепловентилятора «Вулкан» онлайн: м…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    368 <!--EDIT:seo-->
+    416 <!--/EDIT:seo-->
+    418 <!--EDIT:faq-->
+    444 <!--/EDIT:faq-->
+
+=== calculators/finance/alimony/index.html ===
+     11 <!--EDIT:title--><title>Калькулятор неустойки по алиментам — 0,1% за день</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор неустойки по алиментам онлайн: 0,1%…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    220 <!--EDIT:seo-->
+    223 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    291 <!--/EDIT:seo-->
+    292 <!--EDIT:faq-->
+    335 <!--/EDIT:faq-->
+
+=== calculators/finance/average-earnings/index.html ===
+     11 <!--EDIT:title--><title>Калькулятор среднего заработка | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор среднего заработка онлайн: средний …
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    213 <!--EDIT:seo-->
+    216 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    273 <!--/EDIT:seo-->
+    274 <!--EDIT:faq-->
+    317 <!--/EDIT:faq-->
+
+=== calculators/finance/compound-interest/index.html ===
+     11 <!--EDIT:title--><title>Калькулятор сложного процента — с пополнением | CalcDoc</title><!--/EDIT:title--…
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор сложного процента онлайн: итоговая …
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    210 <!--EDIT:seo-->
+    213 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    278 <!--/EDIT:seo-->
+    279 <!--EDIT:faq-->
+    322 <!--/EDIT:faq-->
+
+=== calculators/finance/credit/index.html ===
+     11 <!--EDIT:title--><title>Кредитный калькулятор: платёж и переплата онлайн | CalcDoc</title><!--/EDIT:titl…
+     12 <!--EDIT:description--><meta name="description" content="Кредитный калькулятор онлайн: ежемесячный платё…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    215 <!--EDIT:seo-->
+    218 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    306 <!--/EDIT:seo-->
+    307 <!--EDIT:faq-->
+    350 <!--/EDIT:faq-->
+
+=== calculators/finance/deposit/index.html ===
+     11 <!--EDIT:title--><title>Калькулятор вкладов: доход и капитализация | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор вкладов онлайн: доход с капитализац…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    261 <!--EDIT:seo-->
+    264 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    345 <!--/EDIT:seo-->
+    346 <!--EDIT:faq-->
+    389 <!--/EDIT:faq-->
+
+=== calculators/finance/dosrochnoe/index.html ===
+     11 <!--EDIT:title--><title>Калькулятор досрочного погашения кредита | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор досрочного погашения кредита онлайн…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    218 <!--EDIT:seo-->
+    288 <!--/EDIT:seo-->
+    289 <!--EDIT:faq-->
+    303 <!--/EDIT:faq-->
+
+=== calculators/finance/index.html ===
+     11 <!--EDIT:title--><title>Финансовые калькуляторы онлайн | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Финансовые калькуляторы онлайн: кредиты и ипоте…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    168 <!--EDIT:catalog-->
+    179 <!--/EDIT:catalog-->
+    181 <!--EDIT:catalog-->
+    192 <!--/EDIT:catalog-->
+    201 <!--EDIT:seo-->
+    205 <!--EDIT:updated--><p class="tool-meta">Обновлено: 22 сентября 2026</p><!--/EDIT:updated-->
+    235 <!--/EDIT:seo-->
+    236 <!--EDIT:faq-->
+    269 <!--/EDIT:faq-->
+
+=== calculators/finance/ip-insurance/index.html ===
+     11 <!--EDIT:title--><title>Калькулятор взносов ИП — фиксированные и 1% свыше 300 000</title><!--/EDIT:title…
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор страховых взносов ИП онлайн: фиксир…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    207 <!--EDIT:seo-->
+    210 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    265 <!--/EDIT:seo-->
+    266 <!--EDIT:faq-->
+    299 <!--/EDIT:faq-->
+
+=== calculators/finance/maternity/index.html ===
+     11 <!--EDIT:title--><title>Калькулятор декретных — пособие по беременности | CalcDoc</title><!--/EDIT:title…
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор декретных онлайн: пособие по береме…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    219 <!--EDIT:seo-->
+    222 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    287 <!--/EDIT:seo-->
+    288 <!--EDIT:faq-->
+    331 <!--/EDIT:faq-->
+
+=== calculators/finance/mortgage/index.html ===
+     11 <!--EDIT:title--><title>Ипотечный калькулятор онлайн: платёж и переплата | CalcDoc</title><!--/EDIT:titl…
+     12 <!--EDIT:description--><meta name="description" content="Ипотечный калькулятор онлайн: платёж, переплата…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    233 <!--EDIT:seo-->
+    236 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    317 <!--/EDIT:seo-->
+    318 <!--EDIT:faq-->
+    351 <!--/EDIT:faq-->
+
+=== calculators/finance/ndfl/index.html ===
+     11 <!--EDIT:title--><title>Калькулятор НДФЛ онлайн — расчёт налога с дохода | CalcDoc</title><!--/EDIT:titl…
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор НДФЛ онлайн: налог с зарплаты, дохо…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    204 <!--EDIT:seo-->
+    207 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    268 <!--/EDIT:seo-->
+    269 <!--EDIT:faq-->
+    312 <!--/EDIT:faq-->
+
+=== calculators/finance/penalty/index.html ===
+     11 <!--EDIT:title--><title>Калькулятор пени по ставке ЦБ — онлайн расчёт | CalcDoc</title><!--/EDIT:title--…
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор пени онлайн: расчёт по ставке ЦБ и …
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    225 <!--EDIT:seo-->
+    228 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    295 <!--/EDIT:seo-->
+    296 <!--EDIT:faq-->
+    339 <!--/EDIT:faq-->
+
+=== calculators/finance/salary-delay/index.html ===
+     11 <!--EDIT:title--><title>Компенсация за задержку зарплаты — ст. 236 ТК РФ | CalcDoc</title><!--/EDIT:titl…
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор компенсации за задержку зарплаты он…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    211 <!--EDIT:seo-->
+    214 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    280 <!--/EDIT:seo-->
+    281 <!--EDIT:faq-->
+    324 <!--/EDIT:faq-->
+
+=== calculators/finance/sick-leave/index.html ===
+     11 <!--EDIT:title--><title>Калькулятор больничного — оплата по стажу | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор больничного онлайн: оплата по стажу…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    217 <!--EDIT:seo-->
+    220 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    278 <!--/EDIT:seo-->
+    279 <!--EDIT:faq-->
+    322 <!--/EDIT:faq-->
+
+=== calculators/finance/tax-freelancer/index.html ===
+     11 <!--EDIT:title--><title>Калькулятор налога фрилансера: НПД 4% и 6%, лимит 2,4 млн</title><!--/EDIT:title…
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор налога фрилансера онлайн: НПД 4% и …
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    225 <!--EDIT:seo-->
+    228 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    288 <!--/EDIT:seo-->
+    289 <!--EDIT:faq-->
+    332 <!--/EDIT:faq-->
+
+=== calculators/finance/vacation-pay/index.html ===
+     11 <!--EDIT:title--><title>Калькулятор отпускных — расчёт 2026 | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор отпускных онлайн: средний дневной з…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    222 <!--EDIT:seo-->
+    225 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    285 <!--/EDIT:seo-->
+    286 <!--EDIT:faq-->
+    329 <!--/EDIT:faq-->
+
+=== calculators/finance/vat/index.html ===
+     11 <!--EDIT:title--><title>Калькулятор НДС онлайн: выделить и рассчитать 20% | CalcDoc</title><!--/EDIT:tit…
+     12 <!--EDIT:description--><meta name="description" content="Калькулятор НДС онлайн: начислить налог 20% или…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    228 <!--EDIT:seo-->
+    231 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    297 <!--/EDIT:seo-->
+    298 <!--EDIT:faq-->
+    341 <!--/EDIT:faq-->
+
+=== calculators/index.html ===
+     11 <!--EDIT:title--><title>Калькуляторы онлайн бесплатно и без регистрации | CalcDoc</title><!--/EDIT:title…
+     12 <!--EDIT:description--><meta name="description" content="Бесплатные онлайн-калькуляторы: кредиты и налог…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    167 <!--EDIT:catalog-->
+    174 <!--/EDIT:catalog-->
+    176 <!--EDIT:catalog-->
+    185 <!--/EDIT:catalog-->
+    194 <!--EDIT:seo-->
+    198 <!--EDIT:updated--><p class="tool-meta">Обновлено: 22 сентября 2026</p><!--/EDIT:updated-->
+    231 <!--/EDIT:seo-->
+    232 <!--EDIT:faq-->
+    265 <!--/EDIT:faq-->
+
+=== contact/index.html ===
+     11 <!--EDIT:title--><title>Контакты CalcDoc: обратная связь, поддержка и почта</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Контакты CalcDoc: форма обратной связи, почта i…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    141 <!--EDIT:seo-->
+    193 <!--/EDIT:seo-->
+
+=== converters/csv-to-xlsx/index.html ===
+     11 <!--EDIT:title--><title>CSV в Excel — конвертер онлайн | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Конвертер CSV в Excel онлайн: файл превращается…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    205 <!--EDIT:seo-->
+    208 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    257 <!--/EDIT:seo-->
+    258 <!--EDIT:faq-->
+    291 <!--/EDIT:faq-->
+
+=== converters/dadata/index.html ===
+     11 <!--EDIT:title--><title>DaData-конструктор запросов | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Конструктор запросов DaData онлайн: подсказки а…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    231 <!--EDIT:seo-->
+    234 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    282 <!--/EDIT:seo-->
+    283 <!--EDIT:faq-->
+    316 <!--/EDIT:faq-->
+
+=== converters/image-converter/index.html ===
+     11 <!--EDIT:title--><title>Сжатие изображений онлайн: JPG, PNG и GIF — CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Сжатие изображений онлайн: уменьшите вес JPG, P…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    201 <!--EDIT:seo-->
+    204 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    257 <!--/EDIT:seo-->
+    258 <!--EDIT:faq-->
+    291 <!--/EDIT:faq-->
+
+=== converters/index.html ===
+     11 <!--EDIT:title--><title>Конвертеры онлайн бесплатно | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Онлайн-конвертеры величин и файлов: длина, вес,…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    167 <!--EDIT:catalog-->
+    177 <!--/EDIT:catalog-->
+    185 <!--EDIT:seo-->
+    189 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    219 <!--/EDIT:seo-->
+    220 <!--EDIT:faq-->
+    253 <!--/EDIT:faq-->
+
+=== converters/pdf-to-word/index.html ===
+     11 <!--EDIT:title--><title>Конвертер PDF в Word онлайн — DOCX с форматированием</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Конвертер PDF в Word онлайн: текст и таблицы пе…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    209 <!--EDIT:seo-->
+    212 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    262 <!--/EDIT:seo-->
+    263 <!--EDIT:faq-->
+    296 <!--/EDIT:faq-->
+
+=== converters/qr-generator/index.html ===
+     11 <!--EDIT:title--><title>Генератор QR-кода — PNG, JPG, SVG | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Генератор QR-кода онлайн: ссылка, текст, Wi-Fi …
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    229 <!--EDIT:seo-->
+    232 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    290 <!--/EDIT:seo-->
+    291 <!--EDIT:faq-->
+    324 <!--/EDIT:faq-->
+
+=== converters/seo-translit/index.html ===
+     11 <!--EDIT:title--><title>SEO-транслит: перевод текста в URL и домен | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="SEO-транслит онлайн: перевод русского текста в …
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    238 <!--EDIT:seo-->
+    241 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    292 <!--/EDIT:seo-->
+    293 <!--EDIT:faq-->
+    326 <!--/EDIT:faq-->
+
+=== converters/unit-converter/index.html ===
+     11 <!--EDIT:title--><title>Конвертер единиц измерения онлайн | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Конвертер единиц измерения онлайн: длина, масса…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    224 <!--EDIT:seo-->
+    227 <!--EDIT:updated--><p class="tool-meta">Обновлено: 24 сентября 2026</p><!--/EDIT:updated-->
+    260 <!--/EDIT:seo-->
+    261 <!--EDIT:faq-->
+    284 <!--/EDIT:faq-->
+
+=== games/2048/index.html ===
+     11 <!--EDIT:title--><title>2048 онлайн — игра-головоломка: правила и тактика | CalcDoc</title><!--/EDIT:tit…
+     12 <!--EDIT:description--><meta name="description" content="Игра 2048 онлайн: складывайте плитки, чтобы соб…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    285 <!--EDIT:seo-->
+    288 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    328 <!--/EDIT:seo-->
+    329 <!--EDIT:faq-->
+    362 <!--/EDIT:faq-->
+
+=== games/bubble/index.html ===
+     11 <!--EDIT:title--><title>Пузыри (Bubble Shooter): играть онлайн бесплатно | CalcDoc</title><!--/EDIT:titl…
+     12 <!--EDIT:description--><meta name="description" content="Пузыри (Bubble Shooter) онлайн: стреляйте шарик…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    273 <!--EDIT:seo-->
+    276 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    316 <!--/EDIT:seo-->
+    317 <!--EDIT:faq-->
+    350 <!--/EDIT:faq-->
+
+=== games/index.html ===
+     11 <!--EDIT:title--><title>Мини-игры онлайн — перерыв с пользой | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Мини-игры онлайн без регистрации: 2048, «Пузыри…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    166 <!--EDIT:catalog-->
+    199 <!--/EDIT:catalog-->
+    207 <!--EDIT:seo-->
+    210 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    242 <!--/EDIT:seo-->
+    243 <!--EDIT:faq-->
+    276 <!--/EDIT:faq-->
+
+=== games/water/index.html ===
+     11 <!--EDIT:title--><title>Water Glow: сортировка жидкостей онлайн | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Water Glow онлайн: сортировка жидкостей по проб…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    327 <!--EDIT:seo-->
+    330 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    369 <!--/EDIT:seo-->
+    370 <!--EDIT:faq-->
+    403 <!--/EDIT:faq-->
+
+=== generators/_template.html ===
+     17 <!--EDIT:title--><title>[КЛЮЧ] — [КОНКРЕТИКА] | CalcDoc</title><!--/EDIT:title-->
+     18 <!--EDIT:description--><meta name="description" content="Шаблон страницы инструмента CalcDoc: заголовок,…
+
+=== generators/auto/index.html ===
+     11 <!--EDIT:title--><title>Автомобильные документы: генераторы онлайн | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Автомобильные документы онлайн: генераторы расп…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    153 <!--EDIT:catalog-->
+    157 <!--/EDIT:catalog-->
+    174 <!--EDIT:seo-->
+    202 <!--/EDIT:seo-->
+
+=== generators/auto/raspiska/index.html ===
+     11 <!--EDIT:title--><title>Генератор расписки о получении денег — онлайн</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Генератор расписки онлайн: сумма, паспортные да…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    224 <!--EDIT:seo-->
+    290 <!--/EDIT:seo-->
+    291 <!--EDIT:faq-->
+    317 <!--/EDIT:faq-->
+
+=== generators/contract/index.html ===
+     11 <!--EDIT:title--><title>Генератор договора — шаблоны с выгрузкой в PDF | CalcDoc</title><!--/EDIT:title-…
+     12 <!--EDIT:description--><meta name="description" content="Генератор договора онлайн: шаблон с реквизитами…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    247 <!--EDIT:seo-->
+    250 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    301 <!--/EDIT:seo-->
+    302 <!--EDIT:faq-->
+    335 <!--/EDIT:faq-->
+
+=== generators/index.html ===
+     11 <!--EDIT:title--><title>Шаблоны документов онлайн: бесплатные бланки и конструктор | CalcDoc</title><!--…
+     12 <!--EDIT:description--><meta name="description" content="Шаблоны и конструктор документов онлайн: догово…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    167 <!--EDIT:catalog-->
+    171 <!--/EDIT:catalog-->
+    173 <!--EDIT:catalog-->
+    183 <!--/EDIT:catalog-->
+    191 <!--EDIT:seo-->
+    195 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    227 <!--/EDIT:seo-->
+    228 <!--EDIT:faq-->
+    261 <!--/EDIT:faq-->
+
+=== generators/invoice/index.html ===
+     11 <!--EDIT:title--><title>Счёт на оплату — выставить онлайн с QR | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Счёт на оплату онлайн: реквизиты, позиции с авт…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    280 <!--EDIT:seo-->
+    283 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    326 <!--/EDIT:seo-->
+    327 <!--EDIT:faq-->
+    360 <!--/EDIT:faq-->
+
+=== generators/leave-request/index.html ===
+     11 <!--EDIT:title--><title>Генератор заявления на отпуск: образец и PDF онлайн</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Генератор заявления на отпуск онлайн: образец с…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    247 <!--EDIT:seo-->
+    250 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    291 <!--/EDIT:seo-->
+    292 <!--EDIT:faq-->
+    325 <!--/EDIT:faq-->
+
+=== generators/power-of-attorney/index.html ===
+     11 <!--EDIT:title--><title>Доверенность — образец и генератор | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Генератор доверенности онлайн: шаблон с полномо…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    261 <!--EDIT:seo-->
+    264 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    305 <!--/EDIT:seo-->
+    306 <!--EDIT:faq-->
+    339 <!--/EDIT:faq-->
+
+=== generators/report/index.html ===
+     11 <!--EDIT:title--><title>PDF-отчёт с таблицей — генератор | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Генератор PDF-отчёта онлайн: титульный блок, вв…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    229 <!--EDIT:seo-->
+    232 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    283 <!--/EDIT:seo-->
+    284 <!--EDIT:faq-->
+    317 <!--/EDIT:faq-->
+
+=== generators/resume/index.html ===
+     11 <!--EDIT:title--><title>Генератор резюме — создать онлайн бесплатно | CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Генератор резюме онлайн: шаблон с опытом, навык…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    247 <!--EDIT:seo-->
+    250 <!--EDIT:updated--><p class="tool-meta">Обновлено: 16 сентября 2026</p><!--/EDIT:updated-->
+    302 <!--/EDIT:seo-->
+    303 <!--EDIT:faq-->
+    336 <!--/EDIT:faq-->
+
+=== index.html ===
+     11 <!--EDIT:title--><title>CalcDoc — онлайн-калькуляторы, конвертеры и шаблоны документов бесплатно</title>…
+     12 <!--EDIT:description--><meta name="description" content="CalcDoc — бесплатные онлайн-калькуляторы, конве…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    977 <!--EDIT:catalog:games-->
+   1005 <!--/EDIT:catalog:games-->
+   1008 <!--EDIT:catalog:tools-->
+   1145 <!--/EDIT:catalog:tools-->
+   1148 <!--EDIT:catalog:files-->
+   1184 <!--/EDIT:catalog:files-->
+   1187 <!--EDIT:catalog:converters-->
+   1223 <!--/EDIT:catalog:converters-->
+   1258 <!--EDIT:seo-->
+   1261 <!--EDIT:updated--><p class="tool-meta">Обновлено: 22 сентября 2026</p><!--/EDIT:updated-->
+   1290 <!--/EDIT:seo-->
+   1292 <!--EDIT:faq-->
+   1325 <!--/EDIT:faq-->
+
+=== offline.html ===
+     11 <!--EDIT:title--><title>Вы офлайн — CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Нет соединения, но инструменты CalcDoc продолжа…
+
+=== popular/index.html ===
+     11 <!--EDIT:title--><title>Популярное на CalcDoc — что чаще всего открывают</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Популярное на сайте CalcDoc: какие калькуляторы…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+
+=== privacy/index.html ===
+     11 <!--EDIT:title--><title>Политика конфиденциальности — CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Политика конфиденциальности CalcDoc: какие данн…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    142 <!--EDIT:seo-->
+    178 <!--/EDIT:seo-->
+
+=== reviews/index.html ===
+     11 <!--EDIT:title--><title>Отзывы о калькуляторах CalcDoc — мнения и оценки</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Отзывы посетителей CalcDoc о калькуляторах и ге…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->
+    141 <!--EDIT:seo-->
+    152 <!--/EDIT:seo-->
+    153 <!--EDIT:faq-->
+    171 <!--/EDIT:faq-->
+
+=== search.html ===
+     11 <!--EDIT:title--><title>Поиск по сайту — CalcDoc</title><!--/EDIT:title-->
+     12 <!--EDIT:description--><meta name="description" content="Поиск по сайту CalcDoc: найдите калькулятор, ко…
+     15 <!--EDIT:og-->
+     18 <!--/EDIT:og-->

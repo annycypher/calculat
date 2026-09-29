@@ -28,16 +28,17 @@ function panel_sections(): array {
     return array(
         array('file' => 'dashboard.php',   'title' => 'Дашборд',      'group' => 'Обзор',        'icon' => '▤', 'ready' => true,  'hint' => 'сводка по сайту'),
         array('file' => 'analytics.php',   'title' => 'Аналитика',    'group' => 'Обзор',        'icon' => '△', 'ready' => true,  'hint' => 'просмотры, источники'),
+        array('file' => 'health.php',      'title' => 'Проверка сайта','group' => 'Обзор',       'icon' => '✓', 'ready' => true,  'hint' => 'пять проверок одним отчётом: alt у картинок, копии, описания, битые ссылки, файлы к заливке'),
 
         array('file' => 'articles.php',   'title' => 'Статьи',       'group' => 'Контент',      'icon' => '✎', 'ready' => true,  'hint' => 'черновики и редактор статьи'),
         array('file' => 'media.php',       'title' => 'Медиа-файлы',  'group' => 'Контент',      'icon' => '▨', 'ready' => true,  'hint' => 'картинки сайта'),
         array('file' => 'meta.php',        'title' => 'Мета-теги',    'group' => 'Контент',      'icon' => '⌗', 'ready' => true,  'hint' => 'title, description и H1 любой страницы: подсказки, предпросмотр сниппета, дубли'),
         array('file' => 'meta-bulk.php',   'title' => 'Массовая мета', 'group' => 'Контент',     'icon' => '⁝', 'ready' => true,  'hint' => 'один шаблон title сразу для нескольких страниц — с предпросмотром'),
-        array('file' => 'content.php',     'title' => 'Текст страниц','group' => 'Контент',      'icon' => '≡', 'ready' => false, 'hint' => 'правка по маркерам — фаза 9'),
+        array('file' => 'content.php',     'title' => 'Текст страниц','group' => 'Контент',      'icon' => '≡', 'ready' => true,  'hint' => 'текст страницы и частые вопросы — правка по маркерам шага 0.3'),
         array('file' => 'catalog.php',     'title' => 'Каталог',      'group' => 'Контент',      'icon' => '▦', 'ready' => true,  'hint' => 'карточки главной: добавить, скрыть, порядок'),
         array('file' => 'add-tool.php',    'title' => 'Новый инструмент','group' => 'Контент',   'icon' => '✚', 'ready' => true,  'hint' => 'чек-лист из 14 шагов с проверками'),
         array('file' => 'trash.php',       'title' => 'Корзина',      'group' => 'Контент',      'icon' => '⌫', 'ready' => true,  'hint' => 'удалённые статьи: восстановить или удалить навсегда'),
-        array('file' => 'glossary.php',    'title' => 'Глоссарий',    'group' => 'Контент',      'icon' => 'Aa','ready' => false, 'hint' => 'термины — фаза 10'),
+        array('file' => 'glossary.php',    'title' => 'Глоссарий',    'group' => 'Контент',      'icon' => 'Aa','ready' => true,  'hint' => 'термины простыми словами: страницы /glossary/ с примерами и ссылками на калькуляторы'),
 
         array('file' => 'banners.php',     'title' => 'Баннеры',      'group' => 'Реклама',      'icon' => '▣', 'ready' => true,  'hint' => 'слоты и картинки'),
         array('file' => 'ads.php',         'title' => 'Рекламные блоки','group' => 'Реклама',    'icon' => '◲', 'ready' => true,  'hint' => 'РСЯ, AdSense, свой HTML'),
@@ -45,6 +46,9 @@ function panel_sections(): array {
         array('file' => 'reviews.php',     'title' => 'Отзывы',       'group' => 'Реклама',      'icon' => '★', 'ready' => true,  'hint' => 'очередь модерации'),
 
         array('file' => 'seo-center.php',  'title' => 'SEO-центр',    'group' => 'Продвижение',  'icon' => '◎', 'ready' => true,  'hint' => 'оценка страниц по критериям поиска'),
+        array('file' => 'pgen.php',        'title' => 'Programmatic Center', 'group' => 'Продвижение', 'icon' => '⚙', 'ready' => true, 'hint' => 'pSEO: партии страниц «конвертеры единиц», QA, планирование и публикация'),
+array('file' => 'seo/index.php', 'title' => 'GSC-дашборд', 'group' => 'Продвижение', 'icon' => '📈', 'ready' => true, 'hint' => 'показы и клики из Google Search Console'),
+array('file' => 'seo/speed.php', 'title' => 'Скорость', 'group' => 'Продвижение', 'icon' => '⚡', 'ready' => true, 'hint' => 'PageSpeed: баллы и метрики страниц'),
         array('file' => 'links.php',       'title' => 'Перелинковка', 'group' => 'Продвижение',  'icon' => '⤳', 'ready' => true,  'hint' => 'граф внутренних ссылок, сироты и битые'),
         array('file' => 'backlinks.php',   'title' => 'Бэклинки',     'group' => 'Продвижение',  'icon' => '⇠', 'ready' => true,  'hint' => 'реестр внешних ссылок, график роста'),
         array('file' => 'outreach.php',    'title' => 'Аутрич',       'group' => 'Продвижение',  'icon' => '↗', 'ready' => true,  'hint' => 'доска внешних контактов'),
@@ -207,22 +211,52 @@ function panel_page_start(string $title, string $subtitle = '', string $active =
 <?php } ?>
       </div>
       <div class="top-right">
+        <?php $__pubCount = function_exists('deploy_changes_count') ? (int)deploy_changes_count() : 0; ?>
+        <?php if ($__pubCount > 0) { ?>
+        <a class="btn primary" href="<?php echo h(panel_url('publish.php')); ?>"
+           title="Панель изменила эти файлы — их надо залить на хостинг">К заливке: <?php echo $__pubCount; ?></a>
+        <?php } ?>
         <a class="btn ghost" href="/" target="_blank" rel="noopener">Открыть сайт ↗</a>
         <span class="whoami"><?php echo h($user['name']); ?><em><?php echo h($role); ?></em></span>
         <a class="btn ghost" href="<?php echo h($logout); ?>">Выйти</a>
       </div>
     </header>
-    <main class="content">
-<?php foreach (flashes() as $f) { ?>
+    <?php $__flashes = flashes(); /* были сообщения — значит владелец только что сохранил: вернём его на прежнее место */ ?>
+    <main class="content"<?php echo count($__flashes) > 0 ? ' data-keep-scroll="1"' : ''; ?>>
+<?php foreach ($__flashes as $f) { ?>
       <div class="flash <?php echo $f['type'] === 'error' ? 'flash-err' : 'flash-ok'; ?>"><?php echo h($f['text']); ?></div>
 <?php } ?>
 <?php
 }
 
+/* Раздел «Публикация» нужен в шапке: показываем счётчик файлов, которые панель изменила и надо залить. */
+require_once __DIR__ . '/deploy.php';
+
 /** Закрыть страницу панели. */
 function panel_page_end(): void {
 ?>
     </main>
+    <script>
+    /* Держим место прокрутки. После сохранения панель перезагружает страницу и раньше кидала владельца
+       в начало — теперь запоминаем позицию и возвращаемся туда, где он работал. */
+    (function () {
+      var key = 'panelScroll:' + location.pathname + location.search;
+      var remember = function () {
+        try { sessionStorage.setItem(key, String(Math.round(window.scrollY))); } catch (e) {}
+      };
+      var timer = null;
+      window.addEventListener('scroll', function () {
+        if (timer) { clearTimeout(timer); }
+        timer = setTimeout(remember, 200);
+      }, { passive: true });
+      document.addEventListener('submit', remember, true);
+      if (document.querySelector('[data-keep-scroll="1"]') !== null) {
+        var y = null;
+        try { y = sessionStorage.getItem(key); } catch (e) {}
+        if (y !== null) { window.scrollTo(0, parseInt(y, 10) || 0); }
+      }
+    })();
+    </script>
     <footer class="foot">
       <?php echo h(PANEL_NAME); ?> <?php echo h(PANEL_VERSION); ?> ·
       время сервера <?php echo h(date('d.m.Y H:i')); ?> ·

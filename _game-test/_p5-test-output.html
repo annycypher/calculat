@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <script>try{if(localStorage.getItem("calcdoc-consent"))document.documentElement.classList.add("calcdoc-consent")}catch(e){}</script>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!--EDIT:title-->  <title>Расчёт плитки для ванной: сколько покупать и какой запас — CalcDoc</title>
+  <meta name="description" content="Как посчитать плитку для ванной: площадь стен и пола, запас на подрезку и бой, раскладка от центра и проверка количества по коробкам. Пример расчёта с цифрами." />
+  <link rel="canonical" href="https://calc-doc.ru/blog/raschet-plitki-dlya-vannoy/" />
+  <meta name="robots" content="index, follow" />
+  <meta name="keywords" content="расчёт плитки, плитка для ванной, запас на подрезку" />
+  <meta property="og:title" content="Расчёт плитки для ванной: сколько покупать и какой запас — CalcDoc" />
+  <meta property="og:description" content="Площадь, запас на подрезку и перевод в коробки — пошаговый расчёт плитки для ванной с примерами." />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:image" content="https://calc-doc.ru/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Расчёт плитки для ванной: сколько покупать и какой запас" />
+  <meta property="og:url" content="https://calc-doc.ru/blog/raschet-plitki-dlya-vannoy/" />
+  <meta name="twitter:card" content="summary_large_image" />
+<link rel="manifest" href="/manifest.webmanifest" />
+    <style>
+      /* @font-face инлайном — вместо внешнего файла шрифтов: убирает цепочку HTML → CSS → woff2 (Lighthouse: 937 мс). Начертаний девять — все сохранены. */
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+    </style>
+    <link rel="preload" href="/fonts/manrope-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/unbounded-600-lat.woff2" as="font" type="font/woff2" crossorigin />
+    <style id="critical-css">
+/* Критический CSS первого экрана (задача 1 ТЗ по скорости, 25.09.2026): правила bundle.css, нужные видимым элементам при ширине окна 390 и 1280 px. Собран инструментом _game-test/perf-critical-measure.html. Полный bundle.css подключается ниже асинхронно. */
+:root { --bg: #ffffff; --bg-soft: #f5f6fb; --text: #1b1c2e; --text-muted: #5a5c72; --border: #e4e6f0; --primary: #6d5dfc; --primary-dark: #5646e0; --primary-soft: #eeebff; --accent: #f4a340; --card-bg: #ffffff; --shadow: 0 8px 30px rgba(28, 25, 60, 0.08); --icon-cyan: #2f9fc4; --radius: 16px; --radius-sm: 10px; --maxw: 1120px; }
+*, ::before, ::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0px; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; color: var(--text); background: var(--bg); -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+.container { width: 100%; max-width: var(--maxw); margin: 0px auto; padding: 0px 20px; }
+.icon-btn { border: 1px solid var(--border); background: var(--card-bg); width: 42px; height: 42px; border-radius: 12px; cursor: pointer; font-size: 18px; display: grid; place-items: center; transition: transform 0.12s, border-color 0.12s; }
+.eyebrow { display: inline-block; padding: 6px 14px; border-radius: 999px; background: var(--primary-soft); color: var(--primary); font-size: 13px; font-weight: 600; margin: 0px 0px 14px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 22px; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: transform 0.12s, box-shadow 0.12s; }
+.btn-primary { background: var(--primary); color: rgb(255, 255, 255); box-shadow: rgba(109, 93, 252, 0.35) 0px 6px 20px; }
+.btn-ghost { border-color: var(--border); background: var(--card-bg); }
+.btn-glass { border-color: var(--border); background: var(--bg-soft); color: var(--text); }
+.section { padding: 48px 0px; }
+html.calcdoc-consent .cookie-banner{display:none!important}
+.cookie-banner { position: fixed; left: 0px; right: 0px; bottom: 0px; z-index: 1000; background: var(--card-bg); color: var(--text); border-top: 1px solid var(--border); box-shadow: rgba(0, 0, 0, 0.08) 0px -6px 24px; padding: 10px 14px !important; }
+.cookie-banner .container { display: flex; align-items: center; gap: 12px !important; flex-wrap: nowrap !important; justify-content: flex-start !important; padding: 0 !important; }
+.cookie-banner .cookie-text { margin: 0px; font-size: 13px; color: var(--text-muted); line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex: 1 1 auto; }
+.cookie-banner a { color: var(--primary); text-decoration: underline; }
+.cookie-actions { display: flex; gap: 10px; flex-wrap: nowrap; flex-shrink: 0; }
+.cookie-actions .btn { padding: 8px 14px !important; font-size: 13px !important; white-space: nowrap; flex-shrink: 0; }
+.prose { max-width: 760px; }
+.prose p, .prose li { color: var(--text-muted); }
+.tool-hero { padding: 40px 0px 8px; }
+.tool-hero h1 { margin: 0px 0px 12px; letter-spacing: -0.02em; }
+.breadcrumbs { font-size: 14px; color: var(--text-muted); margin-bottom: 16px; }
+.breadcrumbs a { color: var(--primary); }
+.tool-meta { color: var(--text-muted); font-size: 15px; }
+:root[data-theme="light"] { --bg: #ffffff; --bg-soft: #f5f6fb; --text: #1b1c2e; --text-muted: #5a5c72; --border: #e4e6f0; --primary: #6d5dfc; --primary-dark: #5646e0; --primary-soft: #eeebff; --icon-cyan: #2f9fc4; --accent: #f4a340; --card-bg: #ffffff; --shadow: 0 8px 30px rgba(28, 25, 60, .08); }
+.action-bar { position: fixed; right: 18px; bottom: 18px; display: flex; flex-direction: column; gap: 10px; z-index: 80; }
+.act-btn { width: 46px; height: 46px; border-radius: 14px; border: 1px solid var(--border); background: var(--card-bg); color: var(--primary); box-shadow: var(--shadow); display: grid; place-items: center; cursor: pointer; font-size: 0px; transition: transform 0.12s, border-color 0.12s, color 0.12s; }
+.act-btn svg { width: 20px; height: 20px; }
+@media (max-width: 640px){.action-bar { flex-direction: row; right: 12px; bottom: 12px; }}
+.seo-formula { margin: 14px 0px; padding: 16px 20px; border-radius: var(--radius-sm); text-align: center; background: var(--primary-soft); border: 1px dashed color-mix(in srgb, var(--primary) 45%, var(--border)); font-weight: 700; color: var(--primary); letter-spacing: 0.01em; }
+header.app-header { --htxt: #f1eef9; --hmut: #9a92b0; --hvio: #a78bfa; --hline: rgba(255, 255, 255, .11); --hline-2: rgba(255, 255, 255, .22); --hglass: rgba(255, 255, 255, .05); --hglass-2: rgba(255, 255, 255, .08); position: sticky; top: 0px; z-index: 50; background: rgba(11, 9, 19, 0.72); backdrop-filter: blur(16px); border-bottom: 1px solid var(--hline); color: var(--htxt); transition: background 0.3s, border-color 0.3s; }
+header.app-header .head-in, header.app-header .header-inner { display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: 0px; width: 100%; max-width: 1180px; margin: 0px auto; padding: 0px 24px; height: 76px; }
+header.app-header .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--htxt); }
+header.app-header .logo-mark { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: rgba(139, 92, 246, 0.16); border: 1px solid rgba(167, 139, 250, 0.35); color: var(--hvio); }
+header.app-header .logo-mark svg { display: block; width: 20px; height: 20px; }
+header.app-header .logo b { font-family: Unbounded, sans-serif; font-weight: 600; font-size: 19px; color: var(--htxt); }
+header.app-header .main-nav { display: flex; flex-wrap: nowrap; align-items: center; gap: 26px; margin-left: auto; }
+header.app-header .nav-item { position: relative; display: flex; align-items: center; }
+header.app-header .nav-link { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; padding: 0px; border-radius: 0px; background: none; color: var(--hmut); text-decoration: none; font-weight: 600; font-size: 14.5px; transition: color 0.2s; }
+header.app-header .logo b span { color: var(--hvio); }
+header.app-header .nav-burger { display: none; width: 44px; height: 44px; border-radius: 12px; background: var(--hglass); border: 1px solid var(--hline); color: var(--htxt); cursor: pointer; place-items: center; }
+header.app-header .head-cta, header.app-header .header-actions { display: flex; align-items: center; gap: 12px; margin-left: 0px; }
+header.app-header .icon-btn { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: var(--hglass); border: 1px solid var(--hline); color: var(--htxt); font-size: 17px; line-height: 1; cursor: pointer; backdrop-filter: blur(12px); transition: background 0.25s, border-color 0.25s, transform 0.25s; }
+header.app-header .search-wrap { position: relative; flex: 0 0 auto; }
+header.app-header .search-input { width: 150px; padding: 7px 12px 7px 30px; border-radius: 999px; font-family: Manrope, sans-serif; font-size: 13px; color: var(--htxt); border: 1px solid var(--hline); outline: none; background-color: var(--hglass); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239a92b0' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='6'/%3E%3Cpath d='M20.5 20.5 16 16'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: 10px 50%; background-size: 14px 14px; backdrop-filter: blur(12px); transition: width 0.2s, border-color 0.2s, box-shadow 0.2s, background-color 0.2s; }
+@media (max-width: 1024px){header.app-header .nav-burger { display: grid; }}
+@media (min-width: 1101px){header.app-header .search-wrap { margin-left: 22px; }}
+@media (max-width: 760px){header.app-header .head-cta, header.app-header .header-actions { gap: 6px; }header.app-header .head-cta .icon-btn, header.app-header .header-actions .icon-btn { display: grid; width: 44px; height: 44px; font-size: 18px; }header.app-header .nav-burger { width: 44px; height: 44px; }header.app-header .logo { gap: 8px; }header.app-header .logo-mark { width: 34px; height: 34px; }header.app-header .logo b { font-size: 16px; }}
+:root[data-theme="light"] .btn-primary, :root[data-theme="light"] .btn-vio { background: var(--primary-dark); }
+:root[data-theme="light"] .eyebrow, :root[data-theme="light"] .seo-formula { color: var(--primary-dark); }
+:root[data-theme="light"] header.app-header .main-nav { --htxt: #f1eef9; --hmut: #c9c3da; --hvio: #ddd6fe; }
+:root[data-theme="light"] header.app-header:not(#header) .logo b span { color: rgb(208, 196, 255) !important; }
+@media (max-width: 1168px){main:not(.wrap) { padding-left: 24px; padding-right: 24px; }main h1, main h2 { overflow-wrap: break-word; hyphens: auto; }}
+@media (max-width: 1024px){header.app-header .head-in, header.app-header .header-inner { gap: 8px; }header.app-header .head-cta, header.app-header .header-actions { gap: 8px; margin-left: auto; }}
+@media (max-width: 760px){header.app-header .head-in, header.app-header .header-inner { gap: 8px; }header.app-header .head-cta, header.app-header .header-actions { gap: 8px; }}
+header.app-header .head-cta #installBtn svg, header.app-header .header-actions #installBtn svg { display: block; width: 20px; height: 20px; }
+:root[data-theme="light"] header.app-header .head-cta #installBtn, :root[data-theme="light"] header.app-header .header-actions #installBtn { background: var(--hglass); border-color: var(--hline); color: var(--hvio); }
+</style>
+<link rel="stylesheet" href="/bundle.css?v=61" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="/bundle.css?v=61" /></noscript>
+  <meta name="theme-color" content="#6d5dfc" />
+    <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Article","headline":"Расчёт плитки для ванной: сколько покупать и какой запас","description":"Как посчитать плитку для ванной: площадь стен и пола, запас на подрезку и бой, раскладка от центра и проверка количества по коробкам. Пример расчёта с цифрами.","datePublished":"2026-09-28","dateModified":"2026-09-28","image":["https://calc-doc.ru/og-cover.png"],"author":{"@type":"Organization","name":"CalcDoc"},"publisher":{"@type":"Organization","name":"CalcDoc","logo":{"@type":"ImageObject","url":"https://calc-doc.ru/icons/icon-512.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://calc-doc.ru/blog/raschet-plitki-dlya-vannoy/"}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/"},{"@type":"ListItem","position":2,"name":"Статьи","item":"https://calc-doc.ru/blog/"},{"@type":"ListItem","position":3,"name":"Плитка","item":"https://calc-doc.ru/blog/raschet-plitki-dlya-vannoy/"}]}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Сколько плитки нужно на ванную 4 м²?","acceptedAnswer":{"@type":"Answer","text":"Считайте стены и пол отдельно: для пола 4 м² при прямой раскладке хватит 4,2 м² плитки, то есть примерно 4–5 коробок по 1 м². Для стен площадь другая — её считают по высоте и периметру."}},{"@type":"Question","name":"Нужен ли запас, если плитка ложится в один ряд?","acceptedAnswer":{"@type":"Answer","text":"Да, минимум 5 %. Даже в одном ряду бывает подрезка у стены или угла, а одну плитку можно случайно разбить при резке. Запас не портится: он лежит на балконе до следующего ремонта."}},{"@type":"Question","name":"Как считать плитку с рисунком?","acceptedAnswer":{"@type":"Answer","text":"Как обычную, но добавляйте 1–2 плитки на каждый ряд, чтобы совместить рисунок, и берите все коробки из одной партии: у разных партий заметен оттенок и смещён рисунок."}},{"@type":"Question","name":"Что делать, если плитки не хватило?","acceptedAnswer":{"@type":"Answer","text":"Ищите ту же коллекцию и номер партии: они указаны на коробке. Если партии нет, остаток укладывают на видное место, а доборную плитку — за ванну, под ней или в дальний угол."}}]}
+  </script>
+</head>
+<body>
+  <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Уведомление о файлах cookie"><div class="container"><span class="cookie-text">Мы используем cookie. <a href="/privacy/">Подробнее</a></span><div class="cookie-actions"><button type="button" class="btn btn-primary" id="cookieAccept">Принять</button></div></div></div>
+  <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/finance/">Финансы и налоги<b>16</b></a>
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/auto/">Авто<b>4</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a href="/converters/unit-converter/">Единицы измерения</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><polyline points="7 10 12 15 17 10"/><path d="M5 20h14"/></svg></button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+  <main>
+    <div class="container tool-hero">
+      <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/blog/">Статьи</a> / Плитка</nav>
+      <h1>Расчёт плитки для ванной: сколько покупать и какой запас</h1>
+      <p class="tool-meta">Обновлено: 28 сентября 2026</p>
+    </div>
+
+    <!--SLOT:banner-top-->
+    <!--/SLOT:banner-top-->
+    <!--SLOT:ads-top-->
+    <!--/SLOT:ads-top-->
+    <div class="container section">
+      <div class="prose">
+        <span class="eyebrow">Ремонт</span>
+        <p>Плитка продаётся коробками, а режется с отходами: при прямой раскладке уходит 5–10 % запаса, при диагональной — до 15 %. Сначала считают площадь, потом добавляют запас, и только затем переводят квадратные метры в коробки и проверяют, хватит ли целых плиток на подрезки в углах.</p>
+        <h2>Как считать площадь</h2>
+        <p>Ванную считают по стенам и полу отдельно. Для пола умножают длину на ширину. Для стен складывают площади четырёх участков: высоту умножают на длину каждой стены, затем вычитают площадь двери и окна, если он есть. Если плитка кладётся за ванной и под ней, этот участок считают отдельно и прибавляют к площади стен.</p>
+        <div class="seo-formula">Площадь пола = длина × ширина</div>
+        <div class="seo-formula">Площадь стен = высота × периметр − дверь и окно</div>
+        <p>Помещение сложной формы удобно разбить на прямоугольники и сложить результаты. Мелкие неровности стен в расчёт не вносят: запас всё равно перекроет разницу. Площадь участков считайте в одних единицах — удобнее в метрах, а размеры плитки переводите в метры уже в конце, когда площадь коробки известна и можно переходить к покупке.</p>
+        <!--SLOT:banner-after-tool-->
+        <!--/SLOT:banner-after-tool-->
+        <!--SLOT:ads-after-tool-->
+        <!--/SLOT:ads-after-tool-->
+        <h2>Какой запас нужен</h2>
+        <ul>
+          <li>прямая раскладка, подрезка по одной стороне — 5 %;</li>
+          <li>подрезка по двум сторонам, много углов — 10 %;</li>
+          <li>диагональная раскладка — до 15 %;</li>
+          <li>крупный рисунок, который нужно стыковать — плюс 1–2 плитки на ряд;</li>
+          <li>плитку берите из одной партии, а в запас положите целую коробку.</li>
+        </ul>
+        <p>Запас нужен не только на подрезку: оттенок в разных партиях отличается, а докупить плитку из той же партии через полгода обычно уже нельзя.</p>
+        <h2>Переводим квадратные метры в коробки</h2>
+        <div class="seo-steps">
+          <div class="seo-step"><b>1</b><span><strong>Площадь с запасом</strong> — умножьте площадь на коэффициент запаса, например 1,1</span></div>
+          <div class="seo-step"><b>2</b><span><strong>Коробки</strong> — разделите результат на площадь одной коробки и округлите вверх</span></div>
+          <div class="seo-step"><b>3</b><span><strong>Подрезки</strong> — проверьте, хватит ли целых плиток на углы и обходы</span></div>
+          <div class="seo-step"><b>4</b><span><strong>Раскладка</strong> — убедитесь, что в ряду не остаётся полосок уже 5 см</span></div>
+        </div>
+        <table class="seo-table">
+          <thead><tr><th>Раскладка</th><th>Запас</th><th>На 5 м²</th></tr></thead>
+          <tbody>
+            <tr><td>Прямая</td><td>5 %</td><td>5,25 м²</td></tr>
+            <tr><td>Прямая, две подрезки</td><td>10 %</td><td>5,5 м²</td></tr>
+            <tr><td>Диагональная</td><td>15 %</td><td>5,75 м²</td></tr>
+          </tbody>
+        </table>
+        <div class="seo-two">
+          <div class="seo-opt">
+            <h3>Считаем всегда</h3>
+            <ul>
+              <li>площадь пола и стен;</li>
+              <li>запас на подрезку;</li>
+              <li>площадь коробки;</li>
+              <li>подрезку в углах.</li>
+            </ul>
+          </div>
+          <div class="seo-opt">
+            <h3>Часто забывают</h3>
+            <ul>
+              <li>участок за ванной;</li>
+              <li>плитку на подступенок;</li>
+              <li>клей и затирку;</li>
+              <li>раскладку от центра.</li>
+            </ul>
+          </div>
+        </div>
+        <h2>Частые ошибки</h2>
+        <p>Ошибка первая — считать площадь без запаса и покупать «ровно столько». Ошибка вторая — забыть про участок за ванной и под ней. Ошибка третья — не проверить подрезку: при раскладке от угла в ряду может остаться полоска в два сантиметра, которую придётся собирать из обрезков.</p>
+        <p>Чтобы не покупать лишнего, посчитайте два варианта — с запасом 5 % и 10 %. Разница обычно равна одной коробке: проще оставить её на будущее, чем искать ту же партию позже.</p>
+
+        <!--SLOT:banner-mid-->
+        <!--/SLOT:banner-mid-->
+    <!--SLOT:ads-mid-->
+    <!--/SLOT:ads-mid-->
+        <h2>Частые вопросы</h2>
+        <details class="seo-faq">
+          <summary>Сколько плитки нужно на ванную 4 м²?</summary>
+          <div class="seo-faq-b"><p>Считайте стены и пол отдельно: для пола 4 м² при прямой раскладке хватит 4,2 м² плитки, то есть примерно 4–5 коробок по 1 м². Для стен площадь другая — её считают по высоте и периметру.</p></div>
+        </details>
+        <details class="seo-faq">
+          <summary>Нужен ли запас, если плитка ложится в один ряд?</summary>
+          <div class="seo-faq-b"><p>Да, минимум 5 %. Даже в одном ряду бывает подрезка у стены или угла, а одну плитку можно случайно разбить при резке. Запас не портится: он лежит на балконе до следующего ремонта.</p></div>
+        </details>
+        <details class="seo-faq">
+          <summary>Как считать плитку с рисунком?</summary>
+          <div class="seo-faq-b"><p>Как обычную, но добавляйте 1–2 плитки на каждый ряд, чтобы совместить рисунок, и берите все коробки из одной партии: у разных партий заметен оттенок и смещён рисунок.</p></div>
+        </details>
+        <details class="seo-faq">
+          <summary>Что делать, если плитки не хватило?</summary>
+          <div class="seo-faq-b"><p>Ищите ту же коллекцию и номер партии: они указаны на коробке. Если партии нет, остаток укладывают на видное место, а доборную плитку — за ванну, под ней или в дальний угол.</p></div>
+        </details>
+
+        <p>Посчитайте площадь и запас в калькуляторе плитки — он покажет и квадратные метры, и число коробок.</p>
+
+        <span class="eyebrow">Смотрите также</span>
+        <div class="seo-links">
+          <a href="/calculators/construction/tile/">Калькулятор плитки</a>
+          <a href="/calculators/construction/wallpaper/">Расчёт обоев</a>
+          <a href="/calculators/construction/plaster/">Штукатурка: расход на стены</a>
+          <a href="/blog/">Все статьи</a>
+        </div>
+
+        <p class="calc-note">Расчёты носят справочный характер: точные суммы, ставки и нормы уточняйте в договоре, у ведомства или у профильного специалиста. Все вычисления выполняются в браузере и не покидают ваше устройство.</p>
+      </div>
+    </div>
+    <!--SLOT:banner-footer-->
+    <!--/SLOT:banner-footer-->
+          <!--SLOT:reviews-->
+          <!--/SLOT:reviews-->
+      <section class="reviews" id="reviews-form" data-page="/blog/raschet-plitki-dlya-vannoy/" style="max-width:760px;margin:28px auto 10px;padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(255,255,255,.03)">
+        <h2 style="margin:0 0 6px;font-size:20px">Оставить отзыв</h2>
+        <p style="margin:0 0 14px;font-size:14px;color:#a9a4bb">Почту не спрашиваем: нужны только имя, текст и, если хотите, оценка. Отзыв появляется на сайте после проверки.</p>
+        <form method="post" action="/api/reviews.php" data-reviews-form>
+          <input type="hidden" name="page" value="/blog/raschet-plitki-dlya-vannoy/" />
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label for="reviews-website">Не заполняйте это поле</label>
+            <input type="text" id="reviews-website" name="website" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <label for="reviews-name">Ваше имя</label>
+          <input type="text" id="reviews-name" name="name" required minlength="2" maxlength="30" autocomplete="name" />
+          <label for="reviews-text">Комментарий</label>
+          <textarea id="reviews-text" name="text" required minlength="10" maxlength="1000" rows="4" style="width:100%"></textarea>
+          <fieldset style="border:0;margin:12px 0 0;padding:0">
+            <legend style="font-size:14px;color:#a9a4bb">Оценка — по желанию</legend>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="0" checked /> без оценки</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="5" /> ★★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="4" /> ★★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="3" /> ★★★</label>
+            <label style="margin-right:12px"><input type="radio" name="rating" value="2" /> ★★</label>
+            <label><input type="radio" name="rating" value="1" /> ★</label>
+          </fieldset>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px">
+            <button data-metric-goal="отзыв" type="submit">Отправить отзыв</button>
+            <span data-reviews-note style="font-size:13px;color:#a9a4bb">Публикуется после проверки.</span>
+          </div>
+        </form>
+      </section>
+      <script src="/js/reviews.js?v=42" defer></script>
+<!--SLOT:ads-before-footer-->
+    <!--/SLOT:ads-before-footer-->
+</main>
+
+  <section class="container section" aria-label="Другие инструменты"><h2 class="section-title">Другие инструменты</h2><div class="chips"><a class="chip" href="/calculators/finance/tax-freelancer/"><span>💼</span>Налог фрилансера</a><a class="chip" href="/calculators/finance/vacation-pay/"><span>🏖️</span>Отпускные</a><a class="chip" href="/calculators/finance/mortgage/"><span>🏠</span>Ипотека</a><a class="chip" href="/calculators/finance/deposit/"><span>💰</span>Калькулятор вкладов</a><a class="chip" href="/generators/resume/"><span>📄</span>Резюме</a><a class="chip" href="/generators/power-of-attorney/"><span>✍️</span>Доверенность</a><a class="chip" href="/generators/contract/"><span>📋</span>Договор</a><a class="chip" href="/generators/leave-request/"><span>🗓️</span>Заявление на отпуск</a><a class="chip" href="/converters/image-converter/"><span>🖼️</span>Сжатие изображений</a><a class="chip" href="/converters/csv-to-xlsx/"><span>📑</span>CSV → Excel</a><a class="chip" href="/converters/pdf-to-word/"><span>📄</span>PDF → Word</a><a class="chip" href="/games/"><span>🎮</span>Мини-игры</a><a class="chip" href="/converters/qr-generator/"><span>📱</span>QR-код</a><a class="chip" href="/calculators/finance/penalty/"><span>💳</span>Пеня</a><a class="chip" href="/calculators/finance/vat/"><span>🧾</span>НДС</a><a class="chip" href="/calculators/construction/brick/"><span>🧱</span>Кирпич</a><a class="chip" href="/calculators/finance/alimony/"><span>👪</span>Алименты</a><a class="chip" href="/calculators/construction/wallpaper/"><span>🧻</span>Обои</a><a class="chip" href="/calculators/construction/"><span>🏗️</span>Стройка и ремонт</a><a class="chip" href="/calculators/construction/tile/"><span>🔲</span>Плитка</a><a class="chip" href="/calculators/construction/laminate/"><span>🪵</span>Ламинат</a><a class="chip" href="/calculators/construction/plaster/"><span>🪨</span>Штукатурка</a><a class="chip" href="/calculators/construction/paint/"><span>🪣</span>Краска</a><a class="chip" href="/calculators/finance/"><span>🧮</span>Финансы и налоги</a><a class="chip" href="/calculators/finance/credit/"><span>🏦</span>Кредит</a><a class="chip" href="/calculators/finance/sick-leave/"><span>🤒</span>Больничный</a><a class="chip" href="/calculators/finance/maternity/"><span>👶</span>Декретные</a><a class="chip" href="/calculators/finance/ndfl/"><span>📊</span>НДФЛ и вычеты</a><a class="chip" href="/calculators/finance/ip-insurance/"><span>🧑‍💼</span>Взносы ИП</a><a class="chip" href="/calculators/finance/salary-delay/"><span>⏰</span>Задержка зарплаты</a><a class="chip" href="/calculators/finance/compound-interest/"><span>📈</span>Сложный процент</a><a class="chip" href="/calculators/finance/average-earnings/"><span>📅</span>Средний заработок</a><a class="chip" href="/generators/invoice/"><span>💳</span>Счёт</a><a class="chip" href="/generators/report/"><span>📊</span>Отчёт</a><a class="chip" href="/converters/dadata/"><span>🔎</span>DaData</a><a class="chip" href="/converters/seo-translit/"><span>🔤</span>SEO транслит</a></div></section>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+
+        <a href="/glossary/">Глоссарий</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script defer src="/js/ui-bundle.min.js?v=55"></script>
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,312 @@
+  /* ---------- Статистика ---------- */
+  .stats{display:flex;margin:52px 0 0;padding:24px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .stat{flex:1;padding:4px 34px;text-align:left}
+  .stat + .stat{border-left:1px solid var(--line)}
+  .stat b{display:block;font-family:'Unbounded';font-weight:600;font-size:clamp(22px,2.6vw,30px);line-height:1.25}
+  .stat b i{font-style:normal;display:inline-block;color:var(--vio)}
+  .stat.cyan b i{color:var(--cyan)}
+  .stat span{color:var(--mut);font-size:13px;font-weight:600}
+  .stat b.bump i{animation:bump .45s ease}
+  @keyframes bump{0%{transform:scale(1)}35%{transform:scale(1.15)}100%{transform:scale(1)}}
+
+  /* ---------- Секции ---------- */
+  section{padding:80px 0}
+  .sec-head{margin-bottom:40px;max-width:640px}
+  .sec-head h2{font-family:'Unbounded';font-weight:600;font-size:clamp(23px,3vw,34px);line-height:1.2;margin:12px 0 10px}
+  .sec-head p{color:var(--mut);font-size:16px}
+  .kicker{font-size:12.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--vio)}
+
+  /* Шаги */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
+  .step-num{font-family:'Unbounded';font-weight:600;font-size:52px;line-height:1;color:transparent;-webkit-text-stroke:1.4px rgba(167,139,250,.4);display:block;margin-bottom:14px;transition:.3s}
+  .step:hover .step-num{-webkit-text-stroke-color:var(--vio)}
+  .step h3{font-size:16.5px;margin-bottom:7px}
+  .step p{color:var(--mut);font-size:14px}
+
+  /* FAQ */
+  .faq{max-width:760px}
+  .qa{margin-bottom:12px;overflow:hidden;transition:border-color .25s}
+  .qa:hover{border-color:rgba(167,139,250,.4)}
+  .qa-q{width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:17px 22px;background:none;border:none;color:var(--txt);font-family:'Manrope';font-weight:600;font-size:15px;text-align:left;cursor:pointer}
+  .qa-q svg{flex:none;color:var(--vio);transition:transform .3s}
+  .qa.open .qa-q svg{transform:rotate(180deg)}
+  .qa-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.2,.7,.3,1)}
+  .qa.open .qa-a{grid-template-rows:1fr}
+  .qa-a > div{overflow:hidden}
+  .qa-a p{padding:0 22px 18px;color:var(--mut);font-size:14px}
+
+  /* Футер */
+  .foot-in{padding:32px 0;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  .foot-in .copy{color:var(--mut);font-size:13px;max-width:520px}
+  .foot-links{display:flex;flex-wrap:wrap;gap:10px 22px}
+  .foot-links a{color:var(--mut);text-decoration:none;font-size:13.5px;font-weight:600}
+  .foot-links a:hover{color:var(--txt)}
+  /* Колонка «Полезные статьи» (фаза C2): те же .foot-links, но в столбик — без своих цветов. */
+  .footer-col{flex-direction:column;align-items:flex-start;gap:8px}
+  .footer-col .eyebrow{margin:0 0 4px}
+
+
+  .toast{position:fixed;bottom:28px;left:50%;transform:translate(-50%,20px);z-index:80;padding:12px 20px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:10px;opacity:0;pointer-events:none;transition:.35s cubic-bezier(.2,.7,.3,1)}
+  .toast svg{color:var(--vio)}
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+  .to-top{position:fixed;bottom:26px;right:26px;z-index:60;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;cursor:pointer;color:var(--txt);opacity:0;pointer-events:none;transform:translateY(12px);transition:.3s}
+  .to-top.show{opacity:1;pointer-events:auto;transform:none}
+
+  a:focus-visible,button:focus-visible,input:focus-visible,label.drop:focus-within{outline:2px solid var(--vio);outline-offset:2px}
+
+  
+    /* Заголовки секций, перенесённых с главной */
+    .section-title{font-family:'Unbounded',sans-serif;font-weight:600;font-size:clamp(23px,3vw,34px);line-height:1.2;margin:0 0 4px}
+    .section-title .accent{color:var(--vio)}
+    .cat-title{font-family:'Unbounded',sans-serif;font-weight:600;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--cyan);margin:44px 0 18px}
+    /* Сетка и карточки инструментов */
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:16px}
+    .card{display:block;text-decoration:none;color:inherit;padding:22px;border-radius:16px;
+      background:linear-gradient(180deg,rgba(38,30,60,.80),rgba(21,16,35,.74));
+      border:1px solid var(--line);
+      transition:transform .28s,border-color .28s,background .28s,box-shadow .28s}
+    .card:hover{transform:translateY(-4px);border-color:rgba(167,139,250,.5);
+      background:linear-gradient(180deg,rgba(54,43,84,.88),rgba(31,24,52,.82));
+      box-shadow:0 18px 40px -22px rgba(139,92,246,.55)}
+    .card-icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:21px;line-height:1;
+      background:rgba(139,92,246,.16);border:1px solid rgba(167,139,250,.35)}
+    /* Иконки карточек: двухцветные инлайн-SVG в цветах темы (фиолетовый + циан).
+       Цвета задаются классами, а не атрибутами — работают и в светлой теме. */
+    .card-icon svg{width:24px;height:24px;display:block}
+    .card-icon .ci-a{fill:none;stroke:var(--vio);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+    .card-icon .ci-b{fill:none;stroke:var(--cyan);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+    .card-icon .ci-fa{fill:rgba(167,139,250,.22);stroke:var(--vio);stroke-width:1.5;stroke-linejoin:round}
+    .card-icon .ci-fb{fill:rgba(111,211,242,.22);stroke:var(--cyan);stroke-width:1.5;stroke-linejoin:round}
+    .card h3{font-family:'Unbounded',sans-serif;font-weight:600;font-size:16px;line-height:1.35;margin:15px 0 7px}
+    .card p{color:var(--mut);font-size:14px}
+    /* Кнопка как на главной */
+    .btn-primary{background:var(--vio-deep);color:var(--vio-ink);border-color:transparent;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 12px 32px -12px rgba(139,92,246,.6)}
+    .btn-primary:hover{background:var(--vio)}
+  
+    /* Чипы */
+    .chips{display:flex;flex-wrap:wrap;gap:10px}
+    .chip{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;font-size:14px;font-weight:600;
+      color:var(--txt);text-decoration:none;background:rgba(30,24,48,.72);border:1px solid var(--line);
+      transition:border-color .15s,transform .15s,background .15s}
+    .chip:hover{border-color:rgba(167,139,250,.55);background:rgba(46,36,72,.86);transform:translateY(-1px)}
+    .chip span{font-size:16px}
+    /* «Популярное» */
+    .popular-bar{display:flex;align-items:center;flex-wrap:wrap;gap:12px}
+    .popular-label{font-size:14px;font-weight:600;color:var(--mut);white-space:nowrap}
+    /* «Что такое CalcDoc» */
+    .prose{padding:36px 38px;border-radius:24px}
+    .prose h2{margin-bottom:16px}
+    .prose h3{font-family:'Unbounded',sans-serif;font-weight:600;font-size:17px;margin:26px 0 12px}
+    .prose p{color:var(--mut);margin-bottom:14px}
+    .prose ul{list-style:none;display:grid;gap:10px}
+    .prose li{color:var(--mut);padding-left:26px;position:relative}
+    .prose li::before{content:'';position:absolute;left:2px;top:9px;width:9px;height:9px;border-radius:3px;background:rgba(167,139,250,.75)}
+    .prose a{color:var(--vio)}
+    .note{margin:22px 0 4px;padding:16px 20px;border-radius:14px;background:rgba(139,92,246,.10);
+      border:1px solid rgba(167,139,250,.3);color:var(--txt);font-size:14.5px}
+    section[aria-label="Другие инструменты"] .chips{margin-top:18px}
+    /* Адаптив поиска */
+    @media(max-width:960px){.prose{padding:28px 24px}}
+    /* Орбы: без анимации на мобильных и при reduced-motion */
+    @media(max-width:760px){.orb{animation:none;filter:blur(70px)}}
+    @media(prefers-reduced-motion:reduce){.orb{animation:none}}
+  
+
+/* ═══════════ Компоненты сайта на тёмной главной ═══════════
+   Их вставляет js/ui.js: поиск, «Популярное», «Другие инструменты»,
+   cookie-баннер, панель действий. Классы повторяют разметку ui.js,
+   но оформлены под тёмное стекло. */
+.container{width:100%;max-width:1180px;margin:0 auto;padding:0 24px}
+/* ui.js вставляет секции с .container уже внутри main.wrap — не сужаем их повторно */
+.wrap .container{max-width:none;padding:0}
+.accent{color:var(--vio)}
+.btn-primary{background:var(--vio-deep);color:var(--vio-ink);border-color:transparent;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 12px 32px -12px rgba(139,92,246,.6)}
+.btn-primary:hover{background:var(--vio);transform:translateY(-2px)}
+.btn-ghost{background:var(--glass);color:var(--txt)}
+.btn-ghost:hover{border-color:var(--line-2);transform:translateY(-2px)}
+.cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:1000;padding:14px 20px;
+  background:rgba(17,13,29,.94);border-top:1px solid var(--line);box-shadow:0 -10px 30px rgba(0,0,0,.45);
+  -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+.cookie-banner .container{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between}
+.cookie-banner p{margin:0;font-size:14px;color:var(--mut);max-width:720px}
+.cookie-banner a{color:var(--vio);text-decoration:underline}
+.cookie-actions{display:flex;gap:10px;flex-wrap:wrap}
+.cookie-actions .btn{padding:9px 16px;font-size:14px}
+.action-bar{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:10px;z-index:80}
+.act-btn{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;cursor:pointer;font-size:0;
+  background:var(--glass);border:1px solid var(--line);color:var(--vio);
+  box-shadow:0 14px 30px -18px rgba(0,0,0,.8);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  transition:transform .12s ease,border-color .12s ease,color .12s ease}
+.act-btn:hover{transform:translateY(-2px);border-color:rgba(167,139,250,.55)}
+.act-btn:active{transform:translateY(0)}
+.act-btn svg{width:20px;height:20px}
+.act-btn[hidden]{display:none!important}
+@media(max-width:640px){.action-bar{flex-direction:row;right:12px;bottom:12px;left:12px;justify-content:flex-end}}
+@media(max-width:760px){.container{padding:0 18px}}
+/* Панель действий дублирует кнопку «наверх», поэтому плавающую стрелку скрываем,
+   а тост поднимаем — иначе он перекрывает панель на мобильных. */
+.to-top{display:none}
+.toast{bottom:80px}
+
+/* ═══════════ Светлая тема главной (кнопка 🌓) ═══════════
+   Дизайн тёмный по умолчанию; светлый включается кнопкой темы
+   (ui.js ставит data-theme="light" на <html> и помнит выбор в localStorage
+   под общим ключом calcdoc-theme — то есть работает и на остальных страницах). */
+:root[data-theme="light"]{
+  --bg:#eceef8;
+  --glass:rgba(255,255,255,.66);
+  --glass-2:rgba(255,255,255,.9);
+  --line:rgba(30,20,60,.14);
+  --line-2:rgba(30,20,60,.3);
+  --txt:#1b1533;
+  --mut:#5c5573;
+  --vio:#6d28d9;
+  --vio-deep:#5b21b6;
+  --vio-ink:#ffffff;
+  --cyan:#0e7490;
+}
+:root[data-theme="light"] body{background:var(--bg);color:var(--txt)}
+:root[data-theme="light"] .glass{
+  background:linear-gradient(180deg,rgba(255,255,255,.86),rgba(255,255,255,.64));
+  border-color:var(--line)}
+:root[data-theme="light"] .glass::before{background:linear-gradient(90deg,transparent,rgba(255,255,255,.95),transparent)}
+:root[data-theme="light"] .card{background:linear-gradient(180deg,rgba(255,255,255,.94),rgba(255,255,255,.8))}
+:root[data-theme="light"] .card:hover{background:linear-gradient(180deg,#fff,rgba(255,255,255,.92));
+  box-shadow:0 18px 40px -22px rgba(109,40,217,.35)}
+:root[data-theme="light"] .chip{background:rgba(255,255,255,.88)}
+:root[data-theme="light"] .chip:hover{background:#fff}
+:root[data-theme="light"] .t-inp{background:rgba(30,20,60,.05);color:var(--txt)}
+:root[data-theme="light"] .t-inp::placeholder{color:rgba(92,85,115,.6)}
+:root[data-theme="light"] .t-res{background:rgba(30,20,60,.035);border-color:rgba(30,20,60,.16)}
+:root[data-theme="light"] .drop{background:rgba(255,255,255,.6)}
+:root[data-theme="light"] .drop:hover{background:rgba(109,40,217,.07)}
+:root[data-theme="light"] .note{background:rgba(109,40,217,.08);border-color:rgba(109,40,217,.28)}
+:root[data-theme="light"] .ad-slot{background:rgba(255,255,255,.55)}
+:root[data-theme="light"] .cookie-banner{background:rgba(255,255,255,.97);box-shadow:0 -10px 30px rgba(30,20,60,.12)}
+:root[data-theme="light"] .act-btn{background:rgba(255,255,255,.92);box-shadow:0 14px 30px -18px rgba(30,20,60,.35)}
+:root[data-theme="light"] .toast{background:rgba(255,255,255,.97);color:var(--txt)}
+:root[data-theme="light"] .grain{opacity:.03}
+:root[data-theme="light"] .cursor-light{background:radial-gradient(520px circle at var(--mx,50%) var(--my,30%),rgba(109,40,217,.05),transparent 70%)}
+:root[data-theme="light"] .orb-1{background:radial-gradient(circle,rgba(139,92,246,.20),transparent 65%)}
+:root[data-theme="light"] .orb-2{background:radial-gradient(circle,rgba(14,116,144,.12),transparent 65%)}
+:root[data-theme="light"] .orb-3{background:radial-gradient(circle,rgba(139,92,246,.10),transparent 60%)}
+:root[data-theme="light"] .btn-glass{background:rgba(255,255,255,.8);color:var(--txt)}
+:root[data-theme="light"] ::selection{background:rgba(109,40,217,.2)}
+/* Контраст мелочей в светлой теме: почти белая искра и обводка цифр шагов */
+:root[data-theme="light"] [fill="#f1eef9"]{fill:#7c3aed}
+:root[data-theme="light"] .step-num{-webkit-text-stroke-color:rgba(109,40,217,.45)}
+
+/* «Инструмент дня» (шаг 8.1): стеклянная полоса над тремя инструментами */
+.tool-of-day{display:flex;align-items:center;gap:12px;margin:18px 0 0;padding:12px 16px;border-radius:16px}
+.tool-of-day:empty{display:none}
+.tool-of-day .tod-star{font-size:18px;line-height:1;flex:0 0 auto}
+.tool-of-day .tod-copy{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;min-width:0}
+.tool-of-day .tod-copy b{font-size:12.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--vio,#a78bfa)}
+.tool-of-day .tod-copy a{font-weight:700;font-size:15.5px}
+.tool-of-day .tod-desc{font-size:13.5px;color:var(--text-muted,#9a92b0)}
+@media (max-width:520px){
+  .tool-of-day{align-items:flex-start}
+  .tool-of-day .tod-copy{display:block}
+  .tool-of-day .tod-desc{display:block;margin-top:4px}
+}
+  
+/* ── Контраст в обеих темах (правка 23.09.2026) ────────────────────────────────────────────
+   Замерено своими инструментами (_game-test/theme-audit.html, 23.09.2026, 360 px):
+     светлая тема — подсказки формы отзыва 2,1:1, плашки и формулы 3,9:1,
+     белый текст на кнопке --primary 3,8:1;
+     тёмная тема — чипы 1,1:1 и «стеклянные» кнопки 1,4:1 (держали светлую подложку),
+     белая «бумага» предпросмотра расписки 1,0–1,4:1, кнопки 2,1–3,8:1.
+   Ниже — только те правила, что доводят контраст до нормы WCAG AA (4,5:1 текст, 3:1 крупный).
+   Вид разделов не меняем: пары цветов взяты из уже существующей палитры тем. */
+
+/* Светлая тема: белый текст на --primary = 3,8:1 → --primary-dark = 5,9:1. */
+:root[data-theme="light"] .btn-primary,
+:root[data-theme="light"] .btn-vio { background: var(--primary-dark); }
+
+/* Плашки-надписи и формулы: #6d5dfc на #eeebff = 3,9:1 → тёмно-фиолетовый. */
+:root[data-theme="light"] .eyebrow,
+:root[data-theme="light"] .seo-formula { color: var(--primary-dark); }
+
+/* Тёмная тема: #7d6dff на #23254a = 3,8:1 → светлее (6,9:1). */
+:root[data-theme="dark"] .eyebrow,
+:root[data-theme="dark"] .seo-formula { color: #b3a6ff; }
+
+/* Тёмная тема: кнопки. Белый текст давал 3,8:1, а смешанная пара (светлый фон + тёмная
+   «тушь») — 2,1:1. Возвращаем задуманную парой переменных тему: #8b5cf6 + #170b2e = 5,9:1. */
+:root[data-theme="dark"] .btn-primary,
+:root[data-theme="dark"] .btn-vio,
+:root[data-theme="dark"] #cookieAccept,
+:root[data-theme="dark"] #mReset,
+:root[data-theme="dark"] #qrBtn,
+:root[data-theme="dark"] #cmpDl { background: var(--vio, #a78bfa); color: #170b2e; }
+
+/* Тёмная тема: чипы популярного и «стеклянные» кнопки держали светлую подложку
+   rgba(255,255,255,.8–.88) при светлом тексте = 1,1–1,4:1. Даём тёмное стекло (~15:1). */
+:root[data-theme="dark"] .popular-bar .chip { background: rgba(255, 255, 255, .1); color: #f1eef9; border-color: rgba(255, 255, 255, .18); }
+:root[data-theme="dark"] .btn-glass { background: rgba(255, 255, 255, .12); color: #f1eef9; border-color: rgba(255, 255, 255, .2); }
+
+/* Светлая тема: панель меню-бургера тёмная, а текст в ней брался светлой палитрой = 2,6:1. */
+/* Ссылки меню на тёмном стекле (панель меню на телефоне, стеклянная шапка): светлая палитра. */
+:root[data-theme="light"] header.app-header .main-nav { --htxt: #f1eef9; --hmut: #c9c3da; --hvio: #ddd6fe; }
+/* Главная в светлой теме: шапка прозрачная над светлым фоном — в строке меню ссылки тёмные.
+   Только для широких экранов: на телефоне меню — тёмная панель, там нужна светлая палитра. */
+@media (min-width: 1025px) { :root[data-theme="light"] header.app-header#header:not(.scrolled) .main-nav { --htxt: #1b1533; --hmut: #4d4666; --hvio: #6d28d9; } }
+
+/* Предпросмотр документов — это «бумага»: она белая в любой теме, значит текст всегда тёмный. */
+:root[data-theme="dark"] #genPreview,
+:root[data-theme="dark"] #genPreview h1,
+:root[data-theme="dark"] #genPreview h2,
+:root[data-theme="dark"] #genPreview h3,
+:root[data-theme="dark"] #genPreview p,
+:root[data-theme="dark"] #genPreview div,
+:root[data-theme="dark"] #genPreview span,
+:root[data-theme="dark"] #genPreview td,
+:root[data-theme="dark"] #genPreview th { color: #1a1530; }
+
+/* Подсказки формы отзыва: инлайн-цвет #a9a4bb (2,1–2,4:1) → приглушённый, но читаемый.
+   !important нужен, потому что цвет задан атрибутом style прямо в разметке страниц. */
+#reviews-form p[style*="a9a4bb"],
+#reviews-form legend[style*="a9a4bb"],
+#reviews-form [data-reviews-note] { color: #5f5a78 !important; }
+
+/* Кнопка отправки отзыва была без стилей: в тёмной теме светлый текст на светлой кнопке (1,0:1). */
+#reviews-form button[type="submit"] { border: 0; border-radius: 12px; padding: 12px 20px; font: inherit; font-weight: 700; font-size: 15px; cursor: pointer; background: var(--primary-dark); color: #fff; }
+:root[data-theme="dark"] #reviews-form button[type="submit"] { background: #a78bfa; color: #170b2e; }
+
+/* ── Контраст: усиление (правка 23.09.2026, шаг 4б) ──────────────────────────────────────
+   Проверка после первого блока (_game-test/theme-audit.html) показала: на главной в тёмной теме
+   светлые значения переменных из разметки перебивали тёмные правила. Дожимаем !important —
+   это правки читаемости, внешний вид разделов не меняется. */
+:root[data-theme="dark"] .btn-primary,
+:root[data-theme="dark"] .btn-vio,
+:root[data-theme="dark"] #cookieAccept,
+:root[data-theme="dark"] #mReset,
+:root[data-theme="dark"] #qrBtn,
+:root[data-theme="dark"] #cmpDl { background: #a78bfa !important; color: #170b2e !important; }
+
+/* Тёмная тема: чипы и «стеклянные» кнопки главной (были 1,1–1,4:1). */
+:root[data-theme="dark"] .popular-bar .chip { background: rgba(255, 255, 255, .1) !important; color: #f1eef9 !important; border-color: rgba(255, 255, 255, .18) !important; }
+:root[data-theme="dark"] .btn-glass { background: rgba(255, 255, 255, .12) !important; color: #f1eef9 !important; border-color: rgba(255, 255, 255, .2) !important; }
+
+/* Предпросмотр документов: белая «бумага», значит текст всегда тёмный (цвет ставит скрипт генератора). */
+:root[data-theme="dark"] #genPreview,
+:root[data-theme="dark"] #genPreview *:not(svg):not(path) { color: #1a1530 !important; }
+
+/* Подсказки формы отзыва: в тёмной теме нужен светлый приглушённый цвет (было 1,0:1). */
+:root[data-theme="dark"] #reviews-form p[style*="a9a4bb"],
+:root[data-theme="dark"] #reviews-form legend[style*="a9a4bb"],
+:root[data-theme="dark"] #reviews-form [data-reviews-note] { color: #bdb7d2 !important; }
+:root[data-theme="dark"] #reviews-form button[type="submit"] { background: #a78bfa !important; color: #170b2e !important; }
+
+/* Внутренние страницы: у шапки тёмное стекло и в светлой теме, поэтому акцентное «Doc»
+   берём из светлой части палитры. Главную не трогаем: у неё шапка с id=header и своя пара цветов. */
+:root[data-theme="light"] header.app-header:not(#header) .logo b span { color: #d0c4ff !important; }
+
+    /* Первый абзац под H1: из него поисковики собирают описание страницы. */
+
+    /* Ссылка «Все калькуляторы» под кнопками ипотечного мини-инструмента (26.09.2026). */
+    .t-all{display:block;margin-top:10px;padding-top:9px;border-top:1px solid var(--line);text-align:center;font-size:12.5px;font-weight:600;color:var(--vio);text-decoration:none}
+    .t-all:hover{text-decoration:underline}

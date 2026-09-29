@@ -1,17 +1,27 @@
 # Открытый сайт CalcDoc (режим переноса снят 23.09.2026 по команде владельца).
 # До этого стояли «Disallow: /» и noindex на страницах — сайт не попадал в поиск.
 # Директива Host в Яндекс.Вебмастере не используется с 2018 года, поэтому её нет.
-# Карта сайта обновлена 23.09.2026: /sitemap.xml (81 адрес, дата правки страниц).
+# Карта сайта обновлена 28.09.2026: /sitemap.xml (104 адреса) и /sitemap-units.xml.
 
 User-agent: *
 Allow: /
 Disallow: /search.html
 Disallow: /offline.html
 
+# Служебный мастер-шаблон генераторов и файлы с подчёркивания — не индексировать (26.09.2026)
+Disallow: /generators/_*
+
+# Локальные служебные папки (на хостинг не заливаются — правило страховочное)
+Disallow: /_backup/
+
 # Служебный обмен данными страниц (JSON, отдаёт только счётчики страниц) — обход не нужен
 Disallow: /api/
+
+# Панель управления: закрываем от поисковых систем (правило добавила панель 26.09.2026).
+Disallow: /_sysudh2xsye/
 
 # Метки систем аналитики не создают отдельных адресов
 Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&yclid&gclid&fbclid
 
 Sitemap: https://calc-doc.ru/sitemap.xml
+Sitemap: https://calc-doc.ru/sitemap-units.xml

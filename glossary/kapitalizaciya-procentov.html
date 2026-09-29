@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <script>try{if(localStorage.getItem("calcdoc-consent"))document.documentElement.classList.add("calcdoc-consent")}catch(e){}</script>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--EDIT:title--><title>Капитализация процентов — что это простыми словами | CalcDoc</title><!--/EDIT:title-->
+  <!--EDIT:description--><meta name="description" content="Прибавление процентов к вкладу, после чего они тоже начинают приносить доход — «процент на процент»." /><!--/EDIT:description-->
+  <link rel="canonical" href="https://calc-doc.ru/glossary/kapitalizaciya-procentov.html" />
+  <meta name="robots" content="index, follow" />
+  <!--EDIT:og-->
+  <meta property="og:title" content="Капитализация процентов — что это простыми словами | CalcDoc" />
+  <meta property="og:description" content="Прибавление процентов к вкладу, после чего они тоже начинают приносить доход — «процент на процент»." />
+<!--/EDIT:og-->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcDoc" />
+  <meta property="og:url" content="https://calc-doc.ru/glossary/kapitalizaciya-procentov.html" />
+  <meta name="twitter:card" content="summary" />
+<link rel="manifest" href="/manifest.webmanifest" />
+    <style>
+      /* @font-face инлайном — вместо внешнего файла шрифтов: убирает цепочку HTML → CSS → woff2 (Lighthouse: 937 мс). Начертаний девять — все сохранены. */
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manrope-400-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manrope-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-cyr.woff2') format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-lat.woff2') format('woff2');unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-2019,U+201C-201D,U+2026;}
+      @font-face{font-family:'Unbounded';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/unbounded-600-rub.woff2') format('woff2');unicode-range:U+20BD;}
+    </style>
+    <link rel="preload" href="/fonts/manrope-400-cyr.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/unbounded-600-lat.woff2" as="font" type="font/woff2" crossorigin />
+    <style id="critical-css">
+/* Критический CSS первого экрана (задача 1 ТЗ по скорости, 25.09.2026): правила bundle.css, нужные видимым элементам при ширине окна 390 и 1280 px. Собран инструментом _game-test/perf-critical-measure.html. Полный bundle.css подключается ниже асинхронно. */
+:root { --bg: #ffffff; --bg-soft: #f5f6fb; --text: #1b1c2e; --text-muted: #5a5c72; --border: #e4e6f0; --primary: #6d5dfc; --primary-dark: #5646e0; --primary-soft: #eeebff; --accent: #f4a340; --card-bg: #ffffff; --shadow: 0 8px 30px rgba(28, 25, 60, 0.08); --icon-cyan: #2f9fc4; --radius: 16px; --radius-sm: 10px; --maxw: 1120px; }
+*, ::before, ::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0px; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; color: var(--text); background: var(--bg); -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+.container { width: 100%; max-width: var(--maxw); margin: 0px auto; padding: 0px 20px; }
+.icon-btn { border: 1px solid var(--border); background: var(--card-bg); width: 42px; height: 42px; border-radius: 12px; cursor: pointer; font-size: 18px; display: grid; place-items: center; transition: transform 0.12s, border-color 0.12s; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 22px; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: transform 0.12s, box-shadow 0.12s; }
+.btn-primary { background: var(--primary); color: rgb(255, 255, 255); box-shadow: rgba(109, 93, 252, 0.35) 0px 6px 20px; }
+.btn-ghost { border-color: var(--border); background: var(--card-bg); }
+.btn-glass { border-color: var(--border); background: var(--bg-soft); color: var(--text); }
+.section { padding: 48px 0px; }
+.section-title { font-size: clamp(22px, 3vw, 32px); margin: 0px 0px 24px; letter-spacing: -0.02em; }
+html.calcdoc-consent .cookie-banner{display:none!important}
+.cookie-banner { position: fixed; left: 0px; right: 0px; bottom: 0px; z-index: 1000; background: var(--card-bg); color: var(--text); border-top: 1px solid var(--border); box-shadow: rgba(0, 0, 0, 0.08) 0px -6px 24px; padding: 10px 14px !important; }
+.cookie-banner .container { display: flex; align-items: center; gap: 12px !important; flex-wrap: nowrap !important; justify-content: flex-start !important; padding: 0 !important; }
+.cookie-banner .cookie-text { margin: 0px; font-size: 13px; color: var(--text-muted); line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex: 1 1 auto; }
+.cookie-banner a { color: var(--primary); text-decoration: underline; }
+.cookie-actions { display: flex; gap: 10px; flex-wrap: nowrap; flex-shrink: 0; }
+.cookie-actions .btn { padding: 8px 14px !important; font-size: 13px !important; white-space: nowrap; flex-shrink: 0; }
+.tool-hero { padding: 40px 0px 8px; }
+.tool-hero h1 { margin: 0px 0px 12px; letter-spacing: -0.02em; }
+.breadcrumbs { font-size: 14px; color: var(--text-muted); margin-bottom: 16px; }
+.breadcrumbs a { color: var(--primary); }
+.tool-meta { color: var(--text-muted); font-size: 15px; }
+:root[data-theme="light"] { --bg: #ffffff; --bg-soft: #f5f6fb; --text: #1b1c2e; --text-muted: #5a5c72; --border: #e4e6f0; --primary: #6d5dfc; --primary-dark: #5646e0; --primary-soft: #eeebff; --icon-cyan: #2f9fc4; --accent: #f4a340; --card-bg: #ffffff; --shadow: 0 8px 30px rgba(28, 25, 60, .08); }
+.action-bar { position: fixed; right: 18px; bottom: 18px; display: flex; flex-direction: column; gap: 10px; z-index: 80; }
+.act-btn { width: 46px; height: 46px; border-radius: 14px; border: 1px solid var(--border); background: var(--card-bg); color: var(--primary); box-shadow: var(--shadow); display: grid; place-items: center; cursor: pointer; font-size: 0px; transition: transform 0.12s, border-color 0.12s, color 0.12s; }
+.act-btn svg { width: 20px; height: 20px; }
+@media (max-width: 640px){.action-bar { flex-direction: row; right: 12px; bottom: 12px; }}
+header.app-header { --htxt: #f1eef9; --hmut: #9a92b0; --hvio: #a78bfa; --hline: rgba(255, 255, 255, .11); --hline-2: rgba(255, 255, 255, .22); --hglass: rgba(255, 255, 255, .05); --hglass-2: rgba(255, 255, 255, .08); position: sticky; top: 0px; z-index: 50; background: rgba(11, 9, 19, 0.72); backdrop-filter: blur(16px); border-bottom: 1px solid var(--hline); color: var(--htxt); transition: background 0.3s, border-color 0.3s; }
+header.app-header .head-in, header.app-header .header-inner { display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: 0px; width: 100%; max-width: 1180px; margin: 0px auto; padding: 0px 24px; height: 76px; }
+header.app-header .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--htxt); }
+header.app-header .logo-mark { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: rgba(139, 92, 246, 0.16); border: 1px solid rgba(167, 139, 250, 0.35); color: var(--hvio); }
+header.app-header .logo-mark svg { display: block; width: 20px; height: 20px; }
+header.app-header .logo b { font-family: Unbounded, sans-serif; font-weight: 600; font-size: 19px; color: var(--htxt); }
+header.app-header .main-nav { display: flex; flex-wrap: nowrap; align-items: center; gap: 26px; margin-left: auto; }
+header.app-header .nav-item { position: relative; display: flex; align-items: center; }
+header.app-header .nav-link { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; padding: 0px; border-radius: 0px; background: none; color: var(--hmut); text-decoration: none; font-weight: 600; font-size: 14.5px; transition: color 0.2s; }
+header.app-header .logo b span { color: var(--hvio); }
+header.app-header .nav-burger { display: none; width: 44px; height: 44px; border-radius: 12px; background: var(--hglass); border: 1px solid var(--hline); color: var(--htxt); cursor: pointer; place-items: center; }
+header.app-header .head-cta, header.app-header .header-actions { display: flex; align-items: center; gap: 12px; margin-left: 0px; }
+header.app-header .icon-btn { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: var(--hglass); border: 1px solid var(--hline); color: var(--htxt); font-size: 17px; line-height: 1; cursor: pointer; backdrop-filter: blur(12px); transition: background 0.25s, border-color 0.25s, transform 0.25s; }
+header.app-header .search-wrap { position: relative; flex: 0 0 auto; }
+header.app-header .search-input { width: 150px; padding: 7px 12px 7px 30px; border-radius: 999px; font-family: Manrope, sans-serif; font-size: 13px; color: var(--htxt); border: 1px solid var(--hline); outline: none; background-color: var(--hglass); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239a92b0' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='6'/%3E%3Cpath d='M20.5 20.5 16 16'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: 10px 50%; background-size: 14px 14px; backdrop-filter: blur(12px); transition: width 0.2s, border-color 0.2s, box-shadow 0.2s, background-color 0.2s; }
+@media (max-width: 1024px){header.app-header .nav-burger { display: grid; }}
+@media (min-width: 1101px){header.app-header .search-wrap { margin-left: 22px; }}
+@media (max-width: 760px){header.app-header .head-cta, header.app-header .header-actions { gap: 6px; }header.app-header .head-cta .icon-btn, header.app-header .header-actions .icon-btn { display: grid; width: 44px; height: 44px; font-size: 18px; }header.app-header .nav-burger { width: 44px; height: 44px; }header.app-header .logo { gap: 8px; }header.app-header .logo-mark { width: 34px; height: 34px; }header.app-header .logo b { font-size: 16px; }}
+:root[data-theme="light"] .btn-primary, :root[data-theme="light"] .btn-vio { background: var(--primary-dark); }
+:root[data-theme="light"] header.app-header .main-nav { --htxt: #f1eef9; --hmut: #c9c3da; --hvio: #ddd6fe; }
+:root[data-theme="light"] header.app-header:not(#header) .logo b span { color: rgb(208, 196, 255) !important; }
+@media (max-width: 1168px){main:not(.wrap) { padding-left: 24px; padding-right: 24px; }main h1, main h2 { overflow-wrap: break-word; hyphens: auto; }}
+@media (max-width: 1024px){header.app-header .head-in, header.app-header .header-inner { gap: 8px; }header.app-header .head-cta, header.app-header .header-actions { gap: 8px; margin-left: auto; }}
+@media (max-width: 760px){header.app-header .head-in, header.app-header .header-inner { gap: 8px; }header.app-header .head-cta, header.app-header .header-actions { gap: 8px; }}
+header.app-header .head-cta #installBtn svg, header.app-header .header-actions #installBtn svg { display: block; width: 20px; height: 20px; }
+:root[data-theme="light"] header.app-header .head-cta #installBtn, :root[data-theme="light"] header.app-header .header-actions #installBtn { background: var(--hglass); border-color: var(--hline); color: var(--hvio); }
+</style>
+<link rel="stylesheet" href="/bundle.css?v=62" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="/bundle.css?v=62" /></noscript>
+  <meta name="theme-color" content="#6d5dfc" />
+    <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+      (function(m,e,t,r,i,k,a){
+          m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+          m[i].l=1*new Date();
+          for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+      })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=112558731', 'ym');
+
+      ym(112558731, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/112558731" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</head>
+<body>
+<div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Уведомление о файлах cookie"><div class="container"><span class="cookie-text">Мы используем cookie. <a href="/privacy/">Подробнее</a></span><div class="cookie-actions"><button type="button" class="btn btn-primary" id="cookieAccept">Принять</button></div></div></div>
+  <header class="site-header app-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="CalcDoc — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M8 7.5h8M8 12h4M16 12h.01M8 16.5h4M16 16.5h.01"/>
+          </svg>
+        </span>
+        <b>Calc<span>Doc</span></b>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Главное меню">
+        <div class="nav-item">
+          <a class="nav-link" href="/calculators/">Калькуляторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navCalc" aria-label="Развернуть «Калькуляторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navCalc">
+            <a href="/calculators/finance/">Финансы и налоги<b>16</b></a>
+            <a href="/calculators/construction/">Стройка и ремонт<b>6</b></a>
+            <a href="/calculators/auto/">Авто<b>4</b></a>
+            <a href="/calculators/engineering/">Инженерные расчёты<b>3</b></a>
+            <span class="nav-soon-item">Маркетинг и аналитика<span class="nav-soon">скоро</span></span>
+            <a class="nav-all" href="/calculators/">Все калькуляторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/generators/">Генераторы</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navFiles" aria-label="Развернуть «Генераторы»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navFiles">
+            <a href="/generators/auto/">Автомобильные</a>
+            <a href="/generators/auto/raspiska/">Расписка</a>
+            <a href="/generators/contract/">Договор</a>
+            <a href="/generators/invoice/">Счёт на оплату</a>
+            <a href="/generators/leave-request/">Заявление на отпуск</a>
+            <a href="/generators/power-of-attorney/">Доверенность</a>
+            <a href="/generators/report/">Отчёт</a>
+            <a href="/generators/resume/">Резюме</a>
+            <a class="nav-all" href="/generators/">Все генераторы</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/converters/">Конвертеры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navConv" aria-label="Развернуть «Конвертеры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navConv">
+            <a href="/converters/csv-to-xlsx/">CSV → Excel</a>
+            <a href="/converters/pdf-to-word/">PDF → Word</a>
+            <a href="/converters/image-converter/">Изображения</a>
+            <a href="/converters/qr-generator/">QR-код</a>
+            <a href="/converters/seo-translit/">SEO-транслит</a>
+            <a href="/converters/dadata/">DaData</a>
+            <a href="/converters/unit-converter/">Единицы измерения</a>
+            <a class="nav-all" href="/converters/">Все конвертеры</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/games/">Мини-игры</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="navGames" aria-label="Развернуть «Мини-игры»"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="nav-panel" id="navGames">
+            <a href="/games/2048/">2048</a>
+            <a href="/games/bubble/">Пузыри</a>
+            <a href="/games/water/">Вода</a>
+            <a class="nav-all" href="/games/">Все игры</a>
+          </div>
+        </div>
+        <div class="nav-item nav-item-plain"><a class="nav-link" href="/about/">О проекте</a></div>
+      </nav>
+      <div class="head-cta header-actions">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Переключить тему" title="Тема">🌓</button>
+        <button class="icon-btn" type="button" id="installBtn" hidden aria-label="Скачать на рабочий стол" title="Скачать на рабочий стол"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><polyline points="7 10 12 15 17 10"/><path d="M5 20h14"/></svg></button>
+      </div>
+      <button class="nav-burger" type="button" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+    <main>
+<style>.glossary-abc{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 18px}.glossary-chip{display:inline-block;min-width:34px;text-align:center;padding:6px 10px;border:1px solid var(--line);border-radius:10px;color:inherit;text-decoration:none}.glossary-letter{margin:18px 0 6px;font-size:20px}.glossary-list{margin:0 0 14px;padding-left:20px}.glossary-list li{margin:4px 0}.glossary-note{color:var(--text-muted);font-size:14px}</style>
+<div class="container tool-hero">
+  <nav class="breadcrumbs"><a href="/">Главная</a> / <a href="/glossary/">Глоссарий</a> / Капитализация процентов</nav>
+  <h1>Капитализация процентов</h1>
+  <p class="tool-meta">Прибавление процентов к вкладу, после чего они тоже начинают приносить доход — «процент на процент».</p>
+  <!--EDIT:updated--><p class="tool-meta" style="margin-top:6px">Обновлено: 24 сентября 2026</p><!--/EDIT:updated-->
+</div>
+<!--SLOT:banner-top-->
+<!--/SLOT:banner-top-->
+<div class="container section">
+  <h2 class="section-title">Что это простыми словами</h2>
+  <p>Капитализация процентов — это когда начисленные проценты не выплачивают вам на руки, а прибавляют к сумме вклада. С этого момента проценты начисляются уже на увеличенную сумму, и вклад растёт быстрее. Про такое говорят «процент на процент» или «сложный процент».</p>
+<p>Капитализация бывает ежемесячная, ежеквартальная, ежегодная — чем чаще, тем выше итог при одной и той же ставке. В договоре вклада это обычно указано отдельной строкой: «с капитализацией процентов» или «проценты выплачиваются в конце срока».</p>
+<p>Ещё одна деталь: снять проценты, начисленные с капитализацией, обычно можно в любой момент — при этом капитализация прекращается только на снятую сумму, остальное продолжает работать. Поэтому вклады с капитализацией удобны тем, кто хочет и доход получать, и часть денег держать в росте.</p>
+<p>Важно различать номинал ставки и реальную доходность: при капитализации фактическая доходность выше номинала. Именно поэтому у вклада с ежемесячной капитализацией 16% за год получается больше 16% — итоговую цифру банки обязаны раскрывать, но в рекламе чаще пишут ставку без капитализации, чтобы не расстраивать сравнением с конкурентами.</p>
+<p>Проверить свой вклад можно в калькуляторе: он умеет считать и с капитализацией, и без неё, и показывает, сколько денег добавит именно она.</p>
+  <h2 class="section-title">Пример на числах</h2>
+  <p>100 000 ₽ под 16% годовых на один год. Без капитализации вы получите 16 000 ₽ процентов — всего 116 000 ₽. С ежемесячной капитализацией проценты каждый месяц прибавляются к вкладу, и к концу года на счёте будет около 117 227 ₽: капитализация добавляет примерно 1 200 ₽.</p>
+  <h2 class="section-title">Посчитать на своих числах</h2>
+  <p>Подставьте свою сумму, ставку и срок в Калькулятор вкладов — увидите размер платежа, график и общую переплату.</p>
+  <p><a class="btn btn-glass" href="/calculators/finance/deposit/">Калькулятор вкладов</a></p>
+</div>
+<div class="container section">
+  <h2 class="section-title">Рядом в глоссарии</h2>
+  <p class="glossary-abc"><a class="glossary-chip" href="/glossary/klyuchevaya-stavka-cb.html">Ключевая ставка ЦБ</a><a class="glossary-chip" href="/glossary/">Весь глоссарий</a></p>
+</div>
+<!--SLOT:banner-footer-->
+<!--/SLOT:banner-footer-->
+<!--SLOT:ads-before-footer-->
+<!--/SLOT:ads-before-footer-->
+</main>
+
+  <section class="container section" aria-label="Другие инструменты"><h2 class="section-title">Другие инструменты</h2><div class="chips"><a class="chip" href="/calculators/finance/tax-freelancer/"><span>💼</span>Налог фрилансера</a><a class="chip" href="/calculators/finance/vacation-pay/"><span>🏖️</span>Отпускные</a><a class="chip" href="/calculators/finance/mortgage/"><span>🏠</span>Ипотека</a><a class="chip" href="/calculators/finance/deposit/"><span>💰</span>Калькулятор вкладов</a><a class="chip" href="/generators/resume/"><span>📄</span>Резюме</a><a class="chip" href="/generators/power-of-attorney/"><span>✍️</span>Доверенность</a><a class="chip" href="/generators/contract/"><span>📋</span>Договор</a><a class="chip" href="/generators/leave-request/"><span>🗓️</span>Заявление на отпуск</a><a class="chip" href="/converters/image-converter/"><span>🖼️</span>Сжатие изображений</a><a class="chip" href="/converters/csv-to-xlsx/"><span>📑</span>CSV → Excel</a><a class="chip" href="/converters/pdf-to-word/"><span>📄</span>PDF → Word</a><a class="chip" href="/games/"><span>🎮</span>Мини-игры</a><a class="chip" href="/converters/qr-generator/"><span>📱</span>QR-код</a><a class="chip" href="/calculators/finance/penalty/"><span>💳</span>Пеня</a><a class="chip" href="/calculators/finance/vat/"><span>🧾</span>НДС</a><a class="chip" href="/calculators/construction/brick/"><span>🧱</span>Кирпич</a><a class="chip" href="/calculators/finance/alimony/"><span>👪</span>Алименты</a><a class="chip" href="/calculators/construction/wallpaper/"><span>🧻</span>Обои</a><a class="chip" href="/calculators/construction/"><span>🏗️</span>Стройка и ремонт</a><a class="chip" href="/calculators/construction/tile/"><span>🔲</span>Плитка</a><a class="chip" href="/calculators/construction/laminate/"><span>🪵</span>Ламинат</a><a class="chip" href="/calculators/construction/plaster/"><span>🪨</span>Штукатурка</a><a class="chip" href="/calculators/construction/paint/"><span>🪣</span>Краска</a><a class="chip" href="/calculators/finance/"><span>🧮</span>Финансы и налоги</a><a class="chip" href="/calculators/finance/credit/"><span>🏦</span>Кредит</a><a class="chip" href="/calculators/finance/sick-leave/"><span>🤒</span>Больничный</a><a class="chip" href="/calculators/finance/maternity/"><span>👶</span>Декретные</a><a class="chip" href="/calculators/finance/ndfl/"><span>📊</span>НДФЛ и вычеты</a><a class="chip" href="/calculators/finance/ip-insurance/"><span>🧑‍💼</span>Взносы ИП</a><a class="chip" href="/calculators/finance/salary-delay/"><span>⏰</span>Задержка зарплаты</a><a class="chip" href="/calculators/finance/compound-interest/"><span>📈</span>Сложный процент</a><a class="chip" href="/calculators/finance/average-earnings/"><span>📅</span>Средний заработок</a><a class="chip" href="/generators/invoice/"><span>💳</span>Счёт</a><a class="chip" href="/generators/report/"><span>📊</span>Отчёт</a><a class="chip" href="/converters/dadata/"><span>🔎</span>DaData</a><a class="chip" href="/converters/seo-translit/"><span>🔤</span>SEO транслит</a></div></section>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Разделы сайта">
+        <a href="/calculators/">Калькуляторы</a>
+        <a href="/generators/">Генераторы</a>
+        <a href="/converters/">Конвертеры</a>
+        <a href="/blog/">Статьи и инструкции</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/popular/">Популярное</a>
+
+        <a href="/glossary/">Глоссарий</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Служебные страницы">
+        <a href="/about/">О проекте</a>
+        <a href="/contact/">Контакты</a>
+        <a href="/privacy/">Конфиденциальность</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script defer src="/js/ui-bundle.min.js?v=55"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"DefinedTerm","name":"Капитализация процентов","description":"Прибавление процентов к вкладу, после чего они тоже начинают приносить доход — «процент на процент».","url":"https://calc-doc.ru/glossary/kapitalizaciya-procentov.html","inDefinedTermSet":{"@type":"DefinedTermSet","name":"Глоссарий CalcDoc","url":"https://calc-doc.ru/glossary/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://calc-doc.ru/"},{"@type":"ListItem","position":2,"name":"Глоссарий","item":"https://calc-doc.ru/glossary/"},{"@type":"ListItem","position":3,"name":"Капитализация процентов","item":"https://calc-doc.ru/glossary/kapitalizaciya-procentov.html"}]}</script>
+  </body>
+</html>
+
+
+
+

@@ -1,9 +1,9 @@
-АУДИТ Title/H1 (снято 24.09.2026 02:48), страниц: 85
+АУДИТ Title/H1 (снято 24.09.2026 03:57), страниц: 86
 
 СТРАНИЦА                               | TITLE (длина) | H1
 --------------------------------------------------------------------------------------------------------------------------------------------
 404.html                                       | 404 — страница не найдена — CalcDoc (35) | Страница не найдена
-about/index.html                               | О проекте CalcDoc — калькуляторы, документы и конвертеры (56) | О проекте
+about/index.html                               | О проекте CalcDoc: что такое calc-doc и кто его создал (54) | О проекте CalcDoc
 blog/avto-osago-kbm/index.html                 | КБМ в ОСАГО: как копить скидку за безаварийность (48) | КБМ в ОСАГО: как копить скидку за безаварийность
 blog/avto-rashod-topliva/index.html            | Как рассчитать расход топлива автомобиля — метод и формула (58) | Как рассчитать расход топлива автомобиля
 blog/avto-vladenie/index.html                  | Сколько реально стоит владеть автомобилем в 2026 году (53) | Сколько реально стоит владеть автомобилем
@@ -27,7 +27,7 @@ blog/sokrashchenie-sroka-ili-platezh/index.html | Сокращение срок�
 blog/teploventilyator-vulkan/index.html        | Тепловентилятор для цеха — расчёт мощности и электрики по теплопотерям | CalcDoc (80) | Тепловентилятор для цеха — расчёт мощности по теплопотерям
 calculators/auto/customs/index.html            | Таможенный калькулятор автомобиля — пошлина и утильсбор (55) | Таможенный калькулятор автомобиля
 calculators/auto/fuel/index.html               | Калькулятор расхода топлива на 100 км онлайн | CalcDoc (54) | Калькулятор расхода топлива
-calculators/auto/index.html                    | Авто-калькуляторы: топливо, ОСАГО, владение | CalcDoc (53) | Авто-калькуляторы
+calculators/auto/index.html                    | Авто-калькуляторы онлайн | CalcDoc (34) | Авто-калькуляторы онлайн
 calculators/auto/osago/index.html              | Калькулятор ОСАГО: расчёт цены полиса онлайн | CalcDoc (54) | Калькулятор ОСАГО
 calculators/auto/ownership/index.html          | Калькулятор стоимости владения автомобилем | CalcDoc (52) | Стоимость владения автомобилем
 calculators/construction/brick/index.html      | Калькулятор кирпича на дом — расход на кладку | CalcDoc (55) | Калькулятор кирпича
@@ -38,7 +38,7 @@ calculators/construction/plaster/index.html    | Калькулятор штук
 calculators/construction/tile/index.html       | Калькулятор плитки — сколько нужно на пол и стены | CalcDoc (59) | Калькулятор плитки
 calculators/construction/wallpaper/index.html  | Калькулятор обоев — сколько рулонов нужно | CalcDoc (51) | Калькулятор обоев
 calculators/engineering/gidrostrelka/index.html | Калькулятор гидрострелки — диаметр, длина и расход (50) | Калькулятор гидрострелки и теплообменника
-calculators/engineering/index.html             | Инженерные расчёты — отопление, гидравлика, электрика | CalcDoc (63) | Инженерные расчёты
+calculators/engineering/index.html             | Инженерные калькуляторы онлайн | CalcDoc (40) | Инженерные калькуляторы
 calculators/engineering/otoplenie-obem/index.html | Калькулятор объёма системы отопления — теплоноситель (52) | Калькулятор объёма системы отопления
 calculators/engineering/vulkan/index.html      | Калькулятор тепловентилятора Вулкан — питы и кабель (51) | Калькулятор тепловентилятора «Вулкан»: мощность, питы, электрика
 calculators/finance/alimony/index.html         | Калькулятор неустойки по алиментам — 0,1% за день (49) | Калькулятор неустойки по алиментам
@@ -47,41 +47,42 @@ calculators/finance/compound-interest/index.html | Калькулятор сло
 calculators/finance/credit/index.html          | Кредитный калькулятор: платёж и переплата онлайн | CalcDoc (58) | Кредитный калькулятор
 calculators/finance/deposit/index.html         | Калькулятор вкладов: доход и капитализация | CalcDoc (52) | Калькулятор вкладов
 calculators/finance/dosrochnoe/index.html      | Калькулятор досрочного погашения кредита | CalcDoc (50) | Калькулятор досрочного погашения кредита и ипотеки
-calculators/finance/index.html                 | Финансовые калькуляторы онлайн — кредит, вклады, налоги (55) | Финансовые калькуляторы и налоги
+calculators/finance/index.html                 | Финансовые калькуляторы онлайн | CalcDoc (40) | Финансовые калькуляторы онлайн
 calculators/finance/ip-insurance/index.html    | Калькулятор взносов ИП — фиксированные и 1% свыше 300 000 (57) | Калькулятор взносов ИП
 calculators/finance/maternity/index.html       | Калькулятор декретных — пособие по беременности | CalcDoc (57) | Калькулятор декретных
 calculators/finance/mortgage/index.html        | Ипотечный калькулятор онлайн: платёж и переплата | CalcDoc (58) | Ипотечный калькулятор
-calculators/finance/ndfl/index.html            | Калькулятор НДФЛ и налоговых вычетов онлайн | CalcDoc (53) | Калькулятор НДФЛ и вычетов
+calculators/finance/ndfl/index.html            | Калькулятор НДФЛ онлайн — расчёт налога с дохода | CalcDoc (58) | Калькулятор НДФЛ онлайн
 calculators/finance/penalty/index.html         | Калькулятор пени по ставке ЦБ — онлайн расчёт | CalcDoc (55) | Калькулятор пени
 calculators/finance/salary-delay/index.html    | Компенсация за задержку зарплаты — ст. 236 ТК РФ | CalcDoc (58) | Компенсация за задержку зарплаты
 calculators/finance/sick-leave/index.html      | Калькулятор больничного — оплата по стажу | CalcDoc (51) | Калькулятор больничного
 calculators/finance/tax-freelancer/index.html  | Калькулятор налога фрилансера: НПД 4% и 6%, лимит 2,4 млн (57) | Калькулятор налога фрилансера
 calculators/finance/vacation-pay/index.html    | Калькулятор отпускных — расчёт 2026 | CalcDoc (45) | Калькулятор отпускных
-calculators/finance/vat/index.html             | Калькулятор НДС — выделить и начислить 20% | CalcDoc (52) | Калькулятор НДС
-calculators/index.html                         | Онлайн-калькуляторы — все инструменты | CalcDoc (47) | Калькуляторы онлайн
+calculators/finance/vat/index.html             | Калькулятор НДС онлайн: выделить и рассчитать 20% | CalcDoc (59) | Калькулятор НДС онлайн
+calculators/index.html                         | Калькуляторы онлайн бесплатно и без регистрации | CalcDoc (57) | Калькуляторы онлайн бесплатно
 contact/index.html                             | Контакты CalcDoc: обратная связь, поддержка и почта (51) | Контакты
 converters/csv-to-xlsx/index.html              | CSV в Excel — конвертер онлайн | CalcDoc (40) | Конвертер CSV в Excel
 converters/dadata/index.html                   | DaData-конструктор запросов | CalcDoc (37) | DaData-конструктор запросов
 converters/image-converter/index.html          | Сжатие изображений онлайн: JPG, PNG и GIF — CalcDoc (51) | Сжатие изображений
-converters/index.html                          | Конвертеры файлов | CalcDoc (27) | Конвертеры
+converters/index.html                          | Конвертеры онлайн бесплатно | CalcDoc (37) | Конвертеры онлайн
 converters/pdf-to-word/index.html              | Конвертер PDF в Word онлайн — DOCX с форматированием (52) | Конвертер PDF в Word
 converters/qr-generator/index.html             | Генератор QR-кода — PNG, JPG, SVG | CalcDoc (43) | Генератор QR-кода
 converters/seo-translit/index.html             | SEO-транслит: перевод текста в URL и домен | CalcDoc (52) | SEO транслит для URL и доменов
+converters/unit-converter/index.html           | Конвертер единиц измерения онлайн | CalcDoc (43) | Конвертер единиц измерения онлайн
 games/2048/index.html                          | 2048 онлайн — игра-головоломка: правила и тактика | CalcDoc (59) | 2048
 games/bubble/index.html                        | Пузыри (Bubble Shooter): играть онлайн бесплатно | CalcDoc (58) | Пузыри
 games/index.html                               | Мини-игры онлайн — перерыв с пользой | CalcDoc (46) | 🎮 Мини-игры
 games/water/index.html                         | Water Glow: сортировка жидкостей онлайн | CalcDoc (49) | Water Glow — сортировка жидкостей
 generators/_template.html                      | [КЛЮЧ] — [КОНКРЕТИКА] | CalcDoc (31) | [КЛЮЧ]
-generators/auto/index.html                     | Автомобильные генераторы документов — расписка и ДКП (52) | Автомобильные генераторы
+generators/auto/index.html                     | Автомобильные документы: генераторы онлайн | CalcDoc (52) | Автомобильные документы онлайн
 generators/auto/raspiska/index.html            | Генератор расписки о получении денег — онлайн (45) | Генератор расписки о получении денег
 generators/contract/index.html                 | Генератор договора — шаблоны с выгрузкой в PDF | CalcDoc (56) | Генератор договора
-generators/index.html                          | Генераторы документов | CalcDoc (31) | Генераторы документов
+generators/index.html                          | Шаблоны документов онлайн: бесплатные бланки и конструктор | CalcDoc (68) | Конструктор документов онлайн: шаблоны и бланки
 generators/invoice/index.html                  | Счёт на оплату — выставить онлайн с QR | CalcDoc (48) | Генератор счёта на оплату
 generators/leave-request/index.html            | Генератор заявления на отпуск: образец и PDF онлайн (51) | Генератор заявления на отпуск / отгул
 generators/power-of-attorney/index.html        | Доверенность — образец и генератор | CalcDoc (44) | Генератор доверенности
 generators/report/index.html                   | PDF-отчёт с таблицей — генератор | CalcDoc (42) | Генератор PDF-отчёта
 generators/resume/index.html                   | Генератор резюме — создать онлайн бесплатно | CalcDoc (53) | Генератор резюме
-index.html                                     | CalcDoc — онлайн-калькуляторы, документы и конвертеры (53) | Онлайн-калькуляторы и генераторы документов
+index.html                                     | CalcDoc — онлайн-калькуляторы, конвертеры и шаблоны документов бесплатно (72) | Онлайн-калькуляторы, конвертеры и документы
 offline.html                                   | Вы офлайн — CalcDoc (19) | Вы офлайн — калькуляторы работают, данные не покидают устройство
 popular/index.html                             | Популярное на CalcDoc — что чаще всего открывают (48) | Популярное на сайте
 privacy/index.html                             | Политика конфиденциальности — CalcDoc (37) | Политика конфи&shy;денциальности
@@ -115,17 +116,19 @@ search.html                                    | Поиск по сайту — 
   calculators/finance/dosrochnoe/index.html → Калькулятор досрочного погашения кредита | CalcDoc
   calculators/finance/ip-insurance/index.html → Калькулятор взносов ИП — фиксированные и 1% свыше 300 000
   calculators/finance/maternity/index.html → Калькулятор декретных — пособие по беременности | CalcDoc
-  calculators/finance/ndfl/index.html → Калькулятор НДФЛ и налоговых вычетов онлайн | CalcDoc
+  calculators/finance/ndfl/index.html → Калькулятор НДФЛ онлайн — расчёт налога с дохода | CalcDoc
   calculators/finance/penalty/index.html → Калькулятор пени по ставке ЦБ — онлайн расчёт | CalcDoc
   calculators/finance/sick-leave/index.html → Калькулятор больничного — оплата по стажу | CalcDoc
   calculators/finance/tax-freelancer/index.html → Калькулятор налога фрилансера: НПД 4% и 6%, лимит 2,4 млн
   calculators/finance/vacation-pay/index.html → Калькулятор отпускных — расчёт 2026 | CalcDoc
-  calculators/finance/vat/index.html → Калькулятор НДС — выделить и начислить 20% | CalcDoc
-  converters/index.html → Конвертеры файлов | CalcDoc
+  calculators/finance/vat/index.html → Калькулятор НДС онлайн: выделить и рассчитать 20% | CalcDoc
+  calculators/index.html → Калькуляторы онлайн бесплатно и без регистрации | CalcDoc
+  converters/index.html → Конвертеры онлайн бесплатно | CalcDoc
   converters/pdf-to-word/index.html → Конвертер PDF в Word онлайн — DOCX с форматированием
   converters/qr-generator/index.html → Генератор QR-кода — PNG, JPG, SVG | CalcDoc
+  converters/unit-converter/index.html → Конвертер единиц измерения онлайн | CalcDoc
   generators/auto/raspiska/index.html → Генератор расписки о получении денег — онлайн
   generators/contract/index.html → Генератор договора — шаблоны с выгрузкой в PDF | CalcDoc
-  generators/index.html → Генераторы документов | CalcDoc
+  generators/index.html → Шаблоны документов онлайн: бесплатные бланки и конструктор | CalcDoc
   generators/leave-request/index.html → Генератор заявления на отпуск: образец и PDF онлайн
   generators/resume/index.html → Генератор резюме — создать онлайн бесплатно | CalcDoc
